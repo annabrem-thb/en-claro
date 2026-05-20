@@ -14,6 +14,8 @@ export const wordDatabaseDE = {
   phonemes: [
     {
       id: 1,
+      difficulty: 3,
+      tags: ['medicine'],
       word: 'Psychiatrie',
       phonetic: '/ psyçiˈatʁiː /',
       hints: {
@@ -24,6 +26,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 2,
+      difficulty: 3,
       word: 'Rhythmus',
       phonetic: '/ ˈʁʏtmʊs /',
       hints: {
@@ -34,6 +37,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 3,
+      difficulty: 3,
       word: 'Choreographie',
       phonetic: '/ koʁeoɡʁaˈfiː /',
       hints: {
@@ -44,6 +48,8 @@ export const wordDatabaseDE = {
     },
     {
       id: 4,
+      difficulty: 2,
+      tags: ['business'],
       word: 'Qualifikation',
       phonetic: '/ kvaːlɪfɪkaˈt͡si̯oːn /',
       hints: {
@@ -54,6 +60,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 5,
+      difficulty: 2,
       word: 'Verantwortung',
       phonetic: '/ fɛˈʁantvɔʁtʊŋ /',
       hints: {
@@ -64,6 +71,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 6,
+      difficulty: 3,
       word: 'Pflichtverletzung',
       phonetic: '/ ˈpflɪçtfɛʁˌlɛt͡sʊŋ /',
       hints: {
@@ -74,6 +82,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 7,
+      difficulty: 2,
       word: 'Gleichgewicht',
       phonetic: '/ ˈɡlaɪ̯çɡəˌvɪçt /',
       hints: {
@@ -84,6 +93,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 8,
+      difficulty: 3,
       word: 'Schlüsselkompetenz',
       phonetic: '/ ˈʃlʏsl̩kɔmpəˌtɛnt͡s /',
       hints: {
@@ -94,6 +104,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 9,
+      difficulty: 2,
       word: 'Zwischenmenschlich',
       phonetic: '/ ˈt͡svɪʃn̩ˌmɛnʃlɪç /',
       hints: {
@@ -104,6 +115,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 10,
+      difficulty: 1,
       word: 'Ursprünglich',
       phonetic: '/ ˈuːɐ̯ʃpʁʏŋlɪç /',
       hints: {
@@ -114,6 +126,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 11,
+      difficulty: 1,
       word: 'Gesellschaft',
       phonetic: '/ ɡəˈzɛlʃaft /',
       hints: {
@@ -124,6 +137,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 12,
+      difficulty: 2,
       word: 'Beschleunigung',
       phonetic: '/ bəˈʃlɔʏ̯nɪɡʊŋ /',
       hints: {
@@ -134,6 +148,8 @@ export const wordDatabaseDE = {
     },
     {
       id: 13,
+      difficulty: 3,
+      tags: ['everyday'],
       word: 'Höchstgeschwindigkeit',
       phonetic: '/ ˈhøːçstɡəˌʃvɪndɪçkaɪ̯t /',
       hints: {
@@ -144,6 +160,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 14,
+      difficulty: 2,
       word: 'Ausschließlich',
       phonetic: '/ ˈaʊ̯sʃliːslɪç /',
       hints: {
@@ -154,6 +171,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 15,
+      difficulty: 2,
       word: 'Widersprüchlich',
       phonetic: '/ ˈviːdɐʃpʁʏçlɪç /',
       hints: {
@@ -171,6 +189,7 @@ export const wordDatabaseDE = {
   graphemes: [
     {
       id: 1,
+      difficulty: 1,
       focus: 'ie / ei — Verwechslung der Vokalkombinationen',
       questions: {
         de: "Welches Wort wird mit ‚ie' geschrieben? (sprich: langes i)",
@@ -184,6 +203,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 2,
+      difficulty: 1,
       focus: 'dass / das — subordinating conjunction vs. article/pronoun',
       questions: {
         de: "Welches ‚dass' / ‚das' passt? — Ich glaube, ___ er kommt.",
@@ -197,6 +217,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 3,
+      difficulty: 1,
       focus: 'ss / ß — nach kurzem Vokal ss, nach langem Vokal/Diphthong ß',
       questions: {
         de: 'Welche Schreibung ist korrekt? — Ich ___e die Straße entlang.',
@@ -210,6 +231,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 4,
+      difficulty: 1,
       focus: 'Auslautverhärtung — d → t am Wortende',
       questions: {
         de: "Wie lautet die korrekte Schreibung? (der Plural ist ‚Hunde')",
@@ -217,12 +239,13 @@ export const wordDatabaseDE = {
         en: "What is the correct spelling? (the plural is 'Hunde')",
       },
       options: [
-        { text: 'Hund', isCorrect: true, icon: '🐕' },
+        { text: 'Hund', isCorrect: true, icon: '🐾' },
         { text: 'Hunt', isCorrect: false, icon: '❌' },
       ],
     },
     {
       id: 5,
+      difficulty: 1,
       focus: 'Auslautverhärtung — b → p am Wortende',
       questions: {
         de: "Wie lautet die korrekte Schreibung? (der Plural ist ‚Diebe')",
@@ -230,12 +253,13 @@ export const wordDatabaseDE = {
         en: "What is the correct spelling? (the plural is 'Diebe')",
       },
       options: [
-        { text: 'Dieb', isCorrect: true, icon: '🦹' },
+        { text: 'Dieb', isCorrect: true, icon: '👤' },
         { text: 'Diep', isCorrect: false, icon: '❌' },
       ],
     },
     {
       id: 6,
+      difficulty: 1,
       focus: 'Auslautverhärtung — g → k am Wortende',
       questions: {
         de: "Wie lautet die korrekte Schreibung? (der Plural ist ‚Tage')",
@@ -249,6 +273,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 7,
+      difficulty: 2,
       focus: 'Dehnungs-h — stilles h nach langem Vokal',
       questions: {
         de: "Welche Schreibung des Wortes für ‚Verkehrsmittel auf Schienen' ist korrekt?",
@@ -262,6 +287,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 8,
+      difficulty: 1,
       focus: 'Großschreibung — Substantive groß, Adjektive klein',
       questions: {
         de: 'Was ist korrekt? Der ___ Lehrer erklärte das Thema sehr gut.',
@@ -275,6 +301,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 9,
+      difficulty: 2,
       focus: 'v → f-Laut in einheimischen Wörtern',
       questions: {
         de: 'Welches einheimische Wort beginnt mit v, wird aber wie f gesprochen?',
@@ -288,6 +315,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 10,
+      difficulty: 2,
       focus: 'ph = f in Fremdwörtern',
       questions: {
         de: 'Welche Schreibung des Fachs für Körperpflege und Medikamente ist korrekt?',
@@ -301,6 +329,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 11,
+      difficulty: 1,
       focus: 'ä / e — Umlaut vs. einfacher Vokal',
       questions: {
         de: "Welche Schreibung ist korrekt? (Plural von Gast ist ‚Gäste')",
@@ -314,6 +343,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 12,
+      difficulty: 1,
       focus:
         'Doppelkonsonant — kurzer Vokal verdoppelt den folgenden Konsonanten',
       questions: {
@@ -328,6 +358,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 13,
+      difficulty: 2,
       focus: 'ch vs. k in Fremdwörtern (griechisches ch = k)',
       questions: {
         de: 'Welche Schreibung bezeichnet die Wissenschaft vom Leben?',
@@ -341,6 +372,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 14,
+      difficulty: 1,
       focus: 'zusammengeschriebene Komposita',
       questions: {
         de: 'Komposita werden im Deutschen zusammengeschrieben. Welche Schreibung ist korrekt?',
@@ -354,6 +386,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 15,
+      difficulty: 2,
       focus: '-tion Fremdwortsuffix — immer mit t, nie mit z',
       questions: {
         de: "Welche Schreibung des Begriffs für ‚Vorgang des Informierens' ist korrekt?",
@@ -374,90 +407,109 @@ export const wordDatabaseDE = {
   syllables: [
     {
       id: 1,
+      difficulty: 2,
+      tags: ['business'],
       word: 'Verantwortung',
       segments: ['Ver', 'ant', 'wor', 'tung'],
       icon: '⚖️',
     },
     {
       id: 2,
+      difficulty: 1,
+      tags: ['business'],
       word: 'Beschäftigung',
       segments: ['Be', 'schäf', 'ti', 'gung'],
       icon: '💼',
     },
     {
       id: 3,
+      difficulty: 2,
+      tags: ['business'],
       word: 'Arbeitslosigkeit',
       segments: ['Ar', 'beits', 'lo', 'sig', 'keit'],
       icon: '📉',
     },
     {
       id: 4,
+      difficulty: 3,
+      tags: ['medicine', 'business'],
       word: 'Krankenversicherung',
       segments: ['Kran', 'ken', 'ver', 'si', 'che', 'rung'],
       icon: '🏥',
     },
     {
       id: 5,
+      difficulty: 3,
       word: 'Auseinandersetzung',
       segments: ['Aus', 'ein', 'an', 'der', 'set', 'zung'],
       icon: '🤝',
     },
     {
       id: 6,
+      difficulty: 1,
       word: 'Geschwindigkeit',
       segments: ['Ge', 'schwin', 'dig', 'keit'],
       icon: '🚀',
     },
     {
       id: 7,
+      difficulty: 2,
       word: 'Wahrscheinlichkeit',
       segments: ['Wahr', 'schein', 'lich', 'keit'],
       icon: '🎲',
     },
     {
       id: 8,
+      difficulty: 2,
       word: 'Selbstständigkeit',
       segments: ['Selbst', 'stän', 'dig', 'keit'],
       icon: '🏢',
     },
     {
       id: 9,
+      difficulty: 2,
       word: 'Wohngemeinschaft',
       segments: ['Wohn', 'ge', 'mein', 'schaft'],
       icon: '🏠',
     },
     {
       id: 10,
+      difficulty: 3,
       word: 'Informationsgesellschaft',
       segments: ['In', 'for', 'ma', 'ti', 'ons', 'ge', 'sell', 'schaft'],
       icon: '💻',
     },
     {
       id: 11,
+      difficulty: 2,
       word: 'Gleichberechtigung',
       segments: ['Gleich', 'be', 'rech', 'ti', 'gung'],
       icon: '⚖️',
     },
     {
       id: 12,
+      difficulty: 3,
       word: 'Bevölkerungswachstum',
       segments: ['Be', 'völ', 'ke', 'rungs', 'wachs', 'tum'],
       icon: '📈',
     },
     {
       id: 13,
+      difficulty: 2,
       word: 'Zusammenarbeit',
       segments: ['Zu', 'sam', 'men', 'ar', 'beit'],
       icon: '🤝',
     },
     {
       id: 14,
+      difficulty: 2,
       word: 'Unternehmensführung',
       segments: ['Un', 'ter', 'neh', 'mens', 'füh', 'rung'],
       icon: '👔',
     },
     {
       id: 15,
+      difficulty: 3,
       word: 'Persönlichkeitsentwicklung',
       segments: ['Per', 'sön', 'lich', 'keits', 'ent', 'wick', 'lung'],
       icon: '🌱',
@@ -472,18 +524,23 @@ export const wordDatabaseDE = {
   scrabble: [
     {
       id: 1,
+      difficulty: 3,
       word: 'RHYTHMUS',
       scrambled: ['R', 'H', 'Y', 'T', 'H', 'M', 'U', 'S'],
       image: '🥁',
     },
     {
       id: 2,
+      difficulty: 3,
+      tags: ['medicine'],
       word: 'PSYCHOLOGIE',
       scrambled: ['P', 'S', 'Y', 'C', 'H', 'O', 'L', 'O', 'G', 'I', 'E'],
       image: '🧠',
     },
     {
       id: 3,
+      difficulty: 2,
+      tags: ['business'],
       word: 'VERANTWORTUNG',
       scrambled: [
         'V',
@@ -504,6 +561,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 4,
+      difficulty: 2,
       word: 'GLEICHGEWICHT',
       scrambled: [
         'G',
@@ -524,6 +582,8 @@ export const wordDatabaseDE = {
     },
     {
       id: 5,
+      difficulty: 2,
+      tags: ['business'],
       word: 'QUALIFIKATION',
       scrambled: [
         'Q',
@@ -544,6 +604,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 6,
+      difficulty: 1,
       word: 'BESCHÄFTIGUNG',
       scrambled: [
         'B',
@@ -564,6 +625,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 7,
+      difficulty: 2,
       word: 'WAHRSCHEINLICH',
       scrambled: [
         'W',
@@ -585,6 +647,8 @@ export const wordDatabaseDE = {
     },
     {
       id: 8,
+      difficulty: 2,
+      tags: ['business'],
       word: 'SELBSTSTÄNDIG',
       scrambled: [
         'S',
@@ -605,6 +669,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 9,
+      difficulty: 2,
       word: 'ZUSAMMENARBEIT',
       scrambled: [
         'Z',
@@ -626,12 +691,14 @@ export const wordDatabaseDE = {
     },
     {
       id: 10,
+      difficulty: 1,
       word: 'GESELLSCHAFT',
       scrambled: ['G', 'E', 'S', 'E', 'L', 'L', 'S', 'C', 'H', 'A', 'F', 'T'],
       image: '👥',
     },
     {
       id: 11,
+      difficulty: 2,
       word: 'WIDERSPRÜCHLICH',
       scrambled: [
         'W',
@@ -654,6 +721,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 12,
+      difficulty: 3,
       word: 'CHOREOGRAPHIE',
       scrambled: [
         'C',
@@ -674,6 +742,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 13,
+      difficulty: 3,
       word: 'PFLICHTBEWUSSTSEIN',
       scrambled: [
         'P',
@@ -699,6 +768,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 14,
+      difficulty: 2,
       word: 'AUSSCHLIESSLICH',
       scrambled: [
         'A',
@@ -721,6 +791,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 15,
+      difficulty: 3,
       word: 'HÖCHSTGESCHWINDIGKEIT',
       scrambled: [
         'H',
@@ -756,6 +827,8 @@ export const wordDatabaseDE = {
   context: [
     {
       id: 1,
+      difficulty: 1,
+      tags: ['business'],
       sentence_part1: 'Er glaubt,',
       sentence_part2: 'die neue Regelung rechtzeitig in Kraft tritt.',
       options: [
@@ -769,6 +842,8 @@ export const wordDatabaseDE = {
     },
     {
       id: 2,
+      difficulty: 1,
+      tags: ['everyday', 'business'],
       sentence_part1: 'Bitte unterschreiben Sie',
       sentence_part2: 'Dokument auf Seite drei.',
       options: [
@@ -782,6 +857,8 @@ export const wordDatabaseDE = {
     },
     {
       id: 3,
+      difficulty: 1,
+      tags: ['business'],
       sentence_part1: 'Das Unternehmen trägt die volle',
       sentence_part2: 'für den entstandenen Schaden.',
       options: [
@@ -795,6 +872,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 4,
+      difficulty: 2,
       sentence_part1: 'Die Konferenz findet morgen in',
       sentence_part2: 'Hauptgebäude statt.',
       options: [
@@ -808,6 +886,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 5,
+      difficulty: 1,
       sentence_part1: 'Die neue Regelung',
       sentence_part2: 'alle Mitarbeiterinnen und Mitarbeiter.',
       options: [
@@ -821,6 +900,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 6,
+      difficulty: 1,
       sentence_part1: 'Herr Müller hat seinen',
       sentence_part2: 'bereits unterschrieben.',
       options: [
@@ -834,6 +914,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 7,
+      difficulty: 1,
       sentence_part1: 'Das Projekt wurde',
       sentence_part2: 'abgeschlossen.',
       options: [
@@ -847,6 +928,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 8,
+      difficulty: 2,
       sentence_part1: 'Die Bewerberin verfügt über eine hervorragende',
       sentence_part2: 'im Projektmanagement.',
       options: [
@@ -860,6 +942,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 9,
+      difficulty: 1,
       sentence_part1: 'Das Auto fuhr mit hoher',
       sentence_part2: 'durch die Stadt.',
       options: [
@@ -873,6 +956,8 @@ export const wordDatabaseDE = {
     },
     {
       id: 10,
+      difficulty: 2,
+      tags: ['medicine'],
       sentence_part1: 'Die Krankenversicherung',
       sentence_part2: 'die Kosten für die Operation.',
       options: [
@@ -886,6 +971,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 11,
+      difficulty: 2,
       sentence_part1: 'Sie müssen den Antrag bis zum',
       sentence_part2: 'dieses Monats einreichen.',
       options: [
@@ -899,6 +985,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 12,
+      difficulty: 2,
       sentence_part1: 'Die Mitarbeiterin ist seit Jahren',
       sentence_part2: 'tätig.',
       options: [
@@ -912,6 +999,8 @@ export const wordDatabaseDE = {
     },
     {
       id: 13,
+      difficulty: 1,
+      tags: ['business'],
       sentence_part1: 'Es ist',
       sentence_part2: ', dass alle Beteiligten informiert werden.',
       options: [
@@ -925,6 +1014,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 14,
+      difficulty: 1,
       sentence_part1: 'Die Besprechung wurde auf',
       sentence_part2: 'verschoben.',
       options: [
@@ -938,6 +1028,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 15,
+      difficulty: 1,
       sentence_part1: 'Wir erwarten,',
       sentence_part2: 'Sie die Unterlagen rechtzeitig einreichen.',
       options: [
@@ -959,6 +1050,7 @@ export const wordDatabaseDE = {
   clock: [
     {
       id: 1,
+      difficulty: 1,
       timeAnalog: 'Viertel nach drei',
       isNight: false,
       hourRotation: 98,
@@ -972,6 +1064,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 2,
+      difficulty: 1,
       timeAnalog: 'Halb sieben am Abend',
       isNight: true,
       hourRotation: 195,
@@ -985,6 +1078,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 3,
+      difficulty: 1,
       timeAnalog: 'Zehn vor zehn am Morgen',
       isNight: false,
       hourRotation: 295,
@@ -998,6 +1092,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 4,
+      difficulty: 1,
       timeAnalog: 'Mittag',
       isNight: false,
       hourRotation: 0,
@@ -1011,6 +1106,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 5,
+      difficulty: 1,
       timeAnalog: 'Mitternacht',
       isNight: true,
       hourRotation: 0,
@@ -1024,6 +1120,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 6,
+      difficulty: 2,
       timeAnalog: 'Halb eins am Nachmittag',
       isNight: false,
       hourRotation: 15,
@@ -1037,6 +1134,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 7,
+      difficulty: 2,
       timeAnalog: 'Viertel vor neun am Abend',
       isNight: true,
       hourRotation: 262,
@@ -1050,6 +1148,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 8,
+      difficulty: 1,
       timeAnalog: 'Zwanzig nach vier am Nachmittag',
       isNight: false,
       hourRotation: 130,
@@ -1063,6 +1162,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 9,
+      difficulty: 2,
       timeAnalog: 'Fünf nach halb zwölf in der Nacht',
       isNight: true,
       hourRotation: 347,
@@ -1076,6 +1176,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 10,
+      difficulty: 1,
       timeAnalog: 'Sechs Uhr abends',
       isNight: true,
       hourRotation: 180,
@@ -1089,6 +1190,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 11,
+      difficulty: 2,
       timeAnalog: 'Fünf vor halb zehn am Abend',
       isNight: true,
       hourRotation: 283,
@@ -1102,6 +1204,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 12,
+      difficulty: 1,
       timeAnalog: 'Viertel nach elf am Morgen',
       isNight: false,
       hourRotation: 338,
@@ -1115,6 +1218,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 13,
+      difficulty: 1,
       timeAnalog: 'Zehn vor fünf am Morgen',
       isNight: false,
       hourRotation: 145,
@@ -1128,6 +1232,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 14,
+      difficulty: 1,
       timeAnalog: 'Halb neun am Morgen',
       isNight: false,
       hourRotation: 255,
@@ -1141,6 +1246,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 15,
+      difficulty: 1,
       timeAnalog: 'Fünfundzwanzig nach eins in der Nacht',
       isNight: true,
       hourRotation: 43,
@@ -1163,6 +1269,7 @@ export const wordDatabaseDE = {
     // Arbeitsgedächtnis
     {
       id: 'mem_span_1',
+      difficulty: 1,
       instruction: 'Merke dir die Reihenfolge — jetzt umkehren!',
       displayItems: ['📋', '💼', '✅'],
       correct: ['✅', '💼', '📋'],
@@ -1173,6 +1280,7 @@ export const wordDatabaseDE = {
     // Chronologie & Semantik
     {
       id: 1,
+      difficulty: 1,
       instruction: 'Ordne die Wochentage in die richtige Reihenfolge',
       scrambled: ['Mittwoch', 'Montag', 'Freitag', 'Dienstag'],
       correct: ['Montag', 'Dienstag', 'Mittwoch', 'Freitag'],
@@ -1180,6 +1288,7 @@ export const wordDatabaseDE = {
 
     {
       id: 2,
+      difficulty: 1,
       instruction: 'Ordne die Monate des zweiten Quartals',
       scrambled: ['Juni', 'April', 'Mai'],
       correct: ['April', 'Mai', 'Juni'],
@@ -1187,6 +1296,8 @@ export const wordDatabaseDE = {
 
     {
       id: 3,
+      difficulty: 2,
+      tags: ['business'],
       instruction: 'Karrierestufen — niedrigste zuerst',
       scrambled: [
         'Abteilungsleiter',
@@ -1204,6 +1315,8 @@ export const wordDatabaseDE = {
 
     {
       id: 4,
+      difficulty: 2,
+      tags: ['business'],
       instruction: 'Schritte einer Bewerbung',
       scrambled: [
         'Vorstellungsgespräch',
@@ -1221,6 +1334,7 @@ export const wordDatabaseDE = {
 
     {
       id: 5,
+      difficulty: 1,
       instruction: 'Beträge vom kleinsten zum größten',
       scrambled: ['1.000.000 €', '500 €', '10.000 €', '75 €'],
       correct: ['75 €', '500 €', '10.000 €', '1.000.000 €'],
@@ -1228,6 +1342,8 @@ export const wordDatabaseDE = {
 
     {
       id: 6,
+      difficulty: 2,
+      tags: ['everyday', 'business'],
       instruction: 'Schritte beim Abschluss eines Mietvertrags',
       scrambled: [
         'Kaution überweisen',
@@ -1245,6 +1361,7 @@ export const wordDatabaseDE = {
 
     {
       id: 7,
+      difficulty: 1,
       instruction: 'Zeiteinheiten — kürzeste zuerst',
       scrambled: ['Jahrhundert', 'Sekunde', 'Jahrzehnt', 'Jahr'],
       correct: ['Sekunde', 'Jahr', 'Jahrzehnt', 'Jahrhundert'],
@@ -1252,6 +1369,7 @@ export const wordDatabaseDE = {
 
     {
       id: 8,
+      difficulty: 1,
       instruction: 'Bringe die Wörter in die richtige Satzreihenfolge',
       scrambled: [
         'den',
@@ -1266,6 +1384,7 @@ export const wordDatabaseDE = {
 
     {
       id: 9,
+      difficulty: 2,
       instruction: 'Phasen eines Projekts (klassisches PM)',
       scrambled: ['Abschluss', 'Planung', 'Durchführung', 'Initiierung'],
       correct: ['Initiierung', 'Planung', 'Durchführung', 'Abschluss'],
@@ -1273,6 +1392,7 @@ export const wordDatabaseDE = {
 
     {
       id: 10,
+      difficulty: 1,
       instruction: 'Alphabetische Reihenfolge — Berufswörter',
       scrambled: ['Vertrag', 'Rechnung', 'Angebot', 'Protokoll'],
       correct: ['Angebot', 'Protokoll', 'Rechnung', 'Vertrag'],
@@ -1281,6 +1401,7 @@ export const wordDatabaseDE = {
     // Auditive Sequenzen
     {
       id: 11,
+      difficulty: 3,
       instruction: 'Höre zu und ordne die Zahlen in der gehörten Reihenfolge',
       audioPrompt: 'Sieben. Drei. Neun. Eins.',
       scrambled: ['1', '9', '7', '3'],
@@ -1289,6 +1410,7 @@ export const wordDatabaseDE = {
 
     {
       id: 12,
+      difficulty: 3,
       instruction: 'Höre zu und ordne die Wörter in der gehörten Reihenfolge',
       audioPrompt: 'Rechnung, Budget, Bericht, Besprechung.',
       scrambled: ['Bericht', 'Rechnung', 'Besprechung', 'Budget'],
@@ -1297,6 +1419,7 @@ export const wordDatabaseDE = {
 
     {
       id: 13,
+      difficulty: 3,
       instruction: 'Höre die Anweisung und ordne die Schritte',
       audioPrompt:
         'Zuerst das Dokument speichern, dann als Anhang hinzufügen, zuletzt auf Senden drücken.',
@@ -1314,6 +1437,7 @@ export const wordDatabaseDE = {
 
     {
       id: 14,
+      difficulty: 3,
       instruction: 'Höre zu und ordne die buchstabierten Buchstaben',
       audioPrompt: 'V. E. R. T. R. A. G.',
       scrambled: ['T', 'V', 'A', 'R', 'G', 'E', 'R'],
@@ -1322,6 +1446,7 @@ export const wordDatabaseDE = {
 
     {
       id: 15,
+      difficulty: 2,
       instruction: 'Historische Epochen Deutschlands — älteste zuerst',
       scrambled: [
         'Kaiserreich',
@@ -1346,6 +1471,7 @@ export const wordDatabaseDE = {
   tracking: [
     {
       id: 1,
+      difficulty: 1,
       instruction: 'Auf welcher Seite ist der Bauch des Buchstabens?',
       items: [
         { symbol: 'b', target: 'right' },
@@ -1361,6 +1487,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 2,
+      difficulty: 1,
       instruction: 'In welche Richtung zeigt der Pfeil?',
       items: [
         { symbol: '→', target: 'right' },
@@ -1376,6 +1503,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 3,
+      difficulty: 1,
       instruction: 'Wo ist der Bauch bei diesem Buchstaben?',
       items: [
         { symbol: 'p', target: 'right' },
@@ -1391,6 +1519,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 4,
+      difficulty: 1,
       instruction: 'In welche Richtung zeigt die Hand?',
       items: [
         { symbol: '👈', target: 'left' },
@@ -1406,6 +1535,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 5,
+      difficulty: 1,
       instruction: 'Lies das Wort und drücke die richtige Richtung',
       items: [
         { symbol: 'RECHTS', target: 'right' },
@@ -1421,6 +1551,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 6,
+      difficulty: 1,
       instruction: 'In welche Richtung zeigt das Dreieck?',
       items: [
         { symbol: '◁', target: 'left' },
@@ -1436,6 +1567,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 7,
+      difficulty: 1,
       instruction: 'Daumen hoch oder runter?',
       items: [
         { symbol: '👍', target: 'up' },
@@ -1451,6 +1583,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 8,
+      difficulty: 1,
       instruction: 'Wo ist die eckige Klammer geöffnet?',
       items: [
         { symbol: '[', target: 'right' },
@@ -1466,6 +1599,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 9,
+      difficulty: 1,
       instruction: 'In welche Richtung zeigt der senkrechte Pfeil?',
       items: [
         { symbol: '↑', target: 'up' },
@@ -1481,6 +1615,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 10,
+      difficulty: 1,
       instruction: 'In welche Richtung lehnt der Schrägstrich?',
       items: [
         { symbol: '/', target: 'right' },
@@ -1496,6 +1631,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 11,
+      difficulty: 1,
       instruction: 'Groß- oder Kleinbuchstabe?',
       items: [
         { symbol: 'A', target: 'up' },
@@ -1511,6 +1647,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 12,
+      difficulty: 1,
       instruction: 'Gerade oder ungerade Zahl?',
       items: [
         { symbol: '4', target: 'left' },
@@ -1526,6 +1663,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 13,
+      difficulty: 1,
       instruction: 'Vokal oder Konsonant?',
       items: [
         { symbol: 'E', target: 'up' },
@@ -1541,6 +1679,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 14,
+      difficulty: 1,
       instruction: 'Umlaut (ä, ö, ü, ß) oder normaler Buchstabe?',
       items: [
         { symbol: 'ä', target: 'right' },
@@ -1556,6 +1695,7 @@ export const wordDatabaseDE = {
     },
     {
       id: 15,
+      difficulty: 1,
       instruction: 'Arabische oder römische Ziffer?',
       items: [
         { symbol: 'V', target: 'right' },

@@ -22,11 +22,13 @@ const translations = {
     matchDirection: "Richtung anpassen",
     noData: "Keine Daten in diesem Bereich verfügbar.",
     formatNotRecognized: "Übungsformat nicht erkannt.",
+    difficulty: "Schwierigkeitsgrad",
+    diffLevels: ["Leicht", "Mittel", "Schwer"],
     pillars: {
-      Spelling: "Wörter",
-      Structure: "Sätze",
-      Spatial: "Richtungen",
-      Memory: "Gedächtnis"
+      Spelling: "Wörter pflegen",
+      Structure: "Sätze nähren",
+      Spatial: "Wege anlegen",
+      Memory: "Gedächtnis stärken"
     },
     categories: {
       Phonem: "Laute",
@@ -34,7 +36,7 @@ const translations = {
       Graphem: "Buchstaben",
       Wortbild: "Wortform",
       Seq: "Sequenz",
-      Uhrzeit: "Uhrzeit",
+      Uhrzeit: "Uhr",
       Directions: "Richtungen"
     },
     voice: {
@@ -57,11 +59,11 @@ const translations = {
       ]
     },
     rewardItems: {
-      Natur: ["🌿", "🌸", "🌲", "🦊", "🦉"],
-      Musik: ["🎸", "🎹", "🎶", "🎷", "🎧"],
-      Kunst: ["🎨", "🖌️", "🎭", "🌈", "🖼️"],
-      Space: ["🌠", "🚀", "🪐", "👽", "☄️"],
-      Ocean: ["🐳", "🐬", "🪸", "🦀", "🐡"]
+      Natur: ["💎", "🏆", "💡", "📈", "🎯"],
+      Musik: ["💎", "🏆", "💡", "📈", "🎯"],
+      Kunst: ["💎", "🏆", "💡", "📈", "🎯"],
+      Space: ["💎", "🏆", "💡", "📈", "🎯"],
+      Ocean: ["💎", "🏆", "💡", "📈", "🎯"]
     },
     versionGamified: "SPIELERISCH",
     versionGamifiedSub: "Punkte & Belohnungen",
@@ -107,11 +109,11 @@ const translations = {
       Motorik: { name: "Motorik", desc: "Große Tasten" }
     },
     levelIcons: {
-      Natur: ['🌱', '🌿', '🌳', '🌲', '🍎'],
+      Natur: ['🌿', '☘️', '🌳', '🌲', '🏔️'],
       Musik: ['🎵', '🎶', '🎸', '🎹', '🎼'],
-      Kunst: ['🖍️', '🎨', '🖌️', '🖼️', '🏛️'],
-      Space: ['🌠', '☄️', '🌙', '🪐', '🚀'],
-      Ocean: ['💧', '🐟', '🪸', '🐬', '🐳'],
+      Kunst: ['💡', '🎨', '🖌️', '🖼️', '💎'],
+      Space: ['✨', '⭐', '🛰️', '🚀', '🪐'],
+      Ocean: ['💧', '🌊', '🧭', '⚓', '🚢'],
     },
     progressStages: {
     Natur: ["Keimling", "Stängel", "Knospe", "Blüte", "Blume"],
@@ -159,6 +161,7 @@ const translations = {
   srPlantFeature: "Deine Reise beinhaltet aktuell ein(e)",
   srDailyRewards: "Es hat",
   srRewardsCount: "tägliche Belohnungen.",
+  dailyGoalProgress: "Tagesziel-Fortschritt",
   srVisitor: "Ein freundlicher Besucher hat sich dir aufgrund deiner beständigen Übung angeschlossen."
   },
   en: {
@@ -180,11 +183,13 @@ const translations = {
     matchDirection: "Match the direction",
     noData: "No tasks available in this section.",
     formatNotRecognized: "Exercise format not recognized.",
+    difficulty: "Difficulty",
+    diffLevels: ["Easy", "Medium", "Hard"],
     pillars: {
-      Spelling: "Words",
-      Structure: "Sentences",
-      Spatial: "Directions",
-      Memory: "Memory"
+      Spelling: "Tend to Words",
+      Structure: "Nurture Sentences",
+      Spatial: "Clear the Paths",
+      Memory: "Grow Memory"
     },
     categories: {
       Phonem: "Sounds",
@@ -215,11 +220,11 @@ const translations = {
       ]
     },
     rewardItems: {
-      Natur: ["🌿", "🌸", "🌲", "🦊", "🦉"],
-      Musik: ["🎸", "🎹", "🎶", "🎷", "🎧"],
-      Kunst: ["🎨", "🖌️", "🎭", "🌈", "🖼️"],
-      Space: ["🌠", "🚀", "🪐", "👽", "☄️"],
-      Ocean: ["🐳", "🐬", "🪸", "🦀", "🐡"]
+      Natur: ["💎", "🏆", "💡", "📈", "🎯"],
+      Musik: ["💎", "🏆", "💡", "📈", "🎯"],
+      Kunst: ["💎", "🏆", "💡", "📈", "🎯"],
+      Space: ["💎", "🏆", "💡", "📈", "🎯"],
+      Ocean: ["💎", "🏆", "💡", "📈", "🎯"]
     },
     versionGamified: "GAMIFIED",
     versionGamifiedSub: "Points & rewards",
@@ -265,11 +270,11 @@ const translations = {
       Motorik: { name: "Motor Skills", desc: "Larger buttons" }
     },
     levelIcons: {
-      Natur: ['🌱', '🌿', '🌳', '🌲', '🍎'],
+      Natur: ['🌿', '☘️', '🌳', '🌲', '🏔️'],
       Musik: ['🎵', '🎶', '🎸', '🎹', '🎼'],
-      Kunst: ['🖍️', '🎨', '🖌️', '🖼️', '🏛️'],
-      Space: ['🌠', '☄️', '🌙', '🪐', '🚀'],
-      Ocean: ['💧', '🐟', '🪸', '🐬', '🐳'],
+      Kunst: ['💡', '🎨', '🖌️', '🖼️', '💎'],
+      Space: ['✨', '⭐', '🛰️', '🚀', '🪐'],
+      Ocean: ['💧', '🌊', '🧭', '⚓', '🚢'],
     },
    progressStages: {
     Natur: ["Seed", "Stem", "Bud", "Blooming", "Flower"],
@@ -318,6 +323,7 @@ themeNames: {
   srPlantFeature: "Your journey currently features a",
   srDailyRewards: "It has",
   srRewardsCount: "daily rewards.",
+  dailyGoalProgress: "Daily Goal Progress",
   srVisitor: "A friendly visitor has joined you due to your consistent practice."
   },
   pl: {
@@ -336,11 +342,13 @@ themeNames: {
     hint: "Podpowiedź",
     noData: "Brak zadań w tej sekcji.",
     formatNotRecognized: "Błąd formatu zadania.",
+    difficulty: "Poziom trudności",
+    diffLevels: ["Łatwy", "Średni", "Trudny"],
     pillars: {
-      Spelling: "Pisownia",
-      Structure: "Struktura",
-      Spatial: "Przestrzeń",
-      Memory: "Pamięć"
+      Spelling: "Pielęgnuj Słowa",
+      Structure: "Zadbaj o Zdania",
+      Spatial: "Wytyczaj Ścieżki",
+      Memory: "Rozwijaj Pamięć"
     },
     voice: {
       success: [
@@ -362,11 +370,11 @@ themeNames: {
       ]
     },
     rewardItems: {
-      Natur: ["🌿", "🌸", "🌲", "🦊", "🦉"],
-      Musik: ["🎸", "🎹", "🎶", "🎷", "🎧"],
-      Kunst: ["🎨", "🖌️", "🎭", "🌈", "🖼️"],
-      Space: ["🌠", "🚀", "🪐", "👽", "☄️"],
-      Ocean: ["🐳", "🐬", "🪸", "🦀", "🐡"]
+      Natur: ["💎", "🏆", "💡", "📈", "🎯"],
+      Musik: ["💎", "🏆", "💡", "📈", "🎯"],
+      Kunst: ["💎", "🏆", "💡", "📈", "🎯"],
+      Space: ["💎", "🏆", "💡", "📈", "🎯"],
+      Ocean: ["💎", "🏆", "💡", "📈", "🎯"]
     },
     versionGamified: "GRYWALIZACJA",
     versionGamifiedSub: "Punkty i nagrody",
@@ -382,9 +390,9 @@ themeNames: {
       Phonem: "Fonemy", 
       Silben: "Sylaby", 
       Graphem: "Grafemy", 
-      Wortbild: "Obraz Słowa", 
+      Wortbild: "Kształt Słowa", 
       Context: "Kontekst" ,
-      Uhrzeit: "Godzina",
+      Uhrzeit: "Zegar",
       Seq: "Sekwencje",
       Directions: "Kierunki",
       Tracking: "Śledzenie Wzrokowe"
@@ -424,13 +432,13 @@ themeNames: {
       Motorik: { name: "Motoryka", desc: "Większe przyciski" }
     },
     levelIcons: {
-      Natur: ['🌱', '🌿', '🌳', '🌲', '🍎'],
+      Natur: ['🌿', '☘️', '🌳', '🌲', '🏔️'],
       Musik: ['🎵', '🎶', '🎸', '🎹', '🎼'],
-      Kunst: ['🖍️', '🎨', '🖌️', '🖼️', '🏛️'],
-      Space: ['🌠', '☄️', '🌙', '🪐', '🚀'],
-      Ocean: ['💧', '🐟', '🪸', '🐬', '🐳'],
+      Kunst: ['💡', '🎨', '🖌️', '🖼️', '💎'],
+      Space: ['✨', '⭐', '🛰️', '🚀', '🪐'],
+      Ocean: ['💧', '🌊', '🧭', '⚓', '🚢'],
     },
-  tapToBuild: "Klikaj słowa, by ułożyć kolejność",
+  tapToBuild: "Wybierz słowa w odpowiedniej kolejności",
   progressStages: {
     Natur: ["Ziarenko", "Łodyga", "Pąk", "Rozkwit", "Kwiat"],
     Musik: ["Szesnastka", "Ósemka", "Ćwierćnuta", "Półnuta", "Instrument"],
@@ -480,6 +488,7 @@ themeNames: {
   srPlantFeature: "Twoja podróż obecnie zawiera",
   srDailyRewards: "Posiada",
   srRewardsCount: "codziennych nagród.",
+  dailyGoalProgress: "Postęp Celu Dziennego",
   srVisitor: "Przyjazny gość dołączył do Ciebie dzięki Twojej regularnej praktyce."
 }
 };

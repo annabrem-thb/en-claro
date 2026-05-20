@@ -15,6 +15,7 @@ export const wordDatabaseEN = {
   phonemes: [
     {
       id: 1,
+      difficulty: 3,
       word: 'Colonel',
       phonetic: '/ ˈkɜː.nəl /',
       hints: {
@@ -25,6 +26,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      difficulty: 2,
       word: 'Choir',
       phonetic: '/ ˈkwaɪər /',
       hints: {
@@ -35,6 +37,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      difficulty: 1,
       word: 'Debt',
       phonetic: '/ det /',
       hints: {
@@ -45,6 +48,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      difficulty: 2,
       word: 'Subtle',
       phonetic: '/ ˈsʌt.əl /',
       hints: {
@@ -55,6 +59,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      difficulty: 1,
       word: 'Wednesday',
       phonetic: '/ ˈwenz.deɪ /',
       hints: {
@@ -65,6 +70,8 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      difficulty: 2,
+      tags: ['medicine'],
       word: 'Psychology',
       phonetic: '/ saɪˈkɒl.ə.dʒi /',
       hints: {
@@ -75,6 +82,8 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      difficulty: 2,
+      tags: ['medicine'],
       word: 'Pneumonia',
       phonetic: '/ njuːˈməʊ.ni.ə /',
       hints: {
@@ -85,6 +94,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      difficulty: 1,
       word: 'Receipt',
       phonetic: '/ rɪˈsiːt /',
       hints: {
@@ -95,6 +105,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      difficulty: 2,
       word: 'Yacht',
       phonetic: '/ jɒt /',
       hints: {
@@ -105,6 +116,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      difficulty: 2,
       word: 'Rhythm',
       phonetic: '/ ˈrɪð.əm /',
       hints: {
@@ -115,6 +127,8 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      difficulty: 3,
+      tags: ['business'],
       word: 'Entrepreneur',
       phonetic: '/ ˌɒn.trə.prəˈnɜːr /',
       hints: {
@@ -125,6 +139,8 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      difficulty: 3,
+      tags: ['business'],
       word: 'Bureaucracy',
       phonetic: '/ bjʊˈrɒk.rə.si /',
       hints: {
@@ -135,6 +151,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      difficulty: 3,
       word: 'Conscientious',
       phonetic: '/ ˌkɒn.ʃiˈen.ʃəs /',
       hints: {
@@ -145,6 +162,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      difficulty: 3,
       word: 'Worcestershire',
       phonetic: '/ ˈwʊs.tə.ʃər /',
       hints: {
@@ -155,6 +173,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      difficulty: 2,
       word: 'Façade',
       phonetic: '/ fəˈsɑːd /',
       hints: {
@@ -173,6 +192,7 @@ export const wordDatabaseEN = {
   graphemes: [
     {
       id: 1,
+      difficulty: 1,
       focus: "there / their / they're",
       questions: {
         en: "Which word means 'belonging to them'?",
@@ -186,6 +206,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      difficulty: 2,
       focus: 'affect (verb) / effect (noun)',
       questions: {
         en: "Which word completes: 'The medicine had a positive ___ on her recovery'?",
@@ -199,6 +220,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      difficulty: 1,
       focus: 'lose (verb) / loose (adjective)',
       questions: {
         en: "Which word means 'not tight' or 'not firmly fixed'?",
@@ -212,6 +234,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      difficulty: 1,
       focus: 'then (time) / than (comparison)',
       questions: {
         en: "Which word completes: 'She earns more ___ her colleague'?",
@@ -225,6 +248,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      difficulty: 2,
       focus: "-ie / -ei rule: 'i before e except after c'",
       questions: {
         en: 'Which spelling is correct? (after the letter c, use ei)',
@@ -238,6 +262,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      difficulty: 2,
       focus: 'necessary — one collar, two socks (1×c, 2×s)',
       questions: {
         en: "Which spelling of 'needed / required' is correct?",
@@ -251,6 +276,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      difficulty: 3,
       focus: 'accommodate — double c AND double m',
       questions: {
         en: "Which spelling means 'to provide lodging or space for'?",
@@ -264,6 +290,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      difficulty: 2,
       focus: "separate — there is 'a rat' in sep-a-rat-e",
       questions: {
         en: "Which spelling means 'to divide or keep apart'?",
@@ -277,6 +304,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      difficulty: 2,
       focus: "definitely — contains 'finite', never 'definitly'",
       questions: {
         en: "Which spelling means 'without doubt; certainly'?",
@@ -290,6 +318,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      difficulty: 2,
       focus: 'stationary (not moving) / stationery (paper & envelopes)',
       questions: {
         en: 'Which word means writing materials — pens, paper, envelopes?',
@@ -303,6 +332,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      difficulty: 2,
       focus: 'complement (completes) / compliment (praise)',
       questions: {
         en: "Which word means 'to say something nice about someone'?",
@@ -316,6 +346,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      difficulty: 2,
       focus: 'principal (main/head) / principle (rule/belief)',
       questions: {
         en: "Which word means 'a fundamental rule or moral belief'?",
@@ -329,6 +360,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      difficulty: 3,
       focus: 'embarrass — double r AND double s',
       questions: {
         en: "Which spelling means 'to cause someone to feel awkward or ashamed'?",
@@ -342,6 +374,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      difficulty: 1,
       focus: 'desert (dry land) / dessert (sweet course)',
       questions: {
         en: 'Which word means the sweet course eaten after a main meal?',
@@ -355,6 +388,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      difficulty: 2,
       focus: 'practice (noun, UK) / practise (verb, UK)',
       questions: {
         en: "Which spelling is the VERB form: 'She needs to ___ every day'?",
@@ -375,90 +409,109 @@ export const wordDatabaseEN = {
   syllables: [
     {
       id: 1,
+      difficulty: 3,
       word: 'Extraordinary',
       segments: ['Ex', 'traor', 'di', 'na', 'ry'],
       icon: '🌟',
     },
     {
       id: 2,
+      difficulty: 2,
+      tags: ['business'],
       word: 'Communication',
       segments: ['Com', 'mu', 'ni', 'ca', 'tion'],
       icon: '📡',
     },
     {
       id: 3,
+      difficulty: 2,
       word: 'Determination',
       segments: ['De', 'ter', 'mi', 'na', 'tion'],
       icon: '💪',
     },
     {
       id: 4,
+      difficulty: 3,
       word: 'Accommodation',
       segments: ['Ac', 'com', 'mo', 'da', 'tion'],
       icon: '🏨',
     },
     {
       id: 5,
+      difficulty: 2,
       word: 'Responsibility',
       segments: ['Re', 'spon', 'si', 'bil', 'i', 'ty'],
       icon: '⚖️',
     },
     {
       id: 6,
+      difficulty: 3,
+      tags: ['business'],
       word: 'Entrepreneurship',
       segments: ['En', 'tre', 'pre', 'neur', 'ship'],
       icon: '🚀',
     },
     {
       id: 7,
+      difficulty: 3,
       word: 'Bureaucracy',
       segments: ['Bu', 'reau', 'cra', 'cy'],
       icon: '🏛️',
     },
     {
       id: 8,
+      difficulty: 2,
       word: 'Psychological',
       segments: ['Psy', 'cho', 'log', 'i', 'cal'],
       icon: '🧠',
     },
     {
       id: 9,
+      difficulty: 2,
       word: 'Approximately',
       segments: ['Ap', 'prox', 'i', 'mate', 'ly'],
       icon: '🔢',
     },
     {
       id: 10,
+      difficulty: 2,
       word: 'Misunderstanding',
       segments: ['Mis', 'un', 'der', 'stand', 'ing'],
       icon: '🤔',
     },
     {
       id: 11,
+      difficulty: 3,
       word: 'Confidentiality',
       segments: ['Con', 'fi', 'den', 'ti', 'al', 'i', 'ty'],
       icon: '🔒',
     },
     {
       id: 12,
+      difficulty: 3,
       word: 'Simultaneously',
       segments: ['Si', 'mul', 'ta', 'ne', 'ous', 'ly'],
       icon: '⚡',
     },
     {
       id: 13,
+      difficulty: 3,
+      tags: ['medicine'],
       word: 'Pharmaceutical',
       segments: ['Phar', 'ma', 'ceu', 'ti', 'cal'],
       icon: '💊',
     },
     {
       id: 14,
+      difficulty: 3,
+      tags: ['medicine'],
       word: 'Cardiovascular',
       segments: ['Car', 'di', 'o', 'vas', 'cu', 'lar'],
       icon: '❤️',
     },
     {
       id: 15,
+      difficulty: 3,
       word: 'Conscientious',
       segments: ['Con', 'sci', 'en', 'tious'],
       icon: '✅',
@@ -472,60 +525,73 @@ export const wordDatabaseEN = {
   scrabble: [
     {
       id: 1,
+      difficulty: 2,
       word: 'RHYTHM',
       scrambled: ['R', 'H', 'Y', 'T', 'H', 'M'],
       image: '🥁',
     },
     {
       id: 2,
+      difficulty: 3,
       word: 'COLONEL',
       scrambled: ['C', 'O', 'L', 'O', 'N', 'E', 'L'],
       image: '🎖️',
     },
     {
       id: 3,
+      difficulty: 2,
+      tags: ['business', 'everyday'],
       word: 'NECESSARY',
       scrambled: ['N', 'E', 'C', 'E', 'S', 'S', 'A', 'R', 'Y'],
       image: '✅',
     },
     {
       id: 4,
+      difficulty: 3,
       word: 'ACCOMMODATE',
       scrambled: ['A', 'C', 'C', 'O', 'M', 'M', 'O', 'D', 'A', 'T', 'E'],
       image: '🏨',
     },
     {
       id: 5,
+      difficulty: 2,
       word: 'SEPARATE',
       scrambled: ['S', 'E', 'P', 'A', 'R', 'A', 'T', 'E'],
       image: '↔️',
     },
     {
       id: 6,
+      difficulty: 2,
       word: 'DEFINITELY',
       scrambled: ['D', 'E', 'F', 'I', 'N', 'I', 'T', 'E', 'L', 'Y'],
       image: '💯',
     },
     {
       id: 7,
+      difficulty: 3,
       word: 'EMBARRASS',
       scrambled: ['E', 'M', 'B', 'A', 'R', 'R', 'A', 'S', 'S'],
       image: '😳',
     },
     {
       id: 8,
+      difficulty: 2,
+      tags: ['medicine'],
       word: 'PSYCHOLOGY',
       scrambled: ['P', 'S', 'Y', 'C', 'H', 'O', 'L', 'O', 'G', 'Y'],
       image: '🧠',
     },
     {
       id: 9,
+      difficulty: 3,
+      tags: ['business'],
       word: 'BUREAUCRACY',
       scrambled: ['B', 'U', 'R', 'E', 'A', 'U', 'C', 'R', 'A', 'C', 'Y'],
       image: '🏛️',
     },
     {
       id: 10,
+      difficulty: 3,
       word: 'CONSCIENTIOUS',
       scrambled: [
         'C',
@@ -546,6 +612,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      difficulty: 3,
       word: 'WORCESTERSHIRE',
       scrambled: [
         'W',
@@ -567,24 +634,29 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      difficulty: 2,
       word: 'YACHT',
       scrambled: ['Y', 'A', 'C', 'H', 'T'],
       image: '⛵',
     },
     {
       id: 13,
+      difficulty: 1,
       word: 'RECEIPT',
       scrambled: ['R', 'E', 'C', 'E', 'I', 'P', 'T'],
       image: '🧾',
     },
     {
       id: 14,
+      difficulty: 1,
       word: 'WEDNESDAY',
       scrambled: ['W', 'E', 'D', 'N', 'E', 'S', 'D', 'A', 'Y'],
       image: '📅',
     },
     {
       id: 15,
+      difficulty: 3,
+      tags: ['business'],
       word: 'ENTREPRENEUR',
       scrambled: ['E', 'N', 'T', 'R', 'E', 'P', 'R', 'E', 'N', 'E', 'U', 'R'],
       image: '💼',
@@ -599,6 +671,8 @@ export const wordDatabaseEN = {
   context: [
     {
       id: 1,
+      difficulty: 1,
+      tags: ['business'],
       sentence_part1: 'Please ensure all invoices are filed in',
       sentence_part2: 'designated folders.',
       options: [
@@ -609,6 +683,8 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      difficulty: 2,
+      tags: ['business'],
       sentence_part1: 'The new policy will',
       sentence_part2: 'all employees starting from next month.',
       options: [
@@ -621,6 +697,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      difficulty: 1,
       sentence_part1: 'We cannot',
       sentence_part2: 'this contract under any circumstances.',
       options: [
@@ -633,6 +710,8 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      difficulty: 2,
+      tags: ['medicine'],
       sentence_part1: 'The medication had a significant',
       sentence_part2: 'on her blood pressure readings.',
       options: [
@@ -645,6 +724,8 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      difficulty: 2,
+      tags: ['business', 'everyday'],
       sentence_part1: 'It is',
       sentence_part2: 'to submit your tax return before the deadline.',
       options: [
@@ -655,6 +736,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      difficulty: 3,
       sentence_part1: 'The hotel can',
       sentence_part2: 'up to two hundred conference delegates.',
       options: [
@@ -665,6 +747,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      difficulty: 2,
       sentence_part1: 'We need to',
       sentence_part2: 'the personal data from the financial records.',
       options: [
@@ -675,6 +758,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      difficulty: 2,
       sentence_part1: 'She',
       sentence_part2: 'did not mean to cause any offence.',
       options: [
@@ -685,6 +769,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      difficulty: 2,
       sentence_part1: 'The office supplies budget covers',
       sentence_part2: '— paper, pens and envelopes.',
       options: [
@@ -695,6 +780,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      difficulty: 2,
       sentence_part1: 'I would like to',
       sentence_part2: 'you on your outstanding presentation.',
       options: [
@@ -707,6 +793,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      difficulty: 2,
       sentence_part1: 'Our company works on the',
       sentence_part2: 'that all employees deserve equal opportunities.',
       options: [
@@ -719,6 +806,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      difficulty: 3,
       sentence_part1: 'It can',
       sentence_part2: 'someone greatly to be criticised in public.',
       options: [
@@ -731,6 +819,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      difficulty: 1,
       sentence_part1: 'For',
       sentence_part2: 'please use the covered parking area on the left.',
       options: [
@@ -741,6 +830,8 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      difficulty: 3,
+      tags: ['business'],
       sentence_part1: 'The research was conducted',
       sentence_part2: 'in three different countries.',
       options: [
@@ -753,6 +844,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      difficulty: 2,
       sentence_part1: 'You need to',
       sentence_part2: 'the piano for at least thirty minutes each day.',
       options: [
@@ -773,6 +865,7 @@ export const wordDatabaseEN = {
   clock: [
     {
       id: 1,
+      difficulty: 1,
       timeAnalog: 'Quarter past three',
       isNight: false,
       hourRotation: 98,
@@ -786,6 +879,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      difficulty: 1,
       timeAnalog: 'Half past six in the evening',
       isNight: true,
       hourRotation: 195,
@@ -799,6 +893,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      difficulty: 1,
       timeAnalog: 'Ten to ten in the morning',
       isNight: false,
       hourRotation: 295,
@@ -812,6 +907,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      difficulty: 1,
       timeAnalog: 'Noon',
       isNight: false,
       hourRotation: 0,
@@ -825,6 +921,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      difficulty: 1,
       timeAnalog: 'Midnight',
       isNight: true,
       hourRotation: 0,
@@ -838,6 +935,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      difficulty: 2,
       timeAnalog: 'Half past twelve in the afternoon',
       isNight: false,
       hourRotation: 15,
@@ -851,6 +949,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      difficulty: 2,
       timeAnalog: 'Quarter to nine in the evening',
       isNight: true,
       hourRotation: 262,
@@ -864,6 +963,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      difficulty: 1,
       timeAnalog: 'Twenty past four in the afternoon',
       isNight: false,
       hourRotation: 130,
@@ -877,6 +977,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      difficulty: 2,
       timeAnalog: 'Five and twenty to midnight',
       isNight: true,
       hourRotation: 347,
@@ -890,6 +991,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      difficulty: 1,
       timeAnalog: "Six o'clock in the evening",
       isNight: true,
       hourRotation: 180,
@@ -903,6 +1005,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      difficulty: 2,
       timeAnalog: 'Five to half past nine in the evening',
       isNight: true,
       hourRotation: 283,
@@ -916,6 +1019,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      difficulty: 1,
       timeAnalog: 'Quarter past eleven in the morning',
       isNight: false,
       hourRotation: 338,
@@ -929,6 +1033,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      difficulty: 1,
       timeAnalog: 'Ten to five in the morning',
       isNight: false,
       hourRotation: 145,
@@ -942,6 +1047,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      difficulty: 1,
       timeAnalog: 'Half past eight in the morning',
       isNight: false,
       hourRotation: 255,
@@ -955,6 +1061,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      difficulty: 1,
       timeAnalog: 'Twenty-five past one at night',
       isNight: true,
       hourRotation: 43,
@@ -976,6 +1083,7 @@ export const wordDatabaseEN = {
     // Working memory warm-up
     {
       id: 'mem_span_1',
+      difficulty: 1,
       instruction: 'Remember the order — now reverse it!',
       displayItems: ['📋', '💰', '✅'],
       correct: ['✅', '💰', '📋'],
@@ -986,6 +1094,7 @@ export const wordDatabaseEN = {
     // Chronology & Semantics
     {
       id: 1,
+      difficulty: 1,
       instruction: 'Put the weekdays in order',
       scrambled: ['Wednesday', 'Monday', 'Friday', 'Tuesday'],
       correct: ['Monday', 'Tuesday', 'Wednesday', 'Friday'],
@@ -993,6 +1102,7 @@ export const wordDatabaseEN = {
 
     {
       id: 2,
+      difficulty: 1,
       instruction: 'Order the months of the second quarter',
       scrambled: ['June', 'April', 'May'],
       correct: ['April', 'May', 'June'],
@@ -1000,6 +1110,8 @@ export const wordDatabaseEN = {
 
     {
       id: 3,
+      difficulty: 2,
+      tags: ['business'],
       instruction: 'Order these career levels — lowest first',
       scrambled: ['Director', 'Intern', 'Manager', 'Senior Analyst'],
       correct: ['Intern', 'Senior Analyst', 'Manager', 'Director'],
@@ -1007,6 +1119,8 @@ export const wordDatabaseEN = {
 
     {
       id: 4,
+      difficulty: 2,
+      tags: ['business'],
       instruction: 'Stages of writing a formal report',
       scrambled: [
         'Distribute report',
@@ -1024,6 +1138,7 @@ export const wordDatabaseEN = {
 
     {
       id: 5,
+      difficulty: 1,
       instruction: 'Put these amounts in order — smallest first',
       scrambled: ['£1,000,000', '£500', '£10,000', '£75'],
       correct: ['£75', '£500', '£10,000', '£1,000,000'],
@@ -1031,6 +1146,8 @@ export const wordDatabaseEN = {
 
     {
       id: 6,
+      difficulty: 2,
+      tags: ['business', 'everyday'],
       instruction: 'Steps to apply for a mortgage',
       scrambled: [
         'Make monthly repayments',
@@ -1048,6 +1165,7 @@ export const wordDatabaseEN = {
 
     {
       id: 7,
+      difficulty: 1,
       instruction: 'Units of time — shortest to longest',
       scrambled: ['Century', 'Second', 'Decade', 'Year'],
       correct: ['Second', 'Year', 'Decade', 'Century'],
@@ -1055,6 +1173,7 @@ export const wordDatabaseEN = {
 
     {
       id: 8,
+      difficulty: 1,
       instruction: 'Arrange the words into a correct sentence',
       scrambled: ['the', 'submitted', 'on time.', 'proposal', 'She'],
       correct: ['She', 'submitted', 'the', 'proposal', 'on time.'],
@@ -1062,6 +1181,7 @@ export const wordDatabaseEN = {
 
     {
       id: 9,
+      difficulty: 2,
       instruction: 'Stages of a job interview process',
       scrambled: [
         'Receive job offer',
@@ -1079,6 +1199,7 @@ export const wordDatabaseEN = {
 
     {
       id: 10,
+      difficulty: 1,
       instruction: 'Alphabetical order — professional terms',
       scrambled: ['Revenue', 'Policy', 'Contract', 'Invoice'],
       correct: ['Contract', 'Invoice', 'Policy', 'Revenue'],
@@ -1087,6 +1208,7 @@ export const wordDatabaseEN = {
     // Auditory sequences
     {
       id: 11,
+      difficulty: 3,
       instruction: 'Listen and arrange the numbers in the order you heard them',
       audioPrompt: 'Seven. Three. Nine. One.',
       scrambled: ['1', '9', '7', '3'],
@@ -1095,6 +1217,7 @@ export const wordDatabaseEN = {
 
     {
       id: 12,
+      difficulty: 3,
       instruction: 'Listen and arrange the words you heard',
       audioPrompt: 'Invoice, budget, report, meeting.',
       scrambled: ['Report', 'Invoice', 'Meeting', 'Budget'],
@@ -1103,6 +1226,7 @@ export const wordDatabaseEN = {
 
     {
       id: 13,
+      difficulty: 3,
       instruction: 'Listen to the instruction and arrange the steps',
       audioPrompt:
         'First save the document, then attach it to the email, and finally press send.',
@@ -1112,6 +1236,7 @@ export const wordDatabaseEN = {
 
     {
       id: 14,
+      difficulty: 3,
       instruction: 'Listen and spell out the letters you heard',
       audioPrompt: 'C. O. N. T. R. A. C. T.',
       scrambled: ['T', 'O', 'N', 'C', 'C', 'A', 'R', 'T'],
@@ -1120,6 +1245,7 @@ export const wordDatabaseEN = {
 
     {
       id: 15,
+      difficulty: 2,
       instruction: 'Arrange these historical periods — oldest first',
       scrambled: [
         'Industrial Revolution',
@@ -1144,6 +1270,7 @@ export const wordDatabaseEN = {
   tracking: [
     {
       id: 1,
+      difficulty: 1,
       instruction: 'Which side is the bump on this letter?',
       items: [
         { symbol: 'b', target: 'right' },
@@ -1159,6 +1286,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      difficulty: 1,
       instruction: 'Which direction is the arrow pointing?',
       items: [
         { symbol: '→', target: 'right' },
@@ -1174,6 +1302,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      difficulty: 1,
       instruction: 'Where is the bump on this letter?',
       items: [
         { symbol: 'p', target: 'right' },
@@ -1189,6 +1318,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      difficulty: 1,
       instruction: 'Which direction is the hand pointing?',
       items: [
         { symbol: '👈', target: 'left' },
@@ -1204,6 +1334,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      difficulty: 1,
       instruction: 'Read the word and press the correct direction',
       items: [
         { symbol: 'RIGHT', target: 'right' },
@@ -1219,6 +1350,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      difficulty: 1,
       instruction: 'Which way does the triangle point?',
       items: [
         { symbol: '◁', target: 'left' },
@@ -1234,6 +1366,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      difficulty: 1,
       instruction: 'Thumb up or thumb down?',
       items: [
         { symbol: '👍', target: 'up' },
@@ -1249,6 +1382,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      difficulty: 1,
       instruction: 'Where is the bracket open?',
       items: [
         { symbol: '[', target: 'right' },
@@ -1264,6 +1398,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      difficulty: 1,
       instruction: 'Which direction is the vertical arrow pointing?',
       items: [
         { symbol: '↑', target: 'up' },
@@ -1279,6 +1414,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      difficulty: 1,
       instruction: 'Which way does the diagonal line lean?',
       items: [
         { symbol: '/', target: 'right' },
@@ -1294,6 +1430,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      difficulty: 1,
       instruction: 'Capital or lower-case letter?',
       items: [
         { symbol: 'A', target: 'up' },
@@ -1309,6 +1446,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      difficulty: 1,
       instruction: 'Odd or even number?',
       items: [
         { symbol: '4', target: 'left' },
@@ -1324,6 +1462,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      difficulty: 1,
       instruction: 'Vowel or consonant?',
       items: [
         { symbol: 'E', target: 'up' },
@@ -1339,6 +1478,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      difficulty: 1,
       instruction: 'Does this letter have an accent or special mark?',
       items: [
         { symbol: 'é', target: 'right' },
@@ -1354,6 +1494,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      difficulty: 1,
       instruction: 'Arabic numeral or Roman numeral?',
       items: [
         { symbol: 'V', target: 'right' },

@@ -9,7 +9,7 @@ import { wordDatabaseDE } from '../data/vocabulary_de.js';
 import { wordDatabaseEN } from '../data/vocabulary_en.js';
 import { wordDatabasePL } from '../data/vocabulary_pl.js';
 import { useTranslation }  from '../i18n/i18n.js';
-import { APP_STRINGS } from '../i18n/strings.js';
+import { APP_STRINGS, STRINGS } from '../i18n/strings.js';
 
 import IntroScreen        from './Introscreen.jsx';
 import SettingsModal      from './SettingsModal.jsx';
@@ -19,9 +19,13 @@ import BionicText         from './common/BionicText.jsx';
 import AccessibleTTS      from './common/AccessibleTTS.jsx';
 import TTSController      from './common/TTSController.jsx';
 import SkeletonLoader     from './common/SkeletonLoader.jsx';
+import WeeklyCalendar from './WeeklyCalendar.jsx';
+import FeedbackCollector  from './FeedbackCollector.jsx';
+import CognitiveEnergyIndicator from './CognitiveEnergyIndicator.jsx';
 
 import { ExerciseRenderer } from './ExerciseRenderer.jsx';
 import { GamificationProvider, useGamification } from './GamificationContext.jsx';
+import { useRegisterSW } from 'virtual:pwa-register/react';
 
 // --- Global Constants & Configurations ---
 const POINTS_PER_LEVEL = 5;
@@ -114,6 +118,9 @@ const makeDailyQuests = () => [
   { id: 3, type: 'Any',       target: 10, current: 0, completed: false, reward: 5 },
 ];
 
+// Available content tags matching the strings.js keys
+const AVAILABLE_TOPICS = ['everyday', 'business', 'medicine'];
+
 // --- Main App Component ---
 function AppContent() {
   const [language,         setLanguage]         = useState(() => localStorage.getItem('cfg_lang')  || 'de');
@@ -126,18 +133,21 @@ function AppContent() {
     const sv = localStorage.getItem('cfg_inclusive');
     return sv ? JSON.parse(sv) : { adaptiveDifficulty: false, bigTargets: false, noFlash: false, audioRewards: false, extendedTime: false, zenMode: false, bionicReading: false };
   });
-  const [dailyGoal, setDailyGoal] = useState(() => Number(localStorage.getItem('cfg_goal')) || 10);
+  const [dailyGoal, setDailyGoal] = useState(() => Number(localStorage.getItem('cfg_goal')) || 5);
   const [selectedVoiceURI, setSelectedVoiceURI] = useState(() => localStorage.getItem('cfg_voice_uri') || 'default');
-  const [voiceSpeed, setVoiceSpeed] = useState(() => Number(localStorage.getItem('cfg_voice_speed')) || 0.85);
+  const [voiceSpeed, setVoiceSpeed] = useState(() => Number(localStorage.getItem('cfg_voice_speed')) || 1.0);
 
-  const [activeTab,    setActiveTab]    = useState(() => isGamified ? 'Garden' : 'Spelling');
+  const [activeTab,    setActiveTab]    = useState('Spelling');
   const [lastPillar,   setLastPillar]   = useState('Spelling'); // Remembers the pillar for garden rendering
   const [showIntro,    setShowIntro]    = useState(true);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [showSuccess,  setShowSuccess]  = useState(false);
   const [earnedCoinsAnim, setEarnedCoinsAnim] = useState(null);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [pendingFeedback, setPendingFeedback] = useState(false);
 
   const [currentIndex,  setCurrentIndex]  = useState(() => Number(localStorage.getItem('idx')) || 0);
+  const [cycle,         setCycle]         = useState(0);
   const [points,        setPoints]        = useState(() => Number(localStorage.getItem('pts')) || 0);
   const [currentStreak, setCurrentStreak] = useState(0);
   const [feedback,      setFeedback]      = useState(null);
@@ -154,12 +164,63 @@ function AppContent() {
     const data  = saved ? JSON.parse(saved) : null;
     return (data && data.date === today) ? data : { date: today, tasks: makeDailyQuests() };
   });
+  const [userDifficulty, setUserDifficulty] = useState(() => Number(localStorage.getItem('cfg_difficulty')) || 1);
+  const [errorCounter, setErrorCounter] = useState(0);
+
+  // New state for Point 7: Content Preference Filter
+  const [preferredTopics, setPreferredTopics] = useState(() => JSON.parse(localStorage.getItem('cfg_topics')) || []);
+
+  // NEW State for Point 4: Cognitive Energy
+  const [sessionStartTime, setSessionStartTime] = useState(Date.now());
+  const [errorTimestamps, setErrorTimestamps] = useState([]);
+  const [loadLevel, setLoadLevel] = useState('green');
+  const [showBreakModal, setShowBreakModal] = useState(false);
+  const [breakDismissed, setBreakDismissed] = useState(false);
+
+  // State for PWA Offline Support & Updates
+  const {
+    needRefresh: [needRefresh, setNeedRefresh],
+    updateServiceWorker,
+  } = useRegisterSW({ onRegisterError: (err) => console.error('SW Error:', err) });
+
+  const [dailyProgress, setDailyProgress] = useState(() => {
+    const saved = localStorage.getItem('cfg_daily_progress');
+    return saved ? JSON.parse(saved) : {};
+  });
 
   useEffect(() => {
     if (!isGamified && activeTab === 'Garden') {
       setActiveTab('Spelling');
     }
+    // Resets energy load specifically when user explicitly enters the Garden
+    if (activeTab === 'Garden') {
+      setSessionStartTime(Date.now());
+      setErrorTimestamps([]);
+      setLoadLevel('green');
+      setBreakDismissed(false);
+    }
   }, [isGamified, activeTab]);
+
+  // Calculate Cognitive Load using "Error Velocity" (Rolling 3-min window)
+  useEffect(() => {
+    if (activeTab === 'Garden' || inclusiveOptions.zenMode) return;
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const recentErrors = errorTimestamps.filter(t => now - t < 180000).length;
+      const durationMins = (now - sessionStartTime) / 60000;
+
+      let newLevel = 'green';
+      if (recentErrors >= 4 || durationMins >= 15) newLevel = 'red';
+      else if (recentErrors >= 2 || durationMins >= 7) newLevel = 'yellow';
+
+      setLoadLevel(newLevel);
+
+      if (newLevel === 'red' && !breakDismissed && !showBreakModal) {
+        setShowBreakModal(true);
+      }
+    }, 5000); 
+    return () => clearInterval(interval);
+  }, [errorTimestamps, sessionStartTime, breakDismissed, showBreakModal, activeTab, inclusiveOptions.zenMode]);
 
   // Wyświetlanie Skeleton Loadera przez 300ms za każdym razem, 
   // gdy użytkownik przechodzi do następnego zadania, zmienia zakładkę lub motyw.
@@ -171,7 +232,7 @@ function AppContent() {
 
   const t_hook      = useTranslation(language);
   // Fallback mechanism: use German as default for any missing translated strings
-  const s           = useMemo(() => ({ ...APP_STRINGS.de, ...(APP_STRINGS[language] || {}) }), [language]);
+  const s           = useMemo(() => ({ ...APP_STRINGS.de, ...STRINGS.de, ...(APP_STRINGS[language] || {}), ...(STRINGS[language] || {}) }), [language]);
   const t           = useMemo(() => ({ ...t_hook, ...s }), [t_hook, s]);
   const db          = DATABASES[language]   || DATABASES.de;
   const themeStyles = THEMES[theme]         || THEMES.Natur;
@@ -239,9 +300,12 @@ function AppContent() {
     localStorage.setItem('cfg_unlocked_themes', JSON.stringify(unlockedThemes));
     localStorage.setItem('cfg_quests',          JSON.stringify(dailyQuests))
     localStorage.setItem('cfg_voice_uri',       selectedVoiceURI);
-    localStorage.setItem('cfg_voice_speed',     String(voiceSpeed));
+    localStorage.setItem('cfg_voice_speed',     String(voiceSpeed)); 
+    localStorage.setItem('cfg_daily_progress',  JSON.stringify(dailyProgress));
+    localStorage.setItem('cfg_difficulty',    String(userDifficulty));
     localStorage.setItem('cfg_goal',            String(dailyGoal));
-  }, [language, theme, a11yAddons, inclusiveOptions, points, currentIndex, rewards, coins, unlockedThemes, dailyQuests, selectedVoiceURI, voiceSpeed, dailyGoal]);
+    localStorage.setItem('cfg_topics',          JSON.stringify(preferredTopics));
+  }, [language, theme, a11yAddons, inclusiveOptions, points, currentIndex, rewards, coins, unlockedThemes, dailyQuests, selectedVoiceURI, voiceSpeed, dailyGoal, dailyProgress, userDifficulty, preferredTopics]);
 
   const speak = useCallback((text, slow = false) => {
     if (!window.speechSynthesis) return;
@@ -268,20 +332,43 @@ function AppContent() {
   }, [language, inclusiveOptions.extendedTime, selectedVoiceURI, voiceSpeed]);
 
   const activePillarTasks = useMemo(() => {
+    if (!db) return [];
     if (activeTab === 'Garden') return [];
-    let tasks = [];
+    let rawTasks = [];
     switch (activeTab) {
-      case 'Spelling':  tasks = [...(db.graphemes || []), ...(db.context || [])]; break;
-      case 'Structure': tasks = [...(db.phonemes || []), ...(db.syllables || []), ...(db.scrabble || [])]; break;
-      case 'Spatial':   tasks = [...(db.clock || []), ...(db.tracking || [])]; break;
-      case 'Memory':    tasks = [...(db.sequences || [])]; break;
-      default:          tasks = [];
+      case 'Spelling':  rawTasks = [...(db.graphemes || []), ...(db.context || [])]; break;
+      case 'Structure': rawTasks = [...(db.phonemes || []), ...(db.syllables || []), ...(db.scrabble || [])]; break;
+      case 'Spatial':   rawTasks = [...(db.clock || []), ...(db.tracking || [])]; break;
+      case 'Memory':    rawTasks = [...(db.sequences || [])]; break;
+      default:          rawTasks = [];
     }
-    const seed = activeTab.split('').reduce((a, b) => a + b.charCodeAt(0), 0) + (language === 'pl' ? 1 : 2);
-    return seededShuffle([...tasks], seed);
-  }, [activeTab, db, language]);
 
-  const currentTask = activePillarTasks[currentIndex] || null;
+    let tasks = rawTasks;
+
+    let filteredTasks = tasks;
+    if (inclusiveOptions.adaptiveDifficulty) {
+      // Pokaż zadania do obecnego poziomu trudności użytkownika + 1, aby zawsze było co robić
+      filteredTasks = tasks.filter(task => (task.difficulty || 1) <= userDifficulty + 1);
+    } else {
+      // Ręczna kontrola: pokaż zadania o DOKŁADNIE wybranej trudności
+      filteredTasks = tasks.filter(task => (task.difficulty || 1) === userDifficulty);
+      // Fallback: jeśli w wybranej trudności nie ma ani jednego zadania, pokaż zadania prostsze
+      if (filteredTasks.length === 0) {
+        filteredTasks = tasks.filter(task => (task.difficulty || 1) <= userDifficulty);
+      }
+    }
+
+    // Point 7: Content Tag Filtering
+    if (preferredTopics.length > 0) {
+      filteredTasks = filteredTasks.filter(task => task.tags && task.tags.some(tag => preferredTopics.includes(tag)));
+    }
+
+    const seed = activeTab.split('').reduce((a, b) => a + b.charCodeAt(0), 0) + (language === 'pl' ? 1 : 2) + cycle;
+    return seededShuffle([...filteredTasks], seed);
+  }, [activeTab, db, language, inclusiveOptions.adaptiveDifficulty, userDifficulty, preferredTopics, cycle]);
+
+  const safeIndex = currentIndex % (activePillarTasks.length || 1);
+  const currentTask = activePillarTasks.length > 0 ? activePillarTasks[safeIndex] : null;
 
   const updateQuests = useCallback((pillarType) => {
     setDailyQuests(prev => {
@@ -301,17 +388,40 @@ function AppContent() {
 
   const goNext = useCallback(() => {
     setFeedback(null);
-    setCurrentIndex(prev => (prev + 1) % (activePillarTasks.length || 1));
-  }, [activePillarTasks]);
+    if (activePillarTasks.length === 0) return;
+    const length = activePillarTasks.length;
+    const currentSafe = currentIndex % length;
+    const nextIdx = currentSafe + 1;
+    if (nextIdx >= length) {
+      setCycle(c => c + 1);
+      setCurrentIndex(0);
+    } else {
+      setCurrentIndex(nextIdx);
+    }
+  }, [currentIndex, activePillarTasks.length]);
 
   const goPrev = useCallback(() => {
     setFeedback(null);
-    setCurrentIndex(prev => (prev - 1 + activePillarTasks.length) % (activePillarTasks.length || 1));
-  }, [activePillarTasks]);
+    if (activePillarTasks.length === 0) return;
+    const length = activePillarTasks.length;
+    const currentSafe = currentIndex % length;
+    const prevIdx = currentSafe - 1;
+    if (prevIdx < 0) {
+      setCurrentIndex(length - 1);
+    } else {
+      setCurrentIndex(prevIdx);
+    }
+  }, [currentIndex, activePillarTasks.length]);
 
   const handleSuccess = useCallback(() => {
     const newStreak = currentStreak + 1;
     setCurrentStreak(newStreak);
+
+    // Adaptacyjna trudność: po 5 sukcesach z rzędu, zwiększ poziom, jeśli nie jest na max
+    if (inclusiveOptions.adaptiveDifficulty && newStreak > 0 && newStreak % 5 === 0 && userDifficulty < 3) {
+      setUserDifficulty(prev => Math.min(prev + 1, 3));
+    }
+    setErrorCounter(0); // Zresetuj licznik błędów po sukcesie
 
     // Play thematic success sound (if audio rewards are enabled)
     if (inclusiveOptions.audioRewards) {
@@ -354,33 +464,95 @@ function AppContent() {
     }
     speak(voiceSuccessMsg);
 
+    const newPoints = points + 1;
+    setPoints(newPoints);
+
     if (isGamified) {
-      const newPoints = points + 1;
-      setPoints(newPoints);
       setCoins(prev => prev + 1);
+
+      // Update daily progress for the calendar
+      const todayStr = new Date().toDateString();
+      setDailyProgress(prev => {
+        const todayPoints = prev[todayStr]?.points || 0;
+        return { ...prev, [todayStr]: { points: todayPoints + 1 } };
+      });
+
 
       setEarnedCoinsAnim(earnedCoins);
       setTimeout(() => setEarnedCoinsAnim(null), 1500);
 
       const pool = t.rewardItems?.[theme] || t.rewardItems?.Natur || ['⭐'];
       setRewards(prev => [...prev, pool[Math.floor(Math.random() * pool.length)]]);
-      if (newPoints % POINTS_PER_LEVEL === 0) setTimeout(() => setShowSuccess(true), 1000);
+      if (newPoints % POINTS_PER_LEVEL === 0) {
+        // Wyzwalacz NASA-TLX: ustawiamy ankietę jako oczekującą co 10 punktów
+        if (newPoints > 0 && newPoints % 10 === 0) {
+          setPendingFeedback(true);
+        }
+        setTimeout(() => setShowSuccess(true), 1000);
+      } else {
+        setTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
+      }
+    } else {
+      if (newPoints > 0 && newPoints % 10 === 0) {
+        setTimeout(() => setShowFeedback(true), inclusiveOptions.extendedTime ? 3000 : 1500);
+      } else {
+        setTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
+      }
     }
   }, [
     currentStreak, isGamified, dailyQuests, activeTab, updateQuests, t, speak,
-    points, theme, setRewards, showSuccess, inclusiveOptions.audioRewards
+    points, theme, setRewards, inclusiveOptions, setDailyProgress, dailyGoal, userDifficulty, goNext
   ]);
 
   const handleError = useCallback(() => {
     setCurrentStreak(0);
     
+    // Point 4 Log - Add timestamp for calculating Error Velocity
+    setErrorTimestamps(prev => [...prev, Date.now()]);
+
+    // Adaptacyjna trudność: po 2 błędach z rzędu, zmniejsz poziom, jeśli nie jest na min
+    const newErrorCounter = errorCounter + 1;
+    setErrorCounter(newErrorCounter);
+    if (inclusiveOptions.adaptiveDifficulty && newErrorCounter >= 2 && userDifficulty > 1) {
+      setUserDifficulty(prev => Math.max(prev - 1, 1));
+      setErrorCounter(0); // Zresetuj licznik po zmianie poziomu
+    }
     const errorMsg = Array.isArray(t.voice?.error) 
       ? t.voice.error[Math.floor(Math.random() * t.voice.error.length)] 
       : (t.voice?.error || '✗');
       
     setFeedback({ type: 'error', msg: errorMsg });
     speak(errorMsg);
-  }, [t, speak]);
+  }, [t, speak, errorCounter, inclusiveOptions.adaptiveDifficulty, userDifficulty]);
+
+  // Logger analityczny (Point 9) - zapisuje dane telemetryczne z ankiety
+  const handleFeedbackSubmit = useCallback((surveyData) => {
+    const logs = JSON.parse(localStorage.getItem('cfg_nasa_tlx_logs') || '[]');
+    logs.push({
+      timestamp: new Date().toISOString(),
+      pointsAtTime: points,
+      metrics: surveyData
+    });
+    localStorage.setItem('cfg_nasa_tlx_logs', JSON.stringify(logs));
+    setShowFeedback(false);
+    goNext();
+  }, [points, goNext]);
+
+  // Point 4 Handlers
+  const handleTakeBreak = useCallback(() => {
+    setCoins(c => c + 2); // Nagroda za proaktywny odpoczynek!
+    setSessionStartTime(Date.now());
+    setErrorTimestamps([]);
+    setLoadLevel('green');
+    setShowBreakModal(false);
+    setBreakDismissed(false);
+    setFeedback(null);
+    setActiveTab('Garden');
+  }, []);
+  const handleDismissBreak = useCallback(() => {
+    setShowBreakModal(false);
+    setBreakDismissed(true);
+  }, []);
 
   // --- Swipe-to-navigate logic ---
   const touchStart = useRef(null);
@@ -426,8 +598,6 @@ function AppContent() {
     return <IntroScreen 
       language={language} 
       setLanguage={setLanguage} 
-      dailyGoal={dailyGoal}
-      setDailyGoal={setDailyGoal}
       onStart={() => setShowIntro(false)} 
       noFlash={noFlash}
       isHighContrast={isHighContrast}
@@ -467,7 +637,7 @@ function AppContent() {
             const label          = t.pillars?.[p] || PILLAR_LABELS[language]?.[p] || p;
             return (
               <button key={p}
-                onClick={() => { setActiveTab(p); setLastPillar(p); setCurrentIndex(0); setFeedback(null); setCurrentStreak(0); }}
+                  onClick={() => { setActiveTab(p); setLastPillar(p); setCurrentIndex(0); setCycle(0); setFeedback(null); setCurrentStreak(0); }}
                 className={`relative flex items-center justify-center md:justify-start gap-3 p-2.5 md:p-3 rounded-2xl transition-all ${isSelected ? (isHighContrast ? 'bg-white text-black font-bold' : `${themeStyles.bg} ${themeStyles.accent} font-bold shadow-sm`) : (isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-50')}`}
                 aria-pressed={isSelected}
                 aria-label={label}
@@ -537,6 +707,9 @@ function AppContent() {
                 t={t} 
                 activeCategory={lastPillar} 
                 isFullScreen={true} 
+                noFlash={noFlash}
+                dailyProgress={dailyProgress}
+                dailyGoal={dailyGoal}
               />
             </div>
           ) : (
@@ -551,7 +724,18 @@ function AppContent() {
                 )}
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   {isGamified && !inclusiveOptions.zenMode ? (
-                    <VirtualGarden points={points} streak={currentStreak} dailyQuests={dailyQuests} isHighContrast={isHighContrast} theme={theme} themeStyles={themeStyles} t={t} activeCategory={lastPillar} isFullScreen={false} />
+                    <VirtualGarden 
+                      points={points} 
+                      streak={currentStreak} 
+                      dailyQuests={dailyQuests} 
+                      isHighContrast={isHighContrast} 
+                      theme={theme} 
+                      themeStyles={themeStyles} 
+                      t={t} 
+                      activeCategory={lastPillar} 
+                      isFullScreen={false} 
+                      noFlash={noFlash} 
+                    />
                   ) : (
                     <>
                       <div className={`w-10 h-10 shrink-0 rounded-full flex items-center justify-center text-sm font-black ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}>
@@ -561,10 +745,73 @@ function AppContent() {
                     </>
                   )}
                 </div>
-        <div className={`text-xs font-black uppercase tracking-widest shrink-0 ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>
-                  {!isGamified && `${currentIndex + 1} / ${activePillarTasks.length}`}
+                <div className="flex items-center gap-3 shrink-0">
+                  {!inclusiveOptions.zenMode && (
+                    <CognitiveEnergyIndicator 
+                      loadLevel={loadLevel} showModal={showBreakModal}
+                      onTakeBreak={handleTakeBreak} onDismiss={handleDismissBreak}
+                      t={t} themeStyles={themeStyles} isHighContrast={isHighContrast} noFlash={noFlash}
+                    />
+                  )}
+                  <div className={`text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>
+                    {!isGamified && `${safeIndex + 1} / ${activePillarTasks.length}`}
+                  </div>
                 </div>
               </div>
+
+              {/* Ręczny Suwak Trudności (Widoczny gdy "Adaptacyjny poziom" i Tryb Zen są wyłączone) */}
+              {!inclusiveOptions.adaptiveDifficulty && !inclusiveOptions.zenMode && (
+                <div className={`px-5 py-3 mb-4 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm' : `bg-white border ${themeStyles.border} shadow-md shadow-slate-200/50`}`}>
+                  <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white' : 'text-slate-500'}`}>
+                    {t.difficulty || 'Poziom'}: <span className={themeStyles.accent}>{t.diffLevels?.[userDifficulty - 1] || userDifficulty}</span>
+                  </span>
+                  <div className="flex items-center gap-2 w-full sm:w-1/2">
+                    <span className="text-xs" aria-hidden="true">🌱</span>
+                    <input
+                      type="range"
+                      min="1"
+                      max="3"
+                      step="1"
+                      value={userDifficulty}
+                      onChange={(e) => {
+                         setUserDifficulty(Number(e.target.value));
+                         setCurrentIndex(0);
+                         setCycle(0);
+                         setFeedback(null);
+                      }}
+                      className="flex-1 cursor-pointer"
+                      style={{ accentColor: themeStyles.hex || '#10b981' }}
+                      aria-label={t.difficulty || 'Trudność'}
+                      aria-valuetext={t.diffLevels?.[userDifficulty - 1] || userDifficulty}
+                    />
+                    <span className="text-xs" aria-hidden="true">🌳</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Content Preference Filter (Tags/Topics) */}
+              {!inclusiveOptions.zenMode && (
+                <div className={`px-5 py-3 mb-4 rounded-3xl flex flex-col sm:flex-row items-start sm:items-center gap-3 shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm' : `bg-white border ${themeStyles.border} shadow-sm`}`}>
+                  <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white' : 'text-slate-500'}`}>
+                    {t.topicsLabel || 'Tematyka'}:
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {AVAILABLE_TOPICS.map(topic => {
+                      const isActive = preferredTopics.includes(topic);
+                      return (
+                        <button
+                          key={topic}
+                          onClick={() => { setPreferredTopics(prev => prev.includes(topic) ? prev.filter(t => t !== topic) : [...prev, topic]); setCurrentIndex(0); setCycle(0); setFeedback(null); }}
+                          aria-pressed={isActive}
+                          className={`px-3 py-1.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider rounded-full transition-all border-2 ${isActive ? `${themeStyles.button} text-white border-transparent shadow-md` : `bg-transparent text-slate-400 border-slate-200 hover:border-slate-300`}`}
+                        >
+                          {t.topics?.[topic] || topic}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
               {/* Active Exercise Card */}
               <section 
@@ -601,11 +848,11 @@ function AppContent() {
                   </button>
                 </div>
               ) : (
-                !inclusiveOptions.zenMode && (
+                currentTask && !inclusiveOptions.zenMode && (
                   <div className="mt-3 flex justify-center shrink-0 pb-2">
                     <button onClick={goNext}
-                      className={`px-8 py-3 md:py-2 bg-transparent border-2 rounded-full font-black uppercase text-xs tracking-widest transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-400 hover:bg-slate-100'} break-words`}>
-                      {t.skip || s.skip}
+                      className={`px-8 py-2 bg-transparent border-2 rounded-full font-black uppercase text-[10px] tracking-widest transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-400 hover:bg-slate-100'}`}>
+                      {t.skip || s.skip || 'Pomiń'}
                     </button>
                   </div>
                 )
@@ -617,14 +864,27 @@ function AppContent() {
 
       {/* Level-Up Success Overlay */}
       {showSuccess && (
-        <div className={`fixed inset-0 z-50 flex items-center justify-center p-6 text-center ${isHighContrast ? 'bg-black/80 backdrop-blur-sm' : themeStyles.button}`}>
+        <div 
+          className={`fixed inset-0 z-50 flex items-center justify-center p-6 text-center ${isHighContrast ? 'bg-black/80 backdrop-blur-sm' : themeStyles.button}`}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="level-up-title"
+        >
           <div className={`rounded-4xl p-10 shadow-2xl max-w-sm w-full ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'}`}>
             <div className="text-6xl mb-3" aria-hidden="true">🏆</div>
-            <h2 className="text-3xl font-black mb-2">{t.levelUp || s.levelUp}</h2>
+            <h2 id="level-up-title" className="text-3xl font-black mb-2">{t.levelUp || s.levelUp}</h2>
             <div className="flex justify-center gap-3 text-4xl flex-wrap my-6 bg-slate-50 p-5 rounded-3xl">
               {rewards.slice(-5).map((r, i) => <span key={i}>{r}</span>)}
             </div>
-            <button onClick={() => { setShowSuccess(false); goNext(); }}
+            <button onClick={() => { 
+                setShowSuccess(false); 
+                if (pendingFeedback) {
+                  setShowFeedback(true);
+                  setPendingFeedback(false);
+                } else {
+                  goNext(); 
+                }
+              }}
               className={`w-full py-5 rounded-3xl font-black text-xl shadow-lg active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}>
               {t.next || s.next}
             </button>
@@ -632,12 +892,41 @@ function AppContent() {
         </div>
       )}
 
+      {/* Point 9: UX Metrics Micro-survey (NASA-TLX) */}
+      <FeedbackCollector 
+        open={showFeedback}
+        onSubmit={handleFeedbackSubmit}
+        onSkip={() => { setShowFeedback(false); goNext(); }}
+        t={t}
+        themeStyles={themeStyles}
+        isHighContrast={isHighContrast}
+        noFlash={noFlash}
+      />
+
       {/* Floating Global TTS Controls */}
       <TTSController
         voiceSpeed={voiceSpeed} setVoiceSpeed={setVoiceSpeed}
         selectedVoiceURI={selectedVoiceURI} setSelectedVoiceURI={setSelectedVoiceURI}
         language={language} isHighContrast={isHighContrast} themeStyles={themeStyles} t={t}
       />
+
+      {/* Non-intrusive PWA Update Prompt */}
+      {needRefresh && (
+        <div className={`fixed bottom-20 sm:bottom-24 right-4 z-50 p-5 rounded-3xl shadow-2xl max-w-xs animate-in slide-in-from-right duration-500 border-2 ${isHighContrast ? 'bg-black border-white text-white' : 'bg-white border-slate-100 text-slate-800'}`} role="alert" aria-live="assertive">
+          <h4 className="font-black text-sm mb-1 flex items-center gap-2"><span aria-hidden="true">🌱</span> Nowa wersja</h4>
+          <p className={`text-xs font-medium mb-4 leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
+            Dostępna jest nowa treść. Zaktualizuj aplikację, aby pobrać najnowsze zmiany do trybu offline.
+          </p>
+          <div className="flex gap-2">
+            <button onClick={() => updateServiceWorker(true)} className={`flex-1 py-3 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest text-white shadow-md active:scale-95 transition-all ${themeStyles.button}`}>
+              Aktualizuj
+            </button>
+            <button onClick={() => setNeedRefresh(false)} className={`flex-1 py-3 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all ${isHighContrast ? 'bg-white/10 hover:bg-white/20' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}>
+              Później
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

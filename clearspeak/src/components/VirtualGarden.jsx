@@ -1,4 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
+// Upewnij się, że masz zainstalowane: npm install lottie-react
+import Lottie from 'lottie-react'; 
+
+import WeeklyCalendar from './WeeklyCalendar.jsx';
 
 export default function VirtualGarden({ 
   points, 
@@ -9,34 +13,54 @@ export default function VirtualGarden({
   t,
   themeStyles,
   activeCategory = null,
-  isFullScreen = false
+  isFullScreen = false,
+  noFlash = false,
+  dailyProgress,
+  dailyGoal
 }) {
   // 1. Ecosystem Mapping Logic
   const ecosystemState = useMemo(() => {
     // Map total points to the main plant's structural growth
     const growthLevel = Math.floor(points / 5);
     
-    // Map categories/pillars to specific plant species (requirement from the academic roadmap)
-    const categoryPlants = {
-      // Main pillars from i18n.js
-      Spelling:  ['🌱', '🌿', '🪴', '🎋', '🌳'], // Species A: Ivy / Climbing plants (Reading/Spelling)
-      Structure: ['🌱', '🌿', '🪴', '🌲', '🌴'], // Species B: Ferns / Structural plants (Writing/Grammar)
-      Memory:    ['🌱', '🌿', '🌷', '🌻', '🌺'], // Species C: Flowering herbs (Listening/Memory)
-      Spatial:   ['🌱', '🪴', '🌵', '🏜️', '🌸'], // Species D: Cacti / Succulents (Spatial/Tracking)
-      
-      // Direct module names (as fallback depending on what App.jsx passes)
-      Graphem:   ['🌱', '🌿', '🪴', '🎋', '🌳'],
-      Wortbild:  ['🌱', '🌿', '🪴', '🎋', '🌳'],
-      Phonem:    ['🌱', '🌿', '🌷', '🌻', '🌺'],
-      Silben:    ['🌱', '🌿', '🌷', '🌻', '🌺'],
-      Context:   ['🌱', '🌿', '🪴', '🌲', '🌴'],
+    // Map pillars to specific visual elements across ALL themes (Organic Progress Visualization)
+    const themeCategoryVisuals = {
+      Natur: {
+        Spelling:  ['🌿', '🌿', '🪴', '🎋', '🌳'], // Growth from herb to tree
+        Structure: ['🌿', '🌿', '🪴', '🌲', '🌴'], // Structural plants
+        Memory:    ['🌿', '🌿', '☘️', '🍀', '🍃'], // Leaf variations
+        Spatial:   ['🏔️', '🏔️', '🌋', '🏞️', '🗺️'], // Landscapes
+      },
+      Musik: {
+        Spelling:  ['🎵', '🎶', '🎼', '🎹', '🎺'], // From note to instrument
+        Structure: ['-','=', '≡', '🎼', '📊'], // From simple line to complex chart
+        Memory:    ['🎧', '🎤', '📻', '🎙️', '🎚️'], // Audio equipment
+        Spatial:   ['🔈', '🔉', '🔊', '📈', '📉'], // Volume and charts
+      },
+      Kunst: {
+        Spelling:  ['✏️', '✒️', '🖋️', '🖌️', '📝'], // Writing and drawing tools
+        Structure: ['📏', '📐', '🧭', '🏛️', '🏗️'], // Tools and architecture
+        Memory:    ['💡', '🎨', '🖼️', '🗿', '💎'], // Idea, art, masterpiece
+        Spatial:   ['📷', '🗺️', '🌐', '🔭', '🛰️'], // Perspective and exploration
+      },
+      Space: {
+        Spelling:  ['✨', '⭐', '🌟', '🌠', '💫'], // Star evolution
+        Structure: ['🛰️', '📡', '🔭', '🌌', '🌍'], // From satellite to galaxy
+        Memory:    ['🌑', '🌒', '🌓', '🌔', '🌕'], // Memory of phases
+        Spatial:   ['🧭', '🗺️', '🌐', '🚀', '🪐'], // Navigation and exploration
+      },
+      Ocean: {
+        Spelling:  ['💧', '🌊', '🧭', '⚓', '🚢'], // From drop to ship
+        Structure: ['🪸', '🐚', '💎', '🔱', '🗺️'], // Structures and treasures
+        Memory:    ['🐟', '🐠', '🐡', '🐬', '🐳'], // Kept fish as they are fairly neutral
+        Spatial:   ['🧭', '⚓', '🗺️', '🌐', '🏝️'], // Navigation
+      }
     };
 
-    // Prioritize icons based on the active category only for the Natur theme, otherwise use the global theme
-    const isNature = theme === 'Natur';
-    const themeIcons = (isNature && activeCategory && categoryPlants[activeCategory])
-      ? categoryPlants[activeCategory]
-      : (t?.levelIcons?.[theme] || ['🌱', '🌿', '🌳', '🌲', '🍎']);
+    // Pick the visual progression based on the current theme and active exercise category
+    const themeIcons = (activeCategory && themeCategoryVisuals[theme]?.[activeCategory])
+      ? themeCategoryVisuals[theme][activeCategory]
+      : (t?.levelIcons?.[theme] || ['🌿', '☘️', '🌳', '🌲', '🏔️']);
       
     const themeStages = t?.progressStages?.[theme] || ["Seed", "Stem", "Bud", "Blooming", "Flower"];
 
@@ -48,22 +72,22 @@ export default function VirtualGarden({
     const completedModules = dailyQuests?.tasks?.filter(t => t.completed).length || 0;
     
     const questIconsByTheme = {
-      Natur: '🌸',
-      Musik: '✨',
-      Kunst: '⭐',
-      Space: '💫',
-      Ocean: '🫧'
+      Natur: '🏅',
+      Musik: '🏅',
+      Kunst: '🏅',
+      Space: '🏅',
+      Ocean: '🏅'
     };
-    const questIcon = questIconsByTheme[theme] || '🌸';
+    const questIcon = questIconsByTheme[theme] || '🏅';
     const flowers = Array.from({ length: completedModules }).map(() => questIcon);
 
     // Map consistency (streak) to environmental fauna based on theme and points
     const visitorsByTheme = {
-      Natur: ['🦋', '🐝', '🐞', '🐿️', '🦊'],
-      Musik: ['🐦', '🕊️', '🦜', '🦚', '🦢'],
-      Kunst: ['🐌', '🐛', '🦎', '🦔', '🦉'],
-      Space: ['☄️', '🛸', '🛰️', '👽', '👨‍🚀'],
-      Ocean: ['🦀', '🐢', '🐡', '🐙', '🐬'],
+      Natur: ['💧', '🌬️', '☀️', '⭐', '🌙'], // Weather/Nature phenomena
+      Musik: ['🎵', '🎶', '🎼', '🎤', '🎧'], // Music symbols
+      Kunst: ['💡', '🖌️', '🎨', '💎', '🏆'], // Art/Idea symbols
+      Space: ['☄️', '🛸', '🛰️', '🚀', '🪐'], // Space objects
+      Ocean: ['🌊', '⚓', '🧭', '🚢', '🏝️'], // Sea/Navigation symbols
     };
     
     const themeVisitors = visitorsByTheme[theme] || visitorsByTheme.Natur;
@@ -75,6 +99,32 @@ export default function VirtualGarden({
 
     return { plantVisual, plantName, flowers, hasVisitor, visitor, completedModules, themeVisitors };
   }, [points, streak, dailyQuests, theme, t, activeCategory]);
+
+  // Asynchroniczne ładowanie pliku JSON z animacją Lottie
+  const [visitorAnimation, setVisitorAnimation] = useState(null);
+  
+  useEffect(() => {
+    if (ecosystemState.hasVisitor) {
+      // 1. Zdefiniuj mapowanie motywów na nazwy plików animacji
+      const animationMap = {
+        Natur: 'visitor-natur',
+        Space: 'visitor-space',
+        Musik: 'visitor-musik',
+        Kunst: 'visitor-kunst',
+        Ocean: 'visitor-ocean',
+      };
+
+      // 2. Wybierz plik animacji na podstawie motywu, z domyślnym fallbackiem
+      const animationFile = animationMap[theme] || 'visitor-natur';
+
+      // 3. Użyj dynamicznego importu z szablonem, aby załadować właściwy plik
+      import(`../assets/animations/${animationFile}.json`)
+        .then((module) => {
+          setVisitorAnimation(module.default);
+        })
+        .catch((error) => console.warn(`Nie udało się załadować animacji Lottie dla motywu '${theme}':`, error));
+    }
+  }, [ecosystemState.hasVisitor, theme]); // Dodaj 'theme' do zależności, aby animacja zmieniała się z motywem
 
   // 2. Accessibility Screen Reader Text (WCAG Compliant)
   const srText = `${t.srPlantFeature || 'Deine Reise beinhaltet aktuell ein(e)'} ${ecosystemState.plantName}. 
@@ -103,7 +153,7 @@ export default function VirtualGarden({
         {/* Main Plant */}
         <div 
           key={ecosystemState.plantVisual}
-          className={`${plantTextSize} animate-in zoom-in slide-in-from-bottom-4 duration-1000 drop-shadow-lg`}
+          className={`${plantTextSize} ${noFlash ? '' : 'animate-in zoom-in slide-in-from-bottom-4 duration-1000'} drop-shadow-lg`}
         >
           {ecosystemState.plantVisual}
         </div>
@@ -113,7 +163,7 @@ export default function VirtualGarden({
           {ecosystemState.flowers.map((flower, i) => (
             <span 
               key={i} 
-              className={`${flowerTextSize} animate-in zoom-in duration-500 delay-150 drop-shadow-md`}
+              className={`${flowerTextSize} ${noFlash ? '' : 'animate-in zoom-in duration-500 delay-150'} drop-shadow-md`}
               style={{ animationDelay: `${i * 150}ms` }}
             >
               {flower}
@@ -126,11 +176,21 @@ export default function VirtualGarden({
       {ecosystemState.hasVisitor && (
         <div 
           key={ecosystemState.visitor}
-          className={`${visitorPosition} ${visitorTextSize} drop-shadow-xl animate-in zoom-in slide-in-from-top-8 duration-1000`} 
+          className={`${visitorPosition} ${visitorTextSize} drop-shadow-xl ${noFlash ? '' : 'animate-in zoom-in slide-in-from-top-8 duration-1000'}`} 
           aria-hidden="true"
         >
-          <div className="animate-bounce" style={{ animationDuration: '4s' }}>
-            {ecosystemState.visitor}
+          <div className={noFlash ? '' : 'animate-bounce'} style={{ animationDuration: '4s' }}>
+            {visitorAnimation ? (
+              <Lottie 
+                animationData={visitorAnimation} 
+                autoplay={!noFlash} 
+                loop={!noFlash} 
+                style={{ width: isFullScreen ? 120 : 60, height: isFullScreen ? 120 : 60 }}
+              /> 
+            ) : (
+              // Zapasowy wariant (emoji), dopóki animacja się nie załaduje lub jeśli wystąpi błąd
+              ecosystemState.visitor
+            )}
           </div>
         </div>
       )}
@@ -146,6 +206,14 @@ export default function VirtualGarden({
               ? `${t.gardenBlooming || 'Der Garten blüht! Erreichte Ziele:'} ${ecosystemState.completedModules}` 
               : (t.gardenEmpty || 'Dein eigenes Ökosystem. Es wächst mit jedem deiner Fortschritte.')}
           </p>
+          <WeeklyCalendar
+            dailyProgress={dailyProgress}
+            dailyGoal={dailyGoal}
+            t={t}
+            themeStyles={themeStyles}
+            isHighContrast={isHighContrast}
+            theme={theme}
+          />
         </div>
       )}
     </div>

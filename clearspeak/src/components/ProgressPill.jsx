@@ -33,11 +33,18 @@ function ProgressPill({
   const currentIcon = themeIcons[stageIndex];
 
   return (
-    <div className="flex flex-1 flex-col gap-1">
+    <div 
+      className="flex flex-1 flex-col gap-1"
+      role="progressbar"
+      aria-valuenow={points}
+      aria-valuemin={0}
+      aria-valuemax={max}
+      aria-label={currentLabel}
+    >
       <div className="flex items-end justify-between px-1">
         <div className="flex items-center gap-2">
           {/* Animated level indicator */}
-          <span className="animate-bounce text-2xl duration-2000">
+          <span className="animate-bounce text-2xl duration-2000" aria-hidden="true">
             {currentIcon}
           </span>
           <span

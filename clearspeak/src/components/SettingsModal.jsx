@@ -104,7 +104,7 @@ function SettingsModal({
   open, onClose,
   language = 'pl',        setLanguage,
   theme = 'Natur',        setTheme,
-  dailyGoal = 10,         setDailyGoal,
+  dailyGoal = 5,          setDailyGoal,
   // a11yAddons is now a SET of active add-ons (array of keys), LRS always implied
   a11yAddons = [],        setA11yAddons,
   coins = 0,              setCoins,
@@ -206,6 +206,53 @@ function SettingsModal({
     window.speechSynthesis.speak(msg);
   };
 
+  // ─── Export NASA-TLX logs to CSV ─────────────────────────────────────────
+  const handleExportCSV = () => {
+    const logs = JSON.parse(localStorage.getItem('cfg_nasa_tlx_logs') || '[]');
+    
+    let exportData = logs;
+    if (exportData.length === 0) {
+      const wantTest = window.confirm((s.noDataToExport || 'No data to export') + '\n\nCzy chcesz wygenerować testowy plik, aby sprawdzić pobieranie?');
+      if (!wantTest) return;
+      
+      // Generowanie sztucznych danych testowych, aby potwierdzić działanie funkcji
+      exportData = [{
+        timestamp: new Date().toISOString(),
+        pointsAtTime: 10,
+        metrics: { mental: 4, effort: 3, frustration: 2, attractiveness: 4, stimulation: 5 }
+      }];
+    }
+
+    const headers = ['Timestamp', 'Points At Time', 'Mental Demand', 'Effort', 'Frustration', 'Attractiveness', 'Stimulation'];
+    const csvRows = [headers.join(',')];
+
+    for (const log of exportData) {
+      const row = [
+        log.timestamp,
+        log.pointsAtTime,
+        log.metrics?.mental || '',
+        log.metrics?.effort || '',
+        log.metrics?.frustration || '',
+        log.metrics?.attractiveness || '',
+        log.metrics?.stimulation || ''
+      ];
+      csvRows.push(row.join(','));
+    }
+
+    const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.style.display = 'none';
+    link.href = url;
+    link.setAttribute('download', `ux_evaluation_logs_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(() => {
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    }, 100);
+  };
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-sm"
@@ -247,6 +294,7 @@ function SettingsModal({
           <div className="flex bg-slate-200/50 p-1 rounded-2xl mb-4">
             <button
               onClick={() => setUserSelectedTab('general')}
+              aria-current={activeTab === 'general' ? 'step' : undefined}
                 className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all whitespace-nowrap px-2 ${
                 activeTab === 'general' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500 hover:text-slate-700'
               }`}
@@ -255,6 +303,7 @@ function SettingsModal({
             </button>
             <button
                 onClick={() => setUserSelectedTab('voice')}
+                aria-current={activeTab === 'voice' ? 'step' : undefined}
                 className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all whitespace-nowrap px-2 ${
                   activeTab === 'voice' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500 hover:text-slate-700'
                 }`}
@@ -263,6 +312,7 @@ function SettingsModal({
               </button>
               <button
               onClick={() => setUserSelectedTab('a11y')}
+              aria-current={activeTab === 'a11y' ? 'step' : undefined}
                 className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all whitespace-nowrap px-2 ${
                 activeTab === 'a11y' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500 hover:text-slate-700'
               }`}
@@ -273,10 +323,12 @@ function SettingsModal({
                 <>
                   <button
                     onClick={() => setUserSelectedTab('game')}
+                    aria-current={activeTab === 'game' ? 'step' : undefined}
                     className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all whitespace-nowrap px-2 ${ activeTab === 'game' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500 hover:text-slate-700' }`}
                   >{s.tabGame}</button>
                   <button
                     onClick={() => setUserSelectedTab('shop')}
+                    aria-current={activeTab === 'shop' ? 'step' : undefined}
                     className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all whitespace-nowrap px-2 ${ activeTab === 'shop' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500 hover:text-slate-700' }`}
                   >{s.tabShop}</button>
                 </>
@@ -301,13 +353,14 @@ function SettingsModal({
                     <button
                       key={code}
                       onClick={() => setLanguage(code)}
+                      aria-pressed={language === code}
                       className={`flex-1 py-4 rounded-2xl border-2 flex flex-col items-center gap-1 transition-all active:scale-95 ${
                         language === code
                           ? 'border-emerald-400 bg-emerald-50 shadow-sm'
                           : 'border-slate-100 bg-white hover:border-slate-200'
                       }`}
                     >
-                      <span className="text-2xl">{flag}</span>
+                      <span className="text-2xl" aria-hidden="true">{flag}</span>
                       <span className="text-xs font-black text-slate-500">{label}</span>
                     </button>
                   ))}
@@ -322,13 +375,14 @@ function SettingsModal({
                   {/* V1 — classic */}
                   <button
                     onClick={() => setIsGamified(false)}
+                    aria-pressed={!isGamified}
                     className={`p-5 rounded-2xl border-2 text-left transition-all active:scale-95 ${
                       !isGamified
                         ? 'border-slate-700 bg-slate-800 text-white shadow-lg'
                         : 'border-slate-100 bg-white text-slate-600 hover:border-slate-200'
                     }`}
                   >
-                    <span className="text-3xl block mb-2">📖</span>
+                    <span className="text-3xl block mb-2" aria-hidden="true">📖</span>
                     <span className={`text-[10px] font-black uppercase tracking-widest block mb-0.5 ${!isGamified ? 'text-white' : 'text-slate-700'}`}>
                       {s.v1Label}
                     </span>
@@ -345,13 +399,14 @@ function SettingsModal({
                   {/* V2 — gamified */}
                   <button
                     onClick={() => setIsGamified(true)}
+                    aria-pressed={isGamified}
                     className={`p-5 rounded-2xl border-2 text-left transition-all active:scale-95 ${
                       isGamified
                         ? 'border-emerald-400 bg-linear-to-br from-emerald-50 to-teal-50 shadow-lg'
                         : 'border-slate-100 bg-white text-slate-600 hover:border-slate-200'
                     }`}
                   >
-                    <span className="text-3xl block mb-2">🎮</span>
+                    <span className="text-3xl block mb-2" aria-hidden="true">🎮</span>
                     <span className={`text-[10px] font-black uppercase tracking-widest block mb-0.5 ${isGamified ? 'text-emerald-700' : 'text-slate-700'}`}>
                       {s.v2Label}
                     </span>
@@ -375,6 +430,7 @@ function SettingsModal({
                     <button
                       key={val}
                       onClick={() => setDailyGoal(val)}
+                      aria-pressed={dailyGoal === val}
                       className={`p-4 rounded-2xl border-2 transition-all active:scale-95 text-left flex items-center justify-between ${
                         dailyGoal === val
                           ? 'border-indigo-400 bg-indigo-50 shadow-sm'
@@ -388,6 +444,17 @@ function SettingsModal({
                     </button>
                   ))}
                 </div>
+              </section>
+
+              {/* ── 4. EXPORT LOGS ──────────────────────────────────────────────── */}
+              <section>
+                <SectionLabel sub={s.exportDesc}>{s.exportLogs}</SectionLabel>
+                <button
+                  onClick={handleExportCSV}
+                  className="w-full py-4 rounded-2xl border-2 font-black uppercase text-xs tracking-widest transition-all active:scale-95 shadow-sm text-indigo-600 bg-white border-slate-100 hover:border-indigo-300 hover:bg-indigo-50 flex items-center justify-center gap-2"
+                >
+                  <span className="text-xl" aria-hidden="true">📊</span> {s.exportLogs}
+                </button>
               </section>
             </div>
           )}
@@ -457,7 +524,7 @@ function SettingsModal({
                 <SectionLabel>{s.a11yBase}</SectionLabel>
                 {/* LRS base — non-interactive, always active */}
                 <div className="flex items-center gap-3 p-4 rounded-2xl border-2 border-violet-300 bg-violet-50">
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center text-2xl shrink-0 bg-white border border-violet-200 shadow-sm">
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center text-2xl shrink-0 bg-white border border-violet-200 shadow-sm" aria-hidden="true">
                     🅰️
                   </div>
                   <div className="flex-1 min-w-0">
@@ -495,7 +562,7 @@ function SettingsModal({
                       >
                         <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0 border ${
                           isActive ? 'bg-white border-current/20' : 'bg-slate-50 border-slate-100'
-                        }`}>
+                    }`} aria-hidden="true">
                           {profile.icon}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -551,7 +618,7 @@ function SettingsModal({
                       >
                         <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0 border ${
                           isOn ? 'bg-white border-indigo-200' : 'bg-slate-50 border-slate-100'
-                        }`}>
+                    }`} aria-hidden="true">
                           {opt.icon}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -586,6 +653,7 @@ function SettingsModal({
                         key={themeKey}
                         onClick={() => handleThemeSelect(themeKey)}
                         disabled={!isUnlocked && !canAfford}
+                      aria-pressed={isSelected}
                         className={`flex items-center justify-between p-4 rounded-2xl border-2 transition-all active:scale-[0.98] ${
                           isSelected
                             ? 'border-emerald-400 bg-emerald-50 shadow-sm'
@@ -597,7 +665,7 @@ function SettingsModal({
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center text-xl border border-slate-100">
+                      <div className="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center text-xl border border-slate-100" aria-hidden="true">
                             {config.icon}
                           </div>
                           <span className={`font-black text-sm ${isSelected ? 'text-emerald-700' : 'text-slate-700'}`}>

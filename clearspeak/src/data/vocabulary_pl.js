@@ -14,6 +14,7 @@ export const wordDatabasePL = {
     {
       id: 1,
       word: 'Chrząszcz',
+      difficulty: 3, // 1=łatwe, 2=średnie, 3=trudne
       phonetic: '/ xʂɔ̃ʂt͡ʂ /',
       hints: {
         pl: 'Owad z twardą pokrywą na skrzydłach, np. leśny żuk',
@@ -24,6 +25,7 @@ export const wordDatabasePL = {
     {
       id: 2,
       word: 'Szczegół',
+      difficulty: 1,
       phonetic: '/ ˈʂt͡ʂɛ.ɡuw /',
       hints: {
         pl: 'Drobna, ale ważna informacja lub element całości',
@@ -34,6 +36,7 @@ export const wordDatabasePL = {
     {
       id: 3,
       word: 'Źródło',
+      difficulty: 1,
       phonetic: '/ ˈʑrud.wɔ /',
       hints: {
         pl: 'Pierwotne miejsce wypływu wody lub pochodzenia informacji',
@@ -44,6 +47,7 @@ export const wordDatabasePL = {
     {
       id: 4,
       word: 'Gwóźdź',
+      difficulty: 2,
       phonetic: '/ ɡvuɕd͡ʑ /',
       hints: {
         pl: 'Metalowy sztyft wbijany w drewno lub ścianę',
@@ -54,6 +58,7 @@ export const wordDatabasePL = {
     {
       id: 5,
       word: 'Przestrzeń',
+      difficulty: 1,
       phonetic: '/ ˈpʂɛst.ʂɛɲ /',
       hints: {
         pl: 'Nieograniczony obszar lub wolne miejsce w pomieszczeniu',
@@ -64,6 +69,7 @@ export const wordDatabasePL = {
     {
       id: 6,
       word: 'Właściciel',
+      difficulty: 2,
       phonetic: '/ vwaˈɕt͡ɕi.t͡ɕɛl /',
       hints: {
         pl: 'Osoba będąca prawnym posiadaczem nieruchomości lub firmy',
@@ -74,6 +80,7 @@ export const wordDatabasePL = {
     {
       id: 7,
       word: 'Przyszłość',
+      difficulty: 1,
       phonetic: '/ ˈpʂɨʂ.wɔɕt͡ɕ /',
       hints: {
         pl: 'Czas, który jeszcze przed nami; perspektywy na jutro',
@@ -84,6 +91,7 @@ export const wordDatabasePL = {
     {
       id: 8,
       word: 'Bezwzględny',
+      difficulty: 3,
       phonetic: '/ bɛzˈvzɡlɛnd.nɨ /',
       hints: {
         pl: 'Surowy, niepodatny na litość ani wyjątki',
@@ -94,6 +102,8 @@ export const wordDatabasePL = {
     {
       id: 9,
       word: 'Wynagrodzenie',
+      difficulty: 2,
+      tags: ['business'],
       phonetic: '/ vɨ.na.ɡrɔˈd͡zɛ.ɲɛ /',
       hints: {
         pl: 'Pieniądze wypłacane pracownikowi za wykonywaną pracę',
@@ -104,6 +114,7 @@ export const wordDatabasePL = {
     {
       id: 10,
       word: 'Zaangażowanie',
+      difficulty: 2,
       phonetic: '/ za.an.ɡaˈʐɔ.va.ɲɛ /',
       hints: {
         pl: 'Silne poświęcenie się sprawie, projektowi lub osobie',
@@ -114,6 +125,8 @@ export const wordDatabasePL = {
     {
       id: 11,
       word: 'Odpowiedzialność',
+      difficulty: 2,
+      tags: ['business', 'everyday'],
       phonetic: '/ ɔt.pɔ.vjɛd͡ʑalˈnɔɕt͡ɕ /',
       hints: {
         pl: 'Obowiązek ponoszenia skutków i konsekwencji swoich działań',
@@ -124,6 +137,8 @@ export const wordDatabasePL = {
     {
       id: 12,
       word: 'Przedsiębiorstwo',
+      difficulty: 3,
+      tags: ['business'],
       phonetic: '/ pʂɛd.ɕɛˈbjɔrs.tvɔ /',
       hints: {
         pl: 'Firma lub podmiot prowadzący zorganizowaną działalność gospodarczą',
@@ -134,6 +149,7 @@ export const wordDatabasePL = {
     {
       id: 13,
       word: 'Trzcina',
+      difficulty: 2,
       phonetic: '/ ˈtʂt͡ɕi.na /',
       hints: {
         pl: 'Wysoka roślina wodna z długą, pustą w środku łodygą',
@@ -144,6 +160,7 @@ export const wordDatabasePL = {
     {
       id: 14,
       word: 'Wnioskodawca',
+      difficulty: 2,
       phonetic: '/ vɲɔs.kɔˈdaf.tsa /',
       hints: {
         pl: 'Osoba oficjalnie składająca wniosek lub petycję do urzędu',
@@ -154,6 +171,7 @@ export const wordDatabasePL = {
     {
       id: 15,
       word: 'Współpracownik',
+      difficulty: 2,
       phonetic: '/ fspuw.praˈtsɔv.ɲik /',
       hints: {
         pl: 'Osoba, z którą pracujemy w tym samym zespole lub projekcie',
@@ -170,6 +188,7 @@ export const wordDatabasePL = {
   graphemes: [
     {
       id: 1,
+      difficulty: 1,
       focus: 'ó wymienne na o',
       questions: {
         pl: 'Które słowo ma ó wymieniające się na o w innej formie?',
@@ -183,6 +202,7 @@ export const wordDatabasePL = {
     },
     {
       id: 2,
+      difficulty: 2,
       focus: 'ó niewymienne (wyjątek)',
       questions: {
         pl: 'Które ó NIGDY nie wymienia się na o ani e w żadnej formie?',
@@ -191,12 +211,13 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Córka', isCorrect: true, icon: '👩' },
-        { text: 'Wróg', isCorrect: false, icon: '😠' },
+        { text: 'Wróg', isCorrect: false, icon: '👤' },
       ],
     },
     {
       id: 3,
       focus: 'rz po spółgłosce p',
+      difficulty: 1,
       questions: {
         pl: 'Po spółgłosce p zawsze piszemy rz (nie ż). Które słowo jest poprawne?',
         en: "After consonant 'p' we always write 'rz'. Which spelling is correct?",
@@ -209,6 +230,7 @@ export const wordDatabasePL = {
     },
     {
       id: 4,
+      difficulty: 1,
       focus: 'rz po spółgłosce b',
       questions: {
         pl: 'Po spółgłosce b zawsze piszemy rz. Które słowo jest poprawne?',
@@ -216,12 +238,13 @@ export const wordDatabasePL = {
         de: "Nach dem Konsonanten 'b' schreibt man immer 'rz'. Welches ist korrekt?",
       },
       options: [
-        { text: 'Brzuch', isCorrect: true, icon: '🫃' },
+        { text: 'Brzuch', isCorrect: true, icon: '🧍' },
         { text: 'Bżuch', isCorrect: false, icon: '❌' },
       ],
     },
     {
       id: 5,
+      difficulty: 2,
       focus: 'ż wymienne na g',
       questions: {
         pl: 'Które ż wymienia się na g w innej formie wyrazu? (droższy ← drogi)',
@@ -235,6 +258,7 @@ export const wordDatabasePL = {
     },
     {
       id: 6,
+      difficulty: 2,
       focus: 'h w zapożyczeniach (hierarchia, historia, humor)',
       questions: {
         pl: 'Które słowo obcego pochodzenia piszemy przez h (nie ch)?',
@@ -248,6 +272,7 @@ export const wordDatabasePL = {
     },
     {
       id: 7,
+      difficulty: 1,
       focus: 'nie z czasownikiem — piszemy osobno',
       questions: {
         pl: 'Nie z czasownikiem piszemy zawsze oddzielnie. Które jest poprawne?',
@@ -261,6 +286,7 @@ export const wordDatabasePL = {
     },
     {
       id: 8,
+      difficulty: 1,
       focus: 'nie z przymiotnikiem — piszemy razem',
       questions: {
         pl: 'Nie z przymiotnikiem piszemy łącznie. Które jest poprawne?',
@@ -274,6 +300,7 @@ export const wordDatabasePL = {
     },
     {
       id: 9,
+      difficulty: 2,
       focus: '-bym / -byś / -by z osobową końcówką — razem z czasownikiem',
       questions: {
         pl: 'Partykułę by z końcówką osobową piszemy razem z czasownikiem. Które jest poprawne?',
@@ -281,12 +308,13 @@ export const wordDatabasePL = {
         de: "Das Partikel 'by' mit persönlicher Endung schreibt man zusammen mit dem Verb.",
       },
       options: [
-        { text: 'Chciałbym', isCorrect: true, icon: '🙏' },
+        { text: 'Chciałbym', isCorrect: true, icon: '💬' },
         { text: 'Chciał bym', isCorrect: false, icon: '❌' },
       ],
     },
     {
       id: 10,
+      difficulty: 1,
       focus: 'ą przed b i p (nie on / om)',
       questions: {
         pl: 'Nosówkę tylną przed spółgłoską b piszemy jako ą (nie on). Które jest poprawne?',
@@ -300,6 +328,7 @@ export const wordDatabasePL = {
     },
     {
       id: 11,
+      difficulty: 3,
       focus: 'wziąć — częsty wyjątek (nie wziąść!)',
       questions: {
         pl: 'Jedyna poprawna forma bezokolicznika tego czasownika to:',
@@ -313,6 +342,7 @@ export const wordDatabasePL = {
     },
     {
       id: 12,
+      difficulty: 2,
       focus: 'żółty — potrójna pułapka (ż + ó + ł)',
       questions: {
         pl: 'Kolor słonecznika i cytryny. Która pisownia jest poprawna?',
@@ -326,6 +356,7 @@ export const wordDatabasePL = {
     },
     {
       id: 13,
+      difficulty: 1,
       focus: 'już — ż po j (wyjątek od reguły rz po spółgłosce)',
       questions: {
         pl: 'Po j piszemy wyjątkowo ż (nie rz). Które słowo jest poprawne?',
@@ -339,6 +370,7 @@ export const wordDatabasePL = {
     },
     {
       id: 14,
+      difficulty: 2,
       focus: 'h w słowach rodzimych',
       questions: {
         pl: 'Które rodzime słowo polskie piszemy przez h (nie ch)?',
@@ -352,6 +384,7 @@ export const wordDatabasePL = {
     },
     {
       id: 15,
+      difficulty: 2,
       focus: 'może (modalny) vs morze (akwen) — para homofoniczna',
       questions: {
         pl: 'Które słowo oznacza jest w stanie / potrafi (czasownik modalny)?',
@@ -372,90 +405,108 @@ export const wordDatabasePL = {
   syllables: [
     {
       id: 1,
+      difficulty: 2,
       word: 'Bezpieczeństwo',
       segments: ['Bez', 'pie', 'czeń', 'stwo'],
       icon: '🛡️',
     },
     {
       id: 2,
+      difficulty: 3,
+      tags: ['business'],
       word: 'Odpowiedzialność',
       segments: ['Od', 'po', 'wie', 'dzial', 'ność'],
       icon: '⚖️',
     },
     {
       id: 3,
+      difficulty: 3,
+      tags: ['business'],
       word: 'Przedsiębiorstwo',
       segments: ['Przed', 'się', 'bior', 'stwo'],
       icon: '🏢',
     },
     {
       id: 4,
+      difficulty: 2,
       word: 'Wynagrodzenie',
       segments: ['Wy', 'na', 'gro', 'dze', 'nie'],
       icon: '💰',
     },
     {
       id: 5,
+      difficulty: 2,
       word: 'Zaangażowanie',
       segments: ['Za', 'an', 'ga', 'żo', 'wa', 'nie'],
       icon: '💪',
     },
     {
       id: 6,
+      difficulty: 2,
       word: 'Współpracownik',
       segments: ['Współ', 'pra', 'cow', 'nik'],
       icon: '🤝',
     },
     {
       id: 7,
+      difficulty: 2,
       word: 'Przedstawiciel',
       segments: ['Przed', 'sta', 'wi', 'ciel'],
       icon: '👔',
     },
     {
       id: 8,
+      difficulty: 1,
       word: 'Rozwiązanie',
       segments: ['Roz', 'wią', 'za', 'nie'],
       icon: '💡',
     },
     {
       id: 9,
+      difficulty: 3,
       word: 'Rzeczpospolita',
       segments: ['Rzecz', 'pos', 'po', 'li', 'ta'],
       icon: '🇵🇱',
     },
     {
       id: 10,
+      difficulty: 2,
       word: 'Wnioskodawca',
       segments: ['Wnio', 'sko', 'daw', 'ca'],
       icon: '📋',
     },
     {
       id: 11,
+      difficulty: 1,
+      tags: ['business'],
       word: 'Bezrobocie',
       segments: ['Bez', 'ro', 'bo', 'cie'],
       icon: '📉',
     },
     {
       id: 12,
+      difficulty: 1,
       word: 'Tymczasowy',
       segments: ['Tym', 'cza', 'so', 'wy'],
       icon: '⏳',
     },
     {
       id: 13,
+      difficulty: 2,
       word: 'Nieprawidłowość',
       segments: ['Nie', 'pra', 'wi', 'dło', 'wość'],
       icon: '🚫',
     },
     {
       id: 14,
+      difficulty: 2,
       word: 'Przystosowanie',
       segments: ['Przy', 'sto', 'so', 'wa', 'nie'],
       icon: '🔄',
     },
     {
       id: 15,
+      difficulty: 2,
       word: 'Odpowiedzialny',
       segments: ['Od', 'po', 'wie', 'dzial', 'ny'],
       icon: '✅',
@@ -467,33 +518,39 @@ export const wordDatabasePL = {
   // Words with difficult spelling — non-alternating or ambiguous spelling.
   // ─────────────────────────────────────────────────────────────────────────────
   scrabble: [
-    { id: 1, word: 'ŻÓŁW', scrambled: ['Ż', 'Ó', 'Ł', 'W'], image: '🐢' },
+    { id: 1, difficulty: 1, word: 'ŻÓŁW', scrambled: ['Ż', 'Ó', 'Ł', 'W'], image: '🐢' },
     {
       id: 2,
+      difficulty: 3,
       word: 'CHRZĄSZCZ',
       scrambled: ['C', 'H', 'R', 'Z', 'Ą', 'S', 'Z', 'C', 'Z'],
       image: '🪲',
     },
     {
       id: 3,
+      difficulty: 2,
       word: 'PRZYSZŁOŚĆ',
       scrambled: ['P', 'R', 'Z', 'Y', 'S', 'Z', 'Ł', 'O', 'Ś', 'Ć'],
       image: '🚀',
     },
     {
       id: 4,
+      difficulty: 2,
       word: 'WŁAŚCICIEL',
       scrambled: ['W', 'Ł', 'A', 'Ś', 'C', 'I', 'C', 'I', 'E', 'L'],
       image: '👔',
     },
     {
       id: 5,
+      difficulty: 2,
       word: 'HIERARCHIA',
       scrambled: ['H', 'I', 'E', 'R', 'A', 'R', 'C', 'H', 'I', 'A'],
       image: '📊',
     },
     {
       id: 6,
+      difficulty: 3,
+      tags: ['business'],
       word: 'WYNAGRODZENIE',
       scrambled: [
         'W',
@@ -514,6 +571,7 @@ export const wordDatabasePL = {
     },
     {
       id: 7,
+      difficulty: 3,
       word: 'ZAANGAŻOWANIE',
       scrambled: [
         'Z',
@@ -534,6 +592,7 @@ export const wordDatabasePL = {
     },
     {
       id: 8,
+      difficulty: 3,
       word: 'BEZPIECZEŃSTWO',
       scrambled: [
         'B',
@@ -555,42 +614,50 @@ export const wordDatabasePL = {
     },
     {
       id: 9,
+      difficulty: 1,
       word: 'ŹRÓDŁO',
       scrambled: ['Ź', 'R', 'Ó', 'D', 'Ł', 'O'],
       image: '🌿',
     },
     {
       id: 10,
+      difficulty: 1,
       word: 'PRZESTRZEŃ',
       scrambled: ['P', 'R', 'Z', 'E', 'S', 'T', 'R', 'Z', 'E', 'Ń'],
       image: '🌌',
     },
     {
       id: 11,
+      difficulty: 2,
       word: 'WNIOSKODAWCA',
       scrambled: ['W', 'N', 'I', 'O', 'S', 'K', 'O', 'D', 'A', 'W', 'C', 'A'],
       image: '📋',
     },
     {
       id: 12,
+      difficulty: 2,
       word: 'WSPÓŁPRACA',
       scrambled: ['W', 'S', 'P', 'Ó', 'Ł', 'P', 'R', 'A', 'C', 'A'],
       image: '🤝',
     },
     {
       id: 13,
+      difficulty: 1,
       word: 'TYMCZASOWY',
       scrambled: ['T', 'Y', 'M', 'C', 'Z', 'A', 'S', 'O', 'W', 'Y'],
       image: '⏳',
     },
     {
       id: 14,
+      difficulty: 2,
+      tags: ['medicine'],
       word: 'PSYCHOLOG',
       scrambled: ['P', 'S', 'Y', 'C', 'H', 'O', 'L', 'O', 'G'],
       image: '🧠',
     },
     {
       id: 15,
+      difficulty: 3,
       word: 'ODPOWIEDZIALNY',
       scrambled: [
         'O',
@@ -620,6 +687,8 @@ export const wordDatabasePL = {
   context: [
     {
       id: 1,
+      difficulty: 2,
+      tags: ['business'],
       sentence_part1: 'Dyrektor',
       sentence_part2: 'zatwierdzić wniosek do końca tygodnia.',
       options: [
@@ -633,6 +702,8 @@ export const wordDatabasePL = {
     },
     {
       id: 2,
+      difficulty: 2,
+      tags: ['everyday'],
       sentence_part1: 'Latem wybieram się na urlop nad',
       sentence_part2: 'Śródziemne.',
       options: [
@@ -646,6 +717,8 @@ export const wordDatabasePL = {
     },
     {
       id: 3,
+      difficulty: 1,
+      tags: ['business'],
       sentence_part1: 'Pracownik',
       sentence_part2: 'opuszczać stanowiska bez zgody przełożonego.',
       options: [
@@ -659,6 +732,8 @@ export const wordDatabasePL = {
     },
     {
       id: 4,
+      difficulty: 1,
+      tags: ['business'],
       sentence_part1: 'Podpisana ugoda była całkowicie',
       sentence_part2: '.',
       options: [
@@ -672,6 +747,8 @@ export const wordDatabasePL = {
     },
     {
       id: 5,
+      difficulty: 3,
+      tags: ['everyday', 'business'],
       sentence_part1: 'Proszę',
       sentence_part2: 'oryginały dokumentów na podpisanie umowy.',
       options: [
@@ -685,6 +762,7 @@ export const wordDatabasePL = {
     },
     {
       id: 6,
+      difficulty: 2,
       sentence_part1: 'Gdybym wiedziała o tym wcześniej,',
       sentence_part2: 'przesłać materiały na czas.',
       options: [
@@ -698,6 +776,7 @@ export const wordDatabasePL = {
     },
     {
       id: 7,
+      difficulty: 1,
       sentence_part1: 'Proszę omówić wszystkie techniczne',
       sentence_part2: 'projektu przed wdrożeniem.',
       options: [
@@ -711,6 +790,7 @@ export const wordDatabasePL = {
     },
     {
       id: 8,
+      difficulty: 2,
       sentence_part1: 'Audyt wykrył poważną',
       sentence_part2: 'w dokumentacji finansowej spółki.',
       options: [
@@ -724,6 +804,7 @@ export const wordDatabasePL = {
     },
     {
       id: 9,
+      difficulty: 2,
       sentence_part1: 'Nowy menedżer wykazał się ogromnym',
       sentence_part2: 'w każdy realizowany projekt.',
       options: [
@@ -737,6 +818,7 @@ export const wordDatabasePL = {
     },
     {
       id: 10,
+      difficulty: 1,
       sentence_part1: 'Umowa wchodzi w',
       sentence_part2: 'z dniem pierwszego marca.',
       options: [
@@ -750,6 +832,8 @@ export const wordDatabasePL = {
     },
     {
       id: 11,
+      difficulty: 1,
+      tags: ['medicine'],
       sentence_part1: 'Wyniki badań laboratoryjnych będą dostępne',
       sentence_part2: '.',
       options: [
@@ -763,6 +847,7 @@ export const wordDatabasePL = {
     },
     {
       id: 12,
+      difficulty: 1,
       sentence_part1: 'W tej kwestii mam',
       sentence_part2: 'i oczekuję zmiany decyzji.',
       options: [
@@ -776,6 +861,7 @@ export const wordDatabasePL = {
     },
     {
       id: 13,
+      difficulty: 2,
       sentence_part1: 'Projekt wymaga intensywnej',
       sentence_part2: 'całego działu przez kolejny kwartał.',
       options: [
@@ -789,6 +875,8 @@ export const wordDatabasePL = {
     },
     {
       id: 14,
+      difficulty: 2,
+      tags: ['business'],
       sentence_part1: 'Prosimy o staranne',
       sentence_part2: 'formularza zgłoszeniowego online.',
       options: [
@@ -802,6 +890,7 @@ export const wordDatabasePL = {
     },
     {
       id: 15,
+      difficulty: 1,
       sentence_part1: 'Firma',
       sentence_part2: 'wczoraj gruntowną analizę rynku.',
       options: [
@@ -823,6 +912,7 @@ export const wordDatabasePL = {
   clock: [
     {
       id: 1,
+      difficulty: 1,
       timeAnalog: 'Kwadrans po trzeciej',
       isNight: false,
       hourRotation: 98,
@@ -836,6 +926,7 @@ export const wordDatabasePL = {
     },
     {
       id: 2,
+      difficulty: 1,
       timeAnalog: 'Wpół do siódmej wieczorem',
       isNight: true,
       hourRotation: 195,
@@ -849,6 +940,7 @@ export const wordDatabasePL = {
     },
     {
       id: 3,
+      difficulty: 1,
       timeAnalog: 'Za dziesięć dziesiąta rano',
       isNight: false,
       hourRotation: 295,
@@ -862,6 +954,7 @@ export const wordDatabasePL = {
     },
     {
       id: 4,
+      difficulty: 1,
       timeAnalog: 'Południe',
       isNight: false,
       hourRotation: 0,
@@ -875,6 +968,7 @@ export const wordDatabasePL = {
     },
     {
       id: 5,
+      difficulty: 1,
       timeAnalog: 'Północ',
       isNight: true,
       hourRotation: 0,
@@ -888,6 +982,7 @@ export const wordDatabasePL = {
     },
     {
       id: 6,
+      difficulty: 2,
       timeAnalog: 'Wpół do pierwszej po południu',
       isNight: false,
       hourRotation: 15,
@@ -901,6 +996,7 @@ export const wordDatabasePL = {
     },
     {
       id: 7,
+      difficulty: 2,
       timeAnalog: 'Za kwadrans dziewiąta wieczorem',
       isNight: true,
       hourRotation: 262,
@@ -914,6 +1010,7 @@ export const wordDatabasePL = {
     },
     {
       id: 8,
+      difficulty: 1,
       timeAnalog: 'Dwadzieścia po czwartej po południu',
       isNight: false,
       hourRotation: 130,
@@ -927,6 +1024,7 @@ export const wordDatabasePL = {
     },
     {
       id: 9,
+      difficulty: 2,
       timeAnalog: 'Pięć po wpół do dwunastej w nocy',
       isNight: true,
       hourRotation: 347,
@@ -940,6 +1038,7 @@ export const wordDatabasePL = {
     },
     {
       id: 10,
+      difficulty: 1,
       timeAnalog: 'Szósta wieczorem',
       isNight: true,
       hourRotation: 180,
@@ -953,6 +1052,7 @@ export const wordDatabasePL = {
     },
     {
       id: 11,
+      difficulty: 2,
       timeAnalog: 'Za pięć wpół do dziesiątej wieczorem',
       isNight: true,
       hourRotation: 283,
@@ -966,6 +1066,7 @@ export const wordDatabasePL = {
     },
     {
       id: 12,
+      difficulty: 1,
       timeAnalog: 'Kwadrans po jedenastej rano',
       isNight: false,
       hourRotation: 338,
@@ -979,6 +1080,7 @@ export const wordDatabasePL = {
     },
     {
       id: 13,
+      difficulty: 1,
       timeAnalog: 'Za dziesięć piąta rano',
       isNight: false,
       hourRotation: 145,
@@ -992,6 +1094,7 @@ export const wordDatabasePL = {
     },
     {
       id: 14,
+      difficulty: 1,
       timeAnalog: 'Wpół do dziewiątej rano',
       isNight: false,
       hourRotation: 255,
@@ -1005,6 +1108,7 @@ export const wordDatabasePL = {
     },
     {
       id: 15,
+      difficulty: 1,
       timeAnalog: 'Dwadzieścia pięć po pierwszej w nocy',
       isNight: true,
       hourRotation: 43,
@@ -1026,6 +1130,7 @@ export const wordDatabasePL = {
     // Working memory
     {
       id: 'mem_span_1',
+      difficulty: 1,
       instruction: 'Ułóż elementy od końca!',
       displayItems: ['📋', '💰', '✅'],
       correct: ['✅', '💰', '📋'],
@@ -1036,6 +1141,7 @@ export const wordDatabasePL = {
     // Chronology and semantics
     {
       id: 1,
+      difficulty: 1,
       instruction: 'Ułóż dni robocze tygodnia po kolei',
       scrambled: ['Środa', 'Poniedziałek', 'Czwartek', 'Wtorek'],
       correct: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek'],
@@ -1043,6 +1149,8 @@ export const wordDatabasePL = {
 
     {
       id: 2,
+      difficulty: 2,
+      tags: ['business'],
       instruction: 'Etapy kariery zawodowej — od najniższego',
       scrambled: ['Kierownik', 'Stażysta', 'Dyrektor', 'Specjalista'],
       correct: ['Stażysta', 'Specjalista', 'Kierownik', 'Dyrektor'],
@@ -1050,6 +1158,7 @@ export const wordDatabasePL = {
 
     {
       id: 3,
+      difficulty: 1,
       instruction: 'Ułóż miesiące I kwartału po kolei',
       scrambled: ['Marzec', 'Styczeń', 'Luty'],
       correct: ['Styczeń', 'Luty', 'Marzec'],
@@ -1057,6 +1166,8 @@ export const wordDatabasePL = {
 
     {
       id: 4,
+      difficulty: 2,
+      tags: ['business'],
       instruction: 'Etapy rekrutacji pracownika',
       scrambled: [
         'Podpisanie umowy',
@@ -1074,6 +1185,7 @@ export const wordDatabasePL = {
 
     {
       id: 5,
+      difficulty: 1,
       instruction: 'Ułóż od najmniejszej do największej kwoty',
       scrambled: ['1 000 000 zł', '1 000 zł', '1 000 000 000 zł', '100 zł'],
       correct: ['100 zł', '1 000 zł', '1 000 000 zł', '1 000 000 000 zł'],
@@ -1081,6 +1193,8 @@ export const wordDatabasePL = {
 
     {
       id: 6,
+      difficulty: 2,
+      tags: ['business', 'everyday'],
       instruction: 'Proces uzyskania kredytu hipotecznego',
       scrambled: [
         'Spłata rat',
@@ -1098,6 +1212,7 @@ export const wordDatabasePL = {
 
     {
       id: 7,
+      difficulty: 1,
       instruction: 'Jednostki czasu od najkrótszej do najdłuższej',
       scrambled: ['Tydzień', 'Sekunda', 'Rok', 'Godzina'],
       correct: ['Sekunda', 'Godzina', 'Tydzień', 'Rok'],
@@ -1105,6 +1220,7 @@ export const wordDatabasePL = {
 
     {
       id: 8,
+      difficulty: 1,
       instruction: 'Ułóż zdanie w poprawnej kolejności',
       scrambled: [
         'analizę.',
@@ -1118,6 +1234,7 @@ export const wordDatabasePL = {
 
     {
       id: 9,
+      difficulty: 2,
       instruction: 'Etapy projektu (metodyka PM)',
       scrambled: ['Wdrożenie', 'Planowanie', 'Zamknięcie', 'Inicjacja'],
       correct: ['Inicjacja', 'Planowanie', 'Wdrożenie', 'Zamknięcie'],
@@ -1125,6 +1242,7 @@ export const wordDatabasePL = {
 
     {
       id: 10,
+      difficulty: 1,
       instruction: 'Ułóż alfabetycznie wyrazy zawodowe',
       scrambled: ['Wynagrodzenie', 'Urlop', 'Umowa', 'Zarząd'],
       correct: ['Umowa', 'Urlop', 'Wynagrodzenie', 'Zarząd'],
@@ -1133,6 +1251,7 @@ export const wordDatabasePL = {
     // Auditory sequences (audioPrompt)
     {
       id: 11,
+      difficulty: 3,
       instruction: 'Posłuchaj i ułóż cyfry w podanej kolejności',
       audioPrompt: 'Siedem. Dwa. Pięć. Jeden.',
       scrambled: ['1', '2', '7', '5'],
@@ -1141,6 +1260,7 @@ export const wordDatabasePL = {
 
     {
       id: 12,
+      difficulty: 3,
       instruction: 'Posłuchaj i ułóż usłyszane słowa',
       audioPrompt: 'Faktura, przelew, budżet, raport.',
       scrambled: ['Budżet', 'Faktura', 'Raport', 'Przelew'],
@@ -1149,6 +1269,7 @@ export const wordDatabasePL = {
 
     {
       id: 13,
+      difficulty: 3,
       instruction: 'Posłuchaj instrukcji i ułóż kroki',
       audioPrompt:
         'Najpierw wypełnij formularz, potem go wydrukuj, a na końcu złóż w sekretariacie.',
@@ -1158,6 +1279,7 @@ export const wordDatabasePL = {
 
     {
       id: 14,
+      difficulty: 3,
       instruction: 'Posłuchaj i ułóż przeliterowane litery',
       audioPrompt: 'W. N. I. O. S. E. K.',
       scrambled: ['I', 'N', 'O', 'W', 'K', 'E', 'S'],
@@ -1166,6 +1288,7 @@ export const wordDatabasePL = {
 
     {
       id: 15,
+      difficulty: 2,
       instruction: 'Epoki historyczne Polski — od najstarszej',
       scrambled: [
         'Dwudziestolecie Międzywojenne',
@@ -1189,6 +1312,7 @@ export const wordDatabasePL = {
   tracking: [
     {
       id: 1,
+      difficulty: 1,
       instruction: 'Gdzie jest brzuszek tej litery?',
       items: [
         { symbol: 'b', target: 'right' },
@@ -1204,6 +1328,7 @@ export const wordDatabasePL = {
     },
     {
       id: 2,
+      difficulty: 1,
       instruction: 'W którą stronę pokazuje strzałka?',
       items: [
         { symbol: '→', target: 'right' },
@@ -1219,6 +1344,7 @@ export const wordDatabasePL = {
     },
     {
       id: 3,
+      difficulty: 1,
       instruction: 'Gdzie jest brzuszek tej litery?',
       items: [
         { symbol: 'p', target: 'right' },
@@ -1234,6 +1360,7 @@ export const wordDatabasePL = {
     },
     {
       id: 4,
+      difficulty: 1,
       instruction: 'W którą stronę skierowany jest palec?',
       items: [
         { symbol: '👈', target: 'left' },
@@ -1249,6 +1376,7 @@ export const wordDatabasePL = {
     },
     {
       id: 5,
+      difficulty: 1,
       instruction: 'Przeczytaj słowo i wskaż odpowiedni kierunek',
       items: [
         { symbol: 'PRAWA', target: 'right' },
@@ -1264,6 +1392,7 @@ export const wordDatabasePL = {
     },
     {
       id: 6,
+      difficulty: 1,
       instruction: 'W którą stronę wskazuje trójkąt?',
       items: [
         { symbol: '◁', target: 'left' },
@@ -1279,6 +1408,7 @@ export const wordDatabasePL = {
     },
     {
       id: 7,
+      difficulty: 1,
       instruction: 'Kciuk w górę czy w dół?',
       items: [
         { symbol: '👍', target: 'up' },
@@ -1294,6 +1424,7 @@ export const wordDatabasePL = {
     },
     {
       id: 8,
+      difficulty: 1,
       instruction: 'Gdzie są otwarte te nawiasy kwadratowe?',
       items: [
         { symbol: '[', target: 'right' },
@@ -1309,6 +1440,7 @@ export const wordDatabasePL = {
     },
     {
       id: 9,
+      difficulty: 1,
       instruction: 'W którą stronę wskazuje strzałka pionowa?',
       items: [
         { symbol: '↑', target: 'up' },
@@ -1324,6 +1456,7 @@ export const wordDatabasePL = {
     },
     {
       id: 10,
+      difficulty: 1,
       instruction: 'W którą stronę pochylona jest kreska?',
       items: [
         { symbol: '/', target: 'right' },
@@ -1339,6 +1472,7 @@ export const wordDatabasePL = {
     },
     {
       id: 11,
+      difficulty: 1,
       instruction: 'Duże czy małe litery?',
       items: [
         { symbol: 'A', target: 'up' },
@@ -1354,6 +1488,7 @@ export const wordDatabasePL = {
     },
     {
       id: 12,
+      difficulty: 1,
       instruction: 'Liczba parzysta czy nieparzysta?',
       items: [
         { symbol: '4', target: 'left' },
@@ -1369,6 +1504,7 @@ export const wordDatabasePL = {
     },
     {
       id: 13,
+      difficulty: 1,
       instruction: 'Samogłoska czy spółgłoska?',
       items: [
         { symbol: 'E', target: 'up' },
@@ -1384,6 +1520,7 @@ export const wordDatabasePL = {
     },
     {
       id: 14,
+      difficulty: 1,
       instruction: 'Litera polska z ogonkiem / kreską czy zwykła?',
       items: [
         { symbol: 'ą', target: 'right' },
@@ -1399,6 +1536,7 @@ export const wordDatabasePL = {
     },
     {
       id: 15,
+      difficulty: 1,
       instruction: 'Cyfra arabska czy rzymska?',
       items: [
         { symbol: 'V', target: 'right' },
