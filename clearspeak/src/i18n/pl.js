@@ -1,6 +1,6 @@
 export default {
   // Ogólne i Nawigacja
-  appTitle: "Context Master",
+  appTitle: "Claro",
   introSubtitle: "Zbuduj swój most do biegłości.",
   start: "Rozpocznij",
   done: "Gotowe",
@@ -66,7 +66,7 @@ export default {
   // Ustawienia (Settings)
   settings: "Ustawienia",
   settingsTitle: "Ustawienia",
-  settingsSubtitle: "Context Master · Dostępna Grywalizacja",
+  settingsSubtitle: "Claro · Dostępna Grywalizacja",
   settingsBack: "← Wróć",
   settingsTheme: "Motyw",
   settingsAccessibility: "Opcje komfortu",

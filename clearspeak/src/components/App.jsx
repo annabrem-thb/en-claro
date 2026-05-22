@@ -10,23 +10,22 @@ import { wordDatabaseEN } from '../data/vocabulary_en.js';
 import { wordDatabasePL } from '../data/vocabulary_pl.js';
 import { useTranslation }  from '../i18n/i18n.js';
 
-import IntroScreen        from './Introscreen.jsx';
-import SettingsPage       from './SettingsPage.jsx';
-import ProgressPill       from './ProgressPill.jsx';
+import IntroScreen        from './IntroScreen.jsx';
+import SettingsModal      from './SettingsModal.jsx';
+import { ProgressPill }   from './ProgressPill.jsx';
 import VirtualGarden      from './VirtualGarden.jsx';
 import BionicText         from './common/BionicText.jsx';
 import AccessibleTTS      from './common/AccessibleTTS.jsx';
 import TTSController      from './common/TTSController.jsx';
 import SkeletonLoader     from './common/SkeletonLoader.jsx';
-import WeeklyCalendar from './WeeklyCalendar.jsx';
 import SidebarNav         from './SidebarNav.jsx';
-import FeedbackCollector  from './FeedbackCollector.jsx';
-import CognitiveEnergyIndicator from './CognitiveEnergyIndicator.jsx';
+import { FeedbackCollector } from './FeedbackCollector.jsx';
+import { CognitiveEnergyIndicator } from './CognitiveEnergyIndicator.jsx';
 import { saveLog } from '../utils/indexedDB.js';
 import { useIndexedDB } from '../hooks/useIndexedDB.js';
 import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotifications.js';
 
-import { ExerciseRenderer } from './ExerciseRenderer.jsx';
+import ExerciseContainer from './ExerciseContainer.jsx';
 import { GamificationProvider, useGamification } from './GamificationContext.jsx';
 import { AppConfigProvider } from '../context/AppConfigContext.jsx';
 import { useRegisterSW } from 'virtual:pwa-register/react';
@@ -624,7 +623,7 @@ function AppContent() {
       zenMode:       !!inclusiveOptions.zenMode,
       isHighContrast,
     };
-    return <ExerciseRenderer
+    return <ExerciseContainer
       key={`${activeTab}-${currentIndex}`}
       currentTask={currentTask}
       {...commonProps} />;
@@ -650,8 +649,9 @@ function AppContent() {
 
   // --- Render Settings Page ---
   if (settingsOpen) {
-    return <SettingsPage 
-      onBack={() => setSettingsOpen(false)} 
+    return <SettingsModal 
+      open={true}
+      onClose={() => setSettingsOpen(false)} 
       language={language}
       setLanguage={setLanguage}
       isGamified={isGamified}

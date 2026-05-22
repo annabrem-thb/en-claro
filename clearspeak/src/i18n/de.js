@@ -1,6 +1,6 @@
 export default {
   // General & Common
-  appTitle: "Context Master",
+  appTitle: "Claro",
   introSubtitle: "Baue deine Brücke zur Sprachkompetenz.",
   start: "Starten",
   done: "Fertig",

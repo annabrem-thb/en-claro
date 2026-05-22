@@ -1,6 +1,6 @@
 export default {
   // General & Common
-  appTitle: "Context Master",
+  appTitle: "Claro",
   introSubtitle: "Build your bridge to fluency.",
   start: "Get Started",
   done: "Done",
@@ -66,7 +66,7 @@ export default {
   // Settings & App Config
   settings: "Settings",
   settingsTitle: "Settings",
-  settingsSubtitle: "Context Master · Accessible Gamification",
+  settingsSubtitle: "Claro · Accessible Gamification",
   settingsBack: "← Back",
   settingsTheme: "Theme",
   settingsAccessibility: "Comfort Options",

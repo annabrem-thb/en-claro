@@ -2,61 +2,48 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const GamificationContext = createContext();
 
-/**
- * GamificationProvider
- * Manages the state of the non-punitive, intrinsic reward system.
- * Built around the PENS (Player Experience of Need Satisfaction) psychological model.
- */
 export function GamificationProvider({ children }) {
-  // PENS Model - Autonomy: Giving users the freedom to choose their own meaningful rewards
-  // Users select which plant they want to grow next, satisfying the need for self-direction.
   const [selectedRewardId, setSelectedRewardId] = useState(null);
-  
-  // PENS Model - Competence: Accumulating progress in a purely positive, non-punitive way.
-  // There are no fail states, point deductions, or broken streaks; progress only moves forward.
   const [competencePoints, setCompetencePoints] = useState(0);
-  
-  // The user's collection of earned virtual plants/items representing past successes
   const [unlockedRewards, setUnlockedRewards] = useState([]);
-  
-  // Legacy support for the app's base mode toggle (Gamified vs Minimalist)
   const [isGamified, setIsGamified] = useState(() => {
-    const saved = localStorage.getItem('cfg_gamified');
-    return saved !== null ? JSON.parse(saved) : false;
+    const stored = localStorage.getItem('cfg_gamified');
+    return stored === null ? false : JSON.parse(stored);
   });
 
   useEffect(() => {
     localStorage.setItem('cfg_gamified', JSON.stringify(isGamified));
   }, [isGamified]);
 
-  // Action: Triggered when a user successfully finishes an exercise module
   const completeDailyTask = () => {
-    setCompetencePoints((prevPoints) => prevPoints + 1);
+    setCompetencePoints((prev) => prev + 1);
   };
 
-  // Action: Unlocks the previously chosen plant, usually called after hitting a milestone
+  const chooseNextReward = (id) => {
+    setSelectedRewardId(id);
+  };
+
   const unlockSelectedReward = () => {
     if (selectedRewardId) {
       setUnlockedRewards((prev) => [...prev, selectedRewardId]);
-      setSelectedRewardId(null); // Reset to prompt a new autonomous choice for tomorrow
+      setSelectedRewardId(null);
     }
   };
 
-  // Action: Called when the user actively decides their future goal
-  const chooseNextReward = (rewardId) => {
-    setSelectedRewardId(rewardId);
+  const value = {
+    isGamified, setIsGamified,
+    competencePoints, completeDailyTask,
+    selectedRewardId, chooseNextReward,
+    unlockedRewards, unlockSelectedReward
   };
 
   return (
-    <GamificationContext.Provider value={{
-      isGamified, setIsGamified,
-      competencePoints, completeDailyTask,
-      selectedRewardId, chooseNextReward,
-      unlockedRewards, unlockSelectedReward
-    }}>
+    <GamificationContext.Provider value={value}>
       {children}
     </GamificationContext.Provider>
   );
 }
 
-export const useGamification = () => useContext(GamificationContext);
+export function useGamification() {
+  return useContext(GamificationContext);
+}

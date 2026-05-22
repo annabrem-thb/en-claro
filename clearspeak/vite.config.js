@@ -9,8 +9,8 @@ export default defineConfig({
       registerType: 'prompt',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'image.png', '**/*.json'],
       manifest: {
-        name: 'Context Master',
-        short_name: 'ContextMaster',
+        name: 'Claro',
+        short_name: 'Claro',
         description: 'Twoja bezstresowa przestrzeń do ćwiczeń językowych.',
         theme_color: '#fdfaf6',
         background_color: '#fdfaf6',
