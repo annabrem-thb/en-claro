@@ -4,7 +4,7 @@ import { useExerciseVoice } from '../hooks/useExerciseVoice';
 import { useFeedback } from '../hooks/useFeedback';
 
 // 2. Import Constants & Utils
-import { translations } from '../constants/translations';
+import { useTranslation } from '../i18n/i18n';
 import { getExerciseStyles } from '../constants/exerciseStyles';
 
 // 3. Import Exercise Components
@@ -30,7 +30,7 @@ const ExerciseContainer = ({
 }) => {
   // --- A. Setup Shared Logic ---
   const settings = useSettings();
-  const t = translations[language] || translations.en;
+  const t = useTranslation(language);
   const themeStyles = getExerciseStyles(settings.bigTargets, settings.noFlash);
   const { playSound, triggerVibration } = useFeedback();
 

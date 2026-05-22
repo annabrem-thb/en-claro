@@ -9,7 +9,6 @@ import { wordDatabaseDE } from '../data/vocabulary_de.js';
 import { wordDatabaseEN } from '../data/vocabulary_en.js';
 import { wordDatabasePL } from '../data/vocabulary_pl.js';
 import { useTranslation }  from '../i18n/i18n.js';
-import { APP_STRINGS, STRINGS } from '../i18n/strings.js';
 
 import IntroScreen        from './Introscreen.jsx';
 import SettingsModal      from './SettingsModal.jsx';
@@ -20,6 +19,7 @@ import AccessibleTTS      from './common/AccessibleTTS.jsx';
 import TTSController      from './common/TTSController.jsx';
 import SkeletonLoader     from './common/SkeletonLoader.jsx';
 import WeeklyCalendar from './WeeklyCalendar.jsx';
+import SidebarNav         from './SidebarNav.jsx';
 import FeedbackCollector  from './FeedbackCollector.jsx';
 import CognitiveEnergyIndicator from './CognitiveEnergyIndicator.jsx';
 import { saveLog } from '../utils/indexedDB.js';
@@ -35,13 +35,6 @@ import { useRegisterSW } from 'virtual:pwa-register/react';
 const POINTS_PER_LEVEL = 5;
 const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
 const DATABASES = { de: wordDatabaseDE, pl: wordDatabasePL, en: wordDatabaseEN };
-
-const PILLAR_LABELS = {
-  pl: { Literacy: 'Czytanie i Pisanie', Visual: 'Wzrok i Przestrzeń', Cognitive: 'Logika i Pamięć' },
-  en: { Literacy: 'Reading & Writing',  Visual: 'Vision & Space',     Cognitive: 'Logic & Memory' },
-  de: { Literacy: 'Lesen & Schreiben',  Visual: 'Sehen & Raum',       Cognitive: 'Logik & Gedächtnis' },
-};
-const PILLAR_ICONS = { Literacy: '📖', Visual: '👁️', Cognitive: '🧠' };
 
 const THEMES = {
   Natur: { accent: 'text-emerald-600', bg: 'bg-emerald-50', button: 'bg-emerald-500', buttonText: 'text-white',     border: 'border-emerald-200', hex: '#10b981', price: 0  },
@@ -122,17 +115,73 @@ const makeDailyQuests = () => [
   { id: 3, type: 'Any',       target: 10, current: 0, completed: false, reward: 5 },
 ];
 
+// --- Custom Hooks ---
+/**
+ * Encapsulates the logic for tracking cognitive energy, "Error Velocity",
+ * and determining if the user needs a break.
+ */
+function useCognitiveLoad(activeTab, zenModeEnabled) {
+  const [sessionStartTime, setSessionStartTime] = useState(Date.now());
+  const [errorTimestamps, setErrorTimestamps] = useState([]);
+  const [loadLevel, setLoadLevel] = useState('green');
+  const [showBreakModal, setShowBreakModal] = useState(false);
+  const [breakDismissed, setBreakDismissed] = useState(false);
+
+  useEffect(() => {
+    // Resets energy load specifically when user explicitly enters the Garden
+    if (activeTab === 'Garden') {
+      setSessionStartTime(Date.now());
+      setErrorTimestamps([]);
+      setLoadLevel('green');
+      setBreakDismissed(false);
+    }
+  }, [activeTab]);
+
+  // Calculate Cognitive Load using "Error Velocity" (Rolling 3-min window)
+  useEffect(() => {
+    if (activeTab === 'Garden' || zenModeEnabled) return;
+    
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const recentErrors = errorTimestamps.filter(t => now - t < 180000).length;
+      const durationMins = (now - sessionStartTime) / 60000;
+
+      let newLevel = 'green';
+      if (recentErrors >= 4 || durationMins >= 15) newLevel = 'red';
+      else if (recentErrors >= 2 || durationMins >= 7) newLevel = 'yellow';
+
+      setLoadLevel(newLevel);
+
+      if (newLevel === 'red' && !breakDismissed && !showBreakModal) {
+        setShowBreakModal(true);
+      }
+    }, 5000); 
+    return () => clearInterval(interval);
+  }, [errorTimestamps, sessionStartTime, breakDismissed, showBreakModal, activeTab, zenModeEnabled]);
+
+  return {
+    loadLevel, showBreakModal, breakDismissed, setSessionStartTime, 
+    setErrorTimestamps, setLoadLevel, setShowBreakModal, setBreakDismissed
+  };
+}
+
 // --- Main App Component ---
 function AppContent() {
   const [language,         setLanguage]         = useState(() => localStorage.getItem('cfg_lang')  || 'de');
   const [theme,            setTheme]            = useState(() => localStorage.getItem('cfg_theme') || 'Natur');
   const [a11yAddons,       setA11yAddons]       = useState(() => {
-    const sv = localStorage.getItem('cfg_addons'); return sv ? JSON.parse(sv) : [];
+    const sv = localStorage.getItem('cfg_addons');
+    const migrated = localStorage.getItem('cfg_migrated_v3');
+    if (!migrated) {
+      localStorage.setItem('cfg_migrated_v3', 'true');
+      return ['LRS', 'Spacing'];
+    }
+    return sv ? JSON.parse(sv) : ['LRS', 'Spacing'];
   });
-  const { isGamified } = useGamification();
+  const { isGamified, setIsGamified } = useGamification();
   const [inclusiveOptions, setInclusiveOptions] = useState(() => {
     const sv = localStorage.getItem('cfg_inclusive');
-    return sv ? JSON.parse(sv) : { adaptiveDifficulty: false, bigTargets: false, noFlash: false, audioRewards: false, extendedTime: false, zenMode: false, bionicReading: false, minimalistMode: false, muteNotifications: false };
+    return sv ? JSON.parse(sv) : { adaptiveDifficulty: true, bigTargets: false, noFlash: false, audioRewards: false, extendedTime: false, zenMode: false, bionicReading: true, minimalistMode: false, muteNotifications: false, voiceAssistant: false };
   });
   const [dailyGoal, setDailyGoal] = useState(() => Number(localStorage.getItem('cfg_goal')) || 5);
   const [selectedVoiceURI, setSelectedVoiceURI] = useState(() => localStorage.getItem('cfg_voice_uri') || 'default');
@@ -166,15 +215,13 @@ function AppContent() {
     const data  = saved ? JSON.parse(saved) : null;
     return (data && data.date === today) ? data : { date: today, tasks: makeDailyQuests() };
   });
-  const [userDifficulty, setUserDifficulty] = useState(() => Number(localStorage.getItem('cfg_difficulty')) || 1);
+  const [userDifficulty, setUserDifficulty] = useState(() => Number(localStorage.getItem('cfg_difficulty')) || 2);
   const [errorCounter, setErrorCounter] = useState(0);
 
-  // NEW State for Point 4: Cognitive Energy
-  const [sessionStartTime, setSessionStartTime] = useState(Date.now());
-  const [errorTimestamps, setErrorTimestamps] = useState([]);
-  const [loadLevel, setLoadLevel] = useState('green');
-  const [showBreakModal, setShowBreakModal] = useState(false);
-  const [breakDismissed, setBreakDismissed] = useState(false);
+  const { 
+    loadLevel, showBreakModal, setSessionStartTime, setErrorTimestamps, 
+    setLoadLevel, setShowBreakModal, setBreakDismissed 
+  } = useCognitiveLoad(activeTab, inclusiveOptions.zenMode);
 
   // State for PWA Offline Support & Updates
   const {
@@ -191,35 +238,7 @@ function AppContent() {
     if (!isGamified && activeTab === 'Garden') {
       setActiveTab('Literacy');
     }
-    // Resets energy load specifically when user explicitly enters the Garden
-    if (activeTab === 'Garden') {
-      setSessionStartTime(Date.now());
-      setErrorTimestamps([]);
-      setLoadLevel('green');
-      setBreakDismissed(false);
-    }
   }, [isGamified, activeTab]);
-
-  // Calculate Cognitive Load using "Error Velocity" (Rolling 3-min window)
-  useEffect(() => {
-    if (activeTab === 'Garden' || inclusiveOptions.zenMode) return;
-    const interval = setInterval(() => {
-      const now = Date.now();
-      const recentErrors = errorTimestamps.filter(t => now - t < 180000).length;
-      const durationMins = (now - sessionStartTime) / 60000;
-
-      let newLevel = 'green';
-      if (recentErrors >= 4 || durationMins >= 15) newLevel = 'red';
-      else if (recentErrors >= 2 || durationMins >= 7) newLevel = 'yellow';
-
-      setLoadLevel(newLevel);
-
-      if (newLevel === 'red' && !breakDismissed && !showBreakModal) {
-        setShowBreakModal(true);
-      }
-    }, 5000); 
-    return () => clearInterval(interval);
-  }, [errorTimestamps, sessionStartTime, breakDismissed, showBreakModal, activeTab, inclusiveOptions.zenMode]);
 
   // Wyświetlanie Skeleton Loadera przez 300ms za każdym razem, 
   // gdy użytkownik przechodzi do następnego zadania, zmienia zakładkę lub motyw.
@@ -229,10 +248,8 @@ function AppContent() {
     return () => clearTimeout(timer);
   }, [currentIndex, activeTab, theme]);
 
-  const t_hook      = useTranslation(language);
-  // Fallback mechanism: use German as default for any missing translated strings
-  const s           = useMemo(() => ({ ...APP_STRINGS.de, ...STRINGS.de, ...(APP_STRINGS[language] || {}), ...(STRINGS[language] || {}) }), [language]);
-  const t           = useMemo(() => ({ ...t_hook, ...s }), [t_hook, s]);
+  const t = useTranslation(language);
+  const s = t; // Alias 's' pozostawiony dla zgodności z propsami starszych komponentów (np. SidebarNav)
   const db          = DATABASES[language]   || DATABASES.de;
   const themeStyles = THEMES[theme]         || THEMES.Natur;
   const noFlash        = !!(inclusiveOptions.noFlash    || a11yAddons.includes('Redukcja'));
@@ -284,6 +301,7 @@ function AppContent() {
     root.setAttribute('data-a11y-color',    String(a11yAddons.includes('Daltonizm')));
     root.setAttribute('data-a11y-motion',   String(noFlash));
     root.setAttribute('data-a11y-spacing',  String(a11yAddons.includes('Spacing')));
+    root.setAttribute('data-a11y-lrs',      String(a11yAddons.includes('LRS')));
     root.setAttribute('data-a11y-desaturation', String(a11yAddons.includes('Desaturacja')));
     root.setAttribute('data-a11y-minimalist', String(!!inclusiveOptions.minimalistMode));
     root.style.setProperty('--theme-accent', THEMES[theme]?.hex || '#10b981');
@@ -618,6 +636,12 @@ function AppContent() {
       language={language} 
       setLanguage={setLanguage} 
       onStart={() => setShowIntro(false)} 
+          isGamified={isGamified}
+          setIsGamified={setIsGamified}
+          a11yAddons={a11yAddons}
+          setA11yAddons={setA11yAddons}
+          inclusiveOptions={inclusiveOptions}
+          setInclusiveOptions={setInclusiveOptions}
       noFlash={noFlash}
       isHighContrast={isHighContrast}
       bigTargets={bigTargets}
@@ -645,69 +669,28 @@ function AppContent() {
       />
 
       {/* Navigation Sidebar */}
-      <aside className={`w-16 md:w-60 flex flex-col shrink-0 z-40 ${isHighContrast ? 'bg-black border-r border-white/20 shadow-sm' : `bg-[#fdfaf6] border-r ${themeStyles.border} shadow-xl shadow-slate-200/50`}`}>
-        <div className={`p-3 md:p-5 flex items-center gap-2 h-16 ${isHighContrast ? 'border-b border-white/20' : `border-b ${themeStyles.border}`}`}>
-          <span className="text-2xl" aria-hidden="true">🌉</span>
-          <AccessibleTTS text={s.appTitle} speak={speak} className="hidden md:flex">
-            <h1 className={`font-black text-base tracking-tighter ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>{s.appTitle}</h1>
-          </AccessibleTTS>
-        </div>
-        <nav className="flex-1 overflow-y-auto py-3 px-2 md:px-3 flex flex-col gap-1.5" aria-label={s.navAria}>
-          {PILLARS.map(p => {
-            const isSelected     = activeTab === p;
-            const questForPillar = dailyQuests.tasks.find(q => q.type === p);
-            const label          = t.pillars?.[p] || PILLAR_LABELS[language]?.[p] || p;
-            return (
-              <button key={p}
-                  onClick={() => { setActiveTab(p); setLastPillar(p); setCurrentIndex(0); setCycle(0); setFeedback(null); setCurrentStreak(0); }}
-                className={`relative flex items-center justify-center md:justify-start gap-3 ${bigTargets ? 'p-4 md:p-5' : 'p-2.5 md:p-3'} rounded-2xl transition-all ${isSelected ? (isHighContrast ? 'bg-white text-black font-bold' : `${themeStyles.bg} ${themeStyles.accent} font-bold shadow-sm`) : (isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-50')}`}
-                aria-pressed={isSelected}
-                aria-label={label}
-              >
-                <span className={hideNavLabel ? 'text-2xl' : 'text-xl'} aria-hidden="true">{PILLAR_ICONS[p]}</span>
-                {!hideNavLabel && (
-                  <AccessibleTTS text={label} speak={speak} className="hidden md:flex">
-                    <span className="text-xs font-bold uppercase tracking-wider truncate">{label}</span>
-                  </AccessibleTTS>
-                )}
-                {questForPillar && !questForPillar.completed && questForPillar.current > 0 && (
-                  <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-500 rounded-full" aria-hidden="true" />
-                )}
-              </button>
-            );
-          })}
-          <div className={`my-2 border-t ${isHighContrast ? 'border-white/20' : themeStyles.border}`} />
-          {isGamified && (
-            <button
-              onClick={() => { setActiveTab('Garden'); setFeedback(null); }}
-              className={`relative flex items-center justify-center md:justify-start gap-3 ${bigTargets ? 'p-4 md:p-5' : 'p-2.5 md:p-3'} rounded-2xl transition-all ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-bold' : `${themeStyles.bg} ${themeStyles.accent} font-bold shadow-sm`) : (isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-50')}`}
-              aria-pressed={activeTab === 'Garden'}
-              aria-label={t.garden || "Garten"}
-            >
-              <span className={hideNavLabel ? 'text-2xl' : 'text-xl'} aria-hidden="true">
-                {t?.levelIcons?.[theme]?.[0] || '🌱'}
-              </span>
-              {!hideNavLabel && (
-                <AccessibleTTS text={t.garden || "Garten"} speak={speak} className="hidden md:flex">
-                  <span className="text-xs font-bold uppercase tracking-wider truncate">{t.garden || "Garten"}</span>
-                </AccessibleTTS>
-              )}
-            </button>
-          )}
-          <button
-            onClick={() => setSettingsOpen(true)}
-            className={`flex items-center justify-center md:justify-start gap-3 ${bigTargets ? 'p-4 md:p-5' : 'p-2.5 md:p-3'} rounded-2xl transition-all ${isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-100'}`}
-            aria-label={s.settingsAria}
-          >
-            <span className={hideNavLabel ? 'text-2xl' : 'text-xl'} aria-hidden="true">⚙️</span>
-            {!hideNavLabel && (
-              <AccessibleTTS text={s.settingsAria} speak={speak} className="hidden md:flex">
-                <span className="text-xs font-bold uppercase tracking-wider">{s.settingsAria}</span>
-              </AccessibleTTS>
-            )}
-          </button>
-        </nav>
-      </aside>
+      <SidebarNav
+        pillars={PILLARS}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        setLastPillar={setLastPillar}
+        setCurrentIndex={setCurrentIndex}
+        setCycle={setCycle}
+        setFeedback={setFeedback}
+        setCurrentStreak={setCurrentStreak}
+        dailyQuests={dailyQuests}
+        language={language}
+        isGamified={isGamified}
+        theme={theme}
+        themeStyles={themeStyles}
+        isHighContrast={isHighContrast}
+        bigTargets={bigTargets}
+        hideNavLabel={hideNavLabel}
+        setSettingsOpen={setSettingsOpen}
+        t={t}
+        s={s}
+        speak={speak}
+      />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 h-dvh overflow-hidden">
@@ -783,36 +766,6 @@ function AppContent() {
                   </div>
                 </div>
               </div>
-
-              {/* Ręczny Suwak Trudności (Widoczny gdy "Adaptacyjny poziom" i Tryb Zen są wyłączone) */}
-              {!inclusiveOptions.adaptiveDifficulty && !inclusiveOptions.zenMode && (
-                <div className={`${bigTargets ? 'px-5 py-5' : 'px-5 py-3'} mb-4 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm' : `bg-white border ${themeStyles.border} shadow-md shadow-slate-200/50`}`}>
-                  <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white' : 'text-slate-500'}`}>
-                    {t.difficulty || 'Poziom'}: <span className={themeStyles.accent}>{t.diffLevels?.[userDifficulty - 1] || userDifficulty}</span>
-                  </span>
-                  <div className="flex items-center gap-2 w-full sm:w-1/2">
-                    <span className="text-xs" aria-hidden="true">🌱</span>
-                    <input
-                      type="range"
-                      min="1"
-                      max="3"
-                      step="1"
-                      value={userDifficulty}
-                      onChange={(e) => {
-                         setUserDifficulty(Number(e.target.value));
-                         setCurrentIndex(0);
-                         setCycle(0);
-                         setFeedback(null);
-                      }}
-                      className={`flex-1 cursor-pointer ${bigTargets ? 'h-4' : ''}`}
-                      style={{ accentColor: isHighContrast ? '#ffffff' : themeStyles.hex || '#10b981' }}
-                      aria-label={t.difficulty || 'Trudność'}
-                      aria-valuetext={t.diffLevels?.[userDifficulty - 1] || userDifficulty}
-                    />
-                    <span className="text-xs" aria-hidden="true">🌳</span>
-                  </div>
-                </div>
-              )}
 
               {/* Active Exercise Card */}
               <section 

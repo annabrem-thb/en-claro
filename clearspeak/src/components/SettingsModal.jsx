@@ -10,7 +10,7 @@
 //  • NEW: Added voice selection for TTS
 
 import React, { useState, useEffect, useRef } from 'react';
-import { STRINGS } from '../i18n/strings.js';
+import { useTranslation } from '../i18n/i18n.js';
 import { useGamification } from './GamificationContext.jsx';
 import { getAllLogs } from '../utils/indexedDB.js';
 import { useMonthlyStats } from '../hooks/useMonthlyStats.js';
@@ -26,6 +26,12 @@ const THEME_CONFIG = {
 
 // ─── A11y add-on profiles (multi-select, on top of LRS base) ─────────────────
 const A11Y_ADDONS = [
+  {
+    key: 'LRS',
+    icon: '🅰️',
+    color: 'violet',
+    tags: ['wzrok'],
+  },
   {
     key: 'Kontrast',
     icon: '🌗',
@@ -92,6 +98,7 @@ const INCLUSIVE_OPTIONS = [
 
 // ─── Color map ────────────────────────────────────────────────────────────────
 const COLOR = {
+  violet: { ring: 'border-violet-400 bg-violet-50', text: 'text-violet-700', badge: 'bg-violet-100 text-violet-600', dot: 'bg-violet-400' },
   yellow: { ring: 'border-yellow-400 bg-yellow-50', text: 'text-yellow-700', badge: 'bg-yellow-100 text-yellow-600', dot: 'bg-yellow-400' },
   orange: { ring: 'border-orange-400 bg-orange-50', text: 'text-orange-700', badge: 'bg-orange-100 text-orange-600', dot: 'bg-orange-400' },
   blue:   { ring: 'border-blue-400 bg-blue-50',     text: 'text-blue-700',   badge: 'bg-blue-100 text-blue-600',    dot: 'bg-blue-400'   },
@@ -210,8 +217,7 @@ function SettingsModal({
 
   if (!open) return null;
 
-  // Key-by-key fallback: if a string is missing in the current language, use Polish
-  const s = { ...STRINGS.pl, ...(STRINGS[language] || {}) };
+  const s = useTranslation(language);
 
   // ─── A11y add-on toggle ─────────────────────────────────────────────────
   const toggleAddon = (key) => {
@@ -709,29 +715,7 @@ function SettingsModal({
 
           {activeTab === 'a11y' && (
             <div className="flex flex-col gap-6 animate-in fade-in duration-300">
-              {/* ── 3. A11Y BASE (always-on, informational) ──────────────────── */}
-              <section>
-                <SectionLabel isHighContrast={isHighContrast}>{s.a11yBase}</SectionLabel>
-                {/* LRS base — non-interactive, always active */}
-                <div className={`flex items-center gap-3 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 ${isHighContrast ? 'border-white bg-black' : 'border-violet-300 bg-violet-50'}`}>
-                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-2xl shrink-0 border shadow-sm ${isHighContrast ? 'bg-black border-white' : 'bg-white border-violet-200'}`} aria-hidden="true">
-                    🅰️
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className={`text-xs font-black uppercase tracking-wider ${isHighContrast ? 'text-white' : 'text-violet-700'}`}>LRS</span>
-              <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest rounded-full px-2 py-0.5 ${isHighContrast ? 'bg-white text-black' : 'bg-violet-400 text-white'}`}>
-                        ✓ {s.active}
-                      </span>
-                    </div>
-            <span className={`text-xs font-medium leading-tight block mt-1 break-words ${isHighContrast ? 'text-white/80' : 'text-violet-600'}`}>
-                      {s.a11yBaseDesc}
-                    </span>
-                  </div>
-                </div>
-              </section>
     
-              {/* ── 4. A11Y ADD-ONS (multi-select) ───────────────────────────── */}
               <section>
                 <SectionLabel isHighContrast={isHighContrast} sub={s.a11yAddonsDesc}>{s.a11yAddons}</SectionLabel>
                 <div className="flex flex-col gap-2">

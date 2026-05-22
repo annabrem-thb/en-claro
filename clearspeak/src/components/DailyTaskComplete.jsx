@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useGamification } from './GamificationContext';
 import { useConfig } from '../useConfig';
+import { useTranslation } from '../i18n/i18n';
 
 /**
  * DailyTaskComplete Component
@@ -56,17 +57,17 @@ export default function DailyTaskComplete({ isOpen, onClose }) {
         <header className="text-center mb-8" aria-live="polite">
           <span className="text-6xl block mb-4" aria-hidden="true">🌟</span>
           <h1 id="completion-title" className="text-3xl font-black mb-2">
-            Excellent Effort Today!
+          {dtc.title || 'Excellent Effort Today!'}
           </h1>
           <p id="completion-description" className={`text-sm font-medium ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>
-            You have completed your daily practice. Your consistency is building strong foundations.
+          {dtc.desc || 'You have completed your daily practice. Your consistency is building strong foundations.'}
           </p>
         </header>
 
         {/* Choice Selection (Autonomy) */}
         <div className="mb-8">
           <h2 className="text-xs font-black uppercase tracking-widest text-center mb-4 opacity-70">
-            Choose your next reward to grow
+          {dtc.chooseReward || 'Choose your next reward to grow'}
           </h2>
           
           <ul className="flex flex-col gap-3" role="radiogroup" aria-label="Available plants to grow">
@@ -109,7 +110,7 @@ export default function DailyTaskComplete({ isOpen, onClose }) {
               : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-xl')
           }`}
         >
-          Plant Seed & Continue
+        {dtc.plantSeed || 'Plant Seed & Continue'}
         </button>
       </section>
     </div>

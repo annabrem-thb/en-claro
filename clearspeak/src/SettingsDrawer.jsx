@@ -3,9 +3,8 @@ import { useConfig } from './useConfig';
 import { useTranslation } from './i18n';
 
 const THEME_KEYS = ['Musik', 'Natur', 'Kunst'];
-const PROFILE_KEYS = ['Standard', 'LRS']; // Zostawiamy tylko tryby bazowe
+const PROFILE_KEYS = ['Standard', 'LRS'];
 
-// Konfiguracja dla dodatków dostępności (Addons)
 const ADDON_KEYS = [
   { key: 'contrast', profileKey: 'Kontrast', icon: '🌗', ring: 'ring-yellow-400', bg: 'bg-yellow-50', text: 'text-yellow-700' },
   { key: 'motorik', profileKey: 'Motorik', icon: '🖐️', ring: 'ring-rose-400', bg: 'bg-rose-50', text: 'text-rose-700' },
@@ -38,18 +37,15 @@ const PROFILE_ACCENT = {
 };
 
 export default function SettingsDrawer({ open, onClose, isGamified, setIsGamified }) {
-  // Pobieramy nowe właściwości a11ySettings i toggleA11ySetting
   const { theme, setTheme, accessibility, setAccessibility, language, setLanguage, a11ySettings, toggleA11ySetting } = useConfig();
   const t = useTranslation(language);
 
-  // Close the drawer pane when the Escape key is pressed
   useEffect(() => {
     const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
     if (open) window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [open, onClose]);
 
-  // Disable background scrolling while the settings drawer is active
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -57,7 +53,6 @@ export default function SettingsDrawer({ open, onClose, isGamified, setIsGamifie
 
   return (
     <>
-      {/* Blurred Backdrop Overlay */}
       <div
         onClick={onClose}
         className={`fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-opacity duration-300 ${
@@ -65,7 +60,6 @@ export default function SettingsDrawer({ open, onClose, isGamified, setIsGamifie
         }`}
       />
 
-      {/* Main Settings Panel Wrapper */}
       <aside
         className={`fixed top-0 right-0 z-50 h-full w-full max-w-sm bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-out ${
           open ? 'translate-x-0' : 'translate-x-full'
@@ -74,12 +68,11 @@ export default function SettingsDrawer({ open, onClose, isGamified, setIsGamifie
         role="dialog"
         aria-label={t.settingsTitle}
       >
-        {/* Drawer Header Toolbar */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 shrink-0">
           <div>
             <h2 className="font-black text-slate-800 text-lg">{t.settingsTitle}</h2>
             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">
-              SprachFlow · Barrierefreie Gamification
+              {t.settingsSubtitle}
             </p>
           </div>
           <button
@@ -91,10 +84,8 @@ export default function SettingsDrawer({ open, onClose, isGamified, setIsGamifie
           </button>
         </div>
 
-        {/* Scrollable Configuration Container */}
         <div className="flex-1 overflow-y-auto px-6 py-5 space-y-8">
 
-          {/* --- Interface Language Selection Component --- */}
           <section>
             <SectionLabel>{t.languageLabel}</SectionLabel>
             <div className="grid grid-cols-3 gap-2">
@@ -115,7 +106,6 @@ export default function SettingsDrawer({ open, onClose, isGamified, setIsGamifie
             </div>
           </section>
 
-          {/* --- Application Version Mode Toggle (Gamified vs. Standard) --- */}
           <section>
             <SectionLabel>{t.versionGamified}</SectionLabel>
             <div className="flex gap-2">
@@ -124,7 +114,7 @@ export default function SettingsDrawer({ open, onClose, isGamified, setIsGamifie
                 onClick={() => setIsGamified(false)}
                 emoji="📖"
                 label={t.versionBase}
-                sublabel="Basis-Modus"
+                sublabel={t.versionBaseSub}
                 activeClass="border-slate-400 bg-slate-50 text-slate-700 ring-2 ring-slate-200"
               />
               <ModeButton
@@ -132,13 +122,12 @@ export default function SettingsDrawer({ open, onClose, isGamified, setIsGamifie
                 onClick={() => setIsGamified(true)}
                 emoji="🎮"
                 label={t.versionGamified}
-                sublabel="Punkte & Belohnungen"
+                sublabel={t.versionGamifiedSub}
                 activeClass="border-teal-400 bg-teal-50 text-teal-700 ring-2 ring-teal-200"
               />
             </div>
           </section>
 
-          {/* --- Active Theme Configuration (Visible only in Gamified Mode) --- */}
           <section className={`transition-opacity duration-200 ${isGamified ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
             <SectionLabel>{t.settingsTheme}</SectionLabel>
             <div className="grid gap-2">
@@ -170,7 +159,6 @@ export default function SettingsDrawer({ open, onClose, isGamified, setIsGamifie
             </div>
           </section>
 
-          {/* --- Accessibility Profile Settings Grid --- */}
           <section>
             <SectionLabel>{t.settingsAccessibility}</SectionLabel>
             <div className="grid grid-cols-2 gap-2">
@@ -198,12 +186,10 @@ export default function SettingsDrawer({ open, onClose, isGamified, setIsGamifie
             </div>
           </section>
 
-          {/* --- Dodatki Dostępności (A11y Addons) --- */}
           <section>
-            <SectionLabel>{t.a11yAddons || "Dodatki dostępności"}</SectionLabel>
+            <SectionLabel>{t.a11yAddons}</SectionLabel>
             <div className="flex flex-col gap-2">
               {ADDON_KEYS.map(({ key, profileKey, icon, ring, bg, text }) => {
-                // Odzyskujemy opisy ze starego obiektu t.profiles (żeby nie pisać i18n na nowo)
                 const profile = t.profiles[profileKey];
                 const isActive = a11ySettings?.[key];
                 
@@ -235,13 +221,11 @@ export default function SettingsDrawer({ open, onClose, isGamified, setIsGamifie
             </div>
           </section>
 
-          {/* Thesis Information Footer (Static display elements remain in German) */}
           <div className="pb-6 text-center">
             <p className="text-[10px] text-slate-500 font-medium uppercase tracking-widest leading-relaxed">
-              Masterarbeit<br />
-              Barrierefreie Gamification & Voice-Integration<br />
-              in einer PWA zur Unterstützung sprachtherapeutischer<br />
-              Übungen bei LRS
+              {t.thesisInfo.split('\n').map((line, i) => (
+                <React.Fragment key={i}>{line}<br /></React.Fragment>
+              ))}
             </p>
           </div>
         </div>

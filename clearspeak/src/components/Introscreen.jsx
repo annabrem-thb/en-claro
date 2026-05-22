@@ -7,39 +7,69 @@ import React from 'react';
 const INTRO_STRINGS = {
   pl: {
     title:    'Context Master',
-    subtitle: 'Twoja bezstresowa przestrzeń do ćwiczeń. Rozwijaj się i zdobywaj nagrody we własnym tempie!',
-    chooseLanguage: 'Wybierz język',
+    subtitle: 'Twoja bezpieczna przestrzeń do rozwoju! Wybierz tryb i narzędzia:',
+    chooseLanguage: 'Język',
+    appMode: 'Tryb',
+    modeClassic: 'Tylko nauka',
+    modeGamified: 'Gra (nagrody)',
+    a11y: 'Narzędzia komfortu',
+    lrs: 'Przyjazna czcionka',
+    contrast: 'Kontrast',
+    vision: 'Większy tekst',
+    big: 'Wygodne przyciski',
+    spacing: 'Większe odstępy',
+    ruler: 'Linijka skupienia',
+    color: 'Bezpieczne kolory',
+    motion: 'Spokojny ekran',
+    desaturation: 'Łagodne barwy',
+    bionic: 'Bionic',
+    voice: 'Asystent',
+    zen: 'Tryb Zen',
     start:    'Rozpocznij',
-    features: [
-      { icon: '🌱', text: 'Przyjazne i spokojne środowisko' },
-      { icon: '🎮', text: 'Grywalizacja bez presji czasu' },
-      { icon: '♿', text: 'Pełna dostępność wizualna' },
-    ],
-    next: 'Dalej',
   },
   en: {
     title:    'Context Master',
-    subtitle: 'Your stress-free space for therapy. Grow and earn rewards at your own pace!',
-    chooseLanguage: 'Choose language',
-    start:    'Start Journey',
-    features: [
-      { icon: '🌱', text: 'Calm & friendly environment' },
-      { icon: '🎮', text: 'Gamification without time pressure' },
-      { icon: '♿', text: 'Full visual accessibility' },
-    ],
-    next: 'Next',
+    subtitle: 'Your safe space to grow! Choose mode and tools:',
+    chooseLanguage: 'Language',
+    appMode: 'Mode',
+    modeClassic: 'Study only',
+    modeGamified: 'Game (rewards)',
+    a11y: 'Comfort Tools',
+    lrs: 'Friendly font',
+    contrast: 'Contrast',
+    vision: 'Larger text',
+    big: 'Comfort buttons',
+    spacing: 'Wider spacing',
+    ruler: 'Focus ruler',
+    color: 'Safe colors',
+    motion: 'Calm screen',
+    desaturation: 'Soft colors',
+    bionic: 'Bionic',
+    voice: 'Voice Assist',
+    zen: 'Zen Mode',
+    start:    'Start',
   },
   de: {
     title:    'Context Master',
-    subtitle: 'Dein stressfreier Raum für Übungen. Wachse und sammle Belohnungen in deinem eigenen Tempo!',
-    chooseLanguage: 'Sprache wählen',
+    subtitle: 'Dein sicherer Raum zum Wachsen! Wähle Modus und Werkzeuge:',
+    chooseLanguage: 'Sprache',
+    appMode: 'Modus',
+    modeClassic: 'Nur lernen',
+    modeGamified: 'Spiel (Belohnungen)',
+    a11y: 'Komfort-Tools',
+    lrs: 'Klare Schrift',
+    contrast: 'Kontrast',
+    vision: 'Größerer Text',
+    big: 'Komfort-Tasten',
+    spacing: 'Mehr Abstand',
+    ruler: 'Fokus-Lineal',
+    color: 'Sichere Farben',
+    motion: 'Ruhiger Bildschirm',
+    desaturation: 'Sanfte Farben',
+    bionic: 'Bionic',
+    voice: 'Assistent',
+    zen: 'Zen-Modus',
     start:    'Starten',
-    features: [
-      { icon: '🌱', text: 'Ruhige & freundliche Umgebung' },
-      { icon: '🎮', text: 'Gamifizierung ohne Zeitdruck' },
-      { icon: '♿', text: 'Volle visuelle Barrierefreiheit' },
-    ],
-    next: 'Weiter',
   },
 };
 
@@ -53,10 +83,52 @@ const LANGUAGES = [
 function IntroScreen({ 
   language, setLanguage,
   onStart, 
+  isGamified, setIsGamified,
+  a11yAddons = [], setA11yAddons,
+  inclusiveOptions = {}, setInclusiveOptions,
   noFlash = false, isHighContrast = false, bigTargets = false 
 }) {
   const s = INTRO_STRINGS[language] || INTRO_STRINGS.de;
-  const bounceClass = noFlash ? '' : 'animate-bounce';
+
+  const toggleAddon = (addon) => {
+    if (setA11yAddons) {
+      if (a11yAddons.includes(addon)) {
+        setA11yAddons(a11yAddons.filter(a => a !== addon));
+      } else {
+        setA11yAddons([...a11yAddons, addon]);
+      }
+    }
+  };
+
+  const toggleInclusive = (opt) => {
+    if (setInclusiveOptions) {
+      setInclusiveOptions(prev => ({ ...prev, [opt]: !prev[opt] }));
+    }
+  };
+
+  const hasLRS = a11yAddons.includes('LRS');
+  const hasContrast = a11yAddons.includes('Kontrast');
+  const hasVision = a11yAddons.includes('Niedowidzenie');
+  const hasMotorik = a11yAddons.includes('Motorik');
+  const hasSpacing = a11yAddons.includes('Spacing');
+  const hasRuler = a11yAddons.includes('Linijka');
+  const hasColor = a11yAddons.includes('Daltonizm');
+  const hasMotion = a11yAddons.includes('Redukcja');
+  const hasDesaturation = a11yAddons.includes('Desaturacja');
+  
+  const hasBionic = !!inclusiveOptions?.bionicReading;
+  const hasVoice = !!inclusiveOptions?.voiceAssistant;
+  const hasZen = !!inclusiveOptions?.zenMode;
+
+  const A11yBtn = ({ active, onClick, icon, label }) => (
+    <button 
+      onClick={onClick} 
+      className={`${bigTargets ? 'py-3' : 'py-2 sm:py-2.5'} px-1 rounded-xl border-2 font-bold text-[10px] sm:text-[11px] leading-tight transition-all flex flex-col items-center justify-center gap-1 active:scale-95 ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm') : (isHighContrast ? 'border-white/30 text-white/50 hover:border-white/50' : 'border-slate-100 text-slate-500 hover:border-slate-300')}`}
+    >
+      <span aria-hidden="true" className="text-lg sm:text-xl mb-0.5">{icon}</span>
+      <span className="text-center">{label}</span>
+    </button>
+  );
 
   return (
     <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 overflow-hidden ${isHighContrast ? 'bg-black' : 'bg-[#fdfaf6]'}`}>
@@ -70,15 +142,15 @@ function IntroScreen({
 
       {/* --- MAIN GLASSMORPHISM PANEL --- */}
       {/* This container acts as a protective "glass" card, ensuring high contrast for LRS users */}
-      <div className={`relative z-10 flex flex-col items-center w-full max-w-md px-4 sm:px-6 py-8 rounded-[2.5rem] shadow-2xl text-center transition-all max-h-[95vh] overflow-y-auto ${
+      <div className={`relative z-10 flex flex-col items-center w-full max-w-lg px-5 sm:px-8 py-6 sm:py-8 rounded-[2rem] shadow-2xl text-center transition-all max-h-[98vh] overflow-y-auto ${
         isHighContrast 
           ? 'bg-black border-2 border-white' 
           : 'bg-white/90 backdrop-blur-md border border-slate-200'
       }`}>
 
         <div className="w-full flex flex-col items-center animate-in fade-in zoom-in duration-500">
-          {/* Logo animation */}
-          <div className={`text-5xl sm:text-6xl mb-2 drop-shadow-lg ${bounceClass}`} aria-hidden="true">🧩</div>
+          {/* Application Icon */}
+          <div className="text-5xl sm:text-6xl mb-3 drop-shadow-lg" aria-hidden="true">🧠</div>
 
           {/* Main App Title */}
           <h1 className={`text-3xl sm:text-4xl font-black mb-2 tracking-tighter drop-shadow-md ${isHighContrast ? 'text-white' : 'text-indigo-700'}`}>
@@ -86,33 +158,20 @@ function IntroScreen({
           </h1>
           
           {/* Motivating Subtitle */}
-          <p className={`text-[11px] sm:text-xs font-medium mb-4 max-w-xs leading-relaxed ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>
+          <p className={`text-xs sm:text-sm font-bold mb-4 max-w-sm leading-snug ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>
             {s.subtitle}
           </p>
 
-            {/* Feature Highlights */}
-            <div className="flex flex-col gap-2 mb-5 w-full">
-              {s.features.map((f, i) => (
-                <div
-                  key={i}
-                  className={`flex items-center gap-3 rounded-2xl px-4 py-2 sm:py-3 text-left transition-colors ${isHighContrast ? 'bg-white/10' : 'bg-slate-100 hover:bg-slate-200'}`}
-                >
-                  <span className="text-xl" aria-hidden="true">{f.icon}</span>
-                  <span className={`text-sm font-medium ${isHighContrast ? 'text-white' : 'text-slate-700'}`}>{f.text}</span>
-                </div>
-              ))}
-            </div>
-
             {/* Language Selection */}
-            <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-3">
+            <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1.5 w-full text-left sm:text-center">
               {s.chooseLanguage}
             </p>
-            <div className="grid grid-cols-3 gap-2 mb-8 w-full">
+            <div className="grid grid-cols-3 gap-2 mb-4 w-full">
               {LANGUAGES.map(({ code, flag, label }) => (
                 <button
                   key={code}
                   onClick={() => setLanguage(code)}
-                  className={`flex flex-col items-center gap-1 rounded-2xl border-2 transition-all active:scale-95 ${bigTargets ? 'py-4' : 'py-2 sm:py-3'} ${
+                  className={`flex flex-row items-center justify-center gap-2 rounded-xl border-2 font-bold text-[11px] sm:text-xs transition-all active:scale-95 ${bigTargets ? 'py-3.5' : 'py-2.5 sm:py-3'} ${
                     language === code
                       ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-md shadow-indigo-500/10'}`
                       : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300'}`
@@ -120,18 +179,70 @@ function IntroScreen({
                   aria-pressed={language === code}
                   lang={code}
                 >
-                  <span className="text-xl sm:text-2xl drop-shadow-md" aria-hidden="true">{flag}</span>
-                  <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider">{label}</span>
+                  <span className="text-base sm:text-lg drop-shadow-md" aria-hidden="true">{flag}</span>
+                  <span className="uppercase tracking-wider">{label}</span>
                 </button>
               ))}
             </div>
 
+            {/* App Mode Selection */}
+            <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1.5 w-full text-left sm:text-center">
+              {s.appMode}
+            </p>
+            <div className="grid grid-cols-2 gap-2 mb-4 w-full">
+              <button
+                onClick={() => setIsGamified(false)}
+                className={`flex flex-row items-center justify-center gap-2 rounded-xl border-2 font-bold text-[11px] sm:text-xs transition-all active:scale-95 ${bigTargets ? 'py-3' : 'py-2 sm:py-2.5'} ${
+                  !isGamified
+                    ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-md'}`
+                    : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300'}`
+                }`}
+                aria-pressed={!isGamified}
+              >
+                <span className="text-base sm:text-lg drop-shadow-sm" aria-hidden="true">📖</span>
+                <span className="uppercase tracking-wider text-center">{s.modeClassic}</span>
+              </button>
+              <button
+                onClick={() => setIsGamified(true)}
+                className={`flex flex-row items-center justify-center gap-2 rounded-xl border-2 font-bold text-[11px] sm:text-xs transition-all active:scale-95 ${bigTargets ? 'py-3' : 'py-2 sm:py-2.5'} ${
+                  isGamified
+                    ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md'}`
+                    : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-emerald-300'}`
+                }`}
+                aria-pressed={isGamified}
+              >
+                <span className="text-base sm:text-lg drop-shadow-sm" aria-hidden="true">🎮</span>
+                <span className="uppercase tracking-wider text-center">{s.modeGamified}</span>
+              </button>
+            </div>
+
+            {/* Accessibility Selection */}
+            <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1.5 w-full text-left sm:text-center">
+              {s.a11y}
+            </p>
+            <div className="grid grid-cols-3 gap-2 mb-6 w-full">
+              <A11yBtn active={hasLRS} onClick={() => toggleAddon('LRS')} icon="🅰️" label={s.lrs} />
+              <A11yBtn active={hasSpacing} onClick={() => toggleAddon('Spacing')} icon="🔠" label={s.spacing} />
+              <A11yBtn active={hasVision} onClick={() => toggleAddon('Niedowidzenie')} icon="🔍" label={s.vision} />
+              
+              <A11yBtn active={hasBionic} onClick={() => toggleInclusive('bionicReading')} icon="👁️" label={s.bionic} />
+              <A11yBtn active={hasRuler} onClick={() => toggleAddon('Linijka')} icon="📏" label={s.ruler} />
+              <A11yBtn active={hasVoice} onClick={() => toggleInclusive('voiceAssistant')} icon="🗣️" label={s.voice} />
+              
+              <A11yBtn active={hasContrast} onClick={() => toggleAddon('Kontrast')} icon="🌗" label={s.contrast} />
+              <A11yBtn active={hasColor} onClick={() => toggleAddon('Daltonizm')} icon="🎨" label={s.color} />
+              <A11yBtn active={hasDesaturation} onClick={() => toggleAddon('Desaturacja')} icon="🌫️" label={s.desaturation} />
+              
+              <A11yBtn active={hasMotorik} onClick={() => toggleAddon('Motorik')} icon="🖐️" label={s.big} />
+              <A11yBtn active={hasMotion} onClick={() => toggleAddon('Redukcja')} icon="⏸️" label={s.motion} />
+              <A11yBtn active={hasZen} onClick={() => toggleInclusive('zenMode')} icon="🧘" label={s.zen} />
+            </div>
 
             {/* Start Button */}
             <button
               onClick={onStart}
-              className={`w-full sm:w-auto font-black uppercase tracking-wide transition-all active:scale-95 rounded-3xl ${
-                bigTargets ? 'px-12 py-5 text-xl' : 'px-12 py-3 sm:py-4 text-lg'
+              className={`w-full font-black uppercase tracking-widest transition-all active:scale-95 rounded-2xl mt-2 ${
+                bigTargets ? 'py-5 text-lg sm:text-xl' : 'py-3.5 sm:py-4 text-base sm:text-lg'
               } ${isHighContrast ? 'bg-emerald-400 text-black hover:bg-emerald-300' : 'bg-emerald-500 hover:bg-emerald-400 text-white shadow-xl shadow-emerald-900/60'}`}
             >
               {s.start}

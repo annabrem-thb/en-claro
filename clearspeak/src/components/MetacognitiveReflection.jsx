@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useGamification } from './GamificationContext';
 import { useConfig } from '../useConfig';
+import { useTranslation } from '../i18n/i18n';
 
 /**
  * MetacognitiveReflection Component
@@ -12,15 +13,17 @@ import { useConfig } from '../useConfig';
  */
 export default function MetacognitiveReflection({ onReflectionComplete }) {
   const { completeDailyTask } = useGamification();
-  const { a11ySettings } = useConfig();
+  const { a11ySettings, language } = useConfig();
+  const t = useTranslation(language);
   const isHighContrast = a11ySettings?.contrast;
   
   const [selectedRating, setSelectedRating] = useState(null);
+  const refl = t.reflection || {};
 
   const RATING_OPTIONS = [
-    { id: 'difficult', label: 'Difficult', icon: '⛰️', desc: 'I need more time' },
-    { id: 'manageable', label: 'Manageable', icon: '🚶', desc: 'I am getting there' },
-    { id: 'easy', label: 'Easy', icon: '🚀', desc: 'I felt confident' }
+    { id: 'difficult', label: refl.options?.difficult?.label || 'Difficult', icon: '⛰️', desc: refl.options?.difficult?.desc || 'I need more time' },
+    { id: 'manageable', label: refl.options?.manageable?.label || 'Manageable', icon: '🚶', desc: refl.options?.manageable?.desc || 'I am getting there' },
+    { id: 'easy', label: refl.options?.easy?.label || 'Easy', icon: '🚀', desc: refl.options?.easy?.desc || 'I felt confident' }
   ];
 
   const handleSubmit = () => {
@@ -39,11 +42,11 @@ export default function MetacognitiveReflection({ onReflectionComplete }) {
       <div className="text-6xl mb-6" aria-hidden="true">🧠</div>
       
       <h2 className={`text-2xl sm:text-3xl font-black text-center mb-3 ${isHighContrast ? 'text-white' : 'text-slate-800'}`} aria-live="polite">
-        A moment of reflection
+        {refl.title || 'A moment of reflection'}
       </h2>
       
       <p className={`text-center font-medium mb-12 max-w-sm ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>
-        There are no grades here. How comfortable did you feel completing this exercise?
+        {refl.desc || 'There are no grades here. How comfortable did you feel completing this exercise?'}
       </p>
 
       {/* Metacognitive Choices */}
@@ -83,7 +86,7 @@ export default function MetacognitiveReflection({ onReflectionComplete }) {
               : (isHighContrast ? 'bg-white text-black hover:bg-slate-200 shadow-lg' : 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-xl')
           }`}
         >
-          Save & Water Plant
+          {refl.save || 'Save & Water Plant'}
         </button>
       </div>
 

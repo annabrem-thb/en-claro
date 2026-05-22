@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App.jsx';
 
-// Mockowanie zależności, aby wyizolować logikę komponentu głównego (App.jsx)
 vi.mock('./Introscreen.jsx', () => ({ default: ({ onStart }) => (
   <div data-testid="intro-screen">
     <button onClick={onStart}>Start</button>
@@ -34,7 +33,6 @@ vi.mock('./common/SkeletonLoader.jsx', () => ({ default: () => <div data-testid=
 
 describe('Komponent Główny - App', () => {
   beforeEach(() => {
-    // Czyszczenie localStorage przed każdym testem gwarantuje, że startujemy "od zera"
     localStorage.clear();
     vi.clearAllMocks();
   });
@@ -50,11 +48,9 @@ describe('Komponent Główny - App', () => {
     const startButton = screen.getByText('Start');
     fireEvent.click(startButton);
     
-    // Sprawdzamy czy nawigacja oraz domyślne komponenty ładują się poprawnie
     expect(screen.getByRole('navigation')).toBeInTheDocument();
     expect(screen.getByTestId('tts-controller')).toBeInTheDocument();
     
-    // Ponieważ isGamified === true, aplikacja powinna wejść domyślnie w "Ogród"
     expect(screen.getByTestId('virtual-garden')).toBeInTheDocument();
   });
 
@@ -63,14 +59,12 @@ describe('Komponent Główny - App', () => {
     
     fireEvent.click(screen.getByText('Start'));
     
-    // Otwarcie Ustawień (za pomocą ikonki / nawigacji)
     const settingsButton = screen.getByText('⚙️').closest('button');
     expect(settingsButton).toBeInTheDocument();
     fireEvent.click(settingsButton);
     
     expect(screen.getByTestId('settings-modal')).toBeInTheDocument();
     
-    // Zamykanie Modala
     const closeSettingsButton = screen.getByText('Close Settings');
     fireEvent.click(closeSettingsButton);
     expect(screen.queryByTestId('settings-modal')).not.toBeInTheDocument();

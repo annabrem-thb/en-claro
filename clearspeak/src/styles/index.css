@@ -1,0 +1,36 @@
+@import "tailwindcss";
+@import "./fonts.css";
+@import "./a11y.css";
+
+:root {
+  --dyn-font-family: 'OpenDyslexic', Helvetica, Arial, Verdana, sans-serif;
+  --dyn-line-height: 1.65;
+  --dyn-word-spacing: 0.15em;
+  --dyn-letter-spacing: 0.04em;
+  --dyn-font-size: 18px;
+}
+
+@layer base {
+  body {
+    background-color: #FDFBF7;
+    color: #333333;
+    font-family: var(--dyn-font-family);
+    letter-spacing: var(--dyn-letter-spacing);
+    word-spacing: var(--dyn-word-spacing);
+    line-height: var(--dyn-line-height);
+    font-size: var(--dyn-font-size);
+    -webkit-font-smoothing: antialiased;
+    text-align: left !important;
+  }
+
+  em, i {
+    font-style: normal;
+    font-weight: 700;
+    color: #4338ca;
+  }
+
+  *:focus-visible {
+    outline: 4px solid #818cf8;
+    outline-offset: 4px;
+  }
+}

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const GamificationContext = createContext();
 
@@ -20,7 +20,14 @@ export function GamificationProvider({ children }) {
   const [unlockedRewards, setUnlockedRewards] = useState([]);
   
   // Legacy support for the app's base mode toggle (Gamified vs Minimalist)
-  const [isGamified, setIsGamified] = useState(true);
+  const [isGamified, setIsGamified] = useState(() => {
+    const saved = localStorage.getItem('cfg_gamified');
+    return saved !== null ? JSON.parse(saved) : false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('cfg_gamified', JSON.stringify(isGamified));
+  }, [isGamified]);
 
   // Action: Triggered when a user successfully finishes an exercise module
   const completeDailyTask = () => {

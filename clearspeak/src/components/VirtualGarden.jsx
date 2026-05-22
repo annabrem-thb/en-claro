@@ -1,5 +1,4 @@
 import React, { useMemo, useState, useEffect } from 'react';
-// Upewnij się, że masz zainstalowane: npm install lottie-react
 import Lottie from 'lottie-react'; 
 
 import WeeklyCalendar from './WeeklyCalendar.jsx';
@@ -21,12 +20,9 @@ export default function VirtualGarden({
   minimalistMode = false,
   dailyGoal
 }) {
-  // 1. Ecosystem Mapping Logic
   const ecosystemState = useMemo(() => {
-    // Map total points to the main plant's structural growth
     const growthLevel = Math.floor(points / 5);
     
-    // Map pillars to specific visual elements across ALL themes (Organic Progress Visualization)
     const themeCategoryVisuals = {
       Natur: {
         Literacy:  ['🌿', '🌿', '🪴', '🎋', '🌳'],
@@ -55,7 +51,6 @@ export default function VirtualGarden({
       }
     };
 
-    // Pick the visual progression based on the current theme and active exercise category
     const themeIcons = (activeCategory && themeCategoryVisuals[theme]?.[activeCategory])
       ? themeCategoryVisuals[theme][activeCategory]
       : (t?.levelIcons?.[theme] || ['🌿', '☘️', '🌳', '🌲', '🏔️']);
@@ -66,7 +61,6 @@ export default function VirtualGarden({
     const plantVisual = themeIcons[stageIndex];
     const plantName = themeStages[stageIndex];
 
-    // Map completed optional quests to blooming flowers
     const completedModules = dailyQuests?.tasks?.filter(t => t.completed).length || 0;
     
     const questIconsByTheme = {
@@ -79,31 +73,27 @@ export default function VirtualGarden({
     const questIcon = questIconsByTheme[theme] || '🏅';
     const flowers = Array.from({ length: completedModules }).map(() => questIcon);
 
-    // Map consistency (streak) to environmental fauna based on theme and points
     const visitorsByTheme = {
-      Natur: ['💧', '🌬️', '☀️', '⭐', '🌙'], // Weather/Nature phenomena
-      Musik: ['🎵', '🎶', '🎼', '🎤', '🎧'], // Music symbols
-      Kunst: ['💡', '🖌️', '🎨', '💎', '🏆'], // Art/Idea symbols
-      Space: ['☄️', '🛸', '🛰️', '🚀', '🪐'], // Space objects
-      Ocean: ['🌊', '⚓', '🧭', '🚢', '🏝️'], // Sea/Navigation symbols
+      Natur: ['💧', '🌬️', '☀️', '⭐', '🌙'],
+      Musik: ['🎵', '🎶', '🎼', '🎤', '🎧'],
+      Kunst: ['💡', '🖌️', '🎨', '💎', '🏆'],
+      Space: ['☄️', '🛸', '🛰️', '🚀', '🪐'],
+      Ocean: ['🌊', '⚓', '🧭', '🚢', '🏝️'],
     };
     
     const themeVisitors = visitorsByTheme[theme] || visitorsByTheme.Natur;
     const hasVisitor = streak >= 3;
     
-    // Pick a visitor that evolves as the plant grows
     const visitorIndex = Math.min(growthLevel, themeVisitors.length - 1);
     const visitor = hasVisitor ? themeVisitors[visitorIndex] : '';
 
     return { plantVisual, plantName, flowers, hasVisitor, visitor, completedModules, themeVisitors };
   }, [points, streak, dailyQuests, theme, t, activeCategory]);
 
-  // Asynchroniczne ładowanie pliku JSON z animacją Lottie
   const [visitorAnimation, setVisitorAnimation] = useState(null);
   
   useEffect(() => {
     if (ecosystemState.hasVisitor) {
-      // 1. Zdefiniuj mapowanie motywów na nazwy plików animacji
       const animationMap = {
         Natur: 'visitor-natur',
         Space: 'visitor-space',
@@ -112,19 +102,16 @@ export default function VirtualGarden({
         Ocean: 'visitor-ocean',
       };
 
-      // 2. Wybierz plik animacji na podstawie motywu, z domyślnym fallbackiem
       const animationFile = animationMap[theme] || 'visitor-natur';
 
-      // 3. Użyj dynamicznego importu z szablonem, aby załadować właściwy plik
       import(`../assets/animations/${animationFile}.json`)
         .then((module) => {
           setVisitorAnimation(module.default);
         })
         .catch((error) => console.warn(`Nie udało się załadować animacji Lottie dla motywu '${theme}':`, error));
     }
-  }, [ecosystemState.hasVisitor, theme]); // Dodaj 'theme' do zależności, aby animacja zmieniała się z motywem
+  }, [ecosystemState.hasVisitor, theme]);
 
-  // 3. Asynchroniczne ładowanie podsumowania wysiłku z IndexedDB
   const [todayStats, setTodayStats] = useState(null);
   const [maxStreak, setMaxStreak] = useState(0);
 
@@ -137,7 +124,6 @@ export default function VirtualGarden({
         const logs = await getAllLogs('exercise_history');
         if (!isMounted) return;
         
-        // Wyciągnięcie dzisiejszych logów na bazie daty ISO
         const todayStr = new Date().toISOString().split('T')[0];
         const todayLogs = logs.filter(log => log.date.startsWith(todayStr));
 
@@ -149,7 +135,6 @@ export default function VirtualGarden({
           setTodayStats(stats);
         }
           
-          // Obliczanie historycznego najdłuższego ciągu (maxStreak)
           const uniqueDates = [...new Set(logs.map(log => log.date.split('T')[0]))].sort();
           let calcCurrentStreak = 0;
           let calcHighestStreak = 0;
@@ -179,9 +164,8 @@ export default function VirtualGarden({
     };
     fetchStats();
     return () => { isMounted = false; };
-  }, [isFullScreen, points]); // Odśwież, jeśli użytkownik wraca po zdobyciu punktów
+  }, [isFullScreen, points]);
 
-  // Unikalne przedmioty-pomniki odblokowywane na podstawie najdłuższej serii (maxStreak)
   const earnedTrophies = useMemo(() => {
     const themeMonuments = {
       Natur: [ { req: 3, icon: '🪨' }, { req: 7, icon: '🍄' }, { req: 14, icon: '⛲' }, { req: 30, icon: '🗿' } ],
@@ -194,13 +178,11 @@ export default function VirtualGarden({
     return monuments.filter(m => maxStreak >= m.req);
   }, [maxStreak, theme]);
 
-  // 2. Accessibility Screen Reader Text (WCAG Compliant)
   const srText = `${t.srPlantFeature || 'Deine Reise beinhaltet aktuell ein(e)'} ${ecosystemState.plantName}. 
     ${ecosystemState.completedModules > 0 ? `${t.srDailyRewards || 'Es hat'} ${ecosystemState.completedModules} ${t.srRewardsCount || 'tägliche Belohnungen.'}` : ''} 
     ${ecosystemState.hasVisitor ? (t.srVisitor || 'Ein freundlicher Besucher hat sich dir aufgrund deiner beständigen Übung angeschlossen.') : ''}
-    ${earnedTrophies.length > 0 ? `Dzięki wytrwałości w ogrodzie pojawiły się ${earnedTrophies.length} unikalne obiekty.` : ''}`;
+    ${earnedTrophies.length > 0 && t.srTrophies ? t.srTrophies.replace('{count}', earnedTrophies.length) : ''}`;
 
-  // Dynamic classes based on full screen state
   const containerClasses = isFullScreen
     ? `relative flex flex-col items-center justify-center gap-8 w-full h-full p-6 sm:p-10 rounded-4xl transition-all duration-1000 ${isHighContrast ? 'bg-black border-2 border-white' : `bg-white border-2 border-slate-100 shadow-sm`}`
     : `relative flex items-center justify-start gap-3 flex-1 h-12 px-3 rounded-2xl border transition-all duration-700 ${isHighContrast ? 'bg-transparent border-white/30' : `bg-slate-50 border-slate-200`}`;
@@ -212,7 +194,6 @@ export default function VirtualGarden({
 
   return (
     <div className={containerClasses} aria-label="Progress Bar">
-      {/* Screen Reader Only Announcement */}
       <div className="sr-only" aria-live="polite">
         {srText}
       </div>
@@ -227,10 +208,7 @@ export default function VirtualGarden({
       ) : (
         <>
 
-      {/* Visual Garden Elements (Hidden from Screen Readers to avoid emoji clutter) */}
       <div className={`flex ${isFullScreen ? 'flex-col justify-center' : 'items-center'} gap-4 w-full`} aria-hidden="true">
-        {/* Main Plant */}
-        {/* Minimalist D-UI: Usunięcie 'drop-shadow-lg' dla zachowania czystości obrazu */}
         <div 
           key={ecosystemState.plantVisual}
           className={`${plantTextSize} ${noFlash ? '' : 'animate-in fade-in duration-1000'}`}
@@ -238,7 +216,6 @@ export default function VirtualGarden({
           {ecosystemState.plantVisual}
         </div>
 
-        {/* Blooming Flowers based on daily quests */}
         <div className={`flex flex-wrap ${isFullScreen ? 'justify-center gap-4' : 'gap-0.5 items-center'}`}>
           {ecosystemState.flowers.map((flower, i) => (
             <span 
@@ -251,7 +228,6 @@ export default function VirtualGarden({
           ))}
         </div>
         
-        {/* Unikalne przedmioty (Monuments) za maxStreak */}
         {isFullScreen && earnedTrophies.length > 0 && (
           <div className="flex flex-wrap justify-center gap-6 mt-4 md:mt-6">
             {earnedTrophies.map((trophy, i) => (
@@ -267,7 +243,6 @@ export default function VirtualGarden({
         )}
       </div>
 
-      {/* Consistency Fauna (Streak Visitor) */}
       {ecosystemState.hasVisitor && (
         <div 
           key={ecosystemState.visitor}
@@ -283,7 +258,6 @@ export default function VirtualGarden({
                 style={{ width: isFullScreen ? 120 : 60, height: isFullScreen ? 120 : 60 }}
               /> 
             ) : (
-              // Zapasowy wariant (emoji), dopóki animacja się nie załaduje lub jeśli wystąpi błąd
               ecosystemState.visitor
             )}
           </div>
@@ -292,7 +266,6 @@ export default function VirtualGarden({
         </>
       )}
 
-      {/* Extended Text Only For Full Screen Dashboard */}
       {isFullScreen && (
         <div className="flex flex-col items-center gap-2 mt-8 animate-in fade-in duration-1000 delay-500">
           <h2 className={`text-xl md:text-2xl font-bold uppercase tracking-widest ${isHighContrast ? 'text-white' : 'text-slate-600'}`}>
@@ -314,22 +287,21 @@ export default function VirtualGarden({
             theme={theme}
           />
           
-          {/* Daily Non-Punitive Effort Summary */}
           {todayStats && todayStats.total > 0 && (
             <div className={`w-full max-w-xs mt-6 p-5 rounded-3xl border-2 transition-all animate-in slide-in-from-bottom-4 duration-700 delay-700 ${isHighContrast ? 'bg-black border-white/30 text-white' : 'bg-white border-slate-100 shadow-sm text-slate-700'}`}>
               <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 text-center">
-                {t.dailySummary || 'Dzisiejsza aktywność'}
+                {t.dailySummary}
               </h3>
               <div className="flex flex-col gap-3">
                 {Object.entries(todayStats.byType).map(([type, count]) => (
                   <div key={type} className="flex items-center justify-between text-sm">
                     <span className={`font-bold ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>{t.categories?.[type] || t.pillars?.[type] || type}</span>
-                    <span className={`font-black ${isHighContrast ? 'text-white' : themeStyles?.accent || ''}`}>{count} {t.exercisesCount || 'ćwiczeń'}</span>
+                    <span className={`font-black ${isHighContrast ? 'text-white' : themeStyles?.accent || ''}`}>{count} {t.exercisesCount}</span>
                   </div>
                 ))}
                 <div className={`h-px my-1 ${isHighContrast ? 'bg-white/20' : 'bg-slate-100'}`} />
                 <div className="flex items-center justify-between text-sm">
-                  <span className={`font-black uppercase text-xs tracking-widest ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{t.totalEffort || 'Suma'}</span>
+                  <span className={`font-black uppercase text-xs tracking-widest ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{t.totalEffort}</span>
                   <span className={`font-black text-lg ${isHighContrast ? 'text-white' : themeStyles?.accent || ''}`}>{todayStats.total}</span>
                 </div>
               </div>

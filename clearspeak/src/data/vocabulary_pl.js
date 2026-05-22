@@ -1,25 +1,14 @@
-// vocabularyPL.js — version for dyslexic adults v2
-// 15 items per category
-// Focus: Polish spelling traps (u/ó, rz/ż, ch/h, nie/-, -bym),
-//            phonetics of difficult consonant clusters, professional word segmentation,
-//            spatial orientation and auditory memory.
-// Hint language: PL / EN / DE
-
 export const wordDatabasePL = {
-  // ─────────────────────────────────────────────────────────────────────────────
-  // CATEGORY: PHONEME
-  // Difficult words for adults: consonant clusters, nasal vowels, palatalization.
-  // ─────────────────────────────────────────────────────────────────────────────
   phonemes: [
     {
       id: 1,
       word: 'Chrząszcz',
-      difficulty: 3, // 1=łatwe, 2=średnie, 3=trudne
+      difficulty: 3,
       phonetic: '/ xʂɔ̃ʂt͡ʂ /',
       hints: {
-        pl: 'Owad z twardą pokrywą na skrzydłach, np. leśny żuk',
-        en: 'Beetle — forest insect with hard wing covers',
-        de: 'Käfer — Waldinsekt mit harten Flügeldecken',
+        pl: 'Drobny owad z twardymi pokrywami skrzydeł',
+        en: 'Beetle — famous Polish tongue twister',
+        de: 'Käfer — bekannter polnischer Zungenbrecher',
       },
     },
     {
@@ -181,10 +170,6 @@ export const wordDatabasePL = {
     },
   ],
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // CATEGORY: GRAPHEME
-  // 15 spelling rules most commonly confused by dyslexic adults.
-  // ─────────────────────────────────────────────────────────────────────────────
   graphemes: [
     {
       id: 1,
@@ -197,7 +182,7 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Stół', isCorrect: true, icon: '🪑' },
-        { text: 'Góra', isCorrect: false, icon: '⛰️' },
+        { text: 'Krój', isCorrect: false, icon: '✂️' },
       ],
     },
     {
@@ -398,10 +383,6 @@ export const wordDatabasePL = {
     },
   ],
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // CATEGORY: SYLLABLES
-  // Adult vocabulary words — professional, administrative, everyday.
-  // ─────────────────────────────────────────────────────────────────────────────
   syllables: [
     {
       id: 1,
@@ -513,10 +494,6 @@ export const wordDatabasePL = {
     },
   ],
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // CATEGORY: WORTBILD (word image / scrabble)
-  // Words with difficult spelling — non-alternating or ambiguous spelling.
-  // ─────────────────────────────────────────────────────────────────────────────
   scrabble: [
     { id: 1, difficulty: 1, word: 'ŻÓŁW', scrambled: ['Ż', 'Ó', 'Ł', 'W'], distractors: ['U', 'R'], image: '🐢' },
     {
@@ -538,9 +515,9 @@ export const wordDatabasePL = {
     {
       id: 4,
       difficulty: 2,
-      word: 'WŁAŚCICIEL',
-      scrambled: ['W', 'Ł', 'A', 'Ś', 'C', 'I', 'C', 'I', 'E', 'L'],
-      distractors: ['S', 'Ć'],
+      word: 'DYREKTOR',
+      scrambled: ['D', 'Y', 'R', 'E', 'K', 'T', 'O', 'R'],
+      distractors: ['P', 'W'],
       image: '👔',
     },
     {
@@ -693,11 +670,6 @@ export const wordDatabasePL = {
     },
   ],
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // CATEGORY: CONTEXT
-  // 15 sentences with adult vocabulary — professional, administrative, everyday.
-  // Tested traps: homophones, the nie- rule, -bym, nasal vowels, ó/u, rz/ż.
-  // ─────────────────────────────────────────────────────────────────────────────
   context: [
     {
       id: 1,
@@ -725,8 +697,8 @@ export const wordDatabasePL = {
         { text: 'może', isCorrect: false },
       ],
       hints: {
-        pl: "Akwen wodny (np. Bałtyckie), pisany przez 'rz'",
-        en: 'the sea — a body of salt water',
+        pl: "Morze to wielki zbiornik wodny",
+        en: "Sea - large body of water",
       },
     },
     {
@@ -918,11 +890,6 @@ export const wordDatabasePL = {
     },
   ],
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // CATEGORY: CLOCK
-  // 15 tasks on reading an analog clock.
-  // hourRotation and minuteRotation = degrees clockwise from 12:00.
-  // ─────────────────────────────────────────────────────────────────────────────
   clock: [
     {
       id: 1,
@@ -1136,12 +1103,7 @@ export const wordDatabasePL = {
     },
   ],
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // CATEGORY: SEQUENCES
-  // Chronological, procedural, and auditory ordering — adult vocabulary.
-  // ─────────────────────────────────────────────────────────────────────────────
   sequences: [
-    // Working memory
     {
       id: 'mem_span_1',
       difficulty: 1,
@@ -1152,7 +1114,6 @@ export const wordDatabasePL = {
       displayTime: 3000,
     },
 
-    // Chronology and semantics
     {
       id: 1,
       difficulty: 1,
@@ -1174,13 +1135,12 @@ export const wordDatabasePL = {
 
     {
       id: 3,
-      difficulty: 1,
-      instruction: 'Ułóż miesiące I kwartału po kolei',
-      scrambled: ['Marzec', 'Styczeń', 'Luty'],
-      distractors: ['Kwiecień'],
-      correct: ['Styczeń', 'Luty', 'Marzec'],
+      difficulty: 2,
+      tags: ['business'],
+      instruction: 'Ułóż miesiące czwartego kwartału po kolei',
+      scrambled: ['Grudzień', 'Październik', 'Listopad'],
+      correct: ['Październik', 'Listopad', 'Grudzień'],
     },
-
     {
       id: 4,
       difficulty: 2,
@@ -1267,7 +1227,6 @@ export const wordDatabasePL = {
       correct: ['Umowa', 'Urlop', 'Wynagrodzenie', 'Zarząd'],
     },
 
-    // Auditory sequences (audioPrompt)
     {
       id: 11,
       difficulty: 3,
@@ -1308,7 +1267,6 @@ export const wordDatabasePL = {
 
     {
       id: 15,
-      difficulty: 2,
       instruction: 'Epoki historyczne Polski — od najstarszej',
       scrambled: [
         'Dwudziestolecie Międzywojenne',
@@ -1325,10 +1283,6 @@ export const wordDatabasePL = {
     },
   ],
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // CATEGORY: TRACKING (spatial orientation)
-  // Lateralization, distinguishing b/d/p/q, up/down, visual categories.
-  // ─────────────────────────────────────────────────────────────────────────────
   tracking: [
     {
       id: 1,
@@ -1572,10 +1526,6 @@ export const wordDatabasePL = {
     },
   ],
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // CATEGORY: LOOK, COVER, WRITE, CHECK (LCWC)
-  // Metacognitive spelling practice for difficult adult vocabulary.
-  // ─────────────────────────────────────────────────────────────────────────────
   lcwc: [
     { id: 1, lcwc: true, difficulty: 1, word: 'Harmonogram' },
     { id: 2, lcwc: true, difficulty: 2, word: 'Zarządzanie' },
@@ -1589,9 +1539,6 @@ export const wordDatabasePL = {
     { id: 10, lcwc: true, difficulty: 2, word: 'Zarządzenie' },
   ],
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // CATEGORY: VISUAL CATEGORIZATION
-  // ─────────────────────────────────────────────────────────────────────────────
   categorization: [
     {
       id: 1,
@@ -1626,8 +1573,8 @@ export const wordDatabasePL = {
     },
     {
       id: 3,
-      difficulty: 1,
-      instruction: 'Pogrupuj słowa na rzeczowniki i czasowniki',
+      difficulty: 2,
+      instruction: 'Przyporządkuj słowa do odpowiedniej części mowy',
       buckets: [
         { id: 'rz', label: 'Rzeczownik (Kto/Co?)', icon: '📦' },
         { id: 'cz', label: 'Czasownik (Co robi?)', icon: '🏃' }
@@ -1642,7 +1589,7 @@ export const wordDatabasePL = {
     {
       id: 4,
       difficulty: 2,
-      instruction: 'Słowa pisane przez "h" i "ch"',
+      instruction: 'Podział słów na pisane przez "h" i "ch"',
       buckets: [
         { id: 'h', label: 'Samo H', icon: '📝' },
         { id: 'ch', label: 'Dwuznak CH', icon: '📝' }
@@ -1656,10 +1603,6 @@ export const wordDatabasePL = {
     }
   ],
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // CATEGORY: DICTATION
-  // Dyktanda ze słuchu (wymaga odtworzenia dźwięku i ręcznego wpisania tekstu)
-  // ─────────────────────────────────────────────────────────────────────────────
   dictation: [
     {
       id: 1,
