@@ -153,23 +153,23 @@ function SettingsModal({
   useEffect(() => {
     if (!window.speechSynthesis) return;
     const loadVoices = () => {
-      const availableVoices = window.speechSynthesis.getVoices();
+      const availableVoices = window.speechSynthesis?.getVoices?.() || [];
       if (availableVoices.length > 0) {
         setVoices(availableVoices);
       }
     };
     loadVoices();
 
-      if (window.speechSynthesis.addEventListener) {
+      if (window.speechSynthesis?.addEventListener) {
         window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
-      } else {
+      } else if (window.speechSynthesis) {
         window.speechSynthesis.onvoiceschanged = loadVoices;
       }
 
       return () => {
-        if (window.speechSynthesis.removeEventListener) {
+        if (window.speechSynthesis?.removeEventListener) {
           window.speechSynthesis.removeEventListener('voiceschanged', loadVoices);
-        } else {
+        } else if (window.speechSynthesis) {
           window.speechSynthesis.onvoiceschanged = null;
         }
       };

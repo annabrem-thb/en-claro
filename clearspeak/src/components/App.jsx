@@ -301,7 +301,7 @@ function AppContent() {
     msg.rate   = (slow || inclusiveOptions.extendedTime) ? voiceSpeed * 0.65 : voiceSpeed;
     msg.pitch  = voicePitch;
 
-    const allVoices = window.speechSynthesis.getVoices();
+    const allVoices = window.speechSynthesis?.getVoices?.() || [];
     let selectedVoice = null;
 
     if (selectedVoiceURI && selectedVoiceURI !== 'default') {
