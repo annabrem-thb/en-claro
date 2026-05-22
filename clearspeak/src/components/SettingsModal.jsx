@@ -80,20 +80,6 @@ const A11Y_ADDONS = [
   },
 ];
 
-// ─── Inclusive gamification extras & Premium Accessibility ───────────────────
-const INCLUSIVE_OPTIONS = [
-  { key: 'adaptiveDifficulty', icon: '🎯' },
-  { key: 'bigTargets',         icon: '🟢' },
-  { key: 'noFlash',            icon: '🚫' },
-  { key: 'audioRewards',       icon: '🔔' },
-  { key: 'extendedTime',       icon: '⏱️' },
-  { key: 'voiceAssistant',     icon: '🗣️' }, // NEW: Voice Assistant
-  { key: 'zenMode',            icon: '🧘' }, // NEW: Zen Mode
-  { key: 'bionicReading',      icon: '👁️' }, // NEW: Bionic Reading
-  { key: 'minimalistMode',     icon: '🧹' }, // NEW: Minimalist View
-  { key: 'muteNotifications',  icon: '🔕' }, // NEW: Mute Notifications
-];
-
 // ─── Color map ────────────────────────────────────────────────────────────────
 const COLOR = {
   violet: { ring: 'border-violet-400 bg-violet-50', text: 'text-violet-700', badge: 'bg-violet-100 text-violet-600', dot: 'bg-violet-400' },
@@ -211,11 +197,6 @@ function SettingsModal({
       setUnlockedThemes((prev) => [...prev, themeKey]);
       setTheme(themeKey);
     }
-  };
-
-  // ─── Toggle inclusive option ────────────────────────────────────────────
-  const toggleInclusive = (key) => {
-    setInclusiveOptions?.((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   const langCode = { pl: 'pl-PL', en: 'en-US', de: 'de-DE' }[language];
@@ -449,44 +430,6 @@ function SettingsModal({
                   })}
                 </div>
               </section>
-
-              {/* ── 4. INCLUSIVE GAMIFICATION ────────────────────────────────── */}
-              {isGamified && (
-                <section>
-                  <SectionLabel isHighContrast={isHighContrast} sub={s.gamificationDesc}>{s.gamificationTitle}</SectionLabel>
-                  <div className="flex flex-col gap-2">
-                    {INCLUSIVE_OPTIONS.map((opt) => {
-                      const isOn = !!inclusiveOptions?.[opt.key];
-                      const info = s.inclusive[opt.key] || { name: opt.key, desc: '' };
-                      return (
-                        <button
-                          key={opt.key}
-                          onClick={() => toggleInclusive(opt.key)}
-                          className={`flex items-center gap-3 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 transition-all active:scale-[0.98] text-left ${
-                            isOn
-                              ? (isHighContrast ? 'border-white bg-white/20 text-white shadow-sm' : 'border-indigo-300 bg-indigo-50 shadow-sm')
-                              : (isHighContrast ? 'border-white/30 bg-black text-white/70 hover:border-white/60' : 'border-slate-100 bg-white hover:border-slate-200')
-                          }`}
-                          aria-pressed={isOn}
-                        >
-                          <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0 border ${
-                            isOn ? (isHighContrast ? 'bg-black border-white' : 'bg-white border-indigo-200') : (isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100')
-                      }`} aria-hidden="true">
-                            {opt.icon}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <span className={`text-xs font-black uppercase tracking-wider block ${isOn ? (isHighContrast ? 'text-white' : 'text-indigo-700') : (isHighContrast ? 'text-white/70' : 'text-slate-700')}`}>
-                              {info.name}
-                            </span>
-                    <span className={`text-xs font-medium leading-tight mt-1 block break-words ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{info.desc}</span>
-                          </div>
-                          <Toggle on={isOn} isHighContrast={isHighContrast} />
-                        </button>
-                      );
-                    })}
-                  </div>
-                </section>
-              )}
             </div>
           )}
 
@@ -578,7 +521,7 @@ function SettingsModal({
                     const isUnlocked = unlockedThemes.includes(themeKey);
                     const isSelected = theme === themeKey;
                     const canAfford  = coins >= config.cost;
-                    const localName  = s.themes[themeKey] || themeKey;
+                  const localName  = s.themes[themeKey]?.name || themeKey;
 
                     return (
                       <button
