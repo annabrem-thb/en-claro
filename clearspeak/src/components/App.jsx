@@ -41,12 +41,19 @@ const THEMES = {
   Ocean: { accent: 'text-cyan-600',    bg: 'bg-cyan-50',    button: 'bg-cyan-500',    buttonText: 'text-cyan-950',  border: 'border-cyan-200',    hex: '#06b6d4', price: 10 },
 };
 
+// Globalna instancja w celu ominięcia rygorystycznych limitów AudioContext przeglądarek
+let sharedAudioCtx = null;
+
 // Function synthesizing unique sounds for themes using Web Audio API
 const playThemeSound = (theme) => {
   try {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     if (!AudioContext) return;
-    const ctx = new AudioContext();
+    if (!sharedAudioCtx) {
+      sharedAudioCtx = new AudioContext();
+    }
+    if (sharedAudioCtx.state === 'suspended') sharedAudioCtx.resume();
+    const ctx = sharedAudioCtx;
     const now = ctx.currentTime;
     
     const playTone = (freq, type, startTime, duration, vol) => {
@@ -644,7 +651,7 @@ function AppContent() {
 
   // --- Render Main Application Layout ---
   return (
-    <div className={`flex h-dvh w-full overflow-hidden ${isHighContrast ? 'bg-black text-white' : 'bg-[#fdfaf6] text-slate-800'}`}>
+    <div className={`flex h-screen h-dvh w-full overflow-hidden ${isHighContrast ? 'bg-black text-white' : 'bg-[#fdfaf6] text-slate-800'}`}>
 
       {/* Navigation Sidebar */}
       <SidebarNav
@@ -667,7 +674,7 @@ function AppContent() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-dvh overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 h-screen h-dvh overflow-hidden">
         <main 
           className={`flex-1 flex flex-col min-h-0 overflow-y-auto px-3 md:px-6 py-4 mx-auto w-full max-w-xl ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
           onTouchStart={onTouchStart}

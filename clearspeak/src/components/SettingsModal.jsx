@@ -12,8 +12,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n/i18n.js';
 import { useGamification } from './GamificationContext.jsx';
-import { getAllLogs } from '../utils/indexedDB.js';
-import { useMonthlyStats } from '../hooks/useMonthlyStats.js';
 
 // ─── Theme shop config ────────────────────────────────────────────────────────
 const THEME_CONFIG = {
@@ -144,48 +142,11 @@ function SettingsModal({
   const [voices, setVoices] = useState([]);
   const [userSelectedTab, setUserSelectedTab] = useState('general');
 
-  // --- Profile / Chart state ---
-  const now = new Date();
-  const [chartYear, setChartYear] = useState(now.getFullYear());
-  const [chartMonth, setChartMonth] = useState(now.getMonth() + 1);
-  const { stats: monthlyStats, maxCount, maxStreak, loading: statsLoading } = useMonthlyStats(chartYear, chartMonth);
-
   // If gamification is turned off while the user is on the "Game" tab,
   // derive the active tab to be "general" to avoid showing an empty screen.
-  const activeTab = (!isGamified && (userSelectedTab === 'game' || userSelectedTab === 'shop'))
+  const activeTab = (!isGamified && userSelectedTab === 'shop')
     ? 'general'
     : userSelectedTab;
-
-  // --- NOWE: Stan i pobieranie danych do wykresu błędów ---
-  const [errorStats, setErrorStats] = useState([]);
-  const [errorStatsLoading, setErrorStatsLoading] = useState(true);
-
-  useEffect(() => {
-    if (activeTab !== 'profile') return;
-    let isMounted = true;
-    setErrorStatsLoading(true);
-    
-    getAllLogs('exercise_history').then(logs => {
-      if (!isMounted) return;
-      const daysInMonth = new Date(chartYear, chartMonth, 0).getDate();
-      const dailyData = Array.from({ length: daysInMonth }, (_, i) => ({ day: i + 1, errors: 0 }));
-      
-      logs.forEach(log => {
-        if (log.correct === false && log.date) {
-          const d = new Date(log.date);
-          if (d.getFullYear() === chartYear && (d.getMonth() + 1) === chartMonth) {
-            dailyData[d.getDate() - 1].errors += 1;
-          }
-        }
-      });
-      
-      setErrorStats(dailyData);
-      setErrorStatsLoading(false);
-    }).catch(() => { if (isMounted) setErrorStatsLoading(false); });
-    return () => { isMounted = false; };
-  }, [chartYear, chartMonth, activeTab]);
-
-  const maxErrors = Math.max(...errorStats.map(d => d.errors), 0);
 
   // --- Swipe-to-close logic ---
   const touchStart = useRef(null);
@@ -204,6 +165,7 @@ function SettingsModal({
   
   // ─── Load available TTS voices ──────────────────────────────────────────
   useEffect(() => {
+    if (!window.speechSynthesis) return;
     const loadVoices = () => {
       const availableVoices = window.speechSynthesis.getVoices();
       if (availableVoices.length > 0) {
@@ -211,8 +173,20 @@ function SettingsModal({
       }
     };
     loadVoices();
-    window.speechSynthesis.onvoiceschanged = loadVoices;
-    return () => { window.speechSynthesis.onvoiceschanged = null; };
+
+      if (window.speechSynthesis.addEventListener) {
+        window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
+      } else {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+      }
+
+      return () => {
+        if (window.speechSynthesis.removeEventListener) {
+          window.speechSynthesis.removeEventListener('voiceschanged', loadVoices);
+        } else {
+          window.speechSynthesis.onvoiceschanged = null;
+        }
+      };
   }, []);
 
   if (!open) return null;
@@ -270,53 +244,6 @@ function SettingsModal({
     window.speechSynthesis.speak(msg);
   };
 
-  // ─── Export NASA-TLX logs to CSV ─────────────────────────────────────────
-  const handleExportCSV = async () => {
-    const logs = await getAllLogs('ux_logs').catch(() => []);
-    
-    let exportData = logs;
-    if (exportData.length === 0) {
-      const wantTest = window.confirm((s.noDataToExport || 'No data to export') + '\n\nCzy chcesz wygenerować testowy plik, aby sprawdzić pobieranie?');
-      if (!wantTest) return;
-      
-      // Generowanie sztucznych danych testowych, aby potwierdzić działanie funkcji
-      exportData = [{
-        timestamp: new Date().toISOString(),
-        pointsAtTime: 10,
-        metrics: { mental: 4, effort: 3, frustration: 2, attractiveness: 4, stimulation: 5 }
-      }];
-    }
-
-    const headers = ['Timestamp', 'Points At Time', 'Mental Demand', 'Effort', 'Frustration', 'Attractiveness', 'Stimulation'];
-    const csvRows = [headers.join(',')];
-
-    for (const log of exportData) {
-      const row = [
-        log.timestamp,
-        log.pointsAtTime,
-        log.metrics?.mental || '',
-        log.metrics?.effort || '',
-        log.metrics?.frustration || '',
-        log.metrics?.attractiveness || '',
-        log.metrics?.stimulation || ''
-      ];
-      csvRows.push(row.join(','));
-    }
-
-    const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.style.display = 'none';
-    link.href = url;
-    link.setAttribute('download', `ux_evaluation_logs_${new Date().toISOString().split('T')[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    setTimeout(() => {
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    }, 100);
-  };
-
   return (
     <div
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-sm"
@@ -357,15 +284,6 @@ function SettingsModal({
           {/* Tabs */}
           <div className={`flex p-1 rounded-2xl mb-4 overflow-x-auto ${isHighContrast ? 'bg-white/20' : 'bg-slate-200/50'}`}>
             <button
-              onClick={() => setUserSelectedTab('profile')}
-              aria-current={activeTab === 'profile' ? 'step' : undefined}
-              className={`flex-1 min-w-[70px] ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-3 ${
-                activeTab === 'profile' ? (isHighContrast ? 'bg-black border border-white text-white' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
-              }`}
-            >
-              {s.profile || 'Profil'}
-            </button>
-            <button
               onClick={() => setUserSelectedTab('general')}
               aria-current={activeTab === 'general' ? 'step' : undefined}
                 className={`flex-1 ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-2 ${
@@ -383,137 +301,18 @@ function SettingsModal({
               >
                 {s.tabVoice}
               </button>
-              <button
-              onClick={() => setUserSelectedTab('a11y')}
-              aria-current={activeTab === 'a11y' ? 'step' : undefined}
-                className={`flex-1 ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-2 ${
-                activeTab === 'a11y' ? (isHighContrast ? 'bg-black border border-white text-white' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
-              }`}
-            >
-              {s.tabA11y}
-            </button>
             {isGamified && (
-                <>
-                  <button
-                    onClick={() => setUserSelectedTab('game')}
-                    aria-current={activeTab === 'game' ? 'step' : undefined}
-                    className={`flex-1 ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-2 ${ activeTab === 'game' ? (isHighContrast ? 'bg-black border border-white text-white' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700') }`}
-                  >{s.tabGame}</button>
                   <button
                     onClick={() => setUserSelectedTab('shop')}
                     aria-current={activeTab === 'shop' ? 'step' : undefined}
                     className={`flex-1 ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-2 ${ activeTab === 'shop' ? (isHighContrast ? 'bg-black border border-white text-white' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700') }`}
                   >{s.tabShop}</button>
-                </>
             )}
           </div>
         </div>
 
         {/* ── Scrollable body ─────────────────────────────────────────────── */}
         <div className="p-5 overflow-y-auto flex flex-col gap-6 overscroll-contain">
-
-          {activeTab === 'profile' && (
-            <div className="flex flex-col gap-6 animate-in fade-in duration-300">
-              <section>
-                <SectionLabel isHighContrast={isHighContrast} sub={s.dailySummary || 'Twoja miesięczna aktywność'}>{s.profile || 'Profil'}</SectionLabel>
-                
-                <div className={`${bigTargets ? 'p-6 sm:p-8' : 'p-4 sm:p-5'} rounded-3xl border-2 flex flex-col gap-4 ${isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100'}`}>
-                  <div className="flex justify-between items-center">
-                    <button onClick={() => { setChartMonth(m => m === 1 ? 12 : m - 1); setChartYear(y => chartMonth === 1 ? y - 1 : y); }} className={`w-8 h-8 rounded-full shadow-sm flex items-center justify-center active:scale-90 transition-all ${isHighContrast ? 'bg-black border border-white text-white hover:bg-white/20' : 'bg-white text-slate-400 hover:text-slate-600'}`}>◀</button>
-                    <span className={`font-black text-sm tracking-widest ${isHighContrast ? 'text-white' : 'text-slate-700'}`}>{chartYear} - {String(chartMonth).padStart(2, '0')}</span>
-                    <button onClick={() => { setChartMonth(m => m === 12 ? 1 : m + 1); setChartYear(y => chartMonth === 12 ? y + 1 : y); }} className={`w-8 h-8 rounded-full shadow-sm flex items-center justify-center active:scale-90 transition-all ${isHighContrast ? 'bg-black border border-white text-white hover:bg-white/20' : 'bg-white text-slate-400 hover:text-slate-600'}`}>▶</button>
-                  </div>
-
-                  {statsLoading ? (
-                    <div className={`h-40 flex items-center justify-center text-xs font-bold animate-pulse ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}>
-                      ...
-                    </div>
-                  ) : (
-                    <div className="h-40 flex items-end justify-between gap-[2px] sm:gap-1 mt-2 relative">
-                      {monthlyStats.map((d) => {
-                        const heightPct = maxCount > 0 ? Math.max((d.count / maxCount) * 100, d.count > 0 ? 5 : 0) : 0;
-                        const isToday = now.getFullYear() === chartYear && (now.getMonth() + 1) === chartMonth && now.getDate() === d.day;
-                        
-                        return (
-                          <div key={d.day} className="flex-1 flex flex-col items-center justify-end gap-1 h-full group relative">
-                            {d.count > 0 && (
-                              <span className={`absolute -top-7 text-[9px] font-black px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none shadow-md ${isHighContrast ? 'bg-white text-black' : 'bg-slate-800 text-white'}`}>
-                                {d.count}
-                              </span>
-                            )}
-                            <div 
-                              className={`w-full rounded-t-sm transition-all duration-700 delay-100 ${d.count === 0 ? 'bg-transparent' : isToday ? (isHighContrast ? 'bg-white border-2 border-b-0 border-white' : 'bg-indigo-500 shadow-sm') : (isHighContrast ? 'bg-white/50' : 'bg-emerald-400 hover:bg-emerald-300')}`}
-                              style={{ height: `${heightPct}%` }}
-                              aria-label={`Dzień ${d.day}: ${d.count} ćwiczeń`}
-                            />
-                            {/* Oś X - wyświetlana tylko dla pierwszego i co 5-go dnia */}
-                            {(d.day % 5 === 0 || d.day === 1) ? (
-                              <span className={`text-[8px] font-bold ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{d.day}</span>
-                            ) : (
-                              <span className="text-[8px] text-transparent select-none">{d.day}</span>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-                
-                {/* Longest Streak Indicator */}
-                {!statsLoading && (
-                  <div className={`mt-4 border-2 ${bigTargets ? 'p-6' : 'p-4'} rounded-3xl shadow-sm flex items-center justify-between animate-in slide-in-from-bottom-2 duration-500 ${isHighContrast ? 'bg-black border-white/30 text-white' : 'bg-white border-orange-100'}`}>
-                    <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shadow-inner border ${isHighContrast ? 'bg-white text-black border-white' : 'bg-orange-50 text-orange-500 border-orange-100'}`} aria-hidden="true">
-                        🔥
-                      </div>
-                      <span className={`text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
-                        {s.longestStreak || 'Najdłuższy ciąg dni'}
-                      </span>
-                    </div>
-                    <span className={`text-xl font-black ${isHighContrast ? 'text-white' : 'text-orange-500'}`}>
-                      {maxStreak} <span className={`text-xs uppercase tracking-widest ${isHighContrast ? 'text-white/70' : 'text-orange-400'}`}>{s.daysCount || 'dni'}</span>
-                    </span>
-                  </div>
-                )}
-
-                {/* --- NOWE: Wykres Analizy Błędów --- */}
-                {!statsLoading && !errorStatsLoading && (
-                  <div className={`mt-6 ${bigTargets ? 'p-6 sm:p-8' : 'p-4 sm:p-5'} rounded-3xl border-2 flex flex-col gap-4 animate-in slide-in-from-bottom-4 duration-500 delay-150 ${isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100'}`}>
-                    <SectionLabel isHighContrast={isHighContrast} sub={s.errorAnalysisSub || 'Liczba pomyłek w poszczególnych dniach'}>
-                      {s.errorAnalysis || 'Analiza błędów'}
-                    </SectionLabel>
-                    
-                    <div className="h-32 flex items-end justify-between gap-[2px] sm:gap-1 mt-2 relative">
-                      {errorStats.map((d) => {
-                        const heightPct = maxErrors > 0 ? Math.max((d.errors / maxErrors) * 100, d.errors > 0 ? 5 : 0) : 0;
-                        const isToday = now.getFullYear() === chartYear && (now.getMonth() + 1) === chartMonth && now.getDate() === d.day;
-                        
-                        return (
-                          <div key={`err-${d.day}`} className="flex-1 flex flex-col items-center justify-end gap-1 h-full group relative">
-                            {d.errors > 0 && (
-                              <span className={`absolute -top-7 text-[9px] font-black px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none shadow-md ${isHighContrast ? 'bg-white text-black' : 'bg-rose-600 text-white'}`}>
-                                {d.errors}
-                              </span>
-                            )}
-                            <div 
-                              className={`w-full rounded-t-sm transition-all duration-700 delay-200 ${d.errors === 0 ? 'bg-transparent' : isToday ? (isHighContrast ? 'bg-white border-2 border-b-0 border-white' : 'bg-rose-500 shadow-sm') : (isHighContrast ? 'bg-white/50' : 'bg-rose-300 hover:bg-rose-400')}`}
-                              style={{ height: `${heightPct}%` }}
-                              aria-label={`Dzień ${d.day}: ${d.errors} błędów`}
-                            />
-                            {(d.day % 5 === 0 || d.day === 1) ? (
-                              <span className={`text-[8px] font-bold ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{d.day}</span>
-                            ) : (
-                              <span className="text-[8px] text-transparent select-none">{d.day}</span>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </section>
-            </div>
-          )}
 
           {activeTab === 'general' && (
             <div className="flex flex-col gap-6 animate-in fade-in duration-300">
@@ -598,47 +397,103 @@ function SettingsModal({
                 </div>
               </section>
 
-              {/* ── 3. DAILY GOAL ──────────────────────────────────────────────── */}
+              {/* ── 3. A11Y ADDONS ───────────────────────────────────────────── */}
               <section>
-                <SectionLabel isHighContrast={isHighContrast}>{s.dailyGoal}</SectionLabel>
+                <SectionLabel isHighContrast={isHighContrast} sub={s.a11yAddonsDesc}>{s.a11yAddons}</SectionLabel>
                 <div className="flex flex-col gap-2">
-                  {[5, 10, 15, 20].map(val => (
-                    <button
-                      key={val}
-                      onClick={() => setDailyGoal(val)}
-                      aria-pressed={dailyGoal === val}
-                      className={`${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 transition-all active:scale-95 text-left flex items-center justify-between ${
-                        dailyGoal === val
-                          ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-400 bg-indigo-50 shadow-sm')
-                          : (isHighContrast ? 'border-white/30 bg-black hover:border-white/60' : 'border-slate-100 bg-white hover:border-slate-200')
-                      }`}
-                    >
-                      <span className={`text-xs font-black ${dailyGoal === val ? (isHighContrast ? 'text-white' : 'text-indigo-700') : (isHighContrast ? 'text-white/70' : 'text-slate-600')}`}>
-                        {s[`goal${val}`]}
-                      </span>
-              {dailyGoal === val && <span className={`text-xs font-black uppercase tracking-widest rounded-full px-2 py-1 ${isHighContrast ? 'bg-white text-black' : 'bg-indigo-400 text-white'}`}>✓ {s.active}</span>}
-                    </button>
-                  ))}
+                  {A11Y_ADDONS.map((profile) => {
+                    const isActive = a11yAddons.includes(profile.key);
+                    const c = COLOR[profile.color];
+                    const info = s.a11y[profile.key] || { name: profile.key, desc: '' };
+                    return (
+                      <button
+                        key={profile.key}
+                        onClick={() => toggleAddon(profile.key)}
+                        className={`flex items-center gap-3 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 transition-all active:scale-[0.98] text-left ${
+                          isActive
+                            ? (isHighContrast ? 'border-white bg-white/20 text-white shadow-sm' : `${c.ring} shadow-sm`)
+                            : (isHighContrast ? 'border-white/30 bg-black' : 'border-slate-100 bg-white hover:border-slate-200')
+                        }`}
+                        aria-pressed={isActive}
+                      >
+                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0 border ${
+                          isActive ? (isHighContrast ? 'bg-black border-white' : 'bg-white border-current/20') : (isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100')
+                    }`} aria-hidden="true">
+                          {profile.icon}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className={`text-xs font-black uppercase tracking-wider ${isActive ? (isHighContrast ? 'text-white' : c.text) : (isHighContrast ? 'text-white/70' : 'text-slate-700')}`}>
+                              {info.name}
+                            </span>
+                          </div>
+                  <span className={`text-xs font-medium leading-tight block mt-1 break-words ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{info.desc}</span>
+                          <div className="flex gap-1 mt-1 flex-wrap">
+                            {profile.tags.map((tag) => (
+                      <span key={tag} className={`text-[10px] md:text-xs font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${
+                                isActive ? (isHighContrast ? 'bg-white text-black' : c.badge) : (isHighContrast ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-400')
+                              }`}>
+                                {s.tags[tag] || tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        {/* Checkbox-style indicator */}
+                        <div className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
+                          isActive ? (isHighContrast ? 'border-white bg-white text-black' : `border-current ${c.ring} text-current`) : (isHighContrast ? 'border-white/50 bg-black' : 'border-slate-200 bg-white')
+                        }`}>
+                  {isActive && <span className="text-xs font-black">✓</span>}
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </section>
 
-              {/* ── 4. EXPORT LOGS ──────────────────────────────────────────────── */}
-              <section>
-                <SectionLabel isHighContrast={isHighContrast} sub={s.exportDesc}>{s.exportLogs}</SectionLabel>
-                <button
-                  onClick={handleExportCSV}
-                  className={`w-full ${bigTargets ? 'py-6 text-sm' : 'py-4 text-xs'} rounded-2xl border-2 font-black uppercase tracking-widest transition-all active:scale-95 shadow-sm flex items-center justify-center gap-2 ${isHighContrast ? 'text-white bg-black border-white hover:bg-white/20' : 'text-indigo-600 bg-white border-slate-100 hover:border-indigo-300 hover:bg-indigo-50'}`}
-                >
-                  <span className="text-xl" aria-hidden="true">📊</span> {s.exportLogs}
-                </button>
-              </section>
+              {/* ── 4. INCLUSIVE GAMIFICATION ────────────────────────────────── */}
+              {isGamified && (
+                <section>
+                  <SectionLabel isHighContrast={isHighContrast} sub={s.gamificationDesc}>{s.gamificationTitle}</SectionLabel>
+                  <div className="flex flex-col gap-2">
+                    {INCLUSIVE_OPTIONS.map((opt) => {
+                      const isOn = !!inclusiveOptions?.[opt.key];
+                      const info = s.inclusive[opt.key] || { name: opt.key, desc: '' };
+                      return (
+                        <button
+                          key={opt.key}
+                          onClick={() => toggleInclusive(opt.key)}
+                          className={`flex items-center gap-3 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 transition-all active:scale-[0.98] text-left ${
+                            isOn
+                              ? (isHighContrast ? 'border-white bg-white/20 text-white shadow-sm' : 'border-indigo-300 bg-indigo-50 shadow-sm')
+                              : (isHighContrast ? 'border-white/30 bg-black text-white/70 hover:border-white/60' : 'border-slate-100 bg-white hover:border-slate-200')
+                          }`}
+                          aria-pressed={isOn}
+                        >
+                          <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0 border ${
+                            isOn ? (isHighContrast ? 'bg-black border-white' : 'bg-white border-indigo-200') : (isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100')
+                      }`} aria-hidden="true">
+                            {opt.icon}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <span className={`text-xs font-black uppercase tracking-wider block ${isOn ? (isHighContrast ? 'text-white' : 'text-indigo-700') : (isHighContrast ? 'text-white/70' : 'text-slate-700')}`}>
+                              {info.name}
+                            </span>
+                    <span className={`text-xs font-medium leading-tight mt-1 block break-words ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{info.desc}</span>
+                          </div>
+                          <Toggle on={isOn} isHighContrast={isHighContrast} />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </section>
+              )}
             </div>
           )}
 
           {activeTab === 'voice' && (
             <div className="flex flex-col gap-6 animate-in fade-in duration-300">
               <section>
-                <SectionLabel isHighContrast={isHighContrast} sub={s.voiceDesc}>{s.voice}</SectionLabel>
+                <SectionLabel isHighContrast={isHighContrast} sub={s.voiceDesc}>{s.voiceOptions}</SectionLabel>
                 <div className="flex flex-col gap-4">
                   
                   {/* Voice Speed Slider */}
@@ -708,103 +563,6 @@ function SettingsModal({
                       </div>
                     </div>
                   )}
-                </div>
-              </section>
-            </div>
-          )}
-
-          {activeTab === 'a11y' && (
-            <div className="flex flex-col gap-6 animate-in fade-in duration-300">
-    
-              <section>
-                <SectionLabel isHighContrast={isHighContrast} sub={s.a11yAddonsDesc}>{s.a11yAddons}</SectionLabel>
-                <div className="flex flex-col gap-2">
-                  {A11Y_ADDONS.map((profile) => {
-                    const isActive = a11yAddons.includes(profile.key);
-                    const c = COLOR[profile.color];
-                    const info = s.a11y[profile.key] || { name: profile.key, desc: '' };
-                    return (
-                      <button
-                        key={profile.key}
-                        onClick={() => toggleAddon(profile.key)}
-                        className={`flex items-center gap-3 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 transition-all active:scale-[0.98] text-left ${
-                          isActive
-                            ? (isHighContrast ? 'border-white bg-white/20 text-white shadow-sm' : `${c.ring} shadow-sm`)
-                            : (isHighContrast ? 'border-white/30 bg-black' : 'border-slate-100 bg-white hover:border-slate-200')
-                        }`}
-                        aria-pressed={isActive}
-                      >
-                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0 border ${
-                          isActive ? (isHighContrast ? 'bg-black border-white' : 'bg-white border-current/20') : (isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100')
-                    }`} aria-hidden="true">
-                          {profile.icon}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className={`text-xs font-black uppercase tracking-wider ${isActive ? (isHighContrast ? 'text-white' : c.text) : (isHighContrast ? 'text-white/70' : 'text-slate-700')}`}>
-                              {info.name}
-                            </span>
-                          </div>
-                  <span className={`text-xs font-medium leading-tight block mt-1 break-words ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{info.desc}</span>
-                          <div className="flex gap-1 mt-1 flex-wrap">
-                            {profile.tags.map((tag) => (
-                      <span key={tag} className={`text-[10px] md:text-xs font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${
-                                isActive ? (isHighContrast ? 'bg-white text-black' : c.badge) : (isHighContrast ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-400')
-                              }`}>
-                                {s.tags[tag] || tag}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        {/* Checkbox-style indicator */}
-                        <div className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
-                          isActive ? (isHighContrast ? 'border-white bg-white text-black' : `border-current ${c.ring} text-current`) : (isHighContrast ? 'border-white/50 bg-black' : 'border-slate-200 bg-white')
-                        }`}>
-                  {isActive && <span className="text-xs font-black">✓</span>}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </section>
-            </div>
-          )}
-
-          {activeTab === 'game' && isGamified && ( // This is now "Game Options"
-            <div className="flex flex-col gap-6 animate-in fade-in duration-300">
-              {/* ── 5. INCLUSIVE GAMIFICATION — only in V2 ───────────────────── */}
-              <section>
-                <SectionLabel isHighContrast={isHighContrast} sub={s.gamificationDesc}>{s.gamificationTitle}</SectionLabel>
-                <div className="flex flex-col gap-2">
-                  {INCLUSIVE_OPTIONS.map((opt) => {
-                    const isOn = !!inclusiveOptions?.[opt.key];
-                    const info = s.inclusive[opt.key] || { name: opt.key, desc: '' };
-                    return (
-                      <button
-                        key={opt.key}
-                        onClick={() => toggleInclusive(opt.key)}
-                        className={`flex items-center gap-3 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 transition-all active:scale-[0.98] text-left ${
-                          isOn
-                            ? (isHighContrast ? 'border-white bg-white/20 text-white shadow-sm' : 'border-indigo-300 bg-indigo-50 shadow-sm')
-                            : (isHighContrast ? 'border-white/30 bg-black text-white/70 hover:border-white/60' : 'border-slate-100 bg-white hover:border-slate-200')
-                        }`}
-                        aria-pressed={isOn}
-                      >
-                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0 border ${
-                          isOn ? (isHighContrast ? 'bg-black border-white' : 'bg-white border-indigo-200') : (isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100')
-                    }`} aria-hidden="true">
-                          {opt.icon}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <span className={`text-xs font-black uppercase tracking-wider block ${isOn ? (isHighContrast ? 'text-white' : 'text-indigo-700') : (isHighContrast ? 'text-white/70' : 'text-slate-700')}`}>
-                            {info.name}
-                          </span>
-                  <span className={`text-xs font-medium leading-tight mt-1 block break-words ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{info.desc}</span>
-                        </div>
-                        <Toggle on={isOn} isHighContrast={isHighContrast} />
-                      </button>
-                    );
-                  })}
                 </div>
               </section>
             </div>

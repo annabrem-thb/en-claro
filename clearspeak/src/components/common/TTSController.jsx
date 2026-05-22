@@ -9,6 +9,7 @@ export default function TTSController({
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
+    if (!window.speechSynthesis) return;
     const loadVoices = () => setVoices(window.speechSynthesis.getVoices());
     loadVoices();
     window.speechSynthesis.onvoiceschanged = loadVoices;
