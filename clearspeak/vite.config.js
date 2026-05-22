@@ -31,18 +31,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff,woff2}'],
-        runtimeCaching: [
-          {
-            // Automatyczne buforowanie zewnętrznej czcionki OpenDyslexic (i innych CDN)
-            urlPattern: /^https:\/\/cdn\.jsdelivr\.net\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'opendyslexic-fonts-cache',
-              expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
-              cacheableResponse: { statuses: [0, 200] }
-            }
-          }
-        ]
+        // Pliki czcionek są teraz ładowane lokalnie, więc są objęte głównym buforem
       }
     })
   ]

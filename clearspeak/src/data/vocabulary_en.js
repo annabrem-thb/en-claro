@@ -15,172 +15,102 @@ export const wordDatabaseEN = {
   phonemes: [
     {
       id: 1,
-      difficulty: 3,
-      word: 'Colonel',
-      phonetic: '/ ˈkɜː.nəl /',
-      hints: {
-        en: 'The highest-ranking officer below a general in the army',
-        pl: 'Najwyższy stopień oficerski poniżej generała w armii',
-        de: 'Der höchste Offiziersrang unterhalb eines Generals',
-      },
+      difficulty: 2,
+      tags: ['business'],
+      instruction: 'Choose the correct spelling based on the pronunciation:',
+      phonetic: '/ ˌɒn.trə.prəˈnɜːr /',
+      options: [
+        { text: 'Entrepreneur', isCorrect: true },
+        { text: 'Entreprener', isCorrect: false }
+      ]
     },
     {
       id: 2,
-      difficulty: 2,
-      word: 'Choir',
-      phonetic: '/ ˈkwaɪər /',
-      hints: {
-        en: 'An organised group of singers who perform together',
-        pl: 'Zorganizowana grupa śpiewaków wykonujących wspólnie utwory',
-        de: 'Eine organisierte Gruppe von Sängern, die gemeinsam auftreten',
-      },
+      difficulty: 1,
+      tags: ['business'],
+      instruction: 'Identify the word from its phonetic transcription:',
+      phonetic: '/ ˈkɜː.nəl /',
+      options: [
+        { text: 'Colonel', isCorrect: true },
+        { text: 'Kernel', isCorrect: false }
+      ]
     },
     {
       id: 3,
-      difficulty: 1,
-      word: 'Debt',
-      phonetic: '/ det /',
-      hints: {
-        en: 'Money or something owed to another person or organisation',
-        pl: 'Pieniądze lub coś, co jest winne innej osobie lub organizacji',
-        de: 'Geld oder etwas, das einer anderen Person oder Organisation geschuldet wird',
-      },
+      difficulty: 2,
+      tags: ['everyday'],
+      instruction: 'Select the correct written form:',
+      phonetic: '/ ˈkwaɪər /',
+      options: [
+        { text: 'Choir', isCorrect: true },
+        { text: 'Quire', isCorrect: false }
+      ]
     },
     {
       id: 4,
       difficulty: 2,
-      word: 'Subtle',
-      phonetic: '/ ˈsʌt.əl /',
-      hints: {
-        en: 'So delicate or precise it is difficult to analyse or describe',
-        pl: 'Tak delikatny lub precyzyjny, że trudno go przeanalizować',
-        de: 'So fein oder präzise, dass es schwer zu analysieren ist',
-      },
+      tags: ['business'],
+      instruction: 'Which word matches the pronunciation?',
+      phonetic: '/ det /',
+      options: [
+        { text: 'Debt', isCorrect: true },
+        { text: 'Det', isCorrect: false }
+      ]
     },
     {
       id: 5,
-      difficulty: 1,
-      word: 'Wednesday',
-      phonetic: '/ ˈwenz.deɪ /',
-      hints: {
-        en: 'The middle day of the working week — between Tuesday and Thursday',
-        pl: 'Środkowy dzień tygodnia roboczego — między wtorkiem a czwartkiem',
-        de: 'Der mittlere Wochentag — zwischen Dienstag und Donnerstag',
-      },
+      difficulty: 3,
+      tags: ['business'],
+      instruction: 'Find the correct spelling:',
+      phonetic: '/ ˈsʌt.əl /',
+      options: [
+        { text: 'Subtle', isCorrect: true },
+        { text: 'Suttle', isCorrect: false }
+      ]
     },
     {
       id: 6,
       difficulty: 2,
-      tags: ['medicine'],
-      word: 'Psychology',
-      phonetic: '/ saɪˈkɒl.ə.dʒi /',
-      hints: {
-        en: 'The scientific study of the human mind and behaviour',
-        pl: 'Naukowe badanie ludzkiego umysłu i zachowania',
-        de: 'Die wissenschaftliche Erforschung des menschlichen Geistes und Verhaltens',
-      },
+      tags: ['everyday'],
+      instruction: 'Match sound to text:',
+      phonetic: '/ ˈwenz.deɪ /',
+      options: [
+        { text: 'Wednesday', isCorrect: true },
+        { text: 'Wensday', isCorrect: false }
+      ]
     },
     {
       id: 7,
-      difficulty: 2,
+      difficulty: 3,
       tags: ['medicine'],
-      word: 'Pneumonia',
+      instruction: 'Choose the correct medical term:',
       phonetic: '/ njuːˈməʊ.ni.ə /',
-      hints: {
-        en: 'A serious lung infection causing difficulty breathing',
-        pl: 'Poważna infekcja płuc powodująca trudności z oddychaniem',
-        de: 'Eine schwere Lungeninfektion, die Atembeschwerden verursacht',
-      },
+      options: [
+        { text: 'Pneumonia', isCorrect: true },
+        { text: 'Numonia', isCorrect: false }
+      ]
     },
     {
       id: 8,
-      difficulty: 1,
-      word: 'Receipt',
+      difficulty: 3,
+      tags: ['business'],
+      instruction: 'Select the accurate spelling:',
       phonetic: '/ rɪˈsiːt /',
-      hints: {
-        en: 'A written or printed proof of a payment or purchase',
-        pl: 'Pisemny lub drukowany dowód płatności lub zakupu',
-        de: 'Ein schriftlicher oder gedruckter Beleg für eine Zahlung oder einen Kauf',
-      },
+      options: [
+        { text: 'Receipt', isCorrect: true },
+        { text: 'Receit', isCorrect: false }
+      ]
     },
     {
       id: 9,
       difficulty: 2,
-      word: 'Yacht',
-      phonetic: '/ jɒt /',
-      hints: {
-        en: 'A large, often luxurious sailing or motor boat',
-        pl: 'Duża, często luksusowa łódź żaglowa lub motorowa',
-        de: 'Ein großes, oft luxuriöses Segel- oder Motorboot',
-      },
-    },
-    {
-      id: 10,
-      difficulty: 2,
-      word: 'Rhythm',
-      phonetic: '/ ˈrɪð.əm /',
-      hints: {
-        en: 'A strong, regular repeated pattern of sound or movement',
-        pl: 'Silny, regularny, powtarzający się wzorzec dźwięku lub ruchu',
-        de: 'Ein starkes, regelmäßiges, sich wiederholendes Muster aus Klang oder Bewegung',
-      },
-    },
-    {
-      id: 11,
-      difficulty: 3,
-      tags: ['business'],
-      word: 'Entrepreneur',
-      phonetic: '/ ˌɒn.trə.prəˈnɜːr /',
-      hints: {
-        en: 'A person who starts and runs their own business venture',
-        pl: 'Osoba, która zakłada i prowadzi własne przedsięwzięcie biznesowe',
-        de: 'Eine Person, die ein eigenes Unternehmen gründet und führt',
-      },
-    },
-    {
-      id: 12,
-      difficulty: 3,
-      tags: ['business'],
-      word: 'Bureaucracy',
+      tags: ['everyday'],
+      instruction: 'Find the word:',
       phonetic: '/ bjʊˈrɒk.rə.si /',
-      hints: {
-        en: 'A system of government or management with complex rules and processes',
-        pl: 'System rządzenia lub zarządzania ze złożonymi zasadami i procedurami',
-        de: 'Ein Regierungs- oder Verwaltungssystem mit komplexen Regeln und Prozessen',
-      },
-    },
-    {
-      id: 13,
-      difficulty: 3,
-      word: 'Conscientious',
-      phonetic: '/ ˌkɒn.ʃiˈen.ʃəs /',
-      hints: {
-        en: 'Wishing to do what is right and taking great care over your work',
-        pl: 'Pragnący postępować właściwie i przykładający dużą wagę do swojej pracy',
-        de: 'Der Wunsch, das Richtige zu tun und große Sorgfalt auf die Arbeit zu verwenden',
-      },
-    },
-    {
-      id: 14,
-      difficulty: 3,
-      word: 'Worcestershire',
-      phonetic: '/ ˈwʊs.tə.ʃər /',
-      hints: {
-        en: 'A county in the West Midlands of England — also a famous sauce',
-        pl: 'Hrabstwo w środkowej Anglii — znane też jako sos do mięs',
-        de: 'Eine Grafschaft in den West Midlands Englands — auch eine bekannte Sauce',
-      },
-    },
-    {
-      id: 15,
-      difficulty: 2,
-      word: 'Façade',
-      phonetic: '/ fəˈsɑːd /',
-      hints: {
-        en: 'The front of a building, or a deceptive outward appearance',
-        pl: 'Front budynku lub zwodnicza zewnętrzna prezentacja',
-        de: 'Die Vorderseite eines Gebäudes oder ein täuschender äußerer Anschein',
-      },
+      options: [
+        { text: 'Bureaucracy', isCorrect: true },
+        { text: 'Burocracy', isCorrect: false }
+      ]
     },
   ],
 
@@ -528,6 +458,7 @@ export const wordDatabaseEN = {
       difficulty: 2,
       word: 'RHYTHM',
       scrambled: ['R', 'H', 'Y', 'T', 'H', 'M'],
+      distractors: ['I', 'E'],
       image: '🥁',
     },
     {
@@ -535,6 +466,7 @@ export const wordDatabaseEN = {
       difficulty: 3,
       word: 'COLONEL',
       scrambled: ['C', 'O', 'L', 'O', 'N', 'E', 'L'],
+      distractors: ['R', 'A'],
       image: '🎖️',
     },
     {
@@ -543,6 +475,7 @@ export const wordDatabaseEN = {
       tags: ['business', 'everyday'],
       word: 'NECESSARY',
       scrambled: ['N', 'E', 'C', 'E', 'S', 'S', 'A', 'R', 'Y'],
+      distractors: ['C'],
       image: '✅',
     },
     {
@@ -550,6 +483,7 @@ export const wordDatabaseEN = {
       difficulty: 3,
       word: 'ACCOMMODATE',
       scrambled: ['A', 'C', 'C', 'O', 'M', 'M', 'O', 'D', 'A', 'T', 'E'],
+      distractors: ['M', 'C'],
       image: '🏨',
     },
     {
@@ -557,6 +491,7 @@ export const wordDatabaseEN = {
       difficulty: 2,
       word: 'SEPARATE',
       scrambled: ['S', 'E', 'P', 'A', 'R', 'A', 'T', 'E'],
+      distractors: ['E', 'E'],
       image: '↔️',
     },
     {
@@ -564,6 +499,7 @@ export const wordDatabaseEN = {
       difficulty: 2,
       word: 'DEFINITELY',
       scrambled: ['D', 'E', 'F', 'I', 'N', 'I', 'T', 'E', 'L', 'Y'],
+      distractors: ['A', 'E'],
       image: '💯',
     },
     {
@@ -571,6 +507,7 @@ export const wordDatabaseEN = {
       difficulty: 3,
       word: 'EMBARRASS',
       scrambled: ['E', 'M', 'B', 'A', 'R', 'R', 'A', 'S', 'S'],
+      distractors: ['R', 'S'],
       image: '😳',
     },
     {
@@ -579,6 +516,7 @@ export const wordDatabaseEN = {
       tags: ['medicine'],
       word: 'PSYCHOLOGY',
       scrambled: ['P', 'S', 'Y', 'C', 'H', 'O', 'L', 'O', 'G', 'Y'],
+      distractors: ['I', 'S'],
       image: '🧠',
     },
     {
@@ -587,6 +525,7 @@ export const wordDatabaseEN = {
       tags: ['business'],
       word: 'BUREAUCRACY',
       scrambled: ['B', 'U', 'R', 'E', 'A', 'U', 'C', 'R', 'A', 'C', 'Y'],
+      distractors: ['O', 'K'],
       image: '🏛️',
     },
     {
@@ -608,6 +547,7 @@ export const wordDatabaseEN = {
         'U',
         'S',
       ],
+      distractors: ['S', 'C'],
       image: '✅',
     },
     {
@@ -630,6 +570,7 @@ export const wordDatabaseEN = {
         'R',
         'E',
       ],
+      distractors: ['H', 'C'],
       image: '🧂',
     },
     {
@@ -637,6 +578,7 @@ export const wordDatabaseEN = {
       difficulty: 2,
       word: 'YACHT',
       scrambled: ['Y', 'A', 'C', 'H', 'T'],
+      distractors: ['O', 'U'],
       image: '⛵',
     },
     {
@@ -644,6 +586,7 @@ export const wordDatabaseEN = {
       difficulty: 1,
       word: 'RECEIPT',
       scrambled: ['R', 'E', 'C', 'E', 'I', 'P', 'T'],
+      distractors: ['I', 'S'],
       image: '🧾',
     },
     {
@@ -651,6 +594,7 @@ export const wordDatabaseEN = {
       difficulty: 1,
       word: 'WEDNESDAY',
       scrambled: ['W', 'E', 'D', 'N', 'E', 'S', 'D', 'A', 'Y'],
+      distractors: ['N', 'Z'],
       image: '📅',
     },
     {
@@ -659,6 +603,7 @@ export const wordDatabaseEN = {
       tags: ['business'],
       word: 'ENTREPRENEUR',
       scrambled: ['E', 'N', 'T', 'R', 'E', 'P', 'R', 'E', 'N', 'E', 'U', 'R'],
+      distractors: ['A', 'O'],
       image: '💼',
     },
   ],
@@ -1509,4 +1454,87 @@ export const wordDatabaseEN = {
       ],
     },
   ],
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // CATEGORY: LOOK, COVER, WRITE, CHECK (LCWC)
+  // ─────────────────────────────────────────────────────────────────────────────
+  lcwc: [
+    { id: 1, lcwc: true, difficulty: 1, word: 'Development' },
+    { id: 2, lcwc: true, difficulty: 2, word: 'Management' },
+    { id: 3, lcwc: true, difficulty: 3, word: 'Entrepreneur' },
+    { id: 4, lcwc: true, difficulty: 2, word: 'Investment' },
+    { id: 5, lcwc: true, difficulty: 1, word: 'Schedule' },
+    { id: 6, lcwc: true, difficulty: 3, word: 'Accommodation' },
+    { id: 7, lcwc: true, difficulty: 3, word: 'Bureaucracy' },
+    { id: 8, lcwc: true, difficulty: 3, word: 'Conscientious' },
+    { id: 9, lcwc: true, difficulty: 2, word: 'Simultaneously' },
+    { id: 10, lcwc: true, difficulty: 3, word: 'Embarrassment' },
+  ],
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // CATEGORY: VISUAL CATEGORIZATION
+  // ─────────────────────────────────────────────────────────────────────────────
+  categorization: [
+    {
+      id: 1,
+      difficulty: 1,
+      tags: ['business'],
+      instruction: 'Categorize the professional terms into the correct departments',
+      buckets: [
+        { id: 'hr', label: 'Human Resources', icon: '👥' },
+        { id: 'fin', label: 'Finance', icon: '💰' }
+      ],
+      items: [
+        { id: 'i1', word: 'Budget', bucketId: 'fin' },
+        { id: 'i2', word: 'Recruitment', bucketId: 'hr' },
+        { id: 'i3', word: 'Invoice', bucketId: 'fin' },
+        { id: 'i4', word: 'Onboarding', bucketId: 'hr' }
+      ]
+    },
+    {
+      id: 2,
+      difficulty: 2,
+      instruction: 'Group the words by their spelling rule',
+      buckets: [
+        { id: 'db', label: 'Double Consonant', icon: '🔠' },
+        { id: 'sl', label: 'Silent Letter', icon: '🤫' }
+      ],
+      items: [
+        { id: 'i1', word: 'Embarrass', bucketId: 'db' },
+        { id: 'i2', word: 'Rhythm', bucketId: 'sl' },
+        { id: 'i3', word: 'Accommodate', bucketId: 'db' },
+        { id: 'i4', word: 'Subtle', bucketId: 'sl' }
+      ]
+    },
+    {
+      id: 3,
+      difficulty: 1,
+      instruction: 'Sort these words into Nouns or Verbs',
+      buckets: [
+        { id: 'noun', label: 'Noun (Thing)', icon: '📦' },
+        { id: 'verb', label: 'Verb (Action)', icon: '🏃' }
+      ],
+      items: [
+        { id: 'i1', word: 'Management', bucketId: 'noun' },
+        { id: 'i2', word: 'Execute', bucketId: 'verb' },
+        { id: 'i3', word: 'Strategy', bucketId: 'noun' },
+        { id: 'i4', word: 'Analyze', bucketId: 'verb' }
+      ]
+    },
+    {
+      id: 4,
+      difficulty: 2,
+      instruction: 'Categorize by the silent letter',
+      buckets: [
+        { id: 'sw', label: 'Silent W', icon: '🤫' },
+        { id: 'sk', label: 'Silent K', icon: '🤫' }
+      ],
+      items: [
+        { id: 'i1', word: 'Knight', bucketId: 'sk' },
+        { id: 'i2', word: 'Wrist', bucketId: 'sw' },
+        { id: 'i3', word: 'Knowledge', bucketId: 'sk' },
+        { id: 'i4', word: 'Wreck', bucketId: 'sw' }
+      ]
+    }
+  ]
 };

@@ -9,6 +9,8 @@ import ClockExercise from './exercises/ClockExercise';
 import SequenceExercise from './exercises/SequenceExercise.jsx';
 import SpatialExercise from './exercises/SpatialExercise.jsx';
 import MemorySpanExercise from './exercises/MemorySpanExercise';
+import VisualCategorization from './exercises/VisualCategorization.jsx';
+import DictationExercise from './exercises/DictationExercise.jsx';
 
 /**
  * Factory component that renders the appropriate exercise component
@@ -38,8 +40,12 @@ export function ExerciseRenderer({ currentTask, ...commonProps }) {
     return <SpatialExercise data={currentTask} {...commonProps} />;
   if (currentTask.displayItems)
     return <MemorySpanExercise data={currentTask} {...commonProps} />;
+  if (currentTask.buckets && currentTask.items)
+    return <VisualCategorization data={currentTask} {...commonProps} />;
   if (currentTask.correct)
     return <SequenceExercise data={currentTask} {...commonProps} />;
+  if (currentTask.dictation)
+    return <DictationExercise data={currentTask} {...commonProps} />;
 
   return <div className="p-6 text-red-400">{t.formatNotRecognized}</div>;
 }

@@ -145,12 +145,6 @@ function ContextExercise({
           </button>
         ))}
       </div>
-
-      {!zenMode && (
-        <p className="mt-6 text-[10px] font-bold tracking-widest text-slate-300 uppercase">
-          {t.categories?.Context || t.categories?.Kontekst || 'Context'}
-        </p>
-      )}
     </div>
   );
 }

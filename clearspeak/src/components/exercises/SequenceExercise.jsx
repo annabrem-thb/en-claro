@@ -55,23 +55,25 @@ function SequenceExercise({
   const [prevId, setPrevId] = useState(data.id || data.correct);
 
   // Initial state setup helper
-  const prepareWords = (correctData, id, scrambledData) => {
-    let words = [];
+  const prepareWords = (correctData, id, scrambledData, distractors = []) => {
+    let baseArray = [];
     if (scrambledData && Array.isArray(scrambledData)) {
-      // If the task has pre-planned scrambling, use it
-      words = [...scrambledData];
+      baseArray = [...scrambledData];
     } else {
-      // If not, take the words from the correct answer and perform stable shuffling
-      const baseArray = Array.isArray(correctData)
+      baseArray = Array.isArray(correctData)
         ? [...correctData]
         : typeof correctData === 'string'
           ? correctData.split(' ')
           : [];
-      const seedString = Array.isArray(correctData)
-        ? correctData.join('')
-        : String(correctData);
-      words = seededShuffle(baseArray, id || seedString);
     }
+
+    const combined = [...baseArray, ...distractors];
+    const seedString = id || (Array.isArray(correctData)
+        ? correctData.join('')
+        : String(correctData));
+
+    const words = seededShuffle(combined, seedString);
+
     return {
       available: words.map((w, i) => ({ id: `word-${i}`, text: w })),
       selected: [],
@@ -129,7 +131,8 @@ function SequenceExercise({
         : typeof data.correct === 'string'
           ? data.correct.split(' ')
           : [];
-      const shuffled = wordsArray.sort(() => Math.random() - 0.5);
+      const combined = [...wordsArray, ...(data.distractors || [])];
+      const shuffled = combined.sort(() => Math.random() - 0.5);
       setTaskWords({
         available: shuffled.map((w, i) => ({ id: `word-${i}`, text: w })),
         selected: [],
@@ -138,6 +141,14 @@ function SequenceExercise({
   }, [selectedWords, data.correct, onSuccess, onError]);
 
   // --- 5. Voice Callbacks ---
+  const targetLength = Array.isArray(data.correct)
+    ? data.correct.length
+    : typeof data.correct === 'string'
+      ? data.correct.split(' ').length
+      : 0;
+
+  const showCheckButton = availableWords.length === 0 || (data.distractors && selectedWords.length === targetLength);
+
   const handleVoiceMatch = (num) => {
     const wordObj = availableWords[num - 1];
     if (wordObj) handleSelect(wordObj);
@@ -147,7 +158,7 @@ function SequenceExercise({
   const handleCommandMatch = (cmd) => {
     if (cmd === 'undo' && selectedWords.length > 0) {
       handleDeselect(selectedWords[selectedWords.length - 1]);
-    } else if (cmd === 'check' && availableWords.length === 0) {
+    } else if (cmd === 'check' && showCheckButton) {
       handleCheck();
     } else {
       onError();
@@ -263,7 +274,7 @@ function SequenceExercise({
         ))}
       </div>
 
-      {availableWords.length === 0 && (
+      {showCheckButton && (
         <button
           onClick={handleCheck}
           disabled={isListening}

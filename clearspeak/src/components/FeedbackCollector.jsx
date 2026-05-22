@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHighContrast, noFlash }) {
+export default function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHighContrast, noFlash, bigTargets }) {
   // Simplified NASA-TLX 5-point Likert scales
   const [mental, setMental] = useState(3);
   const [effort, setEffort] = useState(3);
@@ -13,7 +13,7 @@ export default function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyl
   const fb = t.feedback || {};
 
   const SliderRow = ({ label, desc, value, setValue, leftLabel, rightLabel }) => (
-    <div className={`flex flex-col gap-2 p-4 rounded-2xl border-2 ${isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100'}`}>
+    <div className={`flex flex-col gap-2 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 ${isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100'}`}>
       <div className="flex justify-between items-end">
         <div>
           <span className={`text-xs font-black uppercase tracking-wider block ${isHighContrast ? 'text-white' : 'text-slate-700'}`}>{label}</span>
@@ -28,9 +28,8 @@ export default function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyl
         step="1"
         value={value}
         onChange={(e) => setValue(Number(e.target.value))}
-        className="w-full cursor-pointer h-2 bg-slate-200 rounded-lg appearance-none mt-2"
-        style={{ accentColor: themeStyles.hex || '#10b981' }}
-        aria-label={label}
+        className={`w-full cursor-pointer bg-slate-200 rounded-lg appearance-none mt-2 ${bigTargets ? 'h-4' : 'h-2'}`}
+        style={{ accentColor: isHighContrast ? '#ffffff' : themeStyles?.hex || '#10b981' }}
       />
       <div className="flex justify-between mt-1">
         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{leftLabel || fb.low || 'Low'}</span>
@@ -76,10 +75,10 @@ export default function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyl
         </div>
 
         <div className="flex flex-col gap-2 mt-2">
-          <button onClick={handleSubmit} className={`w-full py-4 rounded-full font-black text-sm uppercase tracking-widest shadow-lg active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} text-white`}`}>
+          <button onClick={handleSubmit} className={`w-full ${bigTargets ? 'py-6 text-base' : 'py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} text-white`}`}>
             {fb.submit || 'Save'}
           </button>
-          <button onClick={onSkip} className={`w-full py-3 rounded-full font-black text-xs uppercase tracking-widest transition-all ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-400 hover:bg-slate-50'}`}>
+          <button onClick={onSkip} className={`w-full ${bigTargets ? 'py-5 text-sm' : 'py-3 text-xs'} rounded-full font-black uppercase tracking-widest transition-all ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-400 hover:bg-slate-50'}`}>
             {fb.skip || 'Skip'}
           </button>
         </div>

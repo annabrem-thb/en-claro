@@ -33,8 +33,8 @@ function ScrabbleExercise({
 
   // Predictable shuffle logic based on ID to avoid unnecessary reshuffling on renders
   const shuffledLetters = useMemo(() => {
-    if (!data.scrambled) return [];
-    const letters = [...data.scrambled];
+    if (!data.scrambled && !data.word) return [];
+    const letters = [...(data.scrambled || data.word.split('')), ...(data.distractors || [])];
     const seed = (data.id || 0) + data.word.length;
     let m = letters.length,
       tmp,
@@ -50,7 +50,7 @@ function ScrabbleExercise({
       letters[i] = tmp;
     }
     return letters;
-  }, [data.word, data.id, data.scrambled]);
+  }, [data.word, data.id, data.scrambled, data.distractors]);
 
   // Main validation logic
   const handleDone = useCallback(() => {
@@ -116,12 +116,12 @@ function ScrabbleExercise({
 
   // Auto-submit logic when all letters are exhausted
   useEffect(() => {
-    if (data.scrambled && userScrabble.length === data.scrambled.length) {
+    if (data.word && userScrabble.length === data.word.length) {
       const delay = extendedTime ? 1000 : 500;
       const timer = setTimeout(handleDone, delay);
       return () => clearTimeout(timer);
     }
-  }, [userScrabble, data.scrambled, handleDone, extendedTime]);
+  }, [userScrabble, data.word, handleDone, extendedTime]);
 
   // Dynamic Class Definitions
   const animClass = noFlash ? '' : 'animate-in zoom-in duration-500';

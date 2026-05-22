@@ -1,46 +1,39 @@
 import React from 'react';
+import { useConfig } from '../../useConfig';
 
-const BionicText = ({ text, enabled }) => {
-  if (!enabled || typeof text !== 'string') return <>{text}</>;
+export default function BionicText({ text, children, className = '', enabled }) {
+  const { a11ySettings } = useConfig();
+  const content = text || children;
 
-  return (
-    <>
-      {text.split(' ').map((word, idx) => {
-        // Regex filters out characters that shouldn't count towards bolding length
-        const cleanWord = word.replace(
-          /[^a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻäöüßÄÖÜ:.]/g,
-          '',
-        );
-        if (cleanWord.length === 0) return <span key={idx}>{word} </span>;
+  const isBionic = enabled !== undefined ? enabled : a11ySettings?.bionic;
 
-        // Calculate split point: roughly half for long words, more for short ones
-        let boldLen =
-          cleanWord.length > 3
-            ? Math.ceil(cleanWord.length / 2)
-            : Math.max(1, cleanWord.length - 1);
+  // Jeśli tryb jest wyłączony lub podano coś innego niż tekst, zwracamy oryginał
+  if (!isBionic || typeof content !== 'string') {
+    return <span className={className}>{content}</span>;
+  }
 
-        let actualSplit = 0;
-        let letterCount = 0;
-        for (let i = 0; i < word.length; i++) {
-          if (/[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻäöüßÄÖÜ:.]/.test(word[i]))
-            letterCount++;
-          actualSplit++;
-          if (letterCount === boldLen) break;
-        }
+  // Dzielimy tekst na wyrazy, zachowując spacje jako osobne elementy tablicy
+  const words = content.split(/(\s+)/);
 
-        return (
-          <span key={idx}>
-            <b className="font-black opacity-100">
-              {word.substring(0, actualSplit)}
-            </b>
-            <span className="opacity-80">
-              {word.substring(actualSplit)}
-            </span>{' '}
-          </span>
-        );
-      })}
-    </>
-  );
-};
+  const bionicContent = words.map((word, index) => {
+    // Jeśli to są tylko spacje, po prostu je renderujemy
+    if (/^\s+$/.test(word)) {
+      return word;
+    }
 
-export default BionicText;
+    // Algorytm Bionic Reading: wyliczamy połowę długości słowa
+    const mid = Math.ceil(word.length / 2);
+    
+    const boldPart = word.slice(0, mid);
+    const normalPart = word.slice(mid);
+
+    return (
+      <span key={index}>
+        <b className="font-black">{boldPart}</b>
+        <span className="opacity-80">{normalPart}</span>
+      </span>
+    );
+  });
+
+  return <span className={className}>{bionicContent}</span>;
+}

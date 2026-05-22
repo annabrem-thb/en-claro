@@ -3,7 +3,20 @@ import { useConfig } from './useConfig';
 import { useTranslation } from './i18n';
 
 const THEME_KEYS = ['Musik', 'Natur', 'Kunst'];
-const PROFILE_KEYS = ['Standard', 'LRS', 'Kontrast', 'Motorik'];
+const PROFILE_KEYS = ['Standard', 'LRS']; // Zostawiamy tylko tryby bazowe
+
+// Konfiguracja dla dodatków dostępności (Addons)
+const ADDON_KEYS = [
+  { key: 'contrast', profileKey: 'Kontrast', icon: '🌗', ring: 'ring-yellow-400', bg: 'bg-yellow-50', text: 'text-yellow-700' },
+  { key: 'motorik', profileKey: 'Motorik', icon: '🖐️', ring: 'ring-rose-400', bg: 'bg-rose-50', text: 'text-rose-700' },
+  { key: 'vision', profileKey: 'Niedowidzenie', icon: '🔍', ring: 'ring-blue-400', bg: 'bg-blue-50', text: 'text-blue-700' },
+  { key: 'color', profileKey: 'Daltonizm', icon: '🎨', ring: 'ring-emerald-400', bg: 'bg-emerald-50', text: 'text-emerald-700' },
+  { key: 'motion', profileKey: 'Redukcja', icon: '🛡️', ring: 'ring-indigo-400', bg: 'bg-indigo-50', text: 'text-indigo-700' },
+  { key: 'bionic', profileKey: 'Bionic', icon: '📖', ring: 'ring-cyan-400', bg: 'bg-cyan-50', text: 'text-cyan-700' },
+  { key: 'ruler', profileKey: 'Linijka', icon: '📏', ring: 'ring-fuchsia-400', bg: 'bg-fuchsia-50', text: 'text-fuchsia-700' },
+  { key: 'spacing', profileKey: 'Spacing', icon: '🔠', ring: 'ring-teal-400', bg: 'bg-teal-50', text: 'text-teal-700' },
+  { key: 'desaturation', profileKey: 'Desaturacja', icon: '🌫️', ring: 'ring-slate-400', bg: 'bg-slate-50', text: 'text-slate-700' }
+];
 
 const LANGUAGES = [
   { code: 'de', flag: '🇩🇪', label: 'Deutsch' },
@@ -25,7 +38,8 @@ const PROFILE_ACCENT = {
 };
 
 export default function SettingsDrawer({ open, onClose, isGamified, setIsGamified }) {
-  const { theme, setTheme, accessibility, setAccessibility, language, setLanguage } = useConfig();
+  // Pobieramy nowe właściwości a11ySettings i toggleA11ySetting
+  const { theme, setTheme, accessibility, setAccessibility, language, setLanguage, a11ySettings, toggleA11ySetting } = useConfig();
   const t = useTranslation(language);
 
   // Close the drawer pane when the Escape key is pressed
@@ -178,6 +192,43 @@ export default function SettingsDrawer({ open, onClose, isGamified, setIsGamifie
                       {profile.name}
                     </p>
                     <p className="text-[10px] text-slate-400 mt-0.5 leading-tight">{profile.desc}</p>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* --- Dodatki Dostępności (A11y Addons) --- */}
+          <section>
+            <SectionLabel>{t.a11yAddons || "Dodatki dostępności"}</SectionLabel>
+            <div className="flex flex-col gap-2">
+              {ADDON_KEYS.map(({ key, profileKey, icon, ring, bg, text }) => {
+                // Odzyskujemy opisy ze starego obiektu t.profiles (żeby nie pisać i18n na nowo)
+                const profile = t.profiles[profileKey];
+                const isActive = a11ySettings?.[key];
+                
+                return (
+                  <button
+                    key={key}
+                    onClick={() => toggleA11ySetting(key)}
+                    className={`flex items-center gap-3 p-3 rounded-2xl border-2 text-left transition-all active:scale-[0.98] ${
+                      isActive
+                        ? `${ring} ${bg} ring-2 border-transparent`
+                        : 'border-slate-100 bg-white hover:border-slate-200'
+                    }`}
+                  >
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 border ${isActive ? 'bg-white border-current/20' : 'bg-slate-50 border-slate-100'}`}>
+                      {icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className={`font-black text-xs ${isActive ? text : 'text-slate-700'}`}>
+                        {profile?.name || profileKey}
+                      </p>
+                      <p className="text-[10px] text-slate-400 mt-0.5 leading-tight">{profile?.desc}</p>
+                    </div>
+                    <div className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${isActive ? `border-current ${ring} text-current` : `border-slate-200 bg-white`}`}>
+                      {isActive && <span className="text-[10px] font-black">✓</span>}
+                    </div>
                   </button>
                 );
               })}

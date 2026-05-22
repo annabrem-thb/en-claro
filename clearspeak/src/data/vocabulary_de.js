@@ -14,171 +14,91 @@ export const wordDatabaseDE = {
   phonemes: [
     {
       id: 1,
-      difficulty: 3,
-      tags: ['medicine'],
-      word: 'Psychiatrie',
-      phonetic: '/ psyçiˈatʁiː /',
-      hints: {
-        de: 'Fachbereich der Medizin, der sich mit psychischen Erkrankungen befasst',
-        pl: 'Dziedzina medycyny zajmująca się chorobami psychicznymi',
-        en: 'Branch of medicine dealing with mental disorders',
-      },
+      difficulty: 2,
+      tags: ['business'],
+      instruction: 'Wähle die richtige Schreibweise basierend auf der Aussprache:',
+      phonetic: '/ kvaːlɪfɪkaˈt͡si̯oːn /',
+      options: [
+        { text: 'Qualifikation', isCorrect: true },
+        { text: 'Kwalifikation', isCorrect: false }
+      ]
     },
     {
       id: 2,
       difficulty: 3,
-      word: 'Rhythmus',
-      phonetic: '/ ˈʁʏtmʊs /',
-      hints: {
-        de: 'Regelmäßige Folge von betonten und unbetonten Elementen in Musik oder Sprache',
-        pl: 'Regularny wzorzec akcentowanych i nieakcentowanych elementów w muzyce lub mowie',
-        en: 'Regular pattern of stressed and unstressed elements in music or speech',
-      },
+      tags: ['everyday'],
+      instruction: 'Identifiziere das Wort an seiner phonetischen Umschrift:',
+      phonetic: '/ psyçiˈatʁiː /',
+      options: [
+        { text: 'Psychiatrie', isCorrect: true },
+        { text: 'Pyschiatrie', isCorrect: false }
+      ]
     },
     {
       id: 3,
-      difficulty: 3,
-      word: 'Choreographie',
-      phonetic: '/ koʁeoɡʁaˈfiː /',
-      hints: {
-        de: 'Die Kunst, Tanzschritte und Bewegungen zu einem Stück zu gestalten',
-        pl: 'Sztuka komponowania kroków tanecznych i ruchów do utworu',
-        en: 'The art of designing and arranging dance movements',
-      },
+      difficulty: 2,
+      tags: ['everyday'],
+      instruction: 'Wähle das korrekte Wort:',
+      phonetic: '/ ˈʁʏtmʊs /',
+      options: [
+        { text: 'Rhythmus', isCorrect: true },
+        { text: 'Rythmus', isCorrect: false }
+      ]
     },
     {
       id: 4,
-      difficulty: 2,
+      difficulty: 3,
       tags: ['business'],
-      word: 'Qualifikation',
-      phonetic: '/ kvaːlɪfɪkaˈt͡si̯oːn /',
-      hints: {
-        de: 'Nachweis von Fähigkeiten oder Ausbildung, die für eine Stelle erforderlich sind',
-        pl: 'Potwierdzenie umiejętności lub wykształcenia wymaganego na danym stanowisku',
-        en: 'Proof of skills or training required for a position',
-      },
+      instruction: 'Welches Wort passt zur Aussprache?',
+      phonetic: '/ koʁeoɡʁaˈfiː /',
+      options: [
+        { text: 'Choreographie', isCorrect: true },
+        { text: 'Koreografie', isCorrect: false }
+      ]
     },
     {
       id: 5,
       difficulty: 2,
-      word: 'Verantwortung',
+      tags: ['business'],
+      instruction: 'Ordne die Schreibweise zu:',
       phonetic: '/ fɛˈʁantvɔʁtʊŋ /',
-      hints: {
-        de: 'Die Pflicht, für eigene Handlungen und deren Folgen einzustehen',
-        pl: 'Obowiązek ponoszenia odpowiedzialności za własne działania i ich konsekwencje',
-        en: "The duty to be accountable for one's actions and their consequences",
-      },
+      options: [
+        { text: 'Verantwortung', isCorrect: true },
+        { text: 'Verantvortung', isCorrect: false }
+      ]
     },
     {
       id: 6,
       difficulty: 3,
-      word: 'Pflichtverletzung',
-      phonetic: '/ ˈpflɪçtfɛʁˌlɛt͡sʊŋ /',
-      hints: {
-        de: 'Die Nichteinhaltung einer gesetzlichen oder beruflichen Verpflichtung',
-        pl: 'Niedopełnienie obowiązku prawnego lub zawodowego',
-        en: 'Failure to fulfil a legal or professional obligation',
-      },
+      tags: ['business'],
+      instruction: 'Finde das richtige Wort:',
+      phonetic: '/ ˈʃlʏsl̩kɔmpəˌtɛnt͡s /',
+      options: [
+        { text: 'Schlüsselkompetenz', isCorrect: true },
+        { text: 'Schlüselkompetenz', isCorrect: false }
+      ]
     },
     {
       id: 7,
       difficulty: 2,
-      word: 'Gleichgewicht',
-      phonetic: '/ ˈɡlaɪ̯çɡəˌvɪçt /',
-      hints: {
-        de: 'Zustand der ausgeglichenen Verteilung von Kräften oder Einflüssen',
-        pl: 'Stan równomiernego rozłożenia sił lub wpływów',
-        en: 'State of balanced distribution of forces or influences',
-      },
+      tags: ['everyday'],
+      instruction: 'Welche Schreibweise ist korrekt?',
+      phonetic: '/ bəˈʃlɔʏ̯nɪɡʊŋ /',
+      options: [
+        { text: 'Beschleunigung', isCorrect: true },
+        { text: 'Beschloynigung', isCorrect: false }
+      ]
     },
     {
       id: 8,
-      difficulty: 3,
-      word: 'Schlüsselkompetenz',
-      phonetic: '/ ˈʃlʏsl̩kɔmpəˌtɛnt͡s /',
-      hints: {
-        de: 'Grundlegende Fähigkeit, die in vielen Lebensbereichen entscheidend ist',
-        pl: 'Podstawowa umiejętność kluczowa w wielu obszarach życia',
-        en: 'Fundamental skill that is decisive in many areas of life',
-      },
-    },
-    {
-      id: 9,
       difficulty: 2,
-      word: 'Zwischenmenschlich',
-      phonetic: '/ ˈt͡svɪʃn̩ˌmɛnʃlɪç /',
-      hints: {
-        de: 'Bezieht sich auf die Beziehungen und Interaktionen zwischen Personen',
-        pl: 'Odnosi się do relacji i interakcji między osobami',
-        en: 'Relating to relationships and interactions between people',
-      },
-    },
-    {
-      id: 10,
-      difficulty: 1,
-      word: 'Ursprünglich',
-      phonetic: '/ ˈuːɐ̯ʃpʁʏŋlɪç /',
-      hints: {
-        de: 'Von Anfang an vorhanden; dem ursprünglichen Zustand entsprechend',
-        pl: 'Istniejący od początku; odpowiadający pierwotnemu stanowi',
-        en: 'Present from the beginning; corresponding to the original state',
-      },
-    },
-    {
-      id: 11,
-      difficulty: 1,
-      word: 'Gesellschaft',
-      phonetic: '/ ɡəˈzɛlʃaft /',
-      hints: {
-        de: 'Eine organisierte Gemeinschaft von Menschen mit gemeinsamen Werten und Regeln',
-        pl: 'Zorganizowana wspólnota ludzi z wspólnymi wartościami i zasadami',
-        en: 'An organised community of people with shared values and rules',
-      },
-    },
-    {
-      id: 12,
-      difficulty: 2,
-      word: 'Beschleunigung',
-      phonetic: '/ bəˈʃlɔʏ̯nɪɡʊŋ /',
-      hints: {
-        de: 'Die Zunahme der Geschwindigkeit eines Objekts oder Vorgangs über die Zeit',
-        pl: 'Wzrost prędkości obiektu lub procesu w czasie',
-        en: 'The increase in speed of an object or process over time',
-      },
-    },
-    {
-      id: 13,
-      difficulty: 3,
-      tags: ['everyday'],
-      word: 'Höchstgeschwindigkeit',
-      phonetic: '/ ˈhøːçstɡəˌʃvɪndɪçkaɪ̯t /',
-      hints: {
-        de: 'Die gesetzlich oder technisch maximal zulässige Geschwindigkeit',
-        pl: 'Maksymalna prędkość dopuszczona przez prawo lub technicznie',
-        en: 'The legally or technically maximum permitted speed',
-      },
-    },
-    {
-      id: 14,
-      difficulty: 2,
-      word: 'Ausschließlich',
-      phonetic: '/ ˈaʊ̯sʃliːslɪç /',
-      hints: {
-        de: 'Nur und allein; ohne jede Ausnahme oder Einschränkung',
-        pl: 'Wyłącznie i jedynie; bez żadnego wyjątku lub ograniczenia',
-        en: 'Only and solely; without any exception or restriction',
-      },
-    },
-    {
-      id: 15,
-      difficulty: 2,
-      word: 'Widersprüchlich',
+      tags: ['business'],
+      instruction: 'Wähle basierend auf der Lautschrift:',
       phonetic: '/ ˈviːdɐʃpʁʏçlɪç /',
-      hints: {
-        de: 'In sich unvereinbar; verschiedene Aussagen, die sich gegenseitig ausschließen',
-        pl: 'Wewnętrznie sprzeczny; różne twierdzenia wzajemnie się wykluczające',
-        en: 'Internally inconsistent; different statements that mutually exclude each other',
-      },
+      options: [
+        { text: 'Widersprüchlich', isCorrect: true },
+        { text: 'Wiedersprüchlich', isCorrect: false }
+      ]
     },
   ],
 
@@ -527,6 +447,7 @@ export const wordDatabaseDE = {
       difficulty: 3,
       word: 'RHYTHMUS',
       scrambled: ['R', 'H', 'Y', 'T', 'H', 'M', 'U', 'S'],
+      distractors: ['I', 'E'],
       image: '🥁',
     },
     {
@@ -535,6 +456,7 @@ export const wordDatabaseDE = {
       tags: ['medicine'],
       word: 'PSYCHOLOGIE',
       scrambled: ['P', 'S', 'Y', 'C', 'H', 'O', 'L', 'O', 'G', 'I', 'E'],
+      distractors: ['I', 'S'],
       image: '🧠',
     },
     {
@@ -557,6 +479,7 @@ export const wordDatabaseDE = {
         'N',
         'G',
       ],
+      distractors: ['F', 'D'],
       image: '⚖️',
     },
     {
@@ -578,6 +501,7 @@ export const wordDatabaseDE = {
         'H',
         'T',
       ],
+      distractors: ['K', 'F'],
       image: '⚖️',
     },
     {
@@ -600,6 +524,7 @@ export const wordDatabaseDE = {
         'O',
         'N',
       ],
+      distractors: ['K', 'W'],
       image: '🎓',
     },
     {
@@ -621,6 +546,7 @@ export const wordDatabaseDE = {
         'N',
         'G',
       ],
+      distractors: ['E', 'K'],
       image: '💼',
     },
     {
@@ -643,6 +569,7 @@ export const wordDatabaseDE = {
         'C',
         'H',
       ],
+      distractors: ['R', 'V'],
       image: '🎲',
     },
     {
@@ -665,6 +592,7 @@ export const wordDatabaseDE = {
         'I',
         'G',
       ],
+      distractors: ['E', 'K'],
       image: '🏢',
     },
     {
@@ -687,6 +615,7 @@ export const wordDatabaseDE = {
         'I',
         'T',
       ],
+      distractors: ['S', 'P'],
       image: '🤝',
     },
     {
@@ -694,6 +623,7 @@ export const wordDatabaseDE = {
       difficulty: 1,
       word: 'GESELLSCHAFT',
       scrambled: ['G', 'E', 'S', 'E', 'L', 'L', 'S', 'C', 'H', 'A', 'F', 'T'],
+      distractors: ['Z', 'K'],
       image: '👥',
     },
     {
@@ -717,6 +647,7 @@ export const wordDatabaseDE = {
         'C',
         'H',
       ],
+      distractors: ['E', 'I'],
       image: '🔄',
     },
     {
@@ -738,6 +669,7 @@ export const wordDatabaseDE = {
         'I',
         'E',
       ],
+      distractors: ['K', 'F'],
       image: '💃',
     },
     {
@@ -764,6 +696,7 @@ export const wordDatabaseDE = {
         'I',
         'N',
       ],
+      distractors: ['F', 'Z'],
       image: '✅',
     },
     {
@@ -787,6 +720,7 @@ export const wordDatabaseDE = {
         'C',
         'H',
       ],
+      distractors: ['Z', 'E'],
       image: '🚫',
     },
     {
@@ -816,6 +750,7 @@ export const wordDatabaseDE = {
         'I',
         'T',
       ],
+      distractors: ['X', 'O'],
       image: '🏎️',
     },
   ],
@@ -1274,6 +1209,7 @@ export const wordDatabaseDE = {
       displayItems: ['📋', '💼', '✅'],
       correct: ['✅', '💼', '📋'],
       scrambled: ['📋', '💼', '✅'],
+      distractors: ['❌', '🛡️'],
       displayTime: 3000,
     },
 
@@ -1283,6 +1219,7 @@ export const wordDatabaseDE = {
       difficulty: 1,
       instruction: 'Ordne die Wochentage in die richtige Reihenfolge',
       scrambled: ['Mittwoch', 'Montag', 'Freitag', 'Dienstag'],
+      distractors: ['Samstag', 'Sonntag'],
       correct: ['Montag', 'Dienstag', 'Mittwoch', 'Freitag'],
     },
 
@@ -1291,6 +1228,7 @@ export const wordDatabaseDE = {
       difficulty: 1,
       instruction: 'Ordne die Monate des zweiten Quartals',
       scrambled: ['Juni', 'April', 'Mai'],
+      distractors: ['Juli'],
       correct: ['April', 'Mai', 'Juni'],
     },
 
@@ -1305,6 +1243,7 @@ export const wordDatabaseDE = {
         'Geschäftsführer',
         'Fachkraft',
       ],
+      distractors: ['Rentner'],
       correct: [
         'Praktikant',
         'Fachkraft',
@@ -1324,6 +1263,7 @@ export const wordDatabaseDE = {
         'Zusage erhalten',
         'Stelle ausschreiben lesen',
       ],
+      distractors: ['Kündigen'],
       correct: [
         'Stelle ausschreiben lesen',
         'Lebenslauf schreiben',
@@ -1337,6 +1277,7 @@ export const wordDatabaseDE = {
       difficulty: 1,
       instruction: 'Beträge vom kleinsten zum größten',
       scrambled: ['1.000.000 €', '500 €', '10.000 €', '75 €'],
+      distractors: ['100 €'],
       correct: ['75 €', '500 €', '10.000 €', '1.000.000 €'],
     },
 
@@ -1351,6 +1292,7 @@ export const wordDatabaseDE = {
         'Vertrag unterzeichnen',
         'Schlüssel erhalten',
       ],
+      distractors: ['Haus verkaufen'],
       correct: [
         'Wohnung besichtigen',
         'Vertrag unterzeichnen',
@@ -1364,6 +1306,7 @@ export const wordDatabaseDE = {
       difficulty: 1,
       instruction: 'Zeiteinheiten — kürzeste zuerst',
       scrambled: ['Jahrhundert', 'Sekunde', 'Jahrzehnt', 'Jahr'],
+      distractors: ['Monat'],
       correct: ['Sekunde', 'Jahr', 'Jahrzehnt', 'Jahrhundert'],
     },
 
@@ -1379,6 +1322,7 @@ export const wordDatabaseDE = {
         'Sie',
         'eingereicht.',
       ],
+      distractors: ['hatte', 'morgen'],
       correct: ['Sie', 'hat', 'den', 'Bericht', 'rechtzeitig', 'eingereicht.'],
     },
 
@@ -1387,6 +1331,7 @@ export const wordDatabaseDE = {
       difficulty: 2,
       instruction: 'Phasen eines Projekts (klassisches PM)',
       scrambled: ['Abschluss', 'Planung', 'Durchführung', 'Initiierung'],
+      distractors: ['Urlaub'],
       correct: ['Initiierung', 'Planung', 'Durchführung', 'Abschluss'],
     },
 
@@ -1395,6 +1340,7 @@ export const wordDatabaseDE = {
       difficulty: 1,
       instruction: 'Alphabetische Reihenfolge — Berufswörter',
       scrambled: ['Vertrag', 'Rechnung', 'Angebot', 'Protokoll'],
+      distractors: ['Zahlung'],
       correct: ['Angebot', 'Protokoll', 'Rechnung', 'Vertrag'],
     },
 
@@ -1405,6 +1351,7 @@ export const wordDatabaseDE = {
       instruction: 'Höre zu und ordne die Zahlen in der gehörten Reihenfolge',
       audioPrompt: 'Sieben. Drei. Neun. Eins.',
       scrambled: ['1', '9', '7', '3'],
+      distractors: ['8', '2'],
       correct: ['7', '3', '9', '1'],
     },
 
@@ -1414,6 +1361,7 @@ export const wordDatabaseDE = {
       instruction: 'Höre zu und ordne die Wörter in der gehörten Reihenfolge',
       audioPrompt: 'Rechnung, Budget, Bericht, Besprechung.',
       scrambled: ['Bericht', 'Rechnung', 'Besprechung', 'Budget'],
+      distractors: ['Vertrag', 'Datum'],
       correct: ['Rechnung', 'Budget', 'Bericht', 'Besprechung'],
     },
 
@@ -1428,6 +1376,7 @@ export const wordDatabaseDE = {
         'Dokument speichern',
         'Als Anhang hinzufügen',
       ],
+      distractors: ['Löschen', 'Drucken'],
       correct: [
         'Dokument speichern',
         'Als Anhang hinzufügen',
@@ -1441,6 +1390,7 @@ export const wordDatabaseDE = {
       instruction: 'Höre zu und ordne die buchstabierten Buchstaben',
       audioPrompt: 'V. E. R. T. R. A. G.',
       scrambled: ['T', 'V', 'A', 'R', 'G', 'E', 'R'],
+      distractors: ['F', 'W'],
       correct: ['V', 'E', 'R', 'T', 'R', 'A', 'G'],
     },
 
@@ -1454,6 +1404,7 @@ export const wordDatabaseDE = {
         'Bundesrepublik',
         'Weimarer Republik',
       ],
+      distractors: ['Steinzeit'],
       correct: [
         'Mittelalter',
         'Kaiserreich',

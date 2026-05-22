@@ -22,22 +22,26 @@ import SkeletonLoader     from './common/SkeletonLoader.jsx';
 import WeeklyCalendar from './WeeklyCalendar.jsx';
 import FeedbackCollector  from './FeedbackCollector.jsx';
 import CognitiveEnergyIndicator from './CognitiveEnergyIndicator.jsx';
+import { saveLog } from '../utils/indexedDB.js';
+import { useIndexedDB } from '../hooks/useIndexedDB.js';
+import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotifications.js';
 
 import { ExerciseRenderer } from './ExerciseRenderer.jsx';
 import { GamificationProvider, useGamification } from './GamificationContext.jsx';
+import { AppConfigProvider } from '../context/AppConfigContext.jsx';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
 // --- Global Constants & Configurations ---
 const POINTS_PER_LEVEL = 5;
-const PILLARS = ['Spelling', 'Structure', 'Spatial', 'Memory'];
+const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
 const DATABASES = { de: wordDatabaseDE, pl: wordDatabasePL, en: wordDatabaseEN };
 
 const PILLAR_LABELS = {
-  pl: { Spelling: 'Słowa',    Structure: 'Zdania',    Spatial: 'Kierunki',   Memory: 'Pamięć'     },
-  en: { Spelling: 'Words',    Structure: 'Sentences', Spatial: 'Directions', Memory: 'Memory'     },
-  de: { Spelling: 'Wörter',   Structure: 'Sätze',     Spatial: 'Richtungen', Memory: 'Gedächtnis' },
+  pl: { Literacy: 'Czytanie i Pisanie', Visual: 'Wzrok i Przestrzeń', Cognitive: 'Logika i Pamięć' },
+  en: { Literacy: 'Reading & Writing',  Visual: 'Vision & Space',     Cognitive: 'Logic & Memory' },
+  de: { Literacy: 'Lesen & Schreiben',  Visual: 'Sehen & Raum',       Cognitive: 'Logik & Gedächtnis' },
 };
-const PILLAR_ICONS = { Spelling: '📖', Structure: '🧩', Spatial: '🧭', Memory: '🧠' };
+const PILLAR_ICONS = { Literacy: '📖', Visual: '👁️', Cognitive: '🧠' };
 
 const THEMES = {
   Natur: { accent: 'text-emerald-600', bg: 'bg-emerald-50', button: 'bg-emerald-500', buttonText: 'text-white',     border: 'border-emerald-200', hex: '#10b981', price: 0  },
@@ -113,13 +117,10 @@ const playThemeSound = (theme) => {
 };
 
 const makeDailyQuests = () => [
-  { id: 1, type: 'Spelling',  target: 3,  current: 0, completed: false, reward: 3 },
-  { id: 2, type: 'Structure', target: 2,  current: 0, completed: false, reward: 3 },
+  { id: 1, type: 'Literacy',  target: 3,  current: 0, completed: false, reward: 3 },
+  { id: 2, type: 'Cognitive', target: 2,  current: 0, completed: false, reward: 3 },
   { id: 3, type: 'Any',       target: 10, current: 0, completed: false, reward: 5 },
 ];
-
-// Available content tags matching the strings.js keys
-const AVAILABLE_TOPICS = ['everyday', 'business', 'medicine'];
 
 // --- Main App Component ---
 function AppContent() {
@@ -131,14 +132,15 @@ function AppContent() {
   const { isGamified } = useGamification();
   const [inclusiveOptions, setInclusiveOptions] = useState(() => {
     const sv = localStorage.getItem('cfg_inclusive');
-    return sv ? JSON.parse(sv) : { adaptiveDifficulty: false, bigTargets: false, noFlash: false, audioRewards: false, extendedTime: false, zenMode: false, bionicReading: false };
+    return sv ? JSON.parse(sv) : { adaptiveDifficulty: false, bigTargets: false, noFlash: false, audioRewards: false, extendedTime: false, zenMode: false, bionicReading: false, minimalistMode: false, muteNotifications: false };
   });
   const [dailyGoal, setDailyGoal] = useState(() => Number(localStorage.getItem('cfg_goal')) || 5);
   const [selectedVoiceURI, setSelectedVoiceURI] = useState(() => localStorage.getItem('cfg_voice_uri') || 'default');
   const [voiceSpeed, setVoiceSpeed] = useState(() => Number(localStorage.getItem('cfg_voice_speed')) || 1.0);
+  const [voicePitch, setVoicePitch] = useState(() => Number(localStorage.getItem('cfg_voice_pitch')) || 1.0);
 
-  const [activeTab,    setActiveTab]    = useState('Spelling');
-  const [lastPillar,   setLastPillar]   = useState('Spelling'); // Remembers the pillar for garden rendering
+  const [activeTab,    setActiveTab]    = useState('Literacy');
+  const [lastPillar,   setLastPillar]   = useState('Literacy'); // Remembers the pillar for garden rendering
   const [showIntro,    setShowIntro]    = useState(true);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [showSuccess,  setShowSuccess]  = useState(false);
@@ -167,9 +169,6 @@ function AppContent() {
   const [userDifficulty, setUserDifficulty] = useState(() => Number(localStorage.getItem('cfg_difficulty')) || 1);
   const [errorCounter, setErrorCounter] = useState(0);
 
-  // New state for Point 7: Content Preference Filter
-  const [preferredTopics, setPreferredTopics] = useState(() => JSON.parse(localStorage.getItem('cfg_topics')) || []);
-
   // NEW State for Point 4: Cognitive Energy
   const [sessionStartTime, setSessionStartTime] = useState(Date.now());
   const [errorTimestamps, setErrorTimestamps] = useState([]);
@@ -183,14 +182,14 @@ function AppContent() {
     updateServiceWorker,
   } = useRegisterSW({ onRegisterError: (err) => console.error('SW Error:', err) });
 
-  const [dailyProgress, setDailyProgress] = useState(() => {
-    const saved = localStorage.getItem('cfg_daily_progress');
-    return saved ? JSON.parse(saved) : {};
-  });
+  const [dailyProgress, setDailyProgress] = useIndexedDB('daily_progress', 'date', 'cfg_daily_progress');
+
+  // Moduł wiadomości afirmatywnych
+  const { affirmation, setAffirmation } = useAffirmativeNotifications(points, language);
 
   useEffect(() => {
     if (!isGamified && activeTab === 'Garden') {
-      setActiveTab('Spelling');
+      setActiveTab('Literacy');
     }
     // Resets energy load specifically when user explicitly enters the Garden
     if (activeTab === 'Garden') {
@@ -284,6 +283,9 @@ function AppContent() {
     root.setAttribute('data-a11y-vision',   String(a11yAddons.includes('Niedowidzenie')));
     root.setAttribute('data-a11y-color',    String(a11yAddons.includes('Daltonizm')));
     root.setAttribute('data-a11y-motion',   String(noFlash));
+    root.setAttribute('data-a11y-spacing',  String(a11yAddons.includes('Spacing')));
+    root.setAttribute('data-a11y-desaturation', String(a11yAddons.includes('Desaturacja')));
+    root.setAttribute('data-a11y-minimalist', String(!!inclusiveOptions.minimalistMode));
     root.style.setProperty('--theme-accent', THEMES[theme]?.hex || '#10b981');
     root.lang = language;
   }, [a11yAddons, inclusiveOptions, theme, isHighContrast, bigTargets, noFlash, language]);
@@ -301,11 +303,10 @@ function AppContent() {
     localStorage.setItem('cfg_quests',          JSON.stringify(dailyQuests))
     localStorage.setItem('cfg_voice_uri',       selectedVoiceURI);
     localStorage.setItem('cfg_voice_speed',     String(voiceSpeed)); 
-    localStorage.setItem('cfg_daily_progress',  JSON.stringify(dailyProgress));
+    localStorage.setItem('cfg_voice_pitch',     String(voicePitch)); 
     localStorage.setItem('cfg_difficulty',    String(userDifficulty));
     localStorage.setItem('cfg_goal',            String(dailyGoal));
-    localStorage.setItem('cfg_topics',          JSON.stringify(preferredTopics));
-  }, [language, theme, a11yAddons, inclusiveOptions, points, currentIndex, rewards, coins, unlockedThemes, dailyQuests, selectedVoiceURI, voiceSpeed, dailyGoal, dailyProgress, userDifficulty, preferredTopics]);
+  }, [language, theme, a11yAddons, inclusiveOptions, points, currentIndex, rewards, coins, unlockedThemes, dailyQuests, selectedVoiceURI, voiceSpeed, voicePitch, dailyGoal, userDifficulty]);
 
   const speak = useCallback((text, slow = false) => {
     if (!window.speechSynthesis) return;
@@ -313,6 +314,7 @@ function AppContent() {
     const msg  = new SpeechSynthesisUtterance(text);
     msg.lang   = { de: 'de-DE', pl: 'pl-PL', en: 'en-US' }[language];
     msg.rate   = (slow || inclusiveOptions.extendedTime) ? voiceSpeed * 0.65 : voiceSpeed;
+    msg.pitch  = voicePitch;
 
     const allVoices = window.speechSynthesis.getVoices();
     let selectedVoice = null;
@@ -329,17 +331,16 @@ function AppContent() {
       msg.voice = selectedVoice;
     }
     window.speechSynthesis.speak(msg);
-  }, [language, inclusiveOptions.extendedTime, selectedVoiceURI, voiceSpeed]);
+  }, [language, inclusiveOptions.extendedTime, selectedVoiceURI, voiceSpeed, voicePitch]);
 
   const activePillarTasks = useMemo(() => {
     if (!db) return [];
     if (activeTab === 'Garden') return [];
     let rawTasks = [];
     switch (activeTab) {
-      case 'Spelling':  rawTasks = [...(db.graphemes || []), ...(db.context || [])]; break;
-      case 'Structure': rawTasks = [...(db.phonemes || []), ...(db.syllables || []), ...(db.scrabble || [])]; break;
-      case 'Spatial':   rawTasks = [...(db.clock || []), ...(db.tracking || [])]; break;
-      case 'Memory':    rawTasks = [...(db.sequences || [])]; break;
+      case 'Literacy':  rawTasks = [...(db.phonemes || []), ...(db.syllables || []), ...(db.graphemes || []), ...(db.scrabble || []), ...(db.lcwc || []), ...(db.context || []), ...(db.dictation || [])]; break;
+      case 'Visual':    rawTasks = [...(db.clock || []), ...(db.tracking || [])]; break;
+      case 'Cognitive': rawTasks = [...(db.categorization || []), ...(db.sequences || [])]; break;
       default:          rawTasks = [];
     }
 
@@ -358,14 +359,9 @@ function AppContent() {
       }
     }
 
-    // Point 7: Content Tag Filtering
-    if (preferredTopics.length > 0) {
-      filteredTasks = filteredTasks.filter(task => task.tags && task.tags.some(tag => preferredTopics.includes(tag)));
-    }
-
     const seed = activeTab.split('').reduce((a, b) => a + b.charCodeAt(0), 0) + (language === 'pl' ? 1 : 2) + cycle;
     return seededShuffle([...filteredTasks], seed);
-  }, [activeTab, db, language, inclusiveOptions.adaptiveDifficulty, userDifficulty, preferredTopics, cycle]);
+  }, [activeTab, db, language, inclusiveOptions.adaptiveDifficulty, userDifficulty, cycle]);
 
   const safeIndex = currentIndex % (activePillarTasks.length || 1);
   const currentTask = activePillarTasks.length > 0 ? activePillarTasks[safeIndex] : null;
@@ -424,7 +420,7 @@ function AppContent() {
     setErrorCounter(0); // Zresetuj licznik błędów po sukcesie
 
     // Play thematic success sound (if audio rewards are enabled)
-    if (inclusiveOptions.audioRewards) {
+    if (inclusiveOptions.audioRewards && !inclusiveOptions.muteNotifications) {
       playThemeSound(theme);
     }
 
@@ -462,7 +458,9 @@ function AppContent() {
         ? t.voice.streak[Math.floor(Math.random() * t.voice.streak.length)].replace(/{count}/g, newStreak)
         : t.voice.streak;
     }
-    speak(voiceSuccessMsg);
+    if (!inclusiveOptions.muteNotifications) {
+      speak(voiceSuccessMsg);
+    }
 
     const newPoints = points + 1;
     setPoints(newPoints);
@@ -499,14 +497,20 @@ function AppContent() {
         setTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
       }
     }
+
+    // PWA Asynchronous Log: Bezpiecznie zapisujemy zdarzenie w IndexedDB poza głównym wątkiem Reacta
+    saveLog('exercise_history', { 
+      date: new Date().toISOString(), 
+      type: activeTab, 
+      correct: true 
+    }).catch(console.error);
   }, [
     currentStreak, isGamified, dailyQuests, activeTab, updateQuests, t, speak,
     points, theme, setRewards, inclusiveOptions, setDailyProgress, dailyGoal, userDifficulty, goNext
   ]);
 
   const handleError = useCallback(() => {
-    setCurrentStreak(0);
-    
+    // USUNIĘTO: setCurrentStreak(0); - Kary za błędy drastycznie obniżają motywację u dorosłych. Ciągłość pozostaje nienaruszona.
     // Point 4 Log - Add timestamp for calculating Error Velocity
     setErrorTimestamps(prev => [...prev, Date.now()]);
 
@@ -522,18 +526,32 @@ function AppContent() {
       : (t.voice?.error || '✗');
       
     setFeedback({ type: 'error', msg: errorMsg });
-    speak(errorMsg);
+    if (!inclusiveOptions.muteNotifications) {
+      speak(errorMsg);
+    }
+
+    // PWA Asynchronous Log: Zapis błędu do budowy algorytmów analitycznych
+    saveLog('exercise_history', { 
+      date: new Date().toISOString(), 
+      type: activeTab, 
+      correct: false 
+    }).catch(console.error);
   }, [t, speak, errorCounter, inclusiveOptions.adaptiveDifficulty, userDifficulty]);
 
   // Logger analityczny (Point 9) - zapisuje dane telemetryczne z ankiety
-  const handleFeedbackSubmit = useCallback((surveyData) => {
-    const logs = JSON.parse(localStorage.getItem('cfg_nasa_tlx_logs') || '[]');
-    logs.push({
+  const handleFeedbackSubmit = useCallback(async (surveyData) => {
+    const logEntry = {
       timestamp: new Date().toISOString(),
       pointsAtTime: points,
       metrics: surveyData
-    });
-    localStorage.setItem('cfg_nasa_tlx_logs', JSON.stringify(logs));
+    };
+    
+    try {
+      await saveLog('ux_logs', logEntry);
+    } catch (error) {
+      console.error('Failed to save UX logs to IndexedDB:', error);
+    }
+    
     setShowFeedback(false);
     goNext();
   }, [points, goNext]);
@@ -586,6 +604,7 @@ function AppContent() {
       noFlash,
       bionicReading: !!inclusiveOptions.bionicReading,
       zenMode:       !!inclusiveOptions.zenMode,
+      isHighContrast,
     };
     return <ExerciseRenderer
       key={`${activeTab}-${currentIndex}`}
@@ -620,6 +639,9 @@ function AppContent() {
         inclusiveOptions={inclusiveOptions} setInclusiveOptions={setInclusiveOptions}
         selectedVoiceURI={selectedVoiceURI} setSelectedVoiceURI={setSelectedVoiceURI}
         voiceSpeed={voiceSpeed}          setVoiceSpeed={setVoiceSpeed}
+        voicePitch={voicePitch}          setVoicePitch={setVoicePitch}
+        isHighContrast={isHighContrast}
+        bigTargets={bigTargets}
       />
 
       {/* Navigation Sidebar */}
@@ -638,7 +660,7 @@ function AppContent() {
             return (
               <button key={p}
                   onClick={() => { setActiveTab(p); setLastPillar(p); setCurrentIndex(0); setCycle(0); setFeedback(null); setCurrentStreak(0); }}
-                className={`relative flex items-center justify-center md:justify-start gap-3 p-2.5 md:p-3 rounded-2xl transition-all ${isSelected ? (isHighContrast ? 'bg-white text-black font-bold' : `${themeStyles.bg} ${themeStyles.accent} font-bold shadow-sm`) : (isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-50')}`}
+                className={`relative flex items-center justify-center md:justify-start gap-3 ${bigTargets ? 'p-4 md:p-5' : 'p-2.5 md:p-3'} rounded-2xl transition-all ${isSelected ? (isHighContrast ? 'bg-white text-black font-bold' : `${themeStyles.bg} ${themeStyles.accent} font-bold shadow-sm`) : (isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-50')}`}
                 aria-pressed={isSelected}
                 aria-label={label}
               >
@@ -658,7 +680,7 @@ function AppContent() {
           {isGamified && (
             <button
               onClick={() => { setActiveTab('Garden'); setFeedback(null); }}
-              className={`relative flex items-center justify-center md:justify-start gap-3 p-2.5 md:p-3 rounded-2xl transition-all ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-bold' : `${themeStyles.bg} ${themeStyles.accent} font-bold shadow-sm`) : (isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-50')}`}
+              className={`relative flex items-center justify-center md:justify-start gap-3 ${bigTargets ? 'p-4 md:p-5' : 'p-2.5 md:p-3'} rounded-2xl transition-all ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-bold' : `${themeStyles.bg} ${themeStyles.accent} font-bold shadow-sm`) : (isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-50')}`}
               aria-pressed={activeTab === 'Garden'}
               aria-label={t.garden || "Garten"}
             >
@@ -674,7 +696,7 @@ function AppContent() {
           )}
           <button
             onClick={() => setSettingsOpen(true)}
-            className={`flex items-center justify-center md:justify-start gap-3 p-2.5 md:p-3 rounded-2xl transition-all ${isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-100'}`}
+            className={`flex items-center justify-center md:justify-start gap-3 ${bigTargets ? 'p-4 md:p-5' : 'p-2.5 md:p-3'} rounded-2xl transition-all ${isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-100'}`}
             aria-label={s.settingsAria}
           >
             <span className={hideNavLabel ? 'text-2xl' : 'text-xl'} aria-hidden="true">⚙️</span>
@@ -710,6 +732,7 @@ function AppContent() {
                 noFlash={noFlash}
                 dailyProgress={dailyProgress}
                 dailyGoal={dailyGoal}
+                minimalistMode={!!inclusiveOptions.minimalistMode}
               />
             </div>
           ) : (
@@ -735,6 +758,7 @@ function AppContent() {
                       activeCategory={lastPillar} 
                       isFullScreen={false} 
                       noFlash={noFlash} 
+                      minimalistMode={!!inclusiveOptions.minimalistMode}
                     />
                   ) : (
                     <>
@@ -751,6 +775,7 @@ function AppContent() {
                       loadLevel={loadLevel} showModal={showBreakModal}
                       onTakeBreak={handleTakeBreak} onDismiss={handleDismissBreak}
                       t={t} themeStyles={themeStyles} isHighContrast={isHighContrast} noFlash={noFlash}
+                      bigTargets={bigTargets}
                     />
                   )}
                   <div className={`text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>
@@ -761,7 +786,7 @@ function AppContent() {
 
               {/* Ręczny Suwak Trudności (Widoczny gdy "Adaptacyjny poziom" i Tryb Zen są wyłączone) */}
               {!inclusiveOptions.adaptiveDifficulty && !inclusiveOptions.zenMode && (
-                <div className={`px-5 py-3 mb-4 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm' : `bg-white border ${themeStyles.border} shadow-md shadow-slate-200/50`}`}>
+                <div className={`${bigTargets ? 'px-5 py-5' : 'px-5 py-3'} mb-4 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm' : `bg-white border ${themeStyles.border} shadow-md shadow-slate-200/50`}`}>
                   <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white' : 'text-slate-500'}`}>
                     {t.difficulty || 'Poziom'}: <span className={themeStyles.accent}>{t.diffLevels?.[userDifficulty - 1] || userDifficulty}</span>
                   </span>
@@ -779,36 +804,12 @@ function AppContent() {
                          setCycle(0);
                          setFeedback(null);
                       }}
-                      className="flex-1 cursor-pointer"
-                      style={{ accentColor: themeStyles.hex || '#10b981' }}
+                      className={`flex-1 cursor-pointer ${bigTargets ? 'h-4' : ''}`}
+                      style={{ accentColor: isHighContrast ? '#ffffff' : themeStyles.hex || '#10b981' }}
                       aria-label={t.difficulty || 'Trudność'}
                       aria-valuetext={t.diffLevels?.[userDifficulty - 1] || userDifficulty}
                     />
                     <span className="text-xs" aria-hidden="true">🌳</span>
-                  </div>
-                </div>
-              )}
-
-              {/* Content Preference Filter (Tags/Topics) */}
-              {!inclusiveOptions.zenMode && (
-                <div className={`px-5 py-3 mb-4 rounded-3xl flex flex-col sm:flex-row items-start sm:items-center gap-3 shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm' : `bg-white border ${themeStyles.border} shadow-sm`}`}>
-                  <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white' : 'text-slate-500'}`}>
-                    {t.topicsLabel || 'Tematyka'}:
-                  </span>
-                  <div className="flex flex-wrap gap-2">
-                    {AVAILABLE_TOPICS.map(topic => {
-                      const isActive = preferredTopics.includes(topic);
-                      return (
-                        <button
-                          key={topic}
-                          onClick={() => { setPreferredTopics(prev => prev.includes(topic) ? prev.filter(t => t !== topic) : [...prev, topic]); setCurrentIndex(0); setCycle(0); setFeedback(null); }}
-                          aria-pressed={isActive}
-                          className={`px-3 py-1.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider rounded-full transition-all border-2 ${isActive ? `${themeStyles.button} text-white border-transparent shadow-md` : `bg-transparent text-slate-400 border-slate-200 hover:border-slate-300`}`}
-                        >
-                          {t.topics?.[topic] || topic}
-                        </button>
-                      );
-                    })}
                   </div>
                 </div>
               )}
@@ -829,7 +830,7 @@ function AppContent() {
                 )}
                 {feedback && (
                   <div className={`absolute top-4 z-20 ${noFlash ? '' : 'animate-in slide-in-from-top duration-300'}`}>
-                    <span className={`px-5 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-sm ${feedback.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
+                <span className={`px-6 py-3 rounded-2xl text-sm font-medium shadow-sm border ${isHighContrast ? 'bg-black border-white text-white' : 'bg-slate-50 border-slate-200 text-slate-600'}`}
                           role="status" aria-live="polite">
                       <BionicText text={feedback.msg} enabled={!!inclusiveOptions.bionicReading} />
                     </span>
@@ -843,7 +844,7 @@ function AppContent() {
               {feedback?.type === 'success' ? (
                 <div className="mt-4 flex justify-center animate-in zoom-in duration-300 shrink-0 pb-2">
                   <button onClick={goNext}
-                    className={`px-12 py-4 bg-emerald-500 text-white rounded-full font-black uppercase text-sm tracking-widest shadow-xl hover:bg-emerald-400 active:scale-95 transition-all ${noFlash ? '' : 'animate-bounce'} break-words`}>
+                    className={`${bigTargets ? 'px-14 py-6 text-lg' : 'px-12 py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all ${noFlash ? '' : 'animate-bounce'} break-words ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-emerald-500 text-white hover:bg-emerald-400'}`}>
                     {t.next || s.next || 'Dalej'}
                   </button>
                 </div>
@@ -851,7 +852,7 @@ function AppContent() {
                 currentTask && !inclusiveOptions.zenMode && (
                   <div className="mt-3 flex justify-center shrink-0 pb-2">
                     <button onClick={goNext}
-                      className={`px-8 py-2 bg-transparent border-2 rounded-full font-black uppercase text-[10px] tracking-widest transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-400 hover:bg-slate-100'}`}>
+                      className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} bg-transparent border-2 rounded-full font-black uppercase tracking-widest transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-400 hover:bg-slate-100'}`}>
                       {t.skip || s.skip || 'Pomiń'}
                     </button>
                   </div>
@@ -865,27 +866,21 @@ function AppContent() {
       {/* Level-Up Success Overlay */}
       {showSuccess && (
         <div 
-          className={`fixed inset-0 z-50 flex items-center justify-center p-6 text-center ${isHighContrast ? 'bg-black/80 backdrop-blur-sm' : themeStyles.button}`}
+          className={`fixed inset-0 z-50 flex items-center justify-center p-6 text-center ${isHighContrast ? 'bg-black/90 backdrop-blur-sm' : 'bg-slate-50/90 backdrop-blur-md'}`}
           role="dialog"
           aria-modal="true"
           aria-labelledby="level-up-title"
         >
-          <div className={`rounded-4xl p-10 shadow-2xl max-w-sm w-full ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'}`}>
-            <div className="text-6xl mb-3" aria-hidden="true">🏆</div>
-            <h2 id="level-up-title" className="text-3xl font-black mb-2">{t.levelUp || s.levelUp}</h2>
-            <div className="flex justify-center gap-3 text-4xl flex-wrap my-6 bg-slate-50 p-5 rounded-3xl">
-              {rewards.slice(-5).map((r, i) => <span key={i}>{r}</span>)}
-            </div>
-            <button onClick={() => { 
-                setShowSuccess(false); 
-                if (pendingFeedback) {
-                  setShowFeedback(true);
-                  setPendingFeedback(false);
-                } else {
-                  goNext(); 
-                }
-              }}
-              className={`w-full py-5 rounded-3xl font-black text-xl shadow-lg active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}>
+          <div className={`rounded-4xl p-10 shadow-lg max-w-sm w-full border ${noFlash ? '' : 'animate-in fade-in zoom-in duration-700'} ${isHighContrast ? 'bg-black border-white' : 'bg-white border-slate-200'}`}>
+            <div className="text-5xl mb-4 opacity-80" aria-hidden="true">🌱</div>
+            <h2 id="level-up-title" className={`text-2xl font-bold mb-4 ${isHighContrast ? 'text-white' : 'text-slate-700'}`}>
+              {t.gardenBlooming || "Twój ogród rośnie!"}
+            </h2>
+            <p className={`text-sm mb-8 leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
+              {t.srVisitor || "Kolejny cel został pomyślnie zrealizowany."}
+            </p>
+            <button onClick={() => { setShowSuccess(false); if (pendingFeedback) { setShowFeedback(true); setPendingFeedback(false); } else { goNext(); } }}
+              className={`w-full ${bigTargets ? 'py-7 text-xl' : 'py-4 text-lg'} rounded-3xl font-bold active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
               {t.next || s.next}
             </button>
           </div>
@@ -901,14 +896,27 @@ function AppContent() {
         themeStyles={themeStyles}
         isHighContrast={isHighContrast}
         noFlash={noFlash}
+        bigTargets={bigTargets}
       />
 
       {/* Floating Global TTS Controls */}
       <TTSController
         voiceSpeed={voiceSpeed} setVoiceSpeed={setVoiceSpeed}
+        voicePitch={voicePitch} setVoicePitch={setVoicePitch}
         selectedVoiceURI={selectedVoiceURI} setSelectedVoiceURI={setSelectedVoiceURI}
         language={language} isHighContrast={isHighContrast} themeStyles={themeStyles} t={t}
       />
+
+      {/* Delikatne okienko (Toast) Modułu Afirmatywnego */}
+      {affirmation && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] px-4 w-full max-w-sm pointer-events-none">
+          <div className={`p-4 rounded-2xl shadow-lg border ${noFlash ? '' : 'animate-in slide-in-from-bottom-8 fade-in duration-700'} ${isHighContrast ? 'bg-black border-white text-white' : 'bg-white border-slate-100 text-slate-700'}`}>
+            <p className="text-sm font-medium text-center leading-relaxed">
+              {affirmation}
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Non-intrusive PWA Update Prompt */}
       {needRefresh && (
@@ -933,8 +941,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <GamificationProvider>
-      <AppContent />
-    </GamificationProvider>
+    <AppConfigProvider>
+      <GamificationProvider>
+        <AppContent />
+      </GamificationProvider>
+    </AppConfigProvider>
   );
 }

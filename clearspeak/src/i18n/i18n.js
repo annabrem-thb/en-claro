@@ -25,10 +25,9 @@ const translations = {
     difficulty: "Schwierigkeitsgrad",
     diffLevels: ["Leicht", "Mittel", "Schwer"],
     pillars: {
-      Spelling: "Wörter pflegen",
-      Structure: "Sätze nähren",
-      Spatial: "Wege anlegen",
-      Memory: "Gedächtnis stärken"
+      Literacy: "Lesen & Schreiben",
+      Visual: "Sehen & Raum",
+      Cognitive: "Logik & Gedächtnis"
     },
     categories: {
       Phonem: "Laute",
@@ -106,7 +105,14 @@ const translations = {
       Standard: { name: "Standard", desc: "Normale Ansicht" },
       LRS: { name: "LRS Modus", desc: "Legasthenie-freundlich" },
       Kontrast: { name: "Hoher Kontrast", desc: "Bessere Lesbarkeit" },
-      Motorik: { name: "Motorik", desc: "Große Tasten" }
+      Motorik: { name: "Motorik", desc: "Große Tasten" },
+      Niedowidzenie: { name: "Sehschwäche", desc: "Vergrößerte Schrift und Symbole" },
+      Daltonizm: { name: "Farbenblindheit", desc: "Farbblindsichere Palette" },
+      Redukcja: { name: "Bewegung reduziert", desc: "Kein Flackern — epilepsiesicher" },
+      Bionic: { name: "Bionisches Lesen", desc: "Hebt Wortanfänge hervor" },
+      Linijka: { name: "Lese-Lineal", desc: "Hebt eine horizontale Linie hervor" },
+      Spacing: { name: "Größere Abstände", desc: "Erhöht den Zeichen- und Wortabstand" },
+      Desaturacja: { name: "Entsättigung", desc: "Verringert die Intensität leuchtender Farben" }
     },
     levelIcons: {
       Natur: ['🌿', '☘️', '🌳', '🌲', '🏔️'],
@@ -146,7 +152,8 @@ const translations = {
   accDescriptions: {
     Standard: "Standardansicht",
     Kontrast: "Hoher Kontrastmodus",
-    LRS: "Schriftart für Legastheniker"
+    LRS: "Schriftart für Legastheniker",
+    Motorik: "Große Tasten und langsame Animationen"
   },
   themeNames: {
     Natur: "Natur",
@@ -186,10 +193,9 @@ const translations = {
     difficulty: "Difficulty",
     diffLevels: ["Easy", "Medium", "Hard"],
     pillars: {
-      Spelling: "Tend to Words",
-      Structure: "Nurture Sentences",
-      Spatial: "Clear the Paths",
-      Memory: "Grow Memory"
+      Literacy: "Reading & Writing",
+      Visual: "Vision & Space",
+      Cognitive: "Logic & Memory"
     },
     categories: {
       Phonem: "Sounds",
@@ -267,7 +273,14 @@ const translations = {
       Standard: { name: "Standard", desc: "Default view" },
       LRS: { name: "Dyslexia", desc: "Dyslexia-friendly font" },
       Kontrast: { name: "High Contrast", desc: "Better readability" },
-      Motorik: { name: "Motor Skills", desc: "Larger buttons" }
+      Motorik: { name: "Motor Skills", desc: "Larger buttons" },
+      Niedowidzenie: { name: "Low Vision", desc: "Enlarged font and icons" },
+      Daltonizm: { name: "Color Blindness", desc: "Color-safe palette" },
+      Redukcja: { name: "Reduced Motion", desc: "No flashing — epilepsy safe" },
+      Bionic: { name: "Bionic Reading", desc: "Bolds word beginnings" },
+      Linijka: { name: "Reading Ruler", desc: "Highlights line under cursor" },
+      Spacing: { name: "Dyslexia Spacing", desc: "Increases letter and word spacing" },
+      Desaturacja: { name: "Low Saturation", desc: "Reduces the intensity of bright colours" }
     },
     levelIcons: {
       Natur: ['🌿', '☘️', '🌳', '🌲', '🏔️'],
@@ -307,7 +320,8 @@ const translations = {
 accDescriptions: {
   Standard: "Default View",
   Kontrast: "High Contrast Mode",
-  LRS: "Dyslexia Friendly Font"
+  LRS: "Dyslexia Friendly Font",
+  Motorik: "Larger buttons and slower animations"
 },
 
 themeNames: {
@@ -345,10 +359,9 @@ themeNames: {
     difficulty: "Poziom trudności",
     diffLevels: ["Łatwy", "Średni", "Trudny"],
     pillars: {
-      Spelling: "Pielęgnuj Słowa",
-      Structure: "Zadbaj o Zdania",
-      Spatial: "Wytyczaj Ścieżki",
-      Memory: "Rozwijaj Pamięć"
+      Literacy: "Czytanie i Pisanie",
+      Visual: "Wzrok i Przestrzeń",
+      Cognitive: "Logika i Pamięć"
     },
     voice: {
       success: [
@@ -429,7 +442,14 @@ themeNames: {
       Standard: { name: "Standard", desc: "Widok domyślny" },
       LRS: { name: "Dysleksja", desc: "Czcionka ułatwiająca czytanie" },
       Kontrast: { name: "Wysoki Kontrast", desc: "Lepsza czytelność" },
-      Motorik: { name: "Motoryka", desc: "Większe przyciski" }
+      Motorik: { name: "Motoryka", desc: "Większe przyciski" },
+      Niedowidzenie: { name: "Niedowidzenie", desc: "Powiększona czcionka i ikony" },
+      Daltonizm: { name: "Daltonizm", desc: "Bezpieczna paleta kolorów" },
+      Redukcja: { name: "Redukcja Ruchu", desc: "Brak migotania, bezpieczne dla epilepsji" },
+      Bionic: { name: "Bionic Reading", desc: "Pogrubia początki wyrazów" },
+      Linijka: { name: "Linijka", desc: "Podświetla linię pod kursorem" },
+      Spacing: { name: "Większe odstępy", desc: "Zwiększa odstępy między literami i słowami" },
+      Desaturacja: { name: "Desaturacja", desc: "Zmniejsza nasycenie jaskrawych kolorów" }
     },
     levelIcons: {
       Natur: ['🌿', '☘️', '🌳', '🌲', '🏔️'],
@@ -472,7 +492,8 @@ themeNames: {
   accDescriptions: {
     Standard: "Widok domyślny",
     Kontrast: "Tryb wysokiego kontrastu",
-    LRS: "Czcionka dla dyslektyków"
+    LRS: "Czcionka dla dyslektyków",
+    Motorik: "Większe przyciski i wolniejsze animacje"
   },
 
   themeNames: {

@@ -518,12 +518,13 @@ export const wordDatabasePL = {
   // Words with difficult spelling — non-alternating or ambiguous spelling.
   // ─────────────────────────────────────────────────────────────────────────────
   scrabble: [
-    { id: 1, difficulty: 1, word: 'ŻÓŁW', scrambled: ['Ż', 'Ó', 'Ł', 'W'], image: '🐢' },
+    { id: 1, difficulty: 1, word: 'ŻÓŁW', scrambled: ['Ż', 'Ó', 'Ł', 'W'], distractors: ['U', 'R'], image: '🐢' },
     {
       id: 2,
       difficulty: 3,
       word: 'CHRZĄSZCZ',
       scrambled: ['C', 'H', 'R', 'Z', 'Ą', 'S', 'Z', 'C', 'Z'],
+      distractors: ['Ś', 'Ć'],
       image: '🪲',
     },
     {
@@ -531,6 +532,7 @@ export const wordDatabasePL = {
       difficulty: 2,
       word: 'PRZYSZŁOŚĆ',
       scrambled: ['P', 'R', 'Z', 'Y', 'S', 'Z', 'Ł', 'O', 'Ś', 'Ć'],
+      distractors: ['S', 'C'],
       image: '🚀',
     },
     {
@@ -538,6 +540,7 @@ export const wordDatabasePL = {
       difficulty: 2,
       word: 'WŁAŚCICIEL',
       scrambled: ['W', 'Ł', 'A', 'Ś', 'C', 'I', 'C', 'I', 'E', 'L'],
+      distractors: ['S', 'Ć'],
       image: '👔',
     },
     {
@@ -545,6 +548,7 @@ export const wordDatabasePL = {
       difficulty: 2,
       word: 'HIERARCHIA',
       scrambled: ['H', 'I', 'E', 'R', 'A', 'R', 'C', 'H', 'I', 'A'],
+      distractors: ['C', 'J'],
       image: '📊',
     },
     {
@@ -567,6 +571,7 @@ export const wordDatabasePL = {
         'I',
         'E',
       ],
+      distractors: ['R', 'Z'],
       image: '💰',
     },
     {
@@ -588,6 +593,7 @@ export const wordDatabasePL = {
         'I',
         'E',
       ],
+      distractors: ['S', 'Z'],
       image: '💪',
     },
     {
@@ -610,6 +616,7 @@ export const wordDatabasePL = {
         'W',
         'O',
       ],
+      distractors: ['N', 'Ś'],
       image: '🛡️',
     },
     {
@@ -617,6 +624,7 @@ export const wordDatabasePL = {
       difficulty: 1,
       word: 'ŹRÓDŁO',
       scrambled: ['Ź', 'R', 'Ó', 'D', 'Ł', 'O'],
+      distractors: ['Z', 'U'],
       image: '🌿',
     },
     {
@@ -624,6 +632,7 @@ export const wordDatabasePL = {
       difficulty: 1,
       word: 'PRZESTRZEŃ',
       scrambled: ['P', 'R', 'Z', 'E', 'S', 'T', 'R', 'Z', 'E', 'Ń'],
+      distractors: ['S', 'Z'],
       image: '🌌',
     },
     {
@@ -631,6 +640,7 @@ export const wordDatabasePL = {
       difficulty: 2,
       word: 'WNIOSKODAWCA',
       scrambled: ['W', 'N', 'I', 'O', 'S', 'K', 'O', 'D', 'A', 'W', 'C', 'A'],
+      distractors: ['F', 'T'],
       image: '📋',
     },
     {
@@ -638,6 +648,7 @@ export const wordDatabasePL = {
       difficulty: 2,
       word: 'WSPÓŁPRACA',
       scrambled: ['W', 'S', 'P', 'Ó', 'Ł', 'P', 'R', 'A', 'C', 'A'],
+      distractors: ['U', 'L'],
       image: '🤝',
     },
     {
@@ -645,6 +656,7 @@ export const wordDatabasePL = {
       difficulty: 1,
       word: 'TYMCZASOWY',
       scrambled: ['T', 'Y', 'M', 'C', 'Z', 'A', 'S', 'O', 'W', 'Y'],
+      distractors: ['S', 'Z'],
       image: '⏳',
     },
     {
@@ -653,6 +665,7 @@ export const wordDatabasePL = {
       tags: ['medicine'],
       word: 'PSYCHOLOG',
       scrambled: ['P', 'S', 'Y', 'C', 'H', 'O', 'L', 'O', 'G'],
+      distractors: ['K', 'I'],
       image: '🧠',
     },
     {
@@ -675,6 +688,7 @@ export const wordDatabasePL = {
         'N',
         'Y',
       ],
+      distractors: ['J', 'Ć'],
       image: '✅',
     },
   ],
@@ -1134,7 +1148,7 @@ export const wordDatabasePL = {
       instruction: 'Ułóż elementy od końca!',
       displayItems: ['📋', '💰', '✅'],
       correct: ['✅', '💰', '📋'],
-      scrambled: ['📋', '💰', '✅'],
+      scrambled: ['📋', '💰', '✅', '❌', '🛡️'],
       displayTime: 3000,
     },
 
@@ -1144,6 +1158,7 @@ export const wordDatabasePL = {
       difficulty: 1,
       instruction: 'Ułóż dni robocze tygodnia po kolei',
       scrambled: ['Środa', 'Poniedziałek', 'Czwartek', 'Wtorek'],
+      distractors: ['Sobota', 'Niedziela'],
       correct: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek'],
     },
 
@@ -1153,6 +1168,7 @@ export const wordDatabasePL = {
       tags: ['business'],
       instruction: 'Etapy kariery zawodowej — od najniższego',
       scrambled: ['Kierownik', 'Stażysta', 'Dyrektor', 'Specjalista'],
+      distractors: ['Emeryt'],
       correct: ['Stażysta', 'Specjalista', 'Kierownik', 'Dyrektor'],
     },
 
@@ -1161,6 +1177,7 @@ export const wordDatabasePL = {
       difficulty: 1,
       instruction: 'Ułóż miesiące I kwartału po kolei',
       scrambled: ['Marzec', 'Styczeń', 'Luty'],
+      distractors: ['Kwiecień'],
       correct: ['Styczeń', 'Luty', 'Marzec'],
     },
 
@@ -1229,6 +1246,7 @@ export const wordDatabasePL = {
         'gruntowną',
         'wczoraj',
       ],
+      distractors: ['jutro', 'pżeprowadziła'],
       correct: ['Firma', 'wczoraj', 'przeprowadziła', 'gruntowną', 'analizę.'],
     },
 
@@ -1245,6 +1263,7 @@ export const wordDatabasePL = {
       difficulty: 1,
       instruction: 'Ułóż alfabetycznie wyrazy zawodowe',
       scrambled: ['Wynagrodzenie', 'Urlop', 'Umowa', 'Zarząd'],
+      distractors: ['Faktura'],
       correct: ['Umowa', 'Urlop', 'Wynagrodzenie', 'Zarząd'],
     },
 
@@ -1255,6 +1274,7 @@ export const wordDatabasePL = {
       instruction: 'Posłuchaj i ułóż cyfry w podanej kolejności',
       audioPrompt: 'Siedem. Dwa. Pięć. Jeden.',
       scrambled: ['1', '2', '7', '5'],
+      distractors: ['3', '8'],
       correct: ['7', '2', '5', '1'],
     },
 
@@ -1551,4 +1571,116 @@ export const wordDatabasePL = {
       ],
     },
   ],
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // CATEGORY: LOOK, COVER, WRITE, CHECK (LCWC)
+  // Metacognitive spelling practice for difficult adult vocabulary.
+  // ─────────────────────────────────────────────────────────────────────────────
+  lcwc: [
+    { id: 1, lcwc: true, difficulty: 1, word: 'Harmonogram' },
+    { id: 2, lcwc: true, difficulty: 2, word: 'Zarządzanie' },
+    { id: 3, lcwc: true, difficulty: 3, word: 'Przedsięwzięcie' },
+    { id: 4, lcwc: true, difficulty: 2, word: 'Dofinansowanie' },
+    { id: 5, lcwc: true, difficulty: 1, word: 'Inwestycja' },
+    { id: 6, lcwc: true, difficulty: 2, word: 'Zobowiązanie' },
+    { id: 7, lcwc: true, difficulty: 3, word: 'Urzeczywistnienie' },
+    { id: 8, lcwc: true, difficulty: 2, word: 'Konsekwencja' },
+    { id: 9, lcwc: true, difficulty: 2, word: 'Doświadczenie' },
+    { id: 10, lcwc: true, difficulty: 2, word: 'Zarządzenie' },
+  ],
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // CATEGORY: VISUAL CATEGORIZATION
+  // ─────────────────────────────────────────────────────────────────────────────
+  categorization: [
+    {
+      id: 1,
+      difficulty: 1,
+      tags: ['business'],
+      instruction: 'Przyporządkuj słowa do odpowiednich działów',
+      buckets: [
+        { id: 'hr', label: 'Kadry (HR)', icon: '👥' },
+        { id: 'fin', label: 'Finanse', icon: '💰' }
+      ],
+      items: [
+        { id: 'i1', word: 'Budżet', bucketId: 'fin' },
+        { id: 'i2', word: 'Rekrutacja', bucketId: 'hr' },
+        { id: 'i3', word: 'Faktura', bucketId: 'fin' },
+        { id: 'i4', word: 'Urlopy', bucketId: 'hr' }
+      ]
+    },
+    {
+      id: 2,
+      difficulty: 2,
+      instruction: 'Pogrupuj słowa według zasady ortograficznej',
+      buckets: [
+        { id: 'rz', label: 'Pisownia przez rz', icon: '📝' },
+        { id: 'z', label: 'Pisownia przez ż', icon: '📝' }
+      ],
+      items: [
+        { id: 'i1', word: 'Przedszkole', bucketId: 'rz' },
+        { id: 'i2', word: 'Każdy', bucketId: 'z' },
+        { id: 'i3', word: 'Wydarzenie', bucketId: 'rz' },
+        { id: 'i4', word: 'Młodzież', bucketId: 'z' }
+      ]
+    },
+    {
+      id: 3,
+      difficulty: 1,
+      instruction: 'Pogrupuj słowa na rzeczowniki i czasowniki',
+      buckets: [
+        { id: 'rz', label: 'Rzeczownik (Kto/Co?)', icon: '📦' },
+        { id: 'cz', label: 'Czasownik (Co robi?)', icon: '🏃' }
+      ],
+      items: [
+        { id: 'i1', word: 'Spotkanie', bucketId: 'rz' },
+        { id: 'i2', word: 'Rozmawiać', bucketId: 'cz' },
+        { id: 'i3', word: 'Decyzja', bucketId: 'rz' },
+        { id: 'i4', word: 'Analizować', bucketId: 'cz' }
+      ]
+    },
+    {
+      id: 4,
+      difficulty: 2,
+      instruction: 'Słowa pisane przez "h" i "ch"',
+      buckets: [
+        { id: 'h', label: 'Samo H', icon: '📝' },
+        { id: 'ch', label: 'Dwuznak CH', icon: '📝' }
+      ],
+      items: [
+        { id: 'i1', word: 'Hałas', bucketId: 'h' },
+        { id: 'i2', word: 'Chmura', bucketId: 'ch' },
+        { id: 'i3', word: 'Harmonogram', bucketId: 'h' },
+        { id: 'i4', word: 'Charakter', bucketId: 'ch' }
+      ]
+    }
+  ],
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // CATEGORY: DICTATION
+  // Dyktanda ze słuchu (wymaga odtworzenia dźwięku i ręcznego wpisania tekstu)
+  // ─────────────────────────────────────────────────────────────────────────────
+  dictation: [
+    {
+      id: 1,
+      dictation: true,
+      difficulty: 1,
+      audioPrompt: 'Biuro jest dzisiaj zamknięte.',
+      correct: 'Biuro jest dzisiaj zamknięte'
+    },
+    {
+      id: 2,
+      dictation: true,
+      difficulty: 2,
+      audioPrompt: 'Harmonogram projektu został zaktualizowany.',
+      correct: 'Harmonogram projektu został zaktualizowany'
+    },
+    {
+      id: 3,
+      dictation: true,
+      difficulty: 3,
+      audioPrompt: 'Przedsiębiorstwo przynosi ogromne zyski.',
+      correct: 'Przedsiębiorstwo przynosi ogromne zyski'
+    }
+  ]
 };

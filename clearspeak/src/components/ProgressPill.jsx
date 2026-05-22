@@ -44,7 +44,8 @@ function ProgressPill({
       <div className="flex items-end justify-between px-1">
         <div className="flex items-center gap-2">
           {/* Animated level indicator */}
-          <span className="animate-bounce text-2xl duration-2000" aria-hidden="true">
+          {/* Minimalist D-UI: Usunięto 'animate-bounce', by zredukować szum wizualny i chronić przed rozproszeniem uwagi */}
+          <span className="text-2xl" aria-hidden="true">
             {currentIcon}
           </span>
           <span
@@ -59,21 +60,18 @@ function ProgressPill({
       </div>
 
       {/* Progress bar structure */}
-      <div
-        className={`relative h-3 w-full overflow-hidden rounded-full ${isHighContrast ? 'bg-white/20' : 'bg-slate-100'}`}
-      >
-        <div
-          className="h-full bg-current opacity-20 transition-all duration-1000 ease-out"
-          style={{ width: `${(points / max) * 100}%` }}
-        />
-        <div className="absolute inset-0 flex items-center justify-around px-2">
+      {/* Minimalist D-UI: Segmentowany i płaski wskaźnik postępu zamiast rozpraszającego jednolitego tła */}
+      <div className="flex gap-1 h-2 w-full mt-1">
           {[...Array(max)].map((_, index) => (
             <div
               key={index}
-              className={`h-1 w-1 rounded-full transition-colors ${index < points ? 'bg-current' : isHighContrast ? 'bg-white/40' : 'bg-slate-200'}`}
+              className={`flex-1 rounded-full transition-all duration-700 ease-out ${
+                index < points 
+                  ? (isHighContrast ? 'bg-white' : 'bg-slate-400') 
+                  : (isHighContrast ? 'bg-white/20' : 'bg-slate-200')
+              }`}
             />
           ))}
-        </div>
       </div>
     </div>
   );
