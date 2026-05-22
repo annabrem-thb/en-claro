@@ -11,7 +11,7 @@ import { wordDatabasePL } from '../data/vocabulary_pl.js';
 import { useTranslation }  from '../i18n/i18n.js';
 
 import IntroScreen        from './Introscreen.jsx';
-import SettingsModal      from './SettingsModal.jsx';
+import SettingsPage       from './SettingsPage.jsx';
 import ProgressPill       from './ProgressPill.jsx';
 import VirtualGarden      from './VirtualGarden.jsx';
 import BionicText         from './common/BionicText.jsx';
@@ -648,25 +648,27 @@ function AppContent() {
     />;
   }
 
+  // --- Render Settings Page ---
+  if (settingsOpen) {
+    return <SettingsPage 
+      onBack={() => setSettingsOpen(false)} 
+      language={language}
+      setLanguage={setLanguage}
+      isGamified={isGamified}
+      setIsGamified={setIsGamified}
+      a11yAddons={a11yAddons}
+      setA11yAddons={setA11yAddons}
+      inclusiveOptions={inclusiveOptions}
+      setInclusiveOptions={setInclusiveOptions}
+      noFlash={noFlash}
+      isHighContrast={isHighContrast}
+      bigTargets={bigTargets}
+    />;
+  }
+
   // --- Render Main Application Layout ---
   return (
     <div className={`flex h-dvh w-full overflow-hidden ${isHighContrast ? 'bg-black text-white' : 'bg-[#fdfaf6] text-slate-800'}`}>
-
-      <SettingsModal
-        open={settingsOpen}              onClose={() => setSettingsOpen(false)}
-        language={language}              setLanguage={setLanguage}
-        theme={theme}                    setTheme={setTheme}
-        dailyGoal={dailyGoal}            setDailyGoal={setDailyGoal}
-        a11yAddons={a11yAddons}          setA11yAddons={setA11yAddons}
-        coins={coins}                    setCoins={setCoins}
-        unlockedThemes={unlockedThemes}  setUnlockedThemes={setUnlockedThemes}
-        inclusiveOptions={inclusiveOptions} setInclusiveOptions={setInclusiveOptions}
-        selectedVoiceURI={selectedVoiceURI} setSelectedVoiceURI={setSelectedVoiceURI}
-        voiceSpeed={voiceSpeed}          setVoiceSpeed={setVoiceSpeed}
-        voicePitch={voicePitch}          setVoicePitch={setVoicePitch}
-        isHighContrast={isHighContrast}
-        bigTargets={bigTargets}
-      />
 
       {/* Navigation Sidebar */}
       <SidebarNav
