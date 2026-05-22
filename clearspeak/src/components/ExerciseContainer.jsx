@@ -1,13 +1,7 @@
-// 1. Import Shared Hooks
-import { useSettings } from '../hooks/useSettings';
+// 1. Import Voice Hook
 import { useExerciseVoice } from '../hooks/useExerciseVoice';
-import { useFeedback } from '../hooks/useFeedback';
 
-// 2. Import Constants & Utils
-import { useTranslation } from '../i18n/i18n';
-import { getExerciseStyles } from '../constants/exerciseStyles';
-
-// 3. Import Exercise Components
+// 2. Import Exercise Components
 import SpatialExercise from './exercises/SpatialExercise';
 import SyllableExercise from './exercises/SyllableExercise';
 import GraphemeExercise from './exercises/GraphemeExercise';
@@ -17,87 +11,42 @@ import SequenceExercise from './exercises/SequenceExercise';
 import MemorySpanExercise from './exercises/MemorySpanExercise';
 import PhonemeExercise from './exercises/PhonemeExercise';
 import ContextExercise from './exercises/ContextExercise';
+import VisualCategorization from './exercises/VisualCategorization.jsx';
+import DictationExercise from './exercises/DictationExercise.jsx';
+import LookCoverWriteCheck from './exercises/LookCoverWriteCheck.jsx';
 
-/**
- * ExerciseContainer - The "Brain" component.
- * It injects all shared logic (voice, sounds, settings) into the specific exercises.
- */
-const ExerciseContainer = ({
-  data,
-  onComplete,
-  onMistake,
-  language = 'en',
-}) => {
-  // --- A. Setup Shared Logic ---
-  const settings = useSettings();
-  const t = useTranslation(language);
-  const themeStyles = getExerciseStyles(settings.bigTargets, settings.noFlash);
-  const { playSound, triggerVibration } = useFeedback();
+export default function ExerciseContainer({ currentTask, ...commonProps }) {
+  const { t, language } = commonProps;
 
-  // --- B. Setup Voice Assistant ---
-  const { isListening, transcript, speak, startListening } = useExerciseVoice(
-    language,
-    t,
-  );
+  // Setup Voice Assistant globally for all exercises
+  const { isListening, transcript, startListening } = useExerciseVoice(language, t);
 
-  // --- C. Handle Success/Error Globally ---
-  const handleSuccess = () => {
-    playSound('success');
-    triggerVibration('success');
-    onComplete();
-  };
-
-  const handleError = () => {
-    playSound('error');
-    triggerVibration('error');
-    onMistake();
-  };
-
-  // --- D. Dynamic Exercise Factory ---
-  // This map decides which component to render based on data.type
-  const ExerciseMap = {
-    spatial: SpatialExercise,
-    syllable: SyllableExercise,
-    grapheme: GraphemeExercise,
-    clock: ClockExercise,
-    scrabble: ScrabbleExercise,
-    sequence: SequenceExercise,
-    memory: MemorySpanExercise,
-    phoneme: PhonemeExercise,
-    context: ContextExercise,
-  };
-
-  const SelectedExercise = ExerciseMap[data.type];
-
-  // If the type is unknown, show a fallback
-  if (!SelectedExercise) {
-    return (
-      <div className="p-10 text-center">Unknown Exercise Type: {data.type}</div>
-    );
+  if (!currentTask) {
+    return <div className="p-6 text-center text-slate-400">{t?.noData || 'No data'}</div>;
   }
 
-  // --- E. Prepare Props for the Child ---
-  // We bundle everything common into a single object
-  const commonProps = {
-    data,
-    themeStyles,
-    t,
-    language,
-    onSuccess: handleSuccess,
-    onError: handleError,
-    speak,
-    startListening,
+  // Inject voice properties into the props passed down from App.jsx
+  const exerciseProps = {
+    data: currentTask,
+    ...commonProps,
     isListening,
     transcript,
-    // Accessibility settings
-    ...settings,
+    startListening,
   };
 
-  return (
-    <div className={`mx-auto w-full max-w-4xl ${themeStyles.entry}`}>
-      <SelectedExercise {...commonProps} />
-    </div>
-  );
-};
+  // Use duck-typing feature detection because word databases lack strict 'type' properties
+  if (currentTask.sentence_part1) return <ContextExercise {...exerciseProps} />;
+  if (currentTask.focus)          return <GraphemeExercise {...exerciseProps} />;
+  if (currentTask.phonetic)       return <PhonemeExercise {...exerciseProps} />;
+  if (currentTask.segments)       return <SyllableExercise {...exerciseProps} />;
+  if (currentTask.image)          return <ScrabbleExercise {...exerciseProps} />;
+  if (currentTask.timeAnalog)     return <ClockExercise {...exerciseProps} />;
+  if (currentTask.items && currentTask.options) return <SpatialExercise {...exerciseProps} />;
+  if (currentTask.displayItems)   return <MemorySpanExercise {...exerciseProps} />;
+  if (currentTask.buckets && currentTask.items) return <VisualCategorization {...exerciseProps} />;
+  if (currentTask.lcwc)           return <LookCoverWriteCheck targetWord={currentTask.word} onSelfEvaluate={(res) => res.correct ? commonProps.onSuccess() : commonProps.onError()} />;
+  if (currentTask.dictation)      return <DictationExercise {...exerciseProps} />;
+  if (currentTask.correct)        return <SequenceExercise {...exerciseProps} />;
 
-export default ExerciseContainer;
+  return <div className="p-6 text-red-400">{t?.formatNotRecognized || 'Format not recognized'}</div>;
+}

@@ -5,9 +5,6 @@
 
 import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 
-import { wordDatabaseDE } from '../data/vocabulary_de.js';
-import { wordDatabaseEN } from '../data/vocabulary_en.js';
-import { wordDatabasePL } from '../data/vocabulary_pl.js';
 import { useTranslation }  from '../i18n/i18n.js';
 
 import IntroScreen        from './IntroScreen.jsx';
@@ -23,17 +20,18 @@ import { FeedbackCollector } from './FeedbackCollector.jsx';
 import { CognitiveEnergyIndicator } from './CognitiveEnergyIndicator.jsx';
 import { saveLog } from '../utils/indexedDB.js';
 import { useIndexedDB } from '../hooks/useIndexedDB.js';
+import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
 import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotifications.js';
 
 import ExerciseContainer from './ExerciseContainer.jsx';
 import { GamificationProvider, useGamification } from './GamificationContext.jsx';
 import { AppConfigProvider } from '../context/AppConfigContext.jsx';
 import { useRegisterSW } from 'virtual:pwa-register/react';
+import { seededShuffle } from '../utils/shuffleUtils.js';
 
 // --- Global Constants & Configurations ---
 const POINTS_PER_LEVEL = 5;
 const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
-const DATABASES = { de: wordDatabaseDE, pl: wordDatabasePL, en: wordDatabaseEN };
 
 const THEMES = {
   Natur: { accent: 'text-emerald-600', bg: 'bg-emerald-50', button: 'bg-emerald-500', buttonText: 'text-white',     border: 'border-emerald-200', hex: '#10b981', price: 0  },
@@ -41,17 +39,6 @@ const THEMES = {
   Kunst: { accent: 'text-amber-600',   bg: 'bg-amber-50',   button: 'bg-amber-500',   buttonText: 'text-amber-950', border: 'border-amber-200',   hex: '#f59e0b', price: 5  },
   Space: { accent: 'text-indigo-600',  bg: 'bg-indigo-50',  button: 'bg-indigo-500',  buttonText: 'text-white',     border: 'border-indigo-200',  hex: '#6366f1', price: 8  },
   Ocean: { accent: 'text-cyan-600',    bg: 'bg-cyan-50',    button: 'bg-cyan-500',    buttonText: 'text-cyan-950',  border: 'border-cyan-200',    hex: '#06b6d4', price: 10 },
-};
-
-// --- Helper Functions ---
-const seededShuffle = (array, seed) => {
-  let m = array.length, t, i;
-  const rand = (s) => { const x = Math.sin(s) * 10000; return x - Math.floor(x); };
-  while (m) {
-    i = Math.floor(rand(seed + m) * m--);
-    t = array[m]; array[m] = array[i]; array[i] = t;
-  }
-  return array;
 };
 
 // Function synthesizing unique sounds for themes using Web Audio API
@@ -114,59 +101,10 @@ const makeDailyQuests = () => [
   { id: 3, type: 'Any',       target: 10, current: 0, completed: false, reward: 5 },
 ];
 
-// --- Custom Hooks ---
-/**
- * Encapsulates the logic for tracking cognitive energy, "Error Velocity",
- * and determining if the user needs a break.
- */
-function useCognitiveLoad(activeTab, zenModeEnabled) {
-  const [sessionStartTime, setSessionStartTime] = useState(Date.now());
-  const [errorTimestamps, setErrorTimestamps] = useState([]);
-  const [loadLevel, setLoadLevel] = useState('green');
-  const [showBreakModal, setShowBreakModal] = useState(false);
-  const [breakDismissed, setBreakDismissed] = useState(false);
-
-  useEffect(() => {
-    // Resets energy load specifically when user explicitly enters the Garden
-    if (activeTab === 'Garden') {
-      setSessionStartTime(Date.now());
-      setErrorTimestamps([]);
-      setLoadLevel('green');
-      setBreakDismissed(false);
-    }
-  }, [activeTab]);
-
-  // Calculate Cognitive Load using "Error Velocity" (Rolling 3-min window)
-  useEffect(() => {
-    if (activeTab === 'Garden' || zenModeEnabled) return;
-    
-    const interval = setInterval(() => {
-      const now = Date.now();
-      const recentErrors = errorTimestamps.filter(t => now - t < 180000).length;
-      const durationMins = (now - sessionStartTime) / 60000;
-
-      let newLevel = 'green';
-      if (recentErrors >= 4 || durationMins >= 15) newLevel = 'red';
-      else if (recentErrors >= 2 || durationMins >= 7) newLevel = 'yellow';
-
-      setLoadLevel(newLevel);
-
-      if (newLevel === 'red' && !breakDismissed && !showBreakModal) {
-        setShowBreakModal(true);
-      }
-    }, 5000); 
-    return () => clearInterval(interval);
-  }, [errorTimestamps, sessionStartTime, breakDismissed, showBreakModal, activeTab, zenModeEnabled]);
-
-  return {
-    loadLevel, showBreakModal, breakDismissed, setSessionStartTime, 
-    setErrorTimestamps, setLoadLevel, setShowBreakModal, setBreakDismissed
-  };
-}
-
 // --- Main App Component ---
 function AppContent() {
   const [language,         setLanguage]         = useState(() => localStorage.getItem('cfg_lang')  || 'de');
+  const [db,               setDb]               = useState(null);
   const [theme,            setTheme]            = useState(() => localStorage.getItem('cfg_theme') || 'Natur');
   const [a11yAddons,       setA11yAddons]       = useState(() => {
     const sv = localStorage.getItem('cfg_addons');
@@ -233,6 +171,30 @@ function AppContent() {
   // Moduł wiadomości afirmatywnych
   const { affirmation, setAffirmation } = useAffirmativeNotifications(points, language);
 
+  // --- Dynamiczne ładowanie baz słówek (Code Splitting) ---
+  useEffect(() => {
+    let isMounted = true;
+    const loadDatabase = async () => {
+      try {
+        let loadedModule;
+        if (language === 'pl') {
+          loadedModule = await import('../data/vocabulary_pl.js');
+          if (isMounted) setDb(loadedModule.wordDatabasePL);
+        } else if (language === 'en') {
+          loadedModule = await import('../data/vocabulary_en.js');
+          if (isMounted) setDb(loadedModule.wordDatabaseEN);
+        } else {
+          loadedModule = await import('../data/vocabulary_de.js');
+          if (isMounted) setDb(loadedModule.wordDatabaseDE);
+        }
+      } catch (error) {
+        console.error("Failed to load vocabulary database:", error);
+      }
+    };
+    loadDatabase();
+    return () => { isMounted = false; };
+  }, [language]);
+
   useEffect(() => {
     if (!isGamified && activeTab === 'Garden') {
       setActiveTab('Literacy');
@@ -249,7 +211,6 @@ function AppContent() {
 
   const t = useTranslation(language);
   const s = t; // Alias 's' pozostawiony dla zgodności z propsami starszych komponentów (np. SidebarNav)
-  const db          = DATABASES[language]   || DATABASES.de;
   const themeStyles = THEMES[theme]         || THEMES.Natur;
   const noFlash        = !!(inclusiveOptions.noFlash    || a11yAddons.includes('Redukcja'));
   const bigTargets     = !!(inclusiveOptions.bigTargets || a11yAddons.includes('Motorik'));
@@ -607,6 +568,21 @@ function AppContent() {
     if (isHorizontalSwipe && distanceX < -50) goPrev();      // Swipe right -> Prev task
   };
 
+  // --- Navigation Handlers (Zoptymalizowane dla SidebarNav) ---
+  const handleTabChange = useCallback((pillar) => {
+    setActiveTab(pillar);
+    setLastPillar(pillar);
+    setCurrentIndex(0);
+    setCycle(0);
+    setFeedback(null);
+    setCurrentStreak(0);
+  }, []);
+
+  const handleGardenClick = useCallback(() => {
+    setActiveTab('Garden');
+    setFeedback(null);
+  }, []);
+
   const renderCurrentExercise = () => {
     if (isTransitioning) {
       return <SkeletonLoader isHighContrast={isHighContrast} />;
@@ -674,12 +650,8 @@ function AppContent() {
       <SidebarNav
         pillars={PILLARS}
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        setLastPillar={setLastPillar}
-        setCurrentIndex={setCurrentIndex}
-        setCycle={setCycle}
-        setFeedback={setFeedback}
-        setCurrentStreak={setCurrentStreak}
+        onTabChange={handleTabChange}
+        onGardenClick={handleGardenClick}
         dailyQuests={dailyQuests}
         language={language}
         isGamified={isGamified}

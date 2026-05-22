@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import AccessibleTTS from './common/AccessibleTTS.jsx';
 
 const PILLAR_LABELS = {
@@ -9,15 +9,11 @@ const PILLAR_LABELS = {
 
 const PILLAR_ICONS = { Literacy: '📖', Visual: '👁️', Cognitive: '🧠' };
 
-export default function SidebarNav({
+const SidebarNav = memo(function SidebarNav({
   pillars,
   activeTab,
-  setActiveTab,
-  setLastPillar,
-  setCurrentIndex,
-  setCycle,
-  setFeedback,
-  setCurrentStreak,
+  onTabChange,
+  onGardenClick,
   dailyQuests,
   language,
   isGamified,
@@ -47,7 +43,7 @@ export default function SidebarNav({
           const label          = t.pillars?.[p] || PILLAR_LABELS[language]?.[p] || p;
           return (
             <button key={p}
-                onClick={() => { setActiveTab(p); setLastPillar(p); setCurrentIndex(0); setCycle(0); setFeedback(null); setCurrentStreak(0); }}
+              onClick={() => onTabChange(p)}
               className={`relative flex items-center justify-center md:justify-start gap-3 ${bigTargets ? 'p-4 md:p-5' : 'p-2.5 md:p-3'} rounded-2xl transition-all ${isSelected ? (isHighContrast ? 'bg-white text-black font-bold' : `${themeStyles.bg} ${themeStyles.accent} font-bold shadow-sm`) : (isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-50')}`}
               aria-pressed={isSelected}
               aria-label={label}
@@ -69,7 +65,7 @@ export default function SidebarNav({
         
         {isGamified && (
           <button
-            onClick={() => { setActiveTab('Garden'); setFeedback(null); }}
+            onClick={onGardenClick}
             className={`relative flex items-center justify-center md:justify-start gap-3 ${bigTargets ? 'p-4 md:p-5' : 'p-2.5 md:p-3'} rounded-2xl transition-all ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-bold' : `${themeStyles.bg} ${themeStyles.accent} font-bold shadow-sm`) : (isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-50')}`}
             aria-pressed={activeTab === 'Garden'}
             aria-label={t.garden || "Garten"}
@@ -100,4 +96,6 @@ export default function SidebarNav({
       </nav>
     </aside>
   );
-}
+});
+
+export default SidebarNav;

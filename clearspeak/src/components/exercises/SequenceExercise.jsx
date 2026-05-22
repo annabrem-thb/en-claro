@@ -3,38 +3,9 @@ import React, { useState, useCallback } from 'react';
 // Importing shared utilities
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
+import { seededShuffle } from '../../utils/shuffleUtils.js';
 
 /**
- * Pure Helper: Seeded Shuffle
- * Produces the same "random" result for the same input + seed.
- * This makes the function idempotent and safe for React's render phase.
- */
-const seededShuffle = (array, seed) => {
-  const words = [...array];
-  let m = words.length,
-    t,
-    i;
-  const rand = (s) => {
-    const x = Math.sin(s) * 10000;
-    return x - Math.floor(x);
-  };
-
-  let currentSeed =
-    typeof seed === 'string'
-      ? seed.split('').reduce((a, b) => a + b.charCodeAt(0), 0)
-      : seed;
-
-  while (m) {
-    i = Math.floor(rand(currentSeed + m) * m--);
-    t = words[m];
-    words[m] = words[i];
-    words[i] = t;
-  }
-  return words;
-};
-
-/**
- * SequenceExercise Component
  * Refactored to eliminate impurity errors and cascading renders.
  */
 function SequenceExercise({
