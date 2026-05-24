@@ -42,7 +42,7 @@ export default function TTSController({
                 value={selectedVoiceURIs[language] || 'default'}
                 onChange={(e) => setSelectedVoiceURIs?.(prev => ({ ...prev, [language]: e.target.value }))}
                 className={`w-full appearance-none p-3 rounded-2xl text-xs font-bold transition-all cursor-pointer shadow-sm ${isHighContrast ? 'bg-black border-2 border-white text-white' : 'bg-slate-50 border-2 border-slate-100 text-slate-700 hover:border-indigo-300 focus:ring-4 focus:ring-indigo-50'}`}
-                aria-label="Wybór głosu"
+                aria-label={t?.voiceSelectionAria || "Wybór głosu"}
               >
                 <option value="default">{t?.voiceDefault || 'Domyślny głos'}</option>
                 {filteredVoices.map(v => (
@@ -60,7 +60,7 @@ export default function TTSController({
       <button 
         onClick={() => setIsExpanded(!isExpanded)}
         className={`pointer-events-auto flex items-center justify-center w-14 h-14 rounded-full shadow-2xl transition-all active:scale-95 border-2 ${isHighContrast ? 'bg-white text-black border-black' : `${themeStyles?.button || 'bg-slate-800'} text-white border-transparent hover:brightness-110`}`}
-        aria-label="Ustawienia mowy (TTS)"
+        aria-label={t?.ttsSettingsAria || "Ustawienia mowy (TTS)"}
         aria-expanded={isExpanded}
       >
         <span className="text-2xl drop-shadow-md">{isExpanded ? '✖' : '🗣️'}</span>

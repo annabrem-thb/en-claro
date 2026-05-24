@@ -27,6 +27,7 @@ export default {
   settingsAria: "Ustawienia",
   coinsAria: "Monety",
   exerciseAria: "Ćwiczenie",
+  readAloudTitle: "Czytaj na głos",
 
   // Komunikaty i Powiadomienia
   successMsg: ["Świetnie!", "Doskonale!", "Wspaniale!", "Super!"],
@@ -38,6 +39,8 @@ export default {
     "{count}x bezbłędnie! 💪"
   ],
   levelUp: "Nowy Poziom!",
+  levelUpTitle: "Twój ogród rośnie!",
+  levelUpDesc: "Kolejny cel został pomyślnie zrealizowany.",
   hint: "Podpowiedź",
 
   // Asystent Głosowy (TTS)
@@ -63,6 +66,8 @@ export default {
   testVoice: "Testuj głos",
   testSentence: "To jest test wybranego głosu.",
   resetTTS: "Przywróć domyślne ustawienia TTS",
+  voiceSelectionAria: "Wybór głosu",
+  ttsSettingsAria: "Ustawienia mowy (TTS)",
 
   // Ustawienia (Settings)
   settings: "Ustawienia",
@@ -191,6 +196,16 @@ export default {
   // Informacje dodatkowe
   thesisInfo: "Praca Magisterska\nDostępna Grywalizacja i Integracja Głosowa\nw PWA wspierającym ćwiczenia logopedyczne\ndla osób z dysleksją",
   tags: { kontrast: "kontrast", wzrok: "wzrok", motor: "motor", dotyk: "dotyk", zoom: "zoom", kolor: "kolor", ruch: "ruch", epilepsja: "epilepsja", linijka: "skupienie" },
+
+  // PWA i UI
+  pwaNewVersion: "Nowa wersja",
+  pwaDescription: "Dostępna jest nowa treść. Zaktualizuj aplikację, aby pobrać najnowsze zmiany do trybu offline.",
+  pwaUpdate: "Aktualizuj",
+  pwaLater: "Później",
+  showOriginal: "Wyświetl oryginał",
+  simplifyText: "Uprość tekst ✨",
+  prevPage: "← Poprzednia",
+  nextPage: "Następna →",
 
   // Rozpoznawanie mowy (Komendy i synonimy)
   commands: {

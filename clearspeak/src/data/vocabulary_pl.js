@@ -111,96 +111,6 @@ export const wordDatabasePL = {
         de: 'Engagement — starke Hingabe an eine Sache oder Person',
       },
     },
-    {
-      id: 11,
-      word: 'Odpowiedzialność',
-      difficulty: 2,
-      tags: ['business', 'everyday'],
-      phonetic: '/ ɔt.pɔ.vjɛd͡ʑalˈnɔɕt͡ɕ /',
-      hints: {
-        pl: 'Obowiązek ponoszenia skutków i konsekwencji swoich działań',
-        en: "Responsibility — duty to bear the consequences of one's actions",
-        de: 'Verantwortung — Pflicht, die Folgen des eigenen Handelns zu tragen',
-      },
-    },
-    {
-      id: 12,
-      word: 'Przedsiębiorstwo',
-      difficulty: 3,
-      tags: ['business'],
-      phonetic: '/ pʂɛd.ɕɛˈbjɔrs.tvɔ /',
-      hints: {
-        pl: 'Firma lub podmiot prowadzący zorganizowaną działalność gospodarczą',
-        en: 'Enterprise — firm conducting organised business activity',
-        de: 'Unternehmen — Firma, die organisierte Geschäftstätigkeit betreibt',
-      },
-    },
-    {
-      id: 13,
-      word: 'Trzcina',
-      difficulty: 2,
-      phonetic: '/ ˈtʂt͡ɕi.na /',
-      hints: {
-        pl: 'Wysoka roślina wodna z długą, pustą w środku łodygą',
-        en: 'Reed — tall aquatic plant with a long hollow stem',
-        de: 'Schilf — hohe Wasserpflanze mit langem, hohlem Stängel',
-      },
-    },
-    {
-      id: 14,
-      word: 'Wnioskodawca',
-      difficulty: 2,
-      phonetic: '/ vɲɔs.kɔˈdaf.tsa /',
-      hints: {
-        pl: 'Osoba oficjalnie składająca wniosek lub petycję do urzędu',
-        en: 'Applicant — person officially submitting a petition or application',
-        de: 'Antragsteller — Person, die offiziell einen Antrag einreicht',
-      },
-    },
-    {
-      id: 15,
-      word: 'Współpracownik',
-      difficulty: 2,
-      phonetic: '/ fspuw.praˈtsɔv.ɲik /',
-      hints: {
-        pl: 'Osoba, z którą pracujemy w tym samym zespole lub projekcie',
-        en: 'Colleague — person we work with in the same team or project',
-        de: 'Kollege — Person, mit der wir im selben Team arbeiten',
-      },
-    },
-    {
-      id: 16,
-      word: 'Zmartwychwstanie',
-      difficulty: 3,
-      phonetic: '/ zmar.tfɨxˈfsta.ɲɛ /',
-      hints: {
-        pl: 'Powrót do życia z martwych',
-        en: 'Resurrection',
-        de: 'Auferstehung',
-      },
-    },
-    {
-      id: 17,
-      word: 'Bezwzględność',
-      difficulty: 3,
-      phonetic: '/ bɛzˈvzɡlɛnd.nɔɕt͡ɕ /',
-      hints: {
-        pl: 'Brak litości, surowość',
-        en: 'Ruthlessness',
-        de: 'Rücksichtslosigkeit',
-      },
-    },
-    {
-      id: 18,
-      word: 'Niepodległość',
-      difficulty: 2,
-      phonetic: '/ ɲɛ.pɔdˈlɛ.ɡwɔɕt͡ɕ /',
-      hints: {
-        pl: 'Niezależność państwa od innych',
-        en: 'Independence',
-        de: 'Unabhängigkeit',
-      },
-    },
   ],
 
   graphemes: [
@@ -344,106 +254,6 @@ export const wordDatabasePL = {
         { text: 'Zonb', isCorrect: false, icon: '❌' },
       ],
     },
-    {
-      id: 11,
-      difficulty: 3,
-      focus: 'wziąć — częsty wyjątek (nie wziąść!)',
-      questions: {
-        pl: 'Jedyna poprawna forma bezokolicznika tego czasownika to:',
-        en: 'The only correct infinitive form of this verb is:',
-        de: 'Die einzig richtige Infinitivform dieses Verbs ist:',
-      },
-      options: [
-        { text: 'Wziąć', isCorrect: true, icon: '🤲' },
-        { text: 'Wziąść', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
-      id: 12,
-      difficulty: 2,
-      focus: 'żółty — potrójna pułapka (ż + ó + ł)',
-      questions: {
-        pl: 'Kolor słonecznika i cytryny. Która pisownia jest poprawna?',
-        en: 'The color of sunflowers and lemons. Which spelling is correct?',
-        de: 'Die Farbe von Sonnenblumen und Zitronen. Welche Schreibweise ist korrekt?',
-      },
-      options: [
-        { text: 'Żółty', isCorrect: true, icon: '🟡' },
-        { text: 'Żułty', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
-      id: 13,
-      difficulty: 1,
-      focus: 'już — ż po j (wyjątek od reguły rz po spółgłosce)',
-      questions: {
-        pl: 'Po j piszemy wyjątkowo ż (nie rz). Które słowo jest poprawne?',
-        en: "After 'j' we exceptionally write 'ż' (not 'rz'). Which is correct?",
-        de: "Nach 'j' schreibt man ausnahmsweise 'ż' (nicht 'rz'). Welches ist korrekt?",
-      },
-      options: [
-        { text: 'Już', isCorrect: true, icon: '⏰' },
-        { text: 'Jurz', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
-      id: 14,
-      difficulty: 2,
-      focus: 'h w słowach rodzimych',
-      questions: {
-        pl: 'Które rodzime słowo polskie piszemy przez h (nie ch)?',
-        en: "Which native Polish word is spelled with 'h' (not 'ch')?",
-        de: "Welches einheimische polnische Wort schreibt man mit 'h' (nicht 'ch')?",
-      },
-      options: [
-        { text: 'Hałas', isCorrect: true, icon: '🔊' },
-        { text: 'Chałas', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
-      id: 15,
-      difficulty: 2,
-      focus: 'może (modalny) vs morze (akwen) — para homofoniczna',
-      questions: {
-        pl: 'Które słowo oznacza jest w stanie / potrafi (czasownik modalny)?',
-        en: "Which word means 'is able to / can' (modal verb)?",
-        de: "Welches Wort bedeutet 'ist in der Lage / kann' (Modalverb)?",
-      },
-      options: [
-        { text: 'Może', isCorrect: true, icon: '🤔' },
-        { text: 'Morze', isCorrect: false, icon: '🌊' },
-      ],
-    },
-    {
-      id: 16,
-      difficulty: 1,
-      focus: 'b czy d (mylenie liter)',
-      questions: {
-        pl: 'Które słowo jest napisane poprawnie i oznacza budynek mieszkalny?',
-        en: 'Which word is spelled correctly and means home?',
-        de: 'Welches Wort ist richtig geschrieben und bedeutet Zuhause?',
-      },
-      options: [
-        { text: 'Dom', isCorrect: true, icon: '🏠' },
-        { text: 'Bom', isCorrect: false, icon: '❌' },
-        { text: 'Pom', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
-      id: 17,
-      difficulty: 2,
-      focus: 'Ubezdźwięcznienie (b na p)',
-      questions: {
-        pl: 'Jak poprawnie napisać owoc rosnący na jabłoni?',
-        en: 'How do you spell the fruit growing on an apple tree?',
-        de: 'Wie schreibt man die Frucht vom Apfelbaum?',
-      },
-      options: [
-        { text: 'Jabłko', isCorrect: true, icon: '🍎' },
-        { text: 'Japko', isCorrect: false, icon: '❌' },
-        { text: 'Japłko', isCorrect: false, icon: '❌' },
-      ],
-    },
   ],
 
   syllables: [
@@ -518,42 +328,6 @@ export const wordDatabasePL = {
       word: 'Wnioskodawca',
       segments: ['Wnio', 'sko', 'daw', 'ca'],
       icon: '📋',
-    },
-    {
-      id: 11,
-      difficulty: 1,
-      tags: ['business'],
-      word: 'Bezrobocie',
-      segments: ['Bez', 'ro', 'bo', 'cie'],
-      icon: '📉',
-    },
-    {
-      id: 12,
-      difficulty: 1,
-      word: 'Tymczasowy',
-      segments: ['Tym', 'cza', 'so', 'wy'],
-      icon: '⏳',
-    },
-    {
-      id: 13,
-      difficulty: 2,
-      word: 'Nieprawidłowość',
-      segments: ['Nie', 'pra', 'wi', 'dło', 'wość'],
-      icon: '🚫',
-    },
-    {
-      id: 14,
-      difficulty: 2,
-      word: 'Przystosowanie',
-      segments: ['Przy', 'sto', 'so', 'wa', 'nie'],
-      icon: '🔄',
-    },
-    {
-      id: 15,
-      difficulty: 2,
-      word: 'Odpowiedzialny',
-      segments: ['Od', 'po', 'wie', 'dzial', 'ny'],
-      icon: '✅',
     },
   ],
 
@@ -674,79 +448,6 @@ export const wordDatabasePL = {
       scrambled: ['P', 'R', 'Z', 'E', 'S', 'T', 'R', 'Z', 'E', 'Ń'],
       distractors: ['S', 'Z'],
       image: '🌌',
-    },
-    {
-      id: 11,
-      difficulty: 2,
-      word: 'WNIOSKODAWCA',
-      scrambled: ['W', 'N', 'I', 'O', 'S', 'K', 'O', 'D', 'A', 'W', 'C', 'A'],
-      distractors: ['F', 'T'],
-      image: '📋',
-    },
-    {
-      id: 12,
-      difficulty: 2,
-      word: 'WSPÓŁPRACA',
-      scrambled: ['W', 'S', 'P', 'Ó', 'Ł', 'P', 'R', 'A', 'C', 'A'],
-      distractors: ['U', 'L'],
-      image: '🤝',
-    },
-    {
-      id: 13,
-      difficulty: 1,
-      word: 'TYMCZASOWY',
-      scrambled: ['T', 'Y', 'M', 'C', 'Z', 'A', 'S', 'O', 'W', 'Y'],
-      distractors: ['S', 'Z'],
-      image: '⏳',
-    },
-    {
-      id: 14,
-      difficulty: 2,
-      tags: ['medicine'],
-      word: 'PSYCHOLOG',
-      scrambled: ['P', 'S', 'Y', 'C', 'H', 'O', 'L', 'O', 'G'],
-      distractors: ['K', 'I'],
-      image: '🧠',
-    },
-    {
-      id: 15,
-      difficulty: 3,
-      word: 'ODPOWIEDZIALNY',
-      scrambled: [
-        'O',
-        'D',
-        'P',
-        'O',
-        'W',
-        'I',
-        'E',
-        'D',
-        'Z',
-        'I',
-        'A',
-        'L',
-        'N',
-        'Y',
-      ],
-      distractors: ['J', 'Ć'],
-      image: '✅',
-    },
-    {
-      id: 16,
-      difficulty: 2,
-      tags: ['everyday'],
-      word: 'DŹWIĘK',
-      scrambled: ['D', 'Ź', 'W', 'I', 'Ę', 'K'],
-      distractors: ['B', 'P', 'M'],
-      image: '🎵',
-    },
-    {
-      id: 17,
-      difficulty: 2,
-      word: 'BUDYNEK',
-      scrambled: ['B', 'U', 'D', 'Y', 'N', 'E', 'K'],
-      distractors: ['P', 'D', 'W'],
-      image: '🏢',
     },
   ],
 
@@ -896,93 +597,6 @@ export const wordDatabasePL = {
         en: "into force / life — ż at the start, no 'ś'",
       },
     },
-    {
-      id: 11,
-      difficulty: 1,
-      tags: ['medicine'],
-      sentence_part1: 'Wyniki badań laboratoryjnych będą dostępne',
-      sentence_part2: '.',
-      options: [
-        { text: 'wkrótce', isCorrect: true },
-        { text: 'wkrutce', isCorrect: false },
-      ],
-      hints: {
-        pl: "Słowo wywodzi się od 'krótki', zawsze piszemy przez 'ó'",
-        en: "soon — ó is non-alternating here (not 'wkrutce')",
-      },
-    },
-    {
-      id: 12,
-      difficulty: 1,
-      sentence_part1: 'W tej kwestii mam',
-      sentence_part2: 'i oczekuję zmiany decyzji.',
-      options: [
-        { text: 'rację', isCorrect: true },
-        { text: 'racie', isCorrect: false },
-      ],
-      hints: {
-        pl: "To biernik słowa 'racja', zawsze kończy się na '-ę'",
-        en: "I am right — rację is accusative singular of 'racja', ends in -ę",
-      },
-    },
-    {
-      id: 13,
-      difficulty: 2,
-      sentence_part1: 'Projekt wymaga intensywnej',
-      sentence_part2: 'całego działu przez kolejny kwartał.',
-      options: [
-        { text: 'współpracy', isCorrect: true },
-        { text: 'wspułpracy', isCorrect: false },
-      ],
-      hints: {
-        pl: "Przedrostek 'współ-' zawsze piszemy przez 'ó'",
-        en: 'cooperation — współ- prefix has ó (from wspólny, never wspułny)',
-      },
-    },
-    {
-      id: 14,
-      difficulty: 2,
-      tags: ['business'],
-      sentence_part1: 'Prosimy o staranne',
-      sentence_part2: 'formularza zgłoszeniowego online.',
-      options: [
-        { text: 'wypełnienie', isCorrect: true },
-        { text: 'wypełnianie', isCorrect: false },
-      ],
-      hints: {
-        pl: 'Chodzi o jednorazową, dokonaną czynność (wypełnienie), a nie trwający proces',
-        en: 'completion (one-off action from perfective verb) vs ongoing process',
-      },
-    },
-    {
-      id: 15,
-      difficulty: 1,
-      sentence_part1: 'Firma',
-      sentence_part2: 'wczoraj gruntowną analizę rynku.',
-      options: [
-        { text: 'przeprowadziła', isCorrect: true },
-        { text: 'pżeprowadziła', isCorrect: false },
-      ],
-      hints: {
-        pl: "Po spółgłosce 'p' zawsze piszemy 'rz' (przedrostek prze-)",
-        en: "rz after 'p' — przeprowadzić has prze- prefix, always rz not ż",
-      },
-    },
-    {
-      id: 16,
-      difficulty: 2,
-      sentence_part1: 'Babcia upiekła pachnący',
-      sentence_part2: 'z chrupiącą skórką.',
-      options: [
-        { text: 'chleb', isCorrect: true },
-        { text: 'chlep', isCorrect: false },
-        { text: 'hleb', isCorrect: false },
-      ],
-      hints: {
-        pl: "Na końcu słowa słychać 'p', ale piszemy 'b'.",
-        en: "Devoicing at the end: sounds like 'p' but spelled with 'b'.",
-      },
-    },
   ],
 
   clock: [
@@ -1126,76 +740,6 @@ export const wordDatabasePL = {
         { text: '06:18', isCorrect: false },
       ],
     },
-    {
-      id: 11,
-      difficulty: 2,
-      timeAnalog: 'Za pięć wpół do dziesiątej wieczorem',
-      isNight: true,
-      hourRotation: 283,
-      minuteRotation: 150,
-      options: [
-        { text: '21:25', isCorrect: true },
-        { text: '09:25', isCorrect: false },
-        { text: '09:35', isCorrect: false },
-        { text: '21:35', isCorrect: false },
-      ],
-    },
-    {
-      id: 12,
-      difficulty: 1,
-      timeAnalog: 'Kwadrans po jedenastej rano',
-      isNight: false,
-      hourRotation: 338,
-      minuteRotation: 90,
-      options: [
-        { text: '11:15', isCorrect: true },
-        { text: '23:15', isCorrect: false },
-        { text: '10:45', isCorrect: false },
-        { text: '11:45', isCorrect: false },
-      ],
-    },
-    {
-      id: 13,
-      difficulty: 1,
-      timeAnalog: 'Za dziesięć piąta rano',
-      isNight: false,
-      hourRotation: 145,
-      minuteRotation: 300,
-      options: [
-        { text: '04:50', isCorrect: true },
-        { text: '16:50', isCorrect: false },
-        { text: '05:10', isCorrect: false },
-        { text: '04:40', isCorrect: false },
-      ],
-    },
-    {
-      id: 14,
-      difficulty: 1,
-      timeAnalog: 'Wpół do dziewiątej rano',
-      isNight: false,
-      hourRotation: 255,
-      minuteRotation: 180,
-      options: [
-        { text: '08:30', isCorrect: true },
-        { text: '20:30', isCorrect: false },
-        { text: '09:30', isCorrect: false },
-        { text: '07:30', isCorrect: false },
-      ],
-    },
-    {
-      id: 15,
-      difficulty: 1,
-      timeAnalog: 'Dwadzieścia pięć po pierwszej w nocy',
-      isNight: true,
-      hourRotation: 43,
-      minuteRotation: 150,
-      options: [
-        { text: '01:25', isCorrect: true },
-        { text: '13:25', isCorrect: false },
-        { text: '01:35', isCorrect: false },
-        { text: '12:25', isCorrect: false },
-      ],
-    },
   ],
 
   sequences: [
@@ -1320,61 +864,6 @@ export const wordDatabasePL = {
       scrambled: ['Wynagrodzenie', 'Urlop', 'Umowa', 'Zarząd'],
       distractors: ['Faktura'],
       correct: ['Umowa', 'Urlop', 'Wynagrodzenie', 'Zarząd'],
-    },
-
-    {
-      id: 11,
-      difficulty: 3,
-      instruction: 'Posłuchaj i ułóż cyfry w podanej kolejności',
-      audioPrompt: 'Siedem. Dwa. Pięć. Jeden.',
-      scrambled: ['1', '2', '7', '5'],
-      distractors: ['3', '8'],
-      correct: ['7', '2', '5', '1'],
-    },
-
-    {
-      id: 12,
-      difficulty: 3,
-      instruction: 'Posłuchaj i ułóż usłyszane słowa',
-      audioPrompt: 'Faktura, przelew, budżet, raport.',
-      scrambled: ['Budżet', 'Faktura', 'Raport', 'Przelew'],
-      correct: ['Faktura', 'Przelew', 'Budżet', 'Raport'],
-    },
-
-    {
-      id: 13,
-      difficulty: 3,
-      instruction: 'Posłuchaj instrukcji i ułóż kroki',
-      audioPrompt:
-        'Najpierw wypełnij formularz, potem go wydrukuj, a na końcu złóż w sekretariacie.',
-      scrambled: ['Złóż w sekretariacie', 'Wypełnij formularz', 'Wydrukuj'],
-      correct: ['Wypełnij formularz', 'Wydrukuj', 'Złóż w sekretariacie'],
-    },
-
-    {
-      id: 14,
-      difficulty: 3,
-      instruction: 'Posłuchaj i ułóż przeliterowane litery',
-      audioPrompt: 'W. N. I. O. S. E. K.',
-      scrambled: ['I', 'N', 'O', 'W', 'K', 'E', 'S'],
-      correct: ['W', 'N', 'I', 'O', 'S', 'E', 'K'],
-    },
-
-    {
-      id: 15,
-      instruction: 'Epoki historyczne Polski — od najstarszej',
-      scrambled: [
-        'Dwudziestolecie Międzywojenne',
-        'Średniowiecze',
-        'PRL',
-        'Rzeczpospolita Szlachecka',
-      ],
-      correct: [
-        'Średniowiecze',
-        'Rzeczpospolita Szlachecka',
-        'Dwudziestolecie Międzywojenne',
-        'PRL',
-      ],
     },
   ],
 
@@ -1539,102 +1028,6 @@ export const wordDatabasePL = {
         { label: 'W prawo (/) ➡️', value: 'right' },
       ],
     },
-    {
-      id: 11,
-      difficulty: 1,
-      instruction: 'Duże czy małe litery?',
-      items: [
-        { symbol: 'A', target: 'up' },
-        { symbol: 'a', target: 'down' },
-        { symbol: 'B', target: 'up' },
-        { symbol: 'b', target: 'down' },
-        { symbol: 'A', target: 'up' },
-      ],
-      options: [
-        { label: 'Duża 🔠', value: 'up' },
-        { label: 'Mała 🔡', value: 'down' },
-      ],
-    },
-    {
-      id: 12,
-      difficulty: 1,
-      instruction: 'Liczba parzysta czy nieparzysta?',
-      items: [
-        { symbol: '4', target: 'left' },
-        { symbol: '7', target: 'right' },
-        { symbol: '2', target: 'left' },
-        { symbol: '9', target: 'right' },
-        { symbol: '6', target: 'left' },
-      ],
-      options: [
-        { label: 'Parzysta ⬅️', value: 'left' },
-        { label: 'Nieparzysta ➡️', value: 'right' },
-      ],
-    },
-    {
-      id: 13,
-      difficulty: 1,
-      instruction: 'Samogłoska czy spółgłoska?',
-      items: [
-        { symbol: 'E', target: 'up' },
-        { symbol: 'K', target: 'down' },
-        { symbol: 'A', target: 'up' },
-        { symbol: 'R', target: 'down' },
-        { symbol: 'I', target: 'up' },
-      ],
-      options: [
-        { label: 'Samogłoska ⬆️', value: 'up' },
-        { label: 'Spółgłoska ⬇️', value: 'down' },
-      ],
-    },
-    {
-      id: 14,
-      difficulty: 1,
-      instruction: 'Litera polska z ogonkiem / kreską czy zwykła?',
-      items: [
-        { symbol: 'ą', target: 'right' },
-        { symbol: 'a', target: 'left' },
-        { symbol: 'ę', target: 'right' },
-        { symbol: 'e', target: 'left' },
-        { symbol: 'ó', target: 'right' },
-      ],
-      options: [
-        { label: 'Zwykła ⬅️', value: 'left' },
-        { label: 'Z ogonkiem/kreską ➡️', value: 'right' },
-      ],
-    },
-    {
-      id: 15,
-      difficulty: 1,
-      instruction: 'Cyfra arabska czy rzymska?',
-      items: [
-        { symbol: 'V', target: 'right' },
-        { symbol: '5', target: 'left' },
-        { symbol: 'X', target: 'right' },
-        { symbol: '10', target: 'left' },
-        { symbol: 'I', target: 'right' },
-      ],
-      options: [
-        { label: 'Arabska ⬅️', value: 'left' },
-        { label: 'Rzymska ➡️', value: 'right' },
-      ],
-    },
-    {
-      id: 16,
-      difficulty: 2,
-      instruction: 'Rozróżnij litery m oraz w',
-      items: [
-        { symbol: 'm', target: 'left' },
-        { symbol: 'w', target: 'right' },
-        { symbol: 'w', target: 'right' },
-        { symbol: 'm', target: 'left' },
-        { symbol: 'n', target: 'left' },
-      ],
-      options: [
-        { label: 'Litera m / n ⬅️', value: 'left' },
-        { label: 'Litera w ➡️', value: 'right' },
-      ],
-    },
   ],
 
   lcwc: [
@@ -1648,13 +1041,6 @@ export const wordDatabasePL = {
     { id: 8, lcwc: true, difficulty: 2, word: 'Konsekwencja' },
     { id: 9, lcwc: true, difficulty: 2, word: 'Doświadczenie' },
     { id: 10, lcwc: true, difficulty: 2, word: 'Zarządzenie' },
-    { id: 11, lcwc: true, difficulty: 2, word: 'Społeczeństwo' },
-    { id: 12, lcwc: true, difficulty: 1, word: 'Współpraca' },
-    { id: 13, lcwc: true, difficulty: 3, word: 'Wszechstronność' },
-    { id: 14, lcwc: true, difficulty: 3, word: 'Bezwzględny' },
-    { id: 15, lcwc: true, difficulty: 2, word: 'Infrastruktura' },
-    { id: 16, lcwc: true, difficulty: 3, word: 'Grzegorz' },
-    { id: 17, lcwc: true, difficulty: 2, word: 'Prawdopodobieństwo' },
   ],
 
   categorization: [
@@ -1718,7 +1104,13 @@ export const wordDatabasePL = {
         { id: 'i3', word: 'Harmonogram', bucketId: 'h' },
         { id: 'i4', word: 'Charakter', bucketId: 'ch' }
       ]
-    }
+    },
+    { id: 5, difficulty: 2, instruction: 'Przyporządkuj słowa do odpowiedniej reguły', buckets: [{ id: 'wym', label: 'ó wymienne', icon: '🔄' }, { id: 'niewym', label: 'ó niewymienne', icon: '❌' }], items: [{ id: 'i1', word: 'Stół', bucketId: 'wym' }, { id: 'i2', word: 'Córka', bucketId: 'niewym' }, { id: 'i3', word: 'Lód', bucketId: 'wym' }, { id: 'i4', word: 'Góra', bucketId: 'niewym' }] },
+    { id: 6, difficulty: 2, instruction: 'Rzeczownik czy Przymiotnik?', buckets: [{ id: 'rzecz', label: 'Rzeczownik', icon: '📦' }, { id: 'przym', label: 'Przymiotnik', icon: '✨' }], items: [{ id: 'i1', word: 'Praca', bucketId: 'rzecz' }, { id: 'i2', word: 'Pracowity', bucketId: 'przym' }, { id: 'i3', word: 'Zysk', bucketId: 'rzecz' }, { id: 'i4', word: 'Zyskowny', bucketId: 'przym' }] },
+    { id: 7, difficulty: 1, instruction: 'Dni robocze vs Weekend', buckets: [{ id: 'rob', label: 'Dni robocze', icon: '💼' }, { id: 'week', label: 'Weekend', icon: '🌴' }], items: [{ id: 'i1', word: 'Wtorek', bucketId: 'rob' }, { id: 'i2', word: 'Sobota', bucketId: 'week' }, { id: 'i3', word: 'Piątek', bucketId: 'rob' }, { id: 'i4', word: 'Niedziela', bucketId: 'week' }] },
+    { id: 8, difficulty: 2, instruction: 'Pisownia z ch vs h', buckets: [{ id: 'ch', label: 'Przez CH', icon: '📝' }, { id: 'h', label: 'Przez H', icon: '📝' }], items: [{ id: 'i1', word: 'Chmura', bucketId: 'ch' }, { id: 'i2', word: 'Hałas', bucketId: 'h' }, { id: 'i3', word: 'Chleb', bucketId: 'ch' }, { id: 'i4', word: 'Hierarchia', bucketId: 'h' }] },
+    { id: 9, difficulty: 2, instruction: 'Medycyna vs Prawo', buckets: [{ id: 'med', label: 'Medycyna', icon: '🏥' }, { id: 'prawo', label: 'Prawo', icon: '⚖️' }], items: [{ id: 'i1', word: 'Recepta', bucketId: 'med' }, { id: 'i2', word: 'Pozew', bucketId: 'prawo' }, { id: 'i3', word: 'Diagnoza', bucketId: 'med' }, { id: 'i4', word: 'Apelacja', bucketId: 'prawo' }] },
+    { id: 10, difficulty: 1, instruction: 'Czas przeszły vs przyszły', buckets: [{ id: 'past', label: 'Przeszłość', icon: '⏪' }, { id: 'future', label: 'Przyszłość', icon: '⏩' }], items: [{ id: 'i1', word: 'Wczoraj', bucketId: 'past' }, { id: 'i2', word: 'Jutro', bucketId: 'future' }, { id: 'i3', word: 'Przedtem', bucketId: 'past' }, { id: 'i4', word: 'Pojutrze', bucketId: 'future' }] }
   ],
 
   dictation: [
@@ -1749,6 +1141,25 @@ export const wordDatabasePL = {
       difficulty: 2,
       audioPrompt: 'Mój brat kupił nowy komputer.',
       correct: 'Mój brat kupił nowy komputer'
-    }
+    },
+    { id: 5, dictation: true, difficulty: 2, audioPrompt: 'Wziął kredyt na nowe mieszkanie.', correct: 'Wziął kredyt na nowe mieszkanie' },
+    { id: 6, dictation: true, difficulty: 3, audioPrompt: 'Rząd podjął ostateczną decyzję.', correct: 'Rząd podjął ostateczną decyzję' },
+    { id: 7, dictation: true, difficulty: 2, audioPrompt: 'Zdobyliśmy cenne doświadczenie zawodowe.', correct: 'Zdobyliśmy cenne doświadczenie zawodowe' },
+    { id: 8, dictation: true, difficulty: 1, audioPrompt: 'Wkrótce rozpoczniemy nowy projekt.', correct: 'Wkrótce rozpoczniemy nowy projekt' },
+    { id: 9, dictation: true, difficulty: 3, audioPrompt: 'Zaangażowanie zespołu przyniosło wspaniałe efekty.', correct: 'Zaangażowanie zespołu przyniosło wspaniałe efekty' },
+    { id: 10, dictation: true, difficulty: 2, audioPrompt: 'Proszę o dokładne wypełnienie formularza.', correct: 'Proszę o dokładne wypełnienie formularza' }
+  ],
+
+  diagnostic: [
+    { id: 'pl_diag_1', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostyka: Pisownia rz/ż', questions: { pl: 'Które słowo jest napisane błędnie?' }, options: [{ text: 'A) Przepraszam', isCorrect: false }, { text: 'B) Porządek', isCorrect: false }, { text: 'C) Wydażenie', isCorrect: true }, { text: 'D) Marzenie', isCorrect: false }] },
+    { id: 'pl_diag_2', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostyka: Homofony', questions: { pl: 'Wybierz poprawne słowo: "Z chęcią ___ tę propozycję."' }, options: [{ text: 'A) przyjmę', isCorrect: true }, { text: 'B) przymne', isCorrect: false }, { text: 'C) pżyjmę', isCorrect: false }, { text: 'D) przymię', isCorrect: false }] },
+    { id: 'pl_diag_3', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostyka: Ó/U', questions: { pl: 'Które słowo posiada "ó" niewymienne?' }, options: [{ text: 'A) Wóz (bo wozu)', isCorrect: false }, { text: 'B) Córka', isCorrect: true }, { text: 'C) Stół (bo stołu)', isCorrect: false }, { text: 'D) Rów (bo rowu)', isCorrect: false }] },
+    { id: 'pl_diag_4', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostyka: Podział na sylaby', questions: { pl: 'Ile sylab ma słowo "Zaangażowanie"?' }, options: [{ text: 'A) 4', isCorrect: false }, { text: 'B) 5', isCorrect: false }, { text: 'C) 6', isCorrect: true }, { text: 'D) 7', isCorrect: false }] },
+    { id: 'pl_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostyka: Dyskryminacja wzrokowa', questions: { pl: 'Wskaż literę, która nie pasuje do wzoru:\n\n p p q p p' }, options: [{ text: 'A) Pierwsza', isCorrect: false }, { text: 'B) Druga', isCorrect: false }, { text: 'C) Trzecia', isCorrect: true }, { text: 'D) Czwarta', isCorrect: false }] },
+    { id: 'pl_diag_6', pillar: 'Visual', difficulty: 3, focus: 'Diagnostyka: Odbicia lustrzane', questions: { pl: 'Który ciąg cyfr różni się od 5469?' }, options: [{ text: 'A) 5469', isCorrect: false }, { text: 'B) 5469', isCorrect: false }, { text: 'C) 5496', isCorrect: true }, { text: 'D) 5469', isCorrect: false }] },
+    { id: 'pl_diag_7', pillar: 'Visual', difficulty: 2, focus: 'Diagnostyka: Orientacja w czasie', questions: { pl: 'Jeżeli spotkanie zaczyna się o 14:00 i trwa 90 minut, o której się kończy?' }, options: [{ text: 'A) 15:00', isCorrect: false }, { text: 'B) 15:30', isCorrect: true }, { text: 'C) 16:00', isCorrect: false }, { text: 'D) 14:90', isCorrect: false }] },
+    { id: 'pl_diag_8', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostyka: Pamięć sekwencyjna', questions: { pl: 'Który miesiąc następuje bezpośrednio po sierpniu?' }, options: [{ text: 'A) Lipiec', isCorrect: false }, { text: 'B) Październik', isCorrect: false }, { text: 'C) Wrzesień', isCorrect: true }, { text: 'D) Listopad', isCorrect: false }] },
+    { id: 'pl_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostyka: Kategoryzacja', questions: { pl: 'Które słowo NIE należy do grupy zawodów?' }, options: [{ text: 'A) Nauczyciel', isCorrect: false }, { text: 'B) Lekarz', isCorrect: false }, { text: 'C) Biblioteka', isCorrect: true }, { text: 'D) Inżynier', isCorrect: false }] },
+    { id: 'pl_diag_10', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostyka: Pamięć logiczna', questions: { pl: 'Jeśli Jan jest wyższy od Piotra, a Piotr jest wyższy od Michała, to kto jest najniższy?' }, options: [{ text: 'A) Jan', isCorrect: false }, { text: 'B) Piotr', isCorrect: false }, { text: 'C) Michał', isCorrect: true }, { text: 'D) Wszyscy są równi', isCorrect: false }] }
   ]
 };

@@ -72,11 +72,6 @@ export const wordDatabaseEN = {
     }
   ],
 
-  segmenting: [
-    { id: 1, type: 'segmenting', word: 'Hierarchy', phonemes: ['h', 'i', 'e', 'r', 'a', 'r', 'c', 'h', 'y'], audioUrl: '/audio/en_hierarchy.mp3', difficulty: 3 },
-    { id: 2, type: 'segmenting', word: 'Strategy', phonemes: ['s', 't', 'r', 'a', 't', 'e', 'g', 'y'], audioUrl: '/audio/en_strategy.mp3', difficulty: 2 }
-  ],
-
   graphemes: [
     { 
       id: 1, 
@@ -147,19 +142,7 @@ export const wordDatabaseEN = {
       focus: 'ensure vs insure', 
       questions: { en: 'Which word means to make certain that something will happen?', pl: 'Które słowo oznacza upewnienie się, że coś się wydarzy?', de: 'Welches Wort bedeutet, sicherzustellen, dass etwas passiert?' }, 
       options: [{ text: 'Ensure', isCorrect: true, icon: '🔒' }, { text: 'Insure', isCorrect: false, icon: '📄' }] 
-    },
-    { 
-      id: 11, 
-      difficulty: 3, 
-      focus: 'ough vs uff', 
-      questions: { en: 'Which ending completes: "The sea was very r___ today during the storm"?', pl: 'Która końcówka pasuje: "The sea was very r___ today" (Morze było dziś wzburzone)?', de: 'Welche Endung passt: "The sea was very r___ today" (Das Meer war heute rau)?' }, 
-      options: [{ text: 'ough', isCorrect: true, icon: '🌊' }, { text: 'uff', isCorrect: false, icon: '❌' }] 
     }
-  ],
-
-  blending: [
-    { id: 1, type: 'blending', targetWord: 'Assessment', phonemesAudioUrl: '/audio/en_assessment.mp3', difficulty: 3 },
-    { id: 2, type: 'blending', targetWord: 'Hypothesis', phonemesAudioUrl: '/audio/en_hypothesis.mp3', difficulty: 3 }
   ],
 
   syllables: [
@@ -175,11 +158,6 @@ export const wordDatabaseEN = {
     { id: 10, difficulty: 2, word: 'Appreciation', segments: ['Ap', 'pre', 'ci', 'a', 'tion'], icon: '🙏' }
   ],
 
-  spelling: [
-    { id: 1, type: 'spelling', word: 'Accommodate', audioUrl: '/audio/en_accommodate.mp3', difficulty: 3 },
-    { id: 2, type: 'spelling', word: 'Embarrassment', audioUrl: '/audio/en_embarrassment.mp3', difficulty: 3 }
-  ],
-
   scrabble: [
     { id: 1, difficulty: 3, word: 'COLLEAGUE', scrambled: ['C', 'O', 'L', 'L', 'E', 'A', 'G', 'U', 'E'], distractors: ['I', 'N'], image: '👥' },
     { id: 2, difficulty: 3, word: 'GUARANTEE', scrambled: ['G', 'U', 'A', 'R', 'A', 'N', 'T', 'E', 'E'], distractors: ['O', 'W'], image: '🛡️' },
@@ -193,21 +171,6 @@ export const wordDatabaseEN = {
     { id: 10, difficulty: 2, word: 'LEADERSHIP', scrambled: ['L', 'E', 'A', 'D', 'E', 'R', 'S', 'H', 'I', 'P'], distractors: ['T', 'O'], image: '👑' }
   ],
 
-  reciprocal: [
-    { 
-      id: 1, 
-      type: 'reciprocal', 
-      paragraph: 'Adults with dyslexia often possess strong problem-solving skills and can excel in creative and big-picture thinking. While working memory and processing speed may pose challenges, their perceptual reasoning is frequently a distinct asset in professional environments.',
-      difficulty: 3 
-    },
-    { 
-      id: 2, 
-      type: 'reciprocal', 
-      paragraph: 'In modern corporate structures, fostering psychological safety is critical. When employees feel safe to take interpersonal risks without fear of retribution, team innovation and overall productivity significantly increase.',
-      difficulty: 3 
-    }
-  ],
-
   context: [
     { id: 1, difficulty: 3, tags: ['business'], sentence_part1: 'The committee needs to', sentence_part2: 'the long-term financial risks before proceeding.', options: [{ text: 'assess', isCorrect: true }, { text: 'access', isCorrect: false }], hints: { en: '"Assess" means to evaluate. "Access" means to enter or retrieve.', pl: '"Assess" oznacza oceniać. "Access" oznacza dostęp.' } },
     { id: 2, difficulty: 3, tags: ['business'], sentence_part1: 'We must ensure that our supply chain remains', sentence_part2: 'despite the market volatility.', options: [{ text: 'resilient', isCorrect: true }, { text: 'resistant', isCorrect: false }], hints: { en: '"Resilient" implies bouncing back from adversity. "Resistant" means blocking it entirely.', pl: '"Resilient" oznacza odporny, potrafiący się podnieść. "Resistant" to całkowicie blokujący.' } },
@@ -218,8 +181,7 @@ export const wordDatabaseEN = {
     { id: 7, difficulty: 3, tags: ['business'], sentence_part1: 'Unfortunately, his handwriting on the form was completely', sentence_part2: '.', options: [{ text: 'illegible', isCorrect: true }, { text: 'eligible', isCorrect: false }], hints: { en: '"Illegible" means unreadable. "Eligible" means qualified.', pl: '"Illegible" to nieczytelny. "Eligible" to kwalifikujący się.' } },
     { id: 8, difficulty: 2, tags: ['business'], sentence_part1: 'The auditor conducted a very', sentence_part2: 'review of our accounts.', options: [{ text: 'thorough', isCorrect: true }, { text: 'through', isCorrect: false }], hints: { en: '"Thorough" means complete/detailed. "Through" is a preposition.', pl: '"Thorough" to dokładny. "Through" to przez.' } },
     { id: 9, difficulty: 2, tags: ['everyday'], sentence_part1: 'She was', sentence_part2: 'employed at a marketing agency before joining us.', options: [{ text: 'formerly', isCorrect: true }, { text: 'formally', isCorrect: false }], hints: { en: '"Formerly" means previously. "Formally" means officially.', pl: '"Formerly" to dawniej. "Formally" to formalnie.' } },
-    { id: 10, difficulty: 2, tags: ['business'], sentence_part1: 'All inquiries regarding payroll should be directed to', sentence_part2: '.', options: [{ text: 'personnel', isCorrect: true }, { text: 'personal', isCorrect: false }], hints: { en: '"Personnel" refers to staff. "Personal" means private.', pl: '"Personnel" to personel. "Personal" to osobisty.' } },
-    { id: 11, difficulty: 2, tags: ['everyday', 'sports'], sentence_part1: 'She grabbed her racket to play', sentence_part2: '.', options: [{ text: 'badminton', isCorrect: true }, { text: 'dadminton', isCorrect: false }], hints: { en: 'Look closely at the very first letter. The circle goes to the right side, like a belly: "b".', pl: 'Zwróć uwagę na pierwszą literę. Brzuszek litery "b" jest po prawej stronie.', de: 'Achte auf den ersten Buchstaben. Der Bauch vom "b" zeigt nach rechts.' } }
+    { id: 10, difficulty: 2, tags: ['business'], sentence_part1: 'All inquiries regarding payroll should be directed to', sentence_part2: '.', options: [{ text: 'personnel', isCorrect: true }, { text: 'personal', isCorrect: false }], hints: { en: '"Personnel" refers to staff. "Personal" means private.', pl: '"Personnel" to personel. "Personal" to osobisty.' } }
   ],
 
   clock: [
@@ -241,7 +203,11 @@ export const wordDatabaseEN = {
     { id: 3, difficulty: 1, instruction: 'Order the workdays of the week', scrambled: ['Wednesday', 'Monday', 'Thursday', 'Tuesday', 'Friday'], correct: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] },
     { id: 4, difficulty: 2, instruction: 'Order the months of Q4', scrambled: ['December', 'October', 'November'], correct: ['October', 'November', 'December'] },
     { id: 5, difficulty: 2, tags: ['business'], instruction: 'Order these career stages from entry to senior', scrambled: ['Manager', 'Intern', 'Director', 'Specialist'], correct: ['Intern', 'Specialist', 'Manager', 'Director'] },
-    { id: 6, difficulty: 2, tags: ['business'], instruction: 'Standard meeting agenda order', scrambled: ['Any Other Business (AOB)', 'Welcome and Introductions', 'Adjournment', 'Reviewing past minutes', 'New business'], correct: ['Welcome and Introductions', 'Reviewing past minutes', 'New business', 'Any Other Business (AOB)', 'Adjournment'] }
+    { id: 6, difficulty: 2, tags: ['business'], instruction: 'Standard meeting agenda order', scrambled: ['Any Other Business (AOB)', 'Welcome and Introductions', 'Adjournment', 'Reviewing past minutes', 'New business'], correct: ['Welcome and Introductions', 'Reviewing past minutes', 'New business', 'Any Other Business (AOB)', 'Adjournment'] },
+    { id: 7, difficulty: 1, instruction: 'Order the time units from shortest to longest', scrambled: ['Hour', 'Second', 'Day', 'Minute'], correct: ['Second', 'Minute', 'Hour', 'Day'] },
+    { id: 8, difficulty: 1, instruction: 'Order these letters alphabetically', scrambled: ['F', 'B', 'D', 'H'], correct: ['B', 'D', 'F', 'H'] },
+    { id: 9, difficulty: 2, tags: ['business'], instruction: 'Order the sales funnel steps', scrambled: ['Lead', 'Prospect', 'Customer', 'Visitor'], correct: ['Visitor', 'Lead', 'Prospect', 'Customer'] },
+    { id: 10, difficulty: 1, instruction: 'Order the numbers from smallest to largest', scrambled: ['1000', '10', '100', '10000'], correct: ['10', '100', '1000', '10000'] }
   ],
 
   tracking: [
@@ -249,7 +215,12 @@ export const wordDatabaseEN = {
     { id: 2, difficulty: 1, instruction: 'Which way does the arrow point?', items: [{ symbol: '→', target: 'right' }, { symbol: '←', target: 'left' }, { symbol: '→', target: 'right' }, { symbol: '←', target: 'left' }], options: [{ label: 'Left ⬅️', value: 'left' }, { label: 'Right ➡️', value: 'right' }] },
     { id: 3, difficulty: 2, instruction: 'Where is the loop of this letter?', items: [{ symbol: 'p', target: 'right' }, { symbol: 'q', target: 'left' }, { symbol: 'p', target: 'right' }, { symbol: 'q', target: 'left' }], options: [{ label: 'Left ⬅️', value: 'left' }, { label: 'Right ➡️', value: 'right' }] },
     { id: 4, difficulty: 1, instruction: 'Which direction is the finger pointing?', items: [{ symbol: '👈', target: 'left' }, { symbol: '👉', target: 'right' }, { symbol: '👉', target: 'right' }, { symbol: '👈', target: 'left' }], options: [{ label: 'Left ⬅️', value: 'left' }, { label: 'Right ➡️', value: 'right' }] },
-    { id: 5, difficulty: 1, instruction: 'Read the word and point to that direction', items: [{ symbol: 'RIGHT', target: 'right' }, { symbol: 'LEFT', target: 'left' }, { symbol: 'RIGHT', target: 'right' }, { symbol: 'LEFT', target: 'left' }], options: [{ label: 'Left ⬅️', value: 'left' }, { label: 'Right ➡️', value: 'right' }] }
+    { id: 5, difficulty: 1, instruction: 'Read the word and point to that direction', items: [{ symbol: 'RIGHT', target: 'right' }, { symbol: 'LEFT', target: 'left' }, { symbol: 'RIGHT', target: 'right' }, { symbol: 'LEFT', target: 'left' }], options: [{ label: 'Left ⬅️', value: 'left' }, { label: 'Right ➡️', value: 'right' }] },
+    { id: 6, difficulty: 2, instruction: 'Where is the loop of this letter?', items: [{ symbol: 'q', target: 'left' }, { symbol: 'p', target: 'right' }, { symbol: 'p', target: 'right' }, { symbol: 'q', target: 'left' }], options: [{ label: 'Left ⬅️', value: 'left' }, { label: 'Right ➡️', value: 'right' }] },
+    { id: 7, difficulty: 1, instruction: 'Which way does the arrow point?', items: [{ symbol: '◁', target: 'left' }, { symbol: '▷', target: 'right' }, { symbol: '▷', target: 'right' }, { symbol: '◁', target: 'left' }], options: [{ label: 'Left ⬅️', value: 'left' }, { label: 'Right ➡️', value: 'right' }] },
+    { id: 8, difficulty: 1, instruction: 'Thumbs up or down?', items: [{ symbol: '👍', target: 'up' }, { symbol: '👎', target: 'down' }, { symbol: '👍', target: 'up' }, { symbol: '👎', target: 'down' }], options: [{ label: 'Up ⬆️', value: 'up' }, { label: 'Down ⬇️', value: 'down' }] },
+    { id: 9, difficulty: 2, instruction: 'Find the odd letter out', items: [{ symbol: 'm', target: 'down' }, { symbol: 'w', target: 'up' }, { symbol: 'w', target: 'up' }, { symbol: 'm', target: 'down' }], options: [{ label: 'm (down)', value: 'down' }, { label: 'w (up)', value: 'up' }] },
+    { id: 10, difficulty: 1, instruction: 'Uppercase or lowercase?', items: [{ symbol: 'A', target: 'up' }, { symbol: 'b', target: 'down' }, { symbol: 'C', target: 'up' }, { symbol: 'd', target: 'down' }], options: [{ label: 'Uppercase 🔠', value: 'up' }, { label: 'Lowercase 🔡', value: 'down' }] }
   ],
 
   lcwc: [
@@ -268,7 +239,14 @@ export const wordDatabaseEN = {
   categorization: [
     { id: 1, difficulty: 3, instruction: 'Categorize these cognitive biases', buckets: [{ id: 'social', label: 'Social Biases', icon: '👥' }, { id: 'memory', label: 'Memory Biases', icon: '🧠' }], items: [{ id: 'i1', word: 'Groupthink', bucketId: 'social' }, { id: 'i2', word: 'Hindsight bias', bucketId: 'memory' }, { id: 'i3', word: 'Bandwagon effect', bucketId: 'social' }, { id: 'i4', word: 'Misinformation effect', bucketId: 'memory' }] },
     { id: 2, difficulty: 1, tags: ['business'], instruction: 'Assign words to the correct department', buckets: [{ id: 'hr', label: 'HR', icon: '👥' }, { id: 'fin', label: 'Finance', icon: '💰' }], items: [{ id: 'i1', word: 'Budget', bucketId: 'fin' }, { id: 'i2', word: 'Recruitment', bucketId: 'hr' }, { id: 'i3', word: 'Invoice', bucketId: 'fin' }, { id: 'i4', word: 'Vacations', bucketId: 'hr' }] },
-    { id: 3, difficulty: 2, instruction: 'Assign words to the correct part of speech', buckets: [{ id: 'noun', label: 'Noun (Thing)', icon: '📦' }, { id: 'verb', label: 'Verb (Action)', icon: '🏃' }], items: [{ id: 'i1', word: 'Meeting', bucketId: 'noun' }, { id: 'i2', word: 'Analyze', bucketId: 'verb' }, { id: 'i3', word: 'Decision', bucketId: 'noun' }, { id: 'i4', word: 'Calculate', bucketId: 'verb' }] }
+    { id: 3, difficulty: 2, instruction: 'Assign words to the correct part of speech', buckets: [{ id: 'noun', label: 'Noun (Thing)', icon: '📦' }, { id: 'verb', label: 'Verb (Action)', icon: '🏃' }], items: [{ id: 'i1', word: 'Meeting', bucketId: 'noun' }, { id: 'i2', word: 'Analyze', bucketId: 'verb' }, { id: 'i3', word: 'Decision', bucketId: 'noun' }, { id: 'i4', word: 'Calculate', bucketId: 'verb' }] },
+    { id: 4, difficulty: 2, instruction: 'Assign words to the correct spelling rule', buckets: [{ id: 'ie', label: 'Spelled with IE', icon: '📝' }, { id: 'ei', label: 'Spelled with EI', icon: '📝' }], items: [{ id: 'i1', word: 'Believe', bucketId: 'ie' }, { id: 'i2', word: 'Receive', bucketId: 'ei' }, { id: 'i3', word: 'Achieve', bucketId: 'ie' }, { id: 'i4', word: 'Deceive', bucketId: 'ei' }] },
+    { id: 5, difficulty: 1, instruction: 'Categorize by word type', buckets: [{ id: 'adj', label: 'Adjective', icon: '✨' }, { id: 'adv', label: 'Adverb', icon: '🏃' }], items: [{ id: 'i1', word: 'Quick', bucketId: 'adj' }, { id: 'i2', word: 'Quickly', bucketId: 'adv' }, { id: 'i3', word: 'Happy', bucketId: 'adj' }, { id: 'i4', word: 'Happily', bucketId: 'adv' }] },
+    { id: 6, difficulty: 2, instruction: 'Categorize homophones', buckets: [{ id: 'place', label: 'Location/Place', icon: '📍' }, { id: 'pos', label: 'Possession', icon: '👥' }], items: [{ id: 'i1', word: 'There', bucketId: 'place' }, { id: 'i2', word: 'Their', bucketId: 'pos' }, { id: 'i3', word: 'Here', bucketId: 'place' }, { id: 'i4', word: 'Our', bucketId: 'pos' }] },
+    { id: 7, difficulty: 3, instruction: 'Categorize prefixes and suffixes', buckets: [{ id: 'pre', label: 'Prefix', icon: '⬅️' }, { id: 'suf', label: 'Suffix', icon: '➡️' }], items: [{ id: 'i1', word: 'Un-', bucketId: 'pre' }, { id: 'i2', word: '-ment', bucketId: 'suf' }, { id: 'i3', word: 'Re-', bucketId: 'pre' }, { id: 'i4', word: '-tion', bucketId: 'suf' }] },
+    { id: 8, difficulty: 1, instruction: 'Categorize by double letters', buckets: [{ id: 'double', label: 'Double Letter', icon: '🔠' }, { id: 'single', label: 'Single Letter', icon: '🔡' }], items: [{ id: 'i1', word: 'Apple', bucketId: 'double' }, { id: 'i2', word: 'Banana', bucketId: 'single' }, { id: 'i3', word: 'Letter', bucketId: 'double' }, { id: 'i4', word: 'Word', bucketId: 'single' }] },
+    { id: 9, difficulty: 2, instruction: 'Categorize by business department', buckets: [{ id: 'it', label: 'IT', icon: '💻' }, { id: 'sales', label: 'Sales', icon: '📈' }], items: [{ id: 'i1', word: 'Server', bucketId: 'it' }, { id: 'i2', word: 'Revenue', bucketId: 'sales' }, { id: 'i3', word: 'Database', bucketId: 'it' }, { id: 'i4', word: 'Lead', bucketId: 'sales' }] },
+    { id: 10, difficulty: 1, instruction: 'Categorize by time', buckets: [{ id: 'past', label: 'Past', icon: '⏪' }, { id: 'future', label: 'Future', icon: '⏩' }], items: [{ id: 'i1', word: 'Yesterday', bucketId: 'past' }, { id: 'i2', word: 'Tomorrow', bucketId: 'future' }, { id: 'i3', word: 'Previously', bucketId: 'past' }, { id: 'i4', word: 'Soon', bucketId: 'future' }] }
   ],
 
   dictation: [
@@ -276,7 +254,12 @@ export const wordDatabaseEN = {
     { id: 2, dictation: true, difficulty: 1, audioPrompt: 'The meeting is scheduled for tomorrow.', correct: 'The meeting is scheduled for tomorrow' },
     { id: 3, dictation: true, difficulty: 2, audioPrompt: 'Please review the attached document.', correct: 'Please review the attached document' },
     { id: 4, dictation: true, difficulty: 2, audioPrompt: 'The company has seen significant growth.', correct: 'The company has seen significant growth' },
-    { id: 5, dictation: true, difficulty: 2, audioPrompt: 'We need to update the project timeline.', correct: 'We need to update the project timeline' }
+    { id: 5, dictation: true, difficulty: 2, audioPrompt: 'We need to update the project timeline.', correct: 'We need to update the project timeline' },
+    { id: 6, dictation: true, difficulty: 3, audioPrompt: 'It is necessary to accommodate their request.', correct: 'It is necessary to accommodate their request' },
+    { id: 7, dictation: true, difficulty: 2, audioPrompt: 'The committee reached a unanimous decision.', correct: 'The committee reached a unanimous decision' },
+    { id: 8, dictation: true, difficulty: 2, audioPrompt: 'Their knowledge of the subject is thorough.', correct: 'Their knowledge of the subject is thorough' },
+    { id: 9, dictation: true, difficulty: 3, audioPrompt: 'The principal addressed the new principle.', correct: 'The principal addressed the new principle' },
+    { id: 10, dictation: true, difficulty: 2, audioPrompt: 'I can definitely recommend this strategy.', correct: 'I can definitely recommend this strategy' }
   ],
 
   diagnostic: [
@@ -318,6 +301,13 @@ export const wordDatabaseEN = {
         { text: 'C) The launch proceeds seamlessly because the CEO explicitly mandated it.', isCorrect: false },
         { text: 'D) The testing phase is completely swapped with the final launch phase.', isCorrect: false }
       ]
-    }
+    },
+    { id: 'en_diag_4', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostic: Spelling', questions: { en: 'Which of the following is spelled correctly?' }, options: [{ text: 'A) Accommodate', isCorrect: true }, { text: 'B) Accomodate', isCorrect: false }, { text: 'C) Acommodate', isCorrect: false }, { text: 'D) Acomodate', isCorrect: false }] },
+    { id: 'en_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostic: Visual Discrimination', questions: { en: 'Identify the odd one out in this sequence:\n\n b b b d b b' }, options: [{ text: 'A) The 3rd letter', isCorrect: false }, { text: 'B) The 4th letter', isCorrect: true }, { text: 'C) The 5th letter', isCorrect: false }, { text: 'D) The 6th letter', isCorrect: false }] },
+    { id: 'en_diag_6', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostic: Working Memory', questions: { en: 'If the meeting is moved from 2 PM to 4 PM, and then delayed by another half hour, what time does it start?' }, options: [{ text: 'A) 4:00 PM', isCorrect: false }, { text: 'B) 4:30 PM', isCorrect: true }, { text: 'C) 2:30 PM', isCorrect: false }, { text: 'D) 5:00 PM', isCorrect: false }] },
+    { id: 'en_diag_7', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostic: Homophones', questions: { en: 'Choose the correct word: "The dog wagged ___ tail."' }, options: [{ text: 'A) its', isCorrect: true }, { text: 'B) it\'s', isCorrect: false }, { text: 'C) its\'', isCorrect: false }, { text: 'D) it', isCorrect: false }] },
+    { id: 'en_diag_8', pillar: 'Visual', difficulty: 3, focus: 'Diagnostic: Letter Reversal', questions: { en: 'Which word contains a reversed letter?\n\n m a r k e t i n g \n d e v e l o p m e n t \n s t r a t e q y \n c o m m i t t e e' }, options: [{ text: 'A) marketing', isCorrect: false }, { text: 'B) development', isCorrect: false }, { text: 'C) strateqy', isCorrect: true }, { text: 'D) committee', isCorrect: false }] },
+    { id: 'en_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostic: Categorization', questions: { en: 'Which of the following does NOT belong in a group of financial terms?' }, options: [{ text: 'A) Budget', isCorrect: false }, { text: 'B) Invoice', isCorrect: false }, { text: 'C) Recruitment', isCorrect: true }, { text: 'D) Revenue', isCorrect: false }] },
+    { id: 'en_diag_10', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostic: Syllable Segmentation', questions: { en: 'How many syllables are in the word "Responsibility"?' }, options: [{ text: 'A) 4', isCorrect: false }, { text: 'B) 5', isCorrect: false }, { text: 'C) 6', isCorrect: true }, { text: 'D) 7', isCorrect: false }] }
   ]
 };

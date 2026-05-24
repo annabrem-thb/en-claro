@@ -17,7 +17,6 @@ import TTSController      from './common/TTSController.jsx';
 import SkeletonLoader     from './common/SkeletonLoader.jsx';
 import SidebarNav         from './SidebarNav.jsx';
 import { FeedbackCollector } from './FeedbackCollector.jsx';
-import { CognitiveEnergyIndicator } from './CognitiveEnergyIndicator.jsx';
 import { saveLog } from '../utils/indexedDB.js';
 import { useIndexedDB } from '../hooks/useIndexedDB.js';
 import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
@@ -169,8 +168,8 @@ function AppContent() {
   const [errorCounter, setErrorCounter] = useState(0);
 
   const { 
-    loadLevel, showBreakModal, setSessionStartTime, setErrorTimestamps, 
-    setLoadLevel, setShowBreakModal, setBreakDismissed 
+    loadLevel, setSessionStartTime, setErrorTimestamps, 
+    setLoadLevel 
   } = useCognitiveLoad(activeTab, inclusiveOptions.zenMode);
 
   // State for PWA Offline Support & Updates
@@ -559,21 +558,6 @@ function AppContent() {
   }, [points, goNext]);
 
   // Point 4 Handlers
-  const handleTakeBreak = useCallback(() => {
-    setCoins(c => c + 2); // Nagroda za proaktywny odpoczynek!
-    setSessionStartTime(Date.now());
-    setErrorTimestamps([]);
-    setLoadLevel('green');
-    setShowBreakModal(false);
-    setBreakDismissed(false);
-    setFeedback(null);
-    setActiveTab('Garden');
-  }, []);
-  const handleDismissBreak = useCallback(() => {
-    setShowBreakModal(false);
-    setBreakDismissed(true);
-  }, []);
-
   // --- Swipe-to-navigate logic ---
   const touchStart = useRef(null);
   const touchEnd = useRef(null);
@@ -763,14 +747,6 @@ function AppContent() {
                   )}
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
-                  {!inclusiveOptions.zenMode && (
-                    <CognitiveEnergyIndicator 
-                      loadLevel={loadLevel} showModal={showBreakModal}
-                      onTakeBreak={handleTakeBreak} onDismiss={handleDismissBreak}
-                      t={t} themeStyles={themeStyles} isHighContrast={isHighContrast} noFlash={noFlash}
-                      bigTargets={bigTargets}
-                    />
-                  )}
                   <div className={`text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>
                     {!isGamified && `${safeIndex + 1} / ${activePillarTasks.length}`}
                   </div>
@@ -835,12 +811,12 @@ function AppContent() {
           aria-labelledby="level-up-title"
         >
           <div className={`flex flex-col items-center rounded-4xl p-10 shadow-lg max-w-sm w-full border ${noFlash ? '' : 'animate-in fade-in zoom-in duration-700'} ${isHighContrast ? 'bg-black border-white' : 'bg-white border-slate-200'}`}>
-            <div className="text-5xl mb-4 opacity-80 drop-shadow-md" aria-hidden="true">🧠</div>
+          <div className="text-5xl mb-4 opacity-80 drop-shadow-md" aria-hidden="true">🌱</div>
             <h2 id="level-up-title" className={`text-2xl font-bold mb-4 ${isHighContrast ? 'text-white' : 'text-slate-700'}`}>
-              {t.gardenBlooming || "Twój ogród rośnie!"}
+              {t.levelUpTitle || "Twój ogród rośnie!"}
             </h2>
             <p className={`text-sm mb-8 leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
-              {t.srVisitor || "Kolejny cel został pomyślnie zrealizowany."}
+              {t.levelUpDesc || "Kolejny cel został pomyślnie zrealizowany."}
             </p>
             <button onClick={() => { setShowSuccess(false); if (pendingFeedback) { setShowFeedback(true); setPendingFeedback(false); } else { goNext(); } }}
               className={`w-full ${bigTargets ? 'py-7 text-xl' : 'py-4 text-lg'} rounded-3xl font-bold active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
@@ -884,16 +860,16 @@ function AppContent() {
       {/* Non-intrusive PWA Update Prompt */}
       {needRefresh && (
         <div className={`fixed bottom-20 sm:bottom-24 right-4 z-50 p-5 rounded-3xl shadow-2xl max-w-xs animate-in slide-in-from-right duration-500 border-2 ${isHighContrast ? 'bg-black border-white text-white' : 'bg-white border-slate-100 text-slate-800'}`} role="alert" aria-live="assertive">
-          <h4 className="font-black text-sm mb-1 flex items-center gap-2"><span aria-hidden="true">🌱</span> Nowa wersja</h4>
+          <h4 className="font-black text-sm mb-1 flex items-center gap-2"><span aria-hidden="true">🌱</span> {t.pwaNewVersion || 'Nowa wersja'}</h4>
           <p className={`text-xs font-medium mb-4 leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
-            Dostępna jest nowa treść. Zaktualizuj aplikację, aby pobrać najnowsze zmiany do trybu offline.
+            {t.pwaDescription || 'Dostępna jest nowa treść. Zaktualizuj aplikację, aby pobrać najnowsze zmiany do trybu offline.'}
           </p>
           <div className="flex gap-2">
             <button onClick={() => updateServiceWorker(true)} className={`flex-1 py-3 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest text-white shadow-md active:scale-95 transition-all ${themeStyles.button}`}>
-              Aktualizuj
+              {t.pwaUpdate || 'Aktualizuj'}
             </button>
             <button onClick={() => setNeedRefresh(false)} className={`flex-1 py-3 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all ${isHighContrast ? 'bg-white/10 hover:bg-white/20' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}>
-              Później
+              {t.pwaLater || 'Później'}
             </button>
           </div>
         </div>

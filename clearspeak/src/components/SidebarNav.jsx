@@ -1,12 +1,6 @@
 import React, { memo } from 'react';
 import AccessibleTTS from './common/AccessibleTTS.jsx';
 
-const PILLAR_LABELS = {
-  pl: { Literacy: 'Czytanie i Pisanie', Visual: 'Wzrok i Przestrzeń', Cognitive: 'Logika i Pamięć' },
-  en: { Literacy: 'Reading & Writing',  Visual: 'Vision & Space',     Cognitive: 'Logic & Memory' },
-  de: { Literacy: 'Lesen & Schreiben',  Visual: 'Sehen & Raum',       Cognitive: 'Logik & Gedächtnis' },
-};
-
 const PILLAR_ICONS = { Literacy: '📖', Visual: '👁️', Cognitive: '🧠' };
 
 const SidebarNav = memo(function SidebarNav({
@@ -40,7 +34,7 @@ const SidebarNav = memo(function SidebarNav({
         {pillars.map(p => {
           const isSelected     = activeTab === p;
           const questForPillar = dailyQuests.tasks.find(q => q.type === p);
-          const label          = t.pillars?.[p] || PILLAR_LABELS[language]?.[p] || p;
+          const label          = t.pillars?.[p] || p;
           return (
             <button key={p}
               onClick={() => onTabChange(p)}
@@ -68,14 +62,14 @@ const SidebarNav = memo(function SidebarNav({
             onClick={onGardenClick}
             className={`relative flex items-center justify-center md:justify-start gap-3 ${bigTargets ? 'p-4 md:p-5' : 'p-2.5 md:p-3'} rounded-2xl transition-all ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-bold' : `${themeStyles.bg} ${themeStyles.accent} font-bold shadow-sm`) : (isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-50')}`}
             aria-pressed={activeTab === 'Garden'}
-            aria-label={t.garden || "Garten"}
+            aria-label={t.garden || "Ogród"}
           >
             <span className={hideNavLabel ? 'text-2xl' : 'text-xl'} aria-hidden="true">
               {t?.levelIcons?.[theme]?.[0] || '🌱'}
             </span>
             {!hideNavLabel && (
-              <AccessibleTTS text={t.garden || "Garten"} speak={speak} className="hidden md:flex">
-                <span className="text-xs font-bold uppercase tracking-wider truncate">{t.garden || "Garten"}</span>
+              <AccessibleTTS text={t.garden || "Ogród"} speak={speak} className="hidden md:flex">
+                <span className="text-xs font-bold uppercase tracking-wider truncate">{t.garden || "Ogród"}</span>
               </AccessibleTTS>
             )}
           </button>

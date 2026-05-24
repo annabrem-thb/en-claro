@@ -1,8 +1,8 @@
 export default {
-  // General & Common
+  // General & Navigation
   appTitle: "Claro",
   introSubtitle: "Build your bridge to fluency.",
-  start: "Get Started",
+  start: "Start",
   done: "Done",
   next: "Next",
   skip: "Skip",
@@ -16,44 +16,47 @@ export default {
   unlocked: "Unlocked",
   buy: "Buy",
   loading: "Loading...",
-  noData: "No tasks available in this section.",
-  formatNotRecognized: "Exercise format not recognized.",
+  noData: "No tasks in this section.",
+  formatNotRecognized: "Task format error.",
   profile: "Profile",
   level: "Level",
   quests: "Daily Quests",
   shop: "Theme Shop",
   coins: "Coins",
-  navAria: "Exercise areas",
+  navAria: "Practice areas",
   settingsAria: "Settings",
   coinsAria: "Coins",
   exerciseAria: "Exercise",
+  readAloudTitle: "Read aloud",
 
-  // Feedback / Messages
-  successMsg: ["Great job!", "Excellent!", "Awesome!", "Perfect!"],
-  errorMsg: ["Let's review this together.", "Let's try that again.", "Almost there, take another look."],
+  // Messages & Notifications
+  successMsg: ["Great!", "Excellent!", "Wonderful!", "Super!"],
+  errorMsg: ["Let's analyze this together.", "Let's try again.", "Almost right, look again."],
   streakMsg: [
     "{count} in a row! 🔥",
-    "{count} hits! 🚀",
-    "Awesome streak: {count}! 🌟",
-    "Unstoppable: {count}x! 💪"
+    "{count} hit streak! 🚀",
+    "You have {count}! 🌟",
+    "{count}x flawless! 💪"
   ],
   levelUp: "Level Up!",
+  levelUpTitle: "Your garden is growing!",
+  levelUpDesc: "Another goal has been successfully achieved.",
   hint: "Hint",
 
-  // Voice feedback & TTS
+  // Voice Assistant (TTS)
   voice: {
-    success: ["Excellent", "Great job", "Awesome", "Spot on"],
-    error: ["Let's review this together", "Let's try that again", "Almost there, take another look"],
+    success: ["Excellent", "Great", "Wonderful", "Outstanding"],
+    error: ["Let's analyze this together", "Let's try again", "Almost right, look again"],
     streak: [
-      "{count} in a row! You are on fire!",
+      "{count} in a row! You're on fire!",
       "Amazing! That's {count} correct answers!",
-      "Awesome streak! Keep it up!",
-      "Unstoppable! {count} hits in a row!"
+      "Great streak! Keep it up!",
+      "Fantastic! {count} hits without a mistake!"
     ]
   },
-  voiceOptions: "Reader's Voice",
-  voiceDesc: "Choose a voice for the voice assistant",
-  voiceDefault: "System Default",
+  voiceOptions: "Voice actor",
+  voiceDesc: "Choose voice for the voice assistant",
+  voiceDefault: "System default",
   voiceSpeed: "Speech speed",
   slow: "Slower",
   fast: "Faster",
@@ -62,14 +65,17 @@ export default {
   pitchHigh: "High",
   testVoice: "Test voice",
   testSentence: "This is a test of the selected voice.",
+  resetTTS: "Reset TTS settings",
+  voiceSelectionAria: "Voice selection",
+  ttsSettingsAria: "TTS settings",
 
-  // Settings & App Config
+  // Settings
   settings: "Settings",
   settingsTitle: "Settings",
   settingsSubtitle: "Claro · Accessible Gamification",
   settingsBack: "← Back",
   settingsTheme: "Theme",
-  settingsAccessibility: "Comfort Options",
+  settingsAccessibility: "Comfort options",
   settingsFooter: "Your settings are saved automatically.",
   tabGeneral: "General",
   tabA11y: "Comfort",
@@ -82,149 +88,159 @@ export default {
   v1Label: "Classic",
   v1Desc: "Exercises without gamification",
   v2Label: "Gamification",
-  v2Desc: "Points, coins and rewards",
+  v2Desc: "Points, coins, and rewards",
   
-  // Accessibility & Addons
+  // Accessibility (A11y)
   a11yBase: "Base mode — always active",
-  a11yBaseDesc: "Dyslexia-friendly font (OpenDyslexic), increased spacing, soft background",
+  a11yBaseDesc: "Friendly font (OpenDyslexic), increased spacing, mild cream background",
   a11yAddons: "Comfort personalization options",
-  a11yAddonsDesc: "Choose any combination to tailor the app to your needs",
+  a11yAddonsDesc: "Choose any combination — customize the app to your needs",
   a11y: {
-    LRS: { name: 'Friendly font', desc: 'Dyslexia-friendly font (OpenDyslexic)' },
-    Kontrast: { name: 'High contrast', desc: 'Black & white WCAG AAA colours' },
-    Motorik: { name: 'Comfort buttons', desc: 'Larger buttons and calm animations' },
+    LRS: { name: 'Friendly font', desc: 'Font facilitating reading (OpenDyslexic)' },
+    Kontrast: { name: 'High contrast', desc: 'Black and white WCAG AAA colors' },
+    Motorik: { name: 'Comfortable buttons', desc: 'Enlarged buttons and calm animations' },
     Niedowidzenie: { name: 'Larger text', desc: 'Enlarged font and icons' },
-    Daltonizm: { name: 'Safe colours', desc: 'Clear and optimized colour palette' },
-    Redukcja: { name: 'Calm screen', desc: 'No flashing or distracting motion' },
+    Daltonizm: { name: 'Safe colors', desc: 'Optimized, readable color palette' },
+    Redukcja: { name: 'Calm screen', desc: 'No flashing and distracting motion' },
     Linijka: { name: 'Focus ruler', desc: 'Highlights a horizontal line under the cursor' },
-    Spacing: { name: 'Dyslexia Spacing', desc: 'Increases spacing between letters and words' },
-    Desaturacja: { name: 'Soft colours', desc: 'Reduces the intensity of bright colours' },
+    Spacing: { name: 'Larger spacing', desc: 'Increases spacing between letters and words' },
+    Desaturacja: { name: 'Mild colors', desc: 'Reduces the saturation of bright colors' },
   },
   inclusive: {
-    adaptiveDifficulty: { name: 'Adaptive difficulty', desc: 'Game adjusts pace to the player' },
-    bigTargets: { name: 'Large tap targets', desc: 'Buttons min. 56px (motor aid)' },
-    noFlash: { name: 'No-flash mode', desc: 'No flickering — epilepsy & motion sensitivity' },
-    audioRewards: { name: 'Audio rewards', desc: 'Sound cues alongside visual feedback' },
-    extendedTime: { name: 'Extended time', desc: 'No time pressure — 3s instead of 1.5s' },
-    voiceAssistant: { name: 'Voice Assistant', desc: 'Automatically reads instructions and options aloud' },
+    adaptiveDifficulty: { name: 'Adaptive difficulty', desc: 'Game matches pace to the player' },
+    bigTargets: { name: 'Large touch targets', desc: 'Buttons min. 56px (motor facilitation)' },
+    noFlash: { name: 'No flash mode', desc: 'No flickering — epilepsy and motion sensitivity' },
+    audioRewards: { name: 'Audio rewards', desc: 'Audio signals instead of just visual' },
+    extendedTime: { name: 'Extended time', desc: 'No time pressure, 3s instead of 1.5s' },
+    voiceAssistant: { name: 'Voice Assistant', desc: 'Automatic reading of commands and answers' },
     zenMode: { name: 'Zen Mode', desc: 'Hides distractions (points, progress bars)' },
-    bionicReading: { name: 'Bionic Reading', desc: 'Bolds the start of words to guide the eyes' },
-    minimalistMode: { name: 'Minimalist View', desc: 'Hides decorative graphics and Lottie animations' },
-    muteNotifications: { name: 'Mute Notifications', desc: 'Disables spoken success/error messages and game sounds' },
+    bionicReading: { name: 'Bionic Reading', desc: 'Bolds word beginnings, helps focus eyes' },
+    minimalistMode: { name: 'Minimalist view', desc: 'Hides decorative graphics and Lottie animations' },
+    muteNotifications: { name: 'Mute notifications', desc: 'Disables success/error speech and game sounds' },
   },
   profiles: {
     Standard: { name: "Standard", desc: "Default view" },
-    LRS: { name: "Friendly Font", desc: "Dyslexia-friendly font" },
+    LRS: { name: "Friendly font", desc: "Font facilitating reading" },
     Kontrast: { name: "High Contrast", desc: "Better readability" },
-    Motorik: { name: "Comfort buttons", desc: "Larger buttons and calm animations" },
-    Niedowidzenie: { name: "Larger Text", desc: "Enlarged font and icons" },
-    Daltonizm: { name: "Safe Colours", desc: "Clear and optimized colour palette" },
-    Redukcja: { name: "Calm Screen", desc: "No flashing or distracting motion" },
+    Motorik: { name: "Comfortable buttons", desc: "Larger buttons and calm animations" },
+    Niedowidzenie: { name: "Larger text", desc: "Enlarged font and icons" },
+    Daltonizm: { name: "Safe colors", desc: "Optimized, readable color palette" },
+    Redukcja: { name: "Calm screen", desc: "No flashing, no distracting motion" },
     Bionic: { name: "Bionic Reading", desc: "Bolds word beginnings" },
-    Linijka: { name: "Focus Ruler", desc: "Highlights line under cursor" },
-    Spacing: { name: "Dyslexia Spacing", desc: "Increases letter and word spacing" },
-    Desaturacja: { name: "Soft Colours", desc: "Reduces the intensity of bright colours" }
+    Linijka: { name: "Focus ruler", desc: "Highlights a horizontal line under the cursor" },
+    Spacing: { name: "Larger spacing", desc: "Increases spacing between letters and words" },
+    Desaturacja: { name: "Mild colors", desc: "Reduces the saturation of bright colors" }
   },
-  accDescriptions: { Standard: "Default View", Kontrast: "High Contrast Mode", LRS: "Friendly Font", Motorik: "Comfort buttons" },
+  accDescriptions: { Standard: "Default view", Kontrast: "High contrast mode", LRS: "Friendly font", Motorik: "Comfortable buttons" },
 
-  // Gamification & Rewards
-  versionGamified: "GAMIFIED",
-  versionGamifiedSub: "Points & rewards",
+  // Gamification, Themes & Garden
+  versionGamified: "GAMIFICATION",
+  versionGamifiedSub: "Points and rewards",
   versionBase: "BASE",
   versionBaseSub: "No points",
   gamificationTitle: "Inclusive gamification options",
-  gamificationDesc: "Adjust the reward system to your needs",
+  gamificationDesc: "Customize the reward system to your needs",
   themeShop: "Theme shop",
   themeShopDesc: "Spend coins on new visual themes",
-  earnCoinHint: "You earn 1 coin for each correct answer",
+  earnCoinHint: "You earn 1 coin for every correct answer",
   needMoreCoins: "Not enough coins",
   themes: {
-    Natur: { name: "Nature", icon: "🌿", desc: "Green colors, relaxing" },
-    Musik: { name: "Music", icon: "🎵", desc: "Purple, dynamic" },
-    Kunst: { name: "Art", icon: "🎨", desc: "Amber, creative" },
-    Space: { name: "Space", icon: "🚀", desc: "Space depth" },
-    Ocean: { name: "Ocean", icon: "🐳", desc: "Ocean calm" }
+    Natur: { name: "Nature", icon: "🌿", desc: "Green hues, relaxation" },
+    Musik: { name: "Music", icon: "🎵", desc: "Purple, dynamics" },
+    Kunst: { name: "Art", icon: "🎨", desc: "Amber, creativity" },
+    Space: { name: "Space", icon: "🚀", desc: "Cosmic depth" },
+    Ocean: { name: "Ocean", icon: "🐳", desc: "Sea calmness" }
   },
   themeNames: { Natur: "Nature", Musik: "Music", Kunst: "Art", Space: "Space", Ocean: "Ocean" },
   levelIcons: { Natur: ['🌿', '☘️', '🌳', '🌲', '🏔️'], Musik: ['🎵', '🎶', '🎸', '🎹', '🎼'], Kunst: ['💡', '🎨', '🖌️', '🖼️', '💎'], Space: ['✨', '⭐', '🛰️', '🚀', '🪐'], Ocean: ['💧', '🌊', '🧭', '⚓', '🚢'] },
-  progressStages: { Natur: ["Seed", "Stem", "Bud", "Blooming", "Flower"], Musik: ["Sixteenth", "Eighth", "Quarter", "Half", "Instrument"], Kunst: ["Brush", "Palette", "Sketch", "Colors", "Masterpiece"], Space: ["Star", "Comet", "Moon", "Planet", "Rocket"], Ocean: ["Drop", "Fish", "Coral", "Dolphin", "Whale"] },
+  progressStages: { Natur: ["Seed", "Stem", "Bud", "Bloom", "Flower"], Musik: ["Sixteenth", "Eighth", "Quarter", "Half", "Instrument"], Kunst: ["Brush", "Palette", "Sketch", "Paint", "Masterpiece"], Space: ["Star", "Comet", "Moon", "Planet", "Rocket"], Ocean: ["Drop", "Fish", "Coral", "Dolphin", "Whale"] },
   garden: "Garden",
-  gardenBlooming: "The garden is blooming! Completed goals:",
+  gardenBlooming: "The garden is blooming! Goals achieved:",
   gardenEmpty: "Your own ecosystem. It will grow with your every progress.",
-  srPlantFeature: "Your journey currently features a",
-  srDailyRewards: "It has",
+  srPlantFeature: "Your journey currently features",
+  srDailyRewards: "Has",
   srRewardsCount: "daily rewards.",
   dailyGoalProgress: "Daily Goal Progress",
-  srVisitor: "A friendly visitor has joined you due to your consistent practice.",
-  srTrophies: "Thanks to your perseverance, {count} unique objects have appeared in the garden.",
+  srVisitor: "A friendly visitor has joined you thanks to your regular practice.",
+  srTrophies: "Through perseverance, {count} unique objects appeared in the garden.",
   rewardItems: { Natur: ["💎", "🏆", "💡", "📈", "🎯"], Musik: ["💎", "🏆", "💡", "📈", "🎯"], Kunst: ["💎", "🏆", "💡", "📈", "🎯"], Space: ["💎", "🏆", "💡", "📈", "🎯"], Ocean: ["💎", "🏆", "💡", "📈", "🎯"] },
   
-  // Goals & Progress
-  dailyGoal: "Daily Goal",
+  // Progress & Analytics
+  dailyGoal: "Daily goal",
   goal5: "5 min — Quick review",
   goal10: "10 min — Good habit",
   goal15: "15 min — Deep focus",
   goal20: "20 min — Intensive training",
-  dailySummary: "Today's Activity",
+  dailySummary: "Today's activity",
   exercisesCount: "exercises",
   totalEffort: "Total",
-  longestStreak: "Longest daily streak",
+  longestStreak: "Longest day streak",
   daysCount: "days",
-  errorAnalysis: "Error Analysis",
-  errorAnalysisSub: "Number of mistakes on individual days",
+  errorAnalysis: "Error analysis",
+  errorAnalysisSub: "Number of mistakes by day",
   exportLogs: "Export data (CSV)",
-  exportDesc: "Download NASA-TLX & UEQ survey results",
+  exportDesc: "Download NASA-TLX and UEQ survey results",
   noDataToExport: "No data to export",
-  feedback: { title: "A moment of reflection", desc: "How would you rate this session? Your feedback helps us adapt the experience.", nasaTitle: "Workload (NASA-TLX)", mental: "Mental Demand", mentalDesc: "How much thinking did the tasks require?", physical: "Effort & Fatigue", physicalDesc: "How tired do you feel after this session?", frustration: "Frustration Level", frustrationDesc: "Did you feel stressed or irritated during the tasks?", low: "Low", high: "High", ueqTitle: "User Experience (UEQ-Short)", ueqAttractiveness: "Attractiveness", ueqAttrLeft: "Unpleasant", ueqAttrRight: "Pleasant", ueqStimulation: "Stimulation", ueqStimLeft: "Boring", ueqStimRight: "Exciting", submit: "Save and continue", skip: "Skip for now" },
-  mapTitle: "Challenge Map", choosePath: "Choose your path", nextLevel: "Next Stage", lockedNode: "Locked", completedNode: "Completed", backToMap: "Back to Map", energyTitle: "Cognitive Energy", breakTitle: "Time for a break?", breakDesc: "We noticed you are working intensely. Take a rest in the garden to recharge your energy and avoid fatigue.", takeBreakBtn: "Take a break (+2 💰)", continueBtn: "Keep going",
+  feedback: { title: "A moment of reflection", desc: "How do you evaluate today's session? Your feedback helps us adapt the app to you.", nasaTitle: "Workload (NASA-TLX)", mental: "Mental effort", mentalDesc: "How much thinking did the tasks require?", physical: "Fatigue and effort", physicalDesc: "How tired do you feel after this session?", frustration: "Frustration level", frustrationDesc: "Did you feel stressed or irritated during tasks?", low: "Low", high: "High", ueqTitle: "Your impressions (UEQ-Short)", ueqAttractiveness: "Attractiveness", ueqAttrLeft: "Unpleasant", ueqAttrRight: "Pleasant", ueqStimulation: "Stimulation", ueqStimLeft: "Boring", ueqStimRight: "Interesting", submit: "Save and continue", skip: "Skip this time" },
+  mapTitle: "Challenge Map", choosePath: "Choose your path", nextLevel: "Next stage", lockedNode: "Locked", completedNode: "Completed", backToMap: "Back to map", energyTitle: "Cognitive Energy", breakTitle: "Time for a break?", breakDesc: "We noticed you're working intensively. Rest in the garden to regenerate and prevent fatigue.", takeBreakBtn: "Resting (+2 💰)", continueBtn: "Keep practicing",
   
-  // Exercises specific
-  pillars: { Literacy: "Reading & Writing", Visual: "Vision & Space", Cognitive: "Logic & Memory" },
+  // Exercise Content
+  pillars: { Literacy: "Reading and Writing", Visual: "Vision and Space", Cognitive: "Logic and Memory" },
   pillarIcons: { Literacy: '📖', Visual: '👁️', Cognitive: '🧠' },
-  categories: { Phonem: "Word: Sounds", Syllable: "Word: Syllables", Context: "Text: Reading", Graphem: "Writing: Rules", Scrabble: "Writing: Synthesis", LCWC: "Writing: Memory", Dictation: "Writing: Dictation", Tracking: "Vision: Tracking", Clock: "Vision: Clock", Categorization: "Logic: Categories", Sequence: "Logic: Sequences" },
-  difficulty: "Difficulty",
+  categories: { Phonem: "Word: Sounds", Syllable: "Word: Syllables", Context: "Text: Reading", Graphem: "Writing: Rules", Scrabble: "Writing: Synthesis", LCWC: "Writing: Memory", Dictation: "Writing: Dictations", Tracking: "Vision: Tracking", Clock: "Vision: Clock", Categorization: "Logic: Categories", Sequence: "Logic: Sequences" },
+  difficulty: "Difficulty level",
   diffLevels: ["Easy", "Medium", "Hard"],
-  questLabel: (target, type, pillars) => `Complete ${target} tasks: ${type === 'Any' ? 'Any' : pillars[type] || type}`,
-  trackAndMatch: "Follow the highlight and match the direction", orderCorrectly: "Put in the correct order", undo: "Undo", tempoLabel: "Type", normalMode: "Normal", slowMode: "Slow", spellMode: "Spell", readAloud: "Read Aloud", syllablesListen: "Listen to Syllables", check: "Check", delete: "Delete", tapToSpeak: "Tap to Speak", listening: "Listening...", collectedLabel: "Collected", selectCorrect: "Select the correct word:", tapToBuild: "Tap words to build the sequence", listenCarefully: "Listen to the word carefully.", readyToSegment: "I am ready to segment", tapBoxesInstruction: "Tap the boxes as you pronounce each individual sound.", completeExercise: "Complete Exercise", playAudio: "Play audio", lookAndListen: "Look at the word and listen to its pronunciation.", studiedWord: "I have studied the word", sayWordAloud: "Say the word aloud.", breakIntoSounds: "Break it into its individual sounds.", takeYourTime: "Take your time. Feel the shape of the sounds in your mouth before writing.", coverAndWrite: "Cover the word & Write", typeFromMemory: "Type the word from memory.", typeHere: "Type here...", checkSpelling: "Check My Spelling", compareSpelling: "Compare your spelling:", targetWord: "Target Word", yourSpelling: "Your Spelling", spelledCorrectly: "Yes, I spelled it correctly!", tryAgain: "I need to try again", listenToPhonemes: "Listen to the separated sounds.", typeBlendedWord: "Type the word these sounds make.", blendSounds: "I am ready to blend", readParagraph: "Read the following paragraph carefully.", paragraphRead: "I have finished reading", rtSummarize: "Summarize", rtSummarizeDesc: "What was the main idea of this text?", rtQuestion: "Question", rtQuestionDesc: "Ask a question about something unclear or interesting in the text.", rtClarify: "Clarify", rtClarifyDesc: "Identify any confusing words or phrases and explain them.", rtPredict: "Predict", rtPredictDesc: "What do you think will happen next or what is the logical conclusion?", heard: "Heard", voiceInput: "Voice input", speakOptionNumber: "Speak the option number", speakTileNumber: "Speak tile number", speakGapNumber: "Speak gap number to cut", tapAndPronounce: "Tap and pronounce word", skipPronunciation: "Skip pronunciation check", readSentenceAndOptions: "Read sentence and options", removeCut: (pos) => `Remove cut at position ${pos}`, addCut: (pos) => `Add cut at position ${pos}`,
+  questLabel: (target, type, pillars) => `Challenge (${target}): ${type === 'Any' ? 'Any' : pillars[type] || type}`,
+  trackAndMatch: "Follow the highlight and indicate direction", orderCorrectly: "Arrange in the correct order", undo: "Undo", tempoLabel: "Reading type", normalMode: "Normal", slowMode: "Slow", spellMode: "Spelling", readAloud: "Read aloud", syllablesListen: "Listen to syllables", check: "Check", delete: "Delete", tapToSpeak: "Tap to speak", listening: "Listening...", collectedLabel: "Collected", selectCorrect: "Select correct word:", tapToBuild: "Select words in the correct order", listenCarefully: "Listen carefully to the word.", readyToSegment: "I'm ready to segment", tapBoxesInstruction: "Tap boxes while pronouncing each sound.", completeExercise: "Complete exercise", playAudio: "Play audio", lookAndListen: "Look at the word and listen to its pronunciation.", studiedWord: "I've studied the word", sayWordAloud: "Say the word aloud.", breakIntoSounds: "Break it down into single sounds.", takeYourTime: "Take your time. Feel the shape of sounds in your mouth before writing.", coverAndWrite: "Cover word and write", typeFromMemory: "Type word from memory.", typeHere: "Type here...", checkSpelling: "Check my spelling", compareSpelling: "Compare your spelling:", targetWord: "Target word", yourSpelling: "Your spelling", spelledCorrectly: "Yes, I spelled it correctly!", tryAgain: "I need to try again", listenToPhonemes: "Listen to the separated sounds.", typeBlendedWord: "Type the word these sounds make.", blendSounds: "I'm ready to blend sounds", readParagraph: "Read the following text carefully.", paragraphRead: "I've finished reading", rtSummarize: "Summarize", rtSummarizeDesc: "What was the main idea of this text?", rtQuestion: "Ask", rtQuestionDesc: "Ask a question about something unclear or interesting in the text.", rtClarify: "Clarify", rtClarifyDesc: "Identify unclear words or phrases and explain them in your own words.", rtPredict: "Predict", rtPredictDesc: "What do you think will happen next or what is the logical conclusion?", heard: "Heard", voiceInput: "Voice input", speakOptionNumber: "Speak option number", speakTileNumber: "Speak tile number", speakGapNumber: "Speak gap number to cut", tapAndPronounce: "Tap and pronounce the word", skipPronunciation: "Skip pronunciation check", readSentenceAndOptions: "Read sentence and options", removeCut: (pos) => `Remove cut at position ${pos}`, addCut: (pos) => `Add cut at position ${pos}`,
   
-  // Footer
-  thesisInfo: "Master's Thesis\nAccessible Gamification & Voice Integration\nin a PWA supporting speech therapy\nexercises for Dyslexia",
-  tags: { kontrast: "contrast", wzrok: "vision", motor: "motor", dotyk: "touch", zoom: "zoom", kolor: "colour", ruch: "motion", epilepsja: "epilepsy", linijka: "focus" },
+  // Additional Info
+  thesisInfo: "Master's Thesis\nAccessible Gamification and Voice Integration\nin a PWA supporting speech therapy exercises\nfor individuals with dyslexia",
+  tags: { kontrast: "contrast", wzrok: "vision", motor: "motor", dotyk: "touch", zoom: "zoom", kolor: "color", ruch: "motion", epilepsja: "epilepsy", linijka: "focus" },
 
-  // Voice Assistant - Speech Recognition Commands
+  // PWA & UI
+  pwaNewVersion: "New version",
+  pwaDescription: "New content is available. Update the application to download the latest changes for offline mode.",
+  pwaUpdate: "Update",
+  pwaLater: "Later",
+  showOriginal: "Show original",
+  simplifyText: "Simplify text ✨",
+  prevPage: "← Previous",
+  nextPage: "Next →",
+
+  // Speech Recognition (Commands & Synonyms)
   commands: {
-    next: ["next", "continue", "go on", "done"],
-    check: ["check", "confirm"],
-    undo: ["undo", "go back", "delete"],
-    skip: ["skip", "i don't know", "pass"],
+    next: ["next", "continue", "done", "forward"],
+    check: ["check", "confirm", "submit"],
+    undo: ["undo", "back", "delete", "remove"],
+    skip: ["skip", "pass", "i don't know"],
     hint: ["hint", "help me", "help"]
   },
   affirmations: [
     "Your garden is growing beautifully thanks to your work today.",
-    "Every step you take is a step forward. Great effort!",
-    "Taking your time is the best way to learn.",
-    "You are making steady progress. Keep going at your own pace.",
-    "Thank you for showing up today. Your dedication matters."
+    "Every step is progress. Wonderful effort!",
+    "A calm pace is the best way to learn.",
+    "You're making steady progress. Continue at your own pace.",
+    "Thank you for being here today. Your dedication matters."
   ],
   dailyTaskComplete: {
-    title: "Excellent Effort Today!",
-    desc: "You have completed your daily practice. Your consistency is building strong foundations.",
-    chooseReward: "Choose your next reward to grow",
-    plantSeed: "Plant Seed & Continue",
+    title: "Wonderful effort!",
+    desc: "You completed today's practice. Your regularity builds a solid foundation.",
+    chooseReward: "Choose a reward that will grow in the garden",
+    plantSeed: "Plant and continue",
     options: {
-      oak: { name: "Oak Tree", desc: "A symbol of strength and endurance." },
+      oak: { name: "Oak", desc: "Symbol of strength and endurance." },
       rose: { name: "Rose Bush", desc: "A beautiful reward for your focus." },
       bonsai: { name: "Bonsai", desc: "Represents patience and steady growth." }
     }
   },
   reflection: {
     title: "A moment of reflection",
-    desc: "There are no grades here. How comfortable did you feel completing this exercise?",
-    save: "Save & Water Plant",
+    desc: "There are no grades here. How confident did you feel during this exercise?",
+    save: "Save and water the plant",
     options: {
       difficult: { label: "Difficult", desc: "I need more time" },
-      manageable: { label: "Manageable", desc: "I am getting there" },
-      easy: { label: "Easy", desc: "I felt confident" }
+      manageable: { label: "Just right", desc: "I'm making progress" },
+      easy: { label: "Easy", desc: "I feel confident" }
     }
   }
 };

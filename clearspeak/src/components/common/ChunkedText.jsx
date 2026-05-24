@@ -10,6 +10,7 @@ export default function ChunkedText({
   originalText, 
   simplifiedText, 
   wordsPerScreen = 30, // Rekomendowany limit dla dorosłych z dysleksją
+  t = {},
   className = '' 
 }) {
   const [useSimplified, setUseSimplified] = useState(false);
@@ -45,7 +46,7 @@ export default function ChunkedText({
             onClick={() => setUseSimplified(!useSimplified)}
             className="px-4 py-2 text-xs font-black uppercase tracking-widest rounded-full bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors shadow-sm"
           >
-            {useSimplified ? 'Wyświetl oryginał' : 'Uprość tekst ✨'}
+            {useSimplified ? (t.showOriginal || 'Show original') : (t.simplifyText || 'Simplify text ✨')}
           </button>
         </div>
       )}
@@ -59,13 +60,13 @@ export default function ChunkedText({
       {chunks.length > 1 && (
         <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-2">
           <button disabled={currentPage === 0} onClick={() => setCurrentPage(p => p - 1)} className="px-5 py-2.5 rounded-xl font-bold text-sm bg-slate-100 text-slate-600 disabled:opacity-30">
-            ← Poprzednia
+            {t.prevPage || '← Previous'}
           </button>
           <span className="text-xs font-black tracking-widest text-slate-400">
             {currentPage + 1} / {chunks.length}
           </span>
           <button disabled={currentPage === chunks.length - 1} onClick={() => setCurrentPage(p => p + 1)} className="px-5 py-2.5 rounded-xl font-bold text-sm bg-indigo-500 text-white disabled:opacity-30">
-            Następna →
+            {t.nextPage || 'Next →'}
           </button>
         </div>
       )}

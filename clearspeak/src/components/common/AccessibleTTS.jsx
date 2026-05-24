@@ -1,6 +1,11 @@
 import React from 'react';
+import { useConfig } from '../../useConfig';
+import { useTranslation } from '../../i18n/i18n.js';
 
 export default function AccessibleTTS({ text, speak, children, className = "" }) {
+  const { language } = useConfig();
+  const t = useTranslation(language);
+
   const handleRead = (e) => {
     // Wywołanie systemowego TTS z wymuszonym wolniejszym tempem (slow = true)
     if (speak && text) speak(text, true); 
@@ -10,7 +15,7 @@ export default function AccessibleTTS({ text, speak, children, className = "" })
     <div 
       className={`group relative inline-flex items-center gap-1 cursor-pointer w-full ${className}`}
       onClick={handleRead}
-      title="Czytaj na głos / Read aloud"
+      title={t.readAloudTitle || "Czytaj na głos / Read aloud"}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleRead(e); }}
