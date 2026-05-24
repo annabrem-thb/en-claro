@@ -1,11 +1,11 @@
 import React from 'react';
-import { useConfig } from '../../useConfig';
+import { useAppSettings } from '../../hooks/useAppSettings.js';
 
 export default function BionicText({ text, children, className = '', enabled }) {
-  const { a11ySettings } = useConfig();
+  const { inclusiveOptions } = useAppSettings();
   const content = text || children;
 
-  const isBionic = enabled !== undefined ? enabled : a11ySettings?.bionic;
+  const isBionic = enabled !== undefined ? enabled : inclusiveOptions?.bionicReading;
 
   // Jeśli tryb jest wyłączony lub podano coś innego niż tekst, zwracamy oryginał
   if (!isBionic || typeof content !== 'string') {

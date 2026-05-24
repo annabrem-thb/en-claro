@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useConfig } from '../../useConfig';
+import { useAppSettings } from '../../hooks/useAppSettings.js';
+import { useTranslation } from '../../i18n/i18n.js';
 import BionicText from '../common/BionicText';
 
 /**
@@ -12,14 +13,17 @@ import BionicText from '../common/BionicText';
  * 
  * Strictly avoids automatic grading (no red text or error sounds) to build self-efficacy.
  */
-export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate }) {
+export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t: propT }) {
   // Phases: 'look' -> 'write' -> 'check'
   const [phase, setPhase] = useState('look');
   const [userInput, setUserInput] = useState('');
   
-  const { a11ySettings } = useConfig();
-  const isHighContrast = a11ySettings?.contrast;
-  const bionicReading = a11ySettings?.bionic;
+  const { a11yAddons, inclusiveOptions, language: hookLang } = useAppSettings();
+  const language = propLang || hookLang || 'pl';
+  const t = propT || useTranslation(language);
+
+  const isHighContrast = a11yAddons?.includes('Kontrast');
+  const bionicReading = inclusiveOptions?.bionicReading;
 
   const inputRef = useRef(null);
 
@@ -35,7 +39,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate }) {
     return (
       <div className="flex flex-col items-center justify-center w-full animate-in fade-in duration-500">
         <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
-          Step 1: Study the word
+          {t.lookAndListen || 'Step 1: Study the word'}
         </h2>
         
         <div className={`px-10 py-16 rounded-3xl w-full max-w-md flex justify-center mb-12 shadow-sm ${isHighContrast ? 'bg-black border-2 border-white text-white' : 'bg-white border border-slate-200 text-slate-800'}`}>
@@ -49,9 +53,9 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate }) {
           className={`px-10 py-5 rounded-full font-black uppercase tracking-widest transition-all active:scale-95 text-sm sm:text-base focus-visible:ring-4 focus:outline-none ${
             isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-600 text-white shadow-xl hover:bg-indigo-500'
           }`}
-          aria-label="Hide word and start typing"
+          aria-label={t.coverAndWrite || "Hide word and start typing"}
         >
-          Hide Word & Write
+          {t.coverAndWrite || 'Hide Word & Write'}
         </button>
       </div>
     );
@@ -62,7 +66,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate }) {
     return (
       <div className="flex flex-col items-center justify-center w-full animate-in slide-in-from-right-4 fade-in duration-500">
         <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
-          Step 2: Type from memory
+          {t.typeFromMemory || 'Step 2: Type from memory'}
         </h2>
         
         <input
@@ -75,8 +79,8 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate }) {
               ? 'bg-black border-4 border-white text-white focus:ring-white/50' 
               : 'bg-white border-2 border-indigo-100 text-slate-800 focus:border-indigo-400 focus:ring-indigo-100 shadow-inner'
           }`}
-          placeholder="..."
-          aria-label="Type the hidden word"
+          placeholder={t.typeHere || "..."}
+          aria-label={t.typeFromMemory || "Type the hidden word"}
           autoComplete="off"
           spellCheck="false"
         />
@@ -90,7 +94,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate }) {
               : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-emerald-500 text-white shadow-xl hover:bg-emerald-400')
           }`}
         >
-          Check My Answer
+          {t.checkSpelling || 'Check My Answer'}
         </button>
       </div>
     );
@@ -101,13 +105,13 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate }) {
     return (
       <div className="flex flex-col items-center justify-center w-full animate-in slide-in-from-bottom-4 fade-in duration-500">
         <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
-          Step 3: Self-Evaluation
+          {t.compareSpelling || 'Step 3: Self-Evaluation'}
         </h2>
         
         <div className="w-full max-w-md flex flex-col gap-6 mb-12">
           {/* Target Word */}
           <div className={`p-6 rounded-2xl flex flex-col items-center gap-2 border-2 ${isHighContrast ? 'bg-black border-white/50' : 'bg-slate-50 border-slate-200'}`}>
-            <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Correct Spelling</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-400">{t.targetWord || 'Correct Spelling'}</span>
             <span className={`text-3xl font-black tracking-widest ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>
               {targetWord}
             </span>
@@ -115,7 +119,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate }) {
 
           {/* User Input */}
           <div className={`p-6 rounded-2xl flex flex-col items-center gap-2 border-2 ${isHighContrast ? 'bg-black border-white/50' : 'bg-white border-slate-200 shadow-sm'}`}>
-            <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Your Spelling</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-400">{t.yourSpelling || 'Your Spelling'}</span>
             <span className={`text-3xl font-bold tracking-widest ${isHighContrast ? 'text-white' : 'text-slate-600'}`}>
               {userInput}
             </span>
@@ -132,7 +136,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate }) {
                 : 'bg-emerald-50 text-emerald-700 border-emerald-400 hover:bg-emerald-100 shadow-sm'
             }`}
           >
-            Matched Perfectly
+            {t.spelledCorrectly || 'Matched Perfectly'}
           </button>
           
           <button
@@ -143,7 +147,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate }) {
                 : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 shadow-sm'
             }`}
           >
-            Needs More Practice
+            {t.tryAgain || 'Needs More Practice'}
           </button>
         </div>
       </div>

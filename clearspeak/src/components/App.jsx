@@ -3,7 +3,7 @@
  * Main application component responsible for state management, theming, and exercise rendering.
  */
 
-import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { useTranslation }  from '../i18n/i18n.js';
 
@@ -21,12 +21,17 @@ import { saveLog } from '../utils/indexedDB.js';
 import { useIndexedDB } from '../hooks/useIndexedDB.js';
 import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
 import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotifications.js';
+import { useGlobalTTS } from '../hooks/useGlobalTTS.js';
+import { useAppSettings } from '../hooks/useAppSettings.js';
+import { useExerciseSession } from '../hooks/useExerciseSession.js';
+import { useGamificationState } from '../hooks/useGamificationState.js';
+import { useVocabularyLoader } from '../hooks/useVocabularyLoader.js';
+import { useReadingRuler } from '../hooks/useReadingRuler.js';
+import { useSwipeNavigation } from '../hooks/useSwipeNavigation.js';
 
 import ExerciseContainer from './ExerciseContainer.jsx';
 import { GamificationProvider, useGamification } from './GamificationContext.jsx';
-import { AppConfigProvider } from '../context/AppConfigContext.jsx';
 import { useRegisterSW } from 'virtual:pwa-register/react';
-import { seededShuffle } from '../utils/shuffleUtils.js';
 
 // --- Global Constants & Configurations ---
 const POINTS_PER_LEVEL = 5;
@@ -41,101 +46,29 @@ const THEMES = {
   Ocean: { accent: 'text-[#437A7A]', bg: 'bg-[#EFF5F5]', button: 'bg-[#67A3A3]', buttonText: 'text-[#EFF5F5]', border: 'border-[#C4DBDB]', hex: '#67A3A3', price: 10 },
 };
 
-// Globalna instancja w celu ominięcia rygorystycznych limitów AudioContext przeglądarek
-let sharedAudioCtx = null;
-
-// Function synthesizing unique sounds for themes using Web Audio API
-const playThemeSound = (theme) => {
-  try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    if (!sharedAudioCtx) {
-      sharedAudioCtx = new AudioContext();
-    }
-    if (sharedAudioCtx.state === 'suspended') sharedAudioCtx.resume();
-    const ctx = sharedAudioCtx;
-    const now = ctx.currentTime;
-    
-    const playTone = (freq, type, startTime, duration, vol) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, startTime);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      gain.gain.setValueAtTime(0, startTime);
-      gain.gain.linearRampToValueAtTime(vol, startTime + duration * 0.1);
-      gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
-      osc.start(startTime);
-      osc.stop(startTime + duration);
-    };
-
-    switch(theme) {
-      case 'Ocean': // Bubble sound
-        playTone(400, 'sine', now, 0.15, 0.2);
-        playTone(600, 'sine', now + 0.1, 0.15, 0.2);
-        playTone(800, 'sine', now + 0.2, 0.15, 0.2);
-        break;
-      case 'Space': // Retro-space sound (Theremin)
-        playTone(440, 'sine', now, 0.4, 0.15);
-        playTone(880, 'sine', now + 0.1, 0.3, 0.15);
-        break;
-      case 'Musik': // Harp/bell arpeggio
-        playTone(523.25, 'triangle', now, 0.3, 0.15);
-        playTone(659.25, 'triangle', now + 0.1, 0.3, 0.15);
-        playTone(783.99, 'triangle', now + 0.2, 0.4, 0.15);
-        playTone(1046.50, 'triangle', now + 0.3, 0.6, 0.15);
-        break;
-      case 'Kunst': // Inspiring chord
-        playTone(329.63, 'sine', now, 0.5, 0.15); // E4
-        playTone(415.30, 'sine', now, 0.5, 0.15); // G#4
-        playTone(523.25, 'sine', now, 0.5, 0.15); // C5
-        break;
-      case 'Natur':
-      default: // Gentle wooden marimba / chirp
-        playTone(700, 'sine', now, 0.2, 0.2);
-        playTone(900, 'sine', now + 0.1, 0.3, 0.2);
-        break;
-    }
-  } catch (e) {
-    console.warn("Web Audio API not supported", e);
-  }
-};
-
-const makeDailyQuests = () => [
-  { id: 1, type: 'Literacy',  target: 3,  current: 0, completed: false, reward: 3 },
-  { id: 2, type: 'Cognitive', target: 2,  current: 0, completed: false, reward: 3 },
-  { id: 3, type: 'Any',       target: 10, current: 0, completed: false, reward: 5 },
-];
-
 // --- Main App Component ---
 function AppContent() {
-  const [language,         setLanguage]         = useState(() => localStorage.getItem('cfg_lang')  || 'de');
-  const [db,               setDb]               = useState(null);
-  const [theme,            setTheme]            = useState(() => localStorage.getItem('cfg_theme') || 'Natur');
-  const [a11yAddons,       setA11yAddons]       = useState(() => {
-    const sv = localStorage.getItem('cfg_addons');
-    const migrated = localStorage.getItem('cfg_migrated_v3');
-    if (!migrated) {
-      localStorage.setItem('cfg_migrated_v3', 'true');
-      return ['LRS', 'Spacing'];
-    }
-    return sv ? JSON.parse(sv) : ['LRS', 'Spacing'];
-  });
   const { isGamified, setIsGamified } = useGamification();
-  const [inclusiveOptions, setInclusiveOptions] = useState(() => {
-    const sv = localStorage.getItem('cfg_inclusive');
-    return sv ? JSON.parse(sv) : { adaptiveDifficulty: true, bigTargets: false, noFlash: false, audioRewards: false, extendedTime: false, zenMode: false, bionicReading: true, minimalistMode: false, muteNotifications: false, voiceAssistant: false };
-  });
-  const [dailyGoal, setDailyGoal] = useState(() => Number(localStorage.getItem('cfg_goal')) || 5);
-  const [selectedVoiceURIs, setSelectedVoiceURIs] = useState(() => {
-    const sv = localStorage.getItem('cfg_voice_uris');
-    if (sv) return JSON.parse(sv);
-    const oldSv = localStorage.getItem('cfg_voice_uri');
-    return { pl: oldSv || 'default', en: oldSv || 'default', de: oldSv || 'default' };
-  });
-  const [voiceSpeed, setVoiceSpeed] = useState(() => Number(localStorage.getItem('cfg_voice_speed')) || 1.0);
-  const [voicePitch, setVoicePitch] = useState(() => Number(localStorage.getItem('cfg_voice_pitch')) || 1.0);
+  
+  // Moduł globalnych ustawień aplikacji
+  const {
+    language, setLanguage, theme, setTheme,
+    a11yAddons, setA11yAddons,
+    inclusiveOptions, setInclusiveOptions,
+    dailyGoal, setDailyGoal,
+    userDifficulty, setUserDifficulty
+  } = useAppSettings();
+
+  // Ładowanie bazy słówek
+  const db = useVocabularyLoader(language);
+
+  // Moduł TTS (Głosu)
+  const { 
+    speak, 
+    selectedVoiceURIs, setSelectedVoiceURIs, 
+    voiceSpeed, setVoiceSpeed, 
+    voicePitch, setVoicePitch 
+  } = useGlobalTTS(language, inclusiveOptions.extendedTime);
 
   const [activeTab,    setActiveTab]    = useState('Literacy');
   const [lastPillar,   setLastPillar]   = useState('Literacy'); // Remembers the pillar for garden rendering
@@ -146,26 +79,13 @@ function AppContent() {
   const [showFeedback, setShowFeedback] = useState(false);
   const [pendingFeedback, setPendingFeedback] = useState(false);
 
-  const [currentIndex,  setCurrentIndex]  = useState(() => Number(localStorage.getItem('idx')) || 0);
-  const [cycle,         setCycle]         = useState(0);
-  const [points,        setPoints]        = useState(() => Number(localStorage.getItem('pts')) || 0);
-  const [currentStreak, setCurrentStreak] = useState(0);
-  const [feedback,      setFeedback]      = useState(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [rewards,       setRewards]       = useState(() => JSON.parse(localStorage.getItem('rew') || '[]'));
-
-  const [coins,          setCoins]          = useState(() => Number(localStorage.getItem('cfg_coins')) || 0);
-  const [unlockedThemes, setUnlockedThemes] = useState(() => {
-    const sv = localStorage.getItem('cfg_unlocked_themes'); return sv ? JSON.parse(sv) : ['Natur'];
-  });
-  const [dailyQuests, setDailyQuests] = useState(() => {
-    const saved = localStorage.getItem('cfg_quests');
-    const today = new Date().toDateString();
-    const data  = saved ? JSON.parse(saved) : null;
-    return (data && data.date === today) ? data : { date: today, tasks: makeDailyQuests() };
-  });
-  const [userDifficulty, setUserDifficulty] = useState(() => Number(localStorage.getItem('cfg_difficulty')) || 2);
-  const [errorCounter, setErrorCounter] = useState(0);
+  // Moduł Grywalizacji (Stan postępów, Monety, Sklep)
+  const {
+    points, setPoints, coins, setCoins,
+    rewards, setRewards,
+    unlockedThemes, setUnlockedThemes,
+    dailyQuests, setDailyQuests, updateQuests
+  } = useGamificationState();
 
   const { 
     loadLevel, setSessionStartTime, setErrorTimestamps, 
@@ -183,43 +103,11 @@ function AppContent() {
   // Moduł wiadomości afirmatywnych
   const { affirmation, setAffirmation } = useAffirmativeNotifications(points, language);
 
-  // --- Dynamiczne ładowanie baz słówek (Code Splitting) ---
-  useEffect(() => {
-    let isMounted = true;
-    const loadDatabase = async () => {
-      try {
-        let loadedModule;
-        if (language === 'pl') {
-          loadedModule = await import('../data/vocabulary_pl.js');
-          if (isMounted) setDb(loadedModule.wordDatabasePL);
-        } else if (language === 'en') {
-          loadedModule = await import('../data/vocabulary_en.js');
-          if (isMounted) setDb(loadedModule.wordDatabaseEN);
-        } else {
-          loadedModule = await import('../data/vocabulary_de.js');
-          if (isMounted) setDb(loadedModule.wordDatabaseDE);
-        }
-      } catch (error) {
-        console.error("Failed to load vocabulary database:", error);
-      }
-    };
-    loadDatabase();
-    return () => { isMounted = false; };
-  }, [language]);
-
   useEffect(() => {
     if (!isGamified && activeTab === 'Garden') {
       setActiveTab('Literacy');
     }
   }, [isGamified, activeTab]);
-
-  // Wyświetlanie Skeleton Loadera przez 300ms za każdym razem, 
-  // gdy użytkownik przechodzi do następnego zadania, zmienia zakładkę lub motyw.
-  useEffect(() => {
-    setIsTransitioning(true);
-    const timer = setTimeout(() => setIsTransitioning(false), 300);
-    return () => clearTimeout(timer);
-  }, [currentIndex, activeTab, theme]);
 
   const t = useTranslation(language);
   const s = t; // Alias 's' pozostawiony dla zgodności z propsami starszych komponentów (np. SidebarNav)
@@ -230,40 +118,8 @@ function AppContent() {
   const isHighContrast = a11yAddons.includes('Kontrast');
   const hasRuler       = a11yAddons.includes('Linijka');
 
-  const cardRef = useRef(null);
-  const [rulerPos, setRulerPos] = useState({ y: 0, visible: false });
-
-  useEffect(() => {
-    if (!hasRuler) return;
-    
-    const updateRuler = (clientX, clientY) => {
-      if (cardRef.current) {
-        const rect = cardRef.current.getBoundingClientRect();
-        // Check if the cursor is within the bounds of the exercise card
-        if (clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom) {
-          setRulerPos({ y: clientY - rect.top, visible: true }); // y calculated relative to the top of the card
-        } else {
-          setRulerPos(prev => prev.visible ? { ...prev, visible: false } : prev);
-        }
-      }
-    };
-
-    const handleMouseMove = (e) => updateRuler(e.clientX, e.clientY);
-    const handleTouchMove = (e) => {
-      if (e.touches && e.touches.length > 0) {
-        updateRuler(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('touchstart', handleTouchMove, { passive: true });
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchstart', handleTouchMove);
-    };
-  }, [hasRuler]);
+  // Linijka skupienia
+  const { cardRef, rulerPos } = useReadingRuler(hasRuler);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -280,264 +136,27 @@ function AppContent() {
     root.lang = language;
   }, [a11yAddons, inclusiveOptions, theme, isHighContrast, bigTargets, noFlash, language]);
 
-  useEffect(() => {
-    localStorage.setItem('cfg_lang',            language);
-    localStorage.setItem('cfg_theme',           theme);
-    localStorage.setItem('cfg_addons',          JSON.stringify(a11yAddons));
-    localStorage.setItem('cfg_inclusive',       JSON.stringify(inclusiveOptions));
-    localStorage.setItem('pts',                 String(points));
-    localStorage.setItem('idx',                 String(currentIndex));
-    localStorage.setItem('rew',                 JSON.stringify(rewards));
-    localStorage.setItem('cfg_coins',           String(coins));
-    localStorage.setItem('cfg_unlocked_themes', JSON.stringify(unlockedThemes));
-    localStorage.setItem('cfg_quests',          JSON.stringify(dailyQuests))
-    localStorage.setItem('cfg_voice_uris',      JSON.stringify(selectedVoiceURIs));
-    localStorage.setItem('cfg_voice_speed',     String(voiceSpeed)); 
-    localStorage.setItem('cfg_voice_pitch',     String(voicePitch)); 
-    localStorage.setItem('cfg_difficulty',    String(userDifficulty));
-    localStorage.setItem('cfg_goal',            String(dailyGoal));
-  }, [language, theme, a11yAddons, inclusiveOptions, points, currentIndex, rewards, coins, unlockedThemes, dailyQuests, selectedVoiceURIs, voiceSpeed, voicePitch, dailyGoal, userDifficulty]);
+  // Moduł Sesji Treningowej
+  const {
+    currentIndex, setCurrentIndex,
+    setCycle,
+    currentStreak, setCurrentStreak,
+    feedback, setFeedback,
+    isTransitioning,
+    activePillarTasks, currentTask, safeIndex,
+    goNext, goPrev, handleSuccess, handleError
+  } = useExerciseSession({
+    db, activeTab, language,
+    userDifficulty, setUserDifficulty,
+    inclusiveOptions, t, speak, theme, isGamified,
+    points, setPoints, setCoins, setRewards,
+    dailyQuests, updateQuests, setDailyProgress,
+    setPendingFeedback, setShowSuccess, setShowFeedback, setEarnedCoinsAnim,
+    setErrorTimestamps
+  });
 
-  const speak = useCallback((text, slow = false) => {
-    if (!window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    const msg  = new SpeechSynthesisUtterance(text);
-    msg.lang   = { de: 'de-DE', pl: 'pl-PL', en: 'en-US' }[language];
-    msg.rate   = (slow || inclusiveOptions.extendedTime) ? voiceSpeed * 0.65 : voiceSpeed;
-    msg.pitch  = voicePitch;
-
-    const allVoices = window.speechSynthesis?.getVoices?.() || [];
-    let selectedVoice = null;
-    const currentVoiceURI = selectedVoiceURIs[language];
-
-    if (currentVoiceURI && currentVoiceURI !== 'default') {
-      selectedVoice = allVoices.find(v => v.voiceURI === currentVoiceURI);
-    } else {
-      if (language === 'pl')      selectedVoice = allVoices.find(v => v.name.includes('Zofia'));
-      else if (language === 'en') selectedVoice = allVoices.find(v => v.name.includes('Emma'));
-      else if (language === 'de') selectedVoice = allVoices.find(v => v.name.includes('Amala'));
-    }
-
-    if (selectedVoice) {
-      msg.voice = selectedVoice;
-    }
-    window.speechSynthesis.speak(msg);
-  }, [language, inclusiveOptions.extendedTime, selectedVoiceURIs, voiceSpeed, voicePitch]);
-
-  const activePillarTasks = useMemo(() => {
-    if (!db) return [];
-    if (activeTab === 'Garden') return [];
-    let rawTasks = [];
-    switch (activeTab) {
-      case 'Literacy':  rawTasks = [...(db.phonemes || []), ...(db.syllables || []), ...(db.graphemes || []), ...(db.scrabble || []), ...(db.lcwc || []), ...(db.context || []), ...(db.dictation || []), ...(db.diagnostic?.filter(d => d.pillar === 'Literacy') || [])]; break;
-      case 'Visual':    rawTasks = [...(db.clock || []), ...(db.tracking || []), ...(db.diagnostic?.filter(d => d.pillar === 'Visual') || [])]; break;
-      case 'Cognitive': rawTasks = [...(db.categorization || []), ...(db.sequences || []), ...(db.diagnostic?.filter(d => d.pillar === 'Cognitive') || [])]; break;
-      default:          rawTasks = [];
-    }
-
-    let tasks = rawTasks;
-
-    let filteredTasks = tasks;
-    if (inclusiveOptions.adaptiveDifficulty) {
-      // W trybie adaptacyjnym: główny nacisk na aktualny poziom, ale pozwalamy na 1 poziom niżej jako powtórkę
-      filteredTasks = tasks.filter(task => {
-        const diff = task.difficulty || 1;
-        return diff === userDifficulty || diff === userDifficulty - 1;
-      });
-    } else {
-      // Ręczna kontrola: pokaż zadania o DOKŁADNIE wybranej trudności
-      filteredTasks = tasks.filter(task => (task.difficulty || 1) === userDifficulty);
-    }
-
-    // Bezpieczne fallbacki:
-    // 1. Jeśli brakuje zadań na docelowym poziomie, pokaż jakiekolwiek zadania nieprzekraczające wybranej trudności
-    if (filteredTasks.length === 0) {
-      filteredTasks = tasks.filter(task => (task.difficulty || 1) <= userDifficulty);
-    }
-    // 2. Jeśli kategoria jest zupełnie pusta (np. dostępne są tylko zadania trudniejsze), zabezpiecz przed awarią i pokaż wszystkie
-    if (filteredTasks.length === 0) {
-      filteredTasks = tasks;
-    }
-
-    const seed = activeTab.split('').reduce((a, b) => a + b.charCodeAt(0), 0) + (language === 'pl' ? 1 : 2) + cycle;
-    return seededShuffle([...filteredTasks], seed);
-  }, [activeTab, db, language, inclusiveOptions.adaptiveDifficulty, userDifficulty, cycle]);
-
-  const safeIndex = currentIndex % (activePillarTasks.length || 1);
-  const currentTask = activePillarTasks.length > 0 ? activePillarTasks[safeIndex] : null;
-
-  const updateQuests = useCallback((pillarType) => {
-    setDailyQuests(prev => {
-      const newTasks = prev.tasks.map(task => {
-        if (task.completed) return task;
-        if (task.type === pillarType || task.type === 'Any') {
-          const newCurrent = task.current + 1;
-          const done = newCurrent >= task.target;
-          if (done) setCoins(c => c + task.reward);
-          return { ...task, current: newCurrent, completed: done };
-        }
-        return task;
-      });
-      return { ...prev, tasks: newTasks };
-    });
-  }, []);
-
-  const goNext = useCallback(() => {
-    setFeedback(null);
-    if (activePillarTasks.length === 0) return;
-    const length = activePillarTasks.length;
-    const currentSafe = currentIndex % length;
-    const nextIdx = currentSafe + 1;
-    if (nextIdx >= length) {
-      setCycle(c => c + 1);
-      setCurrentIndex(0);
-    } else {
-      setCurrentIndex(nextIdx);
-    }
-  }, [currentIndex, activePillarTasks.length]);
-
-  const goPrev = useCallback(() => {
-    setFeedback(null);
-    if (activePillarTasks.length === 0) return;
-    const length = activePillarTasks.length;
-    const currentSafe = currentIndex % length;
-    const prevIdx = currentSafe - 1;
-    if (prevIdx < 0) {
-      setCurrentIndex(length - 1);
-    } else {
-      setCurrentIndex(prevIdx);
-    }
-  }, [currentIndex, activePillarTasks.length]);
-
-  const handleSuccess = useCallback(() => {
-    const newStreak = currentStreak + 1;
-    setCurrentStreak(newStreak);
-
-    // Adaptacyjna trudność: po 5 sukcesach z rzędu, zwiększ poziom, jeśli nie jest na max
-    if (inclusiveOptions.adaptiveDifficulty && newStreak > 0 && newStreak % 5 === 0 && userDifficulty < 4) {
-      setUserDifficulty(prev => Math.min(prev + 1, 4));
-    }
-    setErrorCounter(0); // Zresetuj licznik błędów po sukcesie
-
-    // Play thematic success sound (if audio rewards are enabled)
-    if (inclusiveOptions.audioRewards && !inclusiveOptions.muteNotifications) {
-      playThemeSound(theme);
-    }
-
-    let earnedCoins = 1;
-    if (isGamified) {
-      dailyQuests.tasks.forEach(task => {
-        if (!task.completed && (task.type === activeTab || task.type === 'Any')) {
-          if (task.current + 1 >= task.target) {
-            earnedCoins += task.reward;
-          }
-        }
-      });
-    }
-
-    updateQuests(activeTab);
-
-    const baseSuccessMsg = Array.isArray(t.successMsg) 
-      ? t.successMsg[Math.floor(Math.random() * t.successMsg.length)] 
-      : t.successMsg;
-      
-    let msg = baseSuccessMsg;
-    if (newStreak >= 3 && t.streakMsg) {
-      msg = Array.isArray(t.streakMsg) 
-        ? t.streakMsg[Math.floor(Math.random() * t.streakMsg.length)].replace(/{count}/g, newStreak)
-        : (typeof t.streakMsg === 'function' ? t.streakMsg(newStreak) : t.streakMsg);
-    }
-    setFeedback({ type: 'success', msg });
-
-    let voiceSuccessMsg = Array.isArray(t.voice?.success)
-      ? t.voice.success[Math.floor(Math.random() * t.voice.success.length)]
-      : (t.voice?.success || '');
-      
-    if (newStreak >= 3 && t.voice?.streak) {
-      voiceSuccessMsg = Array.isArray(t.voice.streak)
-        ? t.voice.streak[Math.floor(Math.random() * t.voice.streak.length)].replace(/{count}/g, newStreak)
-        : t.voice.streak;
-    }
-    if (!inclusiveOptions.muteNotifications) {
-      speak(voiceSuccessMsg);
-    }
-
-    const newPoints = points + 1;
-    setPoints(newPoints);
-
-    if (isGamified) {
-      setCoins(prev => prev + 1);
-
-      // Update daily progress for the calendar
-      const todayStr = new Date().toDateString();
-      setDailyProgress(prev => {
-        const todayPoints = prev[todayStr]?.points || 0;
-        return { ...prev, [todayStr]: { points: todayPoints + 1 } };
-      });
-
-
-      setEarnedCoinsAnim(earnedCoins);
-      setTimeout(() => setEarnedCoinsAnim(null), 1500);
-
-      const pool = t.rewardItems?.[theme] || t.rewardItems?.Natur || ['⭐'];
-      setRewards(prev => [...prev, pool[Math.floor(Math.random() * pool.length)]]);
-      if (newPoints % POINTS_PER_LEVEL === 0) {
-        // Wyzwalacz NASA-TLX: ustawiamy ankietę jako oczekującą co 10 punktów
-        if (newPoints > 0 && newPoints % 10 === 0) {
-          setPendingFeedback(true);
-        }
-        setTimeout(() => setShowSuccess(true), 1000);
-      } else {
-        setTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
-      }
-    } else {
-      if (newPoints > 0 && newPoints % 10 === 0) {
-        setTimeout(() => setShowFeedback(true), inclusiveOptions.extendedTime ? 3000 : 1500);
-      } else {
-        setTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
-      }
-    }
-
-    // PWA Asynchronous Log: Bezpiecznie zapisujemy zdarzenie w IndexedDB poza głównym wątkiem Reacta
-    saveLog('exercise_history', { 
-      date: new Date().toISOString(), 
-      type: activeTab, 
-      correct: true 
-    }).catch(console.error);
-  }, [
-    currentStreak, isGamified, dailyQuests, activeTab, updateQuests, t, speak,
-    points, theme, setRewards, inclusiveOptions, setDailyProgress, dailyGoal, userDifficulty, goNext
-  ]);
-
-  const handleError = useCallback(() => {
-    // USUNIĘTO: setCurrentStreak(0); - Kary za błędy drastycznie obniżają motywację u dorosłych. Ciągłość pozostaje nienaruszona.
-    // Point 4 Log - Add timestamp for calculating Error Velocity
-    setErrorTimestamps(prev => [...prev, Date.now()]);
-
-    // Adaptacyjna trudność: po 2 błędach z rzędu, zmniejsz poziom, jeśli nie jest na min
-    const newErrorCounter = errorCounter + 1;
-    setErrorCounter(newErrorCounter);
-    if (inclusiveOptions.adaptiveDifficulty && newErrorCounter >= 2 && userDifficulty > 1) {
-      setUserDifficulty(prev => Math.max(prev - 1, 1));
-      setErrorCounter(0); // Zresetuj licznik po zmianie poziomu
-    }
-    const errorMsg = Array.isArray(t.voice?.error) 
-      ? t.voice.error[Math.floor(Math.random() * t.voice.error.length)] 
-      // Punkt 3 specyfikacji: Zamiana surowego "✗" na przyjazny tekst wspierający (Positive Affect)
-      : (t.voice?.error || "Let's look closer at this one together.");
-      
-    setFeedback({ type: 'error', msg: errorMsg });
-    if (!inclusiveOptions.muteNotifications) {
-      speak(errorMsg);
-    }
-
-    // PWA Asynchronous Log: Zapis błędu do budowy algorytmów analitycznych
-    saveLog('exercise_history', { 
-      date: new Date().toISOString(), 
-      type: activeTab, 
-      correct: false 
-    }).catch(console.error);
-  }, [t, speak, errorCounter, inclusiveOptions.adaptiveDifficulty, userDifficulty]);
+  // Nawigacja Swipe (musi znajdować się poniżej useExerciseSession, z którego czerpie goNext/goPrev)
+  const swipeHandlers = useSwipeNavigation({ onSwipeLeft: goNext, onSwipeRight: goPrev });
 
   // Logger analityczny (Point 9) - zapisuje dane telemetryczne z ankiety
   const handleFeedbackSubmit = useCallback(async (surveyData) => {
@@ -557,25 +176,6 @@ function AppContent() {
     goNext();
   }, [points, goNext]);
 
-  // Point 4 Handlers
-  // --- Swipe-to-navigate logic ---
-  const touchStart = useRef(null);
-  const touchEnd = useRef(null);
-
-  const onTouchStart = (e) => {
-    touchEnd.current = null;
-    touchStart.current = { x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY };
-  };
-  const onTouchMove = (e) => { touchEnd.current = { x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY }; };
-  const onTouchEnd = () => {
-    if (!touchStart.current || !touchEnd.current) return;
-    const distanceX = touchStart.current.x - touchEnd.current.x;
-    const isHorizontalSwipe = Math.abs(distanceX) > Math.abs(touchStart.current.y - touchEnd.current.y);
-    
-    if (isHorizontalSwipe && distanceX > 50) goNext();       // Swipe left -> Next task
-    if (isHorizontalSwipe && distanceX < -50) goPrev();      // Swipe right -> Prev task
-  };
-
   // --- Navigation Handlers (Zoptymalizowane dla SidebarNav) ---
   const handleTabChange = useCallback((pillar) => {
     setActiveTab(pillar);
@@ -584,7 +184,7 @@ function AppContent() {
     setCycle(0);
     setFeedback(null);
     setCurrentStreak(0);
-  }, []);
+  }, [setCurrentIndex, setCycle, setFeedback, setCurrentStreak]);
 
   const handleGardenClick = useCallback(() => {
     setActiveTab('Garden');
@@ -690,9 +290,7 @@ function AppContent() {
       <div className="flex-1 flex flex-col min-w-0 h-screen h-dvh overflow-hidden">
         <main 
           className={`flex-1 flex flex-col min-h-0 overflow-y-auto px-3 md:px-6 py-4 mx-auto w-full max-w-xl ${isHighContrast ? 'text-white' : 'text-[#2D3732]'}`}
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
+          {...swipeHandlers}
         >
           {activeTab === 'Garden' ? (
             <div className="flex-1 w-full h-full py-2 animate-in fade-in zoom-in duration-500">
@@ -880,10 +478,8 @@ function AppContent() {
 
 export default function App() {
   return (
-    <AppConfigProvider>
-      <GamificationProvider>
-        <AppContent />
-      </GamificationProvider>
-    </AppConfigProvider>
+    <GamificationProvider>
+      <AppContent />
+    </GamificationProvider>
   );
 }

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { useGamification } from './GamificationContext';
-import { useConfig } from '../useConfig';
 import { useTranslation } from '../i18n/i18n';
 
 /**
@@ -8,11 +7,12 @@ import { useTranslation } from '../i18n/i18n';
  * A WCAG-compliant modal that reinforces competence and satisfies autonomy 
  * by letting the user choose their next virtual garden reward.
  */
-export default function DailyTaskComplete({ isOpen, onClose }) {
+export default function DailyTaskComplete({ isOpen, onClose, language = 'pl', isHighContrast = false }) {
   const { selectedRewardId, chooseNextReward, unlockSelectedReward } = useGamification();
-  const { a11ySettings } = useConfig();
+  const t = useTranslation(language);
   
-  const isHighContrast = a11ySettings?.contrast;
+  const dtc = t.dailyTaskComplete || {};
+
   const modalRef = useRef(null);
 
   // WCAG Focus Management: Trap focus inside the dialog when it opens

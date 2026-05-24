@@ -46,7 +46,8 @@ function GraphemeExercise({
   const questionText =
     data.questions?.[language] ||
     data.questions?.en ||
-    'Choose the correct spelling:';
+    t.chooseCorrectSpelling ||
+    "Choose the correct spelling:";
 
   // Handle voice commands for option selection (1, 2, 3...)
   const handleVoiceMatch = (num) => {
@@ -64,12 +65,7 @@ function GraphemeExercise({
 
     // pulling localized prefix from a simple map or dictionary
     const getOptionPrefix = (idx) => {
-      const prefixes = {
-        pl: `Opcja ${idx}: `,
-        en: `Option ${idx}: `,
-        de: `Option ${idx}: `,
-      };
-      return prefixes[language] || prefixes.en;
+      return t.optionPrefix ? t.optionPrefix(idx) : `Option ${idx}: `;
     };
 
     let spokenText = `${questionText}${silentPause}`;
@@ -77,7 +73,7 @@ function GraphemeExercise({
     const allOptionTexts = shuffledOptions.map((o) => o.text);
     shuffledOptions.forEach((opt, index) => {
       // Use the shared utility to get a pedagogical hint (e.g., "with double S")
-      const hint = getSmartSpellingHint(opt.text, allOptionTexts, language);
+      const hint = getSmartSpellingHint(opt.text, allOptionTexts, language, t);
       spokenText += `${getOptionPrefix(index + 1)} ${hint}. `;
     });
 

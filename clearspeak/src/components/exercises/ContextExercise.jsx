@@ -52,14 +52,9 @@ function ContextExercise({
 
     const allOptionTexts = shuffledOptions.map((o) => o.text);
     shuffledOptions.forEach((opt, index) => {
-      const optionPrefix =
-        {
-          pl: `Opcja ${index + 1}: `,
-          en: `Option ${index + 1}: `,
-          de: `Option ${index + 1}: `,
-        }[language] || `Option ${index + 1}: `;
+      const optionPrefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
 
-      const hint = getSmartSpellingHint(opt.text, allOptionTexts, language);
+      const hint = getSmartSpellingHint(opt.text, allOptionTexts, language, t);
       spokenText += `${optionPrefix} ${hint}. `;
     });
 

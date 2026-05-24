@@ -2,6 +2,29 @@ export default {
   // General & Navigation
   appTitle: "Claro",
   introSubtitle: "Build your bridge to fluency.",
+
+  // Intro Screen
+  intro: {
+    subtitle: "Your safe space to grow! Choose mode and tools:",
+    chooseLanguage: "Language",
+    appMode: "Mode",
+    modeClassic: "Study only",
+    modeGamified: "Game (rewards)",
+    a11y: "Comfort Tools",
+    lrs: "Friendly font",
+    contrast: "Contrast",
+    vision: "Larger text",
+    big: "Comfort buttons",
+    spacing: "Wider spacing",
+    ruler: "Focus ruler",
+    color: "Safe colors",
+    motion: "Calm screen",
+    desaturation: "Soft colors",
+    bionic: "Bionic",
+    voice: "Voice Assist",
+    zen: "Zen Mode"
+  },
+
   start: "Start",
   done: "Done",
   next: "Next",
@@ -15,6 +38,7 @@ export default {
   equipped: "Equipped",
   unlocked: "Unlocked",
   buy: "Buy",
+  selectTheme: "Select theme",
   loading: "Loading...",
   noData: "No tasks in this section.",
   formatNotRecognized: "Task format error.",
@@ -181,7 +205,28 @@ export default {
   exportLogs: "Export data (CSV)",
   exportDesc: "Download NASA-TLX and UEQ survey results",
   noDataToExport: "No data to export",
-  feedback: { title: "A moment of reflection", desc: "How do you evaluate today's session? Your feedback helps us adapt the app to you.", nasaTitle: "Workload (NASA-TLX)", mental: "Mental effort", mentalDesc: "How much thinking did the tasks require?", physical: "Fatigue and effort", physicalDesc: "How tired do you feel after this session?", frustration: "Frustration level", frustrationDesc: "Did you feel stressed or irritated during tasks?", low: "Low", high: "High", ueqTitle: "Your impressions (UEQ-Short)", ueqAttractiveness: "Attractiveness", ueqAttrLeft: "Unpleasant", ueqAttrRight: "Pleasant", ueqStimulation: "Stimulation", ueqStimLeft: "Boring", ueqStimRight: "Interesting", submit: "Save and continue", skip: "Skip this time" },
+  feedback: {
+    title: "A moment of reflection",
+    desc: "How do you evaluate today's session? Your feedback helps us adapt the app to you.",
+    nasaTitle: "Workload (NASA-TLX)",
+    mental: "Mental effort",
+    mentalDesc: "How much thinking did the tasks require?",
+    physical: "Fatigue and effort",
+    physicalDesc: "How tired do you feel after this session?",
+    frustration: "Frustration level",
+    frustrationDesc: "Did you feel stressed or irritated during tasks?",
+    low: "Low",
+    high: "High",
+    ueqTitle: "Your impressions (UEQ-Short)",
+    ueqAttractiveness: "Attractiveness",
+    ueqAttrLeft: "Unpleasant",
+    ueqAttrRight: "Pleasant",
+    ueqStimulation: "Stimulation",
+    ueqStimLeft: "Boring",
+    ueqStimRight: "Interesting",
+    submit: "Save and continue",
+    skip: "Skip this time"
+  },
   mapTitle: "Challenge Map", choosePath: "Choose your path", nextLevel: "Next stage", lockedNode: "Locked", completedNode: "Completed", backToMap: "Back to map", energyTitle: "Cognitive Energy", breakTitle: "Time for a break?", breakDesc: "We noticed you're working intensively. Rest in the garden to regenerate and prevent fatigue.", takeBreakBtn: "Resting (+2 💰)", continueBtn: "Keep practicing",
   
   // Exercise Content

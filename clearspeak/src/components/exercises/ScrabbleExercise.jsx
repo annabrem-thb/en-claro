@@ -101,12 +101,7 @@ function ScrabbleExercise({
     shuffledLetters.forEach((l, i) => {
       const isUsed = userScrabble.some((x) => x.index === i);
       if (!isUsed) {
-        const optionPrefix =
-          {
-            pl: `Litera ${i + 1}: `,
-            en: `Letter ${i + 1}: `,
-            de: `Buchstabe ${i + 1}: `,
-          }[language] || `Letter ${i + 1}: `;
+        const optionPrefix = t.letterPrefix ? t.letterPrefix(i + 1) : `Letter ${i + 1}: `;
         spokenText += `${optionPrefix} ${l}. `;
       }
     });

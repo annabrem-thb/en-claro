@@ -1,9 +1,7 @@
 import React from 'react';
-import { useConfig } from '../../useConfig';
 import { useTranslation } from '../../i18n/i18n.js';
 
-export default function AccessibleTTS({ text, speak, children, className = "" }) {
-  const { language } = useConfig();
+export default function AccessibleTTS({ text, speak, language = 'pl', children, className = "" }) {
   const t = useTranslation(language);
 
   const handleRead = (e) => {

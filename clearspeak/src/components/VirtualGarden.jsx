@@ -53,9 +53,9 @@ export default function VirtualGarden({
 
     const themeIcons = (activeCategory && themeCategoryVisuals[theme]?.[activeCategory])
       ? themeCategoryVisuals[theme][activeCategory]
-      : (t?.levelIcons?.[theme] || ['🌿', '☘️', '🌳', '🌲', '🏔️']);
+      : (t?.levelIcons?.[theme] || t.levelIcons.Natur);
       
-    const themeStages = t?.progressStages?.[theme] || ["Seed", "Stem", "Bud", "Blooming", "Flower"];
+    const themeStages = t?.progressStages?.[theme] || t.progressStages.Natur;
 
     const stageIndex = Math.min(growthLevel, themeIcons.length - 1);
     const plantVisual = themeIcons[stageIndex];
@@ -178,9 +178,9 @@ export default function VirtualGarden({
     return monuments.filter(m => maxStreak >= m.req);
   }, [maxStreak, theme]);
 
-  const srText = `${t.srPlantFeature || 'Deine Reise beinhaltet aktuell ein(e)'} ${ecosystemState.plantName}. 
-    ${ecosystemState.completedModules > 0 ? `${t.srDailyRewards || 'Es hat'} ${ecosystemState.completedModules} ${t.srRewardsCount || 'tägliche Belohnungen.'}` : ''} 
-    ${ecosystemState.hasVisitor ? (t.srVisitor || 'Ein freundlicher Besucher hat sich dir aufgrund deiner beständigen Übung angeschlossen.') : ''}
+  const srText = `${t.srPlantFeature} ${ecosystemState.plantName}. 
+    ${ecosystemState.completedModules > 0 ? `${t.srDailyRewards} ${ecosystemState.completedModules} ${t.srRewardsCount}` : ''} 
+    ${ecosystemState.hasVisitor ? t.srVisitor : ''}
     ${earnedTrophies.length > 0 && t.srTrophies ? t.srTrophies.replace('{count}', earnedTrophies.length) : ''}`;
 
   const containerClasses = isFullScreen
@@ -278,8 +278,8 @@ export default function VirtualGarden({
           <p className={`text-sm font-medium max-w-xs text-center leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
             <BionicText>
               {ecosystemState.completedModules > 0 
-                ? `${t.gardenBlooming || 'Der Garten blüht! Erreichte Ziele:'} ${ecosystemState.completedModules}` 
-                : (t.gardenEmpty || 'Dein eigenes Ökosystem. Es wächst mit jedem deiner Fortschritte.')}
+                ? `${t.gardenBlooming} ${ecosystemState.completedModules}` 
+                : t.gardenEmpty}
             </BionicText>
           </p>
           <WeeklyCalendar

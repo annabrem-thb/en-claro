@@ -2,6 +2,29 @@ export default {
   // Ogólne i Nawigacja
   appTitle: "Claro",
   introSubtitle: "Zbuduj swój most do biegłości.",
+
+  // Ekran powitalny (Intro)
+  intro: {
+    subtitle: "Twoja bezpieczna przestrzeń do rozwoju! Wybierz tryb i narzędzia:",
+    chooseLanguage: "Język",
+    appMode: "Tryb",
+    modeClassic: "Tylko nauka",
+    modeGamified: "Gra (nagrody)",
+    a11y: "Narzędzia komfortu",
+    lrs: "Przyjazna czcionka",
+    contrast: "Kontrast",
+    vision: "Większy tekst",
+    big: "Wygodne przyciski",
+    spacing: "Większe odstępy",
+    ruler: "Linijka skupienia",
+    color: "Bezpieczne kolory",
+    motion: "Spokojny ekran",
+    desaturation: "Łagodne barwy",
+    bionic: "Bionic",
+    voice: "Asystent",
+    zen: "Tryb Zen"
+  },
+
   start: "Rozpocznij",
   done: "Gotowe",
   next: "Dalej",
@@ -15,6 +38,7 @@ export default {
   equipped: "Używany",
   unlocked: "Odblokowany",
   buy: "Kup",
+  selectTheme: "Wybierz motyw",
   loading: "Wczytywanie...",
   noData: "Brak zadań w tej sekcji.",
   formatNotRecognized: "Błąd formatu zadania.",
@@ -181,7 +205,28 @@ export default {
   exportLogs: "Eksportuj dane (CSV)",
   exportDesc: "Pobierz wyniki ankiet NASA-TLX oraz UEQ",
   noDataToExport: "Brak danych do wyeksportowania",
-  feedback: { title: "Chwila na refleksję", desc: "Jak oceniasz dzisiejszą sesję? Twoja opinia pomaga nam dostosować aplikację do Ciebie.", nasaTitle: "Obciążenie (NASA-TLX)", mental: "Wysiłek umysłowy", mentalDesc: "Jak dużo myślenia wymagały zadania?", physical: "Zmęczenie i wysiłek", physicalDesc: "Jak bardzo odczuwasz zmęczenie po tej sesji?", frustration: "Poziom frustracji", frustrationDesc: "Czy czułeś/aś stres lub irytację podczas zadań?", low: "Niski", high: "Wysoki", ueqTitle: "Twoje wrażenia (UEQ-Short)", ueqAttractiveness: "Atrakcyjność", ueqAttrLeft: "Nieprzyjemna", ueqAttrRight: "Przyjemna", ueqStimulation: "Stymulacja", ueqStimLeft: "Nudna", ueqStimRight: "Ciekawa", submit: "Zapisz i kontynuuj", skip: "Pomiń tym razem" },
+  feedback: {
+    title: "Chwila na refleksję",
+    desc: "Jak oceniasz dzisiejszą sesję? Twoja opinia pomaga nam dostosować aplikację do Ciebie.",
+    nasaTitle: "Obciążenie (NASA-TLX)",
+    mental: "Wysiłek umysłowy",
+    mentalDesc: "Jak dużo myślenia wymagały zadania?",
+    physical: "Zmęczenie i wysiłek",
+    physicalDesc: "Jak bardzo odczuwasz zmęczenie po tej sesji?",
+    frustration: "Poziom frustracji",
+    frustrationDesc: "Czy czułeś/aś stres lub irytację podczas zadań?",
+    low: "Niski",
+    high: "Wysoki",
+    ueqTitle: "Twoje wrażenia (UEQ-Short)",
+    ueqAttractiveness: "Atrakcyjność",
+    ueqAttrLeft: "Nieprzyjemna",
+    ueqAttrRight: "Przyjemna",
+    ueqStimulation: "Stymulacja",
+    ueqStimLeft: "Nudna",
+    ueqStimRight: "Ciekawa",
+    submit: "Zapisz i kontynuuj",
+    skip: "Pomiń tym razem"
+  },
   mapTitle: "Mapa Wyzwań", choosePath: "Wybierz swoją ścieżkę", nextLevel: "Następny etap", lockedNode: "Zablokowane", completedNode: "Ukończone", backToMap: "Wróć do mapy", energyTitle: "Energia Poznawcza", breakTitle: "Czas na przerwę?", breakDesc: "Zauważyliśmy, że intensywnie pracujesz. Odpocznij w ogrodzie, aby zregenerować siły i zapobiec zmęczeniu.", takeBreakBtn: "Odpoczywam (+2 💰)", continueBtn: "Ćwiczę dalej",
   
   // Treść Ćwiczeń

@@ -25,7 +25,7 @@ const SidebarNav = memo(function SidebarNav({
     <aside className={`w-16 md:w-60 flex flex-col shrink-0 z-40 ${isHighContrast ? 'bg-black border-r border-white/20 shadow-sm' : `bg-[#fdfaf6] border-r ${themeStyles.border} shadow-xl shadow-slate-200/50`}`}>
       <div className={`p-3 md:p-5 flex items-center gap-2 h-16 ${isHighContrast ? 'border-b border-white/20' : `border-b ${themeStyles.border}`}`}>
         <span className="text-2xl drop-shadow-sm" aria-hidden="true">🧠</span>
-        <AccessibleTTS text={s.appTitle} speak={speak} className="hidden md:flex">
+        <AccessibleTTS text={s.appTitle} speak={speak} language={language} className="hidden md:flex">
           <h1 className={`font-black text-base tracking-tighter ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>{s.appTitle}</h1>
         </AccessibleTTS>
       </div>
@@ -44,7 +44,7 @@ const SidebarNav = memo(function SidebarNav({
             >
               <span className={hideNavLabel ? 'text-2xl' : 'text-xl'} aria-hidden="true">{PILLAR_ICONS[p]}</span>
               {!hideNavLabel && (
-                <AccessibleTTS text={label} speak={speak} className="hidden md:flex">
+                <AccessibleTTS text={label} speak={speak} language={language} className="hidden md:flex">
                   <span className="text-xs font-bold uppercase tracking-wider truncate">{label}</span>
                 </AccessibleTTS>
               )}
@@ -68,7 +68,7 @@ const SidebarNav = memo(function SidebarNav({
               {t?.levelIcons?.[theme]?.[0] || '🌱'}
             </span>
             {!hideNavLabel && (
-              <AccessibleTTS text={t.garden || "Ogród"} speak={speak} className="hidden md:flex">
+              <AccessibleTTS text={t.garden || "Ogród"} speak={speak} language={language} className="hidden md:flex">
                 <span className="text-xs font-bold uppercase tracking-wider truncate">{t.garden || "Ogród"}</span>
               </AccessibleTTS>
             )}
@@ -82,7 +82,7 @@ const SidebarNav = memo(function SidebarNav({
         >
           <span className={hideNavLabel ? 'text-2xl' : 'text-xl'} aria-hidden="true">⚙️</span>
           {!hideNavLabel && (
-            <AccessibleTTS text={s.settingsAria} speak={speak} className="hidden md:flex">
+            <AccessibleTTS text={s.settingsAria} speak={speak} language={language} className="hidden md:flex">
               <span className="text-xs font-bold uppercase tracking-wider">{s.settingsAria}</span>
             </AccessibleTTS>
           )}

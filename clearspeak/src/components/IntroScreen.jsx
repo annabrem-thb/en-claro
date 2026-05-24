@@ -1,77 +1,5 @@
 import React from 'react';
-
-// Standalone intro/language-selection screen.
-// All strings are defined inline to ensure the UI can be localized before the main app state loads.
-
-// ─── Localization Dictionary ───────────────────────────────────────────────
-const INTRO_STRINGS = {
-  pl: {
-    title:    'Claro',
-    subtitle: 'Twoja bezpieczna przestrzeń do rozwoju! Wybierz tryb i narzędzia:',
-    chooseLanguage: 'Język',
-    appMode: 'Tryb',
-    modeClassic: 'Tylko nauka',
-    modeGamified: 'Gra (nagrody)',
-    a11y: 'Narzędzia komfortu',
-    lrs: 'Przyjazna czcionka',
-    contrast: 'Kontrast',
-    vision: 'Większy tekst',
-    big: 'Wygodne przyciski',
-    spacing: 'Większe odstępy',
-    ruler: 'Linijka skupienia',
-    color: 'Bezpieczne kolory',
-    motion: 'Spokojny ekran',
-    desaturation: 'Łagodne barwy',
-    bionic: 'Bionic',
-    voice: 'Asystent',
-    zen: 'Tryb Zen',
-    start:    'Rozpocznij',
-  },
-  en: {
-    title:    'Claro',
-    subtitle: 'Your safe space to grow! Choose mode and tools:',
-    chooseLanguage: 'Language',
-    appMode: 'Mode',
-    modeClassic: 'Study only',
-    modeGamified: 'Game (rewards)',
-    a11y: 'Comfort Tools',
-    lrs: 'Friendly font',
-    contrast: 'Contrast',
-    vision: 'Larger text',
-    big: 'Comfort buttons',
-    spacing: 'Wider spacing',
-    ruler: 'Focus ruler',
-    color: 'Safe colors',
-    motion: 'Calm screen',
-    desaturation: 'Soft colors',
-    bionic: 'Bionic',
-    voice: 'Voice Assist',
-    zen: 'Zen Mode',
-    start:    'Start',
-  },
-  de: {
-    title:    'Claro',
-    subtitle: 'Dein sicherer Raum zum Wachsen! Wähle Modus und Werkzeuge:',
-    chooseLanguage: 'Sprache',
-    appMode: 'Modus',
-    modeClassic: 'Nur lernen',
-    modeGamified: 'Spiel (Belohnungen)',
-    a11y: 'Komfort-Tools',
-    lrs: 'Klare Schrift',
-    contrast: 'Kontrast',
-    vision: 'Größerer Text',
-    big: 'Komfort-Tasten',
-    spacing: 'Mehr Abstand',
-    ruler: 'Fokus-Lineal',
-    color: 'Sichere Farben',
-    motion: 'Ruhiger Bildschirm',
-    desaturation: 'Sanfte Farben',
-    bionic: 'Bionic',
-    voice: 'Assistent',
-    zen: 'Zen-Modus',
-    start:    'Starten',
-  },
-};
+import { useTranslation } from '../i18n/i18n.js';
 
 const LANGUAGES = [
   { code: 'de', flag: '🇩🇪', label: 'Deutsch' },
@@ -90,7 +18,7 @@ function IntroScreen({
   selectedVoiceURIs, setSelectedVoiceURIs,
   voiceSpeed, setVoiceSpeed, voicePitch, setVoicePitch
 }) {
-  const s = INTRO_STRINGS[language] || INTRO_STRINGS.de;
+  const t = useTranslation(language);
 
   const toggleAddon = (addon) => {
     if (setA11yAddons) {
@@ -156,17 +84,17 @@ function IntroScreen({
 
           {/* Main App Title */}
           <h1 className={`text-3xl sm:text-4xl font-black mb-2 tracking-tighter drop-shadow-md ${isHighContrast ? 'text-white' : 'text-indigo-700'}`}>
-            {s.title}
+            {t.appTitle || 'Claro'}
           </h1>
           
           {/* Motivating Subtitle */}
           <p className={`text-xs sm:text-sm font-bold mb-4 max-w-sm leading-snug ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>
-            {s.subtitle}
+            {t.intro?.subtitle || 'Twoja bezpieczna przestrzeń do rozwoju! Wybierz tryb i narzędzia:'}
           </p>
 
             {/* Language Selection */}
             <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1.5 w-full text-left sm:text-center">
-              {s.chooseLanguage}
+              {t.intro?.chooseLanguage || 'Język'}
             </p>
             <div className="grid grid-cols-3 gap-2 mb-4 w-full">
               {LANGUAGES.map(({ code, flag, label }) => (
@@ -189,7 +117,7 @@ function IntroScreen({
 
             {/* App Mode Selection */}
             <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1.5 w-full text-left sm:text-center">
-              {s.appMode}
+              {t.intro?.appMode || 'Tryb'}
             </p>
             <div className="grid grid-cols-2 gap-2 mb-4 w-full">
               <button
@@ -202,7 +130,7 @@ function IntroScreen({
                 aria-pressed={!isGamified}
               >
                 <span className="text-base sm:text-lg drop-shadow-sm" aria-hidden="true">📖</span>
-                <span className="uppercase tracking-wider text-center">{s.modeClassic}</span>
+                <span className="uppercase tracking-wider text-center">{t.intro?.modeClassic || 'Tylko nauka'}</span>
               </button>
               <button
                 onClick={() => setIsGamified(true)}
@@ -214,30 +142,30 @@ function IntroScreen({
                 aria-pressed={isGamified}
               >
                 <span className="text-base sm:text-lg drop-shadow-sm" aria-hidden="true">🎮</span>
-                <span className="uppercase tracking-wider text-center">{s.modeGamified}</span>
+                <span className="uppercase tracking-wider text-center">{t.intro?.modeGamified || 'Gra (nagrody)'}</span>
               </button>
             </div>
 
             {/* Accessibility Selection */}
             <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1.5 w-full text-left sm:text-center">
-              {s.a11y}
+              {t.intro?.a11y || 'Narzędzia komfortu'}
             </p>
             <div className="grid grid-cols-3 gap-2 mb-6 w-full">
-              <A11yBtn active={hasLRS} onClick={() => toggleAddon('LRS')} icon="🅰️" label={s.lrs} />
-              <A11yBtn active={hasSpacing} onClick={() => toggleAddon('Spacing')} icon="🔠" label={s.spacing} />
-              <A11yBtn active={hasVision} onClick={() => toggleAddon('Niedowidzenie')} icon="🔍" label={s.vision} />
+              <A11yBtn active={hasLRS} onClick={() => toggleAddon('LRS')} icon="🅰️" label={t.intro?.lrs || 'Przyjazna czcionka'} />
+              <A11yBtn active={hasSpacing} onClick={() => toggleAddon('Spacing')} icon="🔠" label={t.intro?.spacing || 'Większe odstępy'} />
+              <A11yBtn active={hasVision} onClick={() => toggleAddon('Niedowidzenie')} icon="🔍" label={t.intro?.vision || 'Większy tekst'} />
               
-              <A11yBtn active={hasBionic} onClick={() => toggleInclusive('bionicReading')} icon="👁️" label={s.bionic} />
-              <A11yBtn active={hasRuler} onClick={() => toggleAddon('Linijka')} icon="📏" label={s.ruler} />
-              <A11yBtn active={hasVoice} onClick={() => toggleInclusive('voiceAssistant')} icon="🗣️" label={s.voice} />
+              <A11yBtn active={hasBionic} onClick={() => toggleInclusive('bionicReading')} icon="👁️" label={t.intro?.bionic || 'Bionic'} />
+              <A11yBtn active={hasRuler} onClick={() => toggleAddon('Linijka')} icon="📏" label={t.intro?.ruler || 'Linijka skupienia'} />
+              <A11yBtn active={hasVoice} onClick={() => toggleInclusive('voiceAssistant')} icon="🗣️" label={t.intro?.voice || 'Asystent'} />
               
-              <A11yBtn active={hasContrast} onClick={() => toggleAddon('Kontrast')} icon="🌗" label={s.contrast} />
-              <A11yBtn active={hasColor} onClick={() => toggleAddon('Daltonizm')} icon="🎨" label={s.color} />
-              <A11yBtn active={hasDesaturation} onClick={() => toggleAddon('Desaturacja')} icon="🌫️" label={s.desaturation} />
+              <A11yBtn active={hasContrast} onClick={() => toggleAddon('Kontrast')} icon="🌗" label={t.intro?.contrast || 'Kontrast'} />
+              <A11yBtn active={hasColor} onClick={() => toggleAddon('Daltonizm')} icon="🎨" label={t.intro?.color || 'Bezpieczne kolory'} />
+              <A11yBtn active={hasDesaturation} onClick={() => toggleAddon('Desaturacja')} icon="🌫️" label={t.intro?.desaturation || 'Łagodne barwy'} />
               
-              <A11yBtn active={hasMotorik} onClick={() => toggleAddon('Motorik')} icon="🖐️" label={s.big} />
-              <A11yBtn active={hasMotion} onClick={() => toggleAddon('Redukcja')} icon="⏸️" label={s.motion} />
-              <A11yBtn active={hasZen} onClick={() => toggleInclusive('zenMode')} icon="🧘" label={s.zen} />
+              <A11yBtn active={hasMotorik} onClick={() => toggleAddon('Motorik')} icon="🖐️" label={t.intro?.big || 'Wygodne przyciski'} />
+              <A11yBtn active={hasMotion} onClick={() => toggleAddon('Redukcja')} icon="⏸️" label={t.intro?.motion || 'Spokojny ekran'} />
+              <A11yBtn active={hasZen} onClick={() => toggleInclusive('zenMode')} icon="🧘" label={t.intro?.zen || 'Tryb Zen'} />
             </div>
 
             {/* Start Button */}
@@ -247,7 +175,7 @@ function IntroScreen({
                 bigTargets ? 'py-5 text-lg sm:text-xl' : 'py-3.5 sm:py-4 text-base sm:text-lg'
               } ${isHighContrast ? 'bg-emerald-400 text-black hover:bg-emerald-300' : 'bg-emerald-500 hover:bg-emerald-400 text-white shadow-xl shadow-emerald-900/60'}`}
             >
-              {s.start}
+            {t.start || 'Rozpocznij'}
             </button>
           </div>
 

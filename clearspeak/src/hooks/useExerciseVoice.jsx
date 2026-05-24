@@ -33,10 +33,14 @@ export function useExerciseVoice(language, t, options = {}) {
       const result = event.results[0][0].transcript.toLowerCase().trim();
       setTranscript(result);
 
+      // Pobieranie dozwolonych słów z aktualnego słownika i18n i tworzenie Regex
+      const undoRegex = new RegExp(t?.commands?.undo?.join('|') || 'undo|cofnij|zurück|delete|usuń|löschen', 'i');
+      const checkRegex = new RegExp(t?.commands?.check?.join('|') || 'check|sprawdź|prüfen|gotowe|done|fertig', 'i');
+
       // Map voice commands to actions
       const commands = {
-        undo: /undo|cofnij|zurück|delete|usuń|löschen/i,
-        check: /check|sprawdź|prüfen|gotowe|done|fertig/i,
+        undo: undoRegex,
+        check: checkRegex,
       };
 
       if (commands.undo.test(result)) onCommandMatch?.('undo');

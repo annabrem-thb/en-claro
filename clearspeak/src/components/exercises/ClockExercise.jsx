@@ -55,12 +55,7 @@ function ClockExercise({
     const silentPause = ' ... , , , ... ';
     // Pull localized prefix from i18n dictionary or fallback
     const getOptionPrefix = (idx) => {
-      const prefixes = {
-        pl: `Opcja ${idx}: `,
-        en: `Option ${idx}: `,
-        de: `Option ${idx}: `,
-      };
-      return prefixes[language] || prefixes.en;
+      return t.optionPrefix ? t.optionPrefix(idx) : `Option ${idx}: `;
     };
 
     let spokenText = `${data.timeAnalog}${silentPause}`;

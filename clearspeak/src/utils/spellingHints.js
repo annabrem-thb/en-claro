@@ -71,9 +71,10 @@ function findDifferingSubstring(str1, str2) {
  * @param {string} word - The word to generate a hint for.
  * @param {string[]} allOptions - All possible word options in the exercise.
  * @param {string} lang - The current language code ('en', 'pl', 'de').
+ * @param {object} t - The translation object.
  * @returns {string} - The original word, possibly with a hint appended.
  */
-export function getSmartSpellingHint(word, allOptions, lang) {
+export function getSmartSpellingHint(word, allOptions, lang, t) {
   if (allOptions.length !== 2) return word;
 
   const otherWord = allOptions.find((opt) => opt !== word);
@@ -90,9 +91,7 @@ export function getSmartSpellingHint(word, allOptions, lang) {
 
   if (pronunciations && pronunciations[differingPart]) {
     const hint = pronunciations[differingPart];
-    if (lang === 'pl') return `${word}, pisane przez ${hint}`;
-    if (lang === 'de') return `${word}, mit ${hint}`;
-    return `${word}, with ${hint}`;
+    return t?.spellingHint ? t.spellingHint(word, hint) : `${word}, with ${hint}`;
   }
 
   return word; // Fallback to just the word if no smart hint is found
