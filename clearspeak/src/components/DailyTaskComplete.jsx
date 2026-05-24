@@ -54,8 +54,8 @@ export default function DailyTaskComplete({ isOpen, onClose }) {
         }`}
       >
         {/* Affirmative Feedback (Competence) */}
-        <header className="text-center mb-8" aria-live="polite">
-          <span className="text-6xl block mb-4" aria-hidden="true">🌟</span>
+        <header className="flex flex-col items-center text-center mb-8" aria-live="polite">
+          <div className="text-6xl mb-4 drop-shadow-md" aria-hidden="true">🧠</div>
           <h1 id="completion-title" className="text-3xl font-black mb-2">
           {dtc.title || 'Excellent Effort Today!'}
           </h1>

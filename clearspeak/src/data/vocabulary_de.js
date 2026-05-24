@@ -100,6 +100,28 @@ export const wordDatabaseDE = {
         { text: 'Wiedersprüchlich', isCorrect: false }
       ]
     },
+    {
+      id: 9,
+      difficulty: 1,
+      tags: ['everyday'],
+      instruction: 'Welche Schreibweise ist korrekt?',
+      phonetic: '/ baʊm /',
+      options: [
+        { text: 'Baum', isCorrect: true },
+        { text: 'Paum', isCorrect: false }
+      ]
+    },
+    {
+      id: 10,
+      difficulty: 1,
+      tags: ['everyday'],
+      instruction: 'Wähle das richtige Wort:',
+      phonetic: '/ ˈapfəl /',
+      options: [
+        { text: 'Apfel', isCorrect: true },
+        { text: 'Abfel', isCorrect: false }
+      ]
+    }
   ],
 
   // ─────────────────────────────────────────────────────────────────────────────

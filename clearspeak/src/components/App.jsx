@@ -128,7 +128,12 @@ function AppContent() {
     return sv ? JSON.parse(sv) : { adaptiveDifficulty: true, bigTargets: false, noFlash: false, audioRewards: false, extendedTime: false, zenMode: false, bionicReading: true, minimalistMode: false, muteNotifications: false, voiceAssistant: false };
   });
   const [dailyGoal, setDailyGoal] = useState(() => Number(localStorage.getItem('cfg_goal')) || 5);
-  const [selectedVoiceURI, setSelectedVoiceURI] = useState(() => localStorage.getItem('cfg_voice_uri') || 'default');
+  const [selectedVoiceURIs, setSelectedVoiceURIs] = useState(() => {
+    const sv = localStorage.getItem('cfg_voice_uris');
+    if (sv) return JSON.parse(sv);
+    const oldSv = localStorage.getItem('cfg_voice_uri');
+    return { pl: oldSv || 'default', en: oldSv || 'default', de: oldSv || 'default' };
+  });
   const [voiceSpeed, setVoiceSpeed] = useState(() => Number(localStorage.getItem('cfg_voice_speed')) || 1.0);
   const [voicePitch, setVoicePitch] = useState(() => Number(localStorage.getItem('cfg_voice_pitch')) || 1.0);
 
@@ -286,12 +291,12 @@ function AppContent() {
     localStorage.setItem('cfg_coins',           String(coins));
     localStorage.setItem('cfg_unlocked_themes', JSON.stringify(unlockedThemes));
     localStorage.setItem('cfg_quests',          JSON.stringify(dailyQuests))
-    localStorage.setItem('cfg_voice_uri',       selectedVoiceURI);
+    localStorage.setItem('cfg_voice_uris',      JSON.stringify(selectedVoiceURIs));
     localStorage.setItem('cfg_voice_speed',     String(voiceSpeed)); 
     localStorage.setItem('cfg_voice_pitch',     String(voicePitch)); 
     localStorage.setItem('cfg_difficulty',    String(userDifficulty));
     localStorage.setItem('cfg_goal',            String(dailyGoal));
-  }, [language, theme, a11yAddons, inclusiveOptions, points, currentIndex, rewards, coins, unlockedThemes, dailyQuests, selectedVoiceURI, voiceSpeed, voicePitch, dailyGoal, userDifficulty]);
+  }, [language, theme, a11yAddons, inclusiveOptions, points, currentIndex, rewards, coins, unlockedThemes, dailyQuests, selectedVoiceURIs, voiceSpeed, voicePitch, dailyGoal, userDifficulty]);
 
   const speak = useCallback((text, slow = false) => {
     if (!window.speechSynthesis) return;
@@ -303,9 +308,10 @@ function AppContent() {
 
     const allVoices = window.speechSynthesis?.getVoices?.() || [];
     let selectedVoice = null;
+    const currentVoiceURI = selectedVoiceURIs[language];
 
-    if (selectedVoiceURI && selectedVoiceURI !== 'default') {
-      selectedVoice = allVoices.find(v => v.voiceURI === selectedVoiceURI);
+    if (currentVoiceURI && currentVoiceURI !== 'default') {
+      selectedVoice = allVoices.find(v => v.voiceURI === currentVoiceURI);
     } else {
       if (language === 'pl')      selectedVoice = allVoices.find(v => v.name.includes('Zofia'));
       else if (language === 'en') selectedVoice = allVoices.find(v => v.name.includes('Emma'));
@@ -316,7 +322,7 @@ function AppContent() {
       msg.voice = selectedVoice;
     }
     window.speechSynthesis.speak(msg);
-  }, [language, inclusiveOptions.extendedTime, selectedVoiceURI, voiceSpeed, voicePitch]);
+  }, [language, inclusiveOptions.extendedTime, selectedVoiceURIs, voiceSpeed, voicePitch]);
 
   const activePillarTasks = useMemo(() => {
     if (!db) return [];
@@ -333,15 +339,24 @@ function AppContent() {
 
     let filteredTasks = tasks;
     if (inclusiveOptions.adaptiveDifficulty) {
-      // Pokaż zadania do obecnego poziomu trudności użytkownika + 1, aby zawsze było co robić
-      filteredTasks = tasks.filter(task => (task.difficulty || 1) <= userDifficulty + 1);
+      // W trybie adaptacyjnym: główny nacisk na aktualny poziom, ale pozwalamy na 1 poziom niżej jako powtórkę
+      filteredTasks = tasks.filter(task => {
+        const diff = task.difficulty || 1;
+        return diff === userDifficulty || diff === userDifficulty - 1;
+      });
     } else {
       // Ręczna kontrola: pokaż zadania o DOKŁADNIE wybranej trudności
       filteredTasks = tasks.filter(task => (task.difficulty || 1) === userDifficulty);
-      // Fallback: jeśli w wybranej trudności nie ma ani jednego zadania, pokaż zadania prostsze
-      if (filteredTasks.length === 0) {
-        filteredTasks = tasks.filter(task => (task.difficulty || 1) <= userDifficulty);
-      }
+    }
+
+    // Bezpieczne fallbacki:
+    // 1. Jeśli brakuje zadań na docelowym poziomie, pokaż jakiekolwiek zadania nieprzekraczające wybranej trudności
+    if (filteredTasks.length === 0) {
+      filteredTasks = tasks.filter(task => (task.difficulty || 1) <= userDifficulty);
+    }
+    // 2. Jeśli kategoria jest zupełnie pusta (np. dostępne są tylko zadania trudniejsze), zabezpiecz przed awarią i pokaż wszystkie
+    if (filteredTasks.length === 0) {
+      filteredTasks = tasks;
     }
 
     const seed = activeTab.split('').reduce((a, b) => a + b.charCodeAt(0), 0) + (language === 'pl' ? 1 : 2) + cycle;
@@ -627,6 +642,12 @@ function AppContent() {
       noFlash={noFlash}
       isHighContrast={isHighContrast}
       bigTargets={bigTargets}
+      selectedVoiceURIs={selectedVoiceURIs}
+      setSelectedVoiceURIs={setSelectedVoiceURIs}
+          voiceSpeed={voiceSpeed}
+          setVoiceSpeed={setVoiceSpeed}
+          voicePitch={voicePitch}
+          setVoicePitch={setVoicePitch}
     />;
   }
 
@@ -646,6 +667,12 @@ function AppContent() {
       noFlash={noFlash}
       isHighContrast={isHighContrast}
       bigTargets={bigTargets}
+      selectedVoiceURIs={selectedVoiceURIs}
+      setSelectedVoiceURIs={setSelectedVoiceURIs}
+      voiceSpeed={voiceSpeed}
+      setVoiceSpeed={setVoiceSpeed}
+      voicePitch={voicePitch}
+      setVoicePitch={setVoicePitch}
     />;
   }
 
@@ -805,8 +832,8 @@ function AppContent() {
           aria-modal="true"
           aria-labelledby="level-up-title"
         >
-          <div className={`rounded-4xl p-10 shadow-lg max-w-sm w-full border ${noFlash ? '' : 'animate-in fade-in zoom-in duration-700'} ${isHighContrast ? 'bg-black border-white' : 'bg-white border-slate-200'}`}>
-            <div className="text-5xl mb-4 opacity-80" aria-hidden="true">🌱</div>
+          <div className={`flex flex-col items-center rounded-4xl p-10 shadow-lg max-w-sm w-full border ${noFlash ? '' : 'animate-in fade-in zoom-in duration-700'} ${isHighContrast ? 'bg-black border-white' : 'bg-white border-slate-200'}`}>
+            <div className="text-5xl mb-4 opacity-80 drop-shadow-md" aria-hidden="true">🧠</div>
             <h2 id="level-up-title" className={`text-2xl font-bold mb-4 ${isHighContrast ? 'text-white' : 'text-slate-700'}`}>
               {t.gardenBlooming || "Twój ogród rośnie!"}
             </h2>
@@ -837,7 +864,7 @@ function AppContent() {
       <TTSController
         voiceSpeed={voiceSpeed} setVoiceSpeed={setVoiceSpeed}
         voicePitch={voicePitch} setVoicePitch={setVoicePitch}
-        selectedVoiceURI={selectedVoiceURI} setSelectedVoiceURI={setSelectedVoiceURI}
+        selectedVoiceURIs={selectedVoiceURIs} setSelectedVoiceURIs={setSelectedVoiceURIs}
         language={language} isHighContrast={isHighContrast} themeStyles={themeStyles} t={t}
       />
 

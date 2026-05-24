@@ -168,6 +168,39 @@ export const wordDatabasePL = {
         de: 'Kollege — Person, mit der wir im selben Team arbeiten',
       },
     },
+    {
+      id: 16,
+      word: 'Zmartwychwstanie',
+      difficulty: 3,
+      phonetic: '/ zmar.tfɨxˈfsta.ɲɛ /',
+      hints: {
+        pl: 'Powrót do życia z martwych',
+        en: 'Resurrection',
+        de: 'Auferstehung',
+      },
+    },
+    {
+      id: 17,
+      word: 'Bezwzględność',
+      difficulty: 3,
+      phonetic: '/ bɛzˈvzɡlɛnd.nɔɕt͡ɕ /',
+      hints: {
+        pl: 'Brak litości, surowość',
+        en: 'Ruthlessness',
+        de: 'Rücksichtslosigkeit',
+      },
+    },
+    {
+      id: 18,
+      word: 'Niepodległość',
+      difficulty: 2,
+      phonetic: '/ ɲɛ.pɔdˈlɛ.ɡwɔɕt͡ɕ /',
+      hints: {
+        pl: 'Niezależność państwa od innych',
+        en: 'Independence',
+        de: 'Unabhängigkeit',
+      },
+    },
   ],
 
   graphemes: [
@@ -379,6 +412,36 @@ export const wordDatabasePL = {
       options: [
         { text: 'Może', isCorrect: true, icon: '🤔' },
         { text: 'Morze', isCorrect: false, icon: '🌊' },
+      ],
+    },
+    {
+      id: 16,
+      difficulty: 1,
+      focus: 'b czy d (mylenie liter)',
+      questions: {
+        pl: 'Które słowo jest napisane poprawnie i oznacza budynek mieszkalny?',
+        en: 'Which word is spelled correctly and means home?',
+        de: 'Welches Wort ist richtig geschrieben und bedeutet Zuhause?',
+      },
+      options: [
+        { text: 'Dom', isCorrect: true, icon: '🏠' },
+        { text: 'Bom', isCorrect: false, icon: '❌' },
+        { text: 'Pom', isCorrect: false, icon: '❌' },
+      ],
+    },
+    {
+      id: 17,
+      difficulty: 2,
+      focus: 'Ubezdźwięcznienie (b na p)',
+      questions: {
+        pl: 'Jak poprawnie napisać owoc rosnący na jabłoni?',
+        en: 'How do you spell the fruit growing on an apple tree?',
+        de: 'Wie schreibt man die Frucht vom Apfelbaum?',
+      },
+      options: [
+        { text: 'Jabłko', isCorrect: true, icon: '🍎' },
+        { text: 'Japko', isCorrect: false, icon: '❌' },
+        { text: 'Japłko', isCorrect: false, icon: '❌' },
       ],
     },
   ],
@@ -668,6 +731,23 @@ export const wordDatabasePL = {
       distractors: ['J', 'Ć'],
       image: '✅',
     },
+    {
+      id: 16,
+      difficulty: 2,
+      tags: ['everyday'],
+      word: 'DŹWIĘK',
+      scrambled: ['D', 'Ź', 'W', 'I', 'Ę', 'K'],
+      distractors: ['B', 'P', 'M'],
+      image: '🎵',
+    },
+    {
+      id: 17,
+      difficulty: 2,
+      word: 'BUDYNEK',
+      scrambled: ['B', 'U', 'D', 'Y', 'N', 'E', 'K'],
+      distractors: ['P', 'D', 'W'],
+      image: '🏢',
+    },
   ],
 
   context: [
@@ -886,6 +966,21 @@ export const wordDatabasePL = {
       hints: {
         pl: "Po spółgłosce 'p' zawsze piszemy 'rz' (przedrostek prze-)",
         en: "rz after 'p' — przeprowadzić has prze- prefix, always rz not ż",
+      },
+    },
+    {
+      id: 16,
+      difficulty: 2,
+      sentence_part1: 'Babcia upiekła pachnący',
+      sentence_part2: 'z chrupiącą skórką.',
+      options: [
+        { text: 'chleb', isCorrect: true },
+        { text: 'chlep', isCorrect: false },
+        { text: 'hleb', isCorrect: false },
+      ],
+      hints: {
+        pl: "Na końcu słowa słychać 'p', ale piszemy 'b'.",
+        en: "Devoicing at the end: sounds like 'p' but spelled with 'b'.",
       },
     },
   ],
@@ -1524,6 +1619,22 @@ export const wordDatabasePL = {
         { label: 'Rzymska ➡️', value: 'right' },
       ],
     },
+    {
+      id: 16,
+      difficulty: 2,
+      instruction: 'Rozróżnij litery m oraz w',
+      items: [
+        { symbol: 'm', target: 'left' },
+        { symbol: 'w', target: 'right' },
+        { symbol: 'w', target: 'right' },
+        { symbol: 'm', target: 'left' },
+        { symbol: 'n', target: 'left' },
+      ],
+      options: [
+        { label: 'Litera m / n ⬅️', value: 'left' },
+        { label: 'Litera w ➡️', value: 'right' },
+      ],
+    },
   ],
 
   lcwc: [
@@ -1537,6 +1648,13 @@ export const wordDatabasePL = {
     { id: 8, lcwc: true, difficulty: 2, word: 'Konsekwencja' },
     { id: 9, lcwc: true, difficulty: 2, word: 'Doświadczenie' },
     { id: 10, lcwc: true, difficulty: 2, word: 'Zarządzenie' },
+    { id: 11, lcwc: true, difficulty: 2, word: 'Społeczeństwo' },
+    { id: 12, lcwc: true, difficulty: 1, word: 'Współpraca' },
+    { id: 13, lcwc: true, difficulty: 3, word: 'Wszechstronność' },
+    { id: 14, lcwc: true, difficulty: 3, word: 'Bezwzględny' },
+    { id: 15, lcwc: true, difficulty: 2, word: 'Infrastruktura' },
+    { id: 16, lcwc: true, difficulty: 3, word: 'Grzegorz' },
+    { id: 17, lcwc: true, difficulty: 2, word: 'Prawdopodobieństwo' },
   ],
 
   categorization: [
@@ -1624,6 +1742,13 @@ export const wordDatabasePL = {
       difficulty: 3,
       audioPrompt: 'Przedsiębiorstwo przynosi ogromne zyski.',
       correct: 'Przedsiębiorstwo przynosi ogromne zyski'
+    }
+    ,{
+      id: 4,
+      dictation: true,
+      difficulty: 2,
+      audioPrompt: 'Mój brat kupił nowy komputer.',
+      correct: 'Mój brat kupił nowy komputer'
     }
   ]
 };

@@ -62,6 +62,7 @@ export default {
   pitchHigh: "Hoch",
   testVoice: "Stimme testen",
   testSentence: "Dies ist ein Test der ausgewählten Stimme.",
+  resetTTS: "Standard-TTS-Einstellungen wiederherstellen",
 
   // Settings & App Config
   settings: "Einstellungen",

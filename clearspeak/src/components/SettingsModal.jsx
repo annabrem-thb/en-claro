@@ -118,7 +118,7 @@ function SettingsModal({
   coins = 0,              setCoins,
   unlockedThemes = ['Natur'],  setUnlockedThemes,
   inclusiveOptions = {},  setInclusiveOptions,
-  selectedVoiceURI,       setSelectedVoiceURI,
+  selectedVoiceURIs = { pl: 'default', en: 'default', de: 'default' }, setSelectedVoiceURIs,
   voiceSpeed,             setVoiceSpeed,
   voicePitch,             setVoicePitch,
   isHighContrast = false,
@@ -199,8 +199,8 @@ function SettingsModal({
     }
   };
 
-  const langCode = { pl: 'pl-PL', en: 'en-US', de: 'de-DE' }[language];
-  const filteredVoices = voices.filter(v => v.lang === langCode);
+  const langCode = { pl: 'pl-PL', en: 'en-US', de: 'de-DE' }[language] || 'pl-PL';
+  const filteredVoices = voices.filter(v => v.lang.startsWith(langCode.substring(0, 2)));
 
   const handleTestVoice = () => {
     if (!window.speechSynthesis) return;
@@ -211,8 +211,9 @@ function SettingsModal({
     msg.pitch = voicePitch;
 
     let selectedVoice = null;
-    if (selectedVoiceURI && selectedVoiceURI !== 'default') {
-      selectedVoice = voices.find(v => v.voiceURI === selectedVoiceURI);
+    const currentVoiceURI = selectedVoiceURIs[language];
+    if (currentVoiceURI && currentVoiceURI !== 'default') {
+      selectedVoice = voices.find(v => v.voiceURI === currentVoiceURI);
     } else {
       if (language === 'pl')      selectedVoice = voices.find(v => v.name.includes('Zofia'));
       else if (language === 'en') selectedVoice = voices.find(v => v.name.includes('Emma'));
@@ -490,8 +491,8 @@ function SettingsModal({
                   {filteredVoices.length > 0 && (
                     <div className="relative mt-2">
                       <select
-                        value={selectedVoiceURI}
-                        onChange={(e) => setSelectedVoiceURI(e.target.value)}
+                        value={selectedVoiceURIs[language] || 'default'}
+                        onChange={(e) => setSelectedVoiceURIs?.(prev => ({ ...prev, [language]: e.target.value }))}
                         className={`w-full appearance-none ${bigTargets ? 'p-6 text-sm' : 'p-4 text-xs'} rounded-2xl border-2 font-bold focus:outline-none transition-all cursor-pointer shadow-sm ${isHighContrast ? 'border-white bg-black hover:border-white/60 text-white focus:ring-4 focus:ring-white/30' : 'border-slate-200 bg-white hover:border-indigo-300 text-slate-700 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-50'}`}
                       >
                         <option value="default">{s.voiceDefault}</option>
@@ -506,6 +507,17 @@ function SettingsModal({
                       </div>
                     </div>
                   )}
+
+                  <button
+                    onClick={() => {
+                      setVoiceSpeed(1.0);
+                      setVoicePitch(1.0);
+                      setSelectedVoiceURIs?.(prev => ({ ...prev, [language]: 'default' }));
+                    }}
+                    className={`w-full mt-2 ${bigTargets ? 'py-4 text-sm' : 'py-3 text-xs'} rounded-xl font-bold transition-all active:scale-95 ${isHighContrast ? 'bg-transparent border-2 border-white/50 text-white/80 hover:bg-white/10' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
+                  >
+                    {s.resetTTS || 'Przywróć domyślne ustawienia TTS'}
+                  </button>
                 </div>
               </section>
             </div>

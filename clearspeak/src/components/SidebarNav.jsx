@@ -30,7 +30,7 @@ const SidebarNav = memo(function SidebarNav({
   return (
     <aside className={`w-16 md:w-60 flex flex-col shrink-0 z-40 ${isHighContrast ? 'bg-black border-r border-white/20 shadow-sm' : `bg-[#fdfaf6] border-r ${themeStyles.border} shadow-xl shadow-slate-200/50`}`}>
       <div className={`p-3 md:p-5 flex items-center gap-2 h-16 ${isHighContrast ? 'border-b border-white/20' : `border-b ${themeStyles.border}`}`}>
-        <span className="text-2xl" aria-hidden="true">🌉</span>
+        <span className="text-2xl drop-shadow-sm" aria-hidden="true">🧠</span>
         <AccessibleTTS text={s.appTitle} speak={speak} className="hidden md:flex">
           <h1 className={`font-black text-base tracking-tighter ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>{s.appTitle}</h1>
         </AccessibleTTS>

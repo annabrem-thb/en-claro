@@ -86,7 +86,9 @@ function IntroScreen({
   isGamified, setIsGamified,
   a11yAddons = [], setA11yAddons,
   inclusiveOptions = {}, setInclusiveOptions,
-  noFlash = false, isHighContrast = false, bigTargets = false 
+  noFlash = false, isHighContrast = false, bigTargets = false,
+  selectedVoiceURIs, setSelectedVoiceURIs,
+  voiceSpeed, setVoiceSpeed, voicePitch, setVoicePitch
 }) {
   const s = INTRO_STRINGS[language] || INTRO_STRINGS.de;
 

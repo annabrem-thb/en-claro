@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 export default function TTSController({
   voiceSpeed, setVoiceSpeed,
-  selectedVoiceURI, setSelectedVoiceURI,
+  selectedVoiceURIs = { pl: 'default', en: 'default', de: 'default' }, setSelectedVoiceURIs,
   language, isHighContrast, themeStyles, t
 }) {
   const [voices, setVoices] = useState([]);
@@ -39,8 +39,8 @@ export default function TTSController({
           {filteredVoices.length > 0 && (
             <div className="relative mt-1">
               <select
-                value={selectedVoiceURI}
-                onChange={(e) => setSelectedVoiceURI(e.target.value)}
+                value={selectedVoiceURIs[language] || 'default'}
+                onChange={(e) => setSelectedVoiceURIs?.(prev => ({ ...prev, [language]: e.target.value }))}
                 className={`w-full appearance-none p-3 rounded-2xl text-xs font-bold transition-all cursor-pointer shadow-sm ${isHighContrast ? 'bg-black border-2 border-white text-white' : 'bg-slate-50 border-2 border-slate-100 text-slate-700 hover:border-indigo-300 focus:ring-4 focus:ring-indigo-50'}`}
                 aria-label="Wybór głosu"
               >

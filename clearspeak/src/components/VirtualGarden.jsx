@@ -198,6 +198,10 @@ export default function VirtualGarden({
         {srText}
       </div>
 
+      {isFullScreen && (
+        <div className="absolute top-6 left-6 sm:top-8 sm:left-8 text-4xl sm:text-5xl drop-shadow-md" aria-hidden="true">🧠</div>
+      )}
+
       {minimalistMode ? (
         <div className={`flex items-center gap-3 ${isFullScreen ? 'justify-center text-2xl mt-4' : 'px-2 text-sm'}`}>
           <span className={`font-black uppercase tracking-widest ${isHighContrast ? 'text-white' : themeStyles?.accent}`}>{ecosystemState.plantName}</span>
