@@ -277,5 +277,47 @@ export const wordDatabaseEN = {
     { id: 3, dictation: true, difficulty: 2, audioPrompt: 'Please review the attached document.', correct: 'Please review the attached document' },
     { id: 4, dictation: true, difficulty: 2, audioPrompt: 'The company has seen significant growth.', correct: 'The company has seen significant growth' },
     { id: 5, dictation: true, difficulty: 2, audioPrompt: 'We need to update the project timeline.', correct: 'We need to update the project timeline' }
+  ],
+
+  diagnostic: [
+    {
+      id: 'en_diag_1',
+      pillar: 'Literacy',
+      difficulty: 4,
+      focus: 'Diagnostic: Reading & Writing',
+      questions: { en: 'Read the following excerpt from a corporate email. Select the option that contains absolutely no orthographic, semantic, or homophone errors.' },
+      options: [
+        { text: "A. The principle reason for the board meeting is to ensure the new policy doesn't effect our profit margins.", isCorrect: false },
+        { text: "B. The principal reason for the broad meeting is to ensure the new policy doesn't affect our profit margins.", isCorrect: false },
+        { text: "C. The principal reason for the board meeting is to ensure the new policy doesn't affect our profit margins.", isCorrect: true },
+        { text: "D. The principal reason for the board meeting is to insure the new policy doesn't affect our profit margens.", isCorrect: false }
+      ]
+    },
+    {
+      id: 'en_diag_2',
+      pillar: 'Visual',
+      difficulty: 4,
+      focus: 'Diagnostic: Vision & Space',
+      questions: { en: 'Scan the provided data string of client request codes below.\n\n[ TRIAL-FORM-DISCREET | TRAIL-FROM-DISCRETE | TRIAL-FROM-DISCREET | TRAIL-FORM-DISCRETE ]\n\nA client submitted a "TRIAL" request "FROM" a "DISCREET" server. Which of the data clusters matches this exact sequence without any visual metathesis (swapping) or homophone errors?' },
+      options: [
+        { text: 'A) TRAIL-FROM-DISCRETE', isCorrect: false },
+        { text: 'B) TRIAL-FORM-DISCREET', isCorrect: false },
+        { text: 'C) TRIAL-FROM-DISCREET', isCorrect: true },
+        { text: 'D) TRAIL-FORM-DISCRETE', isCorrect: false }
+      ]
+    },
+    {
+      id: 'en_diag_3',
+      pillar: 'Cognitive',
+      difficulty: 4,
+      focus: 'Diagnostic: Logic & Memory',
+      questions: { en: 'Evaluate the logical constraints of the following project deployment schedule:\n\nIf the design phase precedes the testing phase, the launch proceeds on Friday. If testing precedes design, the launch is delayed. The CEO mandates that testing must not precede design, but due to a scheduling error, the development team accidentally swapped the phases.\n\nBased on the CEO\'s mandate versus the team\'s actual sequence of actions, what is the ultimate operational outcome?' },
+      options: [
+        { text: 'A) The design phase precedes testing, so the launch proceeds on Friday.', isCorrect: false },
+        { text: 'B) Testing precedes design, therefore the launch is delayed.', isCorrect: true },
+        { text: 'C) The launch proceeds seamlessly because the CEO explicitly mandated it.', isCorrect: false },
+        { text: 'D) The testing phase is completely swapped with the final launch phase.', isCorrect: false }
+      ]
+    }
   ]
 };

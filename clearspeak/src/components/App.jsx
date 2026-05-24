@@ -330,9 +330,9 @@ function AppContent() {
     if (activeTab === 'Garden') return [];
     let rawTasks = [];
     switch (activeTab) {
-      case 'Literacy':  rawTasks = [...(db.phonemes || []), ...(db.syllables || []), ...(db.graphemes || []), ...(db.scrabble || []), ...(db.lcwc || []), ...(db.context || []), ...(db.dictation || [])]; break;
-      case 'Visual':    rawTasks = [...(db.clock || []), ...(db.tracking || [])]; break;
-      case 'Cognitive': rawTasks = [...(db.categorization || []), ...(db.sequences || [])]; break;
+      case 'Literacy':  rawTasks = [...(db.phonemes || []), ...(db.syllables || []), ...(db.graphemes || []), ...(db.scrabble || []), ...(db.lcwc || []), ...(db.context || []), ...(db.dictation || []), ...(db.diagnostic?.filter(d => d.pillar === 'Literacy') || [])]; break;
+      case 'Visual':    rawTasks = [...(db.clock || []), ...(db.tracking || []), ...(db.diagnostic?.filter(d => d.pillar === 'Visual') || [])]; break;
+      case 'Cognitive': rawTasks = [...(db.categorization || []), ...(db.sequences || []), ...(db.diagnostic?.filter(d => d.pillar === 'Cognitive') || [])]; break;
       default:          rawTasks = [];
     }
 
@@ -415,8 +415,8 @@ function AppContent() {
     setCurrentStreak(newStreak);
 
     // Adaptacyjna trudność: po 5 sukcesach z rzędu, zwiększ poziom, jeśli nie jest na max
-    if (inclusiveOptions.adaptiveDifficulty && newStreak > 0 && newStreak % 5 === 0 && userDifficulty < 3) {
-      setUserDifficulty(prev => Math.min(prev + 1, 3));
+    if (inclusiveOptions.adaptiveDifficulty && newStreak > 0 && newStreak % 5 === 0 && userDifficulty < 4) {
+      setUserDifficulty(prev => Math.min(prev + 1, 4));
     }
     setErrorCounter(0); // Zresetuj licznik błędów po sukcesie
 
