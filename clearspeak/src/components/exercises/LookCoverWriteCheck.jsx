@@ -8,15 +8,14 @@ import TTSController from '../common/TTSController';
 /**
  * LookCoverWriteCheck Component
  * 
- * Dyslexia-focused spelling strategy:
- * 1. Look: User studies the word without pressure.
- * 2. Cover & Write: The word is hidden; user types from working memory.
- * 3. Check: User compares their input to the target word and self-evaluates.
+ * Dyslexia-friendly spelling strategy implementation:
+ * 1. Look: The user observes and listens to the target word without time pressure.
+ * 2. Cover & Write: The word is hidden, and the user types it from working memory.
+ * 3. Check: The user compares their input with the target word and self-evaluates.
  * 
- * Strictly avoids automatic grading (no red text or error sounds) to build self-efficacy.
+ * This component strictly avoids automatic punitive grading to build confidence and self-efficacy.
  */
 export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t: propT, speak, extendedTime, bigTargets }) {
-  // Phases: 'look' -> 'write' -> 'check'
   const [phase, setPhase] = useState('look');
   const [userInput, setUserInput] = useState('');
   
@@ -36,7 +35,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
     if (speak) speak(targetWord, extendedTime);
   }, [speak, targetWord, extendedTime, clearAllTimeouts]);
 
-  // WCAG Focus Management: Automatically focus the input when entering the 'write' phase
+  // WCAG Accessibility: Manage focus and TTS playback based on the active phase
   useEffect(() => {
     if (phase === 'write' && inputRef.current) {
       inputRef.current.focus();
@@ -50,7 +49,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
     };
   }, [phase, speak, setSafeTimeout, handleReadWord, clearAllTimeouts]);
 
-  // Render Step 1: Look
+  // Step 1: Look Phase
   if (phase === 'look') {
     return (
       <div className="flex flex-col items-center justify-center w-full animate-in fade-in duration-500">
@@ -87,7 +86,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
     );
   }
 
-  // Render Step 2: Write
+  // Step 2: Write Phase
   if (phase === 'write') {
     return (
       <div className="flex flex-col items-center justify-center w-full animate-in slide-in-from-right-4 fade-in duration-500">
@@ -126,7 +125,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
     );
   }
 
-  // Render Step 3: Check (Self-Evaluation)
+  // Step 3: Check Phase (Self-Evaluation)
   if (phase === 'check') {
     return (
       <div className="flex flex-col items-center justify-center w-full animate-in slide-in-from-bottom-4 fade-in duration-500">
@@ -135,7 +134,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
         </h2>
         
         <div className="w-full max-w-md flex flex-col gap-6 mb-12">
-          {/* Target Word */}
+          {/* Target Word Display */}
           <div className={`p-6 rounded-2xl flex flex-col items-center gap-2 border-2 ${isHighContrast ? 'bg-black border-white/50' : 'bg-slate-50 border-slate-200'}`}>
             <span className="text-xs font-bold uppercase tracking-widest text-slate-400">{t.targetWord || 'Correct Spelling'}</span>
             <span className={`text-3xl font-black tracking-widest ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>
@@ -143,7 +142,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
             </span>
           </div>
 
-          {/* User Input */}
+          {/* User Input Display */}
           <div className={`p-6 rounded-2xl flex flex-col items-center gap-2 border-2 ${isHighContrast ? 'bg-black border-white/50' : 'bg-white border-slate-200 shadow-sm'}`}>
             <span className="text-xs font-bold uppercase tracking-widest text-slate-400">{t.yourSpelling || 'Your Spelling'}</span>
             <span className={`text-3xl font-bold tracking-widest ${isHighContrast ? 'text-white' : 'text-slate-600'}`}>
@@ -152,7 +151,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
           </div>
         </div>
 
-        {/* Non-punitive self-evaluation choices */}
+        {/* Self-Evaluation Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
           <button
             onClick={() => onSelfEvaluate({ correct: true, input: userInput })}

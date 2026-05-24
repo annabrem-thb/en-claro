@@ -11,10 +11,10 @@ export default function AccessibleImage({
 }) {
   const { a11ySettings } = useA11y();
   
-  // Sprawdzamy, czy włączony jest tryb kontrastu
+  // Check if High Contrast mode is enabled
   const isHighContrast = a11ySettings?.contrast;
 
-  // Jeśli używasz emoji/ikon tekstowych (częste w Twojej grywalizacji)
+  // Render text-based emojis/icons (commonly used in gamification)
   if (standardEmoji && contrastEmoji) {
     return (
       <span role="img" aria-label={alt} className={className}>
@@ -23,7 +23,7 @@ export default function AccessibleImage({
     );
   }
 
-  // Jeśli używasz prawdziwych obrazków (np. .png, .svg)
+  // Render actual image files (e.g., .png, .svg) with contrast support
   const currentSrc = isHighContrast ? contrastSrc : standardSrc;
 
   return (

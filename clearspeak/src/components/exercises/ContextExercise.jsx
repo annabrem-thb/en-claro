@@ -1,10 +1,24 @@
-// ContextExercise.jsx — a11y-aware with Shared Logic for Voice & Bionic Reading
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { getSmartSpellingHint } from '../../utils/spellingHints';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
+
+// Helper to enforce correct TTS pronunciation of hours and minutes
+const formatTimeForTTS = (text, lang) => {
+  if (!text) return '';
+  return text.replace(/\b0?(\d+):(\d+)\b/g, (match, h, m) => {
+    const min = parseInt(m, 10);
+    if (lang === 'pl') {
+      return min === 0 ? `godzina ${h}` : `godzina ${h} i ${min} minut`;
+    }
+    if (lang === 'de') {
+      return min === 0 ? `${h} Uhr` : `${h} Uhr ${min}`;
+    }
+    return min === 0 ? `${h}` : `${h} ${min}`;
+  }).replace(/\s*Uhr\s*Uhr/gi, ' Uhr');
+};
 
 function ContextExercise({
   data,
@@ -20,7 +34,6 @@ function ContextExercise({
   bionicReading = false,
   zenMode = false,
 }) {
-  // Use the shared voice hook
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
     t,
@@ -41,7 +54,7 @@ function ContextExercise({
     };
   }, [clearAudioTimeouts]);
 
-  // Shuffle options predictably based on the sentence content
+  // Shuffle options predictably based on the sentence seed
   const shuffledOptions = useMemo(() => {
     if (!data.options) return [];
     const hash = (str) =>
@@ -52,7 +65,7 @@ function ContextExercise({
     );
   }, [data]);
 
-  // Opóźniona informacja zwrotna: czyta pełne zdanie z poprawnym słowem
+  // Delayed feedback: reads the full sentence with the correct word
   const handleMistake = useCallback(() => {
     onError();
     setSafeTimeout(() => {
@@ -64,15 +77,15 @@ function ContextExercise({
         const part1 = data.sentence_part1 || '';
         const part2 = data.sentence_part2 || '';
         const fullSentence = `${part1} ${correctOpt.text} ${part2}`
-          .replace(/\s+([.,!?;:])/g, '$1') // Usuwa spacje przed znakami interpunkcyjnymi
-          .replace(/\s+/g, ' ')            // Redukuje podwójne spacje do pojedynczych
+          .replace(/\s+([.,!?;:])/g, '$1') // Remove spaces before punctuation marks
+          .replace(/\s+/g, ' ')            // Reduce multiple spaces to a single space
           .trim();
-        speak(fullSentence, extendedTime);
+        // Format time for TTS within the context sentence
+        speak(formatTimeForTTS(fullSentence, language), extendedTime);
       }
     }, extendedTime ? 3500 : 2500);
-  }, [onError, setSafeTimeout, clearAudioTimeouts, shuffledOptions, data, speak, extendedTime]);
+  }, [onError, setSafeTimeout, clearAudioTimeouts, shuffledOptions, data, speak, extendedTime, language]);
 
-  // Handle voice number selection
   const handleVoiceMatch = (num) => {
     clearAudioTimeouts();
     window.speechSynthesis.cancel();
@@ -84,7 +97,6 @@ function ContextExercise({
     }
   };
 
-  // --- Read Content Aloud ---
   const readContextAndOptions = () => {
     window.speechSynthesis.cancel();
     clearAudioTimeouts();
@@ -96,14 +108,14 @@ function ContextExercise({
     delayAcc += instruction.length * (extendedTime ? 90 : 65) + 1000;
 
     if (data.sentence_part1) {
-      setSafeTimeout(() => speak(data.sentence_part1, extendedTime), delayAcc);
+      setSafeTimeout(() => speak(formatTimeForTTS(data.sentence_part1, language), extendedTime), delayAcc);
       delayAcc += data.sentence_part1.length * (extendedTime ? 90 : 65) + 1000;
     }
     
     if (data.sentence_part2) {
       const cleanPart2 = data.sentence_part2.replace(/^[\.,!?;:]+$/, '');
       if (cleanPart2.trim()) {
-         setSafeTimeout(() => speak(cleanPart2, extendedTime), delayAcc);
+         setSafeTimeout(() => speak(formatTimeForTTS(cleanPart2, language), extendedTime), delayAcc);
       }
       delayAcc += data.sentence_part2.length * (extendedTime ? 90 : 65) + 1500;
     }
@@ -119,12 +131,17 @@ function ContextExercise({
 
       const hint = getSmartSpellingHint(opt.text, allOptionTexts, language, t);
 
-      const hintCharCount = hint.length + optionPrefix.length;
-      const stepDuration = hintCharCount * (extendedTime ? 90 : 65) + 800; // 800ms pause between options
+      // Remove colon from the prefix to prevent TTS from stopping prematurely
+      const spokenPrefix = optionPrefix.replace(':', '.');
+      const spokenHint = formatTimeForTTS(hint, language);
+      const fullSpokenText = `${spokenPrefix} ${spokenHint}`;
+
+      // Calculate step duration based on spoken text length (includes buffer for expanded numbers)
+      const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
 
       setSafeTimeout(() => {
         setActiveHighlight(index);
-        speak(`${optionPrefix} ${hint}`);
+        speak(fullSpokenText);
       }, delayAcc);
 
       setSafeTimeout(() => {
@@ -135,7 +152,6 @@ function ContextExercise({
     });
   };
 
-  // Styling logic
   const animClass = noFlash
     ? ''
     : 'animate-in slide-in-from-bottom duration-500';
@@ -155,7 +171,6 @@ function ContextExercise({
         </h3>
       )}
 
-      {/* Sentence with blank */}
       <div className="mb-6 px-2 text-center text-2xl leading-relaxed font-bold text-slate-700">
         <BionicText text={data.sentence_part1} enabled={bionicReading} />
         <span
@@ -166,7 +181,6 @@ function ContextExercise({
         <BionicText text={data.sentence_part2} enabled={bionicReading} />
       </div>
 
-      {/* Controls */}
       <div className="mb-8 flex gap-6">
         <TTSController
           onReadAloud={readContextAndOptions}
@@ -195,7 +209,6 @@ function ContextExercise({
         </p>
       )}
 
-      {/* Options */}
       <div className="grid w-full max-w-sm grid-cols-1 gap-3 px-2">
         {shuffledOptions.map((opt, i) => (
           <button

@@ -231,7 +231,7 @@ export default {
   
   // Exercise Content
   pillars: { Literacy: "Reading and Writing", Visual: "Vision and Space", Cognitive: "Logic and Memory" },
-  pillarIcons: { Literacy: '📖', Visual: '👁️', Cognitive: '🧠' },
+  pillarIcons: { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' },
   categories: { Phonem: "Word: Sounds", Syllable: "Word: Syllables", Context: "Text: Reading", Graphem: "Writing: Rules", Scrabble: "Writing: Synthesis", LCWC: "Writing: Memory", Dictation: "Writing: Dictations", Tracking: "Vision: Tracking", Clock: "Vision: Clock", Categorization: "Logic: Categories", Sequence: "Logic: Sequences" },
   difficulty: "Difficulty level",
   diffLevels: ["Easy", "Medium", "Hard"],

@@ -1,10 +1,23 @@
-// ClockExercise.jsx — a11y-aware with Voice Option Selection, Zen Mode & Bionic Reading
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-// Importing shared components to avoid code duplication
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
+
+// Helper to enforce correct TTS pronunciation of hours and minutes
+const formatTimeForTTS = (text, lang) => {
+  if (!text) return '';
+  return text.replace(/\b0?(\d+):(\d+)\b/g, (match, h, m) => {
+    const min = parseInt(m, 10);
+    if (lang === 'pl') {
+      return min === 0 ? `godzina ${h}` : `godzina ${h} i ${min} minut`;
+    }
+    if (lang === 'de') {
+      return min === 0 ? `${h} Uhr` : `${h} Uhr ${min}`;
+    }
+    return min === 0 ? `${h}` : `${h} ${min}`;
+  }).replace(/\s*Uhr\s*Uhr/gi, ' Uhr');
+};
 
 /**
  * ClockExercise Component
@@ -25,7 +38,7 @@ function ClockExercise({
   bionicReading = false,
   zenMode = false,
 }) {
-  // Centralized voice logic using custom hook
+  // Voice recognition logic
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
     t,
@@ -46,7 +59,7 @@ function ClockExercise({
     };
   }, [clearAudioTimeouts]);
 
-  // Shuffle options predictably based on seed to maintain consistency during re-renders
+  // Shuffle options predictably using a seed to maintain consistency across re-renders
   const shuffledOptions = useMemo(() => {
     if (!data.options) return [];
     const hash = (s) =>
@@ -57,7 +70,7 @@ function ClockExercise({
     );
   }, [data]);
 
-  // Opóźniona informacja zwrotna po błędzie
+  // Delayed feedback loop on incorrect answer
   const handleMistake = useCallback(() => {
     onError();
     setSafeTimeout(() => {
@@ -68,7 +81,9 @@ function ClockExercise({
       if (correctIndex !== -1) {
         const correctOpt = shuffledOptions[correctIndex];
         setActiveHighlight(correctIndex);
-        speak(`${data.timeAnalog}. ${correctOpt.text}`, extendedTime);
+        
+        const spokenTime = formatTimeForTTS(correctOpt.text, language);
+        speak(`${data.timeAnalog}. ${spokenTime}`, extendedTime);
         
         setSafeTimeout(() => {
           setActiveHighlight(null);
@@ -77,7 +92,7 @@ function ClockExercise({
     }, extendedTime ? 3500 : 2500);
   }, [onError, setSafeTimeout, clearAudioTimeouts, shuffledOptions, data, speak, extendedTime]);
 
-  // Handle voice commands for option selection (1-4)
+  // Map recognized voice input numbers to corresponding options
   const handleVoiceMatch = (num) => {
     clearAudioTimeouts();
     window.speechSynthesis.cancel();
@@ -89,7 +104,6 @@ function ClockExercise({
     }
   };
 
-  // --- Read Time & Options Aloud Logic ---
   const readTimeAndOptions = () => {
     window.speechSynthesis.cancel();
     clearAudioTimeouts();
@@ -111,12 +125,18 @@ function ClockExercise({
 
     shuffledOptions.forEach((opt, index) => {
       const prefix = getOptionPrefix(index + 1);
-      const hintCharCount = opt.text.length + prefix.length;
-      const stepDuration = hintCharCount * (extendedTime ? 90 : 65) + 800; // 800ms pause
+      
+      // Remove colon from the prefix to prevent TTS from prematurely stopping
+      const spokenPrefix = prefix.replace(':', '.');
+      const spokenTime = formatTimeForTTS(opt.text, language);
+      const fullSpokenText = `${spokenPrefix} ${spokenTime}`;
+
+      // Calculate step duration based on spoken string length with extra buffer for numbers
+      const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
 
       setSafeTimeout(() => {
         setActiveHighlight(index);
-        speak(`${prefix} ${opt.text}`);
+        speak(fullSpokenText);
       }, delayAcc);
 
       setSafeTimeout(() => {
@@ -127,7 +147,6 @@ function ClockExercise({
     });
   };
 
-  // Dynamic styling based on accessibility props
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
   const bounceClass = noFlash ? '' : 'animate-bounce duration-[3s]';
   const pulseClass = noFlash
@@ -220,7 +239,7 @@ function ClockExercise({
             bottom: '50%',
           }}
         />
-        {/* Second hand (ticking animation) - wyłączona w trybie noFlash (Dostępność) */}
+        {/* Second hand (ticking animation) - disabled in noFlash mode for accessibility */}
         {!noFlash && (
           <div
             className={`absolute w-0.5 ${minLen} rounded-full bg-red-500 z-0`}

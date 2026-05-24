@@ -121,6 +121,28 @@ export const wordDatabaseDE = {
         { text: 'Apfel', isCorrect: true },
         { text: 'Abfel', isCorrect: false }
       ]
+    },
+    {
+      id: 11,
+      difficulty: 3,
+      tags: ['everyday'],
+      instruction: 'Welche Schreibweise ist korrekt?',
+      phonetic: '/ pɔʁtmɔˈneː /',
+      options: [
+        { text: 'Portemonnaie', isCorrect: true },
+        { text: 'Portmonnee', isCorrect: false }
+      ]
+    },
+    {
+      id: 12,
+      difficulty: 3,
+      tags: ['business'],
+      instruction: 'Finde das richtige Wort:',
+      phonetic: '/ ɛntuzi̯ˈasmʊs /',
+      options: [
+        { text: 'Enthusiasmus', isCorrect: true },
+        { text: 'Entusiasmus', isCorrect: false }
+      ]
     }
   ],
 
@@ -141,7 +163,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Brief', isCorrect: true, icon: '✉️' },
         { text: 'Klein', isCorrect: false, icon: '🤏' },
-        { text: 'Brief', isCorrect: true, icon: '✉️' }, { text: 'Klein', isCorrect: false, icon: '🤏' }, { text: 'Breif', isCorrect: false, icon: '❌' }, { text: 'Klien', isCorrect: false, icon: '❌' }
+        { text: 'Breif', isCorrect: false, icon: '❌' },
+        { text: 'Klien', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -156,7 +179,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'dass', isCorrect: true, icon: '💬' },
         { text: 'das', isCorrect: false, icon: '❌' },
-        { text: 'dass', isCorrect: true, icon: '💬' }, { text: 'das', isCorrect: false, icon: '❌' }, { text: 'daß', isCorrect: false, icon: '❌' }, { text: 'daas', isCorrect: false, icon: '❌' }
+        { text: 'daß', isCorrect: false, icon: '❌' },
+        { text: 'daas', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -171,7 +195,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Straße', isCorrect: true, icon: '🛣️' },
         { text: 'Strasse', isCorrect: false, icon: '❌' },
-        { text: 'Straße', isCorrect: true, icon: '🛣️' }, { text: 'Strasse', isCorrect: false, icon: '❌' }, { text: 'Strase', isCorrect: false, icon: '❌' }, { text: 'Straze', isCorrect: false, icon: '❌' }
+        { text: 'Strase', isCorrect: false, icon: '❌' },
+        { text: 'Straze', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -186,7 +211,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Hund', isCorrect: true, icon: '🐾' },
         { text: 'Hunt', isCorrect: false, icon: '❌' },
-        { text: 'Hund', isCorrect: true, icon: '🐾' }, { text: 'Hunt', isCorrect: false, icon: '❌' }, { text: 'Hunnt', isCorrect: false, icon: '❌' }, { text: 'Hunnd', isCorrect: false, icon: '❌' }
+        { text: 'Hunnt', isCorrect: false, icon: '❌' },
+        { text: 'Hunnd', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -201,7 +227,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Dieb', isCorrect: true, icon: '👤' },
         { text: 'Diep', isCorrect: false, icon: '❌' },
-        { text: 'Dieb', isCorrect: true, icon: '👤' }, { text: 'Diep', isCorrect: false, icon: '❌' }, { text: 'Diip', isCorrect: false, icon: '❌' }, { text: 'Dihb', isCorrect: false, icon: '❌' }
+        { text: 'Diip', isCorrect: false, icon: '❌' },
+        { text: 'Dihb', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -216,7 +243,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Tag', isCorrect: true, icon: '📅' },
         { text: 'Tak', isCorrect: false, icon: '❌' },
-        { text: 'Tag', isCorrect: true, icon: '📅' }, { text: 'Tak', isCorrect: false, icon: '❌' }, { text: 'Tack', isCorrect: false, icon: '❌' }, { text: 'Tagg', isCorrect: false, icon: '❌' }
+        { text: 'Tack', isCorrect: false, icon: '❌' },
+        { text: 'Tagg', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -231,7 +259,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Bahn', isCorrect: true, icon: '🚂' },
         { text: 'Ban', isCorrect: false, icon: '❌' },
-        { text: 'Bahn', isCorrect: true, icon: '🚂' }, { text: 'Ban', isCorrect: false, icon: '❌' }, { text: 'Baan', isCorrect: false, icon: '❌' }, { text: 'Bann', isCorrect: false, icon: '❌' }
+        { text: 'Baan', isCorrect: false, icon: '❌' },
+        { text: 'Bann', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -246,7 +275,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'gute', isCorrect: true, icon: '👨‍🏫' },
         { text: 'Gute', isCorrect: false, icon: '❌' },
-        { text: 'gute', isCorrect: true, icon: '👨‍🏫' }, { text: 'Gute', isCorrect: false, icon: '❌' }, { text: 'gutte', isCorrect: false, icon: '❌' }, { text: 'Gutte', isCorrect: false, icon: '❌' }
+        { text: 'gutte', isCorrect: false, icon: '❌' },
+        { text: 'Gutte', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -261,7 +291,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Vogel', isCorrect: true, icon: '🐦' },
         { text: 'Vase', isCorrect: false, icon: '🪴' },
-        { text: 'Vogel', isCorrect: true, icon: '🐦' }, { text: 'Vase', isCorrect: false, icon: '🪴' }, { text: 'Fogel', isCorrect: false, icon: '❌' }, { text: 'Fase', isCorrect: false, icon: '❌' }
+        { text: 'Fogel', isCorrect: false, icon: '❌' },
+        { text: 'Fase', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -276,7 +307,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Apotheke', isCorrect: true, icon: '💊' },
         { text: 'Apoteke', isCorrect: false, icon: '❌' },
-        { text: 'Apotheke', isCorrect: true, icon: '💊' }, { text: 'Apoteke', isCorrect: false, icon: '❌' }, { text: 'Appotheke', isCorrect: false, icon: '❌' }, { text: 'Abotheke', isCorrect: false, icon: '❌' }
+        { text: 'Appotheke', isCorrect: false, icon: '❌' },
+        { text: 'Abotheke', isCorrect: false, icon: '❌' }
       ],
     },
   ],
@@ -568,7 +600,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'dass', isCorrect: true },
         { text: 'das', isCorrect: false },
-        { text: 'dass', isCorrect: true }, { text: 'das', isCorrect: false }, { text: 'daß', isCorrect: false }, { text: 'daas', isCorrect: false }
+        { text: 'daß', isCorrect: false },
+        { text: 'daas', isCorrect: false }
       ],
       hints: {
         de: "‚dass' ist hier eine Konjunktion (Bindewort), man kann es nicht durch dies/jenes ersetzen.",
@@ -584,7 +617,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'das', isCorrect: true },
         { text: 'dass', isCorrect: false },
-        { text: 'das', isCorrect: true }, { text: 'dass', isCorrect: false }, { text: 'daß', isCorrect: false }, { text: 'daas', isCorrect: false }
+        { text: 'daß', isCorrect: false },
+        { text: 'daas', isCorrect: false }
       ],
       hints: {
         de: "‚das' ist hier der bestimmte Artikel zu dem Wort Dokument.",
@@ -600,7 +634,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Verantwortung', isCorrect: true },
         { text: 'verantwortung', isCorrect: false },
-        { text: 'Verantwortung', isCorrect: true }, { text: 'verantwortung', isCorrect: false }, { text: 'Verantvortung', isCorrect: false }, { text: 'verantvortung', isCorrect: false }
+        { text: 'Verantvortung', isCorrect: false },
+        { text: 'verantvortung', isCorrect: false }
       ],
       hints: {
         de: 'Nomen werden im Deutschen immer großgeschrieben.',
@@ -615,7 +650,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'unserem', isCorrect: true },
         { text: 'unserm', isCorrect: false },
-        { text: 'unserem', isCorrect: true }, { text: 'unserm', isCorrect: false }, { text: 'unseren', isCorrect: false }, { text: 'unsrem', isCorrect: false }
+        { text: 'unseren', isCorrect: false },
+        { text: 'unsrem', isCorrect: false }
       ],
       hints: {
         de: 'Dativ: Die Endung -em muss komplett ausgeschrieben werden (unserem).',
@@ -630,7 +666,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'betrifft', isCorrect: true },
         { text: 'betrift', isCorrect: false },
-        { text: 'betrifft', isCorrect: true }, { text: 'betrift', isCorrect: false }, { text: 'betrieft', isCorrect: false }, { text: 'betriefft', isCorrect: false }
+        { text: 'betrieft', isCorrect: false },
+        { text: 'betriefft', isCorrect: false }
       ],
       hints: {
         de: 'Nach dem kurzen i wird der Konsonant f verdoppelt (ff).',
@@ -645,7 +682,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Arbeitsvertrag', isCorrect: true },
         { text: 'Arbeits Vertrag', isCorrect: false },
-        { text: 'Arbeitsvertrag', isCorrect: true }, { text: 'Arbeits Vertrag', isCorrect: false }, { text: 'Arbeits-Vertrag', isCorrect: false }, { text: 'arbeitvertrag', isCorrect: false }
+        { text: 'Arbeits-Vertrag', isCorrect: false },
+        { text: 'arbeitvertrag', isCorrect: false }
       ],
       hints: {
         de: 'Zusammengesetzte Nomen (Komposita) werden im Deutschen zusammen geschrieben.',
@@ -660,7 +698,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'erfolgreich', isCorrect: true },
         { text: 'Erfolgreich', isCorrect: false },
-        { text: 'erfolgreich', isCorrect: true }, { text: 'Erfolgreich', isCorrect: false }, { text: 'erfolgreih', isCorrect: false }, { text: 'erfolkreich', isCorrect: false }
+        { text: 'erfolgreih', isCorrect: false },
+        { text: 'erfolkreich', isCorrect: false }
       ],
       hints: {
         de: 'Adjektive und Adverbien werden im Deutschen kleingeschrieben.',
@@ -675,7 +714,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Qualifikation', isCorrect: true },
         { text: 'Qualifiqation', isCorrect: false },
-        { text: 'Qualifikation', isCorrect: true }, { text: 'Qualifiqation', isCorrect: false }, { text: 'Kwalifikation', isCorrect: false }, { text: 'Qualifikatzion', isCorrect: false }
+        { text: 'Kwalifikation', isCorrect: false },
+        { text: 'Qualifikatzion', isCorrect: false }
       ],
       hints: {
         de: 'Die Endung -tion wird immer mit t geschrieben, nie mit q oder z.',
@@ -690,7 +730,8 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Geschwindigkeit', isCorrect: true },
         { text: 'Geschwindichkeit', isCorrect: false },
-        { text: 'Geschwindigkeit', isCorrect: true }, { text: 'Geschwindichkeit', isCorrect: false }, { text: 'Geschwindigkheit', isCorrect: false }, { text: 'Geschwindigkeid', isCorrect: false }
+        { text: 'Geschwindigkheit', isCorrect: false },
+        { text: 'Geschwindigkeid', isCorrect: false }
       ],
       hints: {
         de: 'Die Endung ist -igkeit (geschwind + ig + keit), nicht -ichkeit.',
@@ -706,13 +747,48 @@ export const wordDatabaseDE = {
       options: [
         { text: 'übernimmt', isCorrect: true },
         { text: 'übernimpt', isCorrect: false },
-        { text: 'übernimmt', isCorrect: true }, { text: 'übernimpt', isCorrect: false }, { text: 'übernimt', isCorrect: false }, { text: 'übernimmt', isCorrect: false }
+        { text: 'übernimt', isCorrect: false },
+        { text: 'übernimmpt', isCorrect: false }
       ],
       hints: {
         de: 'Kommt von nehmen. In der 3. Person Singular wird das m verdoppelt (nimmt).',
         en: 'From nehmen: the m is doubled in the 3rd person singular (nimmt).',
       },
     },
+    {
+      id: 11,
+      difficulty: 2,
+      tags: ['business'],
+      sentence_part1: 'Wir warten schon',
+      sentence_part2: 'drei Stunden auf das Ergebnis.',
+      options: [
+        { text: 'seit', isCorrect: true },
+        { text: 'seid', isCorrect: false },
+        { text: 'seidt', isCorrect: false },
+        { text: 'seith', isCorrect: false }
+      ],
+      hints: {
+        de: "‚seit' verwendet man bei Zeitangaben (seit wann?). ‚seid' ist ein Verb (ihr seid).",
+        en: "'seit' is for time (since), 'seid' is the verb (you are).",
+      },
+    },
+    {
+      id: 12,
+      difficulty: 3,
+      tags: ['everyday'],
+      sentence_part1: 'Der Aktivist leistete großen',
+      sentence_part2: 'gegen die neuen Pläne.',
+      options: [
+        { text: 'Widerstand', isCorrect: true },
+        { text: 'Wiederstand', isCorrect: false },
+        { text: 'Wieder stand', isCorrect: false },
+        { text: 'Wider stand', isCorrect: false }
+      ],
+      hints: {
+        de: "‚Wider' bedeutet ‚gegen' (Widerstand = gegen etwas stehen). ‚Wieder' bedeutet ‚nochmal'.",
+        en: "'wider' means against, 'wieder' means again.",
+      },
+    }
   ],
 
   // ─────────────────────────────────────────────────────────────────────────────

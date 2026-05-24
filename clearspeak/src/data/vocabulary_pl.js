@@ -111,6 +111,28 @@ export const wordDatabasePL = {
         de: 'Engagement — starke Hingabe an eine Sache oder Person',
       },
     },
+    {
+      id: 11,
+      word: 'Dżdżownica',
+      difficulty: 3,
+      phonetic: '/ d͡ʐd͡ʐɔvˈɲi.t͡sa /',
+      hints: {
+        pl: 'Pożyteczny pierścienica żyjąca w glebie',
+        en: 'Earthworm — useful annelid living in the soil',
+        de: 'Regenwurm — nützlicher Ringelwurm im Boden',
+      },
+    },
+    {
+      id: 12,
+      word: 'Pszczoła',
+      difficulty: 2,
+      phonetic: '/ ˈpʂt͡ʂɔ.wa /',
+      hints: {
+        pl: 'Owad produkujący miód',
+        en: 'Bee — honey-producing insect',
+        de: 'Biene — honigproduzierendes Insekt',
+      },
+    },
   ],
 
   graphemes: [
@@ -125,7 +147,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Stół', isCorrect: true, icon: '🪑' },
-        { text: 'Krój', isCorrect: false, icon: '✂️' },
+        { text: 'Stuł', isCorrect: false, icon: '❌' },
+        { text: 'Córka', isCorrect: false, icon: '👩' },
+        { text: 'Curka', isCorrect: false, icon: '❌' },
       ],
     },
     {
@@ -139,7 +163,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Córka', isCorrect: true, icon: '👩' },
+        { text: 'Curka', isCorrect: false, icon: '❌' },
         { text: 'Wróg', isCorrect: false, icon: '👤' },
+        { text: 'Wrug', isCorrect: false, icon: '❌' },
       ],
     },
     {
@@ -154,6 +180,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'Przemoc', isCorrect: true, icon: '⚠️' },
         { text: 'Pżemoc', isCorrect: false, icon: '❌' },
+        { text: 'Pszemoc', isCorrect: false, icon: '❌' },
+        { text: 'Pśemoc', isCorrect: false, icon: '❌' },
       ],
     },
     {
@@ -168,6 +196,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'Brzuch', isCorrect: true, icon: '🧍' },
         { text: 'Bżuch', isCorrect: false, icon: '❌' },
+        { text: 'Bszuch', isCorrect: false, icon: '❌' },
+        { text: 'Brzuh', isCorrect: false, icon: '❌' },
       ],
     },
     {
@@ -181,7 +211,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Droższy', isCorrect: true, icon: '💸' },
+        { text: 'Droszszy', isCorrect: false, icon: '❌' },
         { text: 'Żółw', isCorrect: false, icon: '🐢' },
+        { text: 'Rzółw', isCorrect: false, icon: '❌' },
       ],
     },
     {
@@ -195,7 +227,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Hierarchia', isCorrect: true, icon: '📊' },
+        { text: 'Chierarchia', isCorrect: false, icon: '❌' },
         { text: 'Chmura', isCorrect: false, icon: '☁️' },
+        { text: 'Hmura', isCorrect: false, icon: '❌' },
       ],
     },
     {
@@ -210,6 +244,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'Nie pracuję', isCorrect: true, icon: '🚫' },
         { text: 'Niepracuję', isCorrect: false, icon: '❌' },
+        { text: 'Nie pracóje', isCorrect: false, icon: '❌' },
+        { text: 'Niepracuje', isCorrect: false, icon: '❌' },
       ],
     },
     {
@@ -224,6 +260,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'Niesprawiedliwy', isCorrect: true, icon: '⚖️' },
         { text: 'Nie sprawiedliwy', isCorrect: false, icon: '❌' },
+        { text: 'Nie-sprawiedliwy', isCorrect: false, icon: '❌' },
+        { text: 'Niesprawiedliwi', isCorrect: false, icon: '❌' },
       ],
     },
     {
@@ -238,6 +276,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'Chciałbym', isCorrect: true, icon: '💬' },
         { text: 'Chciał bym', isCorrect: false, icon: '❌' },
+        { text: 'Chciał-bym', isCorrect: false, icon: '❌' },
+        { text: 'Kciałbym', isCorrect: false, icon: '❌' },
       ],
     },
     {
@@ -252,6 +292,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'Ząb', isCorrect: true, icon: '🦷' },
         { text: 'Zonb', isCorrect: false, icon: '❌' },
+        { text: 'Zomp', isCorrect: false, icon: '❌' },
+        { text: 'Zomb', isCorrect: false, icon: '❌' },
       ],
     },
   ],
@@ -461,6 +503,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'może', isCorrect: true },
         { text: 'morze', isCorrect: false },
+        { text: 'morz', isCorrect: false },
+        { text: 'moż', isCorrect: false },
       ],
       hints: {
         pl: "Czasownik modalny (móc coś zrobić), pisany przez 'ż'",
@@ -476,6 +520,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'morze', isCorrect: true },
         { text: 'może', isCorrect: false },
+        { text: 'morz', isCorrect: false },
+        { text: 'moż', isCorrect: false },
       ],
       hints: {
         pl: "Morze to wielki zbiornik wodny",
@@ -491,6 +537,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'nie powinien', isCorrect: true },
         { text: 'niepowinien', isCorrect: false },
+        { text: 'nie powinnien', isCorrect: false },
+        { text: 'nie-powinien', isCorrect: false },
       ],
       hints: {
         pl: "Partykułę 'nie' z czasownikami piszemy zawsze oddzielnie",
@@ -506,6 +554,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'nieodwołalna', isCorrect: true },
         { text: 'nie odwołalna', isCorrect: false },
+        { text: 'nie-odwołalna', isCorrect: false },
+        { text: 'nieodwołana', isCorrect: false },
       ],
       hints: {
         pl: "Partykułę 'nie' z przymiotnikami piszemy łącznie",
@@ -521,6 +571,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'wziąć', isCorrect: true },
         { text: 'wziąść', isCorrect: false },
+        { text: 'wźąć', isCorrect: false },
+        { text: 'wziąnć', isCorrect: false },
       ],
       hints: {
         pl: "Poprawny bezokolicznik to 'wziąć', forma z 'ść' jest błędna",
@@ -535,6 +587,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'zdążyłabym', isCorrect: true },
         { text: 'zdążyła bym', isCorrect: false },
+        { text: 'zdążyła-bym', isCorrect: false },
+        { text: 'zdążyłobym', isCorrect: false },
       ],
       hints: {
         pl: "Cząstkę '-bym' dopisujemy łącznie do formy czasownika",
@@ -549,6 +603,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'szczegóły', isCorrect: true },
         { text: 'szczeguly', isCorrect: false },
+        { text: 'szczeguły', isCorrect: false },
+        { text: 'sczegóły', isCorrect: false },
       ],
       hints: {
         pl: "Pisownia przez 'ó', wymienia się na 'o' w słowie 'szczegół'",
@@ -563,6 +619,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'nieprawidłowość', isCorrect: true },
         { text: 'nie prawidłowość', isCorrect: false },
+        { text: 'nieprawidlowość', isCorrect: false },
+        { text: 'nie-prawidłowość', isCorrect: false },
       ],
       hints: {
         pl: "Partykułę 'nie' z rzeczownikami piszemy łącznie jako jedno słowo",
@@ -577,6 +635,8 @@ export const wordDatabasePL = {
       options: [
         { text: 'zaangażowaniem', isCorrect: true },
         { text: 'zaangarzowaniem', isCorrect: false },
+        { text: 'zangażowaniem', isCorrect: false },
+        { text: 'zaangażowanim', isCorrect: false },
       ],
       hints: {
         pl: "Pisownia przez 'ż', słowo pochodzi od 'angaż'",
@@ -591,10 +651,46 @@ export const wordDatabasePL = {
       options: [
         { text: 'życie', isCorrect: true },
         { text: 'żyście', isCorrect: false },
+        { text: 'rzycie', isCorrect: false },
+        { text: 'rzyście', isCorrect: false },
       ],
       hints: {
         pl: "Poprawna pisownia to 'życie' (bez 'ś' w środku)",
         en: "into force / life — ż at the start, no 'ś'",
+      },
+    },
+    {
+      id: 11,
+      difficulty: 1,
+      tags: ['everyday'],
+      sentence_part1: 'Ona',
+      sentence_part2: 'przyjdzie na dzisiejsze spotkanie.',
+      options: [
+        { text: 'na pewno', isCorrect: true },
+        { text: 'napewno', isCorrect: false },
+        { text: 'na-pewno', isCorrect: false },
+        { text: 'napeno', isCorrect: false },
+      ],
+      hints: {
+        pl: "Wyrażenie przyimkowe 'na pewno' piszemy osobno.",
+        en: "'na pewno' (for sure) is always written as two separate words.",
+      },
+    },
+    {
+      id: 12,
+      difficulty: 2,
+      tags: ['business'],
+      sentence_part1: 'Ten projekt jest',
+      sentence_part2: 'trudny do zrealizowania w tym terminie.',
+      options: [
+        { text: 'naprawdę', isCorrect: true },
+        { text: 'na prawdę', isCorrect: false },
+        { text: 'na-prawdę', isCorrect: false },
+        { text: 'naprawde', isCorrect: false },
+      ],
+      hints: {
+        pl: "'Naprawdę' (w znaczeniu 'rzeczywiście') piszemy łącznie.",
+        en: "'Naprawdę' (really) is written as a single word.",
       },
     },
   ],

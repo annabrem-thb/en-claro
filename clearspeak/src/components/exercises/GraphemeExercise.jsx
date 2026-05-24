@@ -1,11 +1,24 @@
-// GraphemeExercise.jsx — a11y-aware with Shared Logic for Voice & Bionic Reading
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-// Importing shared components and hooks to prevent code duplication
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { getSmartSpellingHint } from '../../utils/spellingHints';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
+
+// Helper to enforce correct TTS pronunciation of hours and minutes
+const formatTimeForTTS = (text, lang) => {
+  if (!text) return '';
+  return text.replace(/\b0?(\d+):(\d+)\b/g, (match, h, m) => {
+    const min = parseInt(m, 10);
+    if (lang === 'pl') {
+      return min === 0 ? `godzina ${h}` : `godzina ${h} i ${min} minut`;
+    }
+    if (lang === 'de') {
+      return min === 0 ? `${h} Uhr` : `${h} Uhr ${min}`;
+    }
+    return min === 0 ? `${h}` : `${h} ${min}`;
+  }).replace(/\s*Uhr\s*Uhr/gi, ' Uhr');
+};
 
 /**
  * GraphemeExercise Component
@@ -26,7 +39,6 @@ function GraphemeExercise({
   bionicReading = false,
   zenMode = false,
 }) {
-  // Centralized voice logic using custom hook
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
     t,
@@ -83,7 +95,6 @@ function GraphemeExercise({
     }
   };
 
-  // --- Read Question & Options Aloud Logic ---
   const readQuestionAndOptions = () => {
     window.speechSynthesis.cancel();
     clearAudioTimeouts();
@@ -98,10 +109,11 @@ function GraphemeExercise({
       return t.optionPrefix ? t.optionPrefix(idx) : (prefixes[language] || prefixes['en']);
     };
 
-    const sanitizedQuestion = questionText.replace(/_+/g, '');
+    // Remove underscores and format time correctly for the TTS assistant
+    const sanitizedQuestion = formatTimeForTTS(questionText.replace(/_+/g, ''), language);
     speak(sanitizedQuestion, extendedTime);
 
-    const charCount = (questionText || '').length;
+    const charCount = (sanitizedQuestion || '').length;
     let delayAcc = charCount * (extendedTime ? 90 : 65) + 1500;
 
     const allOptionTexts = shuffledOptions.map((o) => o.text);
@@ -110,12 +122,17 @@ function GraphemeExercise({
       const hint = getSmartSpellingHint(opt.text, allOptionTexts, language, t);
       const prefix = getOptionPrefix(index + 1);
 
-      const hintCharCount = hint.length + prefix.length;
-      const stepDuration = hintCharCount * (extendedTime ? 90 : 65) + 800; // 800ms pause
+      // Remove colon from the prefix to prevent TTS from prematurely stopping the sentence
+      const spokenPrefix = prefix.replace(':', '.');
+      const spokenHint = formatTimeForTTS(hint, language);
+      const fullSpokenText = `${spokenPrefix} ${spokenHint}`;
+
+      // Calculate step duration based on the spoken string length
+      const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
 
       setSafeTimeout(() => {
         setActiveHighlight(index);
-        speak(`${prefix} ${hint}`);
+        speak(fullSpokenText);
       }, delayAcc);
 
       setSafeTimeout(() => {
@@ -126,7 +143,6 @@ function GraphemeExercise({
     });
   };
 
-  // Dynamic styling based on accessibility props
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
   const pulseClass = noFlash
     ? 'bg-red-500'
@@ -162,21 +178,18 @@ function GraphemeExercise({
         </button>
       </div>
 
-      {/* 2. Audio Transcript feedback */}
       {transcript && (
         <p className="mb-4 text-center text-xs font-black tracking-widest text-slate-400 uppercase">
           {t.heard}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
 
-      {/* 3. Question Text (Partially hidden in Zen Mode) */}
       {!zenMode && (
         <h3 className="mb-10 max-w-xs px-6 text-center text-[11px] leading-relaxed font-black tracking-[0.15em] text-slate-500 uppercase">
           <BionicText text={questionText} enabled={bionicReading} />
         </h3>
       )}
 
-      {/* 4. Spelling Options Grid */}
       <div className="flex w-full max-w-sm flex-wrap justify-center gap-4 px-2">
         {shuffledOptions.map((opt, i) => (
           <button
@@ -195,7 +208,6 @@ function GraphemeExercise({
                   : `${themeStyles.button} hover:brightness-105 text-white`
             }`}
           >
-            {/* Display the option number clearly for voice-assisted users */}
             <span
               className="absolute top-4 left-5 text-sm font-black text-white/50"
               aria-hidden="true"

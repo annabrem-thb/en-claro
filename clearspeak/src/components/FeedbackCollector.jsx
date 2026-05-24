@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 
+/**
+ * FeedbackCollector Component
+ * Renders a modal dialog for collecting UX metrics (NASA-TLX and UEQ-Short).
+ * Fully supports accessibility (WCAG), high contrast, reduced motion (noFlash),
+ * and enlarged touch targets (bigTargets) for motor-impaired users.
+ */
 export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHighContrast, noFlash, bigTargets }) {
+  // Local state for NASA-TLX and UEQ-Short survey metrics
   const [mental, setMental] = useState(3);
   const [effort, setEffort] = useState(3);
   const [frustration, setFrustration] = useState(3);
@@ -11,6 +18,7 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
 
   const v = t.feedback || {};
 
+  // Sub-component for rendering accessible range sliders
   const RangeInput = ({ label, desc, value, setValue, leftLabel, rightLabel }) => (
     <div className={`flex flex-col gap-2 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 ${isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100'}`}>
       <div className="flex justify-between items-end">
@@ -46,6 +54,7 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
   );
 
   return (
+    // Modal container with ARIA roles for screen reader support
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
       <div className={`w-full max-w-md p-6 sm:p-8 rounded-4xl shadow-2xl flex flex-col gap-3 ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'} max-h-[95vh]`}>
         <div className="text-center">
@@ -77,6 +86,7 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
           </div>
         </div>
 
+        {/* Action buttons with dynamic scaling for accessibility */}
         <div className="flex flex-col gap-2 mt-2">
           <button
             onClick={() => {

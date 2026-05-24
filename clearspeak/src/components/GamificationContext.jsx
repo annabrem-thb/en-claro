@@ -19,10 +19,12 @@ export function GamificationProvider({ children }) {
     setCompetencePoints((prev) => prev + 1);
   };
 
+  // Stage the selected reward before confirming
   const chooseNextReward = (id) => {
     setSelectedRewardId(id);
   };
 
+  // Confirm and permanently unlock the staged reward
   const unlockSelectedReward = () => {
     if (selectedRewardId) {
       setUnlockedRewards((prev) => [...prev, selectedRewardId]);

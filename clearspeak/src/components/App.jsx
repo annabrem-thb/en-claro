@@ -4,6 +4,8 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch, Provider } from 'react-redux';
+import store from './store.js';
 
 import { useTranslation }  from '../i18n/i18n.js';
 
@@ -37,7 +39,7 @@ import { useRegisterSW } from 'virtual:pwa-register/react';
 const POINTS_PER_LEVEL = 5;
 const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
 
-// Punkt 7: Horticultural Therapy Framework - łagodne i uspokajające palety barw, eliminacja czystej bieli
+// Horticultural Therapy Framework - soft and soothing color palettes, elimination of pure white
 const THEMES = {
   Natur: { accent: 'text-[#4A5D54]', bg: 'bg-[#F4F1EA]', button: 'bg-[#8A9A86]', buttonText: 'text-[#F4F1EA]', border: 'border-[#D0D6CE]', hex: '#8A9A86', price: 0 },
   Musik: { accent: 'text-[#6B5B7B]', bg: 'bg-[#F3F0F5]', button: 'bg-[#8F7D9E]', buttonText: 'text-[#F3F0F5]', border: 'border-[#D1C8D6]', hex: '#8F7D9E', price: 3 },
@@ -48,9 +50,10 @@ const THEMES = {
 
 // --- Main App Component ---
 function AppContent() {
+  const dispatch = useDispatch();
   const { isGamified, setIsGamified } = useGamification();
   
-  // Moduł globalnych ustawień aplikacji
+  // Global App Settings Module
   const {
     language, setLanguage, theme, setTheme,
     a11yAddons, setA11yAddons,
@@ -59,10 +62,10 @@ function AppContent() {
     userDifficulty, setUserDifficulty
   } = useAppSettings();
 
-  // Ładowanie bazy słówek
+  // Vocabulary Loader Module
   const db = useVocabularyLoader(language);
 
-  // Moduł TTS (Głosu)
+  // Global TTS (Voice) Module
   const { 
     speak, 
     selectedVoiceURIs, setSelectedVoiceURIs, 
@@ -79,7 +82,7 @@ function AppContent() {
   const [showFeedback, setShowFeedback] = useState(false);
   const [pendingFeedback, setPendingFeedback] = useState(false);
 
-  // Moduł Grywalizacji (Stan postępów, Monety, Sklep)
+  // Gamification Module (Progress state, Coins, Shop)
   const {
     points, setPoints, coins, setCoins,
     rewards, setRewards,
@@ -100,7 +103,7 @@ function AppContent() {
 
   const [dailyProgress, setDailyProgress] = useIndexedDB('daily_progress', 'date', 'cfg_daily_progress');
 
-  // Moduł wiadomości afirmatywnych
+  // Affirmative Notifications Module
   const { affirmation, setAffirmation } = useAffirmativeNotifications(points, language);
 
   useEffect(() => {
@@ -110,7 +113,7 @@ function AppContent() {
   }, [isGamified, activeTab]);
 
   const t = useTranslation(language);
-  const s = t; // Alias 's' pozostawiony dla zgodności z propsami starszych komponentów (np. SidebarNav)
+  const s = t; // Alias 's' retained for compatibility with legacy component props (e.g. SidebarNav)
   
   const fallbacks = {
     pl: { next: 'Dalej', skip: 'Pomiń', lvlTitle: 'Twój ogród rośnie!', lvlDesc: 'Kolejny cel został pomyślnie zrealizowany.', pwaTitle: 'Nowa wersja', pwaDesc: 'Dostępna jest nowa treść. Zaktualizuj aplikację, aby pobrać najnowsze zmiany do trybu offline.', pwaUp: 'Aktualizuj', pwaLater: 'Później' },
@@ -126,7 +129,7 @@ function AppContent() {
   const isHighContrast = a11yAddons.includes('Kontrast');
   const hasRuler       = a11yAddons.includes('Linijka');
 
-  // Linijka skupienia
+  // Reading Ruler logic
   const { cardRef, rulerPos } = useReadingRuler(hasRuler);
 
   useEffect(() => {
@@ -144,7 +147,7 @@ function AppContent() {
     root.lang = language;
   }, [a11yAddons, inclusiveOptions, theme, isHighContrast, bigTargets, noFlash, language]);
 
-  // Moduł Sesji Treningowej
+  // Training Session Module
   const {
     currentIndex, setCurrentIndex,
     setCycle,
@@ -163,10 +166,10 @@ function AppContent() {
     setErrorTimestamps
   });
 
-  // Nawigacja Swipe (musi znajdować się poniżej useExerciseSession, z którego czerpie goNext/goPrev)
+  // Swipe Navigation (must be initialized after useExerciseSession to access goNext/goPrev)
   const swipeHandlers = useSwipeNavigation({ onSwipeLeft: goNext, onSwipeRight: goPrev });
 
-  // Logger analityczny (Point 9) - zapisuje dane telemetryczne z ankiety
+  // Analytics Logger - securely stores UX survey telemetry data into IndexedDB
   const handleFeedbackSubmit = useCallback(async (surveyData) => {
     const logEntry = {
       timestamp: new Date().toISOString(),
@@ -174,6 +177,9 @@ function AppContent() {
       metrics: surveyData
     };
     
+    // Save UX logs to Redux store (Analytics)
+    dispatch({ type: 'analytics/saveFeedback', payload: logEntry });
+
     try {
       await saveLog('ux_logs', logEntry);
     } catch (error) {
@@ -182,9 +188,9 @@ function AppContent() {
     
     setShowFeedback(false);
     goNext();
-  }, [points, goNext]);
+  }, [points, goNext, dispatch]);
 
-  // --- Navigation Handlers (Zoptymalizowane dla SidebarNav) ---
+  // --- Navigation Handlers ---
   const handleTabChange = useCallback((pillar) => {
     setActiveTab(pillar);
     setLastPillar(pillar);
@@ -252,6 +258,8 @@ function AppContent() {
       onClose={() => setSettingsOpen(false)} 
       language={language}
       setLanguage={setLanguage}
+      theme={theme}
+      setTheme={setTheme}
       isGamified={isGamified}
       setIsGamified={setIsGamified}
       a11yAddons={a11yAddons}
@@ -267,6 +275,10 @@ function AppContent() {
       setVoiceSpeed={setVoiceSpeed}
       voicePitch={voicePitch}
       setVoicePitch={setVoicePitch}
+      coins={coins}
+      setCoins={setCoins}
+      unlockedThemes={unlockedThemes}
+      setUnlockedThemes={setUnlockedThemes}
     />;
   }
 
@@ -329,26 +341,16 @@ function AppContent() {
                   </div>
                 )}
                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                  {isGamified && !inclusiveOptions.zenMode ? (
-                    <VirtualGarden 
-                      points={points} 
-                      streak={currentStreak} 
-                      dailyQuests={dailyQuests} 
-                      isHighContrast={isHighContrast} 
-                      theme={theme} 
-                      themeStyles={themeStyles} 
-                      t={t} 
-                      activeCategory={lastPillar} 
-                      isFullScreen={false} 
-                      noFlash={noFlash} 
-                      minimalistMode={!!inclusiveOptions.minimalistMode}
-                    />
+                  {inclusiveOptions.zenMode ? (
+                    <div className={`h-3 flex-1 rounded-full ${isHighContrast ? 'bg-white/20' : 'bg-slate-100'}`} />
+                  ) : isGamified ? (
+                    <ProgressPill points={points % POINTS_PER_LEVEL} max={POINTS_PER_LEVEL} theme={theme} isGamified={true} t={t} isHighContrast={isHighContrast} />
                   ) : (
                     <>
                       <div className={`w-10 h-10 shrink-0 rounded-full flex items-center justify-center text-sm font-black ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}>
                         {Math.floor(points / POINTS_PER_LEVEL) + 1}
                       </div>
-                      <ProgressPill points={points % POINTS_PER_LEVEL} max={POINTS_PER_LEVEL} theme={theme} isGamified={isGamified} t={t} isHighContrast={isHighContrast} />
+                      <ProgressPill points={points % POINTS_PER_LEVEL} max={POINTS_PER_LEVEL} theme={theme} isGamified={false} t={t} isHighContrast={isHighContrast} />
                     </>
                   )}
                 </div>
@@ -444,7 +446,7 @@ function AppContent() {
         bigTargets={bigTargets}
       />
 
-      {/* Delikatne okienko (Toast) Modułu Afirmatywnego */}
+      {/* Gentle Affirmative Toast Notification */}
       {affirmation && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] px-4 w-full max-w-sm pointer-events-none">
           <div className={`p-4 rounded-2xl shadow-lg border ${noFlash ? '' : 'animate-in slide-in-from-bottom-8 fade-in duration-700'} ${isHighContrast ? 'bg-black border-white text-white' : 'bg-white border-slate-100 text-slate-700'}`}>
@@ -478,8 +480,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <GamificationProvider>
-      <AppContent />
-    </GamificationProvider>
+    <Provider store={store}>
+      <GamificationProvider>
+        <AppContent />
+      </GamificationProvider>
+    </Provider>
   );
 }

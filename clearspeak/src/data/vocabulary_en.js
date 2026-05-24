@@ -69,6 +69,20 @@ export const wordDatabaseEN = {
       difficulty: 3, 
       phonetic: '/ ˌmɪs.əˈleɪ.ni.əs /', 
       hints: { en: 'Of various types or from different sources.', pl: 'Rozmaity, różny.', de: 'Verschiedenes.' } 
+    },
+    { 
+      id: 11, 
+      word: 'Queue', 
+      difficulty: 3, 
+      phonetic: '/ kjuː /', 
+      hints: { en: 'A line or sequence of people or vehicles.', pl: 'Kolejka.', de: 'Warteschlange.' } 
+    },
+    { 
+      id: 12, 
+      word: 'Maneuver', 
+      difficulty: 3, 
+      phonetic: '/ məˈnuː.vər /', 
+      hints: { en: 'A movement or series of moves requiring skill and care.', pl: 'Manewr.', de: 'Manöver.' } 
     }
   ],
 
@@ -78,70 +92,70 @@ export const wordDatabaseEN = {
       difficulty: 3, 
       focus: 'affect vs effect', 
       questions: { en: 'Which word completes: "The new policy will ___ our workflow"?', pl: 'Które słowo pasuje: "Nowa polityka ___ na nasz przepływ pracy"?', de: 'Welches Wort passt: "Die neue Richtlinie wird unseren Arbeitsablauf ___"?' }, 
-      options: [{ text: 'affect', isCorrect: true, icon: '📉' }, { text: 'effect', isCorrect: false, icon: '❌' }] 
+      options: [{ text: 'affect', isCorrect: true, icon: '📉' }, { text: 'effect', isCorrect: false, icon: '❌' }, { text: 'afect', isCorrect: false, icon: '❌' }, { text: 'efect', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 2, 
       difficulty: 3, 
       focus: 'principal vs principle', 
       questions: { en: 'Which word means "a fundamental truth or proposition"?', pl: 'Które słowo oznacza "podstawową prawdę lub zasadę"?', de: 'Welches Wort bedeutet "eine grundlegende Wahrheit oder ein Prinzip"?' }, 
-      options: [{ text: 'Principle', isCorrect: true, icon: '📜' }, { text: 'Principal', isCorrect: false, icon: '🏫' }] 
+      options: [{ text: 'Principle', isCorrect: true, icon: '📜' }, { text: 'Principal', isCorrect: false, icon: '🏫' }, { text: 'Principell', isCorrect: false, icon: '❌' }, { text: 'Prinicpal', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 3, 
       difficulty: 3, 
       focus: 'stationery vs stationary', 
       questions: { en: 'Which word refers to office supplies like paper and envelopes?', pl: 'Które słowo odnosi się do materiałów biurowych?', de: 'Welches Wort bezieht sich auf Büromaterial?' }, 
-      options: [{ text: 'Stationery', isCorrect: true, icon: '✉️' }, { text: 'Stationary', isCorrect: false, icon: '🚗' }] 
+      options: [{ text: 'Stationery', isCorrect: true, icon: '✉️' }, { text: 'Stationary', isCorrect: false, icon: '🚗' }, { text: 'Stationerry', isCorrect: false, icon: '❌' }, { text: 'Stationarry', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 4, 
       difficulty: 1, 
       focus: 'their vs there vs they\'re', 
       questions: { en: 'Which word indicates possession (belonging to them)?', pl: 'Które słowo oznacza przynależność (ich)?', de: 'Welches Wort zeigt Besitz an (ihr/ihre)?' }, 
-      options: [{ text: 'Their', isCorrect: true, icon: '👥' }, { text: 'There', isCorrect: false, icon: '📍' }, { text: 'They\'re', isCorrect: false, icon: '❌' }] 
+      options: [{ text: 'Their', isCorrect: true, icon: '👥' }, { text: 'There', isCorrect: false, icon: '📍' }, { text: 'They\'re', isCorrect: false, icon: '❌' }, { text: 'Thier', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 5, 
       difficulty: 2, 
       focus: 'its vs it\'s', 
       questions: { en: 'Which word means "it is"?', pl: 'Które słowo jest skrótem od "it is" (to jest)?', de: 'Welches Wort bedeutet "es ist"?' }, 
-      options: [{ text: 'It\'s', isCorrect: true, icon: '✨' }, { text: 'Its', isCorrect: false, icon: '❌' }] 
+      options: [{ text: 'It\'s', isCorrect: true, icon: '✨' }, { text: 'Its', isCorrect: false, icon: '❌' }, { text: 'Its\'', isCorrect: false, icon: '❌' }, { text: 'Ites', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 6, 
       difficulty: 3, 
       focus: 'complement vs compliment', 
       questions: { en: 'Which word means to politely praise or admire someone?', pl: 'Które słowo oznacza prawienie komplementów?', de: 'Welches Wort bedeutet, jemandem ein Kompliment zu machen?' }, 
-      options: [{ text: 'Compliment', isCorrect: true, icon: '💬' }, { text: 'Complement', isCorrect: false, icon: '🧩' }] 
+      options: [{ text: 'Compliment', isCorrect: true, icon: '💬' }, { text: 'Complement', isCorrect: false, icon: '🧩' }, { text: 'Complimant', isCorrect: false, icon: '❌' }, { text: 'Complemant', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 7, 
       difficulty: 1, 
       focus: 'lose vs loose', 
       questions: { en: 'Which word means to fail to win or to misplace something?', pl: 'Które słowo oznacza zgubić coś lub przegrać?', de: 'Welches Wort bedeutet, etwas zu verlieren?' }, 
-      options: [{ text: 'Lose', isCorrect: true, icon: '📉' }, { text: 'Loose', isCorrect: false, icon: '👕' }] 
+      options: [{ text: 'Lose', isCorrect: true, icon: '📉' }, { text: 'Loose', isCorrect: false, icon: '👕' }, { text: 'Looze', isCorrect: false, icon: '❌' }, { text: 'Loos', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 8, 
       difficulty: 2, 
       focus: 'accept vs except', 
       questions: { en: 'Which word means to consent to receive something?', pl: 'Które słowo oznacza akceptację lub przyjęcie czegoś?', de: 'Welches Wort bedeutet, etwas anzunehmen?' }, 
-      options: [{ text: 'Accept', isCorrect: true, icon: '✅' }, { text: 'Except', isCorrect: false, icon: '🚫' }] 
+      options: [{ text: 'Accept', isCorrect: true, icon: '✅' }, { text: 'Except', isCorrect: false, icon: '🚫' }, { text: 'Acept', isCorrect: false, icon: '❌' }, { text: 'Exept', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 9, 
       difficulty: 2, 
       focus: 'advise vs advice', 
       questions: { en: 'Which word is a VERB meaning to offer suggestions?', pl: 'Które słowo jest CZASOWNIKIEM oznaczającym doradzanie?', de: 'Welches Wort ist ein VERB und bedeutet, einen Rat zu geben?' }, 
-      options: [{ text: 'Advise', isCorrect: true, icon: '🗣️' }, { text: 'Advice', isCorrect: false, icon: '📝' }] 
+      options: [{ text: 'Advise', isCorrect: true, icon: '🗣️' }, { text: 'Advice', isCorrect: false, icon: '📝' }, { text: 'Advize', isCorrect: false, icon: '❌' }, { text: 'Advis', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 10, 
       difficulty: 2, 
       focus: 'ensure vs insure', 
       questions: { en: 'Which word means to make certain that something will happen?', pl: 'Które słowo oznacza upewnienie się, że coś się wydarzy?', de: 'Welches Wort bedeutet, sicherzustellen, dass etwas passiert?' }, 
-      options: [{ text: 'Ensure', isCorrect: true, icon: '🔒' }, { text: 'Insure', isCorrect: false, icon: '📄' }] 
+      options: [{ text: 'Ensure', isCorrect: true, icon: '🔒' }, { text: 'Insure', isCorrect: false, icon: '📄' }, { text: 'Enshure', isCorrect: false, icon: '❌' }, { text: 'Inshure', isCorrect: false, icon: '❌' }] 
     }
   ],
 
@@ -172,16 +186,18 @@ export const wordDatabaseEN = {
   ],
 
   context: [
-    { id: 1, difficulty: 3, tags: ['business'], sentence_part1: 'The committee needs to', sentence_part2: 'the long-term financial risks before proceeding.', options: [{ text: 'assess', isCorrect: true }, { text: 'access', isCorrect: false }], hints: { en: '"Assess" means to evaluate. "Access" means to enter or retrieve.', pl: '"Assess" oznacza oceniać. "Access" oznacza dostęp.' } },
-    { id: 2, difficulty: 3, tags: ['business'], sentence_part1: 'We must ensure that our supply chain remains', sentence_part2: 'despite the market volatility.', options: [{ text: 'resilient', isCorrect: true }, { text: 'resistant', isCorrect: false }], hints: { en: '"Resilient" implies bouncing back from adversity. "Resistant" means blocking it entirely.', pl: '"Resilient" oznacza odporny, potrafiący się podnieść. "Resistant" to całkowicie blokujący.' } },
-    { id: 3, difficulty: 2, tags: ['business'], sentence_part1: 'Please', sentence_part2: 'that all files are saved on the shared drive.', options: [{ text: 'ensure', isCorrect: true }, { text: 'insure', isCorrect: false }], hints: { en: '"Ensure" is to make sure. "Insure" relates to insurance policies.', pl: '"Ensure" to upewnić się. "Insure" dotyczy ubezpieczeń.' } },
-    { id: 4, difficulty: 2, tags: ['everyday'], sentence_part1: 'I will', sentence_part2: 'the offer with great pleasure.', options: [{ text: 'accept', isCorrect: true }, { text: 'except', isCorrect: false }], hints: { en: '"Accept" means to receive. "Except" means to exclude.', pl: '"Accept" to przyjąć. "Except" to z wyjątkiem.' } },
-    { id: 5, difficulty: 3, tags: ['business'], sentence_part1: 'What do you', sentence_part2: 'from the recent drop in sales?', options: [{ text: 'infer', isCorrect: true }, { text: 'imply', isCorrect: false }], hints: { en: 'To "infer" is to deduce. To "imply" is to suggest indirectly.', pl: '"Infer" to wnioskować. "Imply" to sugerować.' } },
-    { id: 6, difficulty: 2, tags: ['business'], sentence_part1: 'We will', sentence_part2: 'with the presentation after a short break.', options: [{ text: 'proceed', isCorrect: true }, { text: 'precede', isCorrect: false }], hints: { en: '"Proceed" means to continue. "Precede" means to come before.', pl: '"Proceed" to kontynuować. "Precede" to poprzedzać.' } },
-    { id: 7, difficulty: 3, tags: ['business'], sentence_part1: 'Unfortunately, his handwriting on the form was completely', sentence_part2: '.', options: [{ text: 'illegible', isCorrect: true }, { text: 'eligible', isCorrect: false }], hints: { en: '"Illegible" means unreadable. "Eligible" means qualified.', pl: '"Illegible" to nieczytelny. "Eligible" to kwalifikujący się.' } },
-    { id: 8, difficulty: 2, tags: ['business'], sentence_part1: 'The auditor conducted a very', sentence_part2: 'review of our accounts.', options: [{ text: 'thorough', isCorrect: true }, { text: 'through', isCorrect: false }], hints: { en: '"Thorough" means complete/detailed. "Through" is a preposition.', pl: '"Thorough" to dokładny. "Through" to przez.' } },
-    { id: 9, difficulty: 2, tags: ['everyday'], sentence_part1: 'She was', sentence_part2: 'employed at a marketing agency before joining us.', options: [{ text: 'formerly', isCorrect: true }, { text: 'formally', isCorrect: false }], hints: { en: '"Formerly" means previously. "Formally" means officially.', pl: '"Formerly" to dawniej. "Formally" to formalnie.' } },
-    { id: 10, difficulty: 2, tags: ['business'], sentence_part1: 'All inquiries regarding payroll should be directed to', sentence_part2: '.', options: [{ text: 'personnel', isCorrect: true }, { text: 'personal', isCorrect: false }], hints: { en: '"Personnel" refers to staff. "Personal" means private.', pl: '"Personnel" to personel. "Personal" to osobisty.' } }
+    { id: 1, difficulty: 3, tags: ['business'], sentence_part1: 'The committee needs to', sentence_part2: 'the long-term financial risks before proceeding.', options: [{ text: 'assess', isCorrect: true }, { text: 'access', isCorrect: false }, { text: 'asess', isCorrect: false }, { text: 'acess', isCorrect: false }], hints: { en: '"Assess" means to evaluate. "Access" means to enter or retrieve.', pl: '"Assess" oznacza oceniać. "Access" oznacza dostęp.' } },
+    { id: 2, difficulty: 3, tags: ['business'], sentence_part1: 'We must ensure that our supply chain remains', sentence_part2: 'despite the market volatility.', options: [{ text: 'resilient', isCorrect: true }, { text: 'resistant', isCorrect: false }, { text: 'resiliant', isCorrect: false }, { text: 'resistent', isCorrect: false }], hints: { en: '"Resilient" implies bouncing back from adversity. "Resistant" means blocking it entirely.', pl: '"Resilient" oznacza odporny, potrafiący się podnieść. "Resistant" to całkowicie blokujący.' } },
+    { id: 3, difficulty: 2, tags: ['business'], sentence_part1: 'Please', sentence_part2: 'that all files are saved on the shared drive.', options: [{ text: 'ensure', isCorrect: true }, { text: 'insure', isCorrect: false }, { text: 'enshure', isCorrect: false }, { text: 'inshure', isCorrect: false }], hints: { en: '"Ensure" is to make sure. "Insure" relates to insurance policies.', pl: '"Ensure" to upewnić się. "Insure" dotyczy ubezpieczeń.' } },
+    { id: 4, difficulty: 2, tags: ['everyday'], sentence_part1: 'I will', sentence_part2: 'the offer with great pleasure.', options: [{ text: 'accept', isCorrect: true }, { text: 'except', isCorrect: false }, { text: 'acept', isCorrect: false }, { text: 'exept', isCorrect: false }], hints: { en: '"Accept" means to receive. "Except" means to exclude.', pl: '"Accept" to przyjąć. "Except" to z wyjątkiem.' } },
+    { id: 5, difficulty: 3, tags: ['business'], sentence_part1: 'What do you', sentence_part2: 'from the recent drop in sales?', options: [{ text: 'infer', isCorrect: true }, { text: 'imply', isCorrect: false }, { text: 'inffer', isCorrect: false }, { text: 'implie', isCorrect: false }], hints: { en: 'To "infer" is to deduce. To "imply" is to suggest indirectly.', pl: '"Infer" to wnioskować. "Imply" to sugerować.' } },
+    { id: 6, difficulty: 2, tags: ['business'], sentence_part1: 'We will', sentence_part2: 'with the presentation after a short break.', options: [{ text: 'proceed', isCorrect: true }, { text: 'precede', isCorrect: false }, { text: 'procede', isCorrect: false }, { text: 'preceed', isCorrect: false }], hints: { en: '"Proceed" means to continue. "Precede" means to come before.', pl: '"Proceed" to kontynuować. "Precede" to poprzedzać.' } },
+    { id: 7, difficulty: 3, tags: ['business'], sentence_part1: 'Unfortunately, his handwriting on the form was completely', sentence_part2: '.', options: [{ text: 'illegible', isCorrect: true }, { text: 'eligible', isCorrect: false }, { text: 'illegable', isCorrect: false }, { text: 'eligable', isCorrect: false }], hints: { en: '"Illegible" means unreadable. "Eligible" means qualified.', pl: '"Illegible" to nieczytelny. "Eligible" to kwalifikujący się.' } },
+    { id: 8, difficulty: 2, tags: ['business'], sentence_part1: 'The auditor conducted a very', sentence_part2: 'review of our accounts.', options: [{ text: 'thorough', isCorrect: true }, { text: 'through', isCorrect: false }, { text: 'thoroughly', isCorrect: false }, { text: 'thru', isCorrect: false }], hints: { en: '"Thorough" means complete/detailed. "Through" is a preposition.', pl: '"Thorough" to dokładny. "Through" to przez.' } },
+    { id: 9, difficulty: 2, tags: ['everyday'], sentence_part1: 'She was', sentence_part2: 'employed at a marketing agency before joining us.', options: [{ text: 'formerly', isCorrect: true }, { text: 'formally', isCorrect: false }, { text: 'formarly', isCorrect: false }, { text: 'formely', isCorrect: false }], hints: { en: '"Formerly" means previously. "Formally" means officially.', pl: '"Formerly" to dawniej. "Formally" to formalnie.' } },
+    { id: 10, difficulty: 2, tags: ['business'], sentence_part1: 'All inquiries regarding payroll should be directed to', sentence_part2: '.', options: [{ text: 'personnel', isCorrect: true }, { text: 'personal', isCorrect: false }, { text: 'personel', isCorrect: false }, { text: 'personall', isCorrect: false }], hints: { en: '"Personnel" refers to staff. "Personal" means private.', pl: '"Personnel" to personel. "Personal" to osobisty.' } },
+    { id: 11, difficulty: 2, tags: ['everyday'], sentence_part1: 'Make sure', sentence_part2: 'ready for the presentation tomorrow.', options: [{ text: 'you\'re', isCorrect: true }, { text: 'your', isCorrect: false }, { text: 'yours', isCorrect: false }, { text: 'youre', isCorrect: false }], hints: { en: '"You\'re" is a contraction of "you are".', pl: '"You\'re" to skrót od "you are".', de: '"You\'re" ist die Abkürzung für "you are".' } },
+    { id: 12, difficulty: 3, tags: ['business'], sentence_part1: 'The speaker made an', sentence_part2: 'to the recent market trends.', options: [{ text: 'allusion', isCorrect: true }, { text: 'illusion', isCorrect: false }, { text: 'alusion', isCorrect: false }, { text: 'ilusion', isCorrect: false }], hints: { en: 'An "allusion" is an indirect reference. An "illusion" is a deception.', pl: '"Allusion" to aluzja. "Illusion" to iluzja.', de: '"Allusion" ist eine Anspielung. "Illusion" ist eine Täuschung.' } }
   ],
 
   clock: [

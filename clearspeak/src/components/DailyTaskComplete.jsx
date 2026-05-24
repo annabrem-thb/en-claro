@@ -8,11 +8,17 @@ import { useAppSettings } from '../hooks/useAppSettings';
  * A WCAG-compliant modal that reinforces competence and satisfies autonomy 
  * by letting the user choose their next virtual garden reward.
  */
-export default function DailyTaskComplete({ isOpen, onClose, language = 'pl', isHighContrast = false, noFlash = false }) {
+export default function DailyTaskComplete({ 
+  isOpen, 
+  onClose, 
+  language = 'pl', 
+  isHighContrast = false, 
+  noFlash = false,
+  bigTargets = false
+}) {
   const { selectedRewardId, chooseNextReward, unlockSelectedReward } = useGamification();
   const { theme } = useAppSettings();
   const t = useTranslation(language);
-  
   const dtc = t.dailyTaskComplete || {};
 
   const modalRef = useRef(null);
@@ -57,11 +63,12 @@ export default function DailyTaskComplete({ isOpen, onClose, language = 'pl', is
   const currentTheme = theme || 'Natur';
   const options = FALLBACK_REWARDS[currentTheme] || FALLBACK_REWARDS['Natur'];
 
+  // Resolve localized text for options based on selected language, defaulting to English
   const REWARD_OPTIONS = options.map(opt => ({
     id: opt.id,
     icon: opt.icon,
     name: opt[language]?.name || opt.en.name,
-    desc: opt[language]?.desc || opt.en.desc
+    desc: opt[language]?.desc || opt.en.desc,
   }));
 
   const handleConfirmChoice = () => {
@@ -80,7 +87,7 @@ export default function DailyTaskComplete({ isOpen, onClose, language = 'pl', is
       <section 
         ref={modalRef}
         tabIndex="-1"
-        className={`w-full max-w-lg rounded-[2rem] p-8 shadow-2xl focus:outline-none ${noFlash ? '' : 'animate-in zoom-in-95 duration-500'} ${
+        className={`w-full max-w-lg rounded-[2rem] ${bigTargets ? 'p-10' : 'p-8'} shadow-2xl focus:outline-none ${noFlash ? '' : 'animate-in zoom-in-95 duration-500'} ${
           isHighContrast 
             ? 'bg-black border-4 border-white text-white' 
             : 'bg-white border border-slate-100 text-slate-800'
@@ -89,11 +96,11 @@ export default function DailyTaskComplete({ isOpen, onClose, language = 'pl', is
         {/* Affirmative Feedback (Competence) */}
         <header className="flex flex-col items-center text-center mb-8" aria-live="polite">
           <div className={`text-6xl mb-4 drop-shadow-md ${noFlash ? '' : 'animate-bounce'}`} aria-hidden="true">🧠</div>
-          <h1 id="completion-title" className="text-3xl font-black mb-2">
-          {dtc.title || 'Excellent Effort Today!'}
+          <h1 id="completion-title" className={`${bigTargets ? 'text-4xl' : 'text-3xl'} font-black mb-2`}>
+            {dtc.title || 'Excellent Effort Today!'}
           </h1>
-          <p id="completion-description" className={`text-sm font-medium ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>
-          {dtc.desc || 'You have completed your daily practice. Your consistency is building strong foundations.'}
+          <p id="completion-description" className={`${bigTargets ? 'text-base' : 'text-sm'} font-medium ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>
+            {dtc.desc || 'You have completed your daily practice. Your consistency is building strong foundations.'}
           </p>
         </header>
 
@@ -112,16 +119,16 @@ export default function DailyTaskComplete({ isOpen, onClose, language = 'pl', is
                     role="radio"
                     aria-checked={isSelected}
                     onClick={() => chooseNextReward(option.id)}
-                    className={`w-full flex items-center gap-4 p-4 rounded-2xl border-2 transition-all active:scale-[0.98] focus-visible:ring-4 focus-visible:ring-indigo-400 focus:outline-none ${
+                    className={`w-full flex items-center gap-4 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 transition-all active:scale-[0.98] focus-visible:ring-4 focus-visible:ring-indigo-400 focus:outline-none ${
                       isSelected 
                         ? (isHighContrast ? 'bg-white text-black border-white' : 'bg-emerald-50 border-emerald-400 text-emerald-800 shadow-md')
                         : (isHighContrast ? 'bg-black text-white border-white/30 hover:border-white' : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300')
                     }`}
                   >
-                    <span className="text-3xl" aria-hidden="true">{option.icon}</span>
+                    <span className={bigTargets ? 'text-4xl' : 'text-3xl'} aria-hidden="true">{option.icon}</span>
                     <div className="text-left flex-1">
-                      <span className="block font-bold text-lg leading-none mb-1">{option.name}</span>
-                      <span className={`block text-xs ${isSelected ? (isHighContrast ? 'text-black/70' : 'text-emerald-600') : (isHighContrast ? 'text-white/60' : 'text-slate-400')}`}>
+                      <span className={`block font-bold ${bigTargets ? 'text-xl' : 'text-lg'} leading-none mb-1`}>{option.name}</span>
+                      <span className={`block ${bigTargets ? 'text-sm' : 'text-xs'} ${isSelected ? (isHighContrast ? 'text-black/70' : 'text-emerald-600') : (isHighContrast ? 'text-white/60' : 'text-slate-400')}`}>
                         {option.desc}
                       </span>
                     </div>
@@ -137,13 +144,13 @@ export default function DailyTaskComplete({ isOpen, onClose, language = 'pl', is
         <button
           onClick={handleConfirmChoice}
           disabled={!selectedRewardId}
-          className={`w-full py-5 rounded-2xl font-black uppercase tracking-widest text-sm transition-all focus-visible:ring-4 focus-visible:ring-indigo-400 focus:outline-none ${
+          className={`w-full ${bigTargets ? 'py-6 text-base' : 'py-5 text-sm'} rounded-2xl font-black uppercase tracking-widest transition-all focus-visible:ring-4 focus-visible:ring-indigo-400 focus:outline-none ${
             !selectedRewardId 
               ? 'bg-slate-100 text-slate-400 cursor-not-allowed opacity-50' 
               : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-xl')
           }`}
         >
-        {dtc.plantSeed || 'Plant Seed & Continue'}
+          {dtc.plantSeed || 'Plant Seed & Continue'}
         </button>
       </section>
     </div>

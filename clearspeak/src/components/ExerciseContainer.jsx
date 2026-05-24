@@ -1,7 +1,5 @@
-// 1. Import Voice Hook
-import { useExerciseVoice } from '../hooks/useExerciseVoice';
+import React from 'react';
 
-// 2. Import Exercise Components
 import SpatialExercise from './exercises/SpatialExercise';
 import SyllableExercise from './exercises/SyllableExercise';
 import GraphemeExercise from './exercises/GraphemeExercise';
@@ -15,26 +13,24 @@ import VisualCategorization from './exercises/VisualCategorization.jsx';
 import DictationExercise from './exercises/DictationExercise.jsx';
 import LookCoverWriteCheck from './exercises/LookCoverWriteCheck.jsx';
 
+/**
+ * ExerciseContainer Component
+ * Factory component that determines which exercise module to render 
+ * based on the unique properties of the provided task data (Duck Typing).
+ */
 export default function ExerciseContainer({ currentTask, ...commonProps }) {
   const { t, language } = commonProps;
-
-  // Setup Voice Assistant globally for all exercises
-  const { isListening, transcript, startListening } = useExerciseVoice(language, t);
 
   if (!currentTask) {
     return <div className="p-6 text-center text-slate-400">{t?.noData || 'No data'}</div>;
   }
 
-  // Inject voice properties into the props passed down from App.jsx
   const exerciseProps = {
     data: currentTask,
     ...commonProps,
-    isListening,
-    transcript,
-    startListening,
   };
 
-  // Use duck-typing feature detection because word databases lack strict 'type' properties
+  // Duck-typing feature detection to route to the appropriate educational module
   if (currentTask.sentence_part1) return <ContextExercise {...exerciseProps} />;
   if (currentTask.focus)          return <GraphemeExercise {...exerciseProps} />;
   if (currentTask.phonetic)       return <PhonemeExercise {...exerciseProps} />;

@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import AccessibleTTS from './common/AccessibleTTS.jsx';
 
-const PILLAR_ICONS = { Literacy: '📖', Visual: '👁️', Cognitive: '🧠' };
+const PILLAR_ICONS = { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' };
 
 const SidebarNav = memo(function SidebarNav({
   pillars,
@@ -62,14 +62,14 @@ const SidebarNav = memo(function SidebarNav({
             onClick={onGardenClick}
             className={`relative flex items-center justify-center md:justify-start gap-3 ${bigTargets ? 'p-4 md:p-5' : 'p-2.5 md:p-3'} rounded-2xl transition-all ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-bold' : `${themeStyles.bg} ${themeStyles.accent} font-bold shadow-sm`) : (isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-50')}`}
             aria-pressed={activeTab === 'Garden'}
-            aria-label={t.garden || "Ogród"}
+            aria-label={t.garden || "Garden"}
           >
             <span className={hideNavLabel ? 'text-2xl' : 'text-xl'} aria-hidden="true">
               {t?.levelIcons?.[theme]?.[0] || '🌱'}
             </span>
             {!hideNavLabel && (
-              <AccessibleTTS text={t.garden || "Ogród"} speak={speak} language={language} className="hidden md:flex">
-                <span className="text-xs font-bold uppercase tracking-wider truncate">{t.garden || "Ogród"}</span>
+              <AccessibleTTS text={t.garden || "Garden"} speak={speak} language={language} className="hidden md:flex">
+                <span className="text-xs font-bold uppercase tracking-wider truncate">{t.garden || "Garden"}</span>
               </AccessibleTTS>
             )}
           </button>

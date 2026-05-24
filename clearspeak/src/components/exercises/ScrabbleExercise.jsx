@@ -80,7 +80,7 @@ function ScrabbleExercise({
     } else {
       onError();
       setUserScrabble([]); // Reset on failure
-      // Odczekaj na wypowiedzenie komunikatu błędu i przeczytaj słowo docelowe jako podpowiedź
+      // Wait for the error feedback to complete, then read the target word as a hint
       setSafeTimeout(() => {
         speak(data.word, extendedTime);
       }, extendedTime ? 3500 : 2500);

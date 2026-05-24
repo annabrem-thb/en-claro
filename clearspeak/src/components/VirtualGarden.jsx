@@ -108,7 +108,7 @@ export default function VirtualGarden({
         .then((module) => {
           setVisitorAnimation(module.default);
         })
-        .catch((error) => console.warn(`Nie udało się załadować animacji Lottie dla motywu '${theme}':`, error));
+        .catch((error) => console.warn(`Failed to load Lottie animation for theme '${theme}':`, error));
     }
   }, [ecosystemState.hasVisitor, theme]);
 
@@ -175,7 +175,7 @@ export default function VirtualGarden({
       Ocean: [ { req: 3, icon: '🐚' }, { req: 7, icon: '🦀' }, { req: 14, icon: '🧜‍♀️' }, { req: 30, icon: '🔱' } ],
     };
     const monuments = themeMonuments[theme] || themeMonuments.Natur;
-    // Używamy wyższej wartości: historycznej z bazy LUB z bieżącej aktywnej sesji
+    // Use the higher value: either historical from IndexedDB OR current active session
     const effectiveStreak = Math.max(maxStreak, streak || 0);
     return monuments.filter(m => effectiveStreak >= m.req);
   }, [maxStreak, streak, theme]);
@@ -199,10 +199,6 @@ export default function VirtualGarden({
       <div className="sr-only" aria-live="polite">
         {srText}
       </div>
-
-      {isFullScreen && (
-        <div className="absolute top-6 left-6 sm:top-8 sm:left-8 text-4xl sm:text-5xl drop-shadow-md" aria-hidden="true">🧠</div>
-      )}
 
       {minimalistMode ? (
         <div className={`flex items-center gap-3 ${isFullScreen ? 'justify-center text-2xl mt-4' : 'px-2 text-sm'}`}>

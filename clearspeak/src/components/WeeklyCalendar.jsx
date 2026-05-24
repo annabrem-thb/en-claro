@@ -1,13 +1,18 @@
 import React from 'react';
 
+/**
+ * WeeklyCalendar Component
+ * Displays a 7-day progress tracker to visualize daily goal completion.
+ * Supports i18n, high contrast, reduced motion (noFlash), and large touch targets.
+ */
 const DAY_LABELS = {
   pl: ['N', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'],
   en: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
   de: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
 };
 
-const Day = ({ dayLabel, isToday, isGoalMet, isFuture, themeStyles, isHighContrast, icon }) => {
-  const baseClasses = 'w-10 h-10 rounded-full flex items-center justify-center font-black text-xs transition-all duration-300';
+const Day = ({ dayLabel, isToday, isGoalMet, isFuture, themeStyles, isHighContrast, icon, bigTargets }) => {
+  const baseClasses = `${bigTargets ? 'w-12 h-12 text-sm' : 'w-10 h-10 text-xs'} rounded-full flex items-center justify-center font-black transition-all duration-300`;
   const todayClasses = isToday ? `ring-2 ring-offset-2 ${isHighContrast ? 'ring-white ring-offset-black' : 'ring-indigo-400 ring-offset-white'}` : '';
   const statusClasses = isGoalMet
     ? (isHighContrast ? 'bg-white text-black' : `${themeStyles?.button || 'bg-indigo-500'} ${themeStyles?.buttonText || 'text-white'} shadow-md`)
@@ -16,19 +21,28 @@ const Day = ({ dayLabel, isToday, isGoalMet, isFuture, themeStyles, isHighContra
       : (isHighContrast ? 'bg-black border-2 border-white/30' : 'bg-slate-100 border-2 border-slate-200');
 
   return (
-    <div className="flex flex-col items-center gap-2 text-center" aria-label={`${dayLabel} ${isGoalMet ? 'completed' : ''}`}>
+    <div className="flex flex-col items-center gap-2 text-center" role="listitem" aria-label={`${dayLabel} ${isGoalMet ? 'completed' : 'incomplete'}`}>
       <div className={`${baseClasses} ${statusClasses} ${todayClasses}`} aria-hidden="true">
         {isGoalMet && (icon || '✓')}
       </div>
-      <span className={`text-xs font-bold ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`} aria-hidden="true">
+      <span className={`${bigTargets ? 'text-sm' : 'text-xs'} font-bold ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`} aria-hidden="true">
         {dayLabel}
       </span>
     </div>
   );
 };
 
-// Adding the 'export' keyword here resolves the Vite import error
-export function WeeklyCalendar({ dailyProgress = {}, dailyGoal, t, themeStyles, isHighContrast, theme, noFlash = false }) {
+export function WeeklyCalendar({ 
+  dailyProgress = {}, 
+  dailyGoal, 
+  t, 
+  themeStyles, 
+  isHighContrast, 
+  theme, 
+  noFlash = false,
+  bigTargets = false,
+  language = 'en'
+}) {
   const today = new Date();
   
   // Generate the last 7 days including today
@@ -38,12 +52,17 @@ export function WeeklyCalendar({ dailyProgress = {}, dailyGoal, t, themeStyles, 
     return date;
   });
 
-  const labels = DAY_LABELS[t?.language || 'de'] || DAY_LABELS.de;
+  // Resolve correct localized day initials with a safe fallback
+  const labels = DAY_LABELS[language] || DAY_LABELS[t?.language] || DAY_LABELS.en;
   const icon = t?.levelIcons?.[theme]?.[0] || '✨';
 
   return (
-    <div className={`w-full p-4 rounded-3xl mt-8 ${noFlash ? '' : 'animate-in fade-in duration-500 delay-700'} ${isHighContrast ? 'bg-black border border-white/20' : 'bg-white border border-slate-100'}`}>
-      <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 text-center">
+    <div 
+      className={`w-full ${bigTargets ? 'p-6' : 'p-4'} rounded-3xl mt-8 ${noFlash ? '' : 'animate-in fade-in duration-500 delay-700'} ${isHighContrast ? 'bg-black border border-white/20' : 'bg-white border border-slate-100 shadow-sm'}`}
+      role="list"
+      aria-label={t?.dailyGoalProgress || 'Daily Goal Progress'}
+    >
+      <h3 className={`${bigTargets ? 'text-sm mb-6' : 'text-xs mb-4'} font-black uppercase tracking-widest text-slate-400 text-center`}>
         {t?.dailyGoalProgress || 'Daily Goal Progress'}
       </h3>
       <div className="flex justify-around items-start">
@@ -57,7 +76,8 @@ export function WeeklyCalendar({ dailyProgress = {}, dailyGoal, t, themeStyles, 
             <Day 
               key={index} dayLabel={dayLabel} isToday={isToday} 
               isGoalMet={isGoalMet} isFuture={isFuture} 
-              themeStyles={themeStyles} isHighContrast={isHighContrast} icon={icon} 
+              themeStyles={themeStyles} isHighContrast={isHighContrast} icon={icon}
+              bigTargets={bigTargets}
             />
           );
         })}

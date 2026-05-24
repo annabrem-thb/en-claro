@@ -12,6 +12,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n/i18n.js';
 import { useGamification } from './GamificationContext.jsx';
+import AnalyticsDashboard from './AnalyticsDashboard.jsx';
+import BionicText from './common/BionicText.jsx';
 
 // ─── Theme shop config ────────────────────────────────────────────────────────
 const THEME_CONFIG = {
@@ -128,6 +130,8 @@ function SettingsModal({
   const [voices, setVoices] = useState([]);
   const [userSelectedTab, setUserSelectedTab] = useState('general');
 
+  const bionicReading = !!inclusiveOptions?.bionicReading;
+
   // If gamification is turned off while the user is on the "Game" tab,
   // derive the active tab to be "general" to avoid showing an empty screen.
   const activeTab = (!isGamified && userSelectedTab === 'shop')
@@ -184,6 +188,11 @@ function SettingsModal({
     setA11yAddons?.((prev) =>
       prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
     );
+  };
+
+  // ─── Inclusive options toggle ───────────────────────────────────────────
+  const toggleInclusive = (key) => {
+    setInclusiveOptions?.((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   // ─── Theme purchase / equip ─────────────────────────────────────────────
@@ -283,6 +292,15 @@ function SettingsModal({
               >
                 {s.tabVoice}
               </button>
+            <button
+                onClick={() => setUserSelectedTab('analytics')}
+                aria-current={activeTab === 'analytics' ? 'step' : undefined}
+                className={`flex-1 ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-2 ${
+                  activeTab === 'analytics' ? (isHighContrast ? 'bg-black border border-white text-white' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
+                }`}
+              >
+              {s.tabAnalytics || 'Analytics'}
+              </button>
             {isGamified && (
                   <button
                     onClick={() => setUserSelectedTab('shop')}
@@ -300,7 +318,7 @@ function SettingsModal({
             <div className="flex flex-col gap-6 animate-in fade-in duration-300">
               {/* ── 1. LANGUAGE ──────────────────────────────────────────────── */}
               <section>
-                <SectionLabel isHighContrast={isHighContrast}>{s.language}</SectionLabel>
+                <SectionLabel isHighContrast={isHighContrast} bionicReading={bionicReading}>{s.language}</SectionLabel>
                 <div className="flex gap-2">
                   {[
                     { code: 'pl', flag: '🇵🇱', label: 'PL' },
@@ -344,7 +362,7 @@ function SettingsModal({
                       {s.v1Label}
                     </span>
                     <span className={`text-[10px] leading-tight block ${!isGamified ? (isHighContrast ? 'text-white/80' : 'text-slate-300') : (isHighContrast ? 'text-white/50' : 'text-slate-400')}`}>
-                      {s.v1Desc}
+                    <BionicText text={s.v1Desc} enabled={bionicReading} />
                     </span>
                     {!isGamified && (
                       <span className={`mt-2 block text-[9px] font-black uppercase tracking-widest rounded-full px-2 py-0.5 w-fit ${isHighContrast ? 'bg-white text-black' : 'bg-white/20 text-white/90'}`}>
@@ -368,7 +386,7 @@ function SettingsModal({
                       {s.v2Label}
                     </span>
                     <span className={`text-[10px] leading-tight block ${isGamified ? (isHighContrast ? 'text-white/80' : 'text-emerald-600') : (isHighContrast ? 'text-white/50' : 'text-slate-400')}`}>
-                      {s.v2Desc}
+                    <BionicText text={s.v2Desc} enabled={bionicReading} />
                     </span>
                     {isGamified && (
                       <span className={`mt-2 block text-[9px] font-black uppercase tracking-widest rounded-full px-2 py-0.5 w-fit ${isHighContrast ? 'bg-white text-black' : 'bg-emerald-400 text-white'}`}>
@@ -381,7 +399,7 @@ function SettingsModal({
 
               {/* ── 3. A11Y ADDONS ───────────────────────────────────────────── */}
               <section>
-                <SectionLabel isHighContrast={isHighContrast} sub={s.a11yAddonsDesc}>{s.a11yAddons}</SectionLabel>
+                <SectionLabel isHighContrast={isHighContrast} sub={s.a11yAddonsDesc} bionicReading={bionicReading}>{s.a11yAddons}</SectionLabel>
                 <div className="flex flex-col gap-2">
                   {A11Y_ADDONS.map((profile) => {
                     const isActive = a11yAddons.includes(profile.key);
@@ -406,10 +424,12 @@ function SettingsModal({
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
                             <span className={`text-xs font-black uppercase tracking-wider ${isActive ? (isHighContrast ? 'text-white' : c.text) : (isHighContrast ? 'text-white/70' : 'text-slate-700')}`}>
-                              {info.name}
+                              <BionicText text={info.name} enabled={bionicReading} />
                             </span>
                           </div>
-                  <span className={`text-xs font-medium leading-tight block mt-1 break-words ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{info.desc}</span>
+                          <span className={`text-xs font-medium leading-tight block mt-1 break-words ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>
+                            <BionicText text={info.desc} enabled={bionicReading} />
+                          </span>
                           <div className="flex gap-1 mt-1 flex-wrap">
                             {profile.tags.map((tag) => (
                       <span key={tag} className={`text-[10px] md:text-xs font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${
@@ -429,6 +449,61 @@ function SettingsModal({
                       </button>
                     );
                   })}
+
+                  <div className={`h-px my-2 ${isHighContrast ? 'bg-white/20' : 'bg-slate-200'}`} />
+
+                  {[
+                    { key: 'bionicReading', icon: '👁️', color: 'teal', tags: ['wzrok', 'bionic'], fallbackName: 'Bionic Reading', fallbackDesc: 'Pogrubia początki wyrazów ułatwiając fiksację wzroku.' },
+                    { key: 'voiceAssistant', icon: '🗣️', color: 'violet', tags: ['słuch', 'asystent'], fallbackName: 'Asystent Głosowy', fallbackDesc: 'Odczytuje polecenia i pozwala na sterowanie głosem.' },
+                    { key: 'zenMode', icon: '🧘', color: 'green', tags: ['skupienie', 'redukcja'], fallbackName: 'Tryb Zen', fallbackDesc: 'Ukrywa zbędne grafiki dla pełnego skupienia.' }
+                  ].map((profile) => {
+                    const isActive = !!inclusiveOptions[profile.key];
+                    const c = COLOR[profile.color];
+                    const name = s.a11y?.[profile.key]?.name || s.intro?.[profile.key === 'bionicReading' ? 'bionic' : profile.key === 'voiceAssistant' ? 'voice' : 'zen'] || profile.fallbackName;
+                    const desc = s.a11y?.[profile.key]?.desc || profile.fallbackDesc;
+                    return (
+                      <button
+                        key={profile.key}
+                        onClick={() => toggleInclusive(profile.key)}
+                        className={`flex items-center gap-3 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 transition-all active:scale-[0.98] text-left ${
+                          isActive
+                            ? (isHighContrast ? 'border-white bg-white/20 text-white shadow-sm' : `${c.ring} shadow-sm`)
+                            : (isHighContrast ? 'border-white/30 bg-black' : 'border-slate-100 bg-white hover:border-slate-200')
+                        }`}
+                        aria-pressed={isActive}
+                      >
+                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0 border ${
+                          isActive ? (isHighContrast ? 'bg-black border-white' : 'bg-white border-current/20') : (isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100')
+                        }`} aria-hidden="true">
+                          {profile.icon}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className={`text-xs font-black uppercase tracking-wider ${isActive ? (isHighContrast ? 'text-white' : c.text) : (isHighContrast ? 'text-white/70' : 'text-slate-700')}`}>
+                              <BionicText text={name} enabled={bionicReading} />
+                            </span>
+                          </div>
+                          <span className={`text-xs font-medium leading-tight block mt-1 break-words ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>
+                            <BionicText text={desc} enabled={bionicReading} />
+                          </span>
+                          <div className="flex gap-1 mt-1 flex-wrap">
+                            {profile.tags.map((tag) => (
+                              <span key={tag} className={`text-[10px] md:text-xs font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${
+                                isActive ? (isHighContrast ? 'bg-white text-black' : c.badge) : (isHighContrast ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-400')
+                              }`}>
+                                {s.tags?.[tag] || tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
+                          isActive ? (isHighContrast ? 'border-white bg-white text-black' : `border-current ${c.ring} text-current`) : (isHighContrast ? 'border-white/50 bg-black' : 'border-slate-200 bg-white')
+                        }`}>
+                          {isActive && <span className="text-xs font-black">✓</span>}
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </section>
             </div>
@@ -437,7 +512,7 @@ function SettingsModal({
           {activeTab === 'voice' && (
             <div className="flex flex-col gap-6 animate-in fade-in duration-300">
               <section>
-                <SectionLabel isHighContrast={isHighContrast} sub={s.voiceDesc}>{s.voiceOptions}</SectionLabel>
+                <SectionLabel isHighContrast={isHighContrast} sub={s.voiceDesc} bionicReading={bionicReading}>{s.voiceOptions}</SectionLabel>
                 <div className="flex flex-col gap-4">
                   
                   {/* Voice Speed Slider */}
@@ -516,7 +591,7 @@ function SettingsModal({
                     }}
                     className={`w-full mt-2 ${bigTargets ? 'py-4 text-sm' : 'py-3 text-xs'} rounded-xl font-bold transition-all active:scale-95 ${isHighContrast ? 'bg-transparent border-2 border-white/50 text-white/80 hover:bg-white/10' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
                   >
-                    {s.resetTTS || 'Przywróć domyślne ustawienia TTS'}
+                  {s.resetTTS || 'Reset TTS to default'}
                   </button>
                 </div>
               </section>
@@ -527,7 +602,7 @@ function SettingsModal({
             <div className="flex flex-col gap-6 animate-in fade-in duration-300">
               {/* ── 6. THEME SHOP — only in V2 ───────────────────────────────── */}
               <section>
-                <SectionLabel isHighContrast={isHighContrast} sub={s.themeShopDesc}>{s.themeShop}</SectionLabel>
+                <SectionLabel isHighContrast={isHighContrast} sub={s.themeShopDesc} bionicReading={bionicReading}>{s.themeShop}</SectionLabel>
                 <div className="flex flex-col gap-2">
                   {Object.entries(THEME_CONFIG).map(([themeKey, config]) => {
                     const isUnlocked = unlockedThemes.includes(themeKey);
@@ -556,7 +631,7 @@ function SettingsModal({
                             {config.icon}
                           </div>
                           <span className={`font-black text-sm ${isSelected ? (isHighContrast ? 'text-white' : 'text-emerald-700') : (isHighContrast ? 'text-white' : 'text-slate-700')}`}>
-                            {localName}
+                            <BionicText text={localName} enabled={bionicReading} />
                           </span>
                         </div>
 
@@ -586,6 +661,12 @@ function SettingsModal({
     
               <div className={`h-px my-1 ${isHighContrast ? 'bg-white/20' : 'bg-slate-100'}`} />
     
+            </div>
+          )}
+
+          {activeTab === 'analytics' && (
+            <div className="flex flex-col gap-6 animate-in fade-in duration-300">
+              <AnalyticsDashboard isHighContrast={isHighContrast} t={s} />
             </div>
           )}
 

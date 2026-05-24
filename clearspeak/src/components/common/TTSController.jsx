@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useAppSettings } from '../../hooks/useAppSettings';
 
 /**
- * Komponent kontrolujący odczytywanie na głos, uwzględniający pauzę/wznowienie 
- * oraz synchronizację z podświetlaniem (np. używając hooka useSafeTimeouts).
+ * TTSController Component
+ * Manages text-to-speech execution, supporting pause/resume actions
+ * and synchronization with UI highlighting timeouts.
  */
 export default function TTSController({
   onReadAloud,
@@ -23,8 +24,8 @@ export default function TTSController({
   };
   const l = fallbacks[language] || fallbacks.en;
 
-  // Nasłuchiwanie stanu Web Speech API (omija bugi z eventami w Android/iOS)
-  // Pozwala dynamicznie odświeżać ikonę gdy asystent skończy mówić
+  // Polling Web Speech API state bypasses known event bugs on Android/iOS
+  // and allows for dynamic icon updates when the assistant finishes speaking
   useEffect(() => {
     const interval = setInterval(() => {
       setIsSpeaking(window.speechSynthesis.speaking);
@@ -35,15 +36,15 @@ export default function TTSController({
 
   const handleToggle = () => {
     if (!isSpeaking) {
-      // Start odczytu
+      // Start reading
       onReadAloud();
     } else if (isPaused) {
-      // Wznowienie głosu i wstrzymanych podświetleń
+      // Resume speech and internal highlighting
       window.speechSynthesis.resume();
       if (resumeAllTimeouts) resumeAllTimeouts();
       setIsPaused(false);
     } else {
-      // Pauzowanie głosu i zamrożenie podświetleń
+      // Pause speech and freeze highlights
       window.speechSynthesis.pause();
       if (pauseAllTimeouts) pauseAllTimeouts();
       setIsPaused(true);

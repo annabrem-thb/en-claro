@@ -1,6 +1,4 @@
-// SyllableExercise.jsx — a11y-aware with Shared Voice Logic, Bionic Reading, and Zen Mode
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-// Importing shared utilities for a cleaner, DRY (Don't Repeat Yourself) architecture
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
@@ -29,7 +27,6 @@ function SyllableExercise({
   const [cuts, setCuts] = useState([]);
   const [isResolved, setIsResolved] = useState(false);
 
-  // Centralized voice logic using custom hook
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
     t,
@@ -50,7 +47,7 @@ function SyllableExercise({
     };
   }, [clearAudioTimeouts]);
 
-  // Mapowanie indeksu litery na indeks sylaby (potrzebne do animacji podświetlania)
+  // Map character index to syllable index for highlighting animations
   const charToSyl = useMemo(() => {
     if (!data.segments || !data.word) return [];
     const mapping = [];
@@ -100,7 +97,7 @@ function SyllableExercise({
     } else {
       onError();
       setCuts([]); // Reset on failure
-      // Odczekaj na wypowiedzenie komunikatu błędu i zaprezentuj poprawny podział
+      // Wait for the error feedback to finish, then present the correct segmentation
       setSafeTimeout(() => {
         playSyllables();
       }, extendedTime ? 3500 : 2500);
@@ -150,7 +147,6 @@ function SyllableExercise({
 
   const wordChars = data.word.split('');
 
-  // Dynamic styling based on accessibility props
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
   const bounceClass = noFlash ? '' : 'animate-bounce';
   const charSize = bigTargets ? 'text-7xl' : 'text-6xl';
@@ -206,7 +202,7 @@ function SyllableExercise({
         </div>
       )}
 
-      {/* 2.5 Phonetic Hint Bubble (Pojawia się synchronicznie z odczytem TTS) */}
+      {/* 2.5 Phonetic Hint Bubble (Synchronized with TTS readout) */}
       <div className="h-8 mb-4 flex items-center justify-center w-full">
         {activeHighlight !== null && (
           (() => {

@@ -1,6 +1,4 @@
-// SequenceExercise.jsx — a11y-aware with Pure Render Logic and Voice Commands
 import React, { useState, useCallback, useEffect } from 'react';
-// Importing shared utilities
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { seededShuffle } from '../../utils/shuffleUtils.js';
@@ -24,10 +22,8 @@ function SequenceExercise({
   bionicReading = false,
   zenMode = false,
 }) {
-  // --- 1. State Management ---
   const [prevId, setPrevId] = useState(data.id || data.correct);
 
-  // Initial state setup helper
   const prepareWords = (correctData, id, scrambledData, distractors = []) => {
     let baseArray = [];
     if (scrambledData && Array.isArray(scrambledData)) {
@@ -57,9 +53,8 @@ function SequenceExercise({
     prepareWords(data.correct, data.id, data.scrambled),
   );
 
-  // --- 2. Pure State Adjustment ---
-  // We check for ID changes during render. Because prepareWords is now PURE
-  // (using seededShuffle), this is safe and follows React's best practices.
+  // Check for task ID changes during render. 
+  // prepareWords is pure (uses seededShuffle), so this follows React's best practices.
   const currentId = data.id || data.correct;
   if (currentId !== prevId) {
     setTaskWords(prepareWords(data.correct, currentId, data.scrambled));
@@ -81,13 +76,11 @@ function SequenceExercise({
     };
   }, [clearAllTimeouts]);
 
-  // --- 3. Shared Hooks ---
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
     t,
   );
 
-  // --- 4. Core Logic ---
   const handleSelect = useCallback((wordObj) => {
     if (isShowingCorrection) return;
     clearAllTimeouts();
@@ -128,13 +121,13 @@ function SequenceExercise({
           ? data.correct.split(' ')
           : [];
 
-      // Prezentacja poprawnej odpowiedzi (tymczasowe ustawienie)
+      // Present the correct answer temporarily
       setTaskWords({
         available: [],
         selected: wordsArray.map((w, i) => ({ id: `correct-${i}`, text: w })),
       });
 
-      // Odczekanie na komunikat błędu i odczytanie poprawnej sekwencji
+      // Wait for the error feedback, then read the correct sequence
       setSafeTimeout(() => {
         speak(correctSentence, extendedTime);
 
@@ -146,12 +139,11 @@ function SequenceExercise({
             selected: [],
           });
           setIsShowingCorrection(false);
-        }, correctSentence.length * (extendedTime ? 90 : 65) + 2000);
+        }, correctSentence.length * (extendedTime ? 100 : 75) + 2000);
       }, extendedTime ? 3500 : 2500);
     }
   }, [selectedWords, data.correct, data.distractors, onSuccess, onError, clearAllTimeouts, setSafeTimeout, speak, extendedTime, isShowingCorrection]);
 
-  // --- 5. Voice Callbacks ---
   const targetLength = Array.isArray(data.correct)
     ? data.correct.length
     : typeof data.correct === 'string'
@@ -182,10 +174,14 @@ function SequenceExercise({
     }
   };
 
-  // --- 6. Read Aloud Logic ---
   const readAvailableWords = () => {
-    const silentPause = ' ... , , , ... ';
-    let spokenText = `${data.instruction || t.orderCorrectly}${silentPause}`;
+    window.speechSynthesis.cancel();
+    clearAllTimeouts();
+
+    const instruction = data.instruction || t.orderCorrectly || '';
+    speak(instruction, extendedTime);
+
+    let delayAcc = instruction.length * (extendedTime ? 100 : 75) + 1500;
 
     availableWords.forEach((wordObj, index) => {
       const optionPrefix =
@@ -194,13 +190,27 @@ function SequenceExercise({
           en: `Word ${index + 1}: `,
           de: `Wort ${index + 1}: `,
         }[language] || `Word ${index + 1}: `;
-      spokenText += `${optionPrefix} ${wordObj.text}. `;
-    });
 
-    speak(spokenText, extendedTime);
+      // Remove colon from the prefix to prevent the TTS engine from cutting the sentence short
+      const spokenPrefix = optionPrefix.replace(':', '.');
+      const fullSpokenText = `${spokenPrefix} ${wordObj.text}`;
+
+      // Calculate the pause duration based on the SPOKEN text length
+      const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
+
+      setSafeTimeout(() => {
+        setActiveHighlight(wordObj.id);
+        speak(fullSpokenText);
+      }, delayAcc);
+
+      setSafeTimeout(() => {
+        setActiveHighlight((prev) => (prev === wordObj.id ? null : prev));
+      }, delayAcc + stepDuration - 200);
+
+      delayAcc += stepDuration;
+    });
   };
 
-  // Styling
   const animClass = noFlash
     ? ''
     : 'animate-in slide-in-from-bottom duration-500';

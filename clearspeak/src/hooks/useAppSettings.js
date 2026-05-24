@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 
 /**
- * Zarządza globalnymi ustawieniami aplikacji i synchronizuje je z localStorage.
+ * useAppSettings Hook
+ * 
+ * Core configuration manager. Handles global application settings and 
+ * automatically synchronizes them with localStorage. Uses lazy initialization 
+ * to prevent redundant storage reads during re-renders.
  */
 export function useAppSettings() {
   const [language, setLanguage] = useState(() => localStorage.getItem('cfg_lang') || 'de');
@@ -25,7 +29,7 @@ export function useAppSettings() {
   const [dailyGoal, setDailyGoal] = useState(() => Number(localStorage.getItem('cfg_goal')) || 5);
   const [userDifficulty, setUserDifficulty] = useState(() => Number(localStorage.getItem('cfg_difficulty')) || 2);
 
-  // Zapis do localStorage przy zmianie jakiegokolwiek z ustawień
+  // Persist settings to localStorage whenever any configuration changes
   useEffect(() => {
     localStorage.setItem('cfg_lang', language);
     localStorage.setItem('cfg_theme', theme);

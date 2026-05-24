@@ -7,21 +7,21 @@ export default function BionicText({ text, children, className = '', enabled }) 
 
   const isBionic = enabled !== undefined ? enabled : inclusiveOptions?.bionicReading;
 
-  // Jeśli tryb jest wyłączony lub podano coś innego niż tekst, zwracamy oryginał
+  // Return original content if Bionic Reading is disabled or content is not a string
   if (!isBionic || typeof content !== 'string') {
     return <span className={className}>{content}</span>;
   }
 
-  // Dzielimy tekst na wyrazy, zachowując spacje jako osobne elementy tablicy
+  // Split text into words while preserving spaces as separate array elements
   const words = content.split(/(\s+)/);
 
   const bionicContent = words.map((word, index) => {
-    // Jeśli to są tylko spacje, po prostu je renderujemy
+    // Render whitespace characters as-is
     if (/^\s+$/.test(word)) {
       return word;
     }
 
-    // Algorytm Bionic Reading: wyliczamy połowę długości słowa
+    // Bionic Reading Algorithm: calculate the midpoint of the word to bold the first half
     const mid = Math.ceil(word.length / 2);
     
     const boldPart = word.slice(0, mid);

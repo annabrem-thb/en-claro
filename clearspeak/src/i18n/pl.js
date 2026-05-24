@@ -1,9 +1,9 @@
 export default {
-  // Ogólne i Nawigacja
+  // General & Navigation
   appTitle: "Claro",
   introSubtitle: "Zbuduj swój most do biegłości.",
 
-  // Ekran powitalny (Intro)
+  // Intro Screen
   intro: {
     subtitle: "Twoja bezpieczna przestrzeń do rozwoju! Wybierz tryb i narzędzia:",
     chooseLanguage: "Język",
@@ -53,7 +53,7 @@ export default {
   exerciseAria: "Ćwiczenie",
   readAloudTitle: "Czytaj na głos",
 
-  // Komunikaty i Powiadomienia
+  // Messages & Notifications
   successMsg: ["Świetnie!", "Doskonale!", "Wspaniale!", "Super!"],
   errorMsg: ["Przeanalizujmy to razem.", "Spróbujmy jeszcze raz.", "Prawie dobrze, spójrz jeszcze raz."],
   streakMsg: [
@@ -67,7 +67,7 @@ export default {
   levelUpDesc: "Kolejny cel został pomyślnie zrealizowany.",
   hint: "Podpowiedź",
 
-  // Asystent Głosowy (TTS)
+  // Voice Assistant (TTS)
   voice: {
     success: ["Doskonale", "Świetnie", "Wspaniale", "Znakomicie"],
     error: ["Przeanalizujmy to razem", "Spróbujmy jeszcze raz", "Prawie dobrze, spójrz jeszcze raz"],
@@ -93,7 +93,7 @@ export default {
   voiceSelectionAria: "Wybór głosu",
   ttsSettingsAria: "Ustawienia mowy (TTS)",
 
-  // Ustawienia (Settings)
+  // Settings
   settings: "Ustawienia",
   settingsTitle: "Ustawienia",
   settingsSubtitle: "Claro · Dostępna Grywalizacja",
@@ -104,6 +104,7 @@ export default {
   tabGeneral: "Ogólne",
   tabA11y: "Komfort",
   tabVoice: "Głos",
+  tabAnalytics: "Analityka",
   tabShop: "Sklep",
   tabGame: "Gra",
   language: "Język",
@@ -114,7 +115,7 @@ export default {
   v2Label: "Grywalizacja",
   v2Desc: "Punkty, monety i nagrody",
   
-  // Dostępność (A11y)
+  // Accessibility (A11y) & Inclusive Options
   a11yBase: "Tryb bazowy — zawsze aktywny",
   a11yBaseDesc: "Przyjazna czcionka (OpenDyslexic), zwiększone odstępy, łagodne kremowe tło",
   a11yAddons: "Opcje personalizacji komfortu",
@@ -157,7 +158,7 @@ export default {
   },
   accDescriptions: { Standard: "Widok domyślny", Kontrast: "Tryb wysokiego kontrastu", LRS: "Przyjazna czcionka", Motorik: "Wygodne przyciski" },
 
-  // Grywalizacja, Motywy i Ogród
+  // Gamification, Themes & Garden
   versionGamified: "GRYWALIZACJA",
   versionGamifiedSub: "Punkty i nagrody",
   versionBase: "PODSTAWA",
@@ -189,7 +190,7 @@ export default {
   srTrophies: "Dzięki wytrwałości w ogrodzie pojawiły się {count} unikalne obiekty.",
   rewardItems: { Natur: ["💎", "🏆", "💡", "📈", "🎯"], Musik: ["💎", "🏆", "💡", "📈", "🎯"], Kunst: ["💎", "🏆", "💡", "📈", "🎯"], Space: ["💎", "🏆", "💡", "📈", "🎯"], Ocean: ["💎", "🏆", "💡", "📈", "🎯"] },
   
-  // Postępy i Analityka
+  // Progress & Analytics
   dailyGoal: "Cel dzienny",
   goal5: "5 min — Szybka powtórka",
   goal10: "10 min — Dobry nawyk",
@@ -229,20 +230,20 @@ export default {
   },
   mapTitle: "Mapa Wyzwań", choosePath: "Wybierz swoją ścieżkę", nextLevel: "Następny etap", lockedNode: "Zablokowane", completedNode: "Ukończone", backToMap: "Wróć do mapy", energyTitle: "Energia Poznawcza", breakTitle: "Czas na przerwę?", breakDesc: "Zauważyliśmy, że intensywnie pracujesz. Odpocznij w ogrodzie, aby zregenerować siły i zapobiec zmęczeniu.", takeBreakBtn: "Odpoczywam (+2 💰)", continueBtn: "Ćwiczę dalej",
   
-  // Treść Ćwiczeń
+  // Exercise Content & Prompts
   pillars: { Literacy: "Czytanie i Pisanie", Visual: "Wzrok i Przestrzeń", Cognitive: "Logika i Pamięć" },
-  pillarIcons: { Literacy: '📖', Visual: '👁️', Cognitive: '🧠' },
+  pillarIcons: { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' },
   categories: { Phonem: "Słowo: Dźwięki", Syllable: "Słowo: Sylaby", Context: "Tekst: Czytanie", Graphem: "Zapis: Reguły", Scrabble: "Zapis: Synteza", LCWC: "Zapis: Pamięć", Dictation: "Zapis: Dyktanda", Tracking: "Wzrok: Śledzenie", Clock: "Wzrok: Zegar", Categorization: "Logika: Kategorie", Sequence: "Logika: Sekwencje" },
   difficulty: "Poziom trudności",
   diffLevels: ["Łatwy", "Średni", "Trudny"],
   questLabel: (target, type, pillars) => `Wyzwanie (${target}): ${type === 'Any' ? 'Dowolne' : pillars[type] || type}`,
   trackAndMatch: "Podążaj za podświetleniem i wskaż kierunek", orderCorrectly: "Ułóż w odpowiedniej kolejności", undo: "Cofnij", tempoLabel: "Typ czytania", normalMode: "Normalne", slowMode: "Wolne", spellMode: "Literowanie", readAloud: "Czytaj na głos", syllablesListen: "Posłuchaj sylab", check: "Sprawdź", delete: "Usuń", tapToSpeak: "Dotknij, aby mówić", listening: "Słucham...", collectedLabel: "Zebrane", selectCorrect: "Wybierz poprawne słowo:", tapToBuild: "Wybierz słowa w odpowiedniej kolejności", listenCarefully: "Słuchaj uważnie słowa.", readyToSegment: "Jestem gotowy/a na podział", tapBoxesInstruction: "Dotknij pól, wymawiając każdy pojedynczy dźwięk.", completeExercise: "Zakończ ćwiczenie", playAudio: "Odtwórz dźwięk", lookAndListen: "Spójrz na słowo i posłuchaj jego wymowy.", studiedWord: "Przestudiowałem/am słowo", sayWordAloud: "Powiedz słowo głośno.", breakIntoSounds: "Podziel je na pojedyncze dźwięki.", takeYourTime: "Nie spiesz się. Poczuj kształt dźwięków w ustach przed pisaniem.", coverAndWrite: "Zakryj słowo i napisz", typeFromMemory: "Wpisz słowo z pamięci.", typeHere: "Wpisz tutaj...", checkSpelling: "Sprawdź moją pisownię", compareSpelling: "Porównaj swoją pisownię:", targetWord: "Słowo docelowe", yourSpelling: "Twoja pisownia", spelledCorrectly: "Tak, napisałem/am poprawnie!", tryAgain: "Muszę spróbować ponownie", listenToPhonemes: "Posłuchaj rozdzielonych dźwięków.", typeBlendedWord: "Wpisz słowo, które tworzą te dźwięki.", blendSounds: "Jestem gotowy/a połączyć dźwięki", readParagraph: "Przeczytaj uważnie poniższy tekst.", paragraphRead: "Skończyłem/am czytać", rtSummarize: "Podsumuj", rtSummarizeDesc: "Jaka była główna myśl tego tekstu?", rtQuestion: "Zapytaj", rtQuestionDesc: "Zadaj pytanie o coś niejasnego lub interesującego w tekście.", rtClarify: "Wyjaśnij", rtClarifyDesc: "Zidentyfikuj niezrozumiałe słowa lub zwroty i wyjaśnij je swoimi słowami.", rtPredict: "Przewiduj", rtPredictDesc: "Jak myślisz, co wydarzy się dalej lub jaki jest logiczny wniosek?", heard: "Usłyszano", voiceInput: "Wprowadzanie głosowe", speakOptionNumber: "Wymów numer opcji", speakTileNumber: "Wymów numer kafelka", speakGapNumber: "Wymów numer przerwy, by przeciąć", tapAndPronounce: "Naciśnij i wymów słowo", skipPronunciation: "Pomiń sprawdzanie wymowy", readSentenceAndOptions: "Przeczytaj zdanie i opcje", removeCut: (pos) => `Usuń cięcie w pozycji ${pos}`, addCut: (pos) => `Dodaj cięcie w pozycji ${pos}`,
   
-  // Informacje dodatkowe
+  // Additional Information
   thesisInfo: "Praca Magisterska\nDostępna Grywalizacja i Integracja Głosowa\nw PWA wspierającym ćwiczenia logopedyczne\ndla osób z dysleksją",
   tags: { kontrast: "kontrast", wzrok: "wzrok", motor: "motor", dotyk: "dotyk", zoom: "zoom", kolor: "kolor", ruch: "ruch", epilepsja: "epilepsja", linijka: "skupienie" },
 
-  // PWA i UI
+  // PWA & UI
   pwaNewVersion: "Nowa wersja",
   pwaDescription: "Dostępna jest nowa treść. Zaktualizuj aplikację, aby pobrać najnowsze zmiany do trybu offline.",
   pwaUpdate: "Aktualizuj",
@@ -252,7 +253,7 @@ export default {
   prevPage: "← Poprzednia",
   nextPage: "Następna →",
 
-  // Rozpoznawanie mowy (Komendy i synonimy)
+  // Voice Recognition (Commands and Synonyms)
   commands: {
     next: ["dalej", "następne", "kontynuuj", "gotowe"],
     check: ["sprawdź", "zatwierdź"],

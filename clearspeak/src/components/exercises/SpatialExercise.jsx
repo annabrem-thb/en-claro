@@ -1,6 +1,4 @@
-// SpatialExercise.jsx — a11y-aware with Shared Voice Logic, Bionic Reading, and Zen Mode
 import React, { useState, useEffect, useCallback } from 'react';
-// Importing shared components and hooks to maintain a professional, clean architecture
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
@@ -51,7 +49,7 @@ function SpatialExercise({
 
   const currentItem = data.items[currentIndex];
 
-  // Opóźniona informacja zwrotna po błędzie ze wskazaniem wizualnym
+  // Delayed feedback on error with visual indication
   const handleMistake = useCallback(() => {
     onError();
     setSafeTimeout(() => {
@@ -73,7 +71,7 @@ function SpatialExercise({
 
         setSafeTimeout(() => {
           setActiveHighlight(null);
-        }, cleanLabel.length * (extendedTime ? 90 : 65) + 1500);
+        }, cleanLabel.length * (extendedTime ? 100 : 75) + 1500);
       }
     }, extendedTime ? 3500 : 2500);
   }, [onError, setSafeTimeout, clearAudioTimeouts, data, currentIndex, speak, extendedTime]);
@@ -121,7 +119,7 @@ function SpatialExercise({
     clearAudioTimeouts();
 
     speak(data.instruction, extendedTime);
-    let delayAcc = (data.instruction || '').length * (extendedTime ? 90 : 65) + 1500;
+    let delayAcc = (data.instruction || '').length * (extendedTime ? 100 : 75) + 1500;
 
     data.options.forEach((opt, index) => {
       const optionPrefix =
@@ -131,20 +129,23 @@ function SpatialExercise({
           de: `Option ${index + 1}: `,
         }[language] || `Option ${index + 1}: `;
 
-      /**
-       * Strip emojis from the label for the Text-to-Speech engine
-       * to ensure clean pronunciation.
-       */
+      // Strip emojis from the label for the Text-to-Speech engine
+      // to ensure clean pronunciation without character codes.
       const cleanLabel = opt.label.replace(
         /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{1FAB0}-\u{1FABF}\u{1FAC0}-\u{1FACF}\u{1FAD0}-\u{1FADF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu,
         '',
       );
       
-      const stepDuration = (optionPrefix.length + cleanLabel.length) * (extendedTime ? 90 : 65) + 800;
+      // Remove colon from the prefix so TTS doesn't cut the sentence short
+      const spokenPrefix = optionPrefix.replace(':', '.');
+      const fullSpokenText = `${spokenPrefix} ${cleanLabel}`;
+      
+      // Calculate pause duration based on SPOKEN text with a safe buffer
+      const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
       
       setSafeTimeout(() => {
         setActiveHighlight(index);
-        speak(`${optionPrefix} ${cleanLabel}`);
+        speak(fullSpokenText);
       }, delayAcc);
       
       setSafeTimeout(() => {

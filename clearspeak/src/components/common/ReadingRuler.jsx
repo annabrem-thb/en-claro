@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useConfig } from '../../useConfig';
+import { useAppSettings } from '../../hooks/useAppSettings';
 
+/**
+ * ReadingRuler Component
+ * Provides a focus tool that follows the cursor to prevent visual crowding.
+ */
 export default function ReadingRuler() {
-  const { a11ySettings } = useConfig();
+  const { a11yAddons } = useAppSettings();
   const [mouseY, setMouseY] = useState(0);
   
-  // Warianty: 'shade' (maska), 'underline' (podkreślenie), 'greybar' (pasek)
-  const variant = a11ySettings?.rulerVariant || 'shade';
+  const isActive = a11yAddons?.includes('Linijka');
+  // Variants could be expanded: 'shade', 'underline', 'greybar'
+  const variant = 'shade';
 
   useEffect(() => {
-    // Podłączamy nasłuchiwanie tylko wtedy, gdy tryb Linijki jest włączony
-    if (!a11ySettings?.ruler) return;
+    if (!isActive) return;
 
     const handleMouseMove = (e) => setMouseY(e.clientY);
     const handleTouchMove = (e) => setMouseY(e.touches[0].clientY);
@@ -22,11 +26,11 @@ export default function ReadingRuler() {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
     };
-  }, [a11ySettings?.ruler]);
+  }, [isActive]);
 
-  if (!a11ySettings?.ruler) return null;
+  if (!isActive) return null;
 
-  // WARIANT 1: Podkreślenie (Underline) - pomaga śledzić tekst bez przyciemniania reszty
+  // VARIANT 1: Underline - Helps track text without dimming the rest
   if (variant === 'underline') {
     return (
       <div
@@ -37,7 +41,7 @@ export default function ReadingRuler() {
     );
   }
 
-  // WARIANT 2: Maska z cieniem (Shade) - wygasza wszystko poza 1-2 linijkami tekstu
+  // VARIANT 2: Shade - Dims everything except 1-2 lines of text
   if (variant === 'shade') {
     return (
       <div
@@ -48,7 +52,7 @@ export default function ReadingRuler() {
     );
   }
 
-  // WARIANT 3: Domyślny Szary Pasek (Grey Bar)
+  // VARIANT 3: Default Grey Bar
   return (
     <div
       className="pointer-events-none fixed left-0 right-0 z-[9999] h-20 bg-slate-400/20 border-y border-slate-500/30 transition-transform duration-75 ease-out"

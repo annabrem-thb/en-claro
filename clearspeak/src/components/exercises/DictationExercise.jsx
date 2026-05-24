@@ -21,7 +21,7 @@ export default function DictationExercise({
   const inputRef = useRef(null);
   const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
 
-  // Play audio when component mounts
+  // Auto-play the dictation audio prompt shortly after the component mounts
   useEffect(() => {
     setSafeTimeout(() => {
       speak(data.audioPrompt, extendedTime);
@@ -40,7 +40,7 @@ export default function DictationExercise({
   }, [data.audioPrompt, extendedTime, speak, clearAllTimeouts]);
 
   const handleCheck = () => {
-    // Normalize strings for non-punitive checking (remove punctuation, lower case)
+    // Normalize strings for forgiving validation (ignore case and punctuation)
     const cleanInput = userInput.trim().toLowerCase().replace(/[.,!?;:]/g, '');
     const cleanCorrect = data.correct.trim().toLowerCase().replace(/[.,!?;:]/g, '');
     
@@ -55,7 +55,7 @@ export default function DictationExercise({
     <div className={`flex flex-col items-center justify-center w-full ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
       {!zenMode && (
         <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
-          <BionicText text={t.categories?.Dictation || 'Dyktando'} enabled={bionicReading} />
+          <BionicText text={t.categories?.Dictation || 'Dictation'} enabled={bionicReading} />
         </h3>
       )}
 
@@ -80,8 +80,8 @@ export default function DictationExercise({
             ? 'bg-black border-4 border-white text-white focus:ring-white/50' 
             : 'bg-white border-2 border-slate-200 text-slate-800 focus:border-indigo-400 focus:ring-indigo-100 shadow-inner'
         }`}
-        placeholder="..."
-        aria-label="Wpisz to co usłyszałeś"
+        placeholder={t.typeHere || "..."}
+        aria-label={t.typeWhatYouHear || "Type what you heard"}
         autoComplete="off"
         spellCheck="false"
       />
@@ -95,7 +95,7 @@ export default function DictationExercise({
             : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} text-white shadow-xl hover:brightness-110`)
         }`}
       >
-        <BionicText text={t.check || 'Sprawdź'} enabled={bionicReading} />
+        <BionicText text={t.check || 'Check'} enabled={bionicReading} />
       </button>
     </div>
   );

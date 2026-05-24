@@ -17,6 +17,8 @@ export default function VisualCategorization({
   isHighContrast, 
   bigTargets, 
   bionicReading,
+  noFlash = false,
+  zenMode = false,
   speak,
   extendedTime,
   t,
@@ -56,26 +58,28 @@ export default function VisualCategorization({
     };
     const instruction = data.instruction || t?.categorizeItems || (fallbacks[language] || fallbacks.en);
     setSafeTimeout(() => { if (speak) speak(instruction, extendedTime); }, delayAcc);
-    delayAcc += instruction.length * (extendedTime ? 90 : 65) + 1000;
+    delayAcc += instruction.length * (extendedTime ? 100 : 75) + 1500;
 
     data.buckets.forEach((bucket) => {
       const bText = bucket.label;
+      const stepDuration = bText.length * (extendedTime ? 100 : 75) + 1500;
       setSafeTimeout(() => {
         setActiveHighlight(`bucket-${bucket.id}`);
         if(speak) speak(bText);
       }, delayAcc);
-      delayAcc += bText.length * (extendedTime ? 90 : 65) + 800;
-      setSafeTimeout(() => setActiveHighlight(null), delayAcc - 200);
+      setSafeTimeout(() => setActiveHighlight(null), delayAcc + stepDuration - 200);
+      delayAcc += stepDuration;
     });
 
     unplacedItems.forEach((item) => {
       const iText = item.word;
+      const stepDuration = iText.length * (extendedTime ? 100 : 75) + 1500;
       setSafeTimeout(() => {
         setActiveHighlight(`item-${item.id}`);
         if(speak) speak(iText);
       }, delayAcc);
-      delayAcc += iText.length * (extendedTime ? 90 : 65) + 600;
-      setSafeTimeout(() => setActiveHighlight(null), delayAcc - 100);
+      setSafeTimeout(() => setActiveHighlight(null), delayAcc + stepDuration - 200);
+      delayAcc += stepDuration;
     });
   }, [data, unplacedItems, speak, extendedTime, setSafeTimeout, clearAudioTimeouts, t]);
 
@@ -130,7 +134,7 @@ export default function VisualCategorization({
       });
       setPlacements(correctPlacements);
 
-      // Podpowiedź wizualna i dźwiękowa dla pierwszego błędnego elementu
+      // Visual and auditory hint for the first incorrect item
       if (incorrectItems.length > 0) {
         const hintItem = incorrectItems[0];
         const targetBucket = data.buckets.find(b => b.id === hintItem.bucketId);
@@ -139,37 +143,44 @@ export default function VisualCategorization({
           window.speechSynthesis.cancel();
           clearAudioTimeouts();
 
-          // 1. Podświetl i przeczytaj kafelek, który wrócił do puli
+          // 1. Highlight and read the tile that returned to the pool
           setActiveHighlight(`item-${hintItem.id}`);
           if (speak) speak(`${hintItem.word}`, extendedTime);
 
-          const itemDur = hintItem.word.length * (extendedTime ? 90 : 65) + 1000;
-          const bucketDur = targetBucket.label.length * (extendedTime ? 90 : 65) + 1000;
+          const itemDur = hintItem.word.length * (extendedTime ? 100 : 75) + 1500;
+          const bucketDur = targetBucket.label.length * (extendedTime ? 100 : 75) + 1500;
 
-          // 2. Następnie podświetl wiaderko docelowe
+          // 2. Then highlight the target bucket
           setSafeTimeout(() => {
             setActiveHighlight(`bucket-${targetBucket.id}`);
             if (speak) speak(`${targetBucket.label}`, extendedTime);
           }, itemDur);
 
-          // 3. Wyczyść i odblokuj interfejs
+          // 3. Clear highlights and unlock the interface
           setSafeTimeout(() => {
             setActiveHighlight(null);
             setIsShowingCorrection(false);
           }, itemDur + bucketDur);
 
-        }, extendedTime ? 3500 : 2500); // Odczekanie na komunikat błędu
+        }, extendedTime ? 3500 : 2500); // Wait for the error message
       } else {
         setIsShowingCorrection(false);
       }
     }
   };
 
+  // Dynamic classes for Accessibility scaling
+  const animClass = noFlash ? '' : 'animate-in fade-in duration-500';
+  const itemPadding = bigTargets ? 'px-8 py-5 text-lg' : 'px-5 py-3 text-sm';
+  const bucketMinHeight = bigTargets ? 'min-h-[200px]' : 'min-h-[160px]';
+
   return (
-    <div className="flex flex-col items-center w-full animate-in fade-in duration-500 gap-8">
-      <h2 className="text-sm font-black uppercase tracking-[0.15em] text-slate-400 text-center px-4" aria-live="polite">
-        <BionicText text={data.instruction || t?.categorizeItems || (language === 'pl' ? 'Przyporządkuj elementy' : language === 'de' ? 'Ordne die Elemente zu' : 'Categorize the items')} enabled={bionicReading} />
-      </h2>
+    <div className={`flex flex-col items-center w-full ${animClass} gap-8`}>
+      {!zenMode && (
+        <h2 className="text-sm font-black uppercase tracking-[0.15em] text-slate-400 text-center px-4" aria-live="polite">
+          <BionicText text={data.instruction || t?.categorizeItems || (language === 'pl' ? 'Przyporządkuj elementy' : language === 'de' ? 'Ordne die Elemente zu' : 'Categorize the items')} enabled={bionicReading} />
+        </h2>
+      )}
 
       <div className="flex w-full justify-center">
         <TTSController
@@ -184,7 +195,7 @@ export default function VisualCategorization({
       {/* Unplaced Items Pool */}
       <div className={`flex flex-wrap justify-center gap-3 w-full p-4 rounded-3xl min-h-[100px] border-2 transition-colors ${activeItem ? (isHighContrast ? 'border-white/50' : 'border-indigo-200 bg-indigo-50/30') : 'border-transparent'}`} aria-label="Available items">
         {unplacedItems.map((item) => (
-          <button key={item.id} disabled={isShowingCorrection} onClick={() => handleItemClick(item)} className={`px-5 py-3 rounded-2xl font-bold text-sm shadow-sm transition-all active:scale-95 disabled:opacity-80 ${
+          <button key={item.id} disabled={isShowingCorrection} onClick={() => handleItemClick(item)} className={`${itemPadding} rounded-2xl font-bold shadow-sm transition-all active:scale-95 disabled:opacity-80 ${
             activeItem?.id === item.id 
               ? (isHighContrast ? 'bg-white text-black ring-4 ring-white/50' : 'bg-indigo-500 text-white ring-4 ring-indigo-200 shadow-md') 
               : activeHighlight === `item-${item.id}`
@@ -206,7 +217,7 @@ export default function VisualCategorization({
         {data.buckets.map((bucket) => {
           const bucketItems = data.items.filter((item) => placements[item.id] === bucket.id);
           return (
-            <button key={bucket.id} onClick={() => handleBucketClick(bucket.id)} disabled={(!activeItem && bucketItems.length === 0) || isShowingCorrection} className={`relative flex flex-col p-4 sm:p-6 rounded-3xl min-h-[160px] transition-all border-4 text-left ${
+            <button key={bucket.id} onClick={() => handleBucketClick(bucket.id)} disabled={(!activeItem && bucketItems.length === 0) || isShowingCorrection} className={`relative flex flex-col p-4 sm:p-6 rounded-3xl ${bucketMinHeight} transition-all border-4 text-left ${
               activeHighlight === `bucket-${bucket.id}`
                 ? 'ring-4 ring-yellow-400 bg-yellow-50 border-yellow-400 scale-105 z-10'
                 : activeItem 

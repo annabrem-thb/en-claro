@@ -10,8 +10,8 @@ export function useExerciseVoice(language, t, options = {}) {
     }
   }, []);
 
-  // Automatyczne zatrzymanie TTS, gdy komponent jest odmontowywany 
-  // (np. gdy użytkownik wykona zadanie poprawnie lub je pominie)
+  // Automatically stop TTS when the component unmounts
+  // (e.g., when the user completes or skips a task)
   useEffect(() => {
     return () => {
       if (window.speechSynthesis) {
@@ -25,7 +25,7 @@ export function useExerciseVoice(language, t, options = {}) {
       window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) return;
 
-    // Natychmiastowe zatrzymanie asystenta, aby mikrofon nie rejestrował jego głosu
+    // Stop the TTS assistant immediately so the microphone doesn't pick up its output
     stopSpeaking();
 
     const recognition = new SpeechRecognition();
@@ -40,7 +40,7 @@ export function useExerciseVoice(language, t, options = {}) {
       const result = event.results[0][0].transcript.toLowerCase().trim();
       setTranscript(result);
 
-      // Pobieranie dozwolonych słów z aktualnego słownika i18n i tworzenie Regex
+      // Retrieve allowed command words from the current i18n dictionary and build Regex patterns
       const undoRegex = new RegExp(t?.commands?.undo?.join('|') || 'undo|cofnij|zurück|delete|usuń|löschen', 'i');
       const checkRegex = new RegExp(t?.commands?.check?.join('|') || 'check|sprawdź|prüfen|gotowe|done|fertig', 'i');
 

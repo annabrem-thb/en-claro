@@ -104,6 +104,7 @@ export default {
   tabGeneral: "Allgemein",
   tabA11y: "Komfort",
   tabVoice: "Stimme",
+  tabAnalytics: "Analysen",
   tabShop: "Shop",
   tabGame: "Spiel",
   language: "Sprache",
@@ -231,7 +232,7 @@ export default {
   
   // Übungsinhalte
   pillars: { Literacy: "Lesen und Schreiben", Visual: "Sehen und Raum", Cognitive: "Logik und Gedächtnis" },
-  pillarIcons: { Literacy: '📖', Visual: '👁️', Cognitive: '🧠' },
+  pillarIcons: { Literacy: '📖', Visual: '👁️', Cognitive: '' },
   categories: { Phonem: "Wort: Laute", Syllable: "Wort: Silben", Context: "Text: Lesen", Graphem: "Schreiben: Regeln", Scrabble: "Schreiben: Synthese", LCWC: "Schreiben: Gedächtnis", Dictation: "Schreiben: Diktate", Tracking: "Sehen: Verfolgung", Clock: "Sehen: Uhr", Categorization: "Logik: Kategorien", Sequence: "Logik: Sequenzen" },
   difficulty: "Schwierigkeitsgrad",
   diffLevels: ["Einfach", "Mittel", "Schwer"],

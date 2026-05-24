@@ -51,10 +51,10 @@ function MemorySpanExercise({
     window.speechSynthesis.cancel();
     clearAllTimeouts();
 
-    let delayAcc = 800; // krótka pauza przed startem
+    let delayAcc = 800; // Short pause before starting
     data.displayItems.forEach((item, index) => {
       const textToSpeak = String(item);
-      const stepDuration = textToSpeak.length * (extendedTime ? 90 : 65) + 1200; // długi czas ekspozycji dla pamięci
+      const stepDuration = textToSpeak.length * (extendedTime ? 100 : 75) + 1500; // Long exposure time for memory retention
 
       setSafeTimeout(() => {
         setActiveHighlight(`mem-${index}`);
@@ -68,7 +68,7 @@ function MemorySpanExercise({
       delayAcc += stepDuration;
     });
 
-    // Po przeczytaniu całej sekwencji płynnie przechodzimy do odgadywania
+    // Smoothly transition to the recall phase after the sequence is read aloud
     setSafeTimeout(() => {
       setIsMemorizing(false);
       setActiveHighlight(null);
@@ -139,7 +139,7 @@ function MemorySpanExercise({
     speak(data.instruction, extendedTime);
 
     const charCount = (data.instruction || '').length;
-    let delayAcc = charCount * (extendedTime ? 90 : 65) + 1500;
+    let delayAcc = charCount * (extendedTime ? 100 : 75) + 1500;
 
     stableScrambled.forEach((item, index) => {
       if (!selectedItems.includes(item)) {
@@ -150,12 +150,16 @@ function MemorySpanExercise({
             de: `Option ${index + 1}: `,
           }[language] || `Option ${index + 1}: `;
 
-        const hintCharCount = String(item).length + optionPrefix.length;
-        const stepDuration = hintCharCount * (extendedTime ? 90 : 65) + 800; // 800ms pause
+        // Remove colon from the prefix to prevent the TTS engine from cutting the sentence short
+        const spokenPrefix = optionPrefix.replace(':', '.');
+        const fullSpokenText = `${spokenPrefix} ${item}`;
+
+        // Calculate the pause duration based on the SPOKEN text length
+        const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
 
         setSafeTimeout(() => {
           setActiveHighlight(index);
-          speak(`${optionPrefix} ${item}`);
+          speak(fullSpokenText);
         }, delayAcc);
 
         setSafeTimeout(() => {

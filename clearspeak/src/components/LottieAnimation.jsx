@@ -22,20 +22,20 @@ export default function LottieAnimation({
   const { theme, a11yAddons } = useAppSettings();
   const isHighContrast = a11yAddons?.includes('Kontrast');
 
-  // Dynamiczna paleta barw za pomocą filtrów CSS 
-  // (Zakładamy, że bazowa animacja ma kolory z motywu 'Natur' - odcienie zieleni)
+  // Dynamic color palette generation via CSS filters
+  // (Assuming the base animation uses 'Natur' theme colors - shades of green)
   const getThemeFilter = () => {
-    // W trybie wysokiego kontrastu konwertujemy na mocno odcięte szarości
+    // Convert to distinct grayscales in High Contrast mode
     if (isHighContrast) return 'grayscale(100%) contrast(150%) brightness(120%)';
     
     switch (theme) {
-      case 'Musik': // Z zieleni w fiolet
+      case 'Musik': // Green to Purple
         return 'hue-rotate(140deg) saturate(80%)';
-      case 'Kunst': // Z zieleni w bursztyn/pomarańcz
+      case 'Kunst': // Green to Amber/Orange
         return 'hue-rotate(250deg) saturate(120%)';
-      case 'Space': // Z zieleni w chłodny, zgaszony błękit
+      case 'Space': // Green to Cool, muted Blue
         return 'hue-rotate(90deg) saturate(30%) brightness(90%)';
-      case 'Ocean': // Z zieleni w morski/cyjan
+      case 'Ocean': // Green to Teal/Cyan
         return 'hue-rotate(60deg) saturate(110%)';
       case 'Natur':
       default:

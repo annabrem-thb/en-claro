@@ -11,19 +11,21 @@ import SpatialExercise from './exercises/SpatialExercise.jsx';
 import MemorySpanExercise from './exercises/MemorySpanExercise';
 import VisualCategorization from './exercises/VisualCategorization.jsx';
 import DictationExercise from './exercises/DictationExercise.jsx';
+import LookCoverWriteCheck from './exercises/LookCoverWriteCheck.jsx';
 
 /**
+ * ExerciseRenderer Component
  * Factory component that renders the appropriate exercise component
- * based on the task data (`currentTask`).
+ * based on the task data (`currentTask`) using Duck Typing.
  */
 export function ExerciseRenderer({ currentTask, ...commonProps }) {
   const { t } = commonProps;
 
   if (!currentTask) {
-    return <div className="p-6 text-center text-slate-400">{t.noData}</div>;
+    return <div className="p-6 text-center text-slate-400">{t.noData || 'No data'}</div>;
   }
 
-  // This logic is sensitive to order. Unit tests will help secure it.
+  // Duck-typing feature detection to route to the appropriate educational module
   if (currentTask.sentence_part1)
     return <ContextExercise data={currentTask} {...commonProps} />;
   if (currentTask.focus)
@@ -46,6 +48,8 @@ export function ExerciseRenderer({ currentTask, ...commonProps }) {
     return <SequenceExercise data={currentTask} {...commonProps} />;
   if (currentTask.dictation)
     return <DictationExercise data={currentTask} {...commonProps} />;
+  if (currentTask.lcwc)
+    return <LookCoverWriteCheck targetWord={currentTask.word} onSelfEvaluate={(res) => res.correct ? commonProps.onSuccess() : commonProps.onError()} data={currentTask} {...commonProps} />;
 
-  return <div className="p-6 text-red-400">{t.formatNotRecognized}</div>;
+  return <div className="p-6 text-red-400">{t.formatNotRecognized || 'Format not recognized'}</div>;
 }
