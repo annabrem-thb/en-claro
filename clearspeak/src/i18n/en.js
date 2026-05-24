@@ -128,11 +128,11 @@ export default {
     Redukcja: { name: 'Calm screen', desc: 'No flashing and distracting motion' },
     Linijka: { name: 'Focus ruler', desc: 'Highlights a horizontal line under the cursor' },
     Spacing: { name: 'Larger spacing', desc: 'Increases spacing between letters and words' },
-    Desaturacja: { name: 'Mild colors', desc: 'Reduces the saturation of bright colors' },
+    Desaturacja: { name: 'Soft colors', desc: 'Reduces the saturation of bright colors' },
   },
   inclusive: {
     adaptiveDifficulty: { name: 'Adaptive difficulty', desc: 'Game matches pace to the player' },
-    bigTargets: { name: 'Large touch targets', desc: 'Buttons min. 56px (motor facilitation)' },
+    bigTargets: { name: 'Large touch targets', desc: 'Buttons min. 56px (easier to tap)' },
     noFlash: { name: 'No flash mode', desc: 'No flickering — epilepsy and motion sensitivity' },
     audioRewards: { name: 'Audio rewards', desc: 'Audio signals instead of just visual' },
     extendedTime: { name: 'Extended time', desc: 'No time pressure, 3s instead of 1.5s' },
@@ -153,7 +153,7 @@ export default {
     Bionic: { name: "Bionic Reading", desc: "Bolds word beginnings" },
     Linijka: { name: "Focus ruler", desc: "Highlights a horizontal line under the cursor" },
     Spacing: { name: "Larger spacing", desc: "Increases spacing between letters and words" },
-    Desaturacja: { name: "Mild colors", desc: "Reduces the saturation of bright colors" }
+    Desaturacja: { name: "Soft colors", desc: "Reduces the saturation of bright colors" }
   },
   accDescriptions: { Standard: "Default view", Kontrast: "High contrast mode", LRS: "Friendly font", Motorik: "Comfortable buttons" },
 
@@ -180,7 +180,7 @@ export default {
   progressStages: { Natur: ["Seed", "Stem", "Bud", "Bloom", "Flower"], Musik: ["Sixteenth", "Eighth", "Quarter", "Half", "Instrument"], Kunst: ["Brush", "Palette", "Sketch", "Paint", "Masterpiece"], Space: ["Star", "Comet", "Moon", "Planet", "Rocket"], Ocean: ["Drop", "Fish", "Coral", "Dolphin", "Whale"] },
   garden: "Garden",
   gardenBlooming: "The garden is blooming! Goals achieved:",
-  gardenEmpty: "Your own ecosystem. It will grow with your every progress.",
+  gardenEmpty: "Your own ecosystem. It will grow as you progress.",
   srPlantFeature: "Your journey currently features",
   srDailyRewards: "Has",
   srRewardsCount: "daily rewards.",
@@ -227,7 +227,7 @@ export default {
     submit: "Save and continue",
     skip: "Skip this time"
   },
-  mapTitle: "Challenge Map", choosePath: "Choose your path", nextLevel: "Next stage", lockedNode: "Locked", completedNode: "Completed", backToMap: "Back to map", energyTitle: "Cognitive Energy", breakTitle: "Time for a break?", breakDesc: "We noticed you're working intensively. Rest in the garden to regenerate and prevent fatigue.", takeBreakBtn: "Resting (+2 💰)", continueBtn: "Keep practicing",
+  mapTitle: "Challenge Map", choosePath: "Choose your path", nextLevel: "Next stage", lockedNode: "Locked", completedNode: "Completed", backToMap: "Back to map", energyTitle: "Cognitive Energy", breakTitle: "Time for a break?", breakDesc: "We noticed you're working intensively. Rest in the garden to regenerate and prevent fatigue.", takeBreakBtn: "Rest (+2 💰)", continueBtn: "Keep practicing",
   
   // Exercise Content
   pillars: { Literacy: "Reading and Writing", Visual: "Vision and Space", Cognitive: "Logic and Memory" },
@@ -269,7 +269,7 @@ export default {
   ],
   dailyTaskComplete: {
     title: "Wonderful effort!",
-    desc: "You completed today's practice. Your regularity builds a solid foundation.",
+    desc: "You completed today's practice. Your consistency builds a strong foundation.",
     chooseReward: "Choose a reward that will grow in the garden",
     plantSeed: "Plant and continue",
     options: {

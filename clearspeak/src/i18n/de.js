@@ -1,7 +1,7 @@
 export default {
   // Allgemeine und Navigation
   appTitle: "Claro",
-  introSubtitle: "Bauen Sie Ihre Brücke zur Sprachkompetenz.",
+  introSubtitle: "Baue deine Brücke zur Sprachkompetenz.",
 
   // Startbildschirm (Intro)
   intro: {
@@ -36,7 +36,7 @@ export default {
   select: "Auswählen",
   equip: "Ausrüsten",
   equipped: "Ausgerüstet",
-  unlocked: "Entsperrt",
+  unlocked: "Freigeschaltet",
   buy: "Kaufen",
   selectTheme: "Thema wählen",
   loading: "Laden...",
@@ -100,7 +100,7 @@ export default {
   settingsBack: "← Zurück",
   settingsTheme: "Thema",
   settingsAccessibility: "Komfortoptionen",
-  settingsFooter: "Ihre Einstellungen werden automatisch gespeichert.",
+  settingsFooter: "Deine Einstellungen werden automatisch gespeichert.",
   tabGeneral: "Allgemein",
   tabA11y: "Komfort",
   tabVoice: "Stimme",
@@ -118,7 +118,7 @@ export default {
   a11yBase: "Basismodus — immer aktiv",
   a11yBaseDesc: "Freundliche Schrift (OpenDyslexic), vergrößerte Abstände, milder cremefarbener Hintergrund",
   a11yAddons: "Personalisierungsoptionen für Komfort",
-  a11yAddonsDesc: "Wählen Sie eine beliebige Kombination — passen Sie die App an Ihre Bedürfnisse an",
+  a11yAddonsDesc: "Wähle eine beliebige Kombination — passe die App an deine Bedürfnisse an",
   a11y: {
     LRS: { name: 'Freundliche Schrift', desc: 'Lesefördernde Schrift (OpenDyslexic)' },
     Kontrast: { name: 'Hoher Kontrast', desc: 'Schwarz-Weiß WCAG AAA Farben' },
@@ -128,7 +128,7 @@ export default {
     Redukcja: { name: 'Ruhiger Bildschirm', desc: 'Kein Flackern und keine ablenkenden Bewegungen' },
     Linijka: { name: 'Fokus-Lineal', desc: 'Hebt eine horizontale Linie unter dem Cursor hervor' },
     Spacing: { name: 'Größere Abstände', desc: 'Erhöht die Abstände zwischen Buchstaben und Wörtern' },
-    Desaturacja: { name: 'Milde Farben', desc: 'Reduziert die Sättigung heller Farben' },
+    Desaturacja: { name: 'Sanfte Farben', desc: 'Reduziert die Sättigung heller Farben' },
   },
   inclusive: {
     adaptiveDifficulty: { name: 'Adaptive Schwierigkeit', desc: 'Spiel passt sich dem Tempo des Spielers an' },
@@ -137,9 +137,9 @@ export default {
     audioRewards: { name: 'Audio-Belohnungen', desc: 'Audiosignale statt nur visuell' },
     extendedTime: { name: 'Verlängerte Zeit', desc: 'Kein Zeitdruck, 3s statt 1,5s' },
     voiceAssistant: { name: 'Sprachassistent', desc: 'Automatisches Vorlesen von Befehlen und Antworten' },
-    zenMode: { name: 'Zen-Modus', desc: 'Versteckt Ablenkungen (Punkte, Fortschrittsbalken)' },
+    zenMode: { name: 'Zen-Modus', desc: 'Blendet Ablenkungen aus (Punkte, Fortschrittsbalken)' },
     bionicReading: { name: 'Bionic Reading', desc: 'Fettet Wortanfänge, hilft den Augen beim Fokussieren' },
-    minimalistMode: { name: 'Minimalistische Ansicht', desc: 'Versteckt dekorative Grafiken und Animationen' },
+    minimalistMode: { name: 'Minimalistische Ansicht', desc: 'Blendet dekorative Grafiken und Animationen aus' },
     muteNotifications: { name: 'Benachrichtigungen stumm', desc: 'Deaktiviert Sprachausgabe und Spieltöne' },
   },
   profiles: {
@@ -153,7 +153,7 @@ export default {
     Bionic: { name: "Bionic Reading", desc: "Fettet Wortanfänge" },
     Linijka: { name: "Fokus-Lineal", desc: "Hebt eine horizontale Linie unter dem Cursor hervor" },
     Spacing: { name: "Größere Abstände", desc: "Erhöht die Abstände zwischen Buchstaben und Wörtern" },
-    Desaturacja: { name: "Milde Farben", desc: "Reduziert die Sättigung heller Farben" }
+    Desaturacja: { name: "Sanfte Farben", desc: "Reduziert die Sättigung heller Farben" }
   },
   accDescriptions: { Standard: "Standardansicht", Kontrast: "Hoher Kontrast Modus", LRS: "Freundliche Schrift", Motorik: "Bequeme Tasten" },
 
@@ -163,10 +163,10 @@ export default {
   versionBase: "BASIS",
   versionBaseSub: "Keine Punkte",
   gamificationTitle: "Inklusive Gamification-Optionen",
-  gamificationDesc: "Passen Sie das Belohnungssystem an Ihre Bedürfnisse an",
+  gamificationDesc: "Passe das Belohnungssystem an deine Bedürfnisse an",
   themeShop: "Themen-Shop",
-  themeShopDesc: "Geben Sie Münzen für neue visuelle Themen aus",
-  earnCoinHint: "Sie verdienen 1 Münze für jede richtige Antwort",
+  themeShopDesc: "Gib Münzen für neue visuelle Themen aus",
+  earnCoinHint: "Du verdienst 1 Münze für jede richtige Antwort",
   needMoreCoins: "Nicht genug Münzen",
   themes: {
     Natur: { name: "Natur", icon: "🌿", desc: "Grüne Töne, Entspannung" },
@@ -180,12 +180,12 @@ export default {
   progressStages: { Natur: ["Samen", "Stiel", "Knospe", "Blüte", "Blume"], Musik: ["Sechzehntel", "Achtel", "Viertel", "Halbe", "Instrument"], Kunst: ["Pinsel", "Palette", "Skizze", "Farbe", "Meisterwerk"], Space: ["Stern", "Komet", "Mond", "Planet", "Rakete"], Ocean: ["Tropfen", "Fisch", "Koralle", "Delfin", "Wal"] },
   garden: "Garten",
   gardenBlooming: "Der Garten blüht! Ziele erreicht:",
-  gardenEmpty: "Ihr eigenes Ökosystem. Es wird mit jedem Ihrer Fortschritte wachsen.",
-  srPlantFeature: "Ihre Reise enthält derzeit",
+  gardenEmpty: "Dein eigenes Ökosystem. Es wird mit jedem deiner Fortschritte wachsen.",
+  srPlantFeature: "Deine Reise enthält derzeit",
   srDailyRewards: "Hat",
   srRewardsCount: "tägliche Belohnungen.",
   dailyGoalProgress: "Tagesziel-Fortschritt",
-  srVisitor: "Ein freundlicher Besucher hat sich Ihnen dank Ihrer regelmäßigen Übung angeschlossen.",
+  srVisitor: "Ein freundlicher Besucher hat sich dir dank deiner regelmäßigen Übung angeschlossen.",
   srTrophies: "Durch Ausdauer sind {count} einzigartige Objekte im Garten aufgetaucht.",
   rewardItems: { Natur: ["💎", "🏆", "💡", "📈", "🎯"], Musik: ["💎", "🏆", "💡", "📈", "🎯"], Kunst: ["💎", "🏆", "💡", "📈", "🎯"], Space: ["💎", "🏆", "💡", "📈", "🎯"], Ocean: ["💎", "🏆", "💡", "📈", "🎯"] },
   
@@ -203,21 +203,21 @@ export default {
   errorAnalysis: "Fehleranalyse",
   errorAnalysisSub: "Anzahl der Fehler pro Tag",
   exportLogs: "Daten exportieren (CSV)",
-  exportDesc: "Laden Sie NASA-TLX und UEQ Umfrageergebnisse herunter",
+  exportDesc: "Lade NASA-TLX und UEQ Umfrageergebnisse herunter",
   noDataToExport: "Keine Daten zum Exportieren",
   feedback: {
     title: "Ein Moment der Reflexion",
-    desc: "Wie bewerten Sie die heutige Sitzung? Ihr Feedback hilft uns, die App an Sie anzupassen.",
+    desc: "Wie bewertest du die heutige Sitzung? Dein Feedback hilft uns, die App an dich anzupassen.",
     nasaTitle: "Arbeitsbelastung (NASA-TLX)",
     mental: "Geistige Anstrengung",
     mentalDesc: "Wie viel Nachdenken erforderten die Aufgaben?",
     physical: "Ermüdung und Anstrengung",
-    physicalDesc: "Wie müde fühlen Sie sich nach dieser Sitzung?",
+    physicalDesc: "Wie müde fühlst du dich nach dieser Sitzung?",
     frustration: "Frustrationsniveau",
-    frustrationDesc: "Fühlten Sie sich bei den Aufgaben gestresst oder gereizt?",
+    frustrationDesc: "Fühltest du dich bei den Aufgaben gestresst oder gereizt?",
     low: "Niedrig",
     high: "Hoch",
-    ueqTitle: "Ihre Eindrücke (UEQ-Short)",
+    ueqTitle: "Deine Eindrücke (UEQ-Short)",
     ueqAttractiveness: "Attraktivität",
     ueqAttrLeft: "Unangenehm",
     ueqAttrRight: "Angenehm",
@@ -227,7 +227,7 @@ export default {
     submit: "Speichern und fortfahren",
     skip: "Diesmal überspringen"
   },
-  mapTitle: "Herausforderungskarte", choosePath: "Wähle deinen Weg", nextLevel: "Nächste Stufe", lockedNode: "Gesperrt", completedNode: "Abgeschlossen", backToMap: "Zurück zur Karte", energyTitle: "Kognitive Energie", breakTitle: "Zeit für eine Pause?", breakDesc: "Wir haben bemerkt, dass Sie intensiv arbeiten. Ruhen Sie sich im Garten aus, um sich zu regenerieren.", takeBreakBtn: "Ausruhen (+2 💰)", continueBtn: "Weiter üben",
+  mapTitle: "Herausforderungskarte", choosePath: "Wähle deinen Weg", nextLevel: "Nächste Stufe", lockedNode: "Gesperrt", completedNode: "Abgeschlossen", backToMap: "Zurück zur Karte", energyTitle: "Kognitive Energie", breakTitle: "Zeit für eine Pause?", breakDesc: "Wir haben bemerkt, dass du intensiv arbeitest. Ruhe dich im Garten aus, um dich zu regenerieren.", takeBreakBtn: "Ausruhen (+2 💰)", continueBtn: "Weiter üben",
   
   // Übungsinhalte
   pillars: { Literacy: "Lesen und Schreiben", Visual: "Sehen und Raum", Cognitive: "Logik und Gedächtnis" },
@@ -236,7 +236,7 @@ export default {
   difficulty: "Schwierigkeitsgrad",
   diffLevels: ["Einfach", "Mittel", "Schwer"],
   questLabel: (target, type, pillars) => `Herausforderung (${target}): ${type === 'Any' ? 'Beliebig' : pillars[type] || type}`,
-  trackAndMatch: "Folgen Sie der Hervorhebung und geben Sie die Richtung an", orderCorrectly: "In der richtigen Reihenfolge anordnen", undo: "Rückgängig", tempoLabel: "Lesetyp", normalMode: "Normal", slowMode: "Langsam", spellMode: "Buchstabieren", readAloud: "Laut vorlesen", syllablesListen: "Silben anhören", check: "Prüfen", delete: "Löschen", tapToSpeak: "Tippen zum Sprechen", listening: "Höre zu...", collectedLabel: "Gesammelt", selectCorrect: "Richtiges Wort wählen:", tapToBuild: "Wörter in der richtigen Reihenfolge wählen", listenCarefully: "Hören Sie sich das Wort genau an.", readyToSegment: "Ich bin bereit zu segmentieren", tapBoxesInstruction: "Tippen Sie auf die Felder und sprechen Sie jeden Laut aus.", completeExercise: "Übung abschließen", playAudio: "Audio abspielen", lookAndListen: "Schauen Sie sich das Wort an und hören Sie die Aussprache.", studiedWord: "Ich habe das Wort studiert", sayWordAloud: "Sagen Sie das Wort laut.", breakIntoSounds: "Zerlegen Sie es in einzelne Laute.", takeYourTime: "Lassen Sie sich Zeit. Fühlen Sie die Form der Laute im Mund, bevor Sie schreiben.", coverAndWrite: "Wort abdecken und schreiben", typeFromMemory: "Geben Sie das Wort aus dem Gedächtnis ein.", typeHere: "Hier tippen...", checkSpelling: "Meine Rechtschreibung prüfen", compareSpelling: "Vergleichen Sie Ihre Schreibweise:", targetWord: "Zielwort", yourSpelling: "Ihre Schreibweise", spelledCorrectly: "Ja, ich habe es richtig geschrieben!", tryAgain: "Ich muss es nochmal versuchen", listenToPhonemes: "Hören Sie sich die getrennten Laute an.", typeBlendedWord: "Geben Sie das Wort ein, das diese Laute bilden.", blendSounds: "Ich bin bereit, Laute zu verbinden", readParagraph: "Lesen Sie den folgenden Text sorgfältig durch.", paragraphRead: "Ich bin fertig mit Lesen", rtSummarize: "Zusammenfassen", rtSummarizeDesc: "Was war der Hauptgedanke dieses Textes?", rtQuestion: "Fragen", rtQuestionDesc: "Stellen Sie eine Frage zu etwas Unklarem oder Interessantem im Text.", rtClarify: "Klären", rtClarifyDesc: "Identifizieren Sie unklare Wörter und erklären Sie sie mit eigenen Worten.", rtPredict: "Vorhersagen", rtPredictDesc: "Was denken Sie, wird als nächstes passieren?", heard: "Gehört", voiceInput: "Spracheingabe", speakOptionNumber: "Sprechen Sie die Optionsnummer", speakTileNumber: "Sprechen Sie die Kachelnummer", speakGapNumber: "Sprechen Sie die Lückennummer zum Schneiden", tapAndPronounce: "Tippen und das Wort aussprechen", skipPronunciation: "Ausspracheprüfung überspringen", readSentenceAndOptions: "Satz und Optionen lesen", removeCut: (pos) => `Schnitt an Position ${pos} entfernen`, addCut: (pos) => `Schnitt an Position ${pos} hinzufügen`,
+  trackAndMatch: "Folge der Hervorhebung und gib die Richtung an", orderCorrectly: "In der richtigen Reihenfolge anordnen", undo: "Rückgängig", tempoLabel: "Lesetyp", normalMode: "Normal", slowMode: "Langsam", spellMode: "Buchstabieren", readAloud: "Laut vorlesen", syllablesListen: "Silben anhören", check: "Prüfen", delete: "Löschen", tapToSpeak: "Tippen zum Sprechen", listening: "Höre zu...", collectedLabel: "Gesammelt", selectCorrect: "Richtiges Wort wählen:", tapToBuild: "Wörter in der richtigen Reihenfolge wählen", listenCarefully: "Höre dir das Wort genau an.", readyToSegment: "Ich bin bereit zum Segmentieren", tapBoxesInstruction: "Tippe auf die Felder und sprich jeden Laut aus.", completeExercise: "Übung abschließen", playAudio: "Audio abspielen", lookAndListen: "Schau dir das Wort an und höre dir die Aussprache an.", studiedWord: "Ich habe das Wort studiert", sayWordAloud: "Sage das Wort laut.", breakIntoSounds: "Zerlege es in einzelne Laute.", takeYourTime: "Lass dir Zeit. Fühle die Form der Laute im Mund, bevor du schreibst.", coverAndWrite: "Wort abdecken und schreiben", typeFromMemory: "Gib das Wort aus dem Gedächtnis ein.", typeHere: "Hier tippen...", checkSpelling: "Meine Rechtschreibung prüfen", compareSpelling: "Vergleiche deine Schreibweise:", targetWord: "Zielwort", yourSpelling: "Deine Schreibweise", spelledCorrectly: "Ja, ich habe es richtig geschrieben!", tryAgain: "Ich muss es nochmal versuchen", listenToPhonemes: "Höre dir die getrennten Laute an.", typeBlendedWord: "Gib das Wort ein, das diese Laute bilden.", blendSounds: "Ich bin bereit, Laute zu verbinden", readParagraph: "Lies den folgenden Text sorgfältig durch.", paragraphRead: "Ich bin fertig mit dem Lesen", rtSummarize: "Zusammenfassen", rtSummarizeDesc: "Was war der Hauptgedanke dieses Textes?", rtQuestion: "Fragen", rtQuestionDesc: "Stelle eine Frage zu etwas Unklarem oder Interessantem im Text.", rtClarify: "Klären", rtClarifyDesc: "Identifiziere unklare Wörter und erkläre sie mit eigenen Worten.", rtPredict: "Vorhersagen", rtPredictDesc: "Was denkst du, wird als Nächstes passieren?", heard: "Gehört", voiceInput: "Spracheingabe", speakOptionNumber: "Sprich die Optionsnummer", speakTileNumber: "Sprich die Kachelnummer", speakGapNumber: "Sprich die Lückennummer zum Schneiden", tapAndPronounce: "Tippen und das Wort aussprechen", skipPronunciation: "Ausspracheprüfung überspringen", readSentenceAndOptions: "Satz und Optionen lesen", removeCut: (pos) => `Schnitt an Position ${pos} entfernen`, addCut: (pos) => `Schnitt an Position ${pos} hinzufügen`,
   
   // Zusätzliche Infos
   thesisInfo: "Masterarbeit\nZugängliche Gamification und Sprachintegration\nin einer PWA zur Unterstützung von logopädischen Übungen\nfür Personen mit Legasthenie",
@@ -244,7 +244,7 @@ export default {
 
   // PWA & UI
   pwaNewVersion: "Neue Version",
-  pwaDescription: "Neuer Inhalt ist verfügbar. Aktualisieren Sie die App, um die neuesten Änderungen herunterzuladen.",
+  pwaDescription: "Neuer Inhalt ist verfügbar. Aktualisiere die App, um die neuesten Änderungen herunterzuladen.",
   pwaUpdate: "Aktualisieren",
   pwaLater: "Später",
   showOriginal: "Original anzeigen",
