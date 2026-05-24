@@ -35,7 +35,7 @@ const ExerciseWrapper = ({
       {/* 3. Feedback / Transcript area */}
       {transcript && (
         <p className="mt-4 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-400 uppercase sm:text-xs">
-          {t.heard || 'Usłyszano'}:{' '}
+          {t.heard || (language === 'pl' ? 'Usłyszano' : language === 'de' ? 'Gehört' : 'Heard')}:{' '}
           <span className="text-slate-600">{transcript}</span>
         </p>
       )}

@@ -1,8 +1,11 @@
 // SyllableExercise.jsx — a11y-aware with Shared Voice Logic, Bionic Reading, and Zen Mode
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 // Importing shared utilities for a cleaner, DRY (Don't Repeat Yourself) architecture
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
+import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import TTSController from '../common/TTSController';
+import { getTTSException } from '../../hooks/useGlobalTTS';
 
 /**
  * SyllableExercise Component
@@ -31,6 +34,38 @@ function SyllableExercise({
     language,
     t,
   );
+
+  const [activeHighlight, setActiveHighlight] = useState(null);
+  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+
+  const clearAudioTimeouts = useCallback(() => {
+    clearAllTimeouts();
+    setActiveHighlight(null);
+  }, [clearAllTimeouts]);
+
+  useEffect(() => {
+    return () => {
+      clearAudioTimeouts();
+      window.speechSynthesis.cancel();
+    };
+  }, [clearAudioTimeouts]);
+
+  // Mapowanie indeksu litery na indeks sylaby (potrzebne do animacji podświetlania)
+  const charToSyl = useMemo(() => {
+    if (!data.segments || !data.word) return [];
+    const mapping = [];
+    let currentSyl = 0;
+    let charsInSyl = data.segments[0]?.length || 0;
+    for (let i = 0; i < data.word.length; i++) {
+      mapping.push(currentSyl);
+      charsInSyl--;
+      if (charsInSyl <= 0 && currentSyl < data.segments.length - 1) {
+        currentSyl++;
+        charsInSyl = data.segments[currentSyl]?.length || 0;
+      }
+    }
+    return mapping;
+  }, [data.segments, data.word]);
 
   /**
    * Logic to toggle a cut at a specific index.
@@ -65,6 +100,10 @@ function SyllableExercise({
     } else {
       onError();
       setCuts([]); // Reset on failure
+      // Odczekaj na wypowiedzenie komunikatu błędu i zaprezentuj poprawny podział
+      setSafeTimeout(() => {
+        playSyllables();
+      }, extendedTime ? 3500 : 2500);
     }
   };
 
@@ -78,8 +117,20 @@ function SyllableExercise({
       return;
     }
     window.speechSynthesis.cancel();
-    const delay = extendedTime ? 1400 : 1000;
-    data.segments.forEach((syl, i) => setTimeout(() => speak(syl), i * delay));
+    clearAudioTimeouts();
+
+    let delayAcc = 0;
+    data.segments.forEach((syl, i) => {
+      const stepDuration = syl.length * (extendedTime ? 90 : 65) + 600;
+      setSafeTimeout(() => {
+        setActiveHighlight(i);
+        speak(syl.toLowerCase());
+      }, delayAcc);
+      setSafeTimeout(() => {
+        setActiveHighlight((prev) => (prev === i ? null : prev));
+      }, delayAcc + stepDuration - 100);
+      delayAcc += stepDuration;
+    });
   };
 
   // Voice recognition callbacks
@@ -116,14 +167,15 @@ function SyllableExercise({
     <div className={`${animClass} flex w-full flex-col items-center`}>
       {/* 1. Voice & Audio Controls */}
       <div className="mb-4 flex gap-6">
-        <button
-          onClick={playSyllables}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-400 shadow-sm transition-all hover:text-slate-600 active:scale-90`}
-          aria-label={t.readAloud || 'Read syllables aloud'}
-          disabled={isResolved}
-        >
-          🔊
-        </button>
+        <div className={isResolved ? 'pointer-events-none opacity-50 grayscale' : ''}>
+          <TTSController
+            onReadAloud={playSyllables}
+            pauseAllTimeouts={pauseAllTimeouts}
+            resumeAllTimeouts={resumeAllTimeouts}
+            t={t}
+            controlBtnSize={controlBtnSize}
+          />
+        </div>
 
         <button
           onClick={() => startListening(handleVoiceMatch, handleCommandMatch)}
@@ -154,12 +206,34 @@ function SyllableExercise({
         </div>
       )}
 
+      {/* 2.5 Phonetic Hint Bubble (Pojawia się synchronicznie z odczytem TTS) */}
+      <div className="h-8 mb-4 flex items-center justify-center w-full">
+        {activeHighlight !== null && (
+          (() => {
+            const syl = data.segments[activeHighlight];
+            const phonetic = getTTSException(syl, language);
+            if (phonetic && phonetic.toLowerCase() !== syl.toLowerCase()) {
+              return (
+                <span className="animate-in fade-in slide-in-from-bottom-2 px-5 py-1.5 rounded-full text-xs font-black tracking-widest shadow-md bg-slate-800 text-white uppercase">
+                  / {phonetic} /
+                </span>
+              );
+            }
+            return null;
+          })()
+        )}
+      </div>
+
       {/* 3. Word Segmentation Interface */}
-      <div className="mt-4 mb-10 flex flex-wrap items-center justify-center gap-y-6">
+      <div className="mb-10 flex flex-wrap items-center justify-center gap-y-6">
         {wordChars.map((char, index) => (
           <React.Fragment key={index}>
             <span
-              className={`${charSize} font-black ${themeStyles.accent} tracking-tighter`}
+              className={`${charSize} font-black tracking-tighter transition-all duration-200 inline-block ${
+                activeHighlight === charToSyl[index]
+                  ? 'text-yellow-500 scale-110 drop-shadow-md z-10'
+                  : themeStyles.accent
+              }`}
             >
               {char}
             </span>
@@ -231,26 +305,6 @@ function SyllableExercise({
           <BionicText text={t.delete || 'Delete'} enabled={bionicReading} />
         </button>
       </div>
-
-      {/* Auditory Help Button */}
-      <button
-        onClick={playSyllables}
-        disabled={isResolved || isListening}
-        className={`mt-8 flex items-center gap-3 px-6 ${bigTargets ? 'py-4' : 'py-3'} group rounded-full bg-slate-50 text-slate-400 transition-all hover:bg-slate-100 hover:text-slate-600 disabled:opacity-50`}
-      >
-        <span
-          className="text-2xl transition-transform group-hover:scale-110"
-          aria-hidden="true"
-        >
-          🔊
-        </span>
-        <span className="text-xs font-black tracking-widest uppercase">
-          <BionicText
-            text={t.syllablesListen || 'Listen to syllables'}
-            enabled={bionicReading}
-          />
-        </span>
-      </button>
     </div>
   );
 }

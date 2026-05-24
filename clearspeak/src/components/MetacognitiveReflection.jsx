@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGamification } from './GamificationContext';
-import { useConfig } from '../useConfig';
 import { useTranslation } from '../i18n/i18n';
+import { useAppSettings } from '../hooks/useAppSettings';
 
 /**
  * MetacognitiveReflection Component
@@ -13,9 +13,10 @@ import { useTranslation } from '../i18n/i18n';
  */
 export default function MetacognitiveReflection({ onReflectionComplete }) {
   const { completeDailyTask } = useGamification();
-  const { a11ySettings, language } = useConfig();
+  const { a11yAddons, inclusiveOptions, language } = useAppSettings();
   const t = useTranslation(language);
-  const isHighContrast = a11ySettings?.contrast;
+  const isHighContrast = a11yAddons?.includes('Kontrast');
+  const noFlash = !!(inclusiveOptions?.noFlash || a11yAddons?.includes('Redukcja'));
   
   const [selectedRating, setSelectedRating] = useState(null);
   const refl = t.reflection || {};
@@ -37,7 +38,7 @@ export default function MetacognitiveReflection({ onReflectionComplete }) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-xl mx-auto py-10 animate-in fade-in zoom-in-95 duration-500">
+    <div className={`flex flex-col items-center justify-center w-full max-w-xl mx-auto py-10 ${noFlash ? '' : 'animate-in fade-in zoom-in-95 duration-500'}`}>
       
       <div className="text-6xl mb-6" aria-hidden="true">🧠</div>
       

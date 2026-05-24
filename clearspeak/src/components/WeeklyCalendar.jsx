@@ -28,7 +28,7 @@ const Day = ({ dayLabel, isToday, isGoalMet, isFuture, themeStyles, isHighContra
 };
 
 // Adding the 'export' keyword here resolves the Vite import error
-export function WeeklyCalendar({ dailyProgress = {}, dailyGoal, t, themeStyles, isHighContrast, theme }) {
+export function WeeklyCalendar({ dailyProgress = {}, dailyGoal, t, themeStyles, isHighContrast, theme, noFlash = false }) {
   const today = new Date();
   
   // Generate the last 7 days including today
@@ -42,7 +42,7 @@ export function WeeklyCalendar({ dailyProgress = {}, dailyGoal, t, themeStyles, 
   const icon = t?.levelIcons?.[theme]?.[0] || '✨';
 
   return (
-    <div className={`w-full p-4 rounded-3xl mt-8 animate-in fade-in duration-500 delay-700 ${isHighContrast ? 'bg-black border border-white/20' : 'bg-white border border-slate-100'}`}>
+    <div className={`w-full p-4 rounded-3xl mt-8 ${noFlash ? '' : 'animate-in fade-in duration-500 delay-700'} ${isHighContrast ? 'bg-black border border-white/20' : 'bg-white border border-slate-100'}`}>
       <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 text-center">
         {t?.dailyGoalProgress || 'Daily Goal Progress'}
       </h3>

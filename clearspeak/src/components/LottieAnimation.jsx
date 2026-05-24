@@ -1,5 +1,6 @@
 import React from 'react';
 import Lottie from 'lottie-react';
+import { useAppSettings } from '../hooks/useAppSettings';
 
 /**
  * LottieAnimation Wrapper
@@ -18,6 +19,30 @@ export default function LottieAnimation({
   fallbackEmoji = "🌱",
   ariaLabel = "Success animation"
 }) {
+  const { theme, a11yAddons } = useAppSettings();
+  const isHighContrast = a11yAddons?.includes('Kontrast');
+
+  // Dynamiczna paleta barw za pomocą filtrów CSS 
+  // (Zakładamy, że bazowa animacja ma kolory z motywu 'Natur' - odcienie zieleni)
+  const getThemeFilter = () => {
+    // W trybie wysokiego kontrastu konwertujemy na mocno odcięte szarości
+    if (isHighContrast) return 'grayscale(100%) contrast(150%) brightness(120%)';
+    
+    switch (theme) {
+      case 'Musik': // Z zieleni w fiolet
+        return 'hue-rotate(140deg) saturate(80%)';
+      case 'Kunst': // Z zieleni w bursztyn/pomarańcz
+        return 'hue-rotate(250deg) saturate(120%)';
+      case 'Space': // Z zieleni w chłodny, zgaszony błękit
+        return 'hue-rotate(90deg) saturate(30%) brightness(90%)';
+      case 'Ocean': // Z zieleni w morski/cyjan
+        return 'hue-rotate(60deg) saturate(110%)';
+      case 'Natur':
+      default:
+        return 'none';
+    }
+  };
+
   // 1. Accessibility Guard: Disable motion if requested
   if (noFlash) {
     return (
@@ -39,6 +64,7 @@ export default function LottieAnimation({
       className={className} 
       aria-label={ariaLabel} 
       role="img"
+      style={{ filter: getThemeFilter(), transition: 'filter 0.5s ease-in-out' }}
     >
       {/* aria-hidden is applied to the Lottie element itself so the screen reader 
           reads the wrapper's aria-label instead of parsing SVG nodes */}

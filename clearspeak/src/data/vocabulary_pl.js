@@ -175,7 +175,7 @@ export const wordDatabasePL = {
       difficulty: 2,
       focus: 'ż wymienne na g',
       questions: {
-        pl: 'Które ż wymienia się na g w innej formie wyrazu? (droższy ← drogi)',
+        pl: 'Które ż wymienia się na g w innej formie wyrazu?',
         en: "Which 'ż' alternates with 'g' in a related word form?",
         de: "Welches 'ż' wechselt mit 'g' in einer verwandten Wortform?",
       },
@@ -603,15 +603,15 @@ export const wordDatabasePL = {
     {
       id: 1,
       difficulty: 1,
-      timeAnalog: 'Kwadrans po trzeciej',
-      isNight: false,
+      timeAnalog: 'Kwadrans po trzeciej w nocy',
+      isNight: true,
       hourRotation: 98,
       minuteRotation: 90,
       options: [
         { text: '03:15', isCorrect: true },
-        { text: '15:15', isCorrect: true },
-        { text: '03:45', isCorrect: false },
-        { text: '15:45', isCorrect: false },
+        { text: '15:15', isCorrect: false },
+        { text: '03:03', isCorrect: false },
+        { text: '04:15', isCorrect: false },
       ],
     },
     {
@@ -624,7 +624,7 @@ export const wordDatabasePL = {
       options: [
         { text: '18:30', isCorrect: true },
         { text: '06:30', isCorrect: false },
-        { text: '07:30', isCorrect: false },
+        { text: '18:06', isCorrect: false },
         { text: '19:30', isCorrect: false },
       ],
     },
@@ -638,8 +638,8 @@ export const wordDatabasePL = {
       options: [
         { text: '09:50', isCorrect: true },
         { text: '21:50', isCorrect: false },
-        { text: '10:10', isCorrect: false },
         { text: '10:50', isCorrect: false },
+        { text: '09:10', isCorrect: false },
       ],
     },
     {
@@ -666,8 +666,8 @@ export const wordDatabasePL = {
       options: [
         { text: '00:00', isCorrect: true },
         { text: '12:00', isCorrect: false },
+        { text: '00:12', isCorrect: false },
         { text: '23:59', isCorrect: false },
-        { text: '01:00', isCorrect: false },
       ],
     },
     {
@@ -680,8 +680,8 @@ export const wordDatabasePL = {
       options: [
         { text: '12:30', isCorrect: true },
         { text: '00:30', isCorrect: false },
-        { text: '01:30', isCorrect: false },
-        { text: '11:30', isCorrect: false },
+        { text: '13:30', isCorrect: false },
+        { text: '06:00', isCorrect: false },
       ],
     },
     {
@@ -694,8 +694,8 @@ export const wordDatabasePL = {
       options: [
         { text: '20:45', isCorrect: true },
         { text: '08:45', isCorrect: false },
-        { text: '09:45', isCorrect: false },
-        { text: '21:15', isCorrect: false },
+        { text: '21:45', isCorrect: false },
+        { text: '09:40', isCorrect: false },
       ],
     },
     {
@@ -708,8 +708,8 @@ export const wordDatabasePL = {
       options: [
         { text: '16:20', isCorrect: true },
         { text: '04:20', isCorrect: false },
-        { text: '04:40', isCorrect: false },
-        { text: '05:20', isCorrect: false },
+        { text: '16:04', isCorrect: false },
+        { text: '20:16', isCorrect: false },
       ],
     },
     {
@@ -722,8 +722,8 @@ export const wordDatabasePL = {
       options: [
         { text: '23:35', isCorrect: true },
         { text: '11:35', isCorrect: false },
-        { text: '11:25', isCorrect: false },
         { text: '00:35', isCorrect: false },
+        { text: '19:55', isCorrect: false },
       ],
     },
     {
@@ -737,7 +737,77 @@ export const wordDatabasePL = {
         { text: '18:00', isCorrect: true },
         { text: '06:00', isCorrect: false },
         { text: '19:00', isCorrect: false },
-        { text: '06:18', isCorrect: false },
+        { text: '12:30', isCorrect: false },
+      ],
+    },
+    {
+      id: 11,
+      difficulty: 2,
+      timeAnalog: 'Za kwadrans ósma rano',
+      isNight: false,
+      hourRotation: 232,
+      minuteRotation: 270,
+      options: [
+        { text: '07:45', isCorrect: true },
+        { text: '19:45', isCorrect: false },
+        { text: '08:45', isCorrect: false },
+        { text: '07:09', isCorrect: false },
+      ],
+    },
+    {
+      id: 12,
+      difficulty: 2,
+      timeAnalog: 'Dwadzieścia po drugiej po południu',
+      isNight: false,
+      hourRotation: 70,
+      minuteRotation: 120,
+      options: [
+        { text: '14:20', isCorrect: true },
+        { text: '02:20', isCorrect: false },
+        { text: '14:04', isCorrect: false },
+        { text: '14:40', isCorrect: false },
+      ],
+    },
+    {
+      id: 13,
+      difficulty: 3,
+      timeAnalog: 'Pięć po jedenastej w nocy',
+      isNight: true,
+      hourRotation: 332,
+      minuteRotation: 30,
+      options: [
+        { text: '23:05', isCorrect: true },
+        { text: '11:05', isCorrect: false },
+        { text: '23:01', isCorrect: false },
+        { text: '05:11', isCorrect: false },
+      ],
+    },
+    {
+      id: 14,
+      difficulty: 1,
+      timeAnalog: 'Kwadrans po dziewiątej rano',
+      isNight: false,
+      hourRotation: 278,
+      minuteRotation: 90,
+      options: [
+        { text: '09:15', isCorrect: true },
+        { text: '21:15', isCorrect: false },
+        { text: '09:03', isCorrect: false },
+        { text: '03:45', isCorrect: false },
+      ],
+    },
+    {
+      id: 15,
+      difficulty: 2,
+      timeAnalog: 'Za dziesięć dziewiąta wieczorem',
+      isNight: true,
+      hourRotation: 265,
+      minuteRotation: 300,
+      options: [
+        { text: '20:50', isCorrect: true },
+        { text: '08:50', isCorrect: false },
+        { text: '21:50', isCorrect: false },
+        { text: '20:10', isCorrect: false },
       ],
     },
   ],
@@ -1151,15 +1221,15 @@ export const wordDatabasePL = {
   ],
 
   diagnostic: [
-    { id: 'pl_diag_1', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostyka: Pisownia rz/ż', questions: { pl: 'Które słowo jest napisane błędnie?' }, options: [{ text: 'A) Przepraszam', isCorrect: false }, { text: 'B) Porządek', isCorrect: false }, { text: 'C) Wydażenie', isCorrect: true }, { text: 'D) Marzenie', isCorrect: false }] },
-    { id: 'pl_diag_2', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostyka: Homofony', questions: { pl: 'Wybierz poprawne słowo: "Z chęcią ___ tę propozycję."' }, options: [{ text: 'A) przyjmę', isCorrect: true }, { text: 'B) przymne', isCorrect: false }, { text: 'C) pżyjmę', isCorrect: false }, { text: 'D) przymię', isCorrect: false }] },
-    { id: 'pl_diag_3', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostyka: Ó/U', questions: { pl: 'Które słowo posiada "ó" niewymienne?' }, options: [{ text: 'A) Wóz (bo wozu)', isCorrect: false }, { text: 'B) Córka', isCorrect: true }, { text: 'C) Stół (bo stołu)', isCorrect: false }, { text: 'D) Rów (bo rowu)', isCorrect: false }] },
-    { id: 'pl_diag_4', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostyka: Podział na sylaby', questions: { pl: 'Ile sylab ma słowo "Zaangażowanie"?' }, options: [{ text: 'A) 4', isCorrect: false }, { text: 'B) 5', isCorrect: false }, { text: 'C) 6', isCorrect: true }, { text: 'D) 7', isCorrect: false }] },
-    { id: 'pl_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostyka: Dyskryminacja wzrokowa', questions: { pl: 'Wskaż literę, która nie pasuje do wzoru:\n\n p p q p p' }, options: [{ text: 'A) Pierwsza', isCorrect: false }, { text: 'B) Druga', isCorrect: false }, { text: 'C) Trzecia', isCorrect: true }, { text: 'D) Czwarta', isCorrect: false }] },
-    { id: 'pl_diag_6', pillar: 'Visual', difficulty: 3, focus: 'Diagnostyka: Odbicia lustrzane', questions: { pl: 'Który ciąg cyfr różni się od 5469?' }, options: [{ text: 'A) 5469', isCorrect: false }, { text: 'B) 5469', isCorrect: false }, { text: 'C) 5496', isCorrect: true }, { text: 'D) 5469', isCorrect: false }] },
-    { id: 'pl_diag_7', pillar: 'Visual', difficulty: 2, focus: 'Diagnostyka: Orientacja w czasie', questions: { pl: 'Jeżeli spotkanie zaczyna się o 14:00 i trwa 90 minut, o której się kończy?' }, options: [{ text: 'A) 15:00', isCorrect: false }, { text: 'B) 15:30', isCorrect: true }, { text: 'C) 16:00', isCorrect: false }, { text: 'D) 14:90', isCorrect: false }] },
-    { id: 'pl_diag_8', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostyka: Pamięć sekwencyjna', questions: { pl: 'Który miesiąc następuje bezpośrednio po sierpniu?' }, options: [{ text: 'A) Lipiec', isCorrect: false }, { text: 'B) Październik', isCorrect: false }, { text: 'C) Wrzesień', isCorrect: true }, { text: 'D) Listopad', isCorrect: false }] },
-    { id: 'pl_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostyka: Kategoryzacja', questions: { pl: 'Które słowo NIE należy do grupy zawodów?' }, options: [{ text: 'A) Nauczyciel', isCorrect: false }, { text: 'B) Lekarz', isCorrect: false }, { text: 'C) Biblioteka', isCorrect: true }, { text: 'D) Inżynier', isCorrect: false }] },
-    { id: 'pl_diag_10', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostyka: Pamięć logiczna', questions: { pl: 'Jeśli Jan jest wyższy od Piotra, a Piotr jest wyższy od Michała, to kto jest najniższy?' }, options: [{ text: 'A) Jan', isCorrect: false }, { text: 'B) Piotr', isCorrect: false }, { text: 'C) Michał', isCorrect: true }, { text: 'D) Wszyscy są równi', isCorrect: false }] }
+    { id: 'pl_diag_1', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostyka: Pisownia rz/ż', questions: { pl: 'Które słowo jest napisane błędnie?' }, options: [{ text: 'Przepraszam', isCorrect: false }, { text: 'Porządek', isCorrect: false }, { text: 'Wydażenie', isCorrect: true }, { text: 'Marzenie', isCorrect: false }] },
+    { id: 'pl_diag_2', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostyka: Homofony', questions: { pl: 'Wybierz poprawne słowo: "Z chęcią ___ tę propozycję."' }, options: [{ text: 'przyjmę', isCorrect: true }, { text: 'przymne', isCorrect: false }, { text: 'pżyjmę', isCorrect: false }, { text: 'przymię', isCorrect: false }] },
+    { id: 'pl_diag_3', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostyka: Ó/U', questions: { pl: 'Które słowo posiada "ó" niewymienne?' }, options: [{ text: 'Wóz', isCorrect: false }, { text: 'Córka', isCorrect: true }, { text: 'Stół', isCorrect: false }, { text: 'Rów', isCorrect: false }] },
+    { id: 'pl_diag_4', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostyka: Podział na sylaby', questions: { pl: 'Ile sylab ma słowo "Zaangażowanie"?' }, options: [{ text: '4', isCorrect: false }, { text: '5', isCorrect: false }, { text: '6', isCorrect: true }, { text: '7', isCorrect: false }] },
+    { id: 'pl_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostyka: Dyskryminacja wzrokowa', questions: { pl: 'Wskaż literę, która nie pasuje do wzoru:\n\n p p q p p' }, options: [{ text: 'Pierwsza', isCorrect: false }, { text: 'Druga', isCorrect: false }, { text: 'Trzecia', isCorrect: true }, { text: 'Czwarta', isCorrect: false }] },
+    { id: 'pl_diag_6', pillar: 'Visual', difficulty: 3, focus: 'Diagnostyka: Odbicia lustrzane', questions: { pl: 'Który ciąg cyfr różni się od 5469?' }, options: [{ text: '5469', isCorrect: false }, { text: '5469', isCorrect: false }, { text: '5496', isCorrect: true }, { text: '5469', isCorrect: false }] },
+    { id: 'pl_diag_7', pillar: 'Visual', difficulty: 2, focus: 'Diagnostyka: Orientacja w czasie', questions: { pl: 'Jeżeli spotkanie zaczyna się o 14:00 i trwa 90 minut, o której się kończy?' }, options: [{ text: '15:00', isCorrect: false }, { text: '15:30', isCorrect: true }, { text: '16:00', isCorrect: false }, { text: '14:90', isCorrect: false }] },
+    { id: 'pl_diag_8', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostyka: Pamięć sekwencyjna', questions: { pl: 'Który miesiąc następuje bezpośrednio po sierpniu?' }, options: [{ text: 'Lipiec', isCorrect: false }, { text: 'Październik', isCorrect: false }, { text: 'Wrzesień', isCorrect: true }, { text: 'Listopad', isCorrect: false }] },
+    { id: 'pl_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostyka: Kategoryzacja', questions: { pl: 'Które słowo NIE należy do grupy zawodów?' }, options: [{ text: 'Nauczyciel', isCorrect: false }, { text: 'Lekarz', isCorrect: false }, { text: 'Biblioteka', isCorrect: true }, { text: 'Inżynier', isCorrect: false }] },
+    { id: 'pl_diag_10', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostyka: Pamięć logiczna', questions: { pl: 'Jeśli Jan jest wyższy od Piotra, a Piotr jest wyższy od Michała, to kto jest najniższy?' }, options: [{ text: 'Jan', isCorrect: false }, { text: 'Piotr', isCorrect: false }, { text: 'Michał', isCorrect: true }, { text: 'Wszyscy są równi', isCorrect: false }] }
   ]
 };

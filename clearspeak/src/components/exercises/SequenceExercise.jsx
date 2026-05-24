@@ -1,9 +1,11 @@
 // SequenceExercise.jsx — a11y-aware with Pure Render Logic and Voice Commands
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 // Importing shared utilities
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { seededShuffle } from '../../utils/shuffleUtils.js';
+import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import TTSController from '../common/TTSController';
 
 /**
  * Refactored to eliminate impurity errors and cascading renders.
@@ -66,6 +68,19 @@ function SequenceExercise({
 
   const { available: availableWords, selected: selectedWords } = taskWords;
 
+  const [activeHighlight, setActiveHighlight] = useState(null);
+  const [isShowingCorrection, setIsShowingCorrection] = useState(false);
+  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+
+  useEffect(() => {
+    return () => {
+      clearAllTimeouts();
+      window.speechSynthesis.cancel();
+      setActiveHighlight(null);
+      setIsShowingCorrection(false);
+    };
+  }, [clearAllTimeouts]);
+
   // --- 3. Shared Hooks ---
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
@@ -74,20 +89,29 @@ function SequenceExercise({
 
   // --- 4. Core Logic ---
   const handleSelect = useCallback((wordObj) => {
+    if (isShowingCorrection) return;
+    clearAllTimeouts();
+    window.speechSynthesis.cancel();
     setTaskWords((prev) => ({
       selected: [...prev.selected, wordObj],
       available: prev.available.filter((w) => w.id !== wordObj.id),
     }));
-  }, []);
+  }, [clearAllTimeouts, isShowingCorrection]);
 
   const handleDeselect = useCallback((wordObj) => {
+    if (isShowingCorrection) return;
+    clearAllTimeouts();
+    window.speechSynthesis.cancel();
     setTaskWords((prev) => ({
       available: [...prev.available, wordObj],
       selected: prev.selected.filter((w) => w.id !== wordObj.id),
     }));
-  }, []);
+  }, [clearAllTimeouts, isShowingCorrection]);
 
   const handleCheck = useCallback(() => {
+    if (isShowingCorrection) return;
+    clearAllTimeouts();
+    window.speechSynthesis.cancel();
     const correctSentence = Array.isArray(data.correct)
       ? data.correct.join(' ')
       : data.correct;
@@ -96,20 +120,36 @@ function SequenceExercise({
       onSuccess();
     } else {
       onError();
-      // Manual reset on error - here Math.random is okay because it's inside an EVENT handler, not render.
+      setIsShowingCorrection(true);
+
       const wordsArray = Array.isArray(data.correct)
         ? [...data.correct]
         : typeof data.correct === 'string'
           ? data.correct.split(' ')
           : [];
-      const combined = [...wordsArray, ...(data.distractors || [])];
-      const shuffled = combined.sort(() => Math.random() - 0.5);
+
+      // Prezentacja poprawnej odpowiedzi (tymczasowe ustawienie)
       setTaskWords({
-        available: shuffled.map((w, i) => ({ id: `word-${i}`, text: w })),
-        selected: [],
+        available: [],
+        selected: wordsArray.map((w, i) => ({ id: `correct-${i}`, text: w })),
       });
+
+      // Odczekanie na komunikat błędu i odczytanie poprawnej sekwencji
+      setSafeTimeout(() => {
+        speak(correctSentence, extendedTime);
+
+        setSafeTimeout(() => {
+          const combined = [...wordsArray, ...(data.distractors || [])];
+          const shuffled = combined.sort(() => Math.random() - 0.5);
+          setTaskWords({
+            available: shuffled.map((w, i) => ({ id: `word-${i}`, text: w })),
+            selected: [],
+          });
+          setIsShowingCorrection(false);
+        }, correctSentence.length * (extendedTime ? 90 : 65) + 2000);
+      }, extendedTime ? 3500 : 2500);
     }
-  }, [selectedWords, data.correct, onSuccess, onError]);
+  }, [selectedWords, data.correct, data.distractors, onSuccess, onError, clearAllTimeouts, setSafeTimeout, speak, extendedTime, isShowingCorrection]);
 
   // --- 5. Voice Callbacks ---
   const targetLength = Array.isArray(data.correct)
@@ -121,12 +161,18 @@ function SequenceExercise({
   const showCheckButton = availableWords.length === 0 || (data.distractors && selectedWords.length === targetLength);
 
   const handleVoiceMatch = (num) => {
+    if (isShowingCorrection) return;
+    clearAllTimeouts();
+    window.speechSynthesis.cancel();
     const wordObj = availableWords[num - 1];
     if (wordObj) handleSelect(wordObj);
     else onError();
   };
 
   const handleCommandMatch = (cmd) => {
+    if (isShowingCorrection) return;
+    clearAllTimeouts();
+    window.speechSynthesis.cancel();
     if (cmd === 'undo' && selectedWords.length > 0) {
       handleDeselect(selectedWords[selectedWords.length - 1]);
     } else if (cmd === 'check' && showCheckButton) {
@@ -178,17 +224,22 @@ function SequenceExercise({
       )}
 
       <div className="mb-8 flex gap-6">
-        <button
-          onClick={readAvailableWords}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-400 shadow-sm transition-all hover:text-slate-600 active:scale-90`}
-          aria-label={t.readAloud || 'Read words'}
-        >
-          🔊
-        </button>
+        <TTSController
+          onReadAloud={readAvailableWords}
+          pauseAllTimeouts={() => {
+            if (!isShowingCorrection) pauseAllTimeouts();
+          }}
+          resumeAllTimeouts={() => {
+            if (!isShowingCorrection) resumeAllTimeouts();
+          }}
+          t={t}
+          controlBtnSize={controlBtnSize}
+        />
 
         <button
           onClick={() => startListening(handleVoiceMatch, handleCommandMatch)}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
+          disabled={isShowingCorrection}
+          className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:grayscale ${
             isListening
               ? pulseClass + ' text-white'
               : `${themeStyles.button} text-white hover:brightness-110`
@@ -218,8 +269,12 @@ function SequenceExercise({
           <button
             key={wordObj.id}
             onClick={() => handleDeselect(wordObj)}
-            disabled={isListening}
-            className={`${btnPadding} ${themeStyles.button} rounded-2xl font-black text-white shadow-md transition-all active:scale-95 ${isListening ? 'opacity-50 grayscale' : ''}`}
+            disabled={isListening || isShowingCorrection}
+            className={`${btnPadding} rounded-2xl font-black text-white shadow-md transition-all active:scale-95 ${
+              isListening ? 'opacity-50 grayscale' : ''
+            } ${
+              isShowingCorrection ? 'bg-yellow-400 text-slate-900 shadow-xl scale-105 pointer-events-none' : themeStyles.button
+            }`}
           >
             <BionicText text={wordObj.text} enabled={bionicReading} />
           </button>
@@ -231,8 +286,14 @@ function SequenceExercise({
           <button
             key={wordObj.id}
             onClick={() => handleSelect(wordObj)}
-            disabled={isListening}
-            className={`relative ${btnPadding} rounded-2xl border-2 border-slate-200 bg-white font-black text-slate-600 shadow-sm transition-all hover:border-slate-300 active:scale-95 ${isListening ? 'opacity-50 grayscale' : ''}`}
+            disabled={isListening || isShowingCorrection}
+            className={`relative ${btnPadding} rounded-2xl border-2 font-black shadow-sm transition-all active:scale-95 ${
+              (isListening || isShowingCorrection)
+                ? 'opacity-50 grayscale border-slate-200 bg-white text-slate-600' 
+                : activeHighlight === wordObj.id
+                  ? 'scale-105 ring-4 ring-yellow-400 bg-yellow-50 border-yellow-400 text-slate-900 shadow-xl z-10'
+                  : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+            }`}
           >
             <span
               className="absolute -top-3 -left-2 flex h-6 w-6 items-center justify-center rounded-full bg-slate-800 text-xs text-white shadow-sm"
@@ -248,8 +309,8 @@ function SequenceExercise({
       {showCheckButton && (
         <button
           onClick={handleCheck}
-          disabled={isListening}
-          className={`px-12 py-4 ${themeStyles.button} rounded-full text-xl font-black text-white shadow-xl transition-all active:scale-95 ${noFlash ? '' : 'animate-bounce'} ${isListening ? 'opacity-50 grayscale' : ''}`}
+          disabled={isListening || isShowingCorrection}
+          className={`px-12 py-4 ${themeStyles.button} rounded-full text-xl font-black text-white shadow-xl transition-all active:scale-95 ${noFlash ? '' : 'animate-bounce'} ${(isListening || isShowingCorrection) ? 'opacity-50 grayscale cursor-not-allowed' : ''}`}
         >
           <BionicText text={t.check || 'Check'} enabled={bionicReading} />
         </button>

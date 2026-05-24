@@ -1,8 +1,10 @@
 // SpatialExercise.jsx — a11y-aware with Shared Voice Logic, Bionic Reading, and Zen Mode
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 // Importing shared components and hooks to maintain a professional, clean architecture
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
+import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import TTSController from '../common/TTSController';
 
 /**
  * SpatialExercise Component
@@ -32,13 +34,57 @@ function SpatialExercise({
     t,
   );
 
+  const [activeHighlight, setActiveHighlight] = useState(null);
+  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+
+  const clearAudioTimeouts = useCallback(() => {
+    clearAllTimeouts();
+    setActiveHighlight(null);
+  }, [clearAllTimeouts]);
+
+  useEffect(() => {
+    return () => {
+      clearAudioTimeouts();
+      window.speechSynthesis.cancel();
+    };
+  }, [clearAudioTimeouts]);
+
   const currentItem = data.items[currentIndex];
+
+  // Opóźniona informacja zwrotna po błędzie ze wskazaniem wizualnym
+  const handleMistake = useCallback(() => {
+    onError();
+    setSafeTimeout(() => {
+      window.speechSynthesis.cancel();
+      clearAudioTimeouts();
+
+      const currentTaskItem = data.items[currentIndex];
+      const correctIndex = data.options.findIndex((o) => o.value === currentTaskItem.target);
+      
+      if (correctIndex !== -1) {
+        const correctOpt = data.options[correctIndex];
+        const cleanLabel = correctOpt.label.replace(
+          /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{1FAB0}-\u{1FABF}\u{1FAC0}-\u{1FACF}\u{1FAD0}-\u{1FADF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu,
+          '',
+        );
+
+        setActiveHighlight(correctIndex);
+        speak(cleanLabel, extendedTime);
+
+        setSafeTimeout(() => {
+          setActiveHighlight(null);
+        }, cleanLabel.length * (extendedTime ? 90 : 65) + 1500);
+      }
+    }, extendedTime ? 3500 : 2500);
+  }, [onError, setSafeTimeout, clearAudioTimeouts, data, currentIndex, speak, extendedTime]);
 
   /**
    * Logic for selecting an answer.
    * Includes transition animations between items in a multi-item task.
    */
   const handleChoice = (selectedValue) => {
+    clearAudioTimeouts();
+    window.speechSynthesis.cancel();
     if (selectedValue === currentItem.target) {
       if (currentIndex + 1 >= data.items.length) {
         onSuccess();
@@ -55,7 +101,7 @@ function SpatialExercise({
         }
       }
     } else {
-      onError();
+      handleMistake();
     }
   };
 
@@ -66,13 +112,16 @@ function SpatialExercise({
   const handleVoiceMatch = (num) => {
     const option = data.options[num - 1];
     if (option) handleChoice(option.value);
-    else onError();
+    else handleMistake();
   };
 
   // --- Read Instruction & Options Aloud Logic ---
   const readInstructionAndOptions = () => {
-    const silentPause = ' ... , , , ... ';
-    let spokenText = `${data.instruction}${silentPause}`;
+    window.speechSynthesis.cancel();
+    clearAudioTimeouts();
+
+    speak(data.instruction, extendedTime);
+    let delayAcc = (data.instruction || '').length * (extendedTime ? 90 : 65) + 1500;
 
     data.options.forEach((opt, index) => {
       const optionPrefix =
@@ -90,10 +139,20 @@ function SpatialExercise({
         /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{1FAB0}-\u{1FABF}\u{1FAC0}-\u{1FACF}\u{1FAD0}-\u{1FADF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu,
         '',
       );
-      spokenText += `${optionPrefix} ${cleanLabel}. `;
-    });
+      
+      const stepDuration = (optionPrefix.length + cleanLabel.length) * (extendedTime ? 90 : 65) + 800;
+      
+      setSafeTimeout(() => {
+        setActiveHighlight(index);
+        speak(`${optionPrefix} ${cleanLabel}`);
+      }, delayAcc);
+      
+      setSafeTimeout(() => {
+        setActiveHighlight((prev) => (prev === index ? null : prev));
+      }, delayAcc + stepDuration - 200);
 
-    speak(spokenText, extendedTime);
+      delayAcc += stepDuration;
+    });
   };
 
   // Dynamic Class Definitions based on a11y props
@@ -110,13 +169,13 @@ function SpatialExercise({
     <div className="flex min-h-96 w-full flex-col items-center justify-between">
       {/* 1. Voice & Audio Controls */}
       <div className="mb-2 flex shrink-0 gap-4">
-        <button
-          onClick={readInstructionAndOptions}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-400 shadow-sm transition-all hover:text-slate-600 active:scale-90`}
-          aria-label={t.readAloud || 'Read instructions and options'}
-        >
-          🔊
-        </button>
+        <TTSController
+          onReadAloud={readInstructionAndOptions}
+          pauseAllTimeouts={pauseAllTimeouts}
+          resumeAllTimeouts={resumeAllTimeouts}
+          t={t}
+          controlBtnSize={controlBtnSize}
+        />
 
         <button
           onClick={() => startListening(handleVoiceMatch)}
@@ -182,7 +241,13 @@ function SpatialExercise({
             key={i}
             onClick={() => handleChoice(option.value)}
             disabled={isListening}
-            className={`relative ${btnPadding} rounded-[35px] border-b-4 text-lg font-black tracking-widest uppercase transition-all active:translate-y-1 active:border-b-0 ${isListening ? 'border-slate-500 bg-slate-400 opacity-50 grayscale' : `${themeStyles.button} hover:brightness-110`} flex items-center justify-center gap-2 text-white shadow-lg`}
+            className={`relative ${btnPadding} rounded-[35px] border-b-4 text-lg font-black tracking-widest uppercase transition-all active:translate-y-1 active:border-b-0 ${
+              isListening 
+                ? 'border-slate-500 bg-slate-400 opacity-50 grayscale text-white' 
+                : activeHighlight === i
+                  ? 'scale-105 ring-4 ring-yellow-400 bg-yellow-50 border-yellow-400 text-slate-900 shadow-xl z-10'
+                  : `${themeStyles.button} text-white hover:brightness-110`
+            } flex items-center justify-center gap-2 shadow-lg`}
           >
             {/* Numeric visual indicator for voice selection */}
             <span

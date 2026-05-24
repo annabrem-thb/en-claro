@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import BionicText from './BionicText.jsx';
+import { useAppSettings } from '../../hooks/useAppSettings.js';
 
 /**
  * ChunkedText Component
@@ -15,6 +16,14 @@ export default function ChunkedText({
 }) {
   const [useSimplified, setUseSimplified] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
+
+  const { language } = useAppSettings();
+  const fallbacks = {
+    pl: { show: 'Pokaż oryginał', sim: 'Uprość tekst ✨', prev: '← Poprzednia', next: 'Następna →' },
+    de: { show: 'Original anzeigen', sim: 'Text vereinfachen ✨', prev: '← Zurück', next: 'Weiter →' },
+    en: { show: 'Show original', sim: 'Simplify text ✨', prev: '← Previous', next: 'Next →' }
+  };
+  const l = fallbacks[language] || fallbacks.en;
 
   // Wybierz źródło tekstu
   const activeText = useSimplified && simplifiedText ? simplifiedText : originalText;
@@ -46,7 +55,7 @@ export default function ChunkedText({
             onClick={() => setUseSimplified(!useSimplified)}
             className="px-4 py-2 text-xs font-black uppercase tracking-widest rounded-full bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors shadow-sm"
           >
-            {useSimplified ? (t.showOriginal || 'Show original') : (t.simplifyText || 'Simplify text ✨')}
+            {useSimplified ? (t.showOriginal || l.show) : (t.simplifyText || l.sim)}
           </button>
         </div>
       )}
@@ -60,13 +69,13 @@ export default function ChunkedText({
       {chunks.length > 1 && (
         <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-2">
           <button disabled={currentPage === 0} onClick={() => setCurrentPage(p => p - 1)} className="px-5 py-2.5 rounded-xl font-bold text-sm bg-slate-100 text-slate-600 disabled:opacity-30">
-            {t.prevPage || '← Previous'}
+            {t.prevPage || l.prev}
           </button>
           <span className="text-xs font-black tracking-widest text-slate-400">
             {currentPage + 1} / {chunks.length}
           </span>
           <button disabled={currentPage === chunks.length - 1} onClick={() => setCurrentPage(p => p + 1)} className="px-5 py-2.5 rounded-xl font-bold text-sm bg-indigo-500 text-white disabled:opacity-30">
-            {t.nextPage || 'Next →'}
+            {t.nextPage || l.next}
           </button>
         </div>
       )}

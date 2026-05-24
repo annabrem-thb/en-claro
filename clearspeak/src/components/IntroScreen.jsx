@@ -78,7 +78,7 @@ function IntroScreen({
           : 'bg-white/90 backdrop-blur-md border border-slate-200'
       }`}>
 
-        <div className="w-full flex flex-col items-center animate-in fade-in zoom-in duration-500">
+        <div className={`w-full flex flex-col items-center ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
           {/* Application Icon */}
           <div className="text-5xl sm:text-6xl mb-3 drop-shadow-lg" aria-hidden="true">🧠</div>
 

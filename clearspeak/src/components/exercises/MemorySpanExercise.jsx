@@ -1,8 +1,10 @@
 // MemorySpanExercise.jsx — a11y-aware with Shared Logic for Voice & Bionic Reading
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 // Importing shared components and hooks to prevent code duplication
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
+import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import TTSController from '../common/TTSController';
 
 /**
  * MemorySpanExercise Component
@@ -33,19 +35,55 @@ function MemorySpanExercise({
     t,
   );
 
-  // Phase 1 timing: Extended time gives ~5s instead of 3s
-  const displayDuration = extendedTime
-    ? (data.displayTime || 3000) * 1.67
-    : data.displayTime || 3000;
+  const [activeHighlight, setActiveHighlight] = useState(null);
+  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    return () => {
+      clearAllTimeouts();
+      window.speechSynthesis.cancel();
+      setActiveHighlight(null);
+    };
+  }, [clearAllTimeouts]);
+
+  const playMemorizationSequence = useCallback(() => {
+    if (!data.displayItems) return;
+    window.speechSynthesis.cancel();
+    clearAllTimeouts();
+
+    let delayAcc = 800; // krótka pauza przed startem
+    data.displayItems.forEach((item, index) => {
+      const textToSpeak = String(item);
+      const stepDuration = textToSpeak.length * (extendedTime ? 90 : 65) + 1200; // długi czas ekspozycji dla pamięci
+
+      setSafeTimeout(() => {
+        setActiveHighlight(`mem-${index}`);
+        speak(textToSpeak);
+      }, delayAcc);
+
+      setSafeTimeout(() => {
+        setActiveHighlight(null);
+      }, delayAcc + stepDuration - 200);
+
+      delayAcc += stepDuration;
+    });
+
+    // Po przeczytaniu całej sekwencji płynnie przechodzimy do odgadywania
+    setSafeTimeout(() => {
       setIsMemorizing(false);
-      // Auto-read the items to memorize
-      if (data.displayItems) speak(data.displayItems.join(', '), extendedTime);
-    }, displayDuration);
-    return () => clearTimeout(timer);
-  }, [data.displayItems, displayDuration, speak, extendedTime]);
+      setActiveHighlight(null);
+    }, delayAcc + 500);
+  }, [data.displayItems, extendedTime, speak, setSafeTimeout, clearAllTimeouts]);
+
+  useEffect(() => {
+    if (isMemorizing) {
+      playMemorizationSequence();
+    }
+    return () => {
+      clearAllTimeouts();
+      window.speechSynthesis.cancel();
+    };
+  }, [isMemorizing, playMemorizationSequence, clearAllTimeouts]);
 
   const stableScrambled = useMemo(
     () => (data.scrambled ? [...data.scrambled] : []),
@@ -53,6 +91,8 @@ function MemorySpanExercise({
   );
 
   const handleSelectItem = (item) => {
+    clearAllTimeouts();
+    window.speechSynthesis.cancel();
     if (isChecking || isMemorizing) return;
     const newSelected = [...selectedItems, item];
     setSelectedItems(newSelected);
@@ -93,8 +133,13 @@ function MemorySpanExercise({
 
   // --- Read Options Aloud Logic ---
   const readAvailableItems = () => {
-    const silentPause = ' ... , , , ... ';
-    let spokenText = `${data.instruction}${silentPause}`;
+    window.speechSynthesis.cancel();
+    clearAllTimeouts();
+
+    speak(data.instruction, extendedTime);
+
+    const charCount = (data.instruction || '').length;
+    let delayAcc = charCount * (extendedTime ? 90 : 65) + 1500;
 
     stableScrambled.forEach((item, index) => {
       if (!selectedItems.includes(item)) {
@@ -104,11 +149,22 @@ function MemorySpanExercise({
             en: `Option ${index + 1}: `,
             de: `Option ${index + 1}: `,
           }[language] || `Option ${index + 1}: `;
-        spokenText += `${optionPrefix} ${item}. `;
+
+        const hintCharCount = String(item).length + optionPrefix.length;
+        const stepDuration = hintCharCount * (extendedTime ? 90 : 65) + 800; // 800ms pause
+
+        setSafeTimeout(() => {
+          setActiveHighlight(index);
+          speak(`${optionPrefix} ${item}`);
+        }, delayAcc);
+
+        setSafeTimeout(() => {
+          setActiveHighlight((prev) => (prev === index ? null : prev));
+        }, delayAcc + stepDuration - 200);
+
+        delayAcc += stepDuration;
       }
     });
-
-    speak(spokenText, extendedTime);
   };
 
   // Dynamic styling
@@ -136,18 +192,31 @@ function MemorySpanExercise({
 
         {/* Phase 1: memorization */}
         {isMemorizing ? (
-          <div
-            className={`flex justify-center gap-4 ${pulseClass}`}
-            aria-live="polite"
-          >
-            {data.displayItems?.map((item, i) => (
-              <div
-                key={i}
-                className={`${tileSize} rounded-3xl border-4 bg-white ${themeStyles.border} flex items-center justify-center ${tileText} font-bold shadow-sm`}
-              >
-                <BionicText text={String(item)} enabled={bionicReading} />
-              </div>
-            ))}
+          <div className="flex flex-col items-center gap-6">
+            <TTSController
+              onReadAloud={playMemorizationSequence}
+              pauseAllTimeouts={pauseAllTimeouts}
+              resumeAllTimeouts={resumeAllTimeouts}
+              t={t}
+              controlBtnSize={controlBtnSize}
+            />
+            <div
+              className={`flex justify-center gap-4 ${pulseClass}`}
+              aria-live="polite"
+            >
+              {data.displayItems?.map((item, i) => (
+                <div
+                  key={i}
+                  className={`${tileSize} rounded-3xl border-4 bg-white transition-all duration-300 flex items-center justify-center ${tileText} font-bold shadow-sm ${
+                    activeHighlight === `mem-${i}`
+                      ? 'scale-110 ring-4 ring-yellow-400 bg-yellow-50 shadow-xl border-yellow-400 z-10'
+                      : themeStyles.border
+                  }`}
+                >
+                  <BionicText text={String(item)} enabled={bionicReading} />
+                </div>
+              ))}
+            </div>
           </div>
         ) : (
           !zenMode && (
@@ -165,13 +234,13 @@ function MemorySpanExercise({
         >
           {/* Voice Controls */}
           <div className="mb-8 flex gap-6">
-            <button
-              onClick={readAvailableItems}
-              className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-400 shadow-sm transition-all hover:text-slate-600 active:scale-90`}
-              aria-label={t.readAloud || 'Read available options'}
-            >
-              🔊
-            </button>
+            <TTSController
+              onReadAloud={readAvailableItems}
+              pauseAllTimeouts={pauseAllTimeouts}
+              resumeAllTimeouts={resumeAllTimeouts}
+              t={t}
+              controlBtnSize={controlBtnSize}
+            />
 
             <button
               onClick={() => startListening(handleVoiceMatch)}
@@ -214,11 +283,13 @@ function MemorySpanExercise({
                   key={index}
                   onClick={() => handleSelectItem(item)}
                   disabled={isSelected || isListening}
-                  className={`relative ${letterBtn} border-2 font-bold transition-all ${
-                    isSelected || isListening
-                      ? 'cursor-default border-slate-200 bg-slate-100 text-slate-400 opacity-30'
-                      : `bg-white shadow-sm ${themeStyles.border} ${themeStyles.accent} hover:bg-slate-50 active:scale-90`
-                  }`}
+                className={`relative ${letterBtn} border-2 font-bold transition-all active:scale-90 ${
+                  isSelected || isListening 
+                    ? 'cursor-default border-slate-200 bg-slate-100 text-slate-400 opacity-30' 
+                    : activeHighlight === index
+                      ? 'scale-105 ring-4 ring-yellow-400 bg-yellow-50 shadow-xl z-10 border-yellow-400 text-slate-900'
+                      : `bg-white shadow-sm ${themeStyles.border} ${themeStyles.accent} hover:bg-slate-50`
+                }`}
                   aria-pressed={isSelected}
                 >
                   {!isSelected && (

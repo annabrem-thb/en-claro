@@ -9,11 +9,17 @@ export default function AccessibleTTS({ text, speak, language = 'pl', children, 
     if (speak && text) speak(text, true); 
   };
 
+  const fallbackTitle = {
+    pl: "Czytaj na głos",
+    de: "Laut vorlesen",
+    en: "Read aloud"
+  };
+
   return (
     <div 
       className={`group relative inline-flex items-center gap-1 cursor-pointer w-full ${className}`}
       onClick={handleRead}
-      title={t.readAloudTitle || "Czytaj na głos / Read aloud"}
+      title={t.readAloudTitle || (fallbackTitle[language] || fallbackTitle.en)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleRead(e); }}

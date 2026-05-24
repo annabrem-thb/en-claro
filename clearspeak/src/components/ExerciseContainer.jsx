@@ -44,7 +44,7 @@ export default function ExerciseContainer({ currentTask, ...commonProps }) {
   if (currentTask.items && currentTask.options) return <SpatialExercise {...exerciseProps} />;
   if (currentTask.displayItems)   return <MemorySpanExercise {...exerciseProps} />;
   if (currentTask.buckets && currentTask.items) return <VisualCategorization {...exerciseProps} />;
-  if (currentTask.lcwc)           return <LookCoverWriteCheck targetWord={currentTask.word} onSelfEvaluate={(res) => res.correct ? commonProps.onSuccess() : commonProps.onError()} />;
+  if (currentTask.lcwc)           return <LookCoverWriteCheck targetWord={currentTask.word} onSelfEvaluate={(res) => res.correct ? commonProps.onSuccess() : commonProps.onError()} {...exerciseProps} />;
   if (currentTask.dictation)      return <DictationExercise {...exerciseProps} />;
   if (currentTask.correct)        return <SequenceExercise {...exerciseProps} />;
 

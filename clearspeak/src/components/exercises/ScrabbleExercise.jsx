@@ -3,6 +3,8 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 // Importing shared components and hooks to maintain professional architecture
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
+import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import TTSController from '../common/TTSController';
 
 /**
  * ScrabbleExercise Component
@@ -24,6 +26,20 @@ function ScrabbleExercise({
   zenMode = false,
 }) {
   const [userScrabble, setUserScrabble] = useState([]);
+  const [activeHighlight, setActiveHighlight] = useState(null);
+  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+
+  const clearAudioTimeouts = useCallback(() => {
+    clearAllTimeouts();
+    setActiveHighlight(null);
+  }, [clearAllTimeouts]);
+
+  useEffect(() => {
+    return () => {
+      clearAudioTimeouts();
+      window.speechSynthesis.cancel();
+    };
+  }, [clearAudioTimeouts]);
 
   // Use the shared voice hook for listening and speaking
   const { isListening, transcript, startListening } = useExerciseVoice(
@@ -64,11 +80,17 @@ function ScrabbleExercise({
     } else {
       onError();
       setUserScrabble([]); // Reset on failure
+      // Odczekaj na wypowiedzenie komunikatu błędu i przeczytaj słowo docelowe jako podpowiedź
+      setSafeTimeout(() => {
+        speak(data.word, extendedTime);
+      }, extendedTime ? 3500 : 2500);
     }
-  }, [userScrabble, data.word, onSuccess, onError]);
+  }, [userScrabble, data.word, onSuccess, onError, setSafeTimeout, speak, extendedTime]);
 
   // Handle assembly of tiles
   const addLetter = (letter, index) => {
+    clearAudioTimeouts();
+    window.speechSynthesis.cancel();
     if (userScrabble.some((x) => x.index === index)) return;
     setUserScrabble((prev) => [...prev, { letter, index }]);
   };
@@ -89,24 +111,43 @@ function ScrabbleExercise({
   };
 
   const handleCommandMatch = (cmd) => {
+    clearAudioTimeouts();
+    window.speechSynthesis.cancel();
     if (cmd === 'undo') setUserScrabble([]); // Clear all tiles
     if (cmd === 'check') handleDone(); // Submit word
   };
 
   // --- Read Word & Available Tiles Aloud ---
   const readWordAndLetters = () => {
-    const silentPause = ' ... , , , ... ';
-    let spokenText = `${data.word}${silentPause}`;
+    window.speechSynthesis.cancel();
+    clearAudioTimeouts();
+
+    speak(data.word, extendedTime);
+
+    let delayAcc = extendedTime ? 2000 : 1500;
+    const delayStep = extendedTime ? 1600 : 1200;
 
     shuffledLetters.forEach((l, i) => {
       const isUsed = userScrabble.some((x) => x.index === i);
       if (!isUsed) {
-        const optionPrefix = t.letterPrefix ? t.letterPrefix(i + 1) : `Letter ${i + 1}: `;
-        spokenText += `${optionPrefix} ${l}. `;
+        setSafeTimeout(() => {
+          setActiveHighlight(i);
+          const prefixes = {
+            pl: `Litera ${i + 1}: `,
+            en: `Letter ${i + 1}: `,
+            de: `Buchstabe ${i + 1}: `
+          };
+          const optionPrefix = t.letterPrefix ? t.letterPrefix(i + 1) : (prefixes[language] || prefixes['en']);
+          speak(`${optionPrefix} ${l}`);
+        }, delayAcc);
+
+        setSafeTimeout(() => {
+          setActiveHighlight((prev) => (prev === i ? null : prev));
+        }, delayAcc + delayStep - 200);
+
+        delayAcc += delayStep;
       }
     });
-
-    speak(spokenText, extendedTime);
   };
 
   // Auto-submit logic when all letters are exhausted
@@ -150,13 +191,13 @@ function ScrabbleExercise({
         )}
 
         <div className="mb-2 flex gap-4 sm:gap-6">
-          <button
-            onClick={readWordAndLetters}
-            className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-400 shadow-sm transition-all hover:text-slate-600 active:scale-90`}
-            aria-label={t.readAloud || 'Read letters aloud'}
-          >
-            🔊
-          </button>
+          <TTSController
+            onReadAloud={readWordAndLetters}
+            pauseAllTimeouts={pauseAllTimeouts}
+            resumeAllTimeouts={resumeAllTimeouts}
+            t={t}
+            controlBtnSize={controlBtnSize}
+          />
 
           <button
             onClick={() => startListening(handleVoiceMatch, handleCommandMatch)}
@@ -203,7 +244,9 @@ function ScrabbleExercise({
               className={`relative ${letterBtn} font-black shadow-md transition-all active:scale-90 ${
                 isUsed || isListening
                   ? 'cursor-default border-slate-200 bg-slate-100 text-slate-400 opacity-30'
-                  : 'border-transparent bg-slate-100 text-slate-700 hover:bg-white hover:shadow-lg'
+                  : activeHighlight === i
+                    ? `scale-110 ring-4 ring-yellow-400 bg-yellow-50 shadow-xl z-10 text-slate-900`
+                    : 'border-transparent bg-slate-100 text-slate-700 hover:bg-white hover:shadow-lg'
               }`}
             >
               {!isUsed && (
@@ -223,13 +266,13 @@ function ScrabbleExercise({
       {/* 4. Action Buttons */}
       <div className="mt-auto flex w-full max-w-2xl shrink-0 gap-2 px-2 pt-6 sm:gap-4">
         <button
-          onClick={() => setUserScrabble([])}
+          onClick={() => { clearAudioTimeouts(); window.speechSynthesis.cancel(); setUserScrabble([]); }}
           className={`flex-1 ${bigTargets ? 'py-4' : 'py-3 sm:py-4'} rounded-2xl bg-slate-50 text-[9px] font-black tracking-[0.2em] text-slate-400 uppercase transition-colors hover:text-slate-600 sm:text-[10px]`}
         >
           <BionicText text={t.delete || 'Delete'} enabled={bionicReading} />
         </button>
         <button
-          onClick={handleDone}
+          onClick={() => { clearAudioTimeouts(); window.speechSynthesis.cancel(); handleDone(); }}
           disabled={userScrabble.length === 0}
           className={`flex-2 ${bigTargets ? 'py-4' : 'py-3 sm:py-4'} ${themeStyles.button} rounded-2xl font-black text-white shadow-lg transition-all hover:brightness-110 active:scale-95 disabled:opacity-30 disabled:grayscale`}
         >

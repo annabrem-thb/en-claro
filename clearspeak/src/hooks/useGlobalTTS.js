@@ -1,10 +1,59 @@
 import { useState, useEffect, useCallback } from 'react';
 
+export const TTS_EXCEPTIONS = {
+  pl: {
+    // 1. Zbitki "ie" (wymuszanie miękkości, unikanie ang. "aj" / "i")
+    'pie': 'pje', 'die': 'dje', 'tie': 'tje', 'lie': 'lje',
+    
+    // 2. Twarde "H" (żeby 'he' nie czytało "hi", 'ho' jako "hoł" itp.)
+    'ha': 'cha', 'he': 'che', 'hi': 'chi', 'ho': 'cho', 'hu': 'chu',
+
+    // 3. Ubezdźwięcznienia W -> F na końcu sylab (częsty błąd z ang. dyftongami)
+    'baw': 'baf', 'caw': 'caf', 'daw': 'daf', 'faw': 'faf', 'gaw': 'gaf', 'jaw': 'jaf', 
+    'kaw': 'kaf', 'law': 'laf', 'maw': 'maf', 'naw': 'naf', 'paw': 'paf', 'raw': 'raf', 
+    'saw': 'saf', 'taw': 'taf', 'zaw': 'zaf', 'lew': 'lef', 'mew': 'mef', 'pew': 'pef', 
+    'zew': 'zef', 'krew': 'kref', 'drzew': 'drzef', 'new': 'nef', 'few': 'fef', 'bow': 'bof', 
+    'cow': 'cof', 'dow': 'dof', 'how': 'chof', 'kow': 'kof', 'low': 'lof', 'mow': 'mof', 
+    'now': 'nof', 'pow': 'pof', 'row': 'rof', 'sow': 'sof', 'tow': 'tof', 'zow': 'zof',
+    'piw': 'pif', 'siw': 'sif', 'liw': 'lif', 'dziw': 'dzif',
+
+    // 4. Przypadkowe angielskie słówka (ubezdźwięcznienia D->T, G->K, B->P)
+    'bad': 'bat', 'sad': 'sat', 'mad': 'mat', 'rad': 'rat', 
+    'dog': 'dok', 'log': 'lok', 'big': 'bik', 'dig': 'dik',
+    'leg': 'lek', 'bag': 'bak', 'cab': 'kap', 'pub': 'pap',
+
+    // 5. Skróty i problematyczne sylaby (np. "ca" interpretowane jako circa/ka)
+    'ca': 'tsa'
+  },
+  en: {
+    // Naprawa angielskich, niefonetycznych sylab przy odczycie w izolacji
+    'tion': 'shun', 'sion': 'shun', 'tious': 'shus',
+    'ous': 'us', 'reau': 'row', 'neur': 'nur',
+    'sci': 'shee', 'ci': 'shee', 'mu': 'myoo',
+    'ca': 'kay', 'za': 'zay', 'ta': 'tay',
+    'cy': 'see', 'ly': 'lee', 'ty': 'tee',
+    'tre': 'truh', 'pre': 'pruh'
+  },
+  de: {
+    // Naprawa wymowy niemieckich przyrostków (Bühnendeutsch)
+    'ig': 'ich',
+    'dig': 'dich',
+    'sig': 'sich'
+  }
+};
+
+export function getTTSException(text, language) {
+  if (typeof text !== 'string') return text;
+  const normalized = text.trim().toLowerCase();
+  return TTS_EXCEPTIONS[language]?.[normalized] || text;
+}
+
 /**
  * Zarządza globalnym syntezatorem mowy (Text-to-Speech)
  * oraz jego konfiguracją z automatycznym zapisem do localStorage.
  */
 export function useGlobalTTS(language, extendedTime = false) {
+  const [voices, setVoices] = useState([]);
   const [selectedVoiceURIs, setSelectedVoiceURIs] = useState(() => {
     const sv = localStorage.getItem('cfg_voice_uris');
     if (sv) return JSON.parse(sv);
@@ -13,6 +62,18 @@ export function useGlobalTTS(language, extendedTime = false) {
   });
   const [voiceSpeed, setVoiceSpeed] = useState(() => Number(localStorage.getItem('cfg_voice_speed')) || 1.0);
   const [voicePitch, setVoicePitch] = useState(() => Number(localStorage.getItem('cfg_voice_pitch')) || 1.0);
+
+  // Wymuszenie ładowania głosów w celu uniknięcia błędu z pustą tablicą na Androidzie/Chrome
+  useEffect(() => {
+    const updateVoices = () => {
+      const availableVoices = window.speechSynthesis?.getVoices?.() || [];
+      if (availableVoices.length > 0) setVoices(availableVoices);
+    };
+    updateVoices();
+    if (window.speechSynthesis && window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = updateVoices;
+    }
+  }, []);
 
   // Zapis do localStorage przy każdej zmianie parametrów
   useEffect(() => {
@@ -24,28 +85,33 @@ export function useGlobalTTS(language, extendedTime = false) {
   const speak = useCallback((text, slow = false) => {
     if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
-    const msg  = new SpeechSynthesisUtterance(text);
+
+    const textToSpeak = getTTSException(text, language);
+
+    const msg  = new SpeechSynthesisUtterance(textToSpeak);
     msg.lang   = { de: 'de-DE', pl: 'pl-PL', en: 'en-US' }[language] || 'de-DE';
     msg.rate   = (slow || extendedTime) ? voiceSpeed * 0.65 : voiceSpeed;
     msg.pitch  = voicePitch;
 
-    const allVoices = window.speechSynthesis?.getVoices?.() || [];
+    // Korzystamy z załadowanego w tle stanu głosów
+    const allVoices = voices.length > 0 ? voices : (window.speechSynthesis?.getVoices?.() || []);
     let selectedVoice = null;
     const currentVoiceURI = selectedVoiceURIs[language];
 
     if (currentVoiceURI && currentVoiceURI !== 'default') {
       selectedVoice = allVoices.find(v => v.voiceURI === currentVoiceURI);
     } else {
-      if (language === 'pl')      selectedVoice = allVoices.find(v => v.name.includes('Zofia'));
-      else if (language === 'en') selectedVoice = allVoices.find(v => v.name.includes('Emma'));
-      else if (language === 'de') selectedVoice = allVoices.find(v => v.name.includes('Amala'));
+      const isLang = (v, code) => v.lang.toLowerCase().replace('_', '-').startsWith(code);
+      if (language === 'pl')      selectedVoice = allVoices.find(v => v.name.includes('Zofia')) || allVoices.find(v => v.name.includes('Paulina')) || allVoices.find(v => isLang(v, 'pl'));
+      else if (language === 'en') selectedVoice = allVoices.find(v => v.name.includes('Emma')) || allVoices.find(v => isLang(v, 'en'));
+      else if (language === 'de') selectedVoice = allVoices.find(v => v.name.includes('Amala')) || allVoices.find(v => isLang(v, 'de'));
     }
 
     if (selectedVoice) {
       msg.voice = selectedVoice;
     }
     window.speechSynthesis.speak(msg);
-  }, [language, extendedTime, selectedVoiceURIs, voiceSpeed, voicePitch]);
+  }, [language, extendedTime, selectedVoiceURIs, voiceSpeed, voicePitch, voices]);
 
   return { speak, selectedVoiceURIs, setSelectedVoiceURIs, voiceSpeed, setVoiceSpeed, voicePitch, setVoicePitch };
 }

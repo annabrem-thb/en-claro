@@ -1,25 +1,32 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 export function useExerciseVoice(language, t, options = {}) {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
 
-  const speak = useCallback(
-    (text, extendedTime = false) => {
-      if (!window.speechSynthesis) return;
+  const stopSpeaking = useCallback(() => {
+    if (window.speechSynthesis) {
       window.speechSynthesis.cancel();
-      const msg = new SpeechSynthesisUtterance(text);
-      msg.lang = { de: 'de-DE', pl: 'pl-PL', en: 'en-US' }[language];
-      msg.rate = extendedTime ? 0.55 : 0.85; // Slower rate for accessibility
-      window.speechSynthesis.speak(msg);
-    },
-    [language],
-  );
+    }
+  }, []);
+
+  // Automatyczne zatrzymanie TTS, gdy komponent jest odmontowywany 
+  // (np. gdy użytkownik wykona zadanie poprawnie lub je pominie)
+  useEffect(() => {
+    return () => {
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
 
   const startListening = (onNumberMatch, onCommandMatch) => {
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) return;
+
+    // Natychmiastowe zatrzymanie asystenta, aby mikrofon nie rejestrował jego głosu
+    stopSpeaking();
 
     const recognition = new SpeechRecognition();
     recognition.lang = { de: 'de-DE', pl: 'pl-PL', en: 'en-US' }[language];
@@ -65,5 +72,5 @@ export function useExerciseVoice(language, t, options = {}) {
     recognition.start();
   };
 
-  return { isListening, transcript, speak, startListening };
+  return { isListening, transcript, stopSpeaking, startListening };
 }

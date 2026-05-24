@@ -91,7 +91,14 @@ export function getSmartSpellingHint(word, allOptions, lang, t) {
 
   if (pronunciations && pronunciations[differingPart]) {
     const hint = pronunciations[differingPart];
-    return t?.spellingHint ? t.spellingHint(word, hint) : `${word}, with ${hint}`;
+    if (t?.spellingHint) return t.spellingHint(word, hint);
+    
+    const hintTemplates = {
+      pl: `${word}, pisane przez ${hint}`,
+      de: `${word}, mit ${hint}`,
+      en: `${word}, with ${hint}`
+    };
+    return hintTemplates[lang] || hintTemplates['en'];
   }
 
   return word; // Fallback to just the word if no smart hint is found

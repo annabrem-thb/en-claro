@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useConfig } from '../useConfig';
+import { useAppSettings } from '../hooks/useAppSettings';
 
 /**
  * FocusExerciseLayout Component
@@ -14,8 +14,9 @@ export default function FocusExerciseLayout({
   totalTasks,
   categoryColor = 'bg-sky-500' // Inherits color-coding from the selected task type
 }) {
-  const { a11ySettings } = useConfig();
-  const isHighContrast = a11ySettings?.contrast;
+  const { a11yAddons, inclusiveOptions } = useAppSettings();
+  const isHighContrast = a11yAddons?.includes('Kontrast');
+  const noFlash = !!(inclusiveOptions?.noFlash || a11yAddons?.includes('Redukcja'));
 
   // Ensure the user starts at the top of the screen to prevent disorientation
   useEffect(() => {
@@ -62,7 +63,7 @@ export default function FocusExerciseLayout({
           Generous whitespace. Stripped of all sidebars, allowing the eye to comfortably 
           track the single element presented on screen. */}
       <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8 min-h-0 overflow-y-auto">
-        <div className="w-full max-w-3xl flex-1 flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-500">
+        <div className={`w-full max-w-3xl flex-1 flex flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in zoom-in-95 duration-500'}`}>
           {children}
         </div>
       </div>

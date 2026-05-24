@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import BionicText from '../common/BionicText';
+import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import TTSController from '../common/TTSController';
 
 export default function DictationExercise({
   data,
@@ -17,19 +19,25 @@ export default function DictationExercise({
 }) {
   const [userInput, setUserInput] = useState('');
   const inputRef = useRef(null);
+  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
 
   // Play audio when component mounts
   useEffect(() => {
-    const timer = setTimeout(() => {
+    setSafeTimeout(() => {
       speak(data.audioPrompt, extendedTime);
     }, 500);
-    return () => clearTimeout(timer);
-  }, [data.audioPrompt, extendedTime, speak]);
+    return () => {
+      clearAllTimeouts();
+      window.speechSynthesis.cancel();
+    };
+  }, [data.audioPrompt, extendedTime, speak, setSafeTimeout, clearAllTimeouts]);
 
-  const handleReplay = () => {
+  const handleReplay = useCallback(() => {
+    window.speechSynthesis.cancel();
+    clearAllTimeouts();
     speak(data.audioPrompt, extendedTime);
     if (inputRef.current) inputRef.current.focus();
-  };
+  }, [data.audioPrompt, extendedTime, speak, clearAllTimeouts]);
 
   const handleCheck = () => {
     // Normalize strings for non-punitive checking (remove punctuation, lower case)
@@ -51,13 +59,15 @@ export default function DictationExercise({
         </h3>
       )}
 
-      <button
-        onClick={handleReplay}
-        className={`${bigTargets ? 'w-24 h-24 text-4xl' : 'w-20 h-20 text-3xl'} flex items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:text-slate-600 transition-all active:scale-90 shadow-sm border border-slate-200 mb-10`}
-        aria-label={t.readAloud || 'Odtwórz ponownie'}
-      >
-        🔊
-      </button>
+      <div className="mb-10">
+        <TTSController
+          onReadAloud={handleReplay}
+          pauseAllTimeouts={pauseAllTimeouts}
+          resumeAllTimeouts={resumeAllTimeouts}
+          t={t}
+          controlBtnSize={bigTargets ? 'w-24 h-24 text-4xl' : 'w-20 h-20 text-3xl'}
+        />
+      </div>
       
       <input
         ref={inputRef}

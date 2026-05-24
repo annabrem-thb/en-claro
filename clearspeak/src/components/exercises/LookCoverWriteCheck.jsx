@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useAppSettings } from '../../hooks/useAppSettings.js';
 import { useTranslation } from '../../i18n/i18n.js';
 import BionicText from '../common/BionicText';
+import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import TTSController from '../common/TTSController';
 
 /**
  * LookCoverWriteCheck Component
@@ -13,7 +15,7 @@ import BionicText from '../common/BionicText';
  * 
  * Strictly avoids automatic grading (no red text or error sounds) to build self-efficacy.
  */
-export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t: propT }) {
+export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t: propT, speak, extendedTime, bigTargets }) {
   // Phases: 'look' -> 'write' -> 'check'
   const [phase, setPhase] = useState('look');
   const [userInput, setUserInput] = useState('');
@@ -26,13 +28,27 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
   const bionicReading = inclusiveOptions?.bionicReading;
 
   const inputRef = useRef(null);
+  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+
+  const handleReadWord = useCallback(() => {
+    window.speechSynthesis.cancel();
+    clearAllTimeouts();
+    if (speak) speak(targetWord, extendedTime);
+  }, [speak, targetWord, extendedTime, clearAllTimeouts]);
 
   // WCAG Focus Management: Automatically focus the input when entering the 'write' phase
   useEffect(() => {
     if (phase === 'write' && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [phase]);
+    if (phase === 'look' && speak) {
+      setSafeTimeout(() => handleReadWord(), 500);
+    }
+    return () => {
+      clearAllTimeouts();
+      window.speechSynthesis.cancel();
+    };
+  }, [phase, speak, setSafeTimeout, handleReadWord, clearAllTimeouts]);
 
   // Render Step 1: Look
   if (phase === 'look') {
@@ -42,6 +58,16 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
           {t.lookAndListen || 'Step 1: Study the word'}
         </h2>
         
+        <div className="mb-6">
+          <TTSController
+            onReadAloud={handleReadWord}
+            pauseAllTimeouts={pauseAllTimeouts}
+            resumeAllTimeouts={resumeAllTimeouts}
+            t={t}
+            controlBtnSize={bigTargets ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'}
+          />
+        </div>
+
         <div className={`px-10 py-16 rounded-3xl w-full max-w-md flex justify-center mb-12 shadow-sm ${isHighContrast ? 'bg-black border-2 border-white text-white' : 'bg-white border border-slate-200 text-slate-800'}`}>
           <span className="text-5xl md:text-6xl font-black tracking-widest break-all text-center">
             <BionicText text={targetWord} enabled={bionicReading} />

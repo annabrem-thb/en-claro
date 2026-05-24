@@ -175,8 +175,10 @@ export default function VirtualGarden({
       Ocean: [ { req: 3, icon: '🐚' }, { req: 7, icon: '🦀' }, { req: 14, icon: '🧜‍♀️' }, { req: 30, icon: '🔱' } ],
     };
     const monuments = themeMonuments[theme] || themeMonuments.Natur;
-    return monuments.filter(m => maxStreak >= m.req);
-  }, [maxStreak, theme]);
+    // Używamy wyższej wartości: historycznej z bazy LUB z bieżącej aktywnej sesji
+    const effectiveStreak = Math.max(maxStreak, streak || 0);
+    return monuments.filter(m => effectiveStreak >= m.req);
+  }, [maxStreak, streak, theme]);
 
   const srText = `${t.srPlantFeature} ${ecosystemState.plantName}. 
     ${ecosystemState.completedModules > 0 ? `${t.srDailyRewards} ${ecosystemState.completedModules} ${t.srRewardsCount}` : ''} 
@@ -289,10 +291,11 @@ export default function VirtualGarden({
             themeStyles={themeStyles}
             isHighContrast={isHighContrast}
             theme={theme}
+            noFlash={noFlash}
           />
           
           {todayStats && todayStats.total > 0 && (
-            <div className={`w-full max-w-xs mt-6 p-5 rounded-3xl border-2 transition-all animate-in slide-in-from-bottom-4 duration-700 delay-700 ${isHighContrast ? 'bg-black border-white/30 text-white' : 'bg-white border-slate-100 shadow-sm text-slate-700'}`}>
+            <div className={`w-full max-w-xs mt-6 p-5 rounded-3xl border-2 transition-all ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 duration-700 delay-700'} ${isHighContrast ? 'bg-black border-white/30 text-white' : 'bg-white border-slate-100 shadow-sm text-slate-700'}`}>
               <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 text-center">
                 {t.dailySummary}
               </h3>

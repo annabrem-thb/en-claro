@@ -1,8 +1,10 @@
 // ClockExercise.jsx — a11y-aware with Voice Option Selection, Zen Mode & Bionic Reading
-import React, { useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 // Importing shared components to avoid code duplication
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
+import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import TTSController from '../common/TTSController';
 
 /**
  * ClockExercise Component
@@ -29,6 +31,21 @@ function ClockExercise({
     t,
   );
 
+  const [activeHighlight, setActiveHighlight] = useState(null);
+  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+
+  const clearAudioTimeouts = useCallback(() => {
+    clearAllTimeouts();
+    setActiveHighlight(null);
+  }, [clearAllTimeouts]);
+
+  useEffect(() => {
+    return () => {
+      clearAudioTimeouts();
+      window.speechSynthesis.cancel();
+    };
+  }, [clearAudioTimeouts]);
+
   // Shuffle options predictably based on seed to maintain consistency during re-renders
   const shuffledOptions = useMemo(() => {
     if (!data.options) return [];
@@ -40,30 +57,74 @@ function ClockExercise({
     );
   }, [data]);
 
+  // Opóźniona informacja zwrotna po błędzie
+  const handleMistake = useCallback(() => {
+    onError();
+    setSafeTimeout(() => {
+      window.speechSynthesis.cancel();
+      clearAudioTimeouts();
+
+      const correctIndex = shuffledOptions.findIndex((o) => o.isCorrect);
+      if (correctIndex !== -1) {
+        const correctOpt = shuffledOptions[correctIndex];
+        setActiveHighlight(correctIndex);
+        speak(`${data.timeAnalog}. ${correctOpt.text}`, extendedTime);
+        
+        setSafeTimeout(() => {
+          setActiveHighlight(null);
+        }, extendedTime ? 4000 : 3000);
+      }
+    }, extendedTime ? 3500 : 2500);
+  }, [onError, setSafeTimeout, clearAudioTimeouts, shuffledOptions, data, speak, extendedTime]);
+
   // Handle voice commands for option selection (1-4)
   const handleVoiceMatch = (num) => {
+    clearAudioTimeouts();
+    window.speechSynthesis.cancel();
     const selectedIndex = num - 1;
     if (selectedIndex >= 0 && selectedIndex < shuffledOptions.length) {
-      shuffledOptions[selectedIndex].isCorrect ? onSuccess() : onError();
+      shuffledOptions[selectedIndex].isCorrect ? onSuccess() : handleMistake();
     } else {
-      onError();
+      handleMistake();
     }
   };
 
   // --- Read Time & Options Aloud Logic ---
   const readTimeAndOptions = () => {
-    const silentPause = ' ... , , , ... ';
+    window.speechSynthesis.cancel();
+    clearAudioTimeouts();
+
     // Pull localized prefix from i18n dictionary or fallback
     const getOptionPrefix = (idx) => {
-      return t.optionPrefix ? t.optionPrefix(idx) : `Option ${idx}: `;
+      const prefixes = {
+        pl: `Opcja ${idx}: `,
+        en: `Option ${idx}: `,
+        de: `Option ${idx}: `
+      };
+      return t.optionPrefix ? t.optionPrefix(idx) : (prefixes[language] || prefixes['en']);
     };
 
-    let spokenText = `${data.timeAnalog}${silentPause}`;
-    shuffledOptions.forEach((opt, index) => {
-      spokenText += `${getOptionPrefix(index + 1)} ${opt.text}. `;
-    });
+    speak(data.timeAnalog, extendedTime);
 
-    speak(spokenText, extendedTime);
+    const charCount = (data.timeAnalog || '').length;
+    let delayAcc = charCount * (extendedTime ? 90 : 65) + 1500;
+
+    shuffledOptions.forEach((opt, index) => {
+      const prefix = getOptionPrefix(index + 1);
+      const hintCharCount = opt.text.length + prefix.length;
+      const stepDuration = hintCharCount * (extendedTime ? 90 : 65) + 800; // 800ms pause
+
+      setSafeTimeout(() => {
+        setActiveHighlight(index);
+        speak(`${prefix} ${opt.text}`);
+      }, delayAcc);
+
+      setSafeTimeout(() => {
+        setActiveHighlight((prev) => (prev === index ? null : prev));
+      }, delayAcc + stepDuration - 200);
+
+      delayAcc += stepDuration;
+    });
   };
 
   // Dynamic styling based on accessibility props
@@ -73,8 +134,8 @@ function ClockExercise({
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-4 ring-red-100';
   const btnPadding = bigTargets
-    ? 'py-6 px-1 sm:px-2 text-xl sm:text-3xl flex-1'
-    : 'py-4 sm:py-6 px-1 sm:px-2 text-base sm:text-2xl flex-1';
+    ? 'py-6 px-2 text-lg sm:text-2xl'
+    : 'py-4 sm:py-5 px-2 text-base sm:text-xl';
   const clockSize = bigTargets ? 'w-64 h-64' : 'w-56 h-56';
   const hourLen = bigTargets ? 'h-16' : 'h-14';
   const minLen = bigTargets ? 'h-24' : 'h-20';
@@ -86,13 +147,13 @@ function ClockExercise({
     <div className={`${animClass} flex w-full flex-col items-center`}>
       {/* 1. Voice Controls Section */}
       <div className="mb-4 flex shrink-0 gap-4">
-        <button
-          onClick={readTimeAndOptions}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-400 shadow-sm transition-all hover:text-slate-600 active:scale-90`}
-          aria-label={t.readAloud || 'Read time and options aloud'}
-        >
-          🔊
-        </button>
+        <TTSController
+          onReadAloud={readTimeAndOptions}
+          pauseAllTimeouts={pauseAllTimeouts}
+          resumeAllTimeouts={resumeAllTimeouts}
+          t={t}
+          controlBtnSize={controlBtnSize}
+        />
 
         <button
           onClick={() => startListening(handleVoiceMatch)}
@@ -128,6 +189,12 @@ function ClockExercise({
       </div>
 
       {/* 4. The Analog Clock Face */}
+      <style>{`
+        @keyframes clock-tick {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
       <div
         className={`relative ${clockSize} mb-6 flex shrink-0 items-center justify-center rounded-full border-8 shadow-xl transition-colors duration-1000 ${
           data.isNight
@@ -153,6 +220,17 @@ function ClockExercise({
             bottom: '50%',
           }}
         />
+        {/* Second hand (ticking animation) - wyłączona w trybie noFlash (Dostępność) */}
+        {!noFlash && (
+          <div
+            className={`absolute w-0.5 ${minLen} rounded-full bg-red-500 z-0`}
+            style={{
+              transformOrigin: 'bottom center',
+              bottom: '50%',
+              animation: 'clock-tick 60s steps(60) infinite',
+            }}
+          />
+        )}
         {/* Center pin */}
         <div
           className={`z-10 h-4 w-4 rounded-full shadow-md ${data.isNight ? 'bg-blue-300' : 'bg-slate-800'}`}
@@ -168,13 +246,23 @@ function ClockExercise({
       </div>
 
       {/* 5. Digital Time Options */}
-      <div className="flex w-full max-w-4xl shrink-0 flex-row justify-center gap-2 px-2 sm:gap-4">
+      <div className="grid w-full max-w-md grid-cols-2 shrink-0 gap-3 px-2 sm:max-w-lg sm:gap-4">
         {shuffledOptions.map((opt, i) => (
           <button
             key={i}
-            onClick={() => (opt.isCorrect ? onSuccess() : onError())}
+            onClick={() => {
+              clearAudioTimeouts();
+              window.speechSynthesis.cancel();
+              opt.isCorrect ? onSuccess() : handleMistake();
+            }}
             disabled={isListening}
-            className={`relative ${btnPadding} overflow-hidden rounded-2xl border-2 font-black text-ellipsis whitespace-nowrap shadow-sm transition-all active:scale-95 sm:rounded-3xl ${isListening ? 'opacity-50 grayscale' : `${themeStyles.border} ${themeStyles.accent} bg-white hover:${themeStyles.bg}`}`}
+            className={`relative ${btnPadding} flex min-h-[4rem] items-center justify-center overflow-hidden rounded-2xl border-2 font-black text-center leading-tight shadow-sm transition-all active:scale-95 sm:rounded-3xl ${
+              isListening 
+                ? 'opacity-50 grayscale' 
+                : activeHighlight === i
+                  ? 'scale-105 ring-4 ring-yellow-400 bg-yellow-50 shadow-xl z-10 border-yellow-400 text-slate-900'
+                  : `${themeStyles.border} ${themeStyles.accent} bg-white hover:${themeStyles.bg}`
+            }`}
           >
             <span
               className="absolute top-2 left-3 text-xs font-black text-slate-300"

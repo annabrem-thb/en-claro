@@ -185,16 +185,21 @@ export const wordDatabaseEN = {
   ],
 
   clock: [
-    { id: 1, difficulty: 3, timeAnalog: 'Seventeen minutes past eight in the evening', isNight: true, hourRotation: 248, minuteRotation: 102, options: [{ text: '8:17 PM', isCorrect: true }, { text: '8:17 AM', isCorrect: false }, { text: '7:17 PM', isCorrect: false }, { text: '8:43 PM', isCorrect: false }] },
-    { id: 2, difficulty: 3, timeAnalog: 'Nine minutes to two in the afternoon', isNight: false, hourRotation: 55, minuteRotation: 306, options: [{ text: '1:51 PM', isCorrect: true }, { text: '1:51 AM', isCorrect: false }, { text: '2:51 PM', isCorrect: false }, { text: '2:09 PM', isCorrect: false }] },
-    { id: 3, difficulty: 1, timeAnalog: 'Quarter past three', isNight: false, hourRotation: 98, minuteRotation: 90, options: [{ text: '3:15', isCorrect: true }, { text: '3:45', isCorrect: false }, { text: '4:15', isCorrect: false }] },
-    { id: 4, difficulty: 1, timeAnalog: 'Half past six in the evening', isNight: true, hourRotation: 195, minuteRotation: 180, options: [{ text: '6:30 PM', isCorrect: true }, { text: '6:30 AM', isCorrect: false }, { text: '7:30 PM', isCorrect: false }] },
-    { id: 5, difficulty: 1, timeAnalog: 'Ten to ten in the morning', isNight: false, hourRotation: 295, minuteRotation: 300, options: [{ text: '9:50 AM', isCorrect: true }, { text: '10:10 AM', isCorrect: false }, { text: '9:10 AM', isCorrect: false }] },
-    { id: 6, difficulty: 1, timeAnalog: 'Noon', isNight: false, hourRotation: 0, minuteRotation: 0, options: [{ text: '12:00 PM', isCorrect: true }, { text: '12:00 AM', isCorrect: false }, { text: '12:30 PM', isCorrect: false }] },
-    { id: 7, difficulty: 1, timeAnalog: 'Midnight', isNight: true, hourRotation: 0, minuteRotation: 0, options: [{ text: '12:00 AM', isCorrect: true }, { text: '12:00 PM', isCorrect: false }, { text: '11:59 PM', isCorrect: false }] },
-    { id: 8, difficulty: 2, timeAnalog: 'Quarter to nine in the evening', isNight: true, hourRotation: 262, minuteRotation: 270, options: [{ text: '8:45 PM', isCorrect: true }, { text: '9:45 PM', isCorrect: false }, { text: '8:15 PM', isCorrect: false }] },
-    { id: 9, difficulty: 1, timeAnalog: 'Twenty past four in the afternoon', isNight: false, hourRotation: 130, minuteRotation: 120, options: [{ text: '4:20 PM', isCorrect: true }, { text: '4:40 PM', isCorrect: false }, { text: '5:20 PM', isCorrect: false }] },
-    { id: 10, difficulty: 1, timeAnalog: 'Half past eight in the morning', isNight: false, hourRotation: 255, minuteRotation: 180, options: [{ text: '8:30 AM', isCorrect: true }, { text: '9:30 AM', isCorrect: false }, { text: '8:00 AM', isCorrect: false }] }
+    { id: 1, difficulty: 3, timeAnalog: 'Seventeen minutes past eight in the evening', isNight: true, hourRotation: 248, minuteRotation: 102, options: [{ text: '8:17 PM', isCorrect: true }, { text: '8:17 AM', isCorrect: false }, { text: '3:40 PM', isCorrect: false }, { text: '7:17 PM', isCorrect: false }] },
+    { id: 2, difficulty: 3, timeAnalog: 'Nine minutes to two in the afternoon', isNight: false, hourRotation: 55, minuteRotation: 306, options: [{ text: '1:51 PM', isCorrect: true }, { text: '1:51 AM', isCorrect: false }, { text: '10:05 PM', isCorrect: false }, { text: '2:51 PM', isCorrect: false }] },
+    { id: 3, difficulty: 1, timeAnalog: 'Quarter past three in the afternoon', isNight: false, hourRotation: 98, minuteRotation: 90, options: [{ text: '3:15 PM', isCorrect: true }, { text: '3:15 AM', isCorrect: false }, { text: '3:03 PM', isCorrect: false }, { text: '4:15 PM', isCorrect: false }] },
+    { id: 4, difficulty: 1, timeAnalog: 'Half past six in the evening', isNight: true, hourRotation: 195, minuteRotation: 180, options: [{ text: '6:30 PM', isCorrect: true }, { text: '6:30 AM', isCorrect: false }, { text: '6:06 PM', isCorrect: false }, { text: '7:30 PM', isCorrect: false }] },
+    { id: 5, difficulty: 1, timeAnalog: 'Ten to ten in the morning', isNight: false, hourRotation: 295, minuteRotation: 300, options: [{ text: '9:50 AM', isCorrect: true }, { text: '9:50 PM', isCorrect: false }, { text: '10:50 AM', isCorrect: false }, { text: '9:10 AM', isCorrect: false }] },
+    { id: 6, difficulty: 1, timeAnalog: 'Noon', isNight: false, hourRotation: 0, minuteRotation: 0, options: [{ text: '12:00 PM', isCorrect: true }, { text: '12:00 AM', isCorrect: false }, { text: '12:30 PM', isCorrect: false }, { text: '6:00 PM', isCorrect: false }] },
+    { id: 7, difficulty: 1, timeAnalog: 'Midnight', isNight: true, hourRotation: 0, minuteRotation: 0, options: [{ text: '12:00 AM', isCorrect: true }, { text: '12:00 PM', isCorrect: false }, { text: '12:12 AM', isCorrect: false }, { text: '6:00 AM', isCorrect: false }] },
+    { id: 8, difficulty: 2, timeAnalog: 'Quarter to nine in the evening', isNight: true, hourRotation: 262, minuteRotation: 270, options: [{ text: '8:45 PM', isCorrect: true }, { text: '8:45 AM', isCorrect: false }, { text: '9:45 PM', isCorrect: false }, { text: '9:40 PM', isCorrect: false }] },
+    { id: 9, difficulty: 1, timeAnalog: 'Twenty past four in the afternoon', isNight: false, hourRotation: 130, minuteRotation: 120, options: [{ text: '4:20 PM', isCorrect: true }, { text: '4:20 AM', isCorrect: false }, { text: '4:04 PM', isCorrect: false }, { text: '8:16 PM', isCorrect: false }] },
+    { id: 10, difficulty: 1, timeAnalog: 'Half past eight in the morning', isNight: false, hourRotation: 255, minuteRotation: 180, options: [{ text: '8:30 AM', isCorrect: true }, { text: '8:30 PM', isCorrect: false }, { text: '6:40 AM', isCorrect: false }, { text: '9:30 AM', isCorrect: false }] },
+    { id: 11, difficulty: 2, timeAnalog: 'Quarter to eight in the morning', isNight: false, hourRotation: 232, minuteRotation: 270, options: [{ text: '7:45 AM', isCorrect: true }, { text: '7:45 PM', isCorrect: false }, { text: '8:45 AM', isCorrect: false }, { text: '7:09 AM', isCorrect: false }] },
+    { id: 12, difficulty: 2, timeAnalog: 'Twenty past two in the afternoon', isNight: false, hourRotation: 70, minuteRotation: 120, options: [{ text: '2:20 PM', isCorrect: true }, { text: '2:20 AM', isCorrect: false }, { text: '2:04 PM', isCorrect: false }, { text: '4:10 PM', isCorrect: false }] },
+    { id: 13, difficulty: 3, timeAnalog: 'Five past eleven at night', isNight: true, hourRotation: 332, minuteRotation: 30, options: [{ text: '11:05 PM', isCorrect: true }, { text: '11:05 AM', isCorrect: false }, { text: '11:01 PM', isCorrect: false }, { text: '1:55 AM', isCorrect: false }] },
+    { id: 14, difficulty: 1, timeAnalog: 'Quarter past nine in the morning', isNight: false, hourRotation: 278, minuteRotation: 90, options: [{ text: '9:15 AM', isCorrect: true }, { text: '9:15 PM', isCorrect: false }, { text: '9:03 AM', isCorrect: false }, { text: '3:45 AM', isCorrect: false }] },
+    { id: 15, difficulty: 2, timeAnalog: 'Ten to nine in the evening', isNight: true, hourRotation: 265, minuteRotation: 300, options: [{ text: '8:50 PM', isCorrect: true }, { text: '8:50 AM', isCorrect: false }, { text: '9:50 PM', isCorrect: false }, { text: '10:40 PM', isCorrect: false }] }
   ],
 
   sequences: [
@@ -283,10 +288,10 @@ export const wordDatabaseEN = {
       focus: 'Diagnostic: Vision & Space',
       questions: { en: 'Scan the provided data string of client request codes below.\n\n[ TRIAL-FORM-DISCREET | TRAIL-FROM-DISCRETE | TRIAL-FROM-DISCREET | TRAIL-FORM-DISCRETE ]\n\nA client submitted a "TRIAL" request "FROM" a "DISCREET" server. Which of the data clusters matches this exact sequence without any visual metathesis (swapping) or homophone errors?' },
       options: [
-        { text: 'A) TRAIL-FROM-DISCRETE', isCorrect: false },
-        { text: 'B) TRIAL-FORM-DISCREET', isCorrect: false },
-        { text: 'C) TRIAL-FROM-DISCREET', isCorrect: true },
-        { text: 'D) TRAIL-FORM-DISCRETE', isCorrect: false }
+        { text: 'TRAIL-FROM-DISCRETE', isCorrect: false },
+        { text: 'TRIAL-FORM-DISCREET', isCorrect: false },
+        { text: 'TRIAL-FROM-DISCREET', isCorrect: true },
+        { text: 'TRAIL-FORM-DISCRETE', isCorrect: false }
       ]
     },
     {
@@ -296,18 +301,18 @@ export const wordDatabaseEN = {
       focus: 'Diagnostic: Logic & Memory',
       questions: { en: 'Evaluate the logical constraints of the following project deployment schedule:\n\nIf the design phase precedes the testing phase, the launch proceeds on Friday. If testing precedes design, the launch is delayed. The CEO mandates that testing must not precede design, but due to a scheduling error, the development team accidentally swapped the phases.\n\nBased on the CEO\'s mandate versus the team\'s actual sequence of actions, what is the ultimate operational outcome?' },
       options: [
-        { text: 'A) The design phase precedes testing, so the launch proceeds on Friday.', isCorrect: false },
-        { text: 'B) Testing precedes design, therefore the launch is delayed.', isCorrect: true },
-        { text: 'C) The launch proceeds seamlessly because the CEO explicitly mandated it.', isCorrect: false },
-        { text: 'D) The testing phase is completely swapped with the final launch phase.', isCorrect: false }
+        { text: 'The design phase precedes testing, so the launch proceeds on Friday.', isCorrect: false },
+        { text: 'Testing precedes design, therefore the launch is delayed.', isCorrect: true },
+        { text: 'The launch proceeds seamlessly because the CEO explicitly mandated it.', isCorrect: false },
+        { text: 'The testing phase is completely swapped with the final launch phase.', isCorrect: false }
       ]
     },
-    { id: 'en_diag_4', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostic: Spelling', questions: { en: 'Which of the following is spelled correctly?' }, options: [{ text: 'A) Accommodate', isCorrect: true }, { text: 'B) Accomodate', isCorrect: false }, { text: 'C) Acommodate', isCorrect: false }, { text: 'D) Acomodate', isCorrect: false }] },
-    { id: 'en_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostic: Visual Discrimination', questions: { en: 'Identify the odd one out in this sequence:\n\n b b b d b b' }, options: [{ text: 'A) The 3rd letter', isCorrect: false }, { text: 'B) The 4th letter', isCorrect: true }, { text: 'C) The 5th letter', isCorrect: false }, { text: 'D) The 6th letter', isCorrect: false }] },
-    { id: 'en_diag_6', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostic: Working Memory', questions: { en: 'If the meeting is moved from 2 PM to 4 PM, and then delayed by another half hour, what time does it start?' }, options: [{ text: 'A) 4:00 PM', isCorrect: false }, { text: 'B) 4:30 PM', isCorrect: true }, { text: 'C) 2:30 PM', isCorrect: false }, { text: 'D) 5:00 PM', isCorrect: false }] },
-    { id: 'en_diag_7', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostic: Homophones', questions: { en: 'Choose the correct word: "The dog wagged ___ tail."' }, options: [{ text: 'A) its', isCorrect: true }, { text: 'B) it\'s', isCorrect: false }, { text: 'C) its\'', isCorrect: false }, { text: 'D) it', isCorrect: false }] },
-    { id: 'en_diag_8', pillar: 'Visual', difficulty: 3, focus: 'Diagnostic: Letter Reversal', questions: { en: 'Which word contains a reversed letter?\n\n m a r k e t i n g \n d e v e l o p m e n t \n s t r a t e q y \n c o m m i t t e e' }, options: [{ text: 'A) marketing', isCorrect: false }, { text: 'B) development', isCorrect: false }, { text: 'C) strateqy', isCorrect: true }, { text: 'D) committee', isCorrect: false }] },
-    { id: 'en_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostic: Categorization', questions: { en: 'Which of the following does NOT belong in a group of financial terms?' }, options: [{ text: 'A) Budget', isCorrect: false }, { text: 'B) Invoice', isCorrect: false }, { text: 'C) Recruitment', isCorrect: true }, { text: 'D) Revenue', isCorrect: false }] },
-    { id: 'en_diag_10', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostic: Syllable Segmentation', questions: { en: 'How many syllables are in the word "Responsibility"?' }, options: [{ text: 'A) 4', isCorrect: false }, { text: 'B) 5', isCorrect: false }, { text: 'C) 6', isCorrect: true }, { text: 'D) 7', isCorrect: false }] }
+    { id: 'en_diag_4', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostic: Spelling', questions: { en: 'Which of the following is spelled correctly?' }, options: [{ text: 'Accommodate', isCorrect: true }, { text: 'Accomodate', isCorrect: false }, { text: 'Acommodate', isCorrect: false }, { text: 'Acomodate', isCorrect: false }] },
+    { id: 'en_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostic: Visual Discrimination', questions: { en: 'Identify the odd one out in this sequence:\n\n b b b d b b' }, options: [{ text: 'The 3rd letter', isCorrect: false }, { text: 'The 4th letter', isCorrect: true }, { text: 'The 5th letter', isCorrect: false }, { text: 'The 6th letter', isCorrect: false }] },
+    { id: 'en_diag_6', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostic: Working Memory', questions: { en: 'If the meeting is moved from 2 PM to 4 PM, and then delayed by another half hour, what time does it start?' }, options: [{ text: '4:00 PM', isCorrect: false }, { text: '4:30 PM', isCorrect: true }, { text: '2:30 PM', isCorrect: false }, { text: '5:00 PM', isCorrect: false }] },
+    { id: 'en_diag_7', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostic: Homophones', questions: { en: 'Choose the correct word: "The dog wagged ___ tail."' }, options: [{ text: 'its', isCorrect: true }, { text: 'it\'s', isCorrect: false }, { text: 'its\'', isCorrect: false }, { text: 'it', isCorrect: false }] },
+    { id: 'en_diag_8', pillar: 'Visual', difficulty: 3, focus: 'Diagnostic: Letter Reversal', questions: { en: 'Which word contains a reversed letter?\n\n m a r k e t i n g \n d e v e l o p m e n t \n s t r a t e q y \n c o m m i t t e e' }, options: [{ text: 'marketing', isCorrect: false }, { text: 'development', isCorrect: false }, { text: 'strateqy', isCorrect: true }, { text: 'committee', isCorrect: false }] },
+    { id: 'en_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostic: Categorization', questions: { en: 'Which of the following does NOT belong in a group of financial terms?' }, options: [{ text: 'Budget', isCorrect: false }, { text: 'Invoice', isCorrect: false }, { text: 'Recruitment', isCorrect: true }, { text: 'Revenue', isCorrect: false }] },
+    { id: 'en_diag_10', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostic: Syllable Segmentation', questions: { en: 'How many syllables are in the word "Responsibility"?' }, options: [{ text: '4', isCorrect: false }, { text: '5', isCorrect: false }, { text: '6', isCorrect: true }, { text: '7', isCorrect: false }] }
   ]
 };

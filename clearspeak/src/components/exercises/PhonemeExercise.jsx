@@ -1,8 +1,10 @@
 // PhonemeExercise.jsx — a11y-aware with Shared Logic for Voice, Bionic Reading & Auto-Spelling
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 // Importing shared components and hooks to prevent code duplication
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
+import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import TTSController from '../common/TTSController';
 
 /**
  * PhonemeExercise Component
@@ -32,6 +34,21 @@ function PhonemeExercise({
   const targetWord = data.word || '';
   const hintText = data.hints?.[language] || data.hints?.en || '';
 
+  const [activeHighlight, setActiveHighlight] = useState(null);
+  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+
+  const clearAudioTimeouts = useCallback(() => {
+    clearAllTimeouts();
+    setActiveHighlight(null);
+  }, [clearAllTimeouts]);
+
+  useEffect(() => {
+    return () => {
+      clearAudioTimeouts();
+      window.speechSynthesis.cancel();
+    };
+  }, [clearAudioTimeouts]);
+
   /**
    * Custom Voice Logic for Pronunciation
    * Unlike other exercises that look for numbers, this one checks the word itself.
@@ -56,12 +73,38 @@ function PhonemeExercise({
 
   // --- Read Word (Spelled Out) & Hint Aloud ---
   const readWordAndHint = () => {
-    const silentPause = ' ... , , , ... ';
+    window.speechSynthesis.cancel();
+    clearAudioTimeouts();
 
-    // Force the TTS engine to spell the word by inserting periods
-    const spelledWord = Array.from(targetWord).join(' . ');
-    const spokenText = `${spelledWord}${silentPause}${hintText}`;
-    speak(spokenText, extendedTime);
+    let delayAcc = 0;
+    const chars = Array.from(targetWord);
+
+    // 1. Spell the word
+    chars.forEach((char, i) => {
+      const stepDuration = extendedTime ? 900 : 600;
+      setSafeTimeout(() => {
+        setActiveHighlight(`char-${i}`);
+        speak(char);
+      }, delayAcc);
+      setSafeTimeout(() => {
+        setActiveHighlight((prev) => (prev === `char-${i}` ? null : prev));
+      }, delayAcc + stepDuration - 100);
+      delayAcc += stepDuration;
+    });
+
+    delayAcc += 800; // silent pause
+
+    // 2. Read the hint
+    if (hintText) {
+      const hintDuration = hintText.length * (extendedTime ? 90 : 65) + 1000;
+      setSafeTimeout(() => {
+        setActiveHighlight('hint');
+        speak(hintText);
+      }, delayAcc);
+      setSafeTimeout(() => {
+        setActiveHighlight((prev) => (prev === 'hint' ? null : prev));
+      }, delayAcc + hintDuration - 200);
+    }
   };
 
   // Styling and Sizing logic
@@ -85,9 +128,21 @@ function PhonemeExercise({
 
       {/* 2. The Target Word */}
       <div
-        className={`font-black ${wordSize} mb-2 text-center tracking-tight break-words text-slate-800 leading-tight w-full px-2`}
+        className={`font-black ${wordSize} mb-2 text-center tracking-tight break-words leading-tight w-full px-2 flex justify-center flex-wrap`}
       >
-        <BionicText text={targetWord} enabled={bionicReading} />
+        {Array.from(targetWord).map((char, i) => {
+          const isBionicBold = bionicReading && i < Math.ceil(targetWord.length / 2);
+          return (
+            <span
+              key={i}
+              className={`transition-all duration-200 inline-block ${
+                activeHighlight === `char-${i}` ? 'text-yellow-500 scale-110 drop-shadow-md z-10' : 'text-slate-800'
+              } ${isBionicBold ? 'font-black' : bionicReading ? 'opacity-80 font-medium' : 'font-black'}`}
+            >
+              {char}
+            </span>
+          );
+        })}
       </div>
 
       {/* 3. Phonetic Transcription */}
@@ -99,20 +154,22 @@ function PhonemeExercise({
 
       {/* 4. Hint Text (Hidden in Zen Mode to force focus on the word) */}
       {!zenMode && hintText && (
-        <div className="mb-12 px-4 text-center leading-relaxed font-medium text-slate-500">
+        <div className={`mb-12 px-4 text-center leading-relaxed font-medium transition-all duration-300 ${
+          activeHighlight === 'hint' ? 'text-yellow-600 scale-105 drop-shadow-sm' : 'text-slate-500'
+        }`}>
           💡 <BionicText text={hintText} enabled={bionicReading} />
         </div>
       )}
 
       {/* 5. Voice & Audio Controls */}
       <div className="mb-8 flex gap-8">
-        <button
-          onClick={readWordAndHint}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-400 shadow-sm transition-all hover:text-slate-600 active:scale-90`}
-          aria-label={t.readAloud || 'Spell word aloud'}
-        >
-          🔊
-        </button>
+        <TTSController
+          onReadAloud={readWordAndHint}
+          pauseAllTimeouts={pauseAllTimeouts}
+          resumeAllTimeouts={resumeAllTimeouts}
+          t={t}
+          controlBtnSize={controlBtnSize}
+        />
 
         <button
           onClick={() => startListening(null, null, handleVoiceInput)}

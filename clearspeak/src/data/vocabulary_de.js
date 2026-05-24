@@ -141,6 +141,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Brief', isCorrect: true, icon: '✉️' },
         { text: 'Klein', isCorrect: false, icon: '🤏' },
+        { text: 'Brief', isCorrect: true, icon: '✉️' }, { text: 'Klein', isCorrect: false, icon: '🤏' }, { text: 'Breif', isCorrect: false, icon: '❌' }, { text: 'Klien', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -155,6 +156,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'dass', isCorrect: true, icon: '💬' },
         { text: 'das', isCorrect: false, icon: '❌' },
+        { text: 'dass', isCorrect: true, icon: '💬' }, { text: 'das', isCorrect: false, icon: '❌' }, { text: 'daß', isCorrect: false, icon: '❌' }, { text: 'daas', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -169,6 +171,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Straße', isCorrect: true, icon: '🛣️' },
         { text: 'Strasse', isCorrect: false, icon: '❌' },
+        { text: 'Straße', isCorrect: true, icon: '🛣️' }, { text: 'Strasse', isCorrect: false, icon: '❌' }, { text: 'Strase', isCorrect: false, icon: '❌' }, { text: 'Straze', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -183,6 +186,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Hund', isCorrect: true, icon: '🐾' },
         { text: 'Hunt', isCorrect: false, icon: '❌' },
+        { text: 'Hund', isCorrect: true, icon: '🐾' }, { text: 'Hunt', isCorrect: false, icon: '❌' }, { text: 'Hunnt', isCorrect: false, icon: '❌' }, { text: 'Hunnd', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -197,6 +201,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Dieb', isCorrect: true, icon: '👤' },
         { text: 'Diep', isCorrect: false, icon: '❌' },
+        { text: 'Dieb', isCorrect: true, icon: '👤' }, { text: 'Diep', isCorrect: false, icon: '❌' }, { text: 'Diip', isCorrect: false, icon: '❌' }, { text: 'Dihb', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -211,6 +216,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Tag', isCorrect: true, icon: '📅' },
         { text: 'Tak', isCorrect: false, icon: '❌' },
+        { text: 'Tag', isCorrect: true, icon: '📅' }, { text: 'Tak', isCorrect: false, icon: '❌' }, { text: 'Tack', isCorrect: false, icon: '❌' }, { text: 'Tagg', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -225,6 +231,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Bahn', isCorrect: true, icon: '🚂' },
         { text: 'Ban', isCorrect: false, icon: '❌' },
+        { text: 'Bahn', isCorrect: true, icon: '🚂' }, { text: 'Ban', isCorrect: false, icon: '❌' }, { text: 'Baan', isCorrect: false, icon: '❌' }, { text: 'Bann', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -239,6 +246,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'gute', isCorrect: true, icon: '👨‍🏫' },
         { text: 'Gute', isCorrect: false, icon: '❌' },
+        { text: 'gute', isCorrect: true, icon: '👨‍🏫' }, { text: 'Gute', isCorrect: false, icon: '❌' }, { text: 'gutte', isCorrect: false, icon: '❌' }, { text: 'Gutte', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -253,6 +261,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Vogel', isCorrect: true, icon: '🐦' },
         { text: 'Vase', isCorrect: false, icon: '🪴' },
+        { text: 'Vogel', isCorrect: true, icon: '🐦' }, { text: 'Vase', isCorrect: false, icon: '🪴' }, { text: 'Fogel', isCorrect: false, icon: '❌' }, { text: 'Fase', isCorrect: false, icon: '❌' }
       ],
     },
     {
@@ -267,6 +276,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Apotheke', isCorrect: true, icon: '💊' },
         { text: 'Apoteke', isCorrect: false, icon: '❌' },
+        { text: 'Apotheke', isCorrect: true, icon: '💊' }, { text: 'Apoteke', isCorrect: false, icon: '❌' }, { text: 'Appotheke', isCorrect: false, icon: '❌' }, { text: 'Abotheke', isCorrect: false, icon: '❌' }
       ],
     },
   ],
@@ -558,6 +568,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'dass', isCorrect: true },
         { text: 'das', isCorrect: false },
+        { text: 'dass', isCorrect: true }, { text: 'das', isCorrect: false }, { text: 'daß', isCorrect: false }, { text: 'daas', isCorrect: false }
       ],
       hints: {
         de: "‚dass' ist hier eine Konjunktion (Bindewort), man kann es nicht durch dies/jenes ersetzen.",
@@ -573,6 +584,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'das', isCorrect: true },
         { text: 'dass', isCorrect: false },
+        { text: 'das', isCorrect: true }, { text: 'dass', isCorrect: false }, { text: 'daß', isCorrect: false }, { text: 'daas', isCorrect: false }
       ],
       hints: {
         de: "‚das' ist hier der bestimmte Artikel zu dem Wort Dokument.",
@@ -588,6 +600,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Verantwortung', isCorrect: true },
         { text: 'verantwortung', isCorrect: false },
+        { text: 'Verantwortung', isCorrect: true }, { text: 'verantwortung', isCorrect: false }, { text: 'Verantvortung', isCorrect: false }, { text: 'verantvortung', isCorrect: false }
       ],
       hints: {
         de: 'Nomen werden im Deutschen immer großgeschrieben.',
@@ -602,6 +615,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'unserem', isCorrect: true },
         { text: 'unserm', isCorrect: false },
+        { text: 'unserem', isCorrect: true }, { text: 'unserm', isCorrect: false }, { text: 'unseren', isCorrect: false }, { text: 'unsrem', isCorrect: false }
       ],
       hints: {
         de: 'Dativ: Die Endung -em muss komplett ausgeschrieben werden (unserem).',
@@ -616,6 +630,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'betrifft', isCorrect: true },
         { text: 'betrift', isCorrect: false },
+        { text: 'betrifft', isCorrect: true }, { text: 'betrift', isCorrect: false }, { text: 'betrieft', isCorrect: false }, { text: 'betriefft', isCorrect: false }
       ],
       hints: {
         de: 'Nach dem kurzen i wird der Konsonant f verdoppelt (ff).',
@@ -630,6 +645,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Arbeitsvertrag', isCorrect: true },
         { text: 'Arbeits Vertrag', isCorrect: false },
+        { text: 'Arbeitsvertrag', isCorrect: true }, { text: 'Arbeits Vertrag', isCorrect: false }, { text: 'Arbeits-Vertrag', isCorrect: false }, { text: 'arbeitvertrag', isCorrect: false }
       ],
       hints: {
         de: 'Zusammengesetzte Nomen (Komposita) werden im Deutschen zusammen geschrieben.',
@@ -644,6 +660,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'erfolgreich', isCorrect: true },
         { text: 'Erfolgreich', isCorrect: false },
+        { text: 'erfolgreich', isCorrect: true }, { text: 'Erfolgreich', isCorrect: false }, { text: 'erfolgreih', isCorrect: false }, { text: 'erfolkreich', isCorrect: false }
       ],
       hints: {
         de: 'Adjektive und Adverbien werden im Deutschen kleingeschrieben.',
@@ -658,6 +675,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Qualifikation', isCorrect: true },
         { text: 'Qualifiqation', isCorrect: false },
+        { text: 'Qualifikation', isCorrect: true }, { text: 'Qualifiqation', isCorrect: false }, { text: 'Kwalifikation', isCorrect: false }, { text: 'Qualifikatzion', isCorrect: false }
       ],
       hints: {
         de: 'Die Endung -tion wird immer mit t geschrieben, nie mit q oder z.',
@@ -672,6 +690,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'Geschwindigkeit', isCorrect: true },
         { text: 'Geschwindichkeit', isCorrect: false },
+        { text: 'Geschwindigkeit', isCorrect: true }, { text: 'Geschwindichkeit', isCorrect: false }, { text: 'Geschwindigkheit', isCorrect: false }, { text: 'Geschwindigkeid', isCorrect: false }
       ],
       hints: {
         de: 'Die Endung ist -igkeit (geschwind + ig + keit), nicht -ichkeit.',
@@ -687,6 +706,7 @@ export const wordDatabaseDE = {
       options: [
         { text: 'übernimmt', isCorrect: true },
         { text: 'übernimpt', isCorrect: false },
+        { text: 'übernimmt', isCorrect: true }, { text: 'übernimpt', isCorrect: false }, { text: 'übernimt', isCorrect: false }, { text: 'übernimmt', isCorrect: false }
       ],
       hints: {
         de: 'Kommt von nehmen. In der 3. Person Singular wird das m verdoppelt (nimmt).',
@@ -704,15 +724,15 @@ export const wordDatabaseDE = {
     {
       id: 1,
       difficulty: 1,
-      timeAnalog: 'Viertel nach drei',
+      timeAnalog: 'Viertel nach drei am Nachmittag',
       isNight: false,
       hourRotation: 98,
       minuteRotation: 90,
       options: [
-        { text: '3:15 Uhr', isCorrect: true },
-        { text: '15:15 Uhr', isCorrect: false },
-        { text: '3:45 Uhr', isCorrect: false },
-        { text: '2:45 Uhr', isCorrect: false },
+        { text: '15:15 Uhr', isCorrect: true },
+        { text: '3:15 Uhr', isCorrect: false },
+        { text: '15:03 Uhr', isCorrect: false },
+        { text: '16:15 Uhr', isCorrect: false },
       ],
     },
     {
@@ -725,8 +745,8 @@ export const wordDatabaseDE = {
       options: [
         { text: '18:30 Uhr', isCorrect: true },
         { text: '6:30 Uhr', isCorrect: false },
+        { text: '18:06 Uhr', isCorrect: false },
         { text: '19:30 Uhr', isCorrect: false },
-        { text: '17:30 Uhr', isCorrect: false },
       ],
     },
     {
@@ -738,9 +758,9 @@ export const wordDatabaseDE = {
       minuteRotation: 300,
       options: [
         { text: '9:50 Uhr', isCorrect: true },
-        { text: '10:10 Uhr', isCorrect: false },
         { text: '21:50 Uhr', isCorrect: false },
         { text: '10:50 Uhr', isCorrect: false },
+        { text: '9:10 Uhr', isCorrect: false },
       ],
     },
     {
@@ -767,8 +787,8 @@ export const wordDatabaseDE = {
       options: [
         { text: '0:00 Uhr', isCorrect: true },
         { text: '12:00 Uhr', isCorrect: false },
+        { text: '0:12 Uhr', isCorrect: false },
         { text: '23:59 Uhr', isCorrect: false },
-        { text: '1:00 Uhr', isCorrect: false },
       ],
     },
     {
@@ -781,8 +801,8 @@ export const wordDatabaseDE = {
       options: [
         { text: '12:30 Uhr', isCorrect: true },
         { text: '0:30 Uhr', isCorrect: false },
-        { text: '1:30 Uhr', isCorrect: false },
-        { text: '11:30 Uhr', isCorrect: false },
+        { text: '6:00 Uhr', isCorrect: false },
+        { text: '13:30 Uhr', isCorrect: false },
       ],
     },
     {
@@ -796,7 +816,7 @@ export const wordDatabaseDE = {
         { text: '20:45 Uhr', isCorrect: true },
         { text: '8:45 Uhr', isCorrect: false },
         { text: '21:15 Uhr', isCorrect: false },
-        { text: '21:45 Uhr', isCorrect: false },
+        { text: '21:40 Uhr', isCorrect: false },
       ],
     },
     {
@@ -810,7 +830,7 @@ export const wordDatabaseDE = {
         { text: '16:20 Uhr', isCorrect: true },
         { text: '4:20 Uhr', isCorrect: false },
         { text: '16:40 Uhr', isCorrect: false },
-        { text: '17:20 Uhr', isCorrect: false },
+        { text: '20:16 Uhr', isCorrect: false },
       ],
     },
     {
@@ -823,8 +843,8 @@ export const wordDatabaseDE = {
       options: [
         { text: '23:35 Uhr', isCorrect: true },
         { text: '11:35 Uhr', isCorrect: false },
-        { text: '23:25 Uhr', isCorrect: false },
         { text: '0:35 Uhr', isCorrect: false },
+        { text: '19:55 Uhr', isCorrect: false },
       ],
     },
     {
@@ -837,8 +857,78 @@ export const wordDatabaseDE = {
       options: [
         { text: '18:00 Uhr', isCorrect: true },
         { text: '6:00 Uhr', isCorrect: false },
+        { text: '12:30 Uhr', isCorrect: false },
         { text: '19:00 Uhr', isCorrect: false },
-        { text: '17:00 Uhr', isCorrect: false },
+      ],
+    },
+    {
+      id: 11,
+      difficulty: 2,
+      timeAnalog: 'Viertel vor acht am Morgen',
+      isNight: false,
+      hourRotation: 232,
+      minuteRotation: 270,
+      options: [
+        { text: '7:45 Uhr', isCorrect: true },
+        { text: '19:45 Uhr', isCorrect: false },
+        { text: '8:45 Uhr', isCorrect: false },
+        { text: '7:09 Uhr', isCorrect: false },
+      ],
+    },
+    {
+      id: 12,
+      difficulty: 2,
+      timeAnalog: 'Zwanzig nach zwei am Nachmittag',
+      isNight: false,
+      hourRotation: 70,
+      minuteRotation: 120,
+      options: [
+        { text: '14:20 Uhr', isCorrect: true },
+        { text: '2:20 Uhr', isCorrect: false },
+        { text: '14:04 Uhr', isCorrect: false },
+        { text: '14:40 Uhr', isCorrect: false },
+      ],
+    },
+    {
+      id: 13,
+      difficulty: 3,
+      timeAnalog: 'Fünf nach elf in der Nacht',
+      isNight: true,
+      hourRotation: 332,
+      minuteRotation: 30,
+      options: [
+        { text: '23:05 Uhr', isCorrect: true },
+        { text: '11:05 Uhr', isCorrect: false },
+        { text: '23:01 Uhr', isCorrect: false },
+        { text: '5:11 Uhr', isCorrect: false },
+      ],
+    },
+    {
+      id: 14,
+      difficulty: 1,
+      timeAnalog: 'Viertel nach neun am Morgen',
+      isNight: false,
+      hourRotation: 278,
+      minuteRotation: 90,
+      options: [
+        { text: '9:15 Uhr', isCorrect: true },
+        { text: '21:15 Uhr', isCorrect: false },
+        { text: '9:03 Uhr', isCorrect: false },
+        { text: '3:45 Uhr', isCorrect: false },
+      ],
+    },
+    {
+      id: 15,
+      difficulty: 2,
+      timeAnalog: 'Zehn vor neun am Abend',
+      isNight: true,
+      hourRotation: 265,
+      minuteRotation: 300,
+      options: [
+        { text: '20:50 Uhr', isCorrect: true },
+        { text: '8:50 Uhr', isCorrect: false },
+        { text: '21:50 Uhr', isCorrect: false },
+        { text: '20:10 Uhr', isCorrect: false },
       ],
     },
   ],
@@ -1201,15 +1291,15 @@ export const wordDatabaseDE = {
   ],
 
   diagnostic: [
-    { id: 'de_diag_1', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostik: das oder dass', questions: { de: 'Ich hoffe, ___ du kommst.' }, options: [{ text: 'A) das', isCorrect: false }, { text: 'B) dass', isCorrect: true }] },
-    { id: 'de_diag_2', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostik: ie oder ei', questions: { de: 'Welches Wort ist richtig geschrieben?' }, options: [{ text: 'A) Brief', isCorrect: true }, { text: 'B) Breif', isCorrect: false }, { text: 'C) Brif', isCorrect: false }, { text: 'D) Brieff', isCorrect: false }] },
-    { id: 'de_diag_3', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostik: Großschreibung', questions: { de: 'Welches Wort muss großgeschrieben werden?' }, options: [{ text: 'A) laufen', isCorrect: false }, { text: 'B) schnell', isCorrect: false }, { text: 'C) auto', isCorrect: true }, { text: 'D) weil', isCorrect: false }] },
-    { id: 'de_diag_4', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostik: ss oder ß', questions: { de: 'Welches Wort ist richtig?' }, options: [{ text: 'A) Strasse', isCorrect: false }, { text: 'B) Straße', isCorrect: true }, { text: 'C) Straße', isCorrect: false }, { text: 'D) Strase', isCorrect: false }] },
-    { id: 'de_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostik: Visuelle Diskriminierung', questions: { de: 'Welcher Buchstabe passt nicht in die Reihe?\n\n p p q p p' }, options: [{ text: 'A) Der erste', isCorrect: false }, { text: 'B) Der zweite', isCorrect: false }, { text: 'C) Der dritte', isCorrect: true }, { text: 'D) Der vierte', isCorrect: false }] },
-    { id: 'de_diag_6', pillar: 'Visual', difficulty: 3, focus: 'Diagnostik: Zahlendreher', questions: { de: 'Welche Zahlenfolge weicht von 5469 ab?' }, options: [{ text: 'A) 5469', isCorrect: false }, { text: 'B) 5469', isCorrect: false }, { text: 'C) 5496', isCorrect: true }, { text: 'D) 5469', isCorrect: false }] },
-    { id: 'de_diag_7', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostik: Zeitgefühl', questions: { de: 'Wenn ein Meeting um 14:00 Uhr beginnt und 90 Minuten dauert, wann endet es?' }, options: [{ text: 'A) 15:00 Uhr', isCorrect: false }, { text: 'B) 15:30 Uhr', isCorrect: true }, { text: 'C) 16:00 Uhr', isCorrect: false }, { text: 'D) 14:90 Uhr', isCorrect: false }] },
-    { id: 'de_diag_8', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostik: Sequentielles Gedächtnis', questions: { de: 'Welcher Monat folgt direkt auf August?' }, options: [{ text: 'A) Juli', isCorrect: false }, { text: 'B) Oktober', isCorrect: false }, { text: 'C) September', isCorrect: true }, { text: 'D) November', isCorrect: false }] },
-    { id: 'de_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostik: Kategorisierung', questions: { de: 'Welches Wort gehört NICHT zu den Berufen?' }, options: [{ text: 'A) Lehrer', isCorrect: false }, { text: 'B) Arzt', isCorrect: false }, { text: 'C) Bibliothek', isCorrect: true }, { text: 'D) Ingenieur', isCorrect: false }] },
-    { id: 'de_diag_10', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostik: Logisches Denken', questions: { de: 'Wenn Jan größer als Peter ist, und Peter größer als Michael ist, wer ist am kleinsten?' }, options: [{ text: 'A) Jan', isCorrect: false }, { text: 'B) Peter', isCorrect: false }, { text: 'C) Michael', isCorrect: true }, { text: 'D) Alle sind gleich groß', isCorrect: false }] }
+    { id: 'de_diag_1', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostik: das oder dass', questions: { de: 'Ich hoffe, ___ du kommst.' }, options: [{ text: 'das', isCorrect: false }, { text: 'dass', isCorrect: true }] },
+    { id: 'de_diag_2', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostik: ie oder ei', questions: { de: 'Welches Wort ist richtig geschrieben?' }, options: [{ text: 'Brief', isCorrect: true }, { text: 'Breif', isCorrect: false }, { text: 'Brif', isCorrect: false }, { text: 'Brieff', isCorrect: false }] },
+    { id: 'de_diag_3', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostik: Großschreibung', questions: { de: 'Welches Wort muss großgeschrieben werden?' }, options: [{ text: 'laufen', isCorrect: false }, { text: 'schnell', isCorrect: false }, { text: 'auto', isCorrect: true }, { text: 'weil', isCorrect: false }] },
+    { id: 'de_diag_4', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostik: ss oder ß', questions: { de: 'Welches Wort ist richtig?' }, options: [{ text: 'Strasse', isCorrect: false }, { text: 'Straße', isCorrect: true }, { text: 'Straße', isCorrect: false }, { text: 'Strase', isCorrect: false }] },
+    { id: 'de_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostik: Visuelle Diskriminierung', questions: { de: 'Welcher Buchstabe passt nicht in die Reihe?\n\n p p q p p' }, options: [{ text: 'Der erste', isCorrect: false }, { text: 'Der zweite', isCorrect: false }, { text: 'Der dritte', isCorrect: true }, { text: 'Der vierte', isCorrect: false }] },
+    { id: 'de_diag_6', pillar: 'Visual', difficulty: 3, focus: 'Diagnostik: Zahlendreher', questions: { de: 'Welche Zahlenfolge weicht von 5469 ab?' }, options: [{ text: '5469', isCorrect: false }, { text: '5469', isCorrect: false }, { text: '5496', isCorrect: true }, { text: '5469', isCorrect: false }] },
+    { id: 'de_diag_7', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostik: Zeitgefühl', questions: { de: 'Wenn ein Meeting um 14:00 Uhr beginnt und 90 Minuten dauert, wann endet es?' }, options: [{ text: '15:00 Uhr', isCorrect: false }, { text: '15:30 Uhr', isCorrect: true }, { text: '16:00 Uhr', isCorrect: false }, { text: '14:90 Uhr', isCorrect: false }] },
+    { id: 'de_diag_8', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostik: Sequentielles Gedächtnis', questions: { de: 'Welcher Monat folgt direkt auf August?' }, options: [{ text: 'Juli', isCorrect: false }, { text: 'Oktober', isCorrect: false }, { text: 'September', isCorrect: true }, { text: 'November', isCorrect: false }] },
+    { id: 'de_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostik: Kategorisierung', questions: { de: 'Welches Wort gehört NICHT zu den Berufen?' }, options: [{ text: 'Lehrer', isCorrect: false }, { text: 'Arzt', isCorrect: false }, { text: 'Bibliothek', isCorrect: true }, { text: 'Ingenieur', isCorrect: false }] },
+    { id: 'de_diag_10', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostik: Logisches Denken', questions: { de: 'Wenn Jan größer als Peter ist, und Peter größer als Michael ist, wer ist am kleinsten?' }, options: [{ text: 'Jan', isCorrect: false }, { text: 'Peter', isCorrect: false }, { text: 'Michael', isCorrect: true }, { text: 'Alle sind gleich groß', isCorrect: false }] }
   ]
 };
