@@ -33,12 +33,13 @@ import { seededShuffle } from '../utils/shuffleUtils.js';
 const POINTS_PER_LEVEL = 5;
 const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
 
+// Punkt 7: Horticultural Therapy Framework - łagodne i uspokajające palety barw, eliminacja czystej bieli
 const THEMES = {
-  Natur: { accent: 'text-emerald-600', bg: 'bg-emerald-50', button: 'bg-emerald-500', buttonText: 'text-white',     border: 'border-emerald-200', hex: '#10b981', price: 0  },
-  Musik: { accent: 'text-purple-600',  bg: 'bg-purple-50',  button: 'bg-purple-500',  buttonText: 'text-white',     border: 'border-purple-200',  hex: '#8b5cf6', price: 3  },
-  Kunst: { accent: 'text-amber-600',   bg: 'bg-amber-50',   button: 'bg-amber-500',   buttonText: 'text-amber-950', border: 'border-amber-200',   hex: '#f59e0b', price: 5  },
-  Space: { accent: 'text-indigo-600',  bg: 'bg-indigo-50',  button: 'bg-indigo-500',  buttonText: 'text-white',     border: 'border-indigo-200',  hex: '#6366f1', price: 8  },
-  Ocean: { accent: 'text-cyan-600',    bg: 'bg-cyan-50',    button: 'bg-cyan-500',    buttonText: 'text-cyan-950',  border: 'border-cyan-200',    hex: '#06b6d4', price: 10 },
+  Natur: { accent: 'text-[#4A5D54]', bg: 'bg-[#F4F1EA]', button: 'bg-[#8A9A86]', buttonText: 'text-[#F4F1EA]', border: 'border-[#D0D6CE]', hex: '#8A9A86', price: 0 },
+  Musik: { accent: 'text-[#6B5B7B]', bg: 'bg-[#F3F0F5]', button: 'bg-[#8F7D9E]', buttonText: 'text-[#F3F0F5]', border: 'border-[#D1C8D6]', hex: '#8F7D9E', price: 3 },
+  Kunst: { accent: 'text-[#8A6A4B]', bg: 'bg-[#F7F4F0]', button: 'bg-[#B08E6D]', buttonText: 'text-[#F7F4F0]', border: 'border-[#DED4CA]', hex: '#B08E6D', price: 5 },
+  Space: { accent: 'text-[#4B5E6B]', bg: 'bg-[#F0F3F5]', button: 'bg-[#6D8394]', buttonText: 'text-[#F0F3F5]', border: 'border-[#CAD4DE]', hex: '#6D8394', price: 8 },
+  Ocean: { accent: 'text-[#437A7A]', bg: 'bg-[#EFF5F5]', button: 'bg-[#67A3A3]', buttonText: 'text-[#EFF5F5]', border: 'border-[#C4DBDB]', hex: '#67A3A3', price: 10 },
 };
 
 // Globalna instancja w celu ominięcia rygorystycznych limitów AudioContext przeglądarek
@@ -523,7 +524,8 @@ function AppContent() {
     }
     const errorMsg = Array.isArray(t.voice?.error) 
       ? t.voice.error[Math.floor(Math.random() * t.voice.error.length)] 
-      : (t.voice?.error || '✗');
+      // Punkt 3 specyfikacji: Zamiana surowego "✗" na przyjazny tekst wspierający (Positive Affect)
+      : (t.voice?.error || "Let's look closer at this one together.");
       
     setFeedback({ type: 'error', msg: errorMsg });
     if (!inclusiveOptions.muteNotifications) {
@@ -678,7 +680,7 @@ function AppContent() {
 
   // --- Render Main Application Layout ---
   return (
-    <div className={`flex h-screen h-dvh w-full overflow-hidden ${isHighContrast ? 'bg-black text-white' : 'bg-[#fdfaf6] text-slate-800'}`}>
+    <div className={`flex h-screen h-dvh w-full overflow-hidden ${isHighContrast ? 'bg-black text-white' : `${themeStyles.bg} text-[#2D3732]`}`}>
 
       {/* Navigation Sidebar */}
       <SidebarNav
@@ -703,7 +705,7 @@ function AppContent() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 h-screen h-dvh overflow-hidden">
         <main 
-          className={`flex-1 flex flex-col min-h-0 overflow-y-auto px-3 md:px-6 py-4 mx-auto w-full max-w-xl ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
+          className={`flex-1 flex flex-col min-h-0 overflow-y-auto px-3 md:px-6 py-4 mx-auto w-full max-w-xl ${isHighContrast ? 'text-white' : 'text-[#2D3732]'}`}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
@@ -729,9 +731,9 @@ function AppContent() {
           ) : (
             <>
               {/* Minimal Progress Row without numeric noise */}
-              <div className={`rounded-3xl px-4 py-3 mb-4 flex items-center justify-between gap-4 relative shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm' : `bg-white border ${themeStyles.border} shadow-md shadow-slate-200/50`}`}>
+              <div className={`rounded-3xl px-4 py-3 mb-4 flex items-center justify-between gap-4 relative shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-md shadow-slate-200/40`}`}>
                 {rewards.length > 0 && isGamified && !inclusiveOptions.zenMode && (
-          <div className={`absolute -top-4 left-4 px-3 py-1 rounded-full font-black text-xs uppercase tracking-widest shadow-lg border-2 z-20 flex items-center gap-1.5 ${isHighContrast ? 'bg-black border-white text-white' : `bg-white ${themeStyles.border} text-slate-500`} ${noFlash ? '' : 'animate-in zoom-in duration-300'}`}>
+          <div className={`absolute -top-4 left-4 px-3 py-1 rounded-full font-black text-xs uppercase tracking-widest shadow-lg border-2 z-20 flex items-center gap-1.5 ${isHighContrast ? 'bg-black border-white text-white' : `bg-[#FCFBF9] ${themeStyles.border} text-[#4A5D54]`} ${noFlash ? '' : 'animate-in zoom-in duration-300'}`}>
                     <span>{t.collectedLabel || s.collectedLabel}:</span>
                     <span className="text-xs">{rewards[rewards.length - 1]}</span>
                   </div>
@@ -778,7 +780,7 @@ function AppContent() {
               {/* Active Exercise Card */}
               <section 
                 ref={cardRef}
-                className={`rounded-4xl flex flex-col items-center relative flex-1 min-h-0 overflow-y-auto px-4 py-6 ${isHighContrast ? 'bg-black border border-white/30 shadow-lg shadow-white/10' : `bg-white border ${themeStyles.border} shadow-2xl shadow-slate-200/50`}`}
+                className={`rounded-4xl flex flex-col items-center relative flex-1 min-h-0 overflow-y-auto px-4 py-6 ${isHighContrast ? 'bg-black border border-white/30 shadow-lg shadow-white/10' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-xl shadow-slate-200/30`}`}
                 aria-label={s.exerciseAria}
               >
                 {/* Reading Ruler Overlay (Restricted to Card) */}
@@ -805,7 +807,7 @@ function AppContent() {
               {feedback?.type === 'success' ? (
                 <div className="mt-4 flex justify-center animate-in zoom-in duration-300 shrink-0 pb-2">
                   <button onClick={goNext}
-                    className={`${bigTargets ? 'px-14 py-6 text-lg' : 'px-12 py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all ${noFlash ? '' : 'animate-bounce'} break-words ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-emerald-500 text-white hover:bg-emerald-400'}`}>
+                        className={`${bigTargets ? 'px-14 py-6 text-lg' : 'px-12 py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all ${noFlash ? '' : 'animate-bounce'} break-words ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} ${themeStyles.buttonText} opacity-90 hover:opacity-100`}`}>
                     {t.next || s.next || 'Dalej'}
                   </button>
                 </div>

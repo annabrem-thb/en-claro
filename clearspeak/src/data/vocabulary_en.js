@@ -147,6 +147,13 @@ export const wordDatabaseEN = {
       focus: 'ensure vs insure', 
       questions: { en: 'Which word means to make certain that something will happen?', pl: 'Które słowo oznacza upewnienie się, że coś się wydarzy?', de: 'Welches Wort bedeutet, sicherzustellen, dass etwas passiert?' }, 
       options: [{ text: 'Ensure', isCorrect: true, icon: '🔒' }, { text: 'Insure', isCorrect: false, icon: '📄' }] 
+    },
+    { 
+      id: 11, 
+      difficulty: 3, 
+      focus: 'ough vs uff', 
+      questions: { en: 'Which ending completes: "The sea was very r___ today during the storm"?', pl: 'Która końcówka pasuje: "The sea was very r___ today" (Morze było dziś wzburzone)?', de: 'Welche Endung passt: "The sea was very r___ today" (Das Meer war heute rau)?' }, 
+      options: [{ text: 'ough', isCorrect: true, icon: '🌊' }, { text: 'uff', isCorrect: false, icon: '❌' }] 
     }
   ],
 
@@ -211,7 +218,8 @@ export const wordDatabaseEN = {
     { id: 7, difficulty: 3, tags: ['business'], sentence_part1: 'Unfortunately, his handwriting on the form was completely', sentence_part2: '.', options: [{ text: 'illegible', isCorrect: true }, { text: 'eligible', isCorrect: false }], hints: { en: '"Illegible" means unreadable. "Eligible" means qualified.', pl: '"Illegible" to nieczytelny. "Eligible" to kwalifikujący się.' } },
     { id: 8, difficulty: 2, tags: ['business'], sentence_part1: 'The auditor conducted a very', sentence_part2: 'review of our accounts.', options: [{ text: 'thorough', isCorrect: true }, { text: 'through', isCorrect: false }], hints: { en: '"Thorough" means complete/detailed. "Through" is a preposition.', pl: '"Thorough" to dokładny. "Through" to przez.' } },
     { id: 9, difficulty: 2, tags: ['everyday'], sentence_part1: 'She was', sentence_part2: 'employed at a marketing agency before joining us.', options: [{ text: 'formerly', isCorrect: true }, { text: 'formally', isCorrect: false }], hints: { en: '"Formerly" means previously. "Formally" means officially.', pl: '"Formerly" to dawniej. "Formally" to formalnie.' } },
-    { id: 10, difficulty: 2, tags: ['business'], sentence_part1: 'All inquiries regarding payroll should be directed to', sentence_part2: '.', options: [{ text: 'personnel', isCorrect: true }, { text: 'personal', isCorrect: false }], hints: { en: '"Personnel" refers to staff. "Personal" means private.', pl: '"Personnel" to personel. "Personal" to osobisty.' } }
+    { id: 10, difficulty: 2, tags: ['business'], sentence_part1: 'All inquiries regarding payroll should be directed to', sentence_part2: '.', options: [{ text: 'personnel', isCorrect: true }, { text: 'personal', isCorrect: false }], hints: { en: '"Personnel" refers to staff. "Personal" means private.', pl: '"Personnel" to personel. "Personal" to osobisty.' } },
+    { id: 11, difficulty: 2, tags: ['everyday', 'sports'], sentence_part1: 'She grabbed her racket to play', sentence_part2: '.', options: [{ text: 'badminton', isCorrect: true }, { text: 'dadminton', isCorrect: false }], hints: { en: 'Look closely at the very first letter. The circle goes to the right side, like a belly: "b".', pl: 'Zwróć uwagę na pierwszą literę. Brzuszek litery "b" jest po prawej stronie.', de: 'Achte auf den ersten Buchstaben. Der Bauch vom "b" zeigt nach rechts.' } }
   ],
 
   clock: [
