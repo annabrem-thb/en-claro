@@ -22,6 +22,7 @@ function SpatialExercise({
   extendedTime = false,
   bionicReading = false,
   zenMode = false,
+  voiceAssistant = false,
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animation, setAnimation] = useState('');
@@ -169,28 +170,30 @@ function SpatialExercise({
   return (
     <div className="flex min-h-96 w-full flex-col items-center justify-between">
       {/* 1. Voice & Audio Controls */}
-      <div className="mb-2 flex shrink-0 gap-4">
-        <TTSController
-          onReadAloud={readInstructionAndOptions}
-          pauseAllTimeouts={pauseAllTimeouts}
-          resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
-          controlBtnSize={controlBtnSize}
-        />
+      {voiceAssistant && (
+        <div className="mb-2 flex shrink-0 gap-4">
+          <TTSController
+            onReadAloud={readInstructionAndOptions}
+            pauseAllTimeouts={pauseAllTimeouts}
+            resumeAllTimeouts={resumeAllTimeouts}
+            t={t}
+            controlBtnSize={controlBtnSize}
+          />
 
-        <button
-          onClick={() => startListening(handleVoiceMatch)}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-md transition-all active:scale-95 ${
-            isListening
-              ? pulseClass + ' text-white'
-              : `${themeStyles.button} text-white hover:brightness-110`
-          }`}
-          aria-label={isListening ? t.listening : t.speakOptionNumber}
-          aria-pressed={isListening}
-        >
-          {isListening ? '🛑' : '🎤'}
-        </button>
-      </div>
+          <button
+            onClick={() => startListening(handleVoiceMatch)}
+            className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-md transition-all active:scale-95 ${
+              isListening
+                ? pulseClass + ' text-white'
+                : `${themeStyles.button} text-white hover:brightness-110`
+            }`}
+            aria-label={isListening ? t.listening : t.speakOptionNumber}
+            aria-pressed={isListening}
+          >
+            {isListening ? '🛑' : '🎤'}
+          </button>
+        </div>
+      )}
 
       {transcript && (
         <p className="mb-2 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-400 uppercase">

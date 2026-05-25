@@ -24,6 +24,7 @@ function MemorySpanExercise({
   extendedTime = false,
   bionicReading = false,
   zenMode = false,
+  voiceAssistant = false,
 }) {
   const [isMemorizing, setIsMemorizing] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -50,7 +51,7 @@ function MemorySpanExercise({
     if (!data.displayItems) return;
     window.speechSynthesis.cancel();
     clearAllTimeouts();
-
+czy z
     let delayAcc = 800; // Short pause before starting
     data.displayItems.forEach((item, index) => {
       const textToSpeak = String(item);
@@ -197,13 +198,15 @@ function MemorySpanExercise({
         {/* Phase 1: memorization */}
         {isMemorizing ? (
           <div className="flex flex-col items-center gap-6">
-            <TTSController
-              onReadAloud={playMemorizationSequence}
-              pauseAllTimeouts={pauseAllTimeouts}
-              resumeAllTimeouts={resumeAllTimeouts}
-              t={t}
-              controlBtnSize={controlBtnSize}
-            />
+            {voiceAssistant && (
+              <TTSController
+                onReadAloud={playMemorizationSequence}
+                pauseAllTimeouts={pauseAllTimeouts}
+                resumeAllTimeouts={resumeAllTimeouts}
+                t={t}
+                controlBtnSize={controlBtnSize}
+              />
+            )}
             <div
               className={`flex justify-center gap-4 ${pulseClass}`}
               aria-live="polite"
@@ -237,28 +240,30 @@ function MemorySpanExercise({
           className={`flex w-full flex-1 flex-col items-center ${noFlash ? '' : 'animate-in fade-in duration-500'}`}
         >
           {/* Voice Controls */}
-          <div className="mb-8 flex gap-6">
-            <TTSController
-              onReadAloud={readAvailableItems}
-              pauseAllTimeouts={pauseAllTimeouts}
-              resumeAllTimeouts={resumeAllTimeouts}
-              t={t}
-              controlBtnSize={controlBtnSize}
-            />
+          {voiceAssistant && (
+            <div className="mb-8 flex gap-6">
+              <TTSController
+                onReadAloud={readAvailableItems}
+                pauseAllTimeouts={pauseAllTimeouts}
+                resumeAllTimeouts={resumeAllTimeouts}
+                t={t}
+                controlBtnSize={controlBtnSize}
+              />
 
-            <button
-              onClick={() => startListening(handleVoiceMatch)}
-              className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
-                isListening
-                  ? 'animate-pulse bg-red-500 text-white ring-8 ring-red-100'
-                  : `${themeStyles.button} text-white hover:brightness-110`
-              }`}
-              aria-label={isListening ? t.listening : t.speakOptionNumber}
-              aria-pressed={isListening}
-            >
-              {isListening ? '🛑' : '🎤'}
-            </button>
-          </div>
+              <button
+                onClick={() => startListening(handleVoiceMatch)}
+                className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
+                  isListening
+                    ? 'animate-pulse bg-red-500 text-white ring-8 ring-red-100'
+                    : `${themeStyles.button} text-white hover:brightness-110`
+                }`}
+                aria-label={isListening ? t.listening : t.speakOptionNumber}
+                aria-pressed={isListening}
+              >
+                {isListening ? '🛑' : '🎤'}
+              </button>
+            </div>
+          )}
 
           {transcript && (
             <p className="mb-4 text-center text-xs font-black tracking-widest text-slate-400 uppercase">

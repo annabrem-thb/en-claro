@@ -23,6 +23,7 @@ function SyllableExercise({
   extendedTime = false,
   bionicReading = false,
   zenMode = false,
+zy   voiceAssistant = false,
 }) {
   const [cuts, setCuts] = useState([]);
   const [isResolved, setIsResolved] = useState(false);
@@ -162,32 +163,34 @@ function SyllableExercise({
   return (
     <div className={`${animClass} flex w-full flex-col items-center`}>
       {/* 1. Voice & Audio Controls */}
-      <div className="mb-4 flex gap-6">
-        <div className={isResolved ? 'pointer-events-none opacity-50 grayscale' : ''}>
-          <TTSController
-            onReadAloud={playSyllables}
-            pauseAllTimeouts={pauseAllTimeouts}
-            resumeAllTimeouts={resumeAllTimeouts}
-            t={t}
-            controlBtnSize={controlBtnSize}
-          />
-        </div>
+      {voiceAssistant && (
+        <div className="mb-4 flex gap-6">
+          <div className={isResolved ? 'pointer-events-none opacity-50 grayscale' : ''}>
+            <TTSController
+              onReadAloud={playSyllables}
+              pauseAllTimeouts={pauseAllTimeouts}
+              resumeAllTimeouts={resumeAllTimeouts}
+              t={t}
+              controlBtnSize={controlBtnSize}
+            />
+          </div>
 
-        <button
-          onClick={() => startListening(handleVoiceMatch, handleCommandMatch)}
-          disabled={isResolved}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
-            isResolved
-              ? 'cursor-not-allowed bg-slate-300 opacity-50 grayscale'
-              : isListening
-                ? pulseClass + ' text-white'
-                : `${themeStyles.button} text-white hover:brightness-110`
-          }`}
-          aria-label={isListening ? t.listening : t.speakGapNumber}
-        >
-          {isListening ? '🛑' : '🎤'}
-        </button>
-      </div>
+          <button
+            onClick={() => startListening(handleVoiceMatch, handleCommandMatch)}
+            disabled={isResolved}
+            className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
+              isResolved
+                ? 'cursor-not-allowed bg-slate-300 opacity-50 grayscale'
+                : isListening
+                  ? pulseClass + ' text-white'
+                  : `${themeStyles.button} text-white hover:brightness-110`
+            }`}
+            aria-label={isListening ? t.listening : t.speakGapNumber}
+          >
+            {isListening ? '🛑' : '🎤'}
+          </button>
+        </div>
+      )}
 
       {transcript && (
         <p className="mb-4 text-center text-xs font-black tracking-widest text-slate-400 uppercase">

@@ -21,6 +21,7 @@ function SequenceExercise({
   extendedTime = false,
   bionicReading = false,
   zenMode = false,
+  voiceAssistant = false,
 }) {
   const [prevId, setPrevId] = useState(data.id || data.correct);
 
@@ -233,32 +234,34 @@ function SequenceExercise({
         </h3>
       )}
 
-      <div className="mb-8 flex gap-6">
-        <TTSController
-          onReadAloud={readAvailableWords}
-          pauseAllTimeouts={() => {
-            if (!isShowingCorrection) pauseAllTimeouts();
-          }}
-          resumeAllTimeouts={() => {
-            if (!isShowingCorrection) resumeAllTimeouts();
-          }}
-          t={t}
-          controlBtnSize={controlBtnSize}
-        />
+      {voiceAssistant && (
+        <div className="mb-8 flex gap-6">
+          <TTSController
+            onReadAloud={readAvailableWords}
+            pauseAllTimeouts={() => {
+              if (!isShowingCorrection) pauseAllTimeouts();
+            }}
+            resumeAllTimeouts={() => {
+              if (!isShowingCorrection) resumeAllTimeouts();
+            }}
+            t={t}
+            controlBtnSize={controlBtnSize}
+          />
 
-        <button
-          onClick={() => startListening(handleVoiceMatch, handleCommandMatch)}
-          disabled={isShowingCorrection}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:grayscale ${
-            isListening
-              ? pulseClass + ' text-white'
-              : `${themeStyles.button} text-white hover:brightness-110`
-          }`}
-          aria-label={isListening ? t.listening : t.voiceInput}
-        >
-          {isListening ? '🛑' : '🎤'}
-        </button>
-      </div>
+          <button
+            onClick={() => startListening(handleVoiceMatch, handleCommandMatch)}
+            disabled={isShowingCorrection}
+            className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:grayscale ${
+              isListening
+                ? pulseClass + ' text-white'
+                : `${themeStyles.button} text-white hover:brightness-110`
+            }`}
+            aria-label={isListening ? t.listening : t.voiceInput}
+          >
+            {isListening ? '🛑' : '🎤'}
+          </button>
+        </div>
+      )}
 
       {transcript && (
         <p className="mb-4 text-center text-xs font-black tracking-widest text-slate-400 uppercase">

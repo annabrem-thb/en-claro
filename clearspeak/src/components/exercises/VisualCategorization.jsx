@@ -17,12 +17,13 @@ export default function VisualCategorization({
   isHighContrast, 
   bigTargets, 
   bionicReading,
-  noFlash = false,
+oż  noFlash = false,
   zenMode = false,
   speak,
   extendedTime,
   t,
-  language
+  language,
+  voiceAssistant = false,
 }) {
   const [placements, setPlacements] = useState({});
   const [activeItem, setActiveItem] = useState(null);
@@ -182,15 +183,17 @@ export default function VisualCategorization({
         </h2>
       )}
 
-      <div className="flex w-full justify-center">
-        <TTSController
-          onReadAloud={readCategorization}
-          pauseAllTimeouts={pauseAllTimeouts}
-          resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
-          controlBtnSize={bigTargets ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'}
-        />
-      </div>
+      {voiceAssistant && (
+        <div className="flex w-full justify-center">
+          <TTSController
+            onReadAloud={readCategorization}
+            pauseAllTimeouts={pauseAllTimeouts}
+            resumeAllTimeouts={resumeAllTimeouts}
+            t={t}
+            controlBtnSize={bigTargets ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'}
+          />
+        </div>
+      )}
 
       {/* Unplaced Items Pool */}
       <div className={`flex flex-wrap justify-center gap-3 w-full p-4 rounded-3xl min-h-[100px] border-2 transition-colors ${activeItem ? (isHighContrast ? 'border-white/50' : 'border-indigo-200 bg-indigo-50/30') : 'border-transparent'}`} aria-label="Available items">

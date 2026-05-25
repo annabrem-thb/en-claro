@@ -37,6 +37,7 @@ function ClockExercise({
   extendedTime = false,
   bionicReading = false,
   zenMode = false,
+  voiceAssistant = false,
 }) {
   // Voice recognition logic
   const { isListening, transcript, startListening } = useExerciseVoice(
@@ -165,28 +166,30 @@ function ClockExercise({
   return (
     <div className={`${animClass} flex w-full flex-col items-center`}>
       {/* 1. Voice Controls Section */}
-      <div className="mb-4 flex shrink-0 gap-4">
-        <TTSController
-          onReadAloud={readTimeAndOptions}
-          pauseAllTimeouts={pauseAllTimeouts}
-          resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
-          controlBtnSize={controlBtnSize}
-        />
+      {voiceAssistant && (
+        <div className="mb-4 flex shrink-0 gap-4">
+          <TTSController
+            onReadAloud={readTimeAndOptions}
+            pauseAllTimeouts={pauseAllTimeouts}
+            resumeAllTimeouts={resumeAllTimeouts}
+            t={t}
+            controlBtnSize={controlBtnSize}
+          />
 
-        <button
-          onClick={() => startListening(handleVoiceMatch)}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-md transition-all active:scale-95 ${
-            isListening
-              ? pulseClass + ' text-white'
-              : `${themeStyles.button} text-white hover:brightness-110`
-          }`}
-          aria-label={isListening ? t.listening : t.speakOptionNumber}
-          aria-pressed={isListening}
-        >
-          {isListening ? '🛑' : '🎤'}
-        </button>
-      </div>
+          <button
+            onClick={() => startListening(handleVoiceMatch)}
+            className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-md transition-all active:scale-95 ${
+              isListening
+                ? pulseClass + ' text-white'
+                : `${themeStyles.button} text-white hover:brightness-110`
+            }`}
+            aria-label={isListening ? t.listening : t.speakOptionNumber}
+            aria-pressed={isListening}
+          >
+            {isListening ? '🛑' : '🎤'}
+          </button>
+        </div>
+      )}
 
       {/* 2. Feedback Transcript */}
       {transcript && (

@@ -13,7 +13,7 @@ import TTSController from '../common/TTSController';
  * 2. Cover & Write: The word is hidden, and the user types it from working memory.
  * 3. Check: The app automatically compares the input with the target word.
  */
-export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t: propT, speak, extendedTime, bigTargets, voiceAssistant = true }) {
+export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t: propT, speak, extendedTime, bigTargets, voiceAssistant = true, zenMode = false }) {
   const [phase, setPhase] = useState('look');
   const [userInput, setUserInput] = useState('');
   
@@ -51,9 +51,11 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
   if (phase === 'look') {
     return (
       <div className="flex flex-col items-center justify-center w-full animate-in fade-in duration-500">
-        <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
-          {t.lookAndListen || 'Step 1: Study the word'}
-        </h2>
+        {!zenMode && (
+          <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
+            {t.lookAndListen || 'Step 1: Study the word'}
+          </h2>
+        )}
         
         <div className="mb-6">
           <TTSController
@@ -88,9 +90,11 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
   if (phase === 'write') {
     return (
       <div className="flex flex-col items-center justify-center w-full animate-in slide-in-from-right-4 fade-in duration-500">
-        <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
-          {t.typeFromMemory || 'Step 2: Type from memory'}
-        </h2>
+        {!zenMode && (
+          <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
+            {t.typeFromMemory || 'Step 2: Type from memory'}
+          </h2>
+        )}
         
         <input
           ref={inputRef}
@@ -129,9 +133,11 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
 
     return (
       <div className="flex flex-col items-center justify-center w-full animate-in slide-in-from-bottom-4 fade-in duration-500">
-        <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
-          {t.compareSpelling || 'Step 3: Comparison'}
-        </h2>
+        {!zenMode && (
+          <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
+            {t.compareSpelling || 'Step 3: Comparison'}
+          </h2>
+        )}
         
         <div className="w-full max-w-md flex flex-col gap-6 mb-12">
           {/* Target Word Display */}

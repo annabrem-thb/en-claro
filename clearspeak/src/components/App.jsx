@@ -373,33 +373,33 @@ function AppContent() {
           ) : (
             <>
               {/* Minimal Progress Row without numeric noise */}
-              <div className={`rounded-3xl px-4 py-3 mb-4 flex items-center justify-between gap-4 relative shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-md shadow-slate-200/40`}`}>
-                {rewards.length > 0 && isGamified && !inclusiveOptions.zenMode && (
-          <div className={`absolute -top-4 left-4 px-3 py-1 rounded-full font-black text-xs uppercase tracking-widest shadow-lg border-2 z-20 flex items-center gap-1.5 ${isHighContrast ? 'bg-black border-white text-white' : `bg-[#FCFBF9] ${themeStyles.border} text-[#4A5D54]`} ${noFlash ? '' : 'animate-in zoom-in duration-300'}`}>
-                    <span>{t.collectedLabel || s.collectedLabel}:</span>
-                    <span className="text-xs">{rewards[rewards.length - 1]}</span>
-                  </div>
-                )}
-                <div className="flex items-center gap-3 flex-1 min-w-0">
-                  {inclusiveOptions.zenMode ? (
-                    <div className={`h-3 flex-1 rounded-full ${isHighContrast ? 'bg-white/20' : 'bg-slate-100'}`} />
-                  ) : isGamified ? (
-                    <ProgressPill points={points % POINTS_PER_LEVEL} max={POINTS_PER_LEVEL} theme={theme} isGamified={true} t={t} isHighContrast={isHighContrast} />
-                  ) : (
-                    <>
-                      <div className={`scale-size-10 shrink-0 rounded-full flex items-center justify-center text-sm font-black ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}>
-                        {Math.floor(points / POINTS_PER_LEVEL) + 1}
-                      </div>
-                      <ProgressPill points={points % POINTS_PER_LEVEL} max={POINTS_PER_LEVEL} theme={theme} isGamified={false} t={t} isHighContrast={isHighContrast} />
-                    </>
+              {!inclusiveOptions.zenMode && (
+                <div className={`rounded-3xl px-4 py-3 mb-4 flex items-center justify-between gap-4 relative shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-md shadow-slate-200/40`}`}>
+                  {rewards.length > 0 && isGamified && (
+                    <div className={`absolute -top-4 left-4 px-3 py-1 rounded-full font-black text-xs uppercase tracking-widest shadow-lg border-2 z-20 flex items-center gap-1.5 ${isHighContrast ? 'bg-black border-white text-white' : `bg-[#FCFBF9] ${themeStyles.border} text-[#4A5D54]`} ${noFlash ? '' : 'animate-in zoom-in duration-300'}`}>
+                      <span>{t.collectedLabel || s.collectedLabel}:</span>
+                      <span className="text-xs">{rewards[rewards.length - 1]}</span>
+                    </div>
                   )}
-                </div>
-                <div className="flex items-center gap-3 shrink-0">
-                  <div className={`text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>
-                    {!isGamified && `${safeIndex + 1} / ${activePillarTasks.length}`}
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    {isGamified ? (
+                      <ProgressPill points={points % POINTS_PER_LEVEL} max={POINTS_PER_LEVEL} theme={theme} isGamified={true} t={t} isHighContrast={isHighContrast} />
+                    ) : (
+                      <>
+                        <div className={`scale-size-10 shrink-0 rounded-full flex items-center justify-center text-sm font-black ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}>
+                          {Math.floor(points / POINTS_PER_LEVEL) + 1}
+                        </div>
+                        <ProgressPill points={points % POINTS_PER_LEVEL} max={POINTS_PER_LEVEL} theme={theme} isGamified={false} t={t} isHighContrast={isHighContrast} />
+                      </>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <div className={`text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>
+                      {!isGamified && `${safeIndex + 1} / ${activePillarTasks.length}`}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* Active Exercise Card */}
               <section 

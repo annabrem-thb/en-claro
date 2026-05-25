@@ -259,7 +259,7 @@ function SettingsModal({
               ⚙️ {s.settings}
             </h2>
             
-            {isGamified && (
+            {isGamified && !inclusiveOptions?.zenMode && (
               <div className={`px-3 py-1 rounded-full font-black text-sm flex items-center gap-1.5 shadow-inner ${isHighContrast ? 'bg-white text-black' : 'bg-amber-100 text-amber-600'}`}>
                 <span className="text-base">💰</span> {coins}
               </div>

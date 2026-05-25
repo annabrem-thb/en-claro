@@ -38,6 +38,7 @@ function GraphemeExercise({
   extendedTime = false,
   bionicReading = false,
   zenMode = false,
+  voiceAssistant = false,
 }) {
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
@@ -155,28 +156,30 @@ function GraphemeExercise({
   return (
     <div className={`${animClass} flex w-full flex-col items-center`}>
       {/* 1. Voice & Audio Controls */}
-      <div className="mb-8 flex gap-6">
-        <TTSController
-          onReadAloud={readQuestionAndOptions}
-          pauseAllTimeouts={pauseAllTimeouts}
-          resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
-          controlBtnSize={controlBtnSize}
-        />
+      {voiceAssistant && (
+        <div className="mb-8 flex gap-6">
+          <TTSController
+            onReadAloud={readQuestionAndOptions}
+            pauseAllTimeouts={pauseAllTimeouts}
+            resumeAllTimeouts={resumeAllTimeouts}
+            t={t}
+            controlBtnSize={controlBtnSize}
+          />
 
-        <button
-          onClick={() => startListening(handleVoiceMatch)}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
-            isListening
-              ? pulseClass + ' text-white'
-              : `${themeStyles.button} text-white hover:brightness-110`
-          }`}
-          aria-label={isListening ? t.listening : t.speakOptionNumber}
-          aria-pressed={isListening}
-        >
-          {isListening ? '🛑' : '🎤'}
-        </button>
-      </div>
+          <button
+            onClick={() => startListening(handleVoiceMatch)}
+            className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
+              isListening
+                ? pulseClass + ' text-white'
+                : `${themeStyles.button} text-white hover:brightness-110`
+            }`}
+            aria-label={isListening ? t.listening : t.speakOptionNumber}
+            aria-pressed={isListening}
+          >
+            {isListening ? '🛑' : '🎤'}
+          </button>
+        </div>
+      )}
 
       {transcript && (
         <p className="mb-4 text-center text-xs font-black tracking-widest text-slate-400 uppercase">

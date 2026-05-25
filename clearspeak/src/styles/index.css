@@ -9,8 +9,9 @@
   --dyn-letter-spacing: 0.08em;
   --dyn-font-size: 16px; /* Increased default size for phones */
   
-  /* Full user scale multiplier for small screens */
-  --responsive-scale: var(--user-text-scale, 1);
+  /* Bezpieczny limit dla małych ekranów dotykowych:
+     Maksymalne dozwolone powiększenie to 130% (1.3), chroniąc layout przed pękaniem */
+  --responsive-scale: min(var(--user-text-scale, 1), 1.3);
 }
 
 /* Increase base font on tablets and monitors (from 768px width) */

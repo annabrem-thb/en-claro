@@ -33,6 +33,7 @@ function ContextExercise({
   extendedTime = false,
   bionicReading = false,
   zenMode = false,
+  voiceAssistant = false,
 }) {
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
@@ -181,27 +182,29 @@ function ContextExercise({
         <BionicText text={data.sentence_part2} enabled={bionicReading} />
       </div>
 
-      <div className="mb-8 flex gap-6">
-        <TTSController
-          onReadAloud={readContextAndOptions}
-          pauseAllTimeouts={pauseAllTimeouts}
-          resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
-          controlBtnSize={controlBtnSize}
-        />
+      {voiceAssistant && (
+        <div className="mb-8 flex gap-6">
+          <TTSController
+            onReadAloud={readContextAndOptions}
+            pauseAllTimeouts={pauseAllTimeouts}
+            resumeAllTimeouts={resumeAllTimeouts}
+            t={t}
+            controlBtnSize={controlBtnSize}
+          />
 
-        <button
-          onClick={() => startListening(handleVoiceMatch)}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
-            isListening
-              ? pulseClass + ' text-white'
-              : `${themeStyles.button} text-white hover:brightness-110`
-          }`}
-          aria-label={t.voiceInput}
-        >
-          {isListening ? '🛑' : '🎤'}
-        </button>
-      </div>
+          <button
+            onClick={() => startListening(handleVoiceMatch)}
+            className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
+              isListening
+                ? pulseClass + ' text-white'
+                : `${themeStyles.button} text-white hover:brightness-110`
+            }`}
+            aria-label={t.voiceInput}
+          >
+            {isListening ? '🛑' : '🎤'}
+          </button>
+        </div>
+      )}
 
       {transcript && (
         <p className="mb-4 text-center text-xs font-black tracking-widest text-slate-400 uppercase">
