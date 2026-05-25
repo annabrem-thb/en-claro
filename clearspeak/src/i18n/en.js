@@ -287,5 +287,39 @@ export default {
       manageable: { label: "Just right", desc: "I'm making progress" },
       easy: { label: "Easy", desc: "I feel confident" }
     }
+  },
+    feedback: {
+    title: "A moment of reflection",
+    desc: "How do you evaluate today's session? Your feedback helps us adapt the app to you.",
+    nasaTitle: "Workload (NASA-TLX)",
+    low: "Low",
+    high: "High",
+    nasa: {
+      mental: "Mental Demand",
+      mentalDesc: "How much mental and perceptual activity was required?",
+      physical: "Physical Demand",
+      physicalDesc: "How much physical activity was required?",
+      temporal: "Temporal Demand",
+      temporalDesc: "How hurried or rushed was the pace of the task?",
+      performance: "Performance",
+      performanceDesc: "How successful were you in accomplishing what you were asked to do?",
+      effort: "Effort",
+      effortDesc: "How hard did you have to work to accomplish your level of performance?",
+      frustration: "Frustration",
+      frustrationDesc: "How insecure, discouraged, irritated, stressed, and annoyed were you?"
+    },
+    ueqTitle: "Your impressions (UEQ-Short)",
+    ueq: {
+      obstructive: "Obstructive", supportive: "Supportive",
+      complicated: "Complicated", easy: "Easy",
+      inefficient: "Inefficient", efficient: "Efficient",
+      confusing: "Confusing", clear: "Clear",
+      boring: "Boring", exciting: "Exciting",
+      notInteresting: "Not interesting", interesting: "Interesting",
+      conventional: "Conventional", inventive: "Inventive",
+      usual: "Usual", leadingEdge: "Leading Edge"
+    },
+    submit: "Save and continue",
+    skip: "Skip this time"
   }
 };

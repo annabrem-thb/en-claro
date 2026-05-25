@@ -20,8 +20,15 @@ exports.handler = async (event, context) => {
 
     const payload = JSON.parse(event.body);
 
-    // Zabezpieczenie: Mapowanie zmiennych z frontendu (camelCase) na kolumny w bazie danych (snake_case)
     const dbData = {
+      local_timestamp: payload.localTimestamp || null,
+      participant_id: payload.participantId || null,
+      user_language: payload.userLanguage || null,
+      theme: payload.theme || null,
+      a11y_addons: payload.a11yAddons || null,
+      inclusive_options: payload.inclusiveOptions || null,
+      user_difficulty: payload.userDifficulty || null,
+      daily_goal: payload.dailyGoal || null,
       mental_demand: payload.mentalDemand,
       physical_demand: payload.physicalDemand,
       temporal_demand: payload.temporalDemand,

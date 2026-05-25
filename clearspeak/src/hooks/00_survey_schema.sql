@@ -9,6 +9,14 @@ CREATE TABLE IF NOT EXISTS public.survey_submissions (
     -- Optional metadata for research context
     participant_id TEXT,
     user_language TEXT,
+    local_timestamp TIMESTAMPTZ,
+    
+    -- App Settings & Configuration Context
+    theme TEXT,
+    a11y_addons TEXT,
+    inclusive_options TEXT,
+    user_difficulty SMALLINT,
+    daily_goal SMALLINT,
     
     -- NASA-TLX Subscales (Stored as integers, typical range 1-100)
     mental_demand SMALLINT NOT NULL,
@@ -29,6 +37,5 @@ CREATE TABLE IF NOT EXISTS public.survey_submissions (
     ueq_item_8 SMALLINT NOT NULL
 );
 
--- Secure the table by enabling Row Level Security (RLS)
--- No public policies are added; the Netlify Function Service Key will bypass this to insert data securely.
-ALTER TABLE public.survey_submissions ENABLE ROW LEVEL SECURITY;
+-- RLS disabled: Access is securely proxied and handled by the Netlify Serverless Function
+ALTER TABLE public.survey_submissions DISABLE ROW LEVEL SECURITY;

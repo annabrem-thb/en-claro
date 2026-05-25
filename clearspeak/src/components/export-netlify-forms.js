@@ -20,7 +20,7 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
 
 const fetchSubmissions = () => {
   return new Promise((resolve, reject) => {
-    const url = new URL(`${SUPABASE_URL}/rest/v1/ux_survey?select=*`);
+    const url = new URL(`${SUPABASE_URL}/rest/v1/survey_submissions?select=*`);
     const options = {
       hostname: url.hostname,
       path: url.pathname + url.search,
@@ -52,7 +52,8 @@ const fetchSubmissions = () => {
 const generateCSV = (submissions) => {
   // Standard psychological schema headers
   const headers = [
-    'id', 'created_at',
+    'id', 'created_at', 'local_timestamp', 'participant_id', 'user_language',
+    'theme', 'a11y_addons', 'inclusive_options', 'user_difficulty', 'daily_goal',
     'mentalDemand', 'physicalDemand', 'temporalDemand', 'performance', 'effort', 'frustration',
     'ueq1_obstructive_supportive', 'ueq2_complicated_easy', 'ueq3_inefficient_efficient', 
     'ueq4_confusing_clear', 'ueq5_boring_exciting', 'ueq6_notInteresting_interesting', 
@@ -63,8 +64,16 @@ const generateCSV = (submissions) => {
     return [
       sub.id,
       new Date(sub.created_at).toISOString(),
-      sub.mentalDemand, sub.physicalDemand, sub.temporalDemand, sub.performance, sub.effort, sub.frustration,
-      sub.ueq1, sub.ueq2, sub.ueq3, sub.ueq4, sub.ueq5, sub.ueq6, sub.ueq7, sub.ueq8
+      sub.local_timestamp ? new Date(sub.local_timestamp).toISOString() : '',
+      sub.participant_id || '',
+      sub.user_language || '',
+      sub.theme || '',
+      `"${sub.a11y_addons || ''}"`,
+      `"${sub.inclusive_options || ''}"`,
+      sub.user_difficulty || '',
+      sub.daily_goal || '',
+      sub.mental_demand, sub.physical_demand, sub.temporal_demand, sub.performance, sub.effort, sub.frustration,
+      sub.ueq_item_1, sub.ueq_item_2, sub.ueq_item_3, sub.ueq_item_4, sub.ueq_item_5, sub.ueq_item_6, sub.ueq_item_7, sub.ueq_item_8
     ].join(',');
   });
 

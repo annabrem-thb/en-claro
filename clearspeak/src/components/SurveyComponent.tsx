@@ -26,7 +26,7 @@ const UEQ_SCALES: Array<{ id: keyof UeqShortPayload; leftAnchor: string; rightAn
 ];
 
 export const SurveyComponent: React.FC = () => {
-  const { language } = useAppSettings();
+  const { language, theme, a11yAddons, inclusiveOptions, userDifficulty, dailyGoal } = useAppSettings();
   const dict = useTranslation(language);
 
   // Funkcja pomocnicza pozwalająca pobierać zagnieżdżone tłumaczenia (np. "feedback.nasa.mental")
@@ -75,9 +75,26 @@ export const SurveyComponent: React.FC = () => {
     setError(null);
 
     try {
+      // Retrieve or generate a persistent anonymous participant ID
+      let participantId = localStorage.getItem('cfg_participant_id');
+      if (!participantId) {
+        participantId = typeof crypto !== 'undefined' && crypto.randomUUID 
+          ? crypto.randomUUID() 
+          : 'user_' + Math.random().toString(36).substring(2, 15);
+        localStorage.setItem('cfg_participant_id', participantId);
+      }
+
       const payload = {
         ...nasaScores,
         ...ueqScores,
+        participantId,
+        userLanguage: language,
+        localTimestamp: new Date().toISOString(),
+        theme,
+        a11yAddons: Array.isArray(a11yAddons) ? a11yAddons.join(', ') : '',
+        inclusiveOptions: inclusiveOptions ? Object.keys(inclusiveOptions).filter(k => inclusiveOptions[k]).join(', ') : '',
+        userDifficulty,
+        dailyGoal
       };
 
       const response = await fetch('/.netlify/functions/submit-survey', {
