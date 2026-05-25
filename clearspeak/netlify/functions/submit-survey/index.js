@@ -1,5 +1,32 @@
 const { createClient } = require('@supabase/supabase-js');
 
+// Słowniki mapujące wartości z aplikacji na czysty język angielski (dla analizy danych)
+const themeMap = {
+  'Natur': 'Nature',
+  'Musik': 'Music',
+  'Kunst': 'Art',
+  'Space': 'Space',
+  'Ocean': 'Ocean'
+};
+
+const a11yMap = {
+  'LRS': 'Friendly font',
+  'Kontrast': 'High contrast',
+  'Motorik': 'Comfortable buttons',
+  'Niedowidzenie': 'Larger text',
+  'Daltonizm': 'Safe colors',
+  'Redukcja': 'Calm screen',
+  'Linijka': 'Focus ruler',
+  'Spacing': 'Larger spacing',
+  'Desaturacja': 'Soft colors'
+};
+
+const langMap = {
+  'pl': 'Polish',
+  'de': 'German',
+  'en': 'English'
+};
+
 exports.handler = async (event, context) => {
   if (event.httpMethod !== 'POST') {
     return {
@@ -20,33 +47,54 @@ exports.handler = async (event, context) => {
 
     const payload = JSON.parse(event.body);
 
+    // Standaryzacja i tłumaczenie parametrów na angielski
+    const rawVersion = payload.appVersion || (payload.isGamified ? 'gamified' : 'basic');
+    const appVersionEn = (rawVersion === 'vollversion' || rawVersion === 'gamified') ? 'gamified' : 'basic';
+    
+    const translatedTheme = themeMap[payload.theme] || payload.theme;
+    const translatedLang = langMap[payload.userLanguage] || payload.userLanguage;
+    
+    let translatedAddons = payload.a11yAddons;
+    if (Array.isArray(payload.a11yAddons)) {
+      translatedAddons = payload.a11yAddons.map(addon => a11yMap[addon] || addon);
+    }
+
     const dbData = {
+      app_version: appVersionEn,
+      
       local_timestamp: payload.localTimestamp || null,
       participant_id: payload.participantId || null,
-      user_language: payload.userLanguage || null,
-      theme: payload.theme || null,
-      a11y_addons: payload.a11yAddons || null,
-      inclusive_options: payload.inclusiveOptions || null,
+      user_language: translatedLang || null,
+      theme: translatedTheme || null,
+      
+      a11y_addons: translatedAddons ? JSON.stringify(translatedAddons) : null,
+      inclusive_options: payload.inclusiveOptions ? JSON.stringify(payload.inclusiveOptions) : null,
+      
       user_difficulty: payload.userDifficulty || null,
       daily_goal: payload.dailyGoal || null,
-      mental_demand: payload.mentalDemand,
-      physical_demand: payload.physicalDemand,
-      temporal_demand: payload.temporalDemand,
-      performance: payload.performance,
-      effort: payload.effort,
-      frustration: payload.frustration,
-      ueq_item_1: payload.ueq1,
-      ueq_item_2: payload.ueq2,
-      ueq_item_3: payload.ueq3,
-      ueq_item_4: payload.ueq4,
-      ueq_item_5: payload.ueq5,
-      ueq_item_6: payload.ueq6,
-      ueq_item_7: payload.ueq7,
-      ueq_item_8: payload.ueq8
+      
+      mental_demand: payload.mental ?? payload.mentalDemand ?? null,
+      physical_demand: payload.physical ?? payload.physicalDemand ?? null,
+      temporal_demand: payload.temporal ?? payload.temporalDemand ?? null,
+      performance: payload.performance ?? null,
+      effort: payload.effort ?? null,
+      frustration: payload.frustration ?? null,
+      
+      // Ankieta SUS (mapowanie dla różnych konwencji nazw frontendowych)
+      sus_q01: payload.sus_q01 ?? payload.susQ01 ?? payload.sus01 ?? null,
+      sus_q02: payload.sus_q02 ?? payload.susQ02 ?? payload.sus02 ?? null,
+      sus_q03: payload.sus_q03 ?? payload.susQ03 ?? payload.sus03 ?? null,
+      sus_q04: payload.sus_q04 ?? payload.susQ04 ?? payload.sus04 ?? null,
+      sus_q05: payload.sus_q05 ?? payload.susQ05 ?? payload.sus05 ?? null,
+      sus_q06: payload.sus_q06 ?? payload.susQ06 ?? payload.sus06 ?? null,
+      sus_q07: payload.sus_q07 ?? payload.susQ07 ?? payload.sus07 ?? null,
+      sus_q08: payload.sus_q08 ?? payload.susQ08 ?? payload.sus08 ?? null,
+      sus_q09: payload.sus_q09 ?? payload.susQ09 ?? payload.sus09 ?? null,
+      sus_q10: payload.sus_q10 ?? payload.susQ10 ?? payload.sus10 ?? null
     };
 
     const { data, error } = await supabase
-      .from('survey_submissions') // Upewnij się, że tak samo nazywa się tabela w SQL Editor
+      .from('ab_study_submissions')
       .insert([dbData]);
 
     if (error) throw error;

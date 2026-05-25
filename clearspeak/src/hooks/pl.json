@@ -1,0 +1,68 @@
+{
+  "common": {
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "loading": "Ładowanie...",
+    "success": "Sukces!",
+    "error": "Wystąpił błąd.",
+    "close": "Zamknij"
+  },
+  "profile": {
+    "title": "Profil Użytkownika",
+    "welcome": "Witaj ponownie, {{name}}!",
+    "lastLogin": "Ostatnie logowanie:",
+    "balance": "Obecne saldo:",
+    "itemsCount_zero": "Nie masz żadnych przedmiotów w ekwipunku.",
+    "itemsCount_one": "Masz dokładnie jeden przedmiot w ekwipunku.",
+    "itemsCount_other": "Masz {{count}} przedmiotów w ekwipunku.",
+    "updateAvatar": "Zaktualizuj Awatar",
+    "membershipLevel": "Poziom Członkostwa: {{level}}"
+  },
+  "errors": {
+    "network": "Błąd połączenia sieciowego. Spróbuj ponownie.",
+    "unauthorized": "Nie masz uprawnień do przeglądania tej strony.",
+    "timeout": "Upłynął limit czasu żądania."
+  },
+  "feedback": {
+    "title": "Chwila na refleksję",
+    "desc": "Jak oceniasz dzisiejszą sesję? Twoja opinia pomaga nam dostosować aplikację do Ciebie.",
+    "nasaTitle": "Obciążenie (NASA-TLX)",
+    "submit": "Zapisz i kontynuuj",
+    "thankYou": "Dziękujemy za Twoją opinię!",
+    "low": "Niski",
+    "high": "Wysoki",
+    "nasa": {
+      "mental": "Wysiłek umysłowy",
+      "mentalDesc": "Jak dużo aktywności umysłowej wymagało zadanie?",
+      "physical": "Wysiłek fizyczny",
+      "physicalDesc": "Jak dużo aktywności fizycznej wymagało zadanie?",
+      "temporal": "Wymagania czasowe",
+      "temporalDesc": "Jak bardzo odczuwalna była presja czasu?",
+      "performance": "Wydajność",
+      "performanceDesc": "Jak udane było według Ciebie wykonanie tego zadania?",
+      "effort": "Wysiłek ogólny",
+      "effortDesc": "Jak ciężko trzeba było pracować, aby osiągnąć ten poziom wydajności?",
+      "frustration": "Poziom frustracji",
+      "frustrationDesc": "Jak bardzo byłeś irytowany, zestresowany lub zniechęcony?"
+    }
+  },
+  "survey": {
+    "susTitle": "Skala Użyteczności Systemu (SUS)",
+    "susAnchors": {
+      "stronglyDisagree": "Zdecydowanie się nie zgadzam",
+      "stronglyAgree": "Zdecydowanie się zgadzam"
+    },
+    "sus": {
+      "q01": "Myślę, że chciał(a)bym często korzystać z tego systemu.",
+      "q02": "Uważam, że system ten jest niepotrzebnie skomplikowany.",
+      "q03": "Uważam, że system ten jest łatwy w obsłudze.",
+      "q04": "Myślę, że potrzebował(a)bym pomocy osoby o wiedzy technicznej, aby móc korzystać z tego systemu.",
+      "q05": "Uważam, że różne funkcje w tym systemie są dobrze zintegrowane.",
+      "q06": "Uważam, że w systemie jest zbyt wiele niespójności.",
+      "q07": "Wyobrażam sobie, że większość ludzi bardzo szybko nauczyłaby się obsługi tego systemu.",
+      "q08": "Uważam, że system jest bardzo uciążliwy i niewygodny w użyciu.",
+      "q09": "Czułem(am) się bardzo pewnie podczas korzystania z systemu.",
+      "q10": "Musiałem(am) się wiele nauczyć, zanim zacząłem/zaczęłam swobodnie korzystać z tego systemu."
+    }
+  }
+}

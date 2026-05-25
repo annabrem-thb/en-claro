@@ -1,0 +1,684 @@
+{
+  "appTitle": "Claro",
+  "introSubtitle": "Baue deine Brücke zur Sprachkompetenz.",
+  "intro": {
+    "subtitle": "Dein sicherer Raum zum Wachsen! Wähle Modus und Werkzeuge:",
+    "chooseLanguage": "Sprache",
+    "appMode": "Modus",
+    "modeClassic": "Nur lernen",
+    "modeGamified": "Spiel (Belohnungen)",
+    "a11y": "Komfort-Tools",
+    "lrs": "Klare Schrift",
+    "contrast": "Kontrast",
+    "vision": "Größerer Text",
+    "big": "Komfort-Tasten",
+    "spacing": "Mehr Abstand",
+    "ruler": "Fokus-Lineal",
+    "color": "Sichere Farben",
+    "motion": "Ruhiger Bildschirm",
+    "desaturation": "Sanfte Farben",
+    "bionic": "Bionic",
+    "voice": "Assistent",
+    "zen": "Zen-Modus"
+  },
+  "start": "Start",
+  "done": "Fertig",
+  "next": "Weiter",
+  "skip": "Überspringen",
+  "close": "Schließen",
+  "on": "AN",
+  "off": "AUS",
+  "active": "Aktiv",
+  "select": "Auswählen",
+  "equip": "Ausrüsten",
+  "equipped": "Ausgerüstet",
+  "unlocked": "Freigeschaltet",
+  "buy": "Kaufen",
+  "selectTheme": "Thema wählen",
+  "loading": "Laden...",
+  "noData": "Keine Aufgaben in diesem Abschnitt.",
+  "formatNotRecognized": "Aufgabenformat-Fehler.",
+  "profile": "Profil",
+  "level": "Level",
+  "quests": "Tägliche Aufgaben",
+  "shop": "Themen-Shop",
+  "coins": "Münzen",
+  "navAria": "Übungsbereiche",
+  "settingsAria": "Einstellungen",
+  "coinsAria": "Münzen",
+  "exerciseAria": "Übung",
+  "readAloudTitle": "Laut vorlesen",
+  "successMsg": [
+    "Großartig!",
+    "Ausgezeichnet!",
+    "Wunderbar!",
+    "Super!"
+  ],
+  "errorMsg": [
+    "Lass uns das gemeinsam analysieren.",
+    "Lass es uns nochmal versuchen.",
+    "Fast richtig, schau nochmal hin."
+  ],
+  "streakMsg": [
+    "{count} in Folge! 🔥",
+    "{count} Treffer-Serie! 🚀",
+    "Du hast schon {count}! 🌟",
+    "{count}x fehlerfrei! 💪"
+  ],
+  "levelUp": "Level aufgestiegen!",
+  "levelUpTitle": "Dein Garten wächst!",
+  "levelUpDesc": "Ein weiteres Ziel wurde erfolgreich erreicht.",
+  "hint": "Hinweis",
+  "voice": {
+    "success": [
+      "Ausgezeichnet",
+      "Großartig",
+      "Wunderbar",
+      "Hervorragend"
+    ],
+    "error": [
+      "Lass uns das gemeinsam analysieren",
+      "Lass es uns nochmal versuchen",
+      "Fast richtig, schau nochmal hin"
+    ],
+    "streak": [
+      "{count} in Folge! Du bist unaufhaltsam!",
+      "Erstaunlich! Das sind {count} richtige Antworten!",
+      "Tolle Serie! Weiter so!",
+      "Fantastisch! {count} Treffer ohne Fehler!"
+    ]
+  },
+  "voiceOptions": "Sprecherstimme",
+  "voiceDesc": "Stimme für den Sprachassistenten wählen",
+  "voiceDefault": "Systemstandard",
+  "voiceSpeed": "Sprechgeschwindigkeit",
+  "slow": "Langsamer",
+  "fast": "Schneller",
+  "voicePitch": "Tonhöhe",
+  "pitchLow": "Tief",
+  "pitchHigh": "Hoch",
+  "testVoice": "Stimme testen",
+  "testSentence": "Dies ist ein Test der ausgewählten Stimme.",
+  "resetTTS": "TTS-Einstellungen zurücksetzen",
+  "voiceSelectionAria": "Sprachauswahl",
+  "ttsSettingsAria": "TTS-Einstellungen",
+  "settings": "Einstellungen",
+  "settingsTitle": "Einstellungen",
+  "settingsSubtitle": "Claro · Zugängliche Gamification",
+  "settingsBack": "← Zurück",
+  "settingsTheme": "Thema",
+  "settingsAccessibility": "Komfortoptionen",
+  "settingsFooter": "Deine Einstellungen werden automatisch gespeichert.",
+  "tabGeneral": "Allgemein",
+  "tabA11y": "Komfort",
+  "tabVoice": "Stimme",
+  "tabShop": "Shop",
+  "tabGame": "Spiel",
+  "textSize": "Textgröße",
+  "textSizeDesc": "Passe die Schriftgröße an deine Bedürfnisse an",
+  "language": "Sprache",
+  "languageLabel": "Oberflächensprache",
+  "appMode": "App-Modus",
+  "v1Label": "Klassisch",
+  "v1Desc": "Übungen ohne Gamification",
+  "v2Label": "Gamification",
+  "v2Desc": "Punkte, Münzen und Belohnungen",
+  "a11yBase": "Basismodus — immer aktiv",
+  "a11yBaseDesc": "Freundliche Schrift (OpenDyslexic), vergrößerte Abstände, milder cremefarbener Hintergrund",
+  "a11yAddons": "Personalisierungsoptionen für Komfort",
+  "a11yAddonsDesc": "Wähle eine beliebige Kombination — passe die App an deine Bedürfnisse an",
+  "a11y": {
+    "LRS": {
+      "name": "Freundliche Schrift",
+      "desc": "Lesefördernde Schrift (OpenDyslexic)"
+    },
+    "Kontrast": {
+      "name": "Hoher Kontrast",
+      "desc": "Schwarz-Weiß WCAG AAA Farben"
+    },
+    "Motorik": {
+      "name": "Bequeme Tasten",
+      "desc": "Vergrößerte Tasten und ruhige Animationen"
+    },
+    "Niedowidzenie": {
+      "name": "Größerer Text",
+      "desc": "Vergrößerte Schrift und Symbole"
+    },
+    "Daltonizm": {
+      "name": "Sichere Farben",
+      "desc": "Optimierte, lesbare Farbpalette"
+    },
+    "Redukcja": {
+      "name": "Ruhiger Bildschirm",
+      "desc": "Kein Flackern und keine ablenkenden Bewegungen"
+    },
+    "Linijka": {
+      "name": "Fokus-Lineal",
+      "desc": "Hebt eine horizontale Linie unter dem Cursor hervor"
+    },
+    "Spacing": {
+      "name": "Größere Abstände",
+      "desc": "Erhöht die Abstände zwischen Buchstaben und Wörtern"
+    },
+    "Desaturacja": {
+      "name": "Sanfte Farben",
+      "desc": "Reduziert die Sättigung heller Farben"
+    }
+  },
+  "inclusive": {
+    "adaptiveDifficulty": {
+      "name": "Adaptive Schwierigkeit",
+      "desc": "Spiel passt sich dem Tempo des Spielers an"
+    },
+    "bigTargets": {
+      "name": "Große Touch-Ziele",
+      "desc": "Tasten min. 56px (motorische Erleichterung)"
+    },
+    "noFlash": {
+      "name": "Kein Blitzmodus",
+      "desc": "Kein Flackern — Epilepsie und Bewegungsempfindlichkeit"
+    },
+    "audioRewards": {
+      "name": "Audio-Belohnungen",
+      "desc": "Audiosignale statt nur visuell"
+    },
+    "extendedTime": {
+      "name": "Verlängerte Zeit",
+      "desc": "Kein Zeitdruck, 3s statt 1,5s"
+    },
+    "voiceAssistant": {
+      "name": "Sprachassistent",
+      "desc": "Automatisches Vorlesen von Befehlen und Antworten"
+    },
+    "zenMode": {
+      "name": "Zen-Modus",
+      "desc": "Blendet Ablenkungen aus (Punkte, Fortschrittsbalken)"
+    },
+    "bionicReading": {
+      "name": "Bionic Reading",
+      "desc": "Fettet Wortanfänge, hilft den Augen beim Fokussieren"
+    },
+    "minimalistMode": {
+      "name": "Minimalistische Ansicht",
+      "desc": "Blendet dekorative Grafiken und Animationen aus"
+    },
+    "muteNotifications": {
+      "name": "Benachrichtigungen stumm",
+      "desc": "Deaktiviert Sprachausgabe und Spieltöne"
+    }
+  },
+  "profiles": {
+    "Standard": {
+      "name": "Standard",
+      "desc": "Standardansicht"
+    },
+    "LRS": {
+      "name": "Freundliche Schrift",
+      "desc": "Lesefördernde Schrift"
+    },
+    "Kontrast": {
+      "name": "Hoher Kontrast",
+      "desc": "Bessere Lesbarkeit"
+    },
+    "Motorik": {
+      "name": "Bequeme Tasten",
+      "desc": "Größere Tasten und ruhige Animationen"
+    },
+    "Niedowidzenie": {
+      "name": "Größerer Text",
+      "desc": "Vergrößerte Schrift und Symbole"
+    },
+    "Daltonizm": {
+      "name": "Sichere Farben",
+      "desc": "Optimierte, lesbare Farbpalette"
+    },
+    "Redukcja": {
+      "name": "Ruhiger Bildschirm",
+      "desc": "Kein Flackern, keine ablenkenden Bewegungen"
+    },
+    "Bionic": {
+      "name": "Bionic Reading",
+      "desc": "Fettet Wortanfänge"
+    },
+    "Linijka": {
+      "name": "Fokus-Lineal",
+      "desc": "Hebt eine horizontale Linie unter dem Cursor hervor"
+    },
+    "Spacing": {
+      "name": "Größere Abstände",
+      "desc": "Erhöht die Abstände zwischen Buchstaben und Wörtern"
+    },
+    "Desaturacja": {
+      "name": "Sanfte Farben",
+      "desc": "Reduziert die Sättigung heller Farben"
+    }
+  },
+  "accDescriptions": {
+    "Standard": "Standardansicht",
+    "Kontrast": "Hoher Kontrast Modus",
+    "LRS": "Freundliche Schrift",
+    "Motorik": "Bequeme Tasten"
+  },
+  "versionGamified": "GAMIFICATION",
+  "versionGamifiedSub": "Punkte und Belohnungen",
+  "versionBase": "BASIS",
+  "versionBaseSub": "Keine Punkte",
+  "gamificationTitle": "Inklusive Gamification-Optionen",
+  "gamificationDesc": "Passe das Belohnungssystem an deine Bedürfnisse an",
+  "themeShop": "Themen-Shop",
+  "themeShopDesc": "Gib Münzen für neue visuelle Themen aus",
+  "earnCoinHint": "Du verdienst 1 Münze für jede richtige Antwort",
+  "needMoreCoins": "Nicht genug Münzen",
+  "themes": {
+    "Natur": {
+      "name": "Natur",
+      "icon": "🌿",
+      "desc": "Grüne Töne, Entspannung"
+    },
+    "Musik": {
+      "name": "Musik",
+      "icon": "🎵",
+      "desc": "Lila, Dynamik"
+    },
+    "Kunst": {
+      "name": "Kunst",
+      "icon": "🎨",
+      "desc": "Bernstein, Kreativität"
+    },
+    "Space": {
+      "name": "Weltraum",
+      "icon": "🚀",
+      "desc": "Kosmische Tiefe"
+    },
+    "Ocean": {
+      "name": "Ozean",
+      "icon": "🐳",
+      "desc": "Meeresruhe"
+    }
+  },
+  "themeNames": {
+    "Natur": "Natur",
+    "Musik": "Musik",
+    "Kunst": "Kunst",
+    "Space": "Weltraum",
+    "Ocean": "Ozean"
+  },
+  "levelIcons": {
+    "Natur": [
+      "🌿",
+      "☘️",
+      "🌳",
+      "🌲",
+      "🏔️"
+    ],
+    "Musik": [
+      "🎵",
+      "🎶",
+      "🎸",
+      "🎹",
+      "🎼"
+    ],
+    "Kunst": [
+      "💡",
+      "🎨",
+      "🖌️",
+      "🖼️",
+      "💎"
+    ],
+    "Space": [
+      "✨",
+      "⭐",
+      "🛰️",
+      "🚀",
+      "🪐"
+    ],
+    "Ocean": [
+      "💧",
+      "🌊",
+      "🧭",
+      "⚓",
+      "🚢"
+    ]
+  },
+  "progressStages": {
+    "Natur": [
+      "Samen",
+      "Stiel",
+      "Knospe",
+      "Blüte",
+      "Blume"
+    ],
+    "Musik": [
+      "Sechzehntel",
+      "Achtel",
+      "Viertel",
+      "Halbe",
+      "Instrument"
+    ],
+    "Kunst": [
+      "Pinsel",
+      "Palette",
+      "Skizze",
+      "Farbe",
+      "Meisterwerk"
+    ],
+    "Space": [
+      "Stern",
+      "Komet",
+      "Mond",
+      "Planet",
+      "Rakete"
+    ],
+    "Ocean": [
+      "Tropfen",
+      "Fisch",
+      "Koralle",
+      "Delfin",
+      "Wal"
+    ]
+  },
+  "garden": "Garten",
+  "gardenBlooming": "Der Garten blüht! Ziele erreicht:",
+  "gardenEmpty": "Dein eigenes Ökosystem. Es wird mit jedem deiner Fortschritte wachsen.",
+  "srPlantFeature": "Deine Reise enthält derzeit",
+  "srDailyRewards": "Hat",
+  "srRewardsCount": "tägliche Belohnungen.",
+  "dailyGoalProgress": "Tagesziel-Fortschritt",
+  "srVisitor": "Ein freundlicher Besucher hat sich dir dank deiner regelmäßigen Übung angeschlossen.",
+  "srTrophies": "Durch Ausdauer sind {count} einzigartige Objekte im Garten aufgetaucht.",
+  "rewardItems": {
+    "Natur": [
+      "💎",
+      "🏆",
+      "💡",
+      "📈",
+      "🎯"
+    ],
+    "Musik": [
+      "💎",
+      "🏆",
+      "💡",
+      "📈",
+      "🎯"
+    ],
+    "Kunst": [
+      "💎",
+      "🏆",
+      "💡",
+      "📈",
+      "🎯"
+    ],
+    "Space": [
+      "💎",
+      "🏆",
+      "💡",
+      "📈",
+      "🎯"
+    ],
+    "Ocean": [
+      "💎",
+      "🏆",
+      "💡",
+      "📈",
+      "🎯"
+    ]
+  },
+  "dailyGoal": "Tagesziel",
+  "goal5": "5 Min — Kurze Wiederholung",
+  "goal10": "10 Min — Gute Gewohnheit",
+  "goal15": "15 Min — Tiefer Fokus",
+  "goal20": "20 Min — Intensives Training",
+  "dailySummary": "Heutige Aktivität",
+  "exercisesCount": "Übungen",
+  "totalEffort": "Gesamt",
+  "longestStreak": "Längste Tagesserie",
+  "daysCount": "Tage",
+  "errorAnalysis": "Fehleranalyse",
+  "errorAnalysisSub": "Anzahl der Fehler pro Tag",
+  "exportLogs": "Daten exportieren (CSV)",
+  "exportDesc": "Lade NASA-TLX und UEQ Umfrageergebnisse herunter",
+  "noDataToExport": "Keine Daten zum Exportieren",
+  "feedback": {
+    "title": "Ein Moment der Reflexion",
+    "desc": "Wie bewertest du die heutige Sitzung? Dein Feedback hilft uns, die App an dich anzupassen.",
+    "nasaTitle": "Arbeitsbelastung (NASA-TLX)",
+    "low": "Niedrig",
+    "high": "Hoch",
+    "nasa": {
+      "mental": "Geistige Anforderung",
+      "mentalDesc": "Wie viel geistige Anstrengung war erforderlich?",
+      "physical": "Körperliche Anforderung",
+      "physicalDesc": "Wie viel körperliche Anstrengung war erforderlich?",
+      "temporal": "Zeitliche Anforderung",
+      "temporalDesc": "Wie viel Zeitdruck haben Sie empfunden?",
+      "performance": "Leistung",
+      "performanceDesc": "Wie erfolgreich waren Sie bei der Erfüllung der Aufgabe?",
+      "effort": "Anstrengung",
+      "effortDesc": "Wie hart mussten Sie arbeiten, um Ihr Leistungsniveau zu erreichen?",
+      "frustration": "Frustration",
+      "frustrationDesc": "Wie unsicher, entmutigt, gereizt oder gestresst waren Sie?"
+    },
+    "submit": "Speichern und fortfahren",
+    "skip": "Diesmal überspringen"
+  },
+  "mapTitle": "Herausforderungskarte",
+  "choosePath": "Wähle deinen Weg",
+  "nextLevel": "Nächste Stufe",
+  "lockedNode": "Gesperrt",
+  "completedNode": "Abgeschlossen",
+  "backToMap": "Zurück zur Karte",
+  "energyTitle": "Kognitive Energie",
+  "breakTitle": "Zeit für eine Pause?",
+  "breakDesc": "Wir haben bemerkt, dass du intensiv arbeitest. Ruhe dich im Garten aus, um dich zu regenerieren.",
+  "takeBreakBtn": "Ausruhen (+2 💰)",
+  "continueBtn": "Weiter üben",
+  "pillars": {
+    "Literacy": "Lesen und Schreiben",
+    "Visual": "Sehen und Raum",
+    "Cognitive": "Logik und Gedächtnis"
+  },
+  "pillarIcons": {
+    "Literacy": "📖",
+    "Visual": "👁️",
+    "Cognitive": ""
+  },
+  "categories": {
+    "Phonem": "Wort: Laute",
+    "Syllable": "Wort: Silben",
+    "Context": "Text: Lesen",
+    "Graphem": "Schreiben: Regeln",
+    "Scrabble": "Schreiben: Synthese",
+    "LCWC": "Schreiben: Gedächtnis",
+    "Dictation": "Schreiben: Diktate",
+    "Tracking": "Sehen: Verfolgung",
+    "Clock": "Sehen: Uhr",
+    "Categorization": "Logik: Kategorien",
+    "Sequence": "Logik: Sequenzen"
+  },
+  "difficulty": "Schwierigkeitsgrad",
+  "diffLevels": [
+    "Einfach",
+    "Mittel",
+    "Schwer"
+  ],
+  "trackAndMatch": "Folge der Hervorhebung und gib die Richtung an",
+  "orderCorrectly": "In der richtigen Reihenfolge anordnen",
+  "undo": "Rückgängig",
+  "tempoLabel": "Lesetyp",
+  "normalMode": "Normal",
+  "slowMode": "Langsam",
+  "spellMode": "Buchstabieren",
+  "readAloud": "Laut vorlesen",
+  "syllablesListen": "Silben anhören",
+  "check": "Prüfen",
+  "delete": "Löschen",
+  "tapToSpeak": "Tippen zum Sprechen",
+  "listening": "Höre zu...",
+  "collectedLabel": "Gesammelt",
+  "selectCorrect": "Richtiges Wort wählen:",
+  "tapToBuild": "Wörter in der richtigen Reihenfolge wählen",
+  "listenCarefully": "Höre dir das Wort genau an.",
+  "readyToSegment": "Ich bin bereit zum Segmentieren",
+  "tapBoxesInstruction": "Tippe auf die Felder und sprich jeden Laut aus.",
+  "completeExercise": "Übung abschließen",
+  "playAudio": "Audio abspielen",
+  "lookAndListen": "Schau dir das Wort an und höre dir die Aussprache an.",
+  "studiedWord": "Ich habe das Wort studiert",
+  "sayWordAloud": "Sage das Wort laut.",
+  "breakIntoSounds": "Zerlege es in einzelne Laute.",
+  "takeYourTime": "Lass dir Zeit. Fühle die Form der Laute im Mund, bevor du schreibst.",
+  "coverAndWrite": "Wort abdecken und schreiben",
+  "typeFromMemory": "Gib das Wort aus dem Gedächtnis ein.",
+  "typeHere": "Hier tippen...",
+  "checkSpelling": "Meine Rechtschreibung prüfen",
+  "compareSpelling": "Vergleiche deine Schreibweise:",
+  "targetWord": "Zielwort",
+  "yourSpelling": "Deine Schreibweise",
+  "spelledCorrectly": "Ja, ich habe es richtig geschrieben!",
+  "tryAgain": "Ich muss es nochmal versuchen",
+  "listenToPhonemes": "Höre dir die getrennten Laute an.",
+  "typeBlendedWord": "Gib das Wort ein, das diese Laute bilden.",
+  "blendSounds": "Ich bin bereit, Laute zu verbinden",
+  "readParagraph": "Lies den folgenden Text sorgfältig durch.",
+  "paragraphRead": "Ich bin fertig mit dem Lesen",
+  "rtSummarize": "Zusammenfassen",
+  "rtSummarizeDesc": "Was war der Hauptgedanke dieses Textes?",
+  "rtQuestion": "Fragen",
+  "rtQuestionDesc": "Stelle eine Frage zu etwas Unklarem oder Interessantem im Text.",
+  "rtClarify": "Klären",
+  "rtClarifyDesc": "Identifiziere unklare Wörter und erkläre sie mit eigenen Worten.",
+  "rtPredict": "Vorhersagen",
+  "rtPredictDesc": "Was denkst du, wird als Nächstes passieren?",
+  "heard": "Gehört",
+  "voiceInput": "Spracheingabe",
+  "speakOptionNumber": "Sprich die Optionsnummer",
+  "speakTileNumber": "Sprich die Kachelnummer",
+  "speakGapNumber": "Sprich die Lückennummer zum Schneiden",
+  "tapAndPronounce": "Tippen und das Wort aussprechen",
+  "skipPronunciation": "Ausspracheprüfung überspringen",
+  "readSentenceAndOptions": "Satz und Optionen lesen",
+  "thesisInfo": "Masterarbeit\nZugängliche Gamification und Sprachintegration\nin einer PWA zur Unterstützung von logopädischen Übungen\nfür Personen mit Legasthenie",
+  "tags": {
+    "kontrast": "kontrast",
+    "wzrok": "sehen",
+    "motor": "motor",
+    "dotyk": "berührung",
+    "zoom": "zoom",
+    "kolor": "farbe",
+    "ruch": "bewegung",
+    "epilepsja": "epilepsie",
+    "linijka": "fokus"
+  },
+  "pwaNewVersion": "Neue Version",
+  "pwaDescription": "Neuer Inhalt ist verfügbar. Aktualisiere die App, um die neuesten Änderungen herunterzuladen.",
+  "pwaUpdate": "Aktualisieren",
+  "pwaLater": "Später",
+  "showOriginal": "Original anzeigen",
+  "simplifyText": "Text vereinfachen ✨",
+  "prevPage": "← Zurück",
+  "nextPage": "Weiter →",
+  "commands": {
+    "next": [
+      "weiter",
+      "nächste",
+      "fortfahren",
+      "fertig"
+    ],
+    "check": [
+      "prüfen",
+      "bestätigen"
+    ],
+    "undo": [
+      "rückgängig",
+      "zurück",
+      "löschen"
+    ],
+    "skip": [
+      "überspringen",
+      "weiß nicht"
+    ],
+    "hint": [
+      "hinweis",
+      "hilf mir",
+      "hilfe"
+    ]
+  },
+  "affirmations": [
+    "Dein Garten wächst wunderschön dank deiner heutigen Arbeit.",
+    "Jeder Schritt ist ein Fortschritt. Wunderbare Leistung!",
+    "Ein ruhiges Tempo ist der beste Weg zu lernen.",
+    "Du machst stetige Fortschritte. Mach weiter in deinem eigenen Tempo.",
+    "Danke, dass du heute hier bist. Dein Engagement ist wichtig."
+  ],
+  "dailyTaskComplete": {
+    "title": "Wunderbare Leistung!",
+    "desc": "Du hast das heutige Training abgeschlossen. Deine Regelmäßigkeit bildet ein starkes Fundament.",
+    "chooseReward": "Wähle eine Belohnung, die im Garten wachsen wird",
+    "plantSeed": "Pflanzen und fortfahren",
+    "options": {
+      "oak": {
+        "name": "Eiche",
+        "desc": "Symbol für Stärke und Ausdauer."
+      },
+      "rose": {
+        "name": "Rosenstrauch",
+        "desc": "Eine schöne Belohnung für deinen Fokus."
+      },
+      "bonsai": {
+        "name": "Bonsai",
+        "desc": "Steht für Geduld und stetiges Wachstum."
+      }
+    }
+  },
+  "reflection": {
+    "title": "Ein Moment der Reflexion",
+    "desc": "Hier gibt es keine Noten. Wie sicher hast du dich bei dieser Übung gefühlt?",
+    "save": "Speichern und die Pflanze gießen",
+    "options": {
+      "difficult": {
+        "label": "Schwierig",
+        "desc": "Ich brauche mehr Zeit"
+      },
+      "manageable": {
+        "label": "Genau richtig",
+        "desc": "Ich mache Fortschritte"
+      },
+      "easy": {
+        "label": "Einfach",
+        "desc": "Ich fühle mich sicher"
+      }
+    }
+  },
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "loading": "Laden...",
+    "success": "Erfolg!",
+    "error": "Ein Fehler ist aufgetreten.",
+    "close": "Schließen"
+  },
+  "errors": {
+    "network": "Netzwerkverbindung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "unauthorized": "Sie sind nicht berechtigt, diese Seite anzuzeigen.",
+    "timeout": "Zeitüberschreitung der Anforderung."
+  },
+  "survey": {
+    "susTitle": "System Usability Scale (SUS)",
+    "susAnchors": {
+      "stronglyDisagree": "Stimme gar nicht zu",
+      "stronglyAgree": "Stimme voll zu"
+    },
+    "sus": {
+      "q01": "Ich denke, dass ich das System gerne häufig benutzen würde.",
+      "q02": "Ich fand das System unnötig komplex.",
+      "q03": "Ich fand das System einfach zu benutzen.",
+      "q04": "Ich glaube, ich würde die Hilfe einer technisch versierten Person benötigen, um das System benutzen zu können.",
+      "q05": "Ich fand, die verschiedenen Funktionen in diesem System waren gut integriert.",
+      "q06": "Ich denke, das System enthielt zu viele Inkonsistenzen.",
+      "q07": "Ich kann mir vorstellen, dass die meisten Leute den Umgang mit diesem System sehr schnell erlernen.",
+      "q08": "Ich fand das System sehr umständlich zu nutzen.",
+      "q09": "Ich fühlte mich bei der Benutzung des Systems sehr sicher.",
+      "q10": "Ich musste eine Menge lernen, bevor ich anfangen konnte, das System zu verwenden."
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "success": "Success!",
+    "error": "An error occurred.",
+    "close": "Close"
+  },
+  "profile": {
+    "title": "User Profile",
+    "welcome": "Welcome back, {{name}}!",
+    "lastLogin": "Last login:",
+    "balance": "Current balance:",
+    "itemsCount_zero": "You have no items in your inventory.",
+    "itemsCount_one": "You have exactly one item in your inventory.",
+    "itemsCount_other": "You have {{count}} items in your inventory.",
+    "updateAvatar": "Update Avatar",
+    "membershipLevel": "Membership Level: {{level}}"
+  },
+  "errors": {
+    "network": "Network connection failed. Please try again.",
+    "unauthorized": "You are not authorized to view this page.",
+    "timeout": "The request timed out."
+  },
+  "feedback": {
+    "title": "A moment of reflection",
+    "desc": "How do you evaluate today's session? Your feedback helps us adapt the app to you.",
+    "nasaTitle": "Workload (NASA-TLX)",
+    "submit": "Save and continue",
+    "thankYou": "Thank you for your feedback!",
+    "low": "Low",
+    "high": "High",
+    "nasa": {
+      "mental": "Mental Demand",
+      "mentalDesc": "How much mental and perceptual activity was required?",
+      "physical": "Physical Demand",
+      "physicalDesc": "How much physical activity was required?",
+      "temporal": "Temporal Demand",
+      "temporalDesc": "How hurried or rushed was the pace of the task?",
+      "performance": "Performance",
+      "performanceDesc": "How successful were you in accomplishing what you were asked to do?",
+      "effort": "Effort",
+      "effortDesc": "How hard did you have to work to accomplish your level of performance?",
+      "frustration": "Frustration",
+      "frustrationDesc": "How insecure, discouraged, irritated, stressed, and annoyed were you?"
+    }
+  },
+  "survey": {
+    "susTitle": "System Usability Scale (SUS)",
+    "susAnchors": {
+      "stronglyDisagree": "Strongly Disagree",
+      "stronglyAgree": "Strongly Agree"
+    },
+    "sus": {
+      "q01": "I think that I would like to use this system frequently.",
+      "q02": "I found the system unnecessarily complex.",
+      "q03": "I thought the system was easy to use.",
+      "q04": "I think that I would need the support of a technical person to be able to use this system.",
+      "q05": "I found the various functions in this system were well integrated.",
+      "q06": "I thought there was too much inconsistency in this system.",
+      "q07": "I would imagine that most people would learn to use this system very quickly.",
+      "q08": "I found the system very cumbersome to use.",
+      "q09": "I felt very confident using the system.",
+      "q10": "I needed to learn a lot of things before I could get going with this system."
+    }
+  }
+}

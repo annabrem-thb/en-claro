@@ -1,6 +1,6 @@
 /**
  * Automated Supabase Survey Export Script
- * Downloads `ux_survey` records and formats them into an SPSS-ready CSV.
+ * Downloads `ab_study_submissions` records and formats them into an SPSS-ready CSV.
  * 
  * Usage:
  * SUPABASE_URL=https://your-project.supabase.co SUPABASE_SERVICE_KEY=your_service_key node src/components/export-netlify-forms.js
@@ -20,7 +20,7 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
 
 const fetchSubmissions = () => {
   return new Promise((resolve, reject) => {
-    const url = new URL(`${SUPABASE_URL}/rest/v1/survey_submissions?select=*`);
+    const url = new URL(`${SUPABASE_URL}/rest/v1/ab_study_submissions?select=*`);
     const options = {
       hostname: url.hostname,
       path: url.pathname + url.search,
@@ -52,28 +52,22 @@ const fetchSubmissions = () => {
 const generateCSV = (submissions) => {
   // Standard psychological schema headers
   const headers = [
-    'id', 'created_at', 'local_timestamp', 'participant_id', 'user_language',
-    'theme', 'a11y_addons', 'inclusive_options', 'user_difficulty', 'daily_goal',
+    'id', 'created_at', 'app_version', 'participant_id', 'user_language',
     'mentalDemand', 'physicalDemand', 'temporalDemand', 'performance', 'effort', 'frustration',
-    'ueq1_obstructive_supportive', 'ueq2_complicated_easy', 'ueq3_inefficient_efficient', 
-    'ueq4_confusing_clear', 'ueq5_boring_exciting', 'ueq6_notInteresting_interesting', 
-    'ueq7_conventional_inventive', 'ueq8_usual_leadingEdge'
+    'sus_q01', 'sus_q02', 'sus_q03', 'sus_q04', 'sus_q05', 
+    'sus_q06', 'sus_q07', 'sus_q08', 'sus_q09', 'sus_q10'
   ];
 
   const csvRows = submissions.map(sub => {
     return [
       sub.id,
       new Date(sub.created_at).toISOString(),
-      sub.local_timestamp ? new Date(sub.local_timestamp).toISOString() : '',
+      sub.app_version || '',
       sub.participant_id || '',
       sub.user_language || '',
-      sub.theme || '',
-      `"${sub.a11y_addons || ''}"`,
-      `"${sub.inclusive_options || ''}"`,
-      sub.user_difficulty || '',
-      sub.daily_goal || '',
       sub.mental_demand, sub.physical_demand, sub.temporal_demand, sub.performance, sub.effort, sub.frustration,
-      sub.ueq_item_1, sub.ueq_item_2, sub.ueq_item_3, sub.ueq_item_4, sub.ueq_item_5, sub.ueq_item_6, sub.ueq_item_7, sub.ueq_item_8
+      sub.sus_q01, sub.sus_q02, sub.sus_q03, sub.sus_q04, sub.sus_q05,
+      sub.sus_q06, sub.sus_q07, sub.sus_q08, sub.sus_q09, sub.sus_q10
     ].join(',');
   });
 

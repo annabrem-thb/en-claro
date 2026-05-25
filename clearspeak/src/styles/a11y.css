@@ -73,9 +73,9 @@ html[data-a11y-motion="true"] .animate-in {
 
 /* --- Zwiększone odstępy (Spacing) --- */
 html[data-a11y-spacing="true"] {
-  --dyn-letter-spacing: 0.10em;
-  --dyn-word-spacing: 0.30em;
-  --dyn-line-height: 1.8;
+  --dyn-letter-spacing: 0.15em;
+  --dyn-word-spacing: 0.35em;
+  --dyn-line-height: 2.0;
 }
 html[data-a11y-spacing="true"] * {
   letter-spacing: var(--dyn-letter-spacing) !important;

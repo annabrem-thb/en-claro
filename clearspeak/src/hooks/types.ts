@@ -46,16 +46,17 @@ export interface FeedbackNamespace {
     effort: string; effortDesc: string;
     frustration: string; frustrationDesc: string;
   };
-  ueqTitle: string;
-  ueq: {
-    obstructive: string; supportive: string;
-    complicated: string; easy: string;
-    inefficient: string; efficient: string;
-    confusing: string; clear: string;
-    boring: string; exciting: string;
-    notInteresting: string; interesting: string;
-    conventional: string; inventive: string;
-    usual: string; leadingEdge: string;
+}
+
+export interface SurveyNamespace {
+  susTitle: string;
+  susAnchors: {
+    stronglyDisagree: string;
+    stronglyAgree: string;
+  };
+  sus: {
+    q01: string; q02: string; q03: string; q04: string; q05: string;
+    q06: string; q07: string; q08: string; q09: string; q10: string;
   };
 }
 
@@ -65,4 +66,5 @@ export interface TranslationDictionary {
   profile: ProfileNamespace;
   errors: ErrorsNamespace;
   feedback: FeedbackNamespace;
+  survey: SurveyNamespace;
 }

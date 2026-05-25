@@ -32,7 +32,7 @@ export default function FocusExerciseLayout({
       aria-label={t?.activeExerciseView || "Active Exercise View"}
     >
       {/* Minimal Header */}
-      <header className={`flex items-center justify-between ${bigTargets ? 'p-6 sm:p-8' : 'p-4 sm:p-6'} shrink-0 border-b-4 ${isHighContrast ? 'border-white' : categoryColor}`}>
+      <header className={`flex items-center justify-between ${bigTargets ? 'p-6 sm:p-8' : 'p-4 sm:p-6'} shrink-0 border-b-4 ${isHighContrast ? 'border-white' : categoryColor} relative z-20 shadow-md`}>
         <button 
           onClick={onExit}
           className={`flex items-center gap-2 ${bigTargets ? 'px-8 py-5 text-base' : 'px-5 py-3 text-sm'} rounded-full font-bold uppercase tracking-widest transition-all active:scale-95 focus-visible:ring-4 focus:outline-none ${
@@ -63,7 +63,7 @@ export default function FocusExerciseLayout({
 
       {/* Single-Task Flow Area */}
       <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8 min-h-0 overflow-y-auto">
-        <div className={`w-full max-w-3xl flex-1 flex flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in zoom-in-95 duration-500'}`}>
+        <div className={`w-full max-w-4xl flex-1 flex flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in zoom-in-95 duration-500'}`}>
           {children}
         </div>
       </div>

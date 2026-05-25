@@ -104,7 +104,6 @@ export default {
   tabGeneral: "Ogólne",
   tabA11y: "Komfort",
   tabVoice: "Głos",
-  tabAnalytics: "Analityka",
   tabShop: "Sklep",
   tabGame: "Gra",
   language: "Język",
@@ -300,5 +299,5 @@ export default {
       manageable: { label: "W sam raz", desc: "Robię postępy" },
       easy: { label: "Łatwe", desc: "Czuję się pewnie" }
     }
-  }
+    }
 };

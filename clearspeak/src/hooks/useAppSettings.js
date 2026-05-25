@@ -28,6 +28,7 @@ export function useAppSettings() {
 
   const [dailyGoal, setDailyGoal] = useState(() => Number(localStorage.getItem('cfg_goal')) || 5);
   const [userDifficulty, setUserDifficulty] = useState(() => Number(localStorage.getItem('cfg_difficulty')) || 2);
+  const [textScale, setTextScale] = useState(() => Number(localStorage.getItem('cfg_text_scale')) || 100);
 
   // Persist settings to localStorage whenever any configuration changes
   useEffect(() => {
@@ -37,10 +38,11 @@ export function useAppSettings() {
     localStorage.setItem('cfg_inclusive', JSON.stringify(inclusiveOptions));
     localStorage.setItem('cfg_difficulty', String(userDifficulty));
     localStorage.setItem('cfg_goal', String(dailyGoal));
-  }, [language, theme, a11yAddons, inclusiveOptions, userDifficulty, dailyGoal]);
+    localStorage.setItem('cfg_text_scale', String(textScale));
+  }, [language, theme, a11yAddons, inclusiveOptions, userDifficulty, dailyGoal, textScale]);
 
   return {
     language, setLanguage, theme, setTheme, a11yAddons, setA11yAddons,
-    inclusiveOptions, setInclusiveOptions, dailyGoal, setDailyGoal, userDifficulty, setUserDifficulty
+    inclusiveOptions, setInclusiveOptions, dailyGoal, setDailyGoal, userDifficulty, setUserDifficulty, textScale, setTextScale
   };
 }

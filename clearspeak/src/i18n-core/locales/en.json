@@ -1,0 +1,687 @@
+{
+  "appTitle": "Claro",
+  "introSubtitle": "Build your bridge to fluency.",
+  "intro": {
+    "subtitle": "Your safe space to grow! Choose mode and tools:",
+    "chooseLanguage": "Language",
+    "appMode": "Mode",
+    "modeClassic": "Study only",
+    "modeGamified": "Game (rewards)",
+    "a11y": "Comfort Tools",
+    "lrs": "Friendly font",
+    "contrast": "Contrast",
+    "vision": "Larger text",
+    "big": "Comfort buttons",
+    "spacing": "Wider spacing",
+    "ruler": "Focus ruler",
+    "color": "Safe colors",
+    "motion": "Calm screen",
+    "desaturation": "Soft colors",
+    "bionic": "Bionic",
+    "voice": "Voice Assist",
+    "zen": "Zen Mode"
+  },
+  "start": "Start",
+  "done": "Done",
+  "next": "Next",
+  "skip": "Skip",
+  "close": "Close",
+  "on": "ON",
+  "off": "OFF",
+  "active": "Active",
+  "select": "Select",
+  "equip": "Equip",
+  "equipped": "Equipped",
+  "unlocked": "Unlocked",
+  "buy": "Buy",
+  "selectTheme": "Select theme",
+  "loading": "Loading...",
+  "noData": "No tasks in this section.",
+  "formatNotRecognized": "Task format error.",
+  "profile": "Profile",
+  "level": "Level",
+  "quests": "Daily Quests",
+  "shop": "Theme Shop",
+  "coins": "Coins",
+  "navAria": "Practice areas",
+  "settingsAria": "Settings",
+  "coinsAria": "Coins",
+  "exerciseAria": "Exercise",
+  "readAloudTitle": "Read aloud",
+  "successMsg": [
+    "Great!",
+    "Excellent!",
+    "Wonderful!",
+    "Super!"
+  ],
+  "errorMsg": [
+    "Let's analyze this together.",
+    "Let's try again.",
+    "Almost right, look again."
+  ],
+  "streakMsg": [
+    "{count} in a row! 🔥",
+    "{count} hit streak! 🚀",
+    "You have {count}! 🌟",
+    "{count}x flawless! 💪"
+  ],
+  "levelUp": "Level Up!",
+  "levelUpTitle": "Your garden is growing!",
+  "levelUpDesc": "Another goal has been successfully achieved.",
+  "hint": "Hint",
+  "voice": {
+    "success": [
+      "Excellent",
+      "Great",
+      "Wonderful",
+      "Outstanding"
+    ],
+    "error": [
+      "Let's analyze this together",
+      "Let's try again",
+      "Almost right, look again"
+    ],
+    "streak": [
+      "{count} in a row! You're on fire!",
+      "Amazing! That's {count} correct answers!",
+      "Great streak! Keep it up!",
+      "Fantastic! {count} hits without a mistake!"
+    ]
+  },
+  "voiceOptions": "Voice actor",
+  "voiceDesc": "Choose voice for the voice assistant",
+  "voiceDefault": "System default",
+  "voiceSpeed": "Speech speed",
+  "slow": "Slower",
+  "fast": "Faster",
+  "voicePitch": "Voice pitch",
+  "pitchLow": "Low",
+  "pitchHigh": "High",
+  "testVoice": "Test voice",
+  "testSentence": "This is a test of the selected voice.",
+  "resetTTS": "Reset TTS settings",
+  "voiceSelectionAria": "Voice selection",
+  "ttsSettingsAria": "TTS settings",
+  "settings": "Settings",
+  "settingsTitle": "Settings",
+  "settingsSubtitle": "Claro · Accessible Gamification",
+  "settingsBack": "← Back",
+  "settingsTheme": "Theme",
+  "settingsAccessibility": "Comfort options",
+  "settingsFooter": "Your settings are saved automatically.",
+  "tabGeneral": "General",
+  "tabA11y": "Comfort",
+  "tabVoice": "Voice",
+  "tabShop": "Shop",
+  "tabGame": "Game",
+  "textSize": "Text size",
+  "textSizeDesc": "Adjust the font size to your reading preferences",
+  "language": "Language",
+  "languageLabel": "Interface language",
+  "appMode": "App mode",
+  "v1Label": "Classic",
+  "v1Desc": "Exercises without gamification",
+  "v2Label": "Gamification",
+  "v2Desc": "Points, coins, and rewards",
+  "a11yBase": "Base mode — always active",
+  "a11yBaseDesc": "Friendly font (OpenDyslexic), increased spacing, mild cream background",
+  "a11yAddons": "Comfort personalization options",
+  "a11yAddonsDesc": "Choose any combination — customize the app to your needs",
+  "a11y": {
+    "LRS": {
+      "name": "Friendly font",
+      "desc": "Font facilitating reading (OpenDyslexic)"
+    },
+    "Kontrast": {
+      "name": "High contrast",
+      "desc": "Black and white WCAG AAA colors"
+    },
+    "Motorik": {
+      "name": "Comfortable buttons",
+      "desc": "Enlarged buttons and calm animations"
+    },
+    "Niedowidzenie": {
+      "name": "Larger text",
+      "desc": "Enlarged font and icons"
+    },
+    "Daltonizm": {
+      "name": "Safe colors",
+      "desc": "Optimized, readable color palette"
+    },
+    "Redukcja": {
+      "name": "Calm screen",
+      "desc": "No flashing and distracting motion"
+    },
+    "Linijka": {
+      "name": "Focus ruler",
+      "desc": "Highlights a horizontal line under the cursor"
+    },
+    "Spacing": {
+      "name": "Larger spacing",
+      "desc": "Increases spacing between letters and words"
+    },
+    "Desaturacja": {
+      "name": "Soft colors",
+      "desc": "Reduces the saturation of bright colors"
+    }
+  },
+  "inclusive": {
+    "adaptiveDifficulty": {
+      "name": "Adaptive difficulty",
+      "desc": "Game matches pace to the player"
+    },
+    "bigTargets": {
+      "name": "Large touch targets",
+      "desc": "Buttons min. 56px (easier to tap)"
+    },
+    "noFlash": {
+      "name": "No flash mode",
+      "desc": "No flickering — epilepsy and motion sensitivity"
+    },
+    "audioRewards": {
+      "name": "Audio rewards",
+      "desc": "Audio signals instead of just visual"
+    },
+    "extendedTime": {
+      "name": "Extended time",
+      "desc": "No time pressure, 3s instead of 1.5s"
+    },
+    "voiceAssistant": {
+      "name": "Voice Assistant",
+      "desc": "Automatic reading of commands and answers"
+    },
+    "zenMode": {
+      "name": "Zen Mode",
+      "desc": "Hides distractions (points, progress bars)"
+    },
+    "bionicReading": {
+      "name": "Bionic Reading",
+      "desc": "Bolds word beginnings, helps focus eyes"
+    },
+    "minimalistMode": {
+      "name": "Minimalist view",
+      "desc": "Hides decorative graphics and Lottie animations"
+    },
+    "muteNotifications": {
+      "name": "Mute notifications",
+      "desc": "Disables success/error speech and game sounds"
+    }
+  },
+  "profiles": {
+    "Standard": {
+      "name": "Standard",
+      "desc": "Default view"
+    },
+    "LRS": {
+      "name": "Friendly font",
+      "desc": "Font facilitating reading"
+    },
+    "Kontrast": {
+      "name": "High Contrast",
+      "desc": "Better readability"
+    },
+    "Motorik": {
+      "name": "Comfortable buttons",
+      "desc": "Larger buttons and calm animations"
+    },
+    "Niedowidzenie": {
+      "name": "Larger text",
+      "desc": "Enlarged font and icons"
+    },
+    "Daltonizm": {
+      "name": "Safe colors",
+      "desc": "Optimized, readable color palette"
+    },
+    "Redukcja": {
+      "name": "Calm screen",
+      "desc": "No flashing, no distracting motion"
+    },
+    "Bionic": {
+      "name": "Bionic Reading",
+      "desc": "Bolds word beginnings"
+    },
+    "Linijka": {
+      "name": "Focus ruler",
+      "desc": "Highlights a horizontal line under the cursor"
+    },
+    "Spacing": {
+      "name": "Larger spacing",
+      "desc": "Increases spacing between letters and words"
+    },
+    "Desaturacja": {
+      "name": "Soft colors",
+      "desc": "Reduces the saturation of bright colors"
+    }
+  },
+  "accDescriptions": {
+    "Standard": "Default view",
+    "Kontrast": "High contrast mode",
+    "LRS": "Friendly font",
+    "Motorik": "Comfortable buttons"
+  },
+  "versionGamified": "GAMIFICATION",
+  "versionGamifiedSub": "Points and rewards",
+  "versionBase": "BASE",
+  "versionBaseSub": "No points",
+  "gamificationTitle": "Inclusive gamification options",
+  "gamificationDesc": "Customize the reward system to your needs",
+  "themeShop": "Theme shop",
+  "themeShopDesc": "Spend coins on new visual themes",
+  "earnCoinHint": "You earn 1 coin for every correct answer",
+  "needMoreCoins": "Not enough coins",
+  "themes": {
+    "Natur": {
+      "name": "Nature",
+      "icon": "🌿",
+      "desc": "Green hues, relaxation"
+    },
+    "Musik": {
+      "name": "Music",
+      "icon": "🎵",
+      "desc": "Purple, dynamics"
+    },
+    "Kunst": {
+      "name": "Art",
+      "icon": "🎨",
+      "desc": "Amber, creativity"
+    },
+    "Space": {
+      "name": "Space",
+      "icon": "🚀",
+      "desc": "Cosmic depth"
+    },
+    "Ocean": {
+      "name": "Ocean",
+      "icon": "🐳",
+      "desc": "Sea calmness"
+    }
+  },
+  "themeNames": {
+    "Natur": "Nature",
+    "Musik": "Music",
+    "Kunst": "Art",
+    "Space": "Space",
+    "Ocean": "Ocean"
+  },
+  "levelIcons": {
+    "Natur": [
+      "🌿",
+      "☘️",
+      "🌳",
+      "🌲",
+      "🏔️"
+    ],
+    "Musik": [
+      "🎵",
+      "🎶",
+      "🎸",
+      "🎹",
+      "🎼"
+    ],
+    "Kunst": [
+      "💡",
+      "🎨",
+      "🖌️",
+      "🖼️",
+      "💎"
+    ],
+    "Space": [
+      "✨",
+      "⭐",
+      "🛰️",
+      "🚀",
+      "🪐"
+    ],
+    "Ocean": [
+      "💧",
+      "🌊",
+      "🧭",
+      "⚓",
+      "🚢"
+    ]
+  },
+  "progressStages": {
+    "Natur": [
+      "Seed",
+      "Stem",
+      "Bud",
+      "Bloom",
+      "Flower"
+    ],
+    "Musik": [
+      "Sixteenth",
+      "Eighth",
+      "Quarter",
+      "Half",
+      "Instrument"
+    ],
+    "Kunst": [
+      "Brush",
+      "Palette",
+      "Sketch",
+      "Paint",
+      "Masterpiece"
+    ],
+    "Space": [
+      "Star",
+      "Comet",
+      "Moon",
+      "Planet",
+      "Rocket"
+    ],
+    "Ocean": [
+      "Drop",
+      "Fish",
+      "Coral",
+      "Dolphin",
+      "Whale"
+    ]
+  },
+  "garden": "Garden",
+  "gardenBlooming": "The garden is blooming! Goals achieved:",
+  "gardenEmpty": "Your own ecosystem. It will grow as you progress.",
+  "srPlantFeature": "Your journey currently features",
+  "srDailyRewards": "Has",
+  "srRewardsCount": "daily rewards.",
+  "dailyGoalProgress": "Daily Goal Progress",
+  "srVisitor": "A friendly visitor has joined you thanks to your regular practice.",
+  "srTrophies": "Through perseverance, {count} unique objects appeared in the garden.",
+  "rewardItems": {
+    "Natur": [
+      "💎",
+      "🏆",
+      "💡",
+      "📈",
+      "🎯"
+    ],
+    "Musik": [
+      "💎",
+      "🏆",
+      "💡",
+      "📈",
+      "🎯"
+    ],
+    "Kunst": [
+      "💎",
+      "🏆",
+      "💡",
+      "📈",
+      "🎯"
+    ],
+    "Space": [
+      "💎",
+      "🏆",
+      "💡",
+      "📈",
+      "🎯"
+    ],
+    "Ocean": [
+      "💎",
+      "🏆",
+      "💡",
+      "📈",
+      "🎯"
+    ]
+  },
+  "dailyGoal": "Daily goal",
+  "goal5": "5 min — Quick review",
+  "goal10": "10 min — Good habit",
+  "goal15": "15 min — Deep focus",
+  "goal20": "20 min — Intensive training",
+  "dailySummary": "Today's activity",
+  "exercisesCount": "exercises",
+  "totalEffort": "Total",
+  "longestStreak": "Longest day streak",
+  "daysCount": "days",
+  "errorAnalysis": "Error analysis",
+  "errorAnalysisSub": "Number of mistakes by day",
+  "exportLogs": "Export data (CSV)",
+  "exportDesc": "Download NASA-TLX and UEQ survey results",
+  "noDataToExport": "No data to export",
+  "feedback": {
+    "title": "A moment of reflection",
+    "desc": "How do you evaluate today's session? Your feedback helps us adapt the app to you.",
+    "nasaTitle": "Workload (NASA-TLX)",
+    "low": "Low",
+    "high": "High",
+    "nasa": {
+      "mental": "Mental Demand",
+      "mentalDesc": "How much mental and perceptual activity was required?",
+      "physical": "Physical Demand",
+      "physicalDesc": "How much physical activity was required?",
+      "temporal": "Temporal Demand",
+      "temporalDesc": "How hurried or rushed was the pace of the task?",
+      "performance": "Performance",
+      "performanceDesc": "How successful were you in accomplishing what you were asked to do?",
+      "effort": "Effort",
+      "effortDesc": "How hard did you have to work to accomplish your level of performance?",
+      "frustration": "Frustration",
+      "frustrationDesc": "How insecure, discouraged, irritated, stressed, and annoyed were you?"
+    },
+    "submit": "Save and continue",
+    "skip": "Skip this time"
+  },
+  "mapTitle": "Challenge Map",
+  "choosePath": "Choose your path",
+  "nextLevel": "Next stage",
+  "lockedNode": "Locked",
+  "completedNode": "Completed",
+  "backToMap": "Back to map",
+  "energyTitle": "Cognitive Energy",
+  "breakTitle": "Time for a break?",
+  "breakDesc": "We noticed you're working intensively. Rest in the garden to regenerate and prevent fatigue.",
+  "takeBreakBtn": "Rest (+2 💰)",
+  "continueBtn": "Keep practicing",
+  "pillars": {
+    "Literacy": "Reading and Writing",
+    "Visual": "Vision and Space",
+    "Cognitive": "Logic and Memory"
+  },
+  "pillarIcons": {
+    "Literacy": "📖",
+    "Visual": "👁️",
+    "Cognitive": "🧩"
+  },
+  "categories": {
+    "Phonem": "Word: Sounds",
+    "Syllable": "Word: Syllables",
+    "Context": "Text: Reading",
+    "Graphem": "Writing: Rules",
+    "Scrabble": "Writing: Synthesis",
+    "LCWC": "Writing: Memory",
+    "Dictation": "Writing: Dictations",
+    "Tracking": "Vision: Tracking",
+    "Clock": "Vision: Clock",
+    "Categorization": "Logic: Categories",
+    "Sequence": "Logic: Sequences"
+  },
+  "difficulty": "Difficulty level",
+  "diffLevels": [
+    "Easy",
+    "Medium",
+    "Hard"
+  ],
+  "trackAndMatch": "Follow the highlight and indicate direction",
+  "orderCorrectly": "Arrange in the correct order",
+  "undo": "Undo",
+  "tempoLabel": "Reading type",
+  "normalMode": "Normal",
+  "slowMode": "Slow",
+  "spellMode": "Spelling",
+  "readAloud": "Read aloud",
+  "syllablesListen": "Listen to syllables",
+  "check": "Check",
+  "delete": "Delete",
+  "tapToSpeak": "Tap to speak",
+  "listening": "Listening...",
+  "collectedLabel": "Collected",
+  "selectCorrect": "Select correct word:",
+  "tapToBuild": "Select words in the correct order",
+  "listenCarefully": "Listen carefully to the word.",
+  "readyToSegment": "I'm ready to segment",
+  "tapBoxesInstruction": "Tap boxes while pronouncing each sound.",
+  "completeExercise": "Complete exercise",
+  "playAudio": "Play audio",
+  "lookAndListen": "Look at the word and listen to its pronunciation.",
+  "studiedWord": "I've studied the word",
+  "sayWordAloud": "Say the word aloud.",
+  "breakIntoSounds": "Break it down into single sounds.",
+  "takeYourTime": "Take your time. Feel the shape of sounds in your mouth before writing.",
+  "coverAndWrite": "Cover word and write",
+  "typeFromMemory": "Type word from memory.",
+  "typeHere": "Type here...",
+  "checkSpelling": "Check my spelling",
+  "compareSpelling": "Compare your spelling:",
+  "targetWord": "Target word",
+  "yourSpelling": "Your spelling",
+  "spelledCorrectly": "Yes, I spelled it correctly!",
+  "tryAgain": "I need to try again",
+  "listenToPhonemes": "Listen to the separated sounds.",
+  "typeBlendedWord": "Type the word these sounds make.",
+  "blendSounds": "I'm ready to blend sounds",
+  "readParagraph": "Read the following text carefully.",
+  "paragraphRead": "I've finished reading",
+  "rtSummarize": "Summarize",
+  "rtSummarizeDesc": "What was the main idea of this text?",
+  "rtQuestion": "Ask",
+  "rtQuestionDesc": "Ask a question about something unclear or interesting in the text.",
+  "rtClarify": "Clarify",
+  "rtClarifyDesc": "Identify unclear words or phrases and explain them in your own words.",
+  "rtPredict": "Predict",
+  "rtPredictDesc": "What do you think will happen next or what is the logical conclusion?",
+  "heard": "Heard",
+  "voiceInput": "Voice input",
+  "speakOptionNumber": "Speak option number",
+  "speakTileNumber": "Speak tile number",
+  "speakGapNumber": "Speak gap number to cut",
+  "tapAndPronounce": "Tap and pronounce the word",
+  "skipPronunciation": "Skip pronunciation check",
+  "readSentenceAndOptions": "Read sentence and options",
+  "thesisInfo": "Master's Thesis\nAccessible Gamification and Voice Integration\nin a PWA supporting speech therapy exercises\nfor individuals with dyslexia",
+  "tags": {
+    "kontrast": "contrast",
+    "wzrok": "vision",
+    "motor": "motor",
+    "dotyk": "touch",
+    "zoom": "zoom",
+    "kolor": "color",
+    "ruch": "motion",
+    "epilepsja": "epilepsy",
+    "linijka": "focus"
+  },
+  "pwaNewVersion": "New version",
+  "pwaDescription": "New content is available. Update the application to download the latest changes for offline mode.",
+  "pwaUpdate": "Update",
+  "pwaLater": "Later",
+  "showOriginal": "Show original",
+  "simplifyText": "Simplify text ✨",
+  "prevPage": "← Previous",
+  "nextPage": "Next →",
+  "commands": {
+    "next": [
+      "next",
+      "continue",
+      "done",
+      "forward"
+    ],
+    "check": [
+      "check",
+      "confirm",
+      "submit"
+    ],
+    "undo": [
+      "undo",
+      "back",
+      "delete",
+      "remove"
+    ],
+    "skip": [
+      "skip",
+      "pass",
+      "i don't know"
+    ],
+    "hint": [
+      "hint",
+      "help me",
+      "help"
+    ]
+  },
+  "affirmations": [
+    "Your garden is growing beautifully thanks to your work today.",
+    "Every step is progress. Wonderful effort!",
+    "A calm pace is the best way to learn.",
+    "You're making steady progress. Continue at your own pace.",
+    "Thank you for being here today. Your dedication matters."
+  ],
+  "dailyTaskComplete": {
+    "title": "Wonderful effort!",
+    "desc": "You completed today's practice. Your consistency builds a strong foundation.",
+    "chooseReward": "Choose a reward that will grow in the garden",
+    "plantSeed": "Plant and continue",
+    "options": {
+      "oak": {
+        "name": "Oak",
+        "desc": "Symbol of strength and endurance."
+      },
+      "rose": {
+        "name": "Rose Bush",
+        "desc": "A beautiful reward for your focus."
+      },
+      "bonsai": {
+        "name": "Bonsai",
+        "desc": "Represents patience and steady growth."
+      }
+    }
+  },
+  "reflection": {
+    "title": "A moment of reflection",
+    "desc": "There are no grades here. How confident did you feel during this exercise?",
+    "save": "Save and water the plant",
+    "options": {
+      "difficult": {
+        "label": "Difficult",
+        "desc": "I need more time"
+      },
+      "manageable": {
+        "label": "Just right",
+        "desc": "I'm making progress"
+      },
+      "easy": {
+        "label": "Easy",
+        "desc": "I feel confident"
+      }
+    }
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "success": "Success!",
+    "error": "An error occurred.",
+    "close": "Close"
+  },
+  "errors": {
+    "network": "Network connection failed. Please try again.",
+    "unauthorized": "You are not authorized to view this page.",
+    "timeout": "The request timed out."
+  },
+  "survey": {
+    "susTitle": "System Usability Scale (SUS)",
+    "susAnchors": {
+      "stronglyDisagree": "Strongly Disagree",
+      "stronglyAgree": "Strongly Agree"
+    },
+    "sus": {
+      "q01": "I think that I would like to use this system frequently.",
+      "q02": "I found the system unnecessarily complex.",
+      "q03": "I thought the system was easy to use.",
+      "q04": "I think that I would need the support of a technical person to be able to use this system.",
+      "q05": "I found the various functions in this system were well integrated.",
+      "q06": "I thought there was too much inconsistency in this system.",
+      "q07": "I would imagine that most people would learn to use this system very quickly.",
+      "q08": "I found the system very cumbersome to use.",
+      "q09": "I felt very confident using the system.",
+      "q10": "I needed to learn a lot of things before I could get going with this system."
+    }
+  }
+}

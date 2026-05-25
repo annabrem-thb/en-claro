@@ -1,4 +1,26 @@
 {
+  "appTitle": "Claro",
+  "start": "Start",
+  "intro": {
+    "subtitle": "Your safe space to grow! Choose mode and tools:",
+    "chooseLanguage": "Language",
+    "appMode": "Mode",
+    "modeClassic": "Study only",
+    "modeGamified": "Game (rewards)",
+    "a11y": "Comfort Tools",
+    "lrs": "Friendly font",
+    "contrast": "Contrast",
+    "vision": "Larger text",
+    "big": "Comfort buttons",
+    "spacing": "Wider spacing",
+    "ruler": "Focus ruler",
+    "color": "Safe colors",
+    "motion": "Calm screen",
+    "desaturation": "Soft colors",
+    "bionic": "Bionic",
+    "voice": "Voice Assist",
+    "zen": "Zen Mode"
+  },
   "common": {
     "save": "Save",
     "cancel": "Cancel",
@@ -22,39 +44,5 @@
     "network": "Network connection failed. Please try again.",
     "unauthorized": "You are not authorized to view this page.",
     "timeout": "The request timed out."
-  },
-  "feedback": {
-    "title": "UX Survey",
-    "desc": "Please share your experience with us.",
-    "nasaTitle": "Workload (NASA-TLX)",
-    "submit": "Submit Feedback",
-    "thankYou": "Thank you for your feedback!",
-    "low": "Low",
-    "high": "High",
-    "nasa": {
-      "mental": "Mental Demand",
-      "mentalDesc": "How much mental and perceptual activity was required?",
-      "physical": "Physical Demand",
-      "physicalDesc": "How much physical activity was required?",
-      "temporal": "Temporal Demand",
-      "temporalDesc": "How hurried or rushed was the pace of the task?",
-      "performance": "Performance",
-      "performanceDesc": "How successful were you in accomplishing what you were asked to do?",
-      "effort": "Effort",
-      "effortDesc": "How hard did you have to work to accomplish your level of performance?",
-      "frustration": "Frustration",
-      "frustrationDesc": "How insecure, discouraged, irritated, stressed, and annoyed were you?"
-    },
-    "ueqTitle": "User Experience (UEQ-Short)",
-    "ueq": {
-      "obstructive": "Obstructive", "supportive": "Supportive",
-      "complicated": "Complicated", "easy": "Easy",
-      "inefficient": "Inefficient", "efficient": "Efficient",
-      "confusing": "Confusing", "clear": "Clear",
-      "boring": "Boring", "exciting": "Exciting",
-      "notInteresting": "Not interesting", "interesting": "Interesting",
-      "conventional": "Conventional", "inventive": "Inventive",
-      "usual": "Usual", "leadingEdge": "Leading Edge"
-    }
   }
 }

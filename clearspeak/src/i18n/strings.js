@@ -1,6 +1,4 @@
-import pl from './locales/pl.js';
-import en from './locales/en.js';
-import de from './locales/de.js';
+import { translations } from './i18n.js';
 
-export const APP_STRINGS = { pl, en, de };
-export const STRINGS = { pl, en, de };
+export const APP_STRINGS = translations;
+export const STRINGS = translations;

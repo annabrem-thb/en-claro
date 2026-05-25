@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useTranslation } from '../i18n/i18n.js';
+import { useTranslation } from 'react-i18next';
 import { useAppSettings } from '../hooks/useAppSettings.js';
-import { NasaTlxPayload, UeqShortPayload } from '../types/survey';
+import { useGamification } from './GamificationContext.jsx';
+import { NasaTlxPayload, SusPayload, AppVersion } from '../../public/survey';
 
 // DRY Configuration: Array mappings for NASA-TLX
 const NASA_SCALES: Array<{ id: keyof NasaTlxPayload; label: string; desc: string }> = [
@@ -13,32 +14,26 @@ const NASA_SCALES: Array<{ id: keyof NasaTlxPayload; label: string; desc: string
   { id: 'frustration', label: 'feedback.nasa.frustration', desc: 'feedback.nasa.frustrationDesc' }
 ];
 
-// DRY Configuration: Array mappings for UEQ-Short
-const UEQ_SCALES: Array<{ id: keyof UeqShortPayload; leftAnchor: string; rightAnchor: string }> = [
-  { id: 'ueq1', leftAnchor: 'feedback.ueq.obstructive', rightAnchor: 'feedback.ueq.supportive' },
-  { id: 'ueq2', leftAnchor: 'feedback.ueq.complicated', rightAnchor: 'feedback.ueq.easy' },
-  { id: 'ueq3', leftAnchor: 'feedback.ueq.inefficient', rightAnchor: 'feedback.ueq.efficient' },
-  { id: 'ueq4', leftAnchor: 'feedback.ueq.confusing', rightAnchor: 'feedback.ueq.clear' },
-  { id: 'ueq5', leftAnchor: 'feedback.ueq.boring', rightAnchor: 'feedback.ueq.exciting' },
-  { id: 'ueq6', leftAnchor: 'feedback.ueq.notInteresting', rightAnchor: 'feedback.ueq.interesting' },
-  { id: 'ueq7', leftAnchor: 'feedback.ueq.conventional', rightAnchor: 'feedback.ueq.inventive' },
-  { id: 'ueq8', leftAnchor: 'feedback.ueq.usual', rightAnchor: 'feedback.ueq.leadingEdge' }
+// DRY Configuration: Array mappings for System Usability Scale (SUS)
+const SUS_SCALES: Array<{ id: keyof SusPayload; label: string }> = [
+  { id: 'sus01', label: 'survey.sus.q01' },
+  { id: 'sus02', label: 'survey.sus.q02' },
+  { id: 'sus03', label: 'survey.sus.q03' },
+  { id: 'sus04', label: 'survey.sus.q04' },
+  { id: 'sus05', label: 'survey.sus.q05' },
+  { id: 'sus06', label: 'survey.sus.q06' },
+  { id: 'sus07', label: 'survey.sus.q07' },
+  { id: 'sus08', label: 'survey.sus.q08' },
+  { id: 'sus09', label: 'survey.sus.q09' },
+  { id: 'sus10', label: 'survey.sus.q10' }
 ];
 
 export const SurveyComponent: React.FC = () => {
   const { language, theme, a11yAddons, inclusiveOptions, userDifficulty, dailyGoal } = useAppSettings();
-  const dict = useTranslation(language);
-
-  // Funkcja pomocnicza pozwalająca pobierać zagnieżdżone tłumaczenia (np. "feedback.nasa.mental")
-  const t = (path: string, fallback?: string): string => {
-    const keys = path.split('.');
-    let result: any = dict;
-    for (const k of keys) {
-      if (result == null) break;
-      result = result[k];
-    }
-    return result || fallback || path;
-  };
+  const { isGamified } = useGamification();
+  
+  // Pobieranie metody `t` natywnie z react-i18next
+  const { t } = useTranslation();
 
   // State definitions matching the schema requirements
   const [nasaScores, setNasaScores] = useState<NasaTlxPayload>({
@@ -50,8 +45,8 @@ export const SurveyComponent: React.FC = () => {
     frustration: 50,
   });
 
-  const [ueqScores, setUeqScores] = useState<UeqShortPayload>({
-    ueq1: 4, ueq2: 4, ueq3: 4, ueq4: 4, ueq5: 4, ueq6: 4, ueq7: 4, ueq8: 4,
+  const [susScores, setSusScores] = useState<SusPayload>({
+    sus01: 3, sus02: 3, sus03: 3, sus04: 3, sus05: 3, sus06: 3, sus07: 3, sus08: 3, sus09: 3, sus10: 3
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,8 +57,8 @@ export const SurveyComponent: React.FC = () => {
     setNasaScores((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleUeqChange = (id: keyof UeqShortPayload, value: number) => {
-    setUeqScores((prev) => ({ ...prev, [id]: value }));
+  const handleSusChange = (id: keyof SusPayload, value: number) => {
+    setSusScores((prev) => ({ ...prev, [id]: value }));
   };
 
   /**
@@ -83,16 +78,19 @@ export const SurveyComponent: React.FC = () => {
           : 'user_' + Math.random().toString(36).substring(2, 15);
         localStorage.setItem('cfg_participant_id', participantId);
       }
+      
+      const appVersion: AppVersion = isGamified ? 'vollversion' : 'basis';
 
       const payload = {
         ...nasaScores,
-        ...ueqScores,
+        ...susScores,
         participantId,
+        appVersion,
         userLanguage: language,
         localTimestamp: new Date().toISOString(),
         theme,
-        a11yAddons: Array.isArray(a11yAddons) ? a11yAddons.join(', ') : '',
-        inclusiveOptions: inclusiveOptions ? Object.keys(inclusiveOptions).filter(k => inclusiveOptions[k]).join(', ') : '',
+        a11yAddons,
+        inclusiveOptions,
         userDifficulty,
         dailyGoal
       };
@@ -128,7 +126,7 @@ export const SurveyComponent: React.FC = () => {
   return (
     <form 
       onSubmit={handleSubmit} 
-      className="flex flex-col gap-8 w-full max-w-2xl mx-auto bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100"
+      className="flex flex-col gap-8 w-full max-w-5xl mx-auto bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100"
     >
       <header className="text-center">
         <h1 className="text-3xl font-black text-slate-800 tracking-tight">{t('feedback.title')}</h1>
@@ -140,7 +138,8 @@ export const SurveyComponent: React.FC = () => {
         <legend className="text-lg font-black uppercase tracking-widest text-slate-400 mb-4 border-b w-full pb-2">
           {t('feedback.nasaTitle')}
         </legend>
-        {NASA_SCALES.map((scale) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
+          {NASA_SCALES.map((scale) => (
           <div key={scale.id} className="flex flex-col gap-2 p-4 bg-slate-50 rounded-2xl border border-slate-100">
             <div className="flex justify-between items-end">
               <div>
@@ -172,51 +171,51 @@ export const SurveyComponent: React.FC = () => {
             </div>
           </div>
         ))}
+        </div>
       </fieldset>
 
-      {/* --- UEQ-Short Section --- */}
+      {/* --- System Usability Scale (SUS) Section --- */}
       <fieldset className="flex flex-col gap-4">
         <legend className="text-lg font-black uppercase tracking-widest text-slate-400 mb-4 border-b w-full pb-2">
-          {t('feedback.ueqTitle')}
+          {t('survey.susTitle')}
         </legend>
-        {UEQ_SCALES.map((scale) => (
-          <div key={scale.id} className="flex items-center justify-between gap-2 md:gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-            {/* Left anchor */}
-            <span className="flex-1 text-right text-xs md:text-sm font-bold text-slate-600 leading-tight">
-              {t(scale.leftAnchor)}
-            </span>
-            
-            {/* 7-Point Likert Radio Buttons */}
-            <div 
-              className="flex gap-1 md:gap-2 items-center justify-center shrink-0" 
-              role="radiogroup" 
-              aria-label={`${t(scale.leftAnchor)} vs ${t(scale.rightAnchor)}`}
-            >
-              {[1, 2, 3, 4, 5, 6, 7].map((val) => (
-                <label 
-                  key={`${scale.id}-${val}`} 
-                  className="flex flex-col items-center cursor-pointer group p-1"
-                >
-                  <span className="sr-only">{val}</span>
-                  <input
-                    type="radio"
-                    name={scale.id}
-                    value={val}
-                    checked={ueqScores[scale.id] === val}
-                    onChange={() => handleUeqChange(scale.id, val)}
-                    className="w-5 h-5 md:w-6 md:h-6 appearance-none border-2 border-slate-300 rounded-full checked:bg-indigo-500 checked:border-transparent transition-all group-hover:border-indigo-400 focus-visible:ring-4 focus-visible:ring-indigo-100 focus:outline-none"
-                    aria-label={`Rate ${val} out of 7`}
-                  />
-                </label>
-              ))}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+          {SUS_SCALES.map((scale) => (
+          <div key={scale.id} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+            <label id={`label-${scale.id}`} className="text-sm font-bold text-slate-700 block leading-snug">
+              {t(scale.label)}
+            </label>
+
+            <div className="flex items-center justify-between mt-2 gap-2">
+              <span className="text-[10px] sm:text-xs font-bold text-slate-400 max-w-[80px] text-center leading-tight">
+                {t('survey.susAnchors.stronglyDisagree', 'Strongly Disagree')}
+              </span>
+              
+              {/* 5-Point Likert Radio Buttons */}
+              <div className="flex gap-2 md:gap-4 items-center justify-center flex-1" role="radiogroup" aria-labelledby={`label-${scale.id}`}>
+                {[1, 2, 3, 4, 5].map((val) => (
+                  <label key={`${scale.id}-${val}`} className="flex flex-col items-center cursor-pointer group p-1 relative">
+                    <span className="sr-only">{val}</span>
+                    <input
+                      type="radio"
+                      name={scale.id}
+                      value={val}
+                      checked={susScores[scale.id] === val}
+                      onChange={() => handleSusChange(scale.id, val)}
+                      className="w-6 h-6 md:w-7 md:h-7 appearance-none border-2 border-slate-300 rounded-full checked:bg-indigo-500 checked:border-transparent transition-all group-hover:border-indigo-400 focus-visible:ring-4 focus-visible:ring-indigo-100 focus:outline-none"
+                      aria-label={`Rate ${val} out of 5`}
+                    />
+                  </label>
+                ))}
+              </div>
+
+              <span className="text-[10px] sm:text-xs font-bold text-slate-400 max-w-[80px] text-center leading-tight">
+                {t('survey.susAnchors.stronglyAgree', 'Strongly Agree')}
+              </span>
             </div>
-            
-            {/* Right anchor */}
-            <span className="flex-1 text-left text-xs md:text-sm font-bold text-slate-600 leading-tight">
-              {t(scale.rightAnchor)}
-            </span>
           </div>
         ))}
+        </div>
       </fieldset>
 
       {/* --- Error & Submission --- */}

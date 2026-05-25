@@ -1,12 +1,13 @@
 -- Enable UUID extension if not already enabled
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Create the survey_submissions table
-CREATE TABLE IF NOT EXISTS public.survey_submissions (
+-- A/B Testing Master's Thesis Table: SUS & NASA R-TLX
+CREATE TABLE IF NOT EXISTS public.ab_study_submissions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     
-    -- Optional metadata for research context
+    -- A/B Testing Context
+    app_version TEXT NOT NULL CHECK (app_version IN ('basic', 'gamified')),
     participant_id TEXT,
     user_language TEXT,
     local_timestamp TIMESTAMPTZ,
@@ -18,24 +19,32 @@ CREATE TABLE IF NOT EXISTS public.survey_submissions (
     user_difficulty SMALLINT,
     daily_goal SMALLINT,
     
-    -- NASA-TLX Subscales (Stored as integers, typical range 1-100)
-    mental_demand SMALLINT NOT NULL,
-    physical_demand SMALLINT NOT NULL,
-    temporal_demand SMALLINT NOT NULL,
-    performance SMALLINT NOT NULL,
-    effort SMALLINT NOT NULL,
-    frustration SMALLINT NOT NULL,
+    -- NASA Raw TLX (0-100)
+    mental_demand SMALLINT,
+    physical_demand SMALLINT,
+    temporal_demand SMALLINT,
+    performance SMALLINT,
+    effort SMALLINT,
+    frustration SMALLINT,
     
-    -- UEQ-Short Items (Stored as integers, typical Likert scale range 1-7)
-    ueq_item_1 SMALLINT NOT NULL,
-    ueq_item_2 SMALLINT NOT NULL,
-    ueq_item_3 SMALLINT NOT NULL,
-    ueq_item_4 SMALLINT NOT NULL,
-    ueq_item_5 SMALLINT NOT NULL,
-    ueq_item_6 SMALLINT NOT NULL,
-    ueq_item_7 SMALLINT NOT NULL,
-    ueq_item_8 SMALLINT NOT NULL
+    -- System Usability Scale (1-5)
+    sus_q01 SMALLINT, sus_q02 SMALLINT,
+    sus_q03 SMALLINT, sus_q04 SMALLINT,
+    sus_q05 SMALLINT, sus_q06 SMALLINT,
+    sus_q07 SMALLINT, sus_q08 SMALLINT,
+    sus_q09 SMALLINT, sus_q10 SMALLINT
 );
 
--- RLS disabled: Access is securely proxied and handled by the Netlify Serverless Function
-ALTER TABLE public.survey_submissions DISABLE ROW LEVEL SECURITY;
+-- Enable RLS: Restrict frontend access, leaving access only to the service_role key.
+ALTER TABLE public.ab_study_submissions ENABLE ROW LEVEL SECURITY;
+
+-- Allow read access for the frontend to render charts
+CREATE POLICY "Allow public read access for charts" ON public.ab_study_submissions
+    FOR SELECT TO anon, authenticated USING (true);
+
+-- Allow insert access for the survey form submissions
+CREATE POLICY "Allow anonymous inserts" ON public.ab_study_submissions
+    FOR INSERT TO anon, authenticated WITH CHECK (true);
+
+-- Grant explicit select and insert permissions to anonymous users
+GRANT SELECT, INSERT ON public.ab_study_submissions TO anon, authenticated;

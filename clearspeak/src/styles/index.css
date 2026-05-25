@@ -4,23 +4,68 @@
 
 :root {
   --dyn-font-family: 'OpenDyslexic', Helvetica, Arial, Verdana, sans-serif;
-  --dyn-line-height: 1.65;
-  --dyn-word-spacing: 0.15em;
-  --dyn-letter-spacing: 0.04em;
-  --dyn-font-size: 18px;
+  --dyn-line-height: 1.75;
+  --dyn-word-spacing: 0.20em;
+  --dyn-letter-spacing: 0.08em;
+  --dyn-font-size: 14px; /* Domyślny rozmiar dla telefonów */
+  
+  /* Pełny mnożnik skali użytkownika dla małych ekranów */
+  --responsive-scale: var(--user-text-scale, 1);
+}
+
+/* Zwiększenie czcionki bazowej na tabletach i monitorach (od 768px szerokości) */
+@media (min-width: 768px) {
+  :root {
+    --dyn-font-size: 15px;
+    
+    /* Na dużych ekranach suwak działa o 50% słabiej, by zapobiec gigantycznym literom. 
+       Np. suwak na 150% powiększy tekst na komputerze tylko do 125%. */
+    --responsive-scale: calc(1 + (var(--user-text-scale, 1) - 1) * 0.5);
+  }
+
+  /* Zwiększenie czcionki na przyciskach w całej aplikacji */
+  button.text-xs { font-size: 0.85rem !important; }
+  button.text-sm { font-size: 1.0rem !important; }
+  button.text-base { font-size: 1.15rem !important; }
+  button.text-lg { font-size: 1.30rem !important; }
+  button.text-xl { font-size: 1.45rem !important; }
+
+  /* Ścieśnienie tekstu w Ogrodzie, by statystyki aktywności mieściły się w kafelkach */
+  #garden-container * {
+    letter-spacing: 0.02em !important;
+    word-spacing: 0.05em !important;
+    line-height: 1.35 !important;
+  }
 }
 
 @layer base {
+  html {
+    /* Skaluje główny root (rem) - dzięki temu klasy Tailwind (text-sm, text-base) będą poprawnie powiększać tekst i cały interfejs */
+    font-size: calc(var(--dyn-font-size) * var(--responsive-scale));
+    /* Blokada gumkowania (bounce/pull-to-refresh) na urządzeniach mobilnych */
+    overscroll-behavior: none;
+  }
+
+  * {
+    /* Przeniesione do selektora uniwersalnego, by proporcje 'em' liczyły się bezpośrednio od elementu docelowego */
+    letter-spacing: var(--dyn-letter-spacing);
+    word-spacing: var(--dyn-word-spacing);
+    line-height: var(--dyn-line-height);
+    
+    /* Zabezpieczenie layoutu przed pękaniem - wymusza przenoszenie zbyt długich wyrazów do nowej linii */
+    overflow-wrap: break-word;
+  }
+
   body {
     background-color: #FDFBF7;
     color: #333333;
     font-family: var(--dyn-font-family);
-    letter-spacing: var(--dyn-letter-spacing);
-    word-spacing: var(--dyn-word-spacing);
-    line-height: var(--dyn-line-height);
-    font-size: var(--dyn-font-size);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     text-align: left !important;
+    /* Zablokowanie przeciągania pustego tła (iOS bounce) */
+    overscroll-behavior: none;
   }
 
   em, i {
@@ -32,5 +77,14 @@
   *:focus-visible {
     outline: 4px solid #818cf8;
     outline-offset: 4px;
+  }
+
+  /* Ukrywanie paska przewijania (scrollbara) dla czystszego, natywnego wyglądu PWA */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
 }

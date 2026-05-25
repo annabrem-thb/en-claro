@@ -4,8 +4,11 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { useDispatch, Provider } from 'react-redux';
+import { Provider } from 'react-redux';
 import store from './store.js';
+
+// Zainicjowanie globalnego silnika i18next (nowa architektura)
+import '../hooks/config.ts';
 
 import { useTranslation }  from '../i18n/i18n.js';
 
@@ -14,8 +17,6 @@ import SettingsModal      from './SettingsModal.jsx';
 import { ProgressPill }   from './ProgressPill.jsx';
 import VirtualGarden      from './VirtualGarden.jsx';
 import BionicText         from './common/BionicText.jsx';
-import AccessibleTTS      from './common/AccessibleTTS.jsx';
-import TTSController      from './common/TTSController.jsx';
 import SkeletonLoader     from './common/SkeletonLoader.jsx';
 import SidebarNav         from './SidebarNav.jsx';
 import { FeedbackCollector } from './FeedbackCollector.jsx';
@@ -52,7 +53,6 @@ const THEMES = {
 
 // --- Main App Component ---
 function AppContent() {
-  const dispatch = useDispatch();
   const { isGamified, setIsGamified } = useGamification();
   
   // Global App Settings Module
@@ -61,11 +61,21 @@ function AppContent() {
     a11yAddons, setA11yAddons,
     inclusiveOptions, setInclusiveOptions,
     dailyGoal, setDailyGoal,
-    userDifficulty, setUserDifficulty
+    userDifficulty, setUserDifficulty,
+    textScale, setTextScale
   } = useAppSettings();
 
   // Vocabulary Loader Module
   const db = useVocabularyLoader(language);
+
+  // Synchronizacja globalnego stanu języka (PWA) z silnikiem i18next
+  useEffect(() => {
+    import('i18next').then((i18next) => {
+      if (i18next.default.language !== language) {
+        i18next.default.changeLanguage(language);
+      }
+    });
+  }, [language]);
 
   // Global TTS (Voice) Module
   const { 
@@ -146,8 +156,14 @@ function AppContent() {
     root.setAttribute('data-a11y-desaturation', String(a11yAddons.includes('Desaturacja')));
     root.setAttribute('data-a11y-minimalist', String(!!inclusiveOptions.minimalistMode));
     root.style.setProperty('--theme-accent', THEMES[theme]?.hex || '#10b981');
+    
+    // Wyciąga z klas np. bg-[#F4F1EA] czysty kolor HEX i ustawia go jako zmienną dla gradientu
+    const bgHex = THEMES[theme]?.bg?.match(/\[(.*?)\]/)?.[1] || '#FDFBF7';
+    root.style.setProperty('--theme-bg', isHighContrast ? '#000000' : bgHex);
+    
+    root.style.setProperty('--user-text-scale', textScale / 100);
     root.lang = language;
-  }, [a11yAddons, inclusiveOptions, theme, isHighContrast, bigTargets, noFlash, language]);
+  }, [a11yAddons, inclusiveOptions, theme, isHighContrast, bigTargets, noFlash, language, textScale]);
 
   // Training Session Module
   const {
@@ -179,9 +195,6 @@ function AppContent() {
       metrics: surveyData
     };
     
-    // Save UX logs to Redux store (Analytics)
-    dispatch({ type: 'analytics/saveFeedback', payload: logEntry });
-
     try {
       await saveLog('ux_logs', logEntry);
     } catch (error) {
@@ -190,7 +203,7 @@ function AppContent() {
     
     setShowFeedback(false);
     goNext();
-  }, [points, goNext, dispatch]);
+  }, [points, goNext]);
 
   // --- Navigation Handlers ---
   const handleTabChange = useCallback((pillar) => {
@@ -250,6 +263,8 @@ function AppContent() {
           setVoiceSpeed={setVoiceSpeed}
           voicePitch={voicePitch}
           setVoicePitch={setVoicePitch}
+          textScale={textScale}
+          setTextScale={setTextScale}
     />;
   }
 
@@ -281,6 +296,8 @@ function AppContent() {
       setCoins={setCoins}
       unlockedThemes={unlockedThemes}
       setUnlockedThemes={setUnlockedThemes}
+      textScale={textScale}
+      setTextScale={setTextScale}
     />;
   }
 
@@ -309,13 +326,21 @@ function AppContent() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen h-dvh overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 h-screen h-dvh overflow-hidden relative">
+        
+        {/* Dyskretny gradient na górze ekranu (maskuje przewijany tekst) */}
+        <div 
+          className="absolute top-0 left-0 right-0 h-10 pointer-events-none z-10" 
+          style={{ background: 'linear-gradient(to bottom, var(--theme-bg) 0%, transparent)' }} 
+          aria-hidden="true" 
+        />
+
         <main 
-          className={`flex-1 flex flex-col min-h-0 overflow-y-auto px-3 md:px-6 py-4 mx-auto w-full max-w-xl ${isHighContrast ? 'text-white' : 'text-[#2D3732]'}`}
+          className={`flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-none no-scrollbar px-3 md:px-8 pt-6 pb-[calc(3rem+env(safe-area-inset-bottom))] mx-auto w-full max-w-4xl ${isHighContrast ? 'text-white' : 'text-[#2D3732]'}`}
           {...swipeHandlers}
         >
           {activeTab === 'Garden' ? (
-            <div className={`flex-1 w-full h-full py-2 ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
+            <div id="garden-container" className={`flex-1 w-full h-full py-2 ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
               <VirtualGarden 
                 points={points} 
                 streak={currentStreak} 
@@ -366,7 +391,7 @@ function AppContent() {
               {/* Active Exercise Card */}
               <section 
                 ref={cardRef}
-                className={`rounded-4xl flex flex-col items-center relative flex-1 min-h-0 overflow-y-auto px-4 py-6 ${isHighContrast ? 'bg-black border border-white/30 shadow-lg shadow-white/10' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-xl shadow-slate-200/30`}`}
+                className={`rounded-4xl flex flex-col items-center relative w-full flex-1 px-4 py-6 sm:px-10 sm:py-8 ${isHighContrast ? 'bg-black border border-white/30 shadow-lg shadow-white/10' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-xl shadow-slate-200/30`}`}
                 aria-label={s.exerciseAria}
               >
                 {/* Reading Ruler Overlay (Restricted to Card) */}
@@ -410,6 +435,13 @@ function AppContent() {
             </>
           )}
         </main>
+        
+        {/* Dyskretny gradient zanikający (fade-out) na samym dole ekranu, podpowiadający o istnieniu paska scrolla */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none z-10" 
+          style={{ background: 'linear-gradient(to top, var(--theme-bg) 5%, transparent)' }} 
+          aria-hidden="true" 
+        />
       </div>
 
       {/* Level-Up Success Overlay */}
@@ -444,7 +476,7 @@ function AppContent() {
     aria-modal="true"
   >
     {}
-    <div className="relative w-full max-w-2xl max-h-[95vh] overflow-y-auto rounded-3xl bg-white shadow-2xl animate-in zoom-in duration-300">
+      <div className="relative w-full max-w-5xl max-h-[95vh] overflow-y-auto no-scrollbar rounded-3xl bg-white shadow-2xl animate-in zoom-in duration-300">
       
       {}
       <button 

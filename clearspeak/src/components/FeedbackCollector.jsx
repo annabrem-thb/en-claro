@@ -11,8 +11,6 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
   const [mental, setMental] = useState(3);
   const [effort, setEffort] = useState(3);
   const [frustration, setFrustration] = useState(3);
-  const [attractiveness, setAttractiveness] = useState(3);
-  const [stimulation, setStimulation] = useState(3);
 
   if (!open) return null;
 
@@ -56,7 +54,7 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
   return (
     // Modal container with ARIA roles for screen reader support
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
-      <div className={`w-full max-w-md p-6 sm:p-8 rounded-4xl shadow-2xl flex flex-col gap-3 ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'} max-h-[95vh]`}>
+      <div className={`w-full max-w-md p-6 sm:p-8 pb-[calc(1.5rem+env(safe-area-inset-bottom))] rounded-4xl shadow-2xl flex flex-col gap-3 ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'} max-h-[95vh]`}>
         <div className="text-center">
           <div className="text-4xl mb-2" aria-hidden="true">🧠</div>
           <h2 id="feedback-title" className={`text-xl sm:text-2xl font-black mb-2 ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>
@@ -67,7 +65,7 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
           </p>
         </div>
 
-        <div className="flex flex-col gap-4 my-2 overflow-y-auto pr-1 pb-2">
+        <div className="flex flex-col gap-4 my-2 overflow-y-auto overscroll-none no-scrollbar pr-1 pb-2">
           <div className="flex flex-col gap-2">
             <h3 className={`text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}>
               {v.nasaTitle || 'NASA-TLX'}
@@ -76,22 +74,14 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
             <RangeInput label={v.physical} desc={v.physicalDesc} value={effort} setValue={setEffort} />
             <RangeInput label={v.frustration} desc={v.frustrationDesc} value={frustration} setValue={setFrustration} />
           </div>
-
-          <div className="flex flex-col gap-2">
-            <h3 className={`text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}>
-              {v.ueqTitle || 'UEQ-Short'}
-            </h3>
-            <RangeInput label={v.ueqAttractiveness} value={attractiveness} setValue={setAttractiveness} leftLabel={v.ueqAttrLeft} rightLabel={v.ueqAttrRight} />
-            <RangeInput label={v.ueqStimulation} value={stimulation} setValue={setStimulation} leftLabel={v.ueqStimLeft} rightLabel={v.ueqStimRight} />
-          </div>
         </div>
 
         {/* Action buttons with dynamic scaling for accessibility */}
         <div className="flex flex-col gap-2 mt-2">
           <button
             onClick={() => {
-              onSubmit({ mental, effort, frustration, attractiveness, stimulation });
-              setMental(3); setEffort(3); setFrustration(3); setAttractiveness(3); setStimulation(3);
+              onSubmit({ mental, effort, frustration });
+              setMental(3); setEffort(3); setFrustration(3);
             }}
             className={`w-full ${bigTargets ? 'py-6 text-base' : 'py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} text-white`}`}
           >

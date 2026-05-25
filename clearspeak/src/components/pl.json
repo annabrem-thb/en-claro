@@ -1,4 +1,26 @@
 {
+  "appTitle": "Claro",
+  "start": "Rozpocznij",
+  "intro": {
+    "subtitle": "Twoja bezpieczna przestrzeń do rozwoju! Wybierz tryb i narzędzia:",
+    "chooseLanguage": "Język",
+    "appMode": "Tryb",
+    "modeClassic": "Tylko nauka",
+    "modeGamified": "Gra (nagrody)",
+    "a11y": "Narzędzia komfortu",
+    "lrs": "Przyjazna czcionka",
+    "contrast": "Kontrast",
+    "vision": "Większy tekst",
+    "big": "Wygodne przyciski",
+    "spacing": "Większe odstępy",
+    "ruler": "Linijka skupienia",
+    "color": "Bezpieczne kolory",
+    "motion": "Spokojny ekran",
+    "desaturation": "Łagodne barwy",
+    "bionic": "Bionic",
+    "voice": "Asystent",
+    "zen": "Tryb Zen"
+  },
   "common": {
     "save": "Zapisz",
     "cancel": "Anuluj",
@@ -22,39 +44,5 @@
     "network": "Błąd połączenia sieciowego. Spróbuj ponownie.",
     "unauthorized": "Nie masz uprawnień do przeglądania tej strony.",
     "timeout": "Upłynął limit czasu żądania."
-  },
-  "feedback": {
-    "title": "Ankieta UX",
-    "desc": "Prosimy o podzielenie się z nami swoimi wrażeniami.",
-    "nasaTitle": "Obciążenie (NASA-TLX)",
-    "submit": "Zapisz i kontynuuj",
-    "thankYou": "Dziękujemy za Twoją opinię!",
-    "low": "Niski",
-    "high": "Wysoki",
-    "nasa": {
-      "mental": "Wysiłek umysłowy",
-      "mentalDesc": "Jak dużo aktywności umysłowej wymagało zadanie?",
-      "physical": "Wysiłek fizyczny",
-      "physicalDesc": "Jak dużo aktywności fizycznej wymagało zadanie?",
-      "temporal": "Wymagania czasowe",
-      "temporalDesc": "Jak bardzo odczuwalna była presja czasu?",
-      "performance": "Wydajność",
-      "performanceDesc": "Jak udane było według Ciebie wykonanie tego zadania?",
-      "effort": "Wysiłek ogólny",
-      "effortDesc": "Jak ciężko trzeba było pracować, aby osiągnąć ten poziom wydajności?",
-      "frustration": "Poziom frustracji",
-      "frustrationDesc": "Jak bardzo byłeś irytowany, zestresowany lub zniechęcony?"
-    },
-    "ueqTitle": "Wrażenia Użytkownika (UEQ-Short)",
-    "ueq": {
-      "obstructive": "Utrudniający", "supportive": "Wspierający",
-      "complicated": "Skomplikowany", "easy": "Łatwy",
-      "inefficient": "Nieefektywny", "efficient": "Efektywny",
-      "confusing": "Niezrozumiały", "clear": "Jasny",
-      "boring": "Nudny", "exciting": "Ekscytujący",
-      "notInteresting": "Nieciekawy", "interesting": "Ciekawy",
-      "conventional": "Konwencjonalny", "inventive": "Odkrywczy",
-      "usual": "Zwyczajny", "leadingEdge": "Nowatorski"
-    }
   }
 }

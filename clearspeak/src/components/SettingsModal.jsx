@@ -12,7 +12,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n/i18n.js';
 import { useGamification } from './GamificationContext.jsx';
-import AnalyticsDashboard from './AnalyticsDashboard.jsx';
 import BionicText from './common/BionicText.jsx';
 
 // ─── Theme shop config ────────────────────────────────────────────────────────
@@ -125,6 +124,8 @@ function SettingsModal({
   voicePitch,             setVoicePitch,
   isHighContrast = false,
   bigTargets = false,
+  textScale = 100,
+  setTextScale,
 }) {
   const { isGamified, setIsGamified } = useGamification();
   const [voices, setVoices] = useState([]);
@@ -240,11 +241,11 @@ function SettingsModal({
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className={`rounded-t-[40px] sm:rounded-[40px] shadow-2xl w-full max-w-md overflow-hidden flex flex-col max-h-[94vh] sm:max-h-[92vh] ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'}`}>
+      <div className={`rounded-t-[40px] sm:rounded-[40px] shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[94vh] sm:max-h-[92vh] ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'}`}>
 
         {/* ── Header & Tabs ─────────────────────────────────────────────── */}
         <div 
-          className={`px-5 pt-4 pb-0 flex flex-col gap-4 border-b sticky top-0 z-10 shrink-0 touch-pan-x ${isHighContrast ? 'bg-black/90 border-white/30' : 'bg-slate-50/80 border-slate-100'}`}
+          className={`px-5 pt-4 pb-2 flex flex-col gap-4 border-b sticky top-0 z-20 shrink-0 touch-pan-x shadow-md backdrop-blur-xl transition-colors ${isHighContrast ? 'bg-black/90 border-white/30' : 'bg-white/90 border-slate-200'}`}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
@@ -284,6 +285,15 @@ function SettingsModal({
               {s.tabGeneral}
             </button>
             <button
+              onClick={() => setUserSelectedTab('a11y')}
+              aria-current={activeTab === 'a11y' ? 'step' : undefined}
+              className={`flex-1 ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-2 ${
+                activeTab === 'a11y' ? (isHighContrast ? 'bg-black border border-white text-white' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
+              }`}
+            >
+              {s.tabA11y}
+            </button>
+            <button
                 onClick={() => setUserSelectedTab('voice')}
                 aria-current={activeTab === 'voice' ? 'step' : undefined}
                 className={`flex-1 ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-2 ${
@@ -292,27 +302,22 @@ function SettingsModal({
               >
                 {s.tabVoice}
               </button>
-            <button
-                onClick={() => setUserSelectedTab('analytics')}
-                aria-current={activeTab === 'analytics' ? 'step' : undefined}
+            {isGamified && (
+              <button
+                onClick={() => setUserSelectedTab('shop')}
+                aria-current={activeTab === 'shop' ? 'step' : undefined}
                 className={`flex-1 ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-2 ${
-                  activeTab === 'analytics' ? (isHighContrast ? 'bg-black border border-white text-white' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
+                  activeTab === 'shop' ? (isHighContrast ? 'bg-black border border-white text-white' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
                 }`}
               >
-              {s.tabAnalytics || 'Analytics'}
+                {s.tabShop}
               </button>
-            {isGamified && (
-                  <button
-                    onClick={() => setUserSelectedTab('shop')}
-                    aria-current={activeTab === 'shop' ? 'step' : undefined}
-                    className={`flex-1 ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-2 ${ activeTab === 'shop' ? (isHighContrast ? 'bg-black border border-white text-white' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700') }`}
-                  >{s.tabShop}</button>
             )}
           </div>
         </div>
 
         {/* ── Scrollable body ─────────────────────────────────────────────── */}
-        <div className="p-5 overflow-y-auto flex flex-col gap-6 overscroll-contain">
+        <div className="p-5 pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto no-scrollbar flex flex-col gap-6 overscroll-none">
 
           {activeTab === 'general' && (
             <div className="flex flex-col gap-6 animate-in fade-in duration-300">
@@ -397,10 +402,38 @@ function SettingsModal({
                 </div>
               </section>
 
+              {/* ── 2.5. TEXT SIZE ────────────────────────────────────────────── */}
+              <section>
+                <SectionLabel isHighContrast={isHighContrast} sub={s.textSizeDesc} bionicReading={bionicReading}>{s.textSize}</SectionLabel>
+                <div className={`flex flex-col gap-2 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 ${isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100'}`}>
+                  <div className="flex items-center gap-4 mt-2">
+                    <span className={`text-base font-bold ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}>A</span>
+                    <input
+                      type="range"
+                      min="80"
+                      max="150"
+                      step="5"
+                      value={textScale}
+                      onChange={(e) => setTextScale(Number(e.target.value))}
+                      className={`w-full cursor-pointer rounded-lg appearance-none ${isHighContrast ? 'bg-white/30 accent-white' : 'bg-slate-200 accent-indigo-600'} ${bigTargets ? 'h-4' : 'h-2'}`}
+                    />
+                    <span className={`text-2xl font-bold ${isHighContrast ? 'text-white' : 'text-slate-600'}`}>A</span>
+                  </div>
+                  <div className={`text-right text-xs font-bold mt-1 ${isHighContrast ? 'text-white' : 'text-indigo-500'}`}>
+                    {textScale}%
+                  </div>
+                </div>
+              </section>
+            </div>
+          )}
+
+          {activeTab === 'a11y' && (
+            <div className="flex flex-col gap-6 animate-in fade-in duration-300">
+
               {/* ── 3. A11Y ADDONS ───────────────────────────────────────────── */}
               <section>
                 <SectionLabel isHighContrast={isHighContrast} sub={s.a11yAddonsDesc} bionicReading={bionicReading}>{s.a11yAddons}</SectionLabel>
-                <div className="flex flex-col gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {A11Y_ADDONS.map((profile) => {
                     const isActive = a11yAddons.includes(profile.key);
                     const c = COLOR[profile.color];
@@ -450,7 +483,7 @@ function SettingsModal({
                     );
                   })}
 
-                  <div className={`h-px my-2 ${isHighContrast ? 'bg-white/20' : 'bg-slate-200'}`} />
+                  <div className={`h-px my-2 sm:col-span-2 ${isHighContrast ? 'bg-white/20' : 'bg-slate-200'}`} />
 
                   {[
                     { key: 'bionicReading', icon: '👁️', color: 'teal', tags: ['wzrok', 'bionic'], fallbackName: 'Bionic Reading', fallbackDesc: 'Pogrubia początki wyrazów ułatwiając fiksację wzroku.' },
@@ -603,7 +636,7 @@ function SettingsModal({
               {/* ── 6. THEME SHOP — only in V2 ───────────────────────────────── */}
               <section>
                 <SectionLabel isHighContrast={isHighContrast} sub={s.themeShopDesc} bionicReading={bionicReading}>{s.themeShop}</SectionLabel>
-                <div className="flex flex-col gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {Object.entries(THEME_CONFIG).map(([themeKey, config]) => {
                     const isUnlocked = unlockedThemes.includes(themeKey);
                     const isSelected = theme === themeKey;
@@ -662,13 +695,7 @@ function SettingsModal({
               <div className={`h-px my-1 ${isHighContrast ? 'bg-white/20' : 'bg-slate-100'}`} />
     
             </div>
-          )}
-
-          {activeTab === 'analytics' && (
-            <div className="flex flex-col gap-6 animate-in fade-in duration-300">
-              <AnalyticsDashboard isHighContrast={isHighContrast} t={s} />
-            </div>
-          )}
+          )}        
 
           <div className="h-2" />
         </div>

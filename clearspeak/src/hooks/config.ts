@@ -2,9 +2,9 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 // Import complete dictionaries
-import enDictionary from './locales/en.json';
-import plDictionary from './locales/pl.json';
-import deDictionary from './locales/de.json';
+import enDictionary from '../i18n-core/locales/en.json';
+import plDictionary from '../i18n-core/locales/pl.json';
+import deDictionary from '../i18n-core/locales/de.json';
 
 /**
  * Core i18n configuration initializing the translation engine.
@@ -14,15 +14,15 @@ i18n
   .use(initReactI18next) // Passes i18n instance to react-i18next
   .init({
     resources: {
-      en: enDictionary,
-      pl: plDictionary,
-      de: deDictionary,
+      en: { translation: enDictionary },
+      pl: { translation: plDictionary },
+      de: { translation: deDictionary },
     },
-    lng: 'en', // Default initial language
+    lng: 'pl', // Default initial language
     fallbackLng: 'en',
     
     // Default namespace to load if a component doesn't specify one
-    defaultNS: 'common',
+    defaultNS: 'translation',
     
     interpolation: {
       // React already safely escapes values to prevent XSS
@@ -39,7 +39,9 @@ export default i18n;
 // so TypeScript enforces correct keys in the `t()` function.
 declare module 'i18next' {
   interface CustomTypeOptions {
-    defaultNS: 'common';
-    resources: typeof enDictionary;
+    defaultNS: 'translation';
+    resources: {
+      translation: typeof enDictionary;
+    };
   }
 }

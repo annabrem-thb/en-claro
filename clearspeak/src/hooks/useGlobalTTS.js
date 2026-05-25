@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 export const TTS_EXCEPTIONS = {
   pl: {
@@ -65,6 +65,7 @@ export function useGlobalTTS(language, extendedTime = false) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [activeBoundary, setActiveBoundary] = useState(null);
+  const audioRef = useRef(null);
 
   // Wymuszenie ładowania głosów w celu uniknięcia błędu z pustą tablicą na Androidzie/Chrome
   useEffect(() => {
@@ -81,6 +82,7 @@ export function useGlobalTTS(language, extendedTime = false) {
   // Monitor TTS playback state globally
   useEffect(() => {
     const interval = setInterval(() => {
+      if (audioRef.current) return; // Jeśli gra z chmury, zarządzamy stanem ręcznie
       setIsSpeaking(window.speechSynthesis?.speaking || false);
       setIsPaused(window.speechSynthesis?.paused || false);
     }, 200);
@@ -94,15 +96,56 @@ export function useGlobalTTS(language, extendedTime = false) {
     localStorage.setItem('cfg_voice_pitch', String(voicePitch));
   }, [selectedVoiceURIs, voiceSpeed, voicePitch]);
 
-  const speak = useCallback((text, slow = false) => {
-    if (!window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
+  const speak = useCallback(async (text, slow = false) => {
+    // Anuluj stare odtwarzania
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    window.speechSynthesis?.cancel();
 
     const textToSpeak = getTTSException(text, language);
+    const finalSpeed = (slow || extendedTime) ? voiceSpeed * 0.65 : voiceSpeed;
+
+    try {
+      // Próba odtworzenia czystego głosu z chmury za pośrednictwem Netlify
+      const response = await fetch('/.netlify/functions/synthesize-speech', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: textToSpeak,
+          languageCode: language === 'pl' ? 'pl-PL' : language === 'de' ? 'de-DE' : 'en-US',
+          // Używamy profesjonalnych głosów Wavenet (sieci neuronowe)
+          voiceName: language === 'pl' ? 'pl-PL-Wavenet-B' : language === 'de' ? 'de-DE-Wavenet-B' : 'en-US-Wavenet-D',
+          speed: finalSpeed,
+          // Skala pitch API Google to od -20.0 do 20.0 (domyślnie 0.0)
+          pitch: (voicePitch - 1.0) * 10 
+        })
+      });
+
+      if (!response.ok) throw new Error('Cloud TTS niedostępne');
+
+      const { audioContent } = await response.json();
+      const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
+      
+      audioRef.current = audio;
+      
+      audio.onplay = () => { setIsSpeaking(true); setActiveBoundary({ charIndex: 0, charLength: textToSpeak.length }); };
+      audio.onended = () => { setIsSpeaking(false); setActiveBoundary(null); };
+      audio.onerror = () => { setIsSpeaking(false); setActiveBoundary(null); };
+      
+      await audio.play();
+      return; // Odtworzono z sukcesem, koniec procedury!
+    } catch (error) {
+      console.warn("Lektor w chmurze niedostępny. Przechodzę w tryb awaryjny (offline) wbudowany w przeglądarkę.", error.message);
+    }
+
+    // --- FALLBACK (Web Speech API) ---
+    if (!window.speechSynthesis) return;
 
     const msg  = new SpeechSynthesisUtterance(textToSpeak);
     msg.lang   = { de: 'de-DE', pl: 'pl-PL', en: 'en-US' }[language] || 'de-DE';
-    msg.rate   = (slow || extendedTime) ? voiceSpeed * 0.65 : voiceSpeed;
+    msg.rate   = finalSpeed;
     msg.pitch  = voicePitch;
 
     // Korzystamy z załadowanego w tle stanu głosów
@@ -139,6 +182,11 @@ export function useGlobalTTS(language, extendedTime = false) {
   }, [language, extendedTime, selectedVoiceURIs, voiceSpeed, voicePitch, voices]);
 
   const cancelTTS = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsSpeaking(false);
+    }
     if (window.speechSynthesis) {
       window.speechSynthesis.cancel();
       setActiveBoundary(null);
@@ -146,12 +194,20 @@ export function useGlobalTTS(language, extendedTime = false) {
   }, []);
 
   const pauseTTS = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setIsPaused(true);
+    }
     if (window.speechSynthesis) {
       window.speechSynthesis.pause();
     }
   }, []);
 
   const resumeTTS = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.play();
+      setIsPaused(false);
+    }
     if (window.speechSynthesis) {
       window.speechSynthesis.resume();
     }
