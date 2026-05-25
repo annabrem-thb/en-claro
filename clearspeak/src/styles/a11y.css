@@ -1,19 +1,19 @@
 /* ==========================================================================
-   OPCJE DOSTĘPNOŚCI (Accessibility Overrides)
+   ACCESSIBILITY OPTIONS (Accessibility Overrides)
    ========================================================================== */
 
-/* --- Przyjazna czcionka (LRS) --- */
+/* --- Dyslexia-friendly font (LRS) --- */
 html[data-a11y-lrs="false"] {
   --dyn-font-family: Helvetica, Arial, Verdana, sans-serif;
 }
 
-/* --- Wysoki kontrast --- */
+/* --- High contrast --- */
 html[data-a11y-contrast="true"] *:focus-visible {
   outline: 5px solid #22c55e;
   outline-offset: 4px;
 }
 
-/* --- Ułatwienia motoryczne (Duże cele) --- */
+/* --- Motor skills accommodations (Large targets) --- */
 html[data-a11y-motorik="true"] button,
 html[data-a11y-motorik="true"] a,
 html[data-a11y-motorik="true"] [role="button"],
@@ -31,7 +31,7 @@ html[data-a11y-motorik="true"] *::after {
   transition-duration: 0.5s !important;
 }
 
-/* --- Ułatwienia widzenia (Zoom i pogrubienie) --- */
+/* --- Vision accommodations (Zoom and boldness) --- */
 html[data-a11y-vision="true"] {
   font-size: 115% !important;
 }
@@ -39,7 +39,7 @@ html[data-a11y-vision="true"] * {
   font-weight: 700;
 }
 
-/* --- Bezpieczne kolory (Daltonizm) --- */
+/* --- Safe colors (Color blindness) --- */
 html[data-a11y-color="true"] .bg-green-100 { background-color: #dbeafe !important; }
 html[data-a11y-color="true"] .bg-green-500 { background-color: #3b82f6 !important; }
 html[data-a11y-color="true"] .text-green-500 { color: #3b82f6 !important; }
@@ -54,7 +54,7 @@ html[data-a11y-color="true"] .text-red-600 { color: #ea580c !important; }
 html[data-a11y-color="true"] .text-red-700 { color: #c2410c !important; }
 html[data-a11y-color="true"] .ring-red-500 { --tw-ring-color: #f97316 !important; }
 
-/* --- Spokojny ekran (Brak błysków) --- */
+/* --- Calm screen (No flashes) --- */
 html[data-a11y-motion="true"] *,
 html[data-a11y-motion="true"] *::before,
 html[data-a11y-motion="true"] *::after {
@@ -71,7 +71,7 @@ html[data-a11y-motion="true"] .animate-in {
   opacity: 1 !important;
 }
 
-/* --- Zwiększone odstępy (Spacing) --- */
+/* --- Increased spacing (Spacing) --- */
 html[data-a11y-spacing="true"] {
   --dyn-letter-spacing: 0.15em;
   --dyn-word-spacing: 0.35em;
@@ -91,7 +91,7 @@ html[data-a11y-spacing="true"] em {
   word-spacing: inherit !important;
 }
 
-/* --- Łagodne barwy (Desaturacja) --- */
+/* --- Soft colors (Desaturation) --- */
 html[data-a11y-desaturation="true"] body::after {
   content: "";
   position: fixed;
@@ -101,7 +101,7 @@ html[data-a11y-desaturation="true"] body::after {
   backdrop-filter: saturate(0.4);
 }
 
-/* --- Minimalistyczny wygląd --- */
+/* --- Minimalist appearance --- */
 html[data-a11y-minimalist="true"] .decorative-graphic {
   display: none !important;
 }

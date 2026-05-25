@@ -27,22 +27,22 @@ async function mergeLocales() {
       const corePath = path.join(CORE_LOCALES_DIR, `${lang}.json`);
       const hooksPath = path.join(HOOKS_LOCALES_DIR, `${lang}.json`);
 
-      // Odczyt plików
+      // Read files
       const coreContent = await fs.readFile(corePath, 'utf-8');
       const hooksContent = await fs.readFile(hooksPath, 'utf-8');
 
       const coreJson = JSON.parse(coreContent);
       const hooksJson = JSON.parse(hooksContent);
 
-      // Głębokie scalenie
+      // Deep merge
       const mergedJson = mergeDeep(coreJson, hooksJson);
 
-      // Zapis do głównego pliku w i18n-core
+      // Write to main file in i18n-core
       await fs.writeFile(corePath, JSON.stringify(mergedJson, null, 2), 'utf-8');
       
-      console.log(`✅ Pomyślnie scalono i zaktualizowano plik: ${lang}.json`);
+      console.log(`✅ Successfully merged and updated file: ${lang}.json`);
     } catch (error) {
-      console.error(`❌ Błąd podczas scalania ${lang}:`, error.message);
+      console.error(`❌ Error during merging ${lang}:`, error.message);
     }
   }
 }

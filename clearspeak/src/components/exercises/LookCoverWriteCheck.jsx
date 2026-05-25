@@ -11,9 +11,7 @@ import TTSController from '../common/TTSController';
  * Dyslexia-friendly spelling strategy implementation:
  * 1. Look: The user observes and listens to the target word without time pressure.
  * 2. Cover & Write: The word is hidden, and the user types it from working memory.
- * 3. Check: The user compares their input with the target word and self-evaluates.
- * 
- * This component strictly avoids automatic punitive grading to build confidence and self-efficacy.
+ * 3. Check: The app automatically compares the input with the target word.
  */
 export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t: propT, speak, extendedTime, bigTargets }) {
   const [phase, setPhase] = useState('look');
@@ -125,12 +123,14 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
     );
   }
 
-  // Step 3: Check Phase (Self-Evaluation)
+  // Step 3: Check Phase (Automatic Evaluation)
   if (phase === 'check') {
+    const isCorrect = userInput.trim().toLowerCase() === targetWord.trim().toLowerCase();
+
     return (
       <div className="flex flex-col items-center justify-center w-full animate-in slide-in-from-bottom-4 fade-in duration-500">
         <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
-          {t.compareSpelling || 'Step 3: Self-Evaluation'}
+          {t.compareSpelling || 'Step 3: Comparison'}
         </h2>
         
         <div className="w-full max-w-md flex flex-col gap-6 mb-12">
@@ -143,36 +143,25 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
           </div>
 
           {/* User Input Display */}
-          <div className={`p-6 rounded-2xl flex flex-col items-center gap-2 border-2 ${isHighContrast ? 'bg-black border-white/50' : 'bg-white border-slate-200 shadow-sm'}`}>
+          <div className={`p-6 rounded-2xl flex flex-col items-center gap-2 border-2 ${isHighContrast ? 'bg-black border-white/50' : (isCorrect ? 'bg-emerald-50 border-emerald-200 shadow-sm' : 'bg-red-50 border-red-200 shadow-sm')}`}>
             <span className="text-xs font-bold uppercase tracking-widest text-slate-400">{t.yourSpelling || 'Your Spelling'}</span>
-            <span className={`text-3xl font-bold tracking-widest ${isHighContrast ? 'text-white' : 'text-slate-600'}`}>
+            <span className={`text-3xl font-bold tracking-widest ${isHighContrast ? 'text-white' : (isCorrect ? 'text-emerald-600' : 'text-red-500')}`}>
               {userInput}
             </span>
           </div>
         </div>
 
-        {/* Self-Evaluation Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+        {/* Automatic Evaluation Action Button */}
+        <div className="flex w-full max-w-md">
           <button
-            onClick={() => onSelfEvaluate({ correct: true, input: userInput })}
-            className={`flex-1 py-5 rounded-2xl font-black uppercase tracking-widest transition-all active:scale-95 text-xs sm:text-sm border-2 focus:outline-none focus-visible:ring-4 ${
+            onClick={() => onSelfEvaluate({ correct: isCorrect, input: userInput })}
+            className={`w-full py-5 rounded-2xl font-black uppercase tracking-widest transition-all active:scale-95 text-xs sm:text-sm border-2 focus:outline-none focus-visible:ring-4 ${
               isHighContrast 
-                ? 'bg-white text-black border-white hover:bg-slate-200' 
-                : 'bg-emerald-50 text-emerald-700 border-emerald-400 hover:bg-emerald-100 shadow-sm'
+                ? 'bg-white text-black border-white hover:bg-slate-200'
+                : 'bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-500 shadow-xl'
             }`}
           >
-            {t.spelledCorrectly || 'Matched Perfectly'}
-          </button>
-          
-          <button
-            onClick={() => onSelfEvaluate({ correct: false, input: userInput })}
-            className={`flex-1 py-5 rounded-2xl font-black uppercase tracking-widest transition-all active:scale-95 text-xs sm:text-sm border-2 focus:outline-none focus-visible:ring-4 ${
-              isHighContrast 
-                ? 'bg-black text-white border-white/50 hover:border-white' 
-                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 shadow-sm'
-            }`}
-          >
-            {t.tryAgain || 'Needs More Practice'}
+            {t.next || t.done || 'Dalej'}
           </button>
         </div>
       </div>

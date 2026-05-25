@@ -9,7 +9,7 @@ const LOCALES_DIR = path.join(__dirname, 'src', 'i18n-core', 'locales');
 const LANGUAGES = ['en', 'pl', 'de'];
 const BASE_LANG = 'en';
 
-// Funkcja do "spłaszczania" zagnieżdżonych obiektów, by łatwo porównywać klucze, np. "a11y.LRS.name"
+// Function to "flatten" nested objects for easy key comparison, e.g., "a11y.LRS.name"
 function flattenObject(obj, parentPrefix = '', result = {}) {
   for (const key in obj) {
     const propName = parentPrefix ? `${parentPrefix}.${key}` : key;
@@ -25,10 +25,11 @@ function flattenObject(obj, parentPrefix = '', result = {}) {
 async function checkLocales() {
   const dictionaries = {};
 
-  // Wczytywanie plików JSON
+  // Load JSON files
   for (const lang of LANGUAGES) {
     const fileContent = await fs.readFile(path.join(LOCALES_DIR, `${lang}.json`), 'utf-8');
     // Spłaszczamy obiekt i pobieramy tylko jego klucze
+    // Flatten object and retrieve only its keys
     dictionaries[lang] = Object.keys(flattenObject(JSON.parse(fileContent)));
   }
 
@@ -42,12 +43,12 @@ async function checkLocales() {
     
     const missing = [...baseKeys].filter(key => !targetKeys.has(key));
     if (missing.length > 0) {
-      console.error(`❌ Brakujące klucze w ${lang}.json:`, missing);
+      console.error(`❌ Missing keys in ${lang}.json:`, missing);
       hasErrors = true;
     }
   }
 
-  if (!hasErrors) console.log('✅ Wszystkie pliki JSON są spójne z językiem bazowym!');
+  if (!hasErrors) console.log('✅ All JSON files are consistent with the base language!');
 }
 
 checkLocales();

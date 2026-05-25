@@ -266,7 +266,7 @@ function SettingsModal({
             
             <button
               onClick={onClose}
-              className={`rounded-full font-bold transition-all active:scale-95 flex items-center justify-center shadow-sm ${bigTargets ? 'w-12 h-12 text-lg' : 'w-9 h-9 text-sm'} ${isHighContrast ? 'bg-black border border-white text-white hover:bg-white/20' : 'bg-white border border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-100'}`}
+              className={`rounded-full font-bold transition-all active:scale-95 flex items-center justify-center shadow-sm ${bigTargets ? 'scale-size-12 text-lg' : 'scale-size-9 text-sm'} ${isHighContrast ? 'bg-black border border-white text-white hover:bg-white/20' : 'bg-white border border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-100'}`}
               aria-label={s.close}
             >
               ✕
@@ -449,7 +449,7 @@ function SettingsModal({
                         }`}
                         aria-pressed={isActive}
                       >
-                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0 border ${
+                        <div className={`scale-size-11 rounded-xl flex items-center justify-center text-xl shrink-0 border ${
                           isActive ? (isHighContrast ? 'bg-black border-white' : 'bg-white border-current/20') : (isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100')
                     }`} aria-hidden="true">
                           {profile.icon}
@@ -474,7 +474,7 @@ function SettingsModal({
                           </div>
                         </div>
                         {/* Checkbox-style indicator */}
-                        <div className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
+                        <div className={`shrink-0 scale-size-5 rounded-md border-2 flex items-center justify-center transition-all ${
                           isActive ? (isHighContrast ? 'border-white bg-white text-black' : `border-current ${c.ring} text-current`) : (isHighContrast ? 'border-white/50 bg-black' : 'border-slate-200 bg-white')
                         }`}>
                   {isActive && <span className="text-xs font-black">✓</span>}
@@ -505,7 +505,7 @@ function SettingsModal({
                         }`}
                         aria-pressed={isActive}
                       >
-                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0 border ${
+                        <div className={`scale-size-11 rounded-xl flex items-center justify-center text-xl shrink-0 border ${
                           isActive ? (isHighContrast ? 'bg-black border-white' : 'bg-white border-current/20') : (isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100')
                         }`} aria-hidden="true">
                           {profile.icon}
@@ -529,7 +529,7 @@ function SettingsModal({
                             ))}
                           </div>
                         </div>
-                        <div className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
+                        <div className={`shrink-0 scale-size-5 rounded-md border-2 flex items-center justify-center transition-all ${
                           isActive ? (isHighContrast ? 'border-white bg-white text-black' : `border-current ${c.ring} text-current`) : (isHighContrast ? 'border-white/50 bg-black' : 'border-slate-200 bg-white')
                         }`}>
                           {isActive && <span className="text-xs font-black">✓</span>}
@@ -660,7 +660,7 @@ function SettingsModal({
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                      <div className={`w-11 h-11 rounded-xl shadow-sm flex items-center justify-center text-xl border ${isHighContrast ? 'bg-black border-white' : 'bg-white border-slate-100'}`} aria-hidden="true">
+                      <div className={`scale-size-11 rounded-xl shadow-sm flex items-center justify-center text-xl border ${isHighContrast ? 'bg-black border-white' : 'bg-white border-slate-100'}`} aria-hidden="true">
                             {config.icon}
                           </div>
                           <span className={`font-black text-sm ${isSelected ? (isHighContrast ? 'text-white' : 'text-emerald-700') : (isHighContrast ? 'text-white' : 'text-slate-700')}`}>

@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 // Importing shared components and hooks to maintain professional architecture
 import BionicText from '../common/BionicText';
-import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 
@@ -40,12 +39,6 @@ function ScrabbleExercise({
       window.speechSynthesis.cancel();
     };
   }, [clearAudioTimeouts]);
-
-  // Use the shared voice hook for listening and speaking
-  const { isListening, transcript, startListening } = useExerciseVoice(
-    language,
-    t,
-  );
 
   // Predictable shuffle logic based on ID to avoid unnecessary reshuffling on renders
   const shuffledLetters = useMemo(() => {
@@ -95,59 +88,12 @@ function ScrabbleExercise({
     setUserScrabble((prev) => [...prev, { letter, index }]);
   };
 
-  // Voice recognition callbacks
-  const handleVoiceMatch = (num) => {
-    const selectedIndex = num - 1;
-    if (selectedIndex >= 0 && selectedIndex < shuffledLetters.length) {
-      const isUsed = userScrabble.some((x) => x.index === selectedIndex);
-      if (!isUsed) {
-        addLetter(shuffledLetters[selectedIndex], selectedIndex);
-      } else {
-        onError(); // Feedback if user tries to pick a used tile
-      }
-    } else {
-      onError();
-    }
-  };
-
-  const handleCommandMatch = (cmd) => {
-    clearAudioTimeouts();
-    window.speechSynthesis.cancel();
-    if (cmd === 'undo') setUserScrabble([]); // Clear all tiles
-    if (cmd === 'check') handleDone(); // Submit word
-  };
-
   // --- Read Word & Available Tiles Aloud ---
   const readWordAndLetters = () => {
     window.speechSynthesis.cancel();
     clearAudioTimeouts();
 
     speak(data.word, extendedTime);
-
-    let delayAcc = extendedTime ? 2000 : 1500;
-    const delayStep = extendedTime ? 1600 : 1200;
-
-    shuffledLetters.forEach((l, i) => {
-      const isUsed = userScrabble.some((x) => x.index === i);
-      if (!isUsed) {
-        setSafeTimeout(() => {
-          setActiveHighlight(i);
-          const prefixes = {
-            pl: `Litera ${i + 1}: `,
-            en: `Letter ${i + 1}: `,
-            de: `Buchstabe ${i + 1}: `
-          };
-          const optionPrefix = t.letterPrefix ? t.letterPrefix(i + 1) : (prefixes[language] || prefixes['en']);
-          speak(`${optionPrefix} ${l}`);
-        }, delayAcc);
-
-        setSafeTimeout(() => {
-          setActiveHighlight((prev) => (prev === i ? null : prev));
-        }, delayAcc + delayStep - 200);
-
-        delayAcc += delayStep;
-      }
-    });
   };
 
   // Auto-submit logic when all letters are exhausted
@@ -162,15 +108,12 @@ function ScrabbleExercise({
   // Dynamic Class Definitions
   const animClass = noFlash ? '' : 'animate-in zoom-in duration-500';
   const tileSize = bigTargets
-    ? 'w-14 h-16 sm:w-16 sm:h-18 text-2xl sm:text-3xl'
-    : 'w-10 h-12 sm:w-12 sm:h-14 text-xl sm:text-3xl';
+    ? 'w-16 h-20 sm:w-20 sm:h-24 text-4xl sm:text-5xl'
+    : 'w-12 h-16 sm:w-16 sm:h-20 text-3xl sm:text-4xl';
   const letterBtn = bigTargets
-    ? 'w-16 h-16 sm:w-18 sm:h-18 text-xl sm:text-2xl rounded-2xl sm:rounded-3xl'
-    : 'w-12 h-12 sm:w-14 sm:h-14 text-lg sm:text-2xl rounded-xl sm:rounded-2xl';
+    ? 'w-20 h-20 sm:w-24 sm:h-24 text-3xl sm:text-4xl rounded-3xl sm:rounded-[2rem]'
+    : 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl rounded-2xl sm:rounded-3xl';
   const slideAnim = noFlash ? '' : 'animate-in slide-in-from-bottom-2';
-  const pulseClass = noFlash
-    ? 'bg-red-500'
-    : 'bg-red-500 animate-pulse ring-8 ring-red-100';
   const controlBtnSize = bigTargets
     ? 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
     : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
@@ -190,7 +133,7 @@ function ScrabbleExercise({
           </div>
         )}
 
-        <div className="mb-2 flex gap-4 sm:gap-6">
+        <div className="mb-2 flex justify-center">
           <TTSController
             onReadAloud={readWordAndLetters}
             pauseAllTimeouts={pauseAllTimeouts}
@@ -198,26 +141,7 @@ function ScrabbleExercise({
             t={t}
             controlBtnSize={controlBtnSize}
           />
-
-          <button
-            onClick={() => startListening(handleVoiceMatch, handleCommandMatch)}
-            className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
-              isListening
-                ? pulseClass + ' text-white'
-                : `${themeStyles.button} text-white hover:brightness-110`
-            }`}
-            aria-label={isListening ? t.listening : t.speakTileNumber}
-            aria-pressed={isListening}
-          >
-            {isListening ? '🛑' : '🎤'}
-          </button>
         </div>
-
-        {transcript && (
-          <p className="mt-2 text-center text-[10px] font-black tracking-widest text-slate-400 uppercase sm:text-xs">
-            {t.heard}: <span className="text-slate-600">{transcript}</span>
-          </p>
-        )}
       </div>
 
       {/* 2. Target Word Slots */}
@@ -239,10 +163,10 @@ function ScrabbleExercise({
           return (
             <button
               key={i}
-              disabled={isUsed || isListening}
+              disabled={isUsed}
               onClick={() => addLetter(l, i)}
               className={`relative ${letterBtn} font-black shadow-md transition-all active:scale-90 ${
-                isUsed || isListening
+                isUsed
                   ? 'cursor-default border-slate-200 bg-slate-100 text-slate-400 opacity-30'
                   : activeHighlight === i
                     ? `scale-110 ring-4 ring-yellow-400 bg-yellow-50 shadow-xl z-10 text-slate-900`

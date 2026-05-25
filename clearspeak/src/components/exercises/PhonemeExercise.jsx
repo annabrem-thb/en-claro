@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import BionicText from '../common/BionicText';
-import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 
@@ -25,11 +24,6 @@ function PhonemeExercise({
   zenMode = false,
   isHighContrast = false,
 }) {
-  const { isListening, transcript, startListening } = useExerciseVoice(
-    language,
-    t,
-  );
-
   const targetWord = data.word || '';
   const hintText = data.hints?.[language] || data.hints?.en || '';
 
@@ -47,28 +41,6 @@ function PhonemeExercise({
       window.speechSynthesis.cancel();
     };
   }, [clearAudioTimeouts]);
-
-  /**
-   * Custom Voice Logic for Pronunciation
-   * Unlike other exercises that look for numbers, this one checks the word itself.
-   */
-  const handleVoiceInput = (heardText) => {
-    const cleanTarget = targetWord
-      .toLowerCase()
-      .trim()
-      .replace(/[.,!?]/g, '');
-    const cleanHeard = heardText
-      .toLowerCase()
-      .trim()
-      .replace(/[.,!?]/g, '');
-
-    // Check if the user pronounced the word correctly
-    if (cleanHeard === cleanTarget || cleanHeard.includes(cleanTarget)) {
-      onSuccess();
-    } else {
-      onError();
-    }
-  };
 
   // --- Read Word (Spelled Out) & Hint Aloud ---
   const readWordAndHint = () => {
@@ -107,9 +79,6 @@ function PhonemeExercise({
   };
 
   const animClass = noFlash ? '' : 'animate-in zoom-in duration-500';
-  const pulseClass = noFlash
-    ? 'bg-red-500'
-    : 'bg-red-500 animate-pulse ring-8 ring-red-100';
   const controlBtnSize = bigTargets
     ? 'w-24 h-24 text-4xl'
     : 'w-20 h-20 text-3xl';
@@ -155,7 +124,7 @@ function PhonemeExercise({
         </div>
       )}
 
-      <div className="mb-8 flex gap-8">
+      <div className="mb-8 flex justify-center">
         <TTSController
           onReadAloud={readWordAndHint}
           pauseAllTimeouts={pauseAllTimeouts}
@@ -163,25 +132,7 @@ function PhonemeExercise({
           t={t}
           controlBtnSize={controlBtnSize}
         />
-
-        <button
-          onClick={() => startListening()}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-xl transition-all active:scale-95 ${
-            isListening
-              ? pulseClass + ' text-white'
-              : `${themeStyles.button} text-white hover:brightness-110`
-          }`}
-          aria-label={isListening ? t.listening : t.tapAndPronounce}
-        >
-          {isListening ? '🛑' : '🎤'}
-        </button>
       </div>
-
-      {transcript && (
-        <p className="mb-4 text-center text-xs font-black tracking-widest text-slate-400 uppercase">
-          {t.heard}: <span className="text-slate-600">{transcript}</span>
-        </p>
-      )}
 
       <div className="mt-4 flex shrink-0 justify-center">
         <button

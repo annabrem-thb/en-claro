@@ -1,6 +1,6 @@
 const { createClient } = require('@supabase/supabase-js');
 
-// Słowniki mapujące wartości z aplikacji na czysty język angielski (dla analizy danych)
+// Dictionaries mapping app values to plain English (for data analysis)
 const themeMap = {
   'Natur': 'Nature',
   'Musik': 'Music',
@@ -47,7 +47,7 @@ exports.handler = async (event, context) => {
 
     const payload = JSON.parse(event.body);
 
-    // Standaryzacja i tłumaczenie parametrów na angielski
+    // Standardization and translation of parameters to English
     const rawVersion = payload.appVersion || (payload.isGamified ? 'gamified' : 'basic');
     const appVersionEn = (rawVersion === 'vollversion' || rawVersion === 'gamified') ? 'gamified' : 'basic';
     
@@ -80,7 +80,7 @@ exports.handler = async (event, context) => {
       effort: payload.effort ?? null,
       frustration: payload.frustration ?? null,
       
-      // Ankieta SUS (mapowanie dla różnych konwencji nazw frontendowych)
+      // SUS Survey (mapping for different frontend naming conventions)
       sus_q01: payload.sus_q01 ?? payload.susQ01 ?? payload.sus01 ?? null,
       sus_q02: payload.sus_q02 ?? payload.susQ02 ?? payload.sus02 ?? null,
       sus_q03: payload.sus_q03 ?? payload.susQ03 ?? payload.sus03 ?? null,

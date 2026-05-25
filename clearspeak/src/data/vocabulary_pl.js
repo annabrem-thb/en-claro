@@ -133,6 +133,116 @@ export const wordDatabasePL = {
         de: 'Biene — honigproduzierendes Insekt',
       },
     },
+{
+      id: 13,
+      word: 'Szczęście',
+      difficulty: 2,
+      phonetic: '/ ˈʂt͡ʂɛɲ.ɕt͡ɕɛ /',
+      hints: {
+        pl: 'Stan zadowolenia i radości z życia',
+        en: 'Happiness — a state of joy and contentment',
+        de: 'Glück — ein Zustand der Freude und Zufriedenheit',
+      },
+    },
+    {
+      id: 14,
+      word: 'Skrzypce',
+      difficulty: 3,
+      phonetic: '/ ˈskʂɨp.t͡sɛ /',
+      hints: {
+        pl: 'Smyczkowy instrument muzyczny z czterema strunami',
+        en: 'Violin — a four-stringed bowed instrument',
+        de: 'Geige — ein viersaitiges Streichinstrument',
+      },
+    },
+    {
+      id: 15,
+      word: 'Przełożony',
+      difficulty: 2,
+      phonetic: '/ pʂɛˈwɔ.ʐɔ.nɨ /',
+      hints: {
+        pl: 'Osoba stojąca wyżej w hierarchii służbowej',
+        en: 'Supervisor — a person higher in the work hierarchy',
+        de: 'Vorgesetzter — eine Person höher in der beruflichen Hierarchie',
+      },
+    },
+    {
+      id: 16,
+      word: 'Zobowiązanie',
+      difficulty: 2,
+      phonetic: '/ zɔ.bɔ.vjɔ̃ˈza.ɲɛ /',
+      hints: {
+        pl: 'Obietnica lub obowiązek prawny, który należy wypełnić',
+        en: 'Obligation — a promise or legal duty to fulfil',
+        de: 'Verpflichtung — eine Zusage oder rechtliche Pflicht',
+      },
+    },
+    {
+      id: 17,
+      word: 'Współcześnie',
+      difficulty: 3,
+      phonetic: '/ ˈfspuw.t͡ʂɛ.ɲɛ /',
+      hints: {
+        pl: 'W dzisiejszych czasach; w obecnej epoce',
+        en: 'Nowadays — in the current era or times',
+        de: 'Heutzutage — in der gegenwärtigen Zeit',
+      },
+    },
+    {
+      id: 18,
+      word: 'Grzeczność',
+      difficulty: 2,
+      phonetic: '/ ˈɡʐɛt͡ʂnɔɕt͡ɕ /',
+      hints: {
+        pl: 'Dobre zachowanie, uprzejmość wobec innych',
+        en: 'Politeness — good manners and courtesy towards others',
+        de: 'Höflichkeit — gutes Benehmen und Freundlichkeit',
+      },
+    },
+    {
+      id: 19,
+      word: 'Odpowiedzialność',
+      difficulty: 3,
+      phonetic: '/ ɔt.pɔ.vjɛˈd͡ʑal.nɔɕt͡ɕ /',
+      hints: {
+        pl: 'Obowiązek ponoszenia konsekwencji swoich działań',
+        en: 'Responsibility — the duty to bear the consequences of one\'s actions',
+        de: 'Verantwortlichkeit — die Pflicht, die Konsequenzen des eigenen Handelns zu tragen',
+      },
+    },
+    {
+      id: 20,
+      word: 'Niespodziewany',
+      difficulty: 2,
+      phonetic: '/ ɲɛ.spɔ.d͡ʑɛˈva.nɨ /',
+      hints: {
+        pl: 'Taki, którego się nie spodziewano; zaskakujący',
+        en: 'Unexpected — surprising, not anticipated',
+        de: 'Unerwartet — überraschend, nicht vorhergesehen',
+      },
+    },
+    {
+      id: 21,
+      word: 'Drożdże',
+      difficulty: 2,
+      phonetic: '/ ˈdrɔʐ.d͡ʐɛ /',
+      hints: {
+        pl: 'Służą do wypieku ciasta',
+        en: 'Yeast — used for baking',
+        de: 'Hefe — zum Backen verwendet',
+      },
+    },
+    {
+      id: 22,
+      word: 'Hrabia',
+      difficulty: 3,
+      phonetic: '/ ˈxra.bja /',
+      hints: {
+        pl: 'Tytuł szlachecki',
+        en: 'Count / Earl — a noble title',
+        de: 'Graf — ein Adelstitel',
+      },
+    }
   ],
 
   graphemes: [
@@ -296,6 +406,134 @@ export const wordDatabasePL = {
         { text: 'Zomb', isCorrect: false, icon: '❌' },
       ],
     },
+ {
+      id: 11,
+      difficulty: 2,
+      focus: 'ę przed spółgłoską — nie pisz en',
+      questions: {
+        pl: 'Nosówkę przednią przed spółgłoską piszemy jako ę. Które słowo jest poprawne?',
+        en: "The front nasal vowel before a consonant is written as 'ę'. Which is correct?",
+        de: "Der vordere Nasalvokal vor einem Konsonanten wird als 'ę' geschrieben.",
+      },
+      options: [
+        { text: 'Pięć', isCorrect: true, icon: '5️⃣' },
+        { text: 'Pięnć', isCorrect: false, icon: '❌' },
+        { text: 'Pienć', isCorrect: false, icon: '❌' },
+        { text: 'Pienc', isCorrect: false, icon: '❌' },
+      ],
+    },
+    {
+      id: 12,
+      difficulty: 2,
+      focus: 'rz po spółgłosce t',
+      questions: {
+        pl: 'Po spółgłosce t zawsze piszemy rz (nie ż). Które słowo jest poprawne?',
+        en: "After consonant 't' we always write 'rz'. Which is correct?",
+        de: "Nach dem Konsonanten 't' schreibt man immer 'rz'.",
+      },
+      options: [
+        { text: 'Trzy', isCorrect: true, icon: '3️⃣' },
+        { text: 'Tży', isCorrect: false, icon: '❌' },
+        { text: 'Trzi', isCorrect: false, icon: '❌' },
+        { text: 'Tżi', isCorrect: false, icon: '❌' },
+      ],
+    },
+    {
+      id: 13,
+      difficulty: 3,
+      focus: 'nie z imiesłowem przymiotnikowym czynnym — osobno',
+      questions: {
+        pl: 'Nie z imiesłowem przymiotnikowym czynnym (-ący, -ąca) piszemy osobno. Które jest poprawne?',
+        en: "With active participles ending in -ący/-ąca, 'nie' is always separate.",
+        de: "Bei aktiven Partizipien auf -ący/-ąca wird 'nie' immer getrennt geschrieben.",
+      },
+      options: [
+        { text: 'Nie pracujący', isCorrect: true, icon: '🚫' },
+        { text: 'Niepracujący', isCorrect: false, icon: '❌' },
+        { text: 'Niepracóją', isCorrect: false, icon: '❌' },
+        { text: 'Nie-pracujący', isCorrect: false, icon: '❌' },
+      ],
+    },
+    {
+      id: 14,
+      difficulty: 2,
+      focus: 'ó po literze w — wymienne',
+      questions: {
+        pl: 'Które słowo ma ó wymieniające się na e w dopełniaczu liczby mnogiej?',
+        en: "Which word's 'ó' alternates with 'e' in the genitive plural?",
+        de: "Bei welchem Wort wechselt 'ó' zu 'e' im Genitiv Plural?",
+      },
+      options: [
+        { text: 'Wół', isCorrect: true, icon: '🐂' },
+        { text: 'Wul', isCorrect: false, icon: '❌' },
+        { text: 'Vół', isCorrect: false, icon: '❌' },
+        { text: 'Wuł', isCorrect: false, icon: '❌' },
+      ],
+    },
+    {
+      id: 15,
+      difficulty: 3,
+      focus: 'wziąć — częsty błąd z dodatkowym ś',
+      questions: {
+        pl: 'Tylko jedna forma tego czasownika jest poprawna. Która?',
+        en: "Only one form of this infinitive is correct. Which?",
+        de: "Nur eine Form dieses Infinitivs ist korrekt. Welche?",
+      },
+      options: [
+        { text: 'Wziąć', isCorrect: true, icon: '🤲' },
+        { text: 'Wziąść', isCorrect: false, icon: '❌' },
+        { text: 'Wźąć', isCorrect: false, icon: '❌' },
+        { text: 'Wzionć', isCorrect: false, icon: '❌' },
+      ],
+    },
+    {
+      id: 16,
+      difficulty: 2,
+      focus: 'h vs ch — w wyrazach rodzimych ch po s',
+      questions: {
+        pl: 'W wyrazie rodzimym po literze s piszemy ch. Które słowo jest poprawne?',
+        en: "In native Polish words after 's' we write 'ch'. Which is correct?",
+        de: "In polnischen Wörtern nach 's' schreibt man 'ch'.",
+      },
+      options: [
+        { text: 'Schować', isCorrect: true, icon: '🫣' },
+        { text: 'Shować', isCorrect: false, icon: '❌' },
+        { text: 'Scować', isCorrect: false, icon: '❌' },
+        { text: 'Skhować', isCorrect: false, icon: '❌' },
+      ],
+    },
+    {
+      id: 17,
+      difficulty: 1,
+      focus: 'rz niewymienne',
+      questions: {
+        pl: 'W którym słowie piszemy "rz", mimo że nie wymienia się na "r"?',
+        en: "Which word is written with 'rz' despite not alternating with 'r'?",
+        de: "Welches Wort wird mit 'rz' geschrieben, obwohl es nicht mit 'r' wechselt?",
+      },
+      options: [
+        { text: 'Rzeka', isCorrect: true, icon: '🌊' },
+        { text: 'Żeka', isCorrect: false, icon: '❌' },
+        { text: 'Rzaba', isCorrect: false, icon: '❌' },
+        { text: 'Zeka', isCorrect: false, icon: '❌' },
+      ],
+    },
+    {
+      id: 18,
+      difficulty: 2,
+      focus: 'ch na końcu wyrazu',
+      questions: {
+        pl: 'Na końcu wyrazów rodzimych zawsze piszemy "ch". Które słowo jest poprawne?',
+        en: "At the end of native Polish words we always write 'ch'. Which is correct?",
+        de: "Am Ende nativer polnischer Wörter schreiben wir immer 'ch'.",
+      },
+      options: [
+        { text: 'Dach', isCorrect: true, icon: '🏠' },
+        { text: 'Dah', isCorrect: false, icon: '❌' },
+        { text: 'Groh', isCorrect: false, icon: '❌' },
+        { text: 'Strah', isCorrect: false, icon: '❌' },
+      ],
+    }
   ],
 
   syllables: [
@@ -371,6 +609,81 @@ export const wordDatabasePL = {
       segments: ['Wnio', 'sko', 'daw', 'ca'],
       icon: '📋',
     },
+{
+      id: 11,
+      difficulty: 3,
+      word: 'Nieprawdopodobny',
+      segments: ['Nie', 'praw', 'do', 'po', 'dob', 'ny'],
+      icon: '🤯',
+    },
+    {
+      id: 12,
+      difficulty: 3,
+      tags: ['business'],
+      word: 'Odzwierciedlenie',
+      segments: ['Od', 'zwier', 'cie', 'dle', 'nie'],
+      icon: '🪞',
+    },
+    {
+      id: 13,
+      difficulty: 2,
+      tags: ['business'],
+      word: 'Zobowiązanie',
+      segments: ['Zo', 'bo', 'wią', 'za', 'nie'],
+      icon: '🤝',
+    },
+    {
+      id: 14,
+      difficulty: 2,
+      word: 'Niespodziewany',
+      segments: ['Nie', 'spo', 'dzie', 'wa', 'ny'],
+      icon: '🎁',
+    },
+    {
+      id: 15,
+      difficulty: 3,
+      tags: ['business'],
+      word: 'Odpowiedzialność',
+      segments: ['Od', 'po', 'wie', 'dzial', 'ność'],
+      icon: '⚖️',
+    },
+    {
+      id: 16,
+      difficulty: 2,
+      word: 'Zachowawczy',
+      segments: ['Za', 'cho', 'waw', 'czy'],
+      icon: '🛡️',
+    },
+    {
+      id: 17,
+      difficulty: 3,
+      tags: ['business'],
+      word: 'Nieporozumienie',
+      segments: ['Nie', 'po', 'ro', 'zu', 'mie', 'nie'],
+      icon: '🗣️',
+    },
+    {
+      id: 18,
+      difficulty: 2,
+      word: 'Przełożony',
+      segments: ['Prze', 'ło', 'żo', 'ny'],
+      icon: '👔',
+    },
+    {
+      id: 19,
+      difficulty: 2,
+      word: 'Kierownik',
+      segments: ['Kie', 'row', 'nik'],
+      icon: '🧑‍💼',
+    },
+    {
+      id: 20,
+      difficulty: 3,
+      tags: ['business'],
+      word: 'Przedsiębiorca',
+      segments: ['Przed', 'się', 'bior', 'ca'],
+      icon: '📈',
+    }
   ],
 
   scrabble: [
@@ -491,6 +804,73 @@ export const wordDatabasePL = {
       distractors: ['S', 'Z'],
       image: '🌌',
     },
+   {
+      id: 11,
+      difficulty: 2,
+      word: 'SZCZĘŚCIE',
+      scrambled: ['S', 'Z', 'C', 'Z', 'Ę', 'Ś', 'C', 'I', 'E'],
+      distractors: ['Ć', 'Ź'],
+      image: '🍀',
+    },
+    {
+      id: 12,
+      difficulty: 3,
+      tags: ['business'],
+      word: 'PRZEŁOŻONY',
+      scrambled: ['P', 'R', 'Z', 'E', 'Ł', 'O', 'Ż', 'O', 'N', 'Y'],
+      distractors: ['U', 'Ź'],
+      image: '👔',
+    },
+    {
+      id: 13,
+      difficulty: 2,
+      word: 'GRZECZNOŚĆ',
+      scrambled: ['G', 'R', 'Z', 'E', 'C', 'Z', 'N', 'O', 'Ś', 'Ć'],
+      distractors: ['Ż', 'W'],
+      image: '🙏',
+    },
+    {
+      id: 14,
+      difficulty: 3,
+      tags: ['business'],
+      word: 'ZOBOWIĄZANIE',
+      scrambled: ['Z', 'O', 'B', 'O', 'W', 'I', 'Ą', 'Z', 'A', 'N', 'I', 'E'],
+      distractors: ['U', 'Y'],
+      image: '🤝',
+    },
+    {
+      id: 15,
+      difficulty: 3,
+      word: 'ODPOWIEDZIALNOŚĆ',
+      scrambled: ['O', 'D', 'P', 'O', 'W', 'I', 'E', 'D', 'Z', 'I', 'A', 'L', 'N', 'O', 'Ś', 'Ć'],
+      distractors: ['Ź', 'Ż'],
+      image: '⚖️',
+    },
+    {
+      id: 16,
+      difficulty: 2,
+      word: 'SKRZYPCE',
+      scrambled: ['S', 'K', 'R', 'Z', 'Y', 'P', 'C', 'E'],
+      distractors: ['Ś', 'W'],
+      image: '🎻',
+    },
+    {
+      id: 17,
+      difficulty: 2,
+      tags: ['business'],
+      word: 'KIEROWNIK',
+      scrambled: ['K', 'I', 'E', 'R', 'O', 'W', 'N', 'I', 'K'],
+      distractors: ['Y', 'M'],
+      image: '🧑‍💼',
+    },
+    {
+      id: 18,
+      difficulty: 3,
+      word: 'MŁODZIEŻ',
+      scrambled: ['M', 'Ł', 'O', 'D', 'Z', 'I', 'E', 'Ż'],
+      distractors: ['Ź', 'R'],
+      image: '🎒',
+    }
   ],
 
   context: [
@@ -693,6 +1073,141 @@ export const wordDatabasePL = {
         en: "'Naprawdę' (really) is written as a single word.",
       },
     },
+{
+      id: 13,
+      difficulty: 2,
+      tags: ['business'],
+      sentence_part1: 'Pracownik złożył',
+      sentence_part2: 'o podwyżkę wynagrodzenia.',
+      options: [
+        { text: 'wniosek', isCorrect: true },
+        { text: 'wnosek', isCorrect: false },
+        { text: 'wniosiek', isCorrect: false },
+        { text: 'wnosiek', isCorrect: false },
+      ],
+      hints: {
+        pl: "Poprawna forma to 'wniosek' — pisownia przez 'io'",
+        en: 'application/request — wniosek, not wnosek',
+      },
+    },
+    {
+      id: 14,
+      difficulty: 1,
+      tags: ['everyday'],
+      sentence_part1: 'Jutro mam',
+      sentence_part2: 'u dentysty o dziewiątej rano.',
+      options: [
+        { text: 'wizytę', isCorrect: true },
+        { text: 'wizytte', isCorrect: false },
+        { text: 'wyzytę', isCorrect: false },
+        { text: 'wisytę', isCorrect: false },
+      ],
+      hints: {
+        pl: "Słowo 'wizyta' (z łac. visita) — jedno 't' i 'i' przed 'zy'",
+        en: "appointment — 'wizyta' has one 't' and begins with 'wi-'",
+      },
+    },
+    {
+      id: 15,
+      difficulty: 3,
+      tags: ['business'],
+      sentence_part1: 'Projekt wymaga',
+      sentence_part2: 'wszystkich zainteresowanych stron.',
+      options: [
+        { text: 'zaangażowania', isCorrect: true },
+        { text: 'zaangażowonia', isCorrect: false },
+        { text: 'zaangarzowania', isCorrect: false },
+        { text: 'zangażowania', isCorrect: false },
+      ],
+      hints: {
+        pl: "Pisownia przez 'ż' (od 'angaż'), z przedrostkiem 'za-' i z 'aa' w środku",
+        en: 'commitment — zaangażowania: starts za-, then double a, then ż (not rz)',
+      },
+    },
+    {
+      id: 16,
+      difficulty: 2,
+      sentence_part1: 'Musimy',
+      sentence_part2: 'te trudności ze spokojem.',
+      options: [
+        { text: 'przezwyciężyć', isCorrect: true },
+        { text: 'pżezwyciężyć', isCorrect: false },
+        { text: 'przezwyciązyć', isCorrect: false },
+        { text: 'przezwyciężyc', isCorrect: false },
+      ],
+      hints: {
+        pl: "Bezokolicznik zawsze kończy się na '-ć', nie na '-c'. Pisownia przez 'ę' przed 'ż'",
+        en: 'to overcome — infinitive always ends -ć (with an accent), the ę before ż is correct',
+      },
+    },
+    {
+      id: 17,
+      difficulty: 1,
+      tags: ['business'],
+      sentence_part1: 'Proszę o',
+      sentence_part2: 'tego dokumentu przed podpisaniem.',
+      options: [
+        { text: 'sprawdzenie', isCorrect: true },
+        { text: 'spradzenie', isCorrect: false },
+        { text: 'sprawdzenie', isCorrect: true },
+        { text: 'sprardzenie', isCorrect: false },
+      ],
+      hints: {
+        pl: "Pisownia przez 'w' + 'rz': spraw-dze-nie",
+        en: 'verification — spraw-dze-nie, written with w then rz',
+      },
+    },
+    {
+      id: 18,
+      difficulty: 2,
+      tags: ['everyday'],
+      sentence_part1: 'Ona zawsze dotrzymuje swoich',
+      sentence_part2: '.',
+      options: [
+        { text: 'zobowiązań', isCorrect: true },
+        { text: 'zobowiązan', isCorrect: false },
+        { text: 'zobowiązań', isCorrect: true },
+        { text: 'zobowionzań', isCorrect: false },
+      ],
+      hints: {
+        pl: "Dopełniacz liczby mnogiej od 'zobowiązanie' — końcówka '-ań' z kreską pod ą",
+        en: "genitive plural of 'zobowiązanie' — zobowiązań, the ą stays",
+      },
+    },
+    {
+      id: 19,
+      difficulty: 1,
+      tags: ['everyday'],
+      sentence_part1: 'Poszedł do sklepu, żeby kupić',
+      sentence_part2: 'i masło.',
+      options: [
+        { text: 'chleb', isCorrect: true },
+        { text: 'hleb', isCorrect: false },
+        { text: 'hlep', isCorrect: false },
+        { text: 'chlep', isCorrect: false },
+      ],
+      hints: {
+        pl: "Słowo 'chleb' na końcu ma 'b', a na początku dwuznak 'ch'.",
+        en: "'chleb' (bread) starts with 'ch' and ends with 'b'.",
+      },
+    },
+    {
+      id: 20,
+      difficulty: 2,
+      tags: ['business'],
+      sentence_part1: 'Otrzymaliśmy nowe',
+      sentence_part2: 'na realizację projektu.',
+      options: [
+        { text: 'środki', isCorrect: true },
+        { text: 'śrudki', isCorrect: false },
+        { text: 'śrotki', isCorrect: false },
+        { text: 'śrutki', isCorrect: false },
+      ],
+      hints: {
+        pl: "Słowo 'środki' (fundusze) piszemy przez 'ó' wymienne (środki - środowisko) i 'd'.",
+        en: "'środki' (funds) uses 'ó' and 'd'.",
+      },
+    }
   ],
 
   clock: [
@@ -1207,6 +1722,8 @@ export const wordDatabasePL = {
     { id: 8, lcwc: true, difficulty: 2, word: 'Konsekwencja' },
     { id: 9, lcwc: true, difficulty: 2, word: 'Doświadczenie' },
     { id: 10, lcwc: true, difficulty: 2, word: 'Zarządzenie' },
+    { id: 11, lcwc: true, difficulty: 2, word: 'Błyskawica' },
+    { id: 12, lcwc: true, difficulty: 3, word: 'Nietolerancja' },
   ],
 
   categorization: [
@@ -1276,7 +1793,22 @@ export const wordDatabasePL = {
     { id: 7, difficulty: 1, instruction: 'Dni robocze vs Weekend', buckets: [{ id: 'rob', label: 'Dni robocze', icon: '💼' }, { id: 'week', label: 'Weekend', icon: '🌴' }], items: [{ id: 'i1', word: 'Wtorek', bucketId: 'rob' }, { id: 'i2', word: 'Sobota', bucketId: 'week' }, { id: 'i3', word: 'Piątek', bucketId: 'rob' }, { id: 'i4', word: 'Niedziela', bucketId: 'week' }] },
     { id: 8, difficulty: 2, instruction: 'Pisownia z ch vs h', buckets: [{ id: 'ch', label: 'Przez CH', icon: '📝' }, { id: 'h', label: 'Przez H', icon: '📝' }], items: [{ id: 'i1', word: 'Chmura', bucketId: 'ch' }, { id: 'i2', word: 'Hałas', bucketId: 'h' }, { id: 'i3', word: 'Chleb', bucketId: 'ch' }, { id: 'i4', word: 'Hierarchia', bucketId: 'h' }] },
     { id: 9, difficulty: 2, instruction: 'Medycyna vs Prawo', buckets: [{ id: 'med', label: 'Medycyna', icon: '🏥' }, { id: 'prawo', label: 'Prawo', icon: '⚖️' }], items: [{ id: 'i1', word: 'Recepta', bucketId: 'med' }, { id: 'i2', word: 'Pozew', bucketId: 'prawo' }, { id: 'i3', word: 'Diagnoza', bucketId: 'med' }, { id: 'i4', word: 'Apelacja', bucketId: 'prawo' }] },
-    { id: 10, difficulty: 1, instruction: 'Czas przeszły vs przyszły', buckets: [{ id: 'past', label: 'Przeszłość', icon: '⏪' }, { id: 'future', label: 'Przyszłość', icon: '⏩' }], items: [{ id: 'i1', word: 'Wczoraj', bucketId: 'past' }, { id: 'i2', word: 'Jutro', bucketId: 'future' }, { id: 'i3', word: 'Przedtem', bucketId: 'past' }, { id: 'i4', word: 'Pojutrze', bucketId: 'future' }] }
+    { id: 10, difficulty: 1, instruction: 'Czas przeszły vs przyszły', buckets: [{ id: 'past', label: 'Przeszłość', icon: '⏪' }, { id: 'future', label: 'Przyszłość', icon: '⏩' }], items: [{ id: 'i1', word: 'Wczoraj', bucketId: 'past' }, { id: 'i2', word: 'Jutro', bucketId: 'future' }, { id: 'i3', word: 'Przedtem', bucketId: 'past' }, { id: 'i4', word: 'Pojutrze', bucketId: 'future' }] },
+    {
+      id: 11,
+      difficulty: 1,
+      instruction: 'Owoce czy Warzywa?',
+      buckets: [
+        { id: 'owoc', label: 'Owoce', icon: '🍎' },
+        { id: 'warz', label: 'Warzywa', icon: '🥕' }
+      ],
+      items: [
+        { id: 'i1', word: 'Jabłko', bucketId: 'owoc' },
+        { id: 'i2', word: 'Marchew', bucketId: 'warz' },
+        { id: 'i3', word: 'Gruszka', bucketId: 'owoc' },
+        { id: 'i4', word: 'Cebula', bucketId: 'warz' }
+      ]
+    }
   ],
 
   dictation: [
@@ -1313,7 +1845,9 @@ export const wordDatabasePL = {
     { id: 7, dictation: true, difficulty: 2, audioPrompt: 'Zdobyliśmy cenne doświadczenie zawodowe.', correct: 'Zdobyliśmy cenne doświadczenie zawodowe' },
     { id: 8, dictation: true, difficulty: 1, audioPrompt: 'Wkrótce rozpoczniemy nowy projekt.', correct: 'Wkrótce rozpoczniemy nowy projekt' },
     { id: 9, dictation: true, difficulty: 3, audioPrompt: 'Zaangażowanie zespołu przyniosło wspaniałe efekty.', correct: 'Zaangażowanie zespołu przyniosło wspaniałe efekty' },
-    { id: 10, dictation: true, difficulty: 2, audioPrompt: 'Proszę o dokładne wypełnienie formularza.', correct: 'Proszę o dokładne wypełnienie formularza' }
+    { id: 10, dictation: true, difficulty: 2, audioPrompt: 'Proszę o dokładne wypełnienie formularza.', correct: 'Proszę o dokładne wypełnienie formularza' },
+    { id: 11, dictation: true, difficulty: 2, audioPrompt: 'Spotkanie zostało odwołane.', correct: 'Spotkanie zostało odwołane' },
+    { id: 12, dictation: true, difficulty: 3, audioPrompt: 'Spółka zaprezentowała nowe wyniki finansowe.', correct: 'Spółka zaprezentowała nowe wyniki finansowe' }
   ],
 
   diagnostic: [

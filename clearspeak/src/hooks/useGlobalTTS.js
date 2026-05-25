@@ -2,13 +2,13 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 
 export const TTS_EXCEPTIONS = {
   pl: {
-    // 1. Zbitki "ie" (wymuszanie miękkości, unikanie ang. "aj" / "i")
+    // 1. "ie" clusters (forcing softness, avoiding English "ay" / "ee")
     'pie': 'pje', 'die': 'dje', 'tie': 'tje', 'lie': 'lje',
     
-    // 2. Twarde "H" (żeby 'he' nie czytało "hi", 'ho' jako "hoł" itp.)
+    // 2. Hard "H" (to avoid 'he' being read as "hi", 'ho' as "how", etc.)
     'ha': 'cha', 'he': 'che', 'hi': 'chi', 'ho': 'cho', 'hu': 'chu',
 
-    // 3. Ubezdźwięcznienia W -> F na końcu sylab (częsty błąd z ang. dyftongami)
+    // 3. Devoicing W -> F at the end of syllables (common error with English diphthongs)
     'baw': 'baf', 'caw': 'caf', 'daw': 'daf', 'faw': 'faf', 'gaw': 'gaf', 'jaw': 'jaf', 
     'kaw': 'kaf', 'law': 'laf', 'maw': 'maf', 'naw': 'naf', 'paw': 'paf', 'raw': 'raf', 
     'saw': 'saf', 'taw': 'taf', 'zaw': 'zaf', 'lew': 'lef', 'mew': 'mef', 'pew': 'pef', 
@@ -17,16 +17,16 @@ export const TTS_EXCEPTIONS = {
     'now': 'nof', 'pow': 'pof', 'row': 'rof', 'sow': 'sof', 'tow': 'tof', 'zow': 'zof',
     'piw': 'pif', 'siw': 'sif', 'liw': 'lif', 'dziw': 'dzif',
 
-    // 4. Przypadkowe angielskie słówka (ubezdźwięcznienia D->T, G->K, B->P)
+    // 4. Accidental English words (devoicing D->T, G->K, B->P)
     'bad': 'bat', 'sad': 'sat', 'mad': 'mat', 'rad': 'rat', 
     'dog': 'dok', 'log': 'lok', 'big': 'bik', 'dig': 'dik',
     'leg': 'lek', 'bag': 'bak', 'cab': 'kap', 'pub': 'pap',
 
-    // 5. Skróty i problematyczne sylaby (np. "ca" interpretowane jako circa/ka)
+    // 5. Abbreviations and problematic syllables (e.g., "ca" interpreted as circa/ka)
     'ca': 'tsa'
   },
   en: {
-    // Naprawa angielskich, niefonetycznych sylab przy odczycie w izolacji
+    // Fixing English, non-phonetic syllables when read in isolation
     'tion': 'shun', 'sion': 'shun', 'tious': 'shus',
     'ous': 'us', 'reau': 'row', 'neur': 'nur',
     'sci': 'shee', 'ci': 'shee', 'mu': 'myoo',
@@ -35,7 +35,7 @@ export const TTS_EXCEPTIONS = {
     'tre': 'truh', 'pre': 'pruh'
   },
   de: {
-    // Naprawa wymowy niemieckich przyrostków (Bühnendeutsch)
+    // Fixing pronunciation of German suffixes (Bühnendeutsch)
     'ig': 'ich',
     'dig': 'dich',
     'sig': 'sich'
@@ -49,8 +49,8 @@ export function getTTSException(text, language) {
 }
 
 /**
- * Zarządza globalnym syntezatorem mowy (Text-to-Speech)
- * oraz jego konfiguracją z automatycznym zapisem do localStorage.
+ * Manages global speech synthesizer (Text-to-Speech)
+ * and its configuration with automatic save to localStorage.
  */
 export function useGlobalTTS(language, extendedTime = false) {
   const [voices, setVoices] = useState([]);
@@ -67,7 +67,7 @@ export function useGlobalTTS(language, extendedTime = false) {
   const [activeBoundary, setActiveBoundary] = useState(null);
   const audioRef = useRef(null);
 
-  // Wymuszenie ładowania głosów w celu uniknięcia błędu z pustą tablicą na Androidzie/Chrome
+  // Force loading voices to avoid empty array bug on Android/Chrome
   useEffect(() => {
     const updateVoices = () => {
       const availableVoices = window.speechSynthesis?.getVoices?.() || [];
@@ -82,14 +82,14 @@ export function useGlobalTTS(language, extendedTime = false) {
   // Monitor TTS playback state globally
   useEffect(() => {
     const interval = setInterval(() => {
-      if (audioRef.current) return; // Jeśli gra z chmury, zarządzamy stanem ręcznie
+      if (audioRef.current) return; // If playing from cloud, we manage state manually
       setIsSpeaking(window.speechSynthesis?.speaking || false);
       setIsPaused(window.speechSynthesis?.paused || false);
     }, 200);
     return () => clearInterval(interval);
   }, []);
 
-  // Zapis do localStorage przy każdej zmianie parametrów
+  // Save to localStorage on every parameter change
   useEffect(() => {
     localStorage.setItem('cfg_voice_uris', JSON.stringify(selectedVoiceURIs));
     localStorage.setItem('cfg_voice_speed', String(voiceSpeed));
@@ -97,7 +97,7 @@ export function useGlobalTTS(language, extendedTime = false) {
   }, [selectedVoiceURIs, voiceSpeed, voicePitch]);
 
   const speak = useCallback(async (text, slow = false) => {
-    // Anuluj stare odtwarzania
+    // Cancel old playbacks
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current = null;
@@ -108,17 +108,17 @@ export function useGlobalTTS(language, extendedTime = false) {
     const finalSpeed = (slow || extendedTime) ? voiceSpeed * 0.65 : voiceSpeed;
 
     try {
-      // Próba odtworzenia czystego głosu z chmury za pośrednictwem Netlify
+      // Attempt to play clear voice from the cloud via Netlify
       const response = await fetch('/.netlify/functions/synthesize-speech', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: textToSpeak,
           languageCode: language === 'pl' ? 'pl-PL' : language === 'de' ? 'de-DE' : 'en-US',
-          // Używamy profesjonalnych głosów Wavenet (sieci neuronowe)
+          // Using professional Wavenet voices (neural networks)
           voiceName: language === 'pl' ? 'pl-PL-Wavenet-B' : language === 'de' ? 'de-DE-Wavenet-B' : 'en-US-Wavenet-D',
           speed: finalSpeed,
-          // Skala pitch API Google to od -20.0 do 20.0 (domyślnie 0.0)
+          // Google API pitch scale is from -20.0 to 20.0 (default 0.0)
           pitch: (voicePitch - 1.0) * 10 
         })
       });
@@ -135,9 +135,9 @@ export function useGlobalTTS(language, extendedTime = false) {
       audio.onerror = () => { setIsSpeaking(false); setActiveBoundary(null); };
       
       await audio.play();
-      return; // Odtworzono z sukcesem, koniec procedury!
+      return; // Played successfully, end of procedure!
     } catch (error) {
-      console.warn("Lektor w chmurze niedostępny. Przechodzę w tryb awaryjny (offline) wbudowany w przeglądarkę.", error.message);
+      console.warn("Cloud TTS unavailable. Falling back to built-in offline browser TTS.", error.message);
     }
 
     // --- FALLBACK (Web Speech API) ---
@@ -148,7 +148,7 @@ export function useGlobalTTS(language, extendedTime = false) {
     msg.rate   = finalSpeed;
     msg.pitch  = voicePitch;
 
-    // Korzystamy z załadowanego w tle stanu głosów
+    // Use background-loaded voice state
     const allVoices = voices.length > 0 ? voices : (window.speechSynthesis?.getVoices?.() || []);
     let selectedVoice = null;
     const currentVoiceURI = selectedVoiceURIs[language];

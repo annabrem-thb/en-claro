@@ -83,6 +83,20 @@ export const wordDatabaseEN = {
       difficulty: 3, 
       phonetic: '/ məˈnuː.vər /', 
       hints: { en: 'A movement or series of moves requiring skill and care.', pl: 'Manewr.', de: 'Manöver.' } 
+    },
+    { 
+      id: 13, 
+      word: 'Psychology', 
+      difficulty: 3, 
+      phonetic: '/ saɪˈkɒl.ə.dʒi /', 
+      hints: { en: 'Scientific study of the human mind and its functions.', pl: 'Psychologia.', de: 'Psychologie.' } 
+    },
+    { 
+      id: 14, 
+      word: 'Chaos', 
+      difficulty: 2, 
+      phonetic: '/ ˈkeɪ.ɒs /', 
+      hints: { en: 'Complete disorder and confusion.', pl: 'Całkowity nieporządek.', de: 'Völlige Unordnung.' } 
     }
   ],
 
@@ -156,6 +170,20 @@ export const wordDatabaseEN = {
       focus: 'ensure vs insure', 
       questions: { en: 'Which word means to make certain that something will happen?', pl: 'Które słowo oznacza upewnienie się, że coś się wydarzy?', de: 'Welches Wort bedeutet, sicherzustellen, dass etwas passiert?' }, 
       options: [{ text: 'Ensure', isCorrect: true, icon: '🔒' }, { text: 'Insure', isCorrect: false, icon: '📄' }, { text: 'Enshure', isCorrect: false, icon: '❌' }, { text: 'Inshure', isCorrect: false, icon: '❌' }] 
+    },
+    { 
+      id: 11, 
+      difficulty: 1, 
+      focus: 'bare vs bear', 
+      questions: { en: 'Which word refers to a large heavy mammal?', pl: 'Które słowo oznacza dużego, ciężkiego ssaka?', de: 'Welches Wort bezieht sich auf ein großes, schweres Säugetier?' }, 
+      options: [{ text: 'Bear', isCorrect: true, icon: '🐻' }, { text: 'Bare', isCorrect: false, icon: '🦶' }, { text: 'Bair', isCorrect: false, icon: '❌' }, { text: 'Beare', isCorrect: false, icon: '❌' }] 
+    },
+    { 
+      id: 12, 
+      difficulty: 2, 
+      focus: 'break vs brake', 
+      questions: { en: 'Which word means a device for slowing or stopping a moving vehicle?', pl: 'Które słowo oznacza urządzenie do hamowania pojazdu?', de: 'Welches Wort bedeutet eine Vorrichtung zum Verlangsamen oder Anhalten eines Fahrzeugs?' }, 
+      options: [{ text: 'Brake', isCorrect: true, icon: '🛑' }, { text: 'Break', isCorrect: false, icon: '💔' }, { text: 'Braik', isCorrect: false, icon: '❌' }, { text: 'Brak', isCorrect: false, icon: '❌' }] 
     }
   ],
 
@@ -169,7 +197,9 @@ export const wordDatabaseEN = {
     { id: 7, difficulty: 2, word: 'Communication', segments: ['Com', 'mu', 'ni', 'ca', 'tion'], icon: '💬' },
     { id: 8, difficulty: 1, word: 'Development', segments: ['De', 'vel', 'op', 'ment'], icon: '📈' },
     { id: 9, difficulty: 2, word: 'Professional', segments: ['Pro', 'fes', 'sion', 'al'], icon: '👔' },
-    { id: 10, difficulty: 2, word: 'Appreciation', segments: ['Ap', 'pre', 'ci', 'a', 'tion'], icon: '🙏' }
+    { id: 10, difficulty: 2, word: 'Appreciation', segments: ['Ap', 'pre', 'ci', 'a', 'tion'], icon: '🙏' },
+    { id: 11, difficulty: 3, word: 'Unbelievable', segments: ['Un', 'be', 'liev', 'a', 'ble'], icon: '🤯' },
+    { id: 12, difficulty: 2, word: 'Reliability', segments: ['Re', 'li', 'a', 'bil', 'i', 'ty'], icon: '🤝' }
   ],
 
   scrabble: [
@@ -182,7 +212,9 @@ export const wordDatabaseEN = {
     { id: 7, difficulty: 2, word: 'MANAGEMENT', scrambled: ['M', 'A', 'N', 'A', 'G', 'E', 'M', 'E', 'N', 'T'], distractors: ['O', 'I'], image: '💼' },
     { id: 8, difficulty: 2, word: 'KNOWLEDGE', scrambled: ['K', 'N', 'O', 'W', 'L', 'E', 'D', 'G', 'E'], distractors: ['C', 'A'], image: '🧠' },
     { id: 9, difficulty: 2, word: 'EXPERIENCE', scrambled: ['E', 'X', 'P', 'E', 'R', 'I', 'E', 'N', 'C', 'E'], distractors: ['S', 'O'], image: '⭐' },
-    { id: 10, difficulty: 2, word: 'LEADERSHIP', scrambled: ['L', 'E', 'A', 'D', 'E', 'R', 'S', 'H', 'I', 'P'], distractors: ['T', 'O'], image: '👑' }
+    { id: 10, difficulty: 2, word: 'LEADERSHIP', scrambled: ['L', 'E', 'A', 'D', 'E', 'R', 'S', 'H', 'I', 'P'], distractors: ['T', 'O'], image: '👑' },
+    { id: 11, difficulty: 3, word: 'AUTHENTIC', scrambled: ['A', 'U', 'T', 'H', 'E', 'N', 'T', 'I', 'C'], distractors: ['M', 'S'], image: '💎' },
+    { id: 12, difficulty: 3, word: 'INDEPENDENT', scrambled: ['I', 'N', 'D', 'E', 'P', 'E', 'N', 'D', 'E', 'N', 'T'], distractors: ['A', 'U'], image: '🦅' }
   ],
 
   context: [
@@ -197,7 +229,9 @@ export const wordDatabaseEN = {
     { id: 9, difficulty: 2, tags: ['everyday'], sentence_part1: 'She was', sentence_part2: 'employed at a marketing agency before joining us.', options: [{ text: 'formerly', isCorrect: true }, { text: 'formally', isCorrect: false }, { text: 'formarly', isCorrect: false }, { text: 'formely', isCorrect: false }], hints: { en: '"Formerly" means previously. "Formally" means officially.', pl: '"Formerly" to dawniej. "Formally" to formalnie.' } },
     { id: 10, difficulty: 2, tags: ['business'], sentence_part1: 'All inquiries regarding payroll should be directed to', sentence_part2: '.', options: [{ text: 'personnel', isCorrect: true }, { text: 'personal', isCorrect: false }, { text: 'personel', isCorrect: false }, { text: 'personall', isCorrect: false }], hints: { en: '"Personnel" refers to staff. "Personal" means private.', pl: '"Personnel" to personel. "Personal" to osobisty.' } },
     { id: 11, difficulty: 2, tags: ['everyday'], sentence_part1: 'Make sure', sentence_part2: 'ready for the presentation tomorrow.', options: [{ text: 'you\'re', isCorrect: true }, { text: 'your', isCorrect: false }, { text: 'yours', isCorrect: false }, { text: 'youre', isCorrect: false }], hints: { en: '"You\'re" is a contraction of "you are".', pl: '"You\'re" to skrót od "you are".', de: '"You\'re" ist die Abkürzung für "you are".' } },
-    { id: 12, difficulty: 3, tags: ['business'], sentence_part1: 'The speaker made an', sentence_part2: 'to the recent market trends.', options: [{ text: 'allusion', isCorrect: true }, { text: 'illusion', isCorrect: false }, { text: 'alusion', isCorrect: false }, { text: 'ilusion', isCorrect: false }], hints: { en: 'An "allusion" is an indirect reference. An "illusion" is a deception.', pl: '"Allusion" to aluzja. "Illusion" to iluzja.', de: '"Allusion" ist eine Anspielung. "Illusion" ist eine Täuschung.' } }
+    { id: 12, difficulty: 3, tags: ['business'], sentence_part1: 'The speaker made an', sentence_part2: 'to the recent market trends.', options: [{ text: 'allusion', isCorrect: true }, { text: 'illusion', isCorrect: false }, { text: 'alusion', isCorrect: false }, { text: 'ilusion', isCorrect: false }], hints: { en: 'An "allusion" is an indirect reference. An "illusion" is a deception.', pl: '"Allusion" to aluzja. "Illusion" to iluzja.', de: '"Allusion" ist eine Anspielung. "Illusion" ist eine Täuschung.' } },
+    { id: 13, difficulty: 2, tags: ['business'], sentence_part1: 'The new manager is very', sentence_part2: 'about meeting the quarterly deadlines.', options: [{ text: 'anxious', isCorrect: true }, { text: 'anxous', isCorrect: false }, { text: 'anxtious', isCorrect: false }, { text: 'ankshous', isCorrect: false }], hints: { en: '"Anxious" comes from anxiety, spelled with x and ious.', pl: '"Anxious" (niespokojny) piszemy z x oraz ious.', de: '"Anxious" (besorgt) schreibt man mit x und ious.' } },
+    { id: 14, difficulty: 2, tags: ['everyday'], sentence_part1: 'Please do not', sentence_part2: 'to contact me if you have any questions.', options: [{ text: 'hesitate', isCorrect: true }, { text: 'hezitate', isCorrect: false }, { text: 'hesitat', isCorrect: false }, { text: 'hesitatee', isCorrect: false }], hints: { en: '"Hesitate" means to pause before saying or doing something.', pl: '"Hesitate" oznacza wahać się.', de: '"Hesitate" bedeutet zögern.' } }
   ],
 
   clock: [
@@ -254,7 +288,9 @@ export const wordDatabaseEN = {
     { id: 7, lcwc: true, difficulty: 2, word: 'Necessary' },
     { id: 8, lcwc: true, difficulty: 2, word: 'Privilege' },
     { id: 9, lcwc: true, difficulty: 3, word: 'Questionnaire' },
-    { id: 10, lcwc: true, difficulty: 3, word: 'Pronunciation' }
+    { id: 10, lcwc: true, difficulty: 3, word: 'Pronunciation' },
+    { id: 11, lcwc: true, difficulty: 3, word: 'Entrepreneur' },
+    { id: 12, lcwc: true, difficulty: 3, word: 'Simultaneously' }
   ],
 
   categorization: [
@@ -267,7 +303,9 @@ export const wordDatabaseEN = {
     { id: 7, difficulty: 3, instruction: 'Categorize prefixes and suffixes', buckets: [{ id: 'pre', label: 'Prefix', icon: '⬅️' }, { id: 'suf', label: 'Suffix', icon: '➡️' }], items: [{ id: 'i1', word: 'Un-', bucketId: 'pre' }, { id: 'i2', word: '-ment', bucketId: 'suf' }, { id: 'i3', word: 'Re-', bucketId: 'pre' }, { id: 'i4', word: '-tion', bucketId: 'suf' }] },
     { id: 8, difficulty: 1, instruction: 'Categorize by double letters', buckets: [{ id: 'double', label: 'Double Letter', icon: '🔠' }, { id: 'single', label: 'Single Letter', icon: '🔡' }], items: [{ id: 'i1', word: 'Apple', bucketId: 'double' }, { id: 'i2', word: 'Banana', bucketId: 'single' }, { id: 'i3', word: 'Letter', bucketId: 'double' }, { id: 'i4', word: 'Word', bucketId: 'single' }] },
     { id: 9, difficulty: 2, instruction: 'Categorize by business department', buckets: [{ id: 'it', label: 'IT', icon: '💻' }, { id: 'sales', label: 'Sales', icon: '📈' }], items: [{ id: 'i1', word: 'Server', bucketId: 'it' }, { id: 'i2', word: 'Revenue', bucketId: 'sales' }, { id: 'i3', word: 'Database', bucketId: 'it' }, { id: 'i4', word: 'Lead', bucketId: 'sales' }] },
-    { id: 10, difficulty: 1, instruction: 'Categorize by time', buckets: [{ id: 'past', label: 'Past', icon: '⏪' }, { id: 'future', label: 'Future', icon: '⏩' }], items: [{ id: 'i1', word: 'Yesterday', bucketId: 'past' }, { id: 'i2', word: 'Tomorrow', bucketId: 'future' }, { id: 'i3', word: 'Previously', bucketId: 'past' }, { id: 'i4', word: 'Soon', bucketId: 'future' }] }
+    { id: 10, difficulty: 1, instruction: 'Categorize by time', buckets: [{ id: 'past', label: 'Past', icon: '⏪' }, { id: 'future', label: 'Future', icon: '⏩' }], items: [{ id: 'i1', word: 'Yesterday', bucketId: 'past' }, { id: 'i2', word: 'Tomorrow', bucketId: 'future' }, { id: 'i3', word: 'Previously', bucketId: 'past' }, { id: 'i4', word: 'Soon', bucketId: 'future' }] },
+    { id: 11, difficulty: 1, instruction: 'Fruit or Vegetable?', buckets: [{ id: 'fruit', label: 'Fruit', icon: '🍎' }, { id: 'veg', label: 'Vegetable', icon: '🥕' }], items: [{ id: 'i1', word: 'Apple', bucketId: 'fruit' }, { id: 'i2', word: 'Carrot', bucketId: 'veg' }, { id: 'i3', word: 'Pear', bucketId: 'fruit' }, { id: 'i4', word: 'Onion', bucketId: 'veg' }] },
+    { id: 12, difficulty: 2, instruction: 'Positive or Negative?', buckets: [{ id: 'pos', label: 'Positive', icon: '👍' }, { id: 'neg', label: 'Negative', icon: '👎' }], items: [{ id: 'i1', word: 'Success', bucketId: 'pos' }, { id: 'i2', word: 'Failure', bucketId: 'neg' }, { id: 'i3', word: 'Profit', bucketId: 'pos' }, { id: 'i4', word: 'Loss', bucketId: 'neg' }] }
   ],
 
   dictation: [
@@ -280,7 +318,9 @@ export const wordDatabaseEN = {
     { id: 7, dictation: true, difficulty: 2, audioPrompt: 'The committee reached a unanimous decision.', correct: 'The committee reached a unanimous decision' },
     { id: 8, dictation: true, difficulty: 2, audioPrompt: 'Their knowledge of the subject is thorough.', correct: 'Their knowledge of the subject is thorough' },
     { id: 9, dictation: true, difficulty: 3, audioPrompt: 'The principal addressed the new principle.', correct: 'The principal addressed the new principle' },
-    { id: 10, dictation: true, difficulty: 2, audioPrompt: 'I can definitely recommend this strategy.', correct: 'I can definitely recommend this strategy' }
+    { id: 10, dictation: true, difficulty: 2, audioPrompt: 'I can definitely recommend this strategy.', correct: 'I can definitely recommend this strategy' },
+    { id: 11, dictation: true, difficulty: 2, audioPrompt: 'The invoice must be paid by Friday.', correct: 'The invoice must be paid by Friday' },
+    { id: 12, dictation: true, difficulty: 3, audioPrompt: 'The results of the analysis were very surprising.', correct: 'The results of the analysis were very surprising' }
   ],
 
   diagnostic: [

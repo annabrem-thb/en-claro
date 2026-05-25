@@ -16,133 +16,113 @@ export const wordDatabaseDE = {
       id: 1,
       difficulty: 2,
       tags: ['business'],
-      instruction: 'Wähle die richtige Schreibweise basierend auf der Aussprache:',
+      word: 'Qualifikation',
       phonetic: '/ kvaːlɪfɪkaˈt͡si̯oːn /',
-      options: [
-        { text: 'Qualifikation', isCorrect: true },
-        { text: 'Kwalifikation', isCorrect: false }
-      ]
+      hints: { de: 'Eignung oder Befähigung für eine Aufgabe' }
     },
     {
       id: 2,
       difficulty: 3,
       tags: ['everyday'],
-      instruction: 'Identifiziere das Wort an seiner phonetischen Umschrift:',
+      word: 'Psychiatrie',
       phonetic: '/ psyçiˈatʁiː /',
-      options: [
-        { text: 'Psychiatrie', isCorrect: true },
-        { text: 'Pyschiatrie', isCorrect: false }
-      ]
+      hints: { de: 'Medizinisches Fachgebiet für seelische Erkrankungen' }
     },
     {
       id: 3,
       difficulty: 2,
       tags: ['everyday'],
-      instruction: 'Wähle das korrekte Wort:',
+      word: 'Rhythmus',
       phonetic: '/ ˈʁʏtmʊs /',
-      options: [
-        { text: 'Rhythmus', isCorrect: true },
-        { text: 'Rythmus', isCorrect: false }
-      ]
+      hints: { de: 'Gleichmäßige Abfolge von Tönen oder Bewegungen' }
     },
     {
       id: 4,
       difficulty: 3,
       tags: ['business'],
-      instruction: 'Welches Wort passt zur Aussprache?',
+      word: 'Choreographie',
       phonetic: '/ koʁeoɡʁaˈfiː /',
-      options: [
-        { text: 'Choreographie', isCorrect: true },
-        { text: 'Koreografie', isCorrect: false }
-      ]
+      hints: { de: 'Erfindung und Einstudierung von Tänzen' }
     },
     {
       id: 5,
       difficulty: 2,
       tags: ['business'],
-      instruction: 'Ordne die Schreibweise zu:',
+      word: 'Verantwortung',
       phonetic: '/ fɛˈʁantvɔʁtʊŋ /',
-      options: [
-        { text: 'Verantwortung', isCorrect: true },
-        { text: 'Verantvortung', isCorrect: false }
-      ]
+      hints: { de: 'Verpflichtung, für die Folgen einer Handlung einzustehen' }
     },
     {
       id: 6,
       difficulty: 3,
       tags: ['business'],
-      instruction: 'Finde das richtige Wort:',
+      word: 'Schlüsselkompetenz',
       phonetic: '/ ˈʃlʏsl̩kɔmpəˌtɛnt͡s /',
-      options: [
-        { text: 'Schlüsselkompetenz', isCorrect: true },
-        { text: 'Schlüselkompetenz', isCorrect: false }
-      ]
+      hints: { de: 'Besonders wichtige Fähigkeit im Berufsleben' }
     },
     {
       id: 7,
       difficulty: 2,
       tags: ['everyday'],
-      instruction: 'Welche Schreibweise ist korrekt?',
+      word: 'Beschleunigung',
       phonetic: '/ bəˈʃlɔʏ̯nɪɡʊŋ /',
-      options: [
-        { text: 'Beschleunigung', isCorrect: true },
-        { text: 'Beschloynigung', isCorrect: false }
-      ]
+      hints: { de: 'Prozess, bei dem etwas schneller wird' }
     },
     {
       id: 8,
       difficulty: 2,
       tags: ['business'],
-      instruction: 'Wähle basierend auf der Lautschrift:',
+      word: 'Widersprüchlich',
       phonetic: '/ ˈviːdɐʃpʁʏçlɪç /',
-      options: [
-        { text: 'Widersprüchlich', isCorrect: true },
-        { text: 'Wiedersprüchlich', isCorrect: false }
-      ]
+      hints: { de: 'Gegensätzlich, nicht übereinstimmend' }
     },
     {
       id: 9,
       difficulty: 1,
       tags: ['everyday'],
-      instruction: 'Welche Schreibweise ist korrekt?',
+      word: 'Baum',
       phonetic: '/ baʊm /',
-      options: [
-        { text: 'Baum', isCorrect: true },
-        { text: 'Paum', isCorrect: false }
-      ]
+      hints: { de: 'Große Pflanze mit Stamm und Blättern' }
     },
     {
       id: 10,
       difficulty: 1,
       tags: ['everyday'],
-      instruction: 'Wähle das richtige Wort:',
+      word: 'Apfel',
       phonetic: '/ ˈapfəl /',
-      options: [
-        { text: 'Apfel', isCorrect: true },
-        { text: 'Abfel', isCorrect: false }
-      ]
+      hints: { de: 'Beliebtes rundes Obst, oft rot oder grün' }
     },
     {
       id: 11,
       difficulty: 3,
       tags: ['everyday'],
-      instruction: 'Welche Schreibweise ist korrekt?',
+      word: 'Portemonnaie',
       phonetic: '/ pɔʁtmɔˈneː /',
-      options: [
-        { text: 'Portemonnaie', isCorrect: true },
-        { text: 'Portmonnee', isCorrect: false }
-      ]
+      hints: { de: 'Anderes Wort für Geldbeutel (aus dem Französischen)' }
     },
     {
       id: 12,
       difficulty: 3,
       tags: ['business'],
-      instruction: 'Finde das richtige Wort:',
+      word: 'Enthusiasmus',
       phonetic: '/ ɛntuzi̯ˈasmʊs /',
-      options: [
-        { text: 'Enthusiasmus', isCorrect: true },
-        { text: 'Entusiasmus', isCorrect: false }
-      ]
+      hints: { de: 'Begeisterung oder leidenschaftlicher Eifer' }
+    },
+    {
+      id: 13,
+      difficulty: 3,
+      tags: ['business'],
+      word: 'Ressource',
+      phonetic: '/ ʁɛˈsʊʁsə /',
+      hints: { de: 'Mittel, Gegebenheit, wie z.B. Rohstoffe oder Personal', en: 'Resource', pl: 'Zasoby' }
+    },
+    {
+      id: 14,
+      difficulty: 2,
+      tags: ['everyday'],
+      word: 'Authentisch',
+      phonetic: '/ aʊ̯ˈtɛntɪʃ /',
+      hints: { de: 'Echt, nicht gefälscht', en: 'Authentic', pl: 'Autentyczny' }
     }
   ],
 
@@ -311,6 +291,38 @@ export const wordDatabaseDE = {
         { text: 'Abotheke', isCorrect: false, icon: '❌' }
       ],
     },
+    {
+      id: 11,
+      difficulty: 2,
+      focus: 'tz statt z nach kurzem Vokal',
+      questions: {
+        de: 'Wie schreibt man das Wort für einen Ort, an dem man sitzt?',
+        pl: 'Jak pisze się słowo oznaczające miejsce, gdzie się siedzi?',
+        en: 'How do you spell the word for a place where you sit?',
+      },
+      options: [
+        { text: 'Platz', isCorrect: true, icon: '💺' },
+        { text: 'Plaz', isCorrect: false, icon: '❌' },
+        { text: 'Plahtz', isCorrect: false, icon: '❌' },
+        { text: 'Plazz', isCorrect: false, icon: '❌' }
+      ],
+    },
+    {
+      id: 12,
+      difficulty: 1,
+      focus: 'ck statt k nach kurzem Vokal',
+      questions: {
+        de: 'Wie heißt das Kleidungsstück für den Unterkörper?',
+        pl: 'Jak nazywa się część ubrania na dolną część ciała?',
+        en: 'What is the word for the piece of clothing for the lower body?',
+      },
+      options: [
+        { text: 'Rock', isCorrect: true, icon: '👗' },
+        { text: 'Rok', isCorrect: false, icon: '❌' },
+        { text: 'Rokk', isCorrect: false, icon: '❌' },
+        { text: 'Rog', isCorrect: false, icon: '❌' }
+      ],
+    },
   ],
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -391,6 +403,20 @@ export const wordDatabaseDE = {
       word: 'Informationsgesellschaft',
       segments: ['In', 'for', 'ma', 'ti', 'ons', 'ge', 'sell', 'schaft'],
       icon: '💻',
+    },
+    {
+      id: 11,
+      difficulty: 3,
+      word: 'Unabhängigkeit',
+      segments: ['Un', 'ab', 'hän', 'gig', 'keit'],
+      icon: '🦅',
+    },
+    {
+      id: 12,
+      difficulty: 2,
+      word: 'Zuverlässigkeit',
+      segments: ['Zu', 'ver', 'läs', 'sig', 'keit'],
+      icon: '🤝',
     },
   ],
 
@@ -583,6 +609,22 @@ export const wordDatabaseDE = {
       scrambled: ['G', 'E', 'S', 'E', 'L', 'L', 'S', 'C', 'H', 'A', 'F', 'T'],
       distractors: ['Z', 'K'],
       image: '👥',
+    },
+    {
+      id: 11,
+      difficulty: 3,
+      word: 'AUTHENTISCH',
+      scrambled: ['A', 'U', 'T', 'H', 'E', 'N', 'T', 'I', 'S', 'C', 'H'],
+      distractors: ['F', 'M'],
+      image: '💎',
+    },
+    {
+      id: 12,
+      difficulty: 3,
+      word: 'BÜROKRATIE',
+      scrambled: ['B', 'Ü', 'R', 'O', 'K', 'R', 'A', 'T', 'I', 'E'],
+      distractors: ['U', 'C'],
+      image: '🏢',
     },
   ],
 
@@ -787,6 +829,40 @@ export const wordDatabaseDE = {
       hints: {
         de: "‚Wider' bedeutet ‚gegen' (Widerstand = gegen etwas stehen). ‚Wieder' bedeutet ‚nochmal'.",
         en: "'wider' means against, 'wieder' means again.",
+      },
+    },
+    {
+      id: 13,
+      difficulty: 2,
+      tags: ['business'],
+      sentence_part1: 'Bitte schicken Sie uns das',
+      sentence_part2: 'bis Ende der Woche.',
+      options: [
+        { text: 'Angebot', isCorrect: true },
+        { text: 'Angebott', isCorrect: false },
+        { text: 'Angepot', isCorrect: false },
+        { text: 'Angeboot', isCorrect: false }
+      ],
+      hints: {
+        de: 'Auslautverhärtung: Man spricht ein [t], schreibt aber ein d (Angebote).',
+        en: 'Hardened ending: spoken as [t] but written as d (Angebot -> Angebote).',
+      },
+    },
+    {
+      id: 14,
+      difficulty: 2,
+      tags: ['business'],
+      sentence_part1: 'Er hat heute ein wichtiges',
+      sentence_part2: 'mit dem Kunden.',
+      options: [
+        { text: 'Gespräch', isCorrect: true },
+        { text: 'Gesprech', isCorrect: false },
+        { text: 'Geshpräch', isCorrect: false },
+        { text: 'Gespreech', isCorrect: false }
+      ],
+      hints: {
+        de: 'Kommt von "sprechen", daher mit ä.',
+        en: 'Derived from "sprechen" (to speak), hence written with ä.',
       },
     }
   ],
@@ -1337,7 +1413,10 @@ export const wordDatabaseDE = {
     { id: 7, lcwc: true, difficulty: 2, word: 'Akustik' },
     { id: 8, lcwc: true, difficulty: 3, word: 'Symmetrie' },
     { id: 9, lcwc: true, difficulty: 2, word: 'Charisma' },
-    { id: 10, lcwc: true, difficulty: 3, word: 'Schizophrenie' }
+    { id: 10, lcwc: true, difficulty: 3, word: 'Schizophrenie' },
+    { id: 11, lcwc: true, difficulty: 3, word: 'Ressource' },
+    { id: 12, lcwc: true, difficulty: 3, word: 'Ausschreibung' },
+    { id: 13, lcwc: true, difficulty: 2, word: 'Bürokratie' }
   ],
 
   categorization: [
@@ -1350,7 +1429,9 @@ export const wordDatabaseDE = {
     { id: 7, difficulty: 2, instruction: 'Vorsilbe oder Nachsilbe?', buckets: [{ id: 'vor', label: 'Vorsilbe', icon: '⬅️' }, { id: 'nach', label: 'Nachsilbe', icon: '➡️' }], items: [{ id: 'i1', word: 'ver-', bucketId: 'vor' }, { id: 'i2', word: '-heit', bucketId: 'nach' }, { id: 'i3', word: 'be-', bucketId: 'vor' }, { id: 'i4', word: '-keit', bucketId: 'nach' }] },
     { id: 8, difficulty: 2, instruction: 'V als F oder W gesprochen?', buckets: [{ id: 'f', label: 'wie F', icon: '🗣️' }, { id: 'w', label: 'wie W', icon: '🗣️' }], items: [{ id: 'i1', word: 'Vater', bucketId: 'f' }, { id: 'i2', word: 'Vase', bucketId: 'w' }, { id: 'i3', word: 'Vogel', bucketId: 'f' }, { id: 'i4', word: 'Vampir', bucketId: 'w' }] },
     { id: 9, difficulty: 1, instruction: 'Vergangenheit oder Zukunft?', buckets: [{ id: 'past', label: 'Vergangenheit', icon: '⏪' }, { id: 'fut', label: 'Zukunft', icon: '⏩' }], items: [{ id: 'i1', word: 'gestern', bucketId: 'past' }, { id: 'i2', word: 'morgen', bucketId: 'fut' }, { id: 'i3', word: 'früher', bucketId: 'past' }, { id: 'i4', word: 'später', bucketId: 'fut' }] },
-    { id: 10, difficulty: 2, instruction: 'Positiv oder Negativ?', buckets: [{ id: 'pos', label: 'Positiv', icon: '👍' }, { id: 'neg', label: 'Negativ', icon: '👎' }], items: [{ id: 'i1', word: 'Erfolg', bucketId: 'pos' }, { id: 'i2', word: 'Fehler', bucketId: 'neg' }, { id: 'i3', word: 'Gewinn', bucketId: 'pos' }, { id: 'i4', word: 'Verlust', bucketId: 'neg' }] }
+    { id: 10, difficulty: 2, instruction: 'Positiv oder Negativ?', buckets: [{ id: 'pos', label: 'Positiv', icon: '👍' }, { id: 'neg', label: 'Negativ', icon: '👎' }], items: [{ id: 'i1', word: 'Erfolg', bucketId: 'pos' }, { id: 'i2', word: 'Fehler', bucketId: 'neg' }, { id: 'i3', word: 'Gewinn', bucketId: 'pos' }, { id: 'i4', word: 'Verlust', bucketId: 'neg' }] },
+    { id: 11, difficulty: 1, instruction: 'Tiere oder Pflanzen?', buckets: [{ id: 'tier', label: 'Tiere', icon: '🐕' }, { id: 'pflanze', label: 'Pflanzen', icon: '🌿' }], items: [{ id: 'i1', word: 'Hund', bucketId: 'tier' }, { id: 'i2', word: 'Baum', bucketId: 'pflanze' }, { id: 'i3', word: 'Katze', bucketId: 'tier' }, { id: 'i4', word: 'Blume', bucketId: 'pflanze' }] },
+    { id: 12, difficulty: 2, tags: ['business'], instruction: 'Abteilung zuordnen', buckets: [{ id: 'hr', label: 'Personal (HR)', icon: '👥' }, { id: 'it', label: 'IT', icon: '💻' }], items: [{ id: 'i1', word: 'Bewerbung', bucketId: 'hr' }, { id: 'i2', word: 'Server', bucketId: 'it' }, { id: 'i3', word: 'Urlaub', bucketId: 'hr' }, { id: 'i4', word: 'Software', bucketId: 'it' }] }
   ],
 
   dictation: [
@@ -1363,7 +1444,9 @@ export const wordDatabaseDE = {
     { id: 7, dictation: true, difficulty: 2, audioPrompt: 'Das Projekt war äußerst erfolgreich.', correct: 'Das Projekt war äußerst erfolgreich' },
     { id: 8, dictation: true, difficulty: 2, audioPrompt: 'Die Verantwortung liegt beim Chef.', correct: 'Die Verantwortung liegt beim Chef' },
     { id: 9, dictation: true, difficulty: 2, audioPrompt: 'Alle Mitarbeiter müssen teilnehmen.', correct: 'Alle Mitarbeiter müssen teilnehmen' },
-    { id: 10, dictation: true, difficulty: 1, audioPrompt: 'Die Entwicklung ist sehr positiv.', correct: 'Die Entwicklung ist sehr positiv' }
+    { id: 10, dictation: true, difficulty: 1, audioPrompt: 'Die Entwicklung ist sehr positiv.', correct: 'Die Entwicklung ist sehr positiv' },
+    { id: 11, dictation: true, difficulty: 2, audioPrompt: 'Die Rechnung muss bis Freitag bezahlt werden.', correct: 'Die Rechnung muss bis Freitag bezahlt werden' },
+    { id: 12, dictation: true, difficulty: 3, audioPrompt: 'Das Ergebnis der Analyse war sehr überraschend.', correct: 'Das Ergebnis der Analyse war sehr überraschend' }
   ],
 
   diagnostic: [

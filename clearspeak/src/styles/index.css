@@ -7,30 +7,23 @@
   --dyn-line-height: 1.75;
   --dyn-word-spacing: 0.20em;
   --dyn-letter-spacing: 0.08em;
-  --dyn-font-size: 14px; /* Domyślny rozmiar dla telefonów */
+  --dyn-font-size: 16px; /* Increased default size for phones */
   
-  /* Pełny mnożnik skali użytkownika dla małych ekranów */
+  /* Full user scale multiplier for small screens */
   --responsive-scale: var(--user-text-scale, 1);
 }
 
-/* Zwiększenie czcionki bazowej na tabletach i monitorach (od 768px szerokości) */
+/* Increase base font on tablets and monitors (from 768px width) */
 @media (min-width: 768px) {
   :root {
-    --dyn-font-size: 15px;
+    --dyn-font-size: 18px; /* Increased default size for computers */
     
-    /* Na dużych ekranach suwak działa o 50% słabiej, by zapobiec gigantycznym literom. 
-       Np. suwak na 150% powiększy tekst na komputerze tylko do 125%. */
+    /* On large screens, the slider effect is reduced by 50% to prevent giant letters. 
+       For example, 150% on slider will only enlarge text to 125% on desktop. */
     --responsive-scale: calc(1 + (var(--user-text-scale, 1) - 1) * 0.5);
   }
 
-  /* Zwiększenie czcionki na przyciskach w całej aplikacji */
-  button.text-xs { font-size: 0.85rem !important; }
-  button.text-sm { font-size: 1.0rem !important; }
-  button.text-base { font-size: 1.15rem !important; }
-  button.text-lg { font-size: 1.30rem !important; }
-  button.text-xl { font-size: 1.45rem !important; }
-
-  /* Ścieśnienie tekstu w Ogrodzie, by statystyki aktywności mieściły się w kafelkach */
+  /* Condense text in Garden so activity stats fit inside tiles */
   #garden-container * {
     letter-spacing: 0.02em !important;
     word-spacing: 0.05em !important;
@@ -40,19 +33,19 @@
 
 @layer base {
   html {
-    /* Skaluje główny root (rem) - dzięki temu klasy Tailwind (text-sm, text-base) będą poprawnie powiększać tekst i cały interfejs */
-    font-size: calc(var(--dyn-font-size) * var(--responsive-scale));
-    /* Blokada gumkowania (bounce/pull-to-refresh) na urządzeniach mobilnych */
+    /* Fixed root (rem) - keeps margins, paddings, and windows from scaling with the slider */
+    font-size: var(--dyn-font-size);
+    /* Block bouncing (pull-to-refresh) on mobile devices */
     overscroll-behavior: none;
   }
 
   * {
-    /* Przeniesione do selektora uniwersalnego, by proporcje 'em' liczyły się bezpośrednio od elementu docelowego */
+    /* Moved to the universal selector so 'em' proportions calculate directly from the target element */
     letter-spacing: var(--dyn-letter-spacing);
     word-spacing: var(--dyn-word-spacing);
     line-height: var(--dyn-line-height);
     
-    /* Zabezpieczenie layoutu przed pękaniem - wymusza przenoszenie zbyt długich wyrazów do nowej linii */
+    /* Protect layout from breaking - forces long words to break into new lines */
     overflow-wrap: break-word;
   }
 
@@ -64,8 +57,10 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     text-align: left !important;
-    /* Zablokowanie przeciągania pustego tła (iOS bounce) */
+    /* Block dragging empty background (iOS bounce) */
     overscroll-behavior: none;
+    /* Apply slider enlargement strictly to text */
+    font-size: calc(1rem * var(--responsive-scale));
   }
 
   em, i {
@@ -79,7 +74,7 @@
     outline-offset: 4px;
   }
 
-  /* Ukrywanie paska przewijania (scrollbara) dla czystszego, natywnego wyglądu PWA */
+  /* Hide scrollbar for a cleaner, native PWA look */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -87,4 +82,32 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
+}
+
+@layer utilities {
+  /* Handle custom (arbitrary) small fonts from Tailwind */
+  .text-\[9px\]  { font-size: calc(0.5625rem * var(--responsive-scale)) !important; }
+  .text-\[10px\] { font-size: calc(0.625rem * var(--responsive-scale)) !important; }
+
+  /* Override Tailwind text classes to react to our slider (scaling ONLY text) */
+  .text-xs   { font-size: calc(0.75rem * var(--responsive-scale)) !important; }
+  .text-sm   { font-size: calc(0.875rem * var(--responsive-scale)) !important; }
+  .text-base { font-size: calc(1rem * var(--responsive-scale)) !important; }
+  .text-lg   { font-size: calc(1.125rem * var(--responsive-scale)) !important; }
+  .text-xl   { font-size: calc(1.25rem * var(--responsive-scale)) !important; }
+  .text-2xl  { font-size: calc(1.5rem * var(--responsive-scale)) !important; }
+  .text-3xl  { font-size: calc(1.875rem * var(--responsive-scale)) !important; }
+  .text-4xl  { font-size: calc(2.25rem * var(--responsive-scale)) !important; }
+  .text-5xl  { font-size: calc(3rem * var(--responsive-scale)) !important; }
+  .text-6xl  { font-size: calc(3.75rem * var(--responsive-scale)) !important; }
+  .text-7xl  { font-size: calc(4.5rem * var(--responsive-scale)) !important; }
+  .text-8xl  { font-size: calc(6rem * var(--responsive-scale)) !important; }
+  .text-9xl  { font-size: calc(8rem * var(--responsive-scale)) !important; }
+
+  /* Scale sizes (width/height) for icons, checkboxes, and round buttons */
+  .scale-size-5  { width: calc(1.25rem * var(--responsive-scale)) !important; height: calc(1.25rem * var(--responsive-scale)) !important; }
+  .scale-size-9  { width: calc(2.25rem * var(--responsive-scale)) !important; height: calc(2.25rem * var(--responsive-scale)) !important; }
+  .scale-size-10 { width: calc(2.5rem * var(--responsive-scale)) !important; height: calc(2.5rem * var(--responsive-scale)) !important; }
+  .scale-size-11 { width: calc(2.75rem * var(--responsive-scale)) !important; height: calc(2.75rem * var(--responsive-scale)) !important; }
+  .scale-size-12 { width: calc(3rem * var(--responsive-scale)) !important; height: calc(3rem * var(--responsive-scale)) !important; }
 }

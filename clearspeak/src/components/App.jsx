@@ -7,7 +7,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Provider } from 'react-redux';
 import store from './store.js';
 
-// Zainicjowanie globalnego silnika i18next (nowa architektura)
+// Initialize global i18next engine (new architecture)
 import '../hooks/config.ts';
 
 import { useTranslation }  from '../i18n/i18n.js';
@@ -68,7 +68,7 @@ function AppContent() {
   // Vocabulary Loader Module
   const db = useVocabularyLoader(language);
 
-  // Synchronizacja globalnego stanu języka (PWA) z silnikiem i18next
+  // Synchronize global language state (PWA) with i18next engine
   useEffect(() => {
     import('i18next').then((i18next) => {
       if (i18next.default.language !== language) {
@@ -157,7 +157,7 @@ function AppContent() {
     root.setAttribute('data-a11y-minimalist', String(!!inclusiveOptions.minimalistMode));
     root.style.setProperty('--theme-accent', THEMES[theme]?.hex || '#10b981');
     
-    // Wyciąga z klas np. bg-[#F4F1EA] czysty kolor HEX i ustawia go jako zmienną dla gradientu
+    // Extracts HEX color from classes like bg-[#F4F1EA] and sets it as a variable for gradients
     const bgHex = THEMES[theme]?.bg?.match(/\[(.*?)\]/)?.[1] || '#FDFBF7';
     root.style.setProperty('--theme-bg', isHighContrast ? '#000000' : bgHex);
     
@@ -328,7 +328,7 @@ function AppContent() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 h-screen h-dvh overflow-hidden relative">
         
-        {/* Dyskretny gradient na górze ekranu (maskuje przewijany tekst) */}
+        {/* Subtle gradient at the top of the screen (masks scrolled text) */}
         <div 
           className="absolute top-0 left-0 right-0 h-10 pointer-events-none z-10" 
           style={{ background: 'linear-gradient(to bottom, var(--theme-bg) 0%, transparent)' }} 
@@ -374,7 +374,7 @@ function AppContent() {
                     <ProgressPill points={points % POINTS_PER_LEVEL} max={POINTS_PER_LEVEL} theme={theme} isGamified={true} t={t} isHighContrast={isHighContrast} />
                   ) : (
                     <>
-                      <div className={`w-10 h-10 shrink-0 rounded-full flex items-center justify-center text-sm font-black ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}>
+                      <div className={`scale-size-10 shrink-0 rounded-full flex items-center justify-center text-sm font-black ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}>
                         {Math.floor(points / POINTS_PER_LEVEL) + 1}
                       </div>
                       <ProgressPill points={points % POINTS_PER_LEVEL} max={POINTS_PER_LEVEL} theme={theme} isGamified={false} t={t} isHighContrast={isHighContrast} />
@@ -436,7 +436,7 @@ function AppContent() {
           )}
         </main>
         
-        {/* Dyskretny gradient zanikający (fade-out) na samym dole ekranu, podpowiadający o istnieniu paska scrolla */}
+        {/* Subtle fade-out gradient at the bottom, indicating scrollable content */}
         <div 
           className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none z-10" 
           style={{ background: 'linear-gradient(to top, var(--theme-bg) 5%, transparent)' }} 
@@ -484,8 +484,7 @@ function AppContent() {
           setShowFeedback(false);
           goNext(); 
         }}
-        className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors font-bold"
-        aria-label="Zamknij ankietę"
+        className="absolute top-4 right-4 z-10 scale-size-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors font-bold"
       >
         ✕
       </button>

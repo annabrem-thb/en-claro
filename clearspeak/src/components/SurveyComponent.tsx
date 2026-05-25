@@ -32,7 +32,7 @@ export const SurveyComponent: React.FC = () => {
   const { language, theme, a11yAddons, inclusiveOptions, userDifficulty, dailyGoal } = useAppSettings();
   const { isGamified } = useGamification();
   
-  // Pobieranie metody `t` natywnie z react-i18next
+  // Retrieve `t` method natively from react-i18next
   const { t } = useTranslation();
 
   // State definitions matching the schema requirements
