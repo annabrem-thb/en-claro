@@ -35,6 +35,8 @@ import ExerciseContainer from './ExerciseContainer.jsx';
 import { GamificationProvider, useGamification } from './GamificationContext.jsx';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
+import { SurveyComponent } from './SurveyComponent';
+
 // --- Global Constants & Configurations ---
 const POINTS_PER_LEVEL = 5;
 const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
@@ -435,16 +437,32 @@ function AppContent() {
       )}
 
       {/* Point 9: UX Metrics Micro-survey (NASA-TLX) */}
-      <FeedbackCollector 
-        open={showFeedback}
-        onSubmit={handleFeedbackSubmit}
-        onSkip={() => { setShowFeedback(false); goNext(); }}
-        t={t}
-        themeStyles={themeStyles}
-        isHighContrast={isHighContrast}
-        noFlash={noFlash}
-        bigTargets={bigTargets}
-      />
+{showFeedback && (
+  <div 
+    className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm"
+    role="dialog"
+    aria-modal="true"
+  >
+    {}
+    <div className="relative w-full max-w-2xl max-h-[95vh] overflow-y-auto rounded-3xl bg-white shadow-2xl animate-in zoom-in duration-300">
+      
+      {}
+      <button 
+        onClick={() => {
+          setShowFeedback(false);
+          goNext(); 
+        }}
+        className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors font-bold"
+        aria-label="Zamknij ankietę"
+      >
+        ✕
+      </button>
+
+      <SurveyComponent />
+      
+    </div>
+  </div>
+)}
 
       {/* Gentle Affirmative Toast Notification */}
       {affirmation && (

@@ -1,0 +1,60 @@
+{
+  "common": {
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "loading": "Ładowanie...",
+    "success": "Sukces!",
+    "error": "Wystąpił błąd.",
+    "close": "Zamknij"
+  },
+  "profile": {
+    "title": "Profil Użytkownika",
+    "welcome": "Witaj ponownie, {{name}}!",
+    "lastLogin": "Ostatnie logowanie:",
+    "balance": "Obecne saldo:",
+    "itemsCount_zero": "Nie masz żadnych przedmiotów w ekwipunku.",
+    "itemsCount_one": "Masz dokładnie jeden przedmiot w ekwipunku.",
+    "itemsCount_other": "Masz {{count}} przedmiotów w ekwipunku.",
+    "updateAvatar": "Zaktualizuj Awatar",
+    "membershipLevel": "Poziom Członkostwa: {{level}}"
+  },
+  "errors": {
+    "network": "Błąd połączenia sieciowego. Spróbuj ponownie.",
+    "unauthorized": "Nie masz uprawnień do przeglądania tej strony.",
+    "timeout": "Upłynął limit czasu żądania."
+  },
+  "feedback": {
+    "title": "Ankieta UX",
+    "desc": "Prosimy o podzielenie się z nami swoimi wrażeniami.",
+    "nasaTitle": "Obciążenie (NASA-TLX)",
+    "submit": "Zapisz i kontynuuj",
+    "thankYou": "Dziękujemy za Twoją opinię!",
+    "low": "Niski",
+    "high": "Wysoki",
+    "nasa": {
+      "mental": "Wysiłek umysłowy",
+      "mentalDesc": "Jak dużo aktywności umysłowej wymagało zadanie?",
+      "physical": "Wysiłek fizyczny",
+      "physicalDesc": "Jak dużo aktywności fizycznej wymagało zadanie?",
+      "temporal": "Wymagania czasowe",
+      "temporalDesc": "Jak bardzo odczuwalna była presja czasu?",
+      "performance": "Wydajność",
+      "performanceDesc": "Jak udane było według Ciebie wykonanie tego zadania?",
+      "effort": "Wysiłek ogólny",
+      "effortDesc": "Jak ciężko trzeba było pracować, aby osiągnąć ten poziom wydajności?",
+      "frustration": "Poziom frustracji",
+      "frustrationDesc": "Jak bardzo byłeś irytowany, zestresowany lub zniechęcony?"
+    },
+    "ueqTitle": "Wrażenia Użytkownika (UEQ-Short)",
+    "ueq": {
+      "obstructive": "Utrudniający", "supportive": "Wspierający",
+      "complicated": "Skomplikowany", "easy": "Łatwy",
+      "inefficient": "Nieefektywny", "efficient": "Efektywny",
+      "confusing": "Niezrozumiały", "clear": "Jasny",
+      "boring": "Nudny", "exciting": "Ekscytujący",
+      "notInteresting": "Nieciekawy", "interesting": "Ciekawy",
+      "conventional": "Konwencjonalny", "inventive": "Odkrywczy",
+      "usual": "Zwyczajny", "leadingEdge": "Nowatorski"
+    }
+  }
+}

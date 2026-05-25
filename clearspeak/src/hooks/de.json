@@ -1,0 +1,60 @@
+{
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "loading": "Laden...",
+    "success": "Erfolg!",
+    "error": "Ein Fehler ist aufgetreten.",
+    "close": "Schließen"
+  },
+  "profile": {
+    "title": "Benutzerprofil",
+    "welcome": "Willkommen zurück, {{name}}!",
+    "lastLogin": "Letzter Login:",
+    "balance": "Aktueller Kontostand:",
+    "itemsCount_zero": "Du hast keine Gegenstände im Inventar.",
+    "itemsCount_one": "Du hast genau einen Gegenstand im Inventar.",
+    "itemsCount_other": "Du hast {{count}} Gegenstände im Inventar.",
+    "updateAvatar": "Avatar aktualisieren",
+    "membershipLevel": "Mitgliedslevel: {{level}}"
+  },
+  "errors": {
+    "network": "Netzwerkverbindung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "unauthorized": "Sie sind nicht berechtigt, diese Seite anzuzeigen.",
+    "timeout": "Zeitüberschreitung der Anforderung."
+  },
+  "feedback": {
+    "title": "UX Umfrage",
+    "desc": "Bitte teilen Sie uns Ihre Erfahrungen mit.",
+    "nasaTitle": "Arbeitsbelastung (NASA-TLX)",
+    "submit": "Feedback Senden",
+    "thankYou": "Vielen Dank für Ihr Feedback!",
+    "low": "Niedrig",
+    "high": "Hoch",
+    "nasa": {
+      "mental": "Geistige Anforderung",
+      "mentalDesc": "Wie viel geistige Anstrengung war erforderlich?",
+      "physical": "Körperliche Anforderung",
+      "physicalDesc": "Wie viel körperliche Anstrengung war erforderlich?",
+      "temporal": "Zeitliche Anforderung",
+      "temporalDesc": "Wie viel Zeitdruck haben Sie empfunden?",
+      "performance": "Leistung",
+      "performanceDesc": "Wie erfolgreich waren Sie bei der Erfüllung der Aufgabe?",
+      "effort": "Anstrengung",
+      "effortDesc": "Wie hart mussten Sie arbeiten, um Ihr Leistungsniveau zu erreichen?",
+      "frustration": "Frustration",
+      "frustrationDesc": "Wie unsicher, entmutigt, gereizt oder gestresst waren Sie?"
+    },
+    "ueqTitle": "Benutzererfahrung (UEQ-Short)",
+    "ueq": {
+      "obstructive": "Hinderlich", "supportive": "Unterstützend",
+      "complicated": "Kompliziert", "easy": "Einfach",
+      "inefficient": "Ineffizient", "efficient": "Effizient",
+      "confusing": "Verwirrend", "clear": "Klar",
+      "boring": "Langweilig", "exciting": "Spannend",
+      "notInteresting": "Uninteressant", "interesting": "Interessant",
+      "conventional": "Konventionell", "inventive": "Erfinderisch",
+      "usual": "Gewöhnlich", "leadingEdge": "Führend"
+    }
+  }
+}

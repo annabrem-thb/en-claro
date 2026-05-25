@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 /**
- * Ładuje odpowiednią bazę słownictwa (Code Splitting) na podstawie wybranego języka.
+ * Loads the appropriate vocabulary database (Code Splitting) based on the selected language.
  */
 export function useVocabularyLoader(language) {
   const [db, setDb] = useState(null);

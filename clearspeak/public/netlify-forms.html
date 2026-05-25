@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Netlify Forms Definitions</title>
+</head>
+<body>
+  <!-- 
+    Hidden form exclusively for Netlify's build bots to parse.
+    The 'name' attribute must perfectly match the 'form-name' passed in the fetch POST request.
+  -->
+  <form name="ux-survey" data-netlify="true" netlify hidden>
+    <!-- NASA-TLX Metrics -->
+    <input type="number" name="mentalDemand" />
+    <input type="number" name="physicalDemand" />
+    <input type="number" name="temporalDemand" />
+    <input type="number" name="performance" />
+    <input type="number" name="effort" />
+    <input type="number" name="frustration" />
+    <!-- UEQ-Short Metrics -->
+    <input type="number" name="ueq1" />
+    <input type="number" name="ueq2" />
+    <input type="number" name="ueq3" />
+    <input type="number" name="ueq4" />
+    <input type="number" name="ueq5" />
+    <input type="number" name="ueq6" />
+    <input type="number" name="ueq7" />
+    <input type="number" name="ueq8" />
+  </form>
+</body>
+</html>

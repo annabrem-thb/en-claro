@@ -1,10 +1,23 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 
 export function useSafeTimeouts() {
-  const timeoutsRef = useRef([]);
+  const timeouts = useRef([]);
+  const isMounted = useRef(true);
 
-  // Funkcja do bezpiecznego dodawania opóźnień do kolejki
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+      // Immediately clear all active timeouts upon component unmount
+      timeouts.current.forEach(t => clearTimeout(t.id));
+      timeouts.current = [];
+    };
+  }, []);
+
   const setSafeTimeout = useCallback((callback, delay) => {
+    // Guard 1: Prevent queuing new timeouts if the component has unmounted
+    if (!isMounted.current) return null;
+
     const timeoutObj = {
       callback,
       remaining: delay,
@@ -13,28 +26,36 @@ export function useSafeTimeouts() {
     };
 
     const execute = () => {
-      // Usuwamy wywołany timer z tablicy
-      timeoutsRef.current = timeoutsRef.current.filter((t) => t !== timeoutObj);
+      // Guard 2: Prevent executing the callback if unmounted during the delay
+      if (!isMounted.current) return;
+      
+      // Release the reference immediately to allow garbage collection
+      timeouts.current = timeouts.current.filter(t => t !== timeoutObj);
       callback();
     };
 
     timeoutObj.execute = execute;
     timeoutObj.id = setTimeout(execute, delay);
-    timeoutsRef.current.push(timeoutObj);
+    timeouts.current.push(timeoutObj);
     
     return timeoutObj;
   }, []);
 
-  // Ręczne czyszczenie całej kolejki (np. w przypadku akcji użytkownika)
-  const clearAllTimeouts = useCallback(() => {
-    timeoutsRef.current.forEach((t) => clearTimeout(t.id));
-    timeoutsRef.current = [];
+  const clearSafeTimeout = useCallback((timeoutObj) => {
+    if (!timeoutObj || !timeoutObj.id) return;
+    clearTimeout(timeoutObj.id);
+    timeouts.current = timeouts.current.filter(t => t !== timeoutObj);
   }, []);
 
-  // Wstrzymanie wszystkich aktywnych timerów (Pauza)
+  const clearAllTimeouts = useCallback(() => {
+    timeouts.current.forEach(t => clearTimeout(t.id));
+    timeouts.current = [];
+  }, []);
+
   const pauseAllTimeouts = useCallback(() => {
+    if (!isMounted.current) return;
     const now = Date.now();
-    timeoutsRef.current.forEach((t) => {
+    timeouts.current.forEach(t => {
       if (t.id !== null) {
         clearTimeout(t.id);
         t.id = null;
@@ -43,10 +64,10 @@ export function useSafeTimeouts() {
     });
   }, []);
 
-  // Wznowienie wszystkich wstrzymanych timerów
   const resumeAllTimeouts = useCallback(() => {
+    if (!isMounted.current) return;
     const now = Date.now();
-    timeoutsRef.current.forEach((t) => {
+    timeouts.current.forEach(t => {
       if (t.id === null && t.remaining > 0) {
         t.startTime = now;
         t.id = setTimeout(t.execute, t.remaining);
@@ -56,10 +77,11 @@ export function useSafeTimeouts() {
     });
   }, []);
 
-  // Automatyczne czyszczenie (cleanup) przy odmontowaniu komponentu
-  useEffect(() => {
-    return () => clearAllTimeouts();
-  }, [clearAllTimeouts]);
-
-  return { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts };
+  return { 
+    setSafeTimeout, 
+    clearSafeTimeout, 
+    clearAllTimeouts, 
+    pauseAllTimeouts, 
+    resumeAllTimeouts 
+  };
 }

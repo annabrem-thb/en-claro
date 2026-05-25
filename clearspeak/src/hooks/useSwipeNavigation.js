@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
 /**
- * Rozpoznaje poziome gesty przesunięcia (swipe) i wyzwala odpowiednie akcje.
+ * Recognizes horizontal swipe gestures and triggers corresponding actions.
  */
 export function useSwipeNavigation({ onSwipeLeft, onSwipeRight, threshold = 50 }) {
   const touchStart = useRef(null);

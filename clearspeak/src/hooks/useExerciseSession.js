@@ -1,11 +1,12 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { seededShuffle } from '../utils/shuffleUtils.js';
 import { saveLog } from '../utils/indexedDB.js';
+import { useSafeTimeouts } from './useSafeTimeouts.js';
 
-// Globalna instancja w celu ominięcia rygorystycznych limitów AudioContext przeglądarek
+// Global instance to bypass strict browser AudioContext limits
 let sharedAudioCtx = null;
 
-// Funkcja syntezująca unikalne dźwięki sukcesu dla poszczególnych motywów
+// Function synthesizing unique success sounds for individual themes
 const playThemeSound = (theme) => {
   try {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -81,13 +82,15 @@ export function useExerciseSession({
   const [feedback, setFeedback] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  const { setSafeTimeout } = useSafeTimeouts();
+
   useEffect(() => {
     setIsTransitioning(true);
     const timer = setTimeout(() => setIsTransitioning(false), 300);
     return () => clearTimeout(timer);
   }, [currentIndex, activeTab, theme]);
   
-  // Automatyczny zapis indeksu bieżącego zadania do pamięci przeglądarki
+  // Automatic saving of the current task index to browser memory
   useEffect(() => {
     localStorage.setItem('idx', String(currentIndex));
   }, [currentIndex]);
@@ -132,28 +135,27 @@ export function useExerciseSession({
     setFeedback(null);
     if (activePillarTasks.length === 0) return;
     const length = activePillarTasks.length;
-    const currentSafe = currentIndex % length;
-    const nextIdx = currentSafe + 1;
-    if (nextIdx >= length) {
-      setCycle(c => c + 1);
-      setCurrentIndex(0);
-    } else {
-      setCurrentIndex(nextIdx);
-    }
-  }, [currentIndex, activePillarTasks.length]);
+    setCurrentIndex(prevIdx => {
+      const currentSafe = prevIdx % length;
+      const nextIdx = currentSafe + 1;
+      if (nextIdx >= length) {
+        setCycle(c => c + 1);
+        return 0;
+      }
+      return nextIdx;
+    });
+  }, [activePillarTasks.length]);
 
   const goPrev = useCallback(() => {
     setFeedback(null);
     if (activePillarTasks.length === 0) return;
     const length = activePillarTasks.length;
-    const currentSafe = currentIndex % length;
-    const prevIdx = currentSafe - 1;
-    if (prevIdx < 0) {
-      setCurrentIndex(length - 1);
-    } else {
-      setCurrentIndex(prevIdx);
-    }
-  }, [currentIndex, activePillarTasks.length]);
+    setCurrentIndex(prevIdx => {
+      const currentSafe = prevIdx % length;
+      const prevIdxCalc = currentSafe - 1;
+      return prevIdxCalc < 0 ? length - 1 : prevIdxCalc;
+    });
+  }, [activePillarTasks.length]);
 
   const handleSuccess = useCallback(() => {
     const newStreak = currentStreak + 1;
@@ -178,15 +180,15 @@ export function useExerciseSession({
       const todayStr = new Date().toDateString();
       setDailyProgress(prev => { const todayPoints = prev[todayStr]?.points || 0; return { ...prev, [todayStr]: { points: todayPoints + 1 } }; });
       setEarnedCoinsAnim(earnedCoins);
-      setTimeout(() => setEarnedCoinsAnim(null), 1500);
+      setSafeTimeout(() => setEarnedCoinsAnim(null), 1500);
       const pool = t.rewardItems?.[theme] || t.rewardItems?.Natur || ['⭐'];
       setRewards(prev => [...prev, pool[Math.floor(Math.random() * pool.length)]]);
-      if (newPoints % POINTS_PER_LEVEL === 0) { if (newPoints > 0 && newPoints % 10 === 0) setPendingFeedback(true); setTimeout(() => setShowSuccess(true), 1000); } else setTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
+      if (newPoints % POINTS_PER_LEVEL === 0) { if (newPoints > 0 && newPoints % 10 === 0) setPendingFeedback(true); setSafeTimeout(() => setShowSuccess(true), 1000); } else setSafeTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
     } else {
-      if (newPoints > 0 && newPoints % 10 === 0) setTimeout(() => setShowFeedback(true), inclusiveOptions.extendedTime ? 3000 : 1500); else setTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
+      if (newPoints > 0 && newPoints % 10 === 0) setSafeTimeout(() => setShowFeedback(true), inclusiveOptions.extendedTime ? 3000 : 1500); else setSafeTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
     }
     saveLog('exercise_history', { date: new Date().toISOString(), type: activeTab, correct: true }).catch(console.error);
-  }, [currentStreak, isGamified, dailyQuests, activeTab, updateQuests, t, speak, points, theme, setRewards, inclusiveOptions, setDailyProgress, userDifficulty, goNext, setCoins, setEarnedCoinsAnim, setPoints, setPendingFeedback, setShowSuccess, setShowFeedback, setUserDifficulty]);
+  }, [currentStreak, isGamified, dailyQuests, activeTab, updateQuests, t, speak, points, theme, setRewards, inclusiveOptions, setDailyProgress, userDifficulty, goNext, setCoins, setEarnedCoinsAnim, setPoints, setPendingFeedback, setShowSuccess, setShowFeedback, setUserDifficulty, setSafeTimeout]);
 
   const handleError = useCallback(() => {
     setErrorTimestamps(prev => [...prev, Date.now()]);

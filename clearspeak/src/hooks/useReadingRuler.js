@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
 /**
- * Zarządza pozycją interaktywnej "linijki skupienia" na podstawie ruchów myszy/palca w obszarze wybranego elementu.
+ * Manages the position of the interactive "focus ruler" based on mouse/finger movements within the selected element's area.
  */
 export function useReadingRuler(isActive) {
   const cardRef = useRef(null);

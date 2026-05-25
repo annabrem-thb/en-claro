@@ -7,7 +7,7 @@ export function useAffirmativeNotifications(points, language = 'pl') {
   const lastRewardedPoints = useRef(0);
 
   useEffect(() => {
-    // Zapobiega ponownemu odpaleniu tego samego komunikatu dla tych samych punktów
+    // Prevents firing the same message again for the same points
     if (points > 0 && points % 15 === 0 && points !== lastRewardedPoints.current) {
       const pool = t.affirmations || ["Great effort!"];
       const randomMsg = pool[Math.floor(Math.random() * pool.length)];
@@ -17,7 +17,7 @@ export function useAffirmativeNotifications(points, language = 'pl') {
     }
   }, [points, t.affirmations]);
 
-  // Niezależny licznik czasu - zapobiega "zawieszeniu" się Toasta po zdobyciu kolejnego punktu
+  // Independent timer - prevents the Toast from "hanging" after gaining another point
   useEffect(() => {
     if (affirmation) {
       const timer = setTimeout(() => setAffirmation(null), 6000);

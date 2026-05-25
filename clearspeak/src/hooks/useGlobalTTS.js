@@ -62,6 +62,9 @@ export function useGlobalTTS(language, extendedTime = false) {
   });
   const [voiceSpeed, setVoiceSpeed] = useState(() => Number(localStorage.getItem('cfg_voice_speed')) || 1.0);
   const [voicePitch, setVoicePitch] = useState(() => Number(localStorage.getItem('cfg_voice_pitch')) || 1.0);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [activeBoundary, setActiveBoundary] = useState(null);
 
   // Wymuszenie ładowania głosów w celu uniknięcia błędu z pustą tablicą na Androidzie/Chrome
   useEffect(() => {
@@ -73,6 +76,15 @@ export function useGlobalTTS(language, extendedTime = false) {
     if (window.speechSynthesis && window.speechSynthesis.onvoiceschanged !== undefined) {
       window.speechSynthesis.onvoiceschanged = updateVoices;
     }
+  }, []);
+
+  // Monitor TTS playback state globally
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsSpeaking(window.speechSynthesis?.speaking || false);
+      setIsPaused(window.speechSynthesis?.paused || false);
+    }, 200);
+    return () => clearInterval(interval);
   }, []);
 
   // Zapis do localStorage przy każdej zmianie parametrów
@@ -110,8 +122,40 @@ export function useGlobalTTS(language, extendedTime = false) {
     if (selectedVoice) {
       msg.voice = selectedVoice;
     }
+
+    // Track word boundaries for highlighting
+    msg.onstart = () => {
+      setActiveBoundary({ charIndex: 0, charLength: 0 });
+    };
+    msg.onboundary = (event) => {
+      if (event.name === 'word') {
+        setActiveBoundary({ charIndex: event.charIndex, charLength: event.charLength });
+      }
+    };
+    msg.onend = () => setActiveBoundary(null);
+    msg.onerror = () => setActiveBoundary(null);
+
     window.speechSynthesis.speak(msg);
   }, [language, extendedTime, selectedVoiceURIs, voiceSpeed, voicePitch, voices]);
 
-  return { speak, selectedVoiceURIs, setSelectedVoiceURIs, voiceSpeed, setVoiceSpeed, voicePitch, setVoicePitch };
+  const cancelTTS = useCallback(() => {
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      setActiveBoundary(null);
+    }
+  }, []);
+
+  const pauseTTS = useCallback(() => {
+    if (window.speechSynthesis) {
+      window.speechSynthesis.pause();
+    }
+  }, []);
+
+  const resumeTTS = useCallback(() => {
+    if (window.speechSynthesis) {
+      window.speechSynthesis.resume();
+    }
+  }, []);
+
+  return { speak, cancelTTS, pauseTTS, resumeTTS, isSpeaking, isPaused, activeBoundary, selectedVoiceURIs, setSelectedVoiceURIs, voiceSpeed, setVoiceSpeed, voicePitch, setVoicePitch };
 }
