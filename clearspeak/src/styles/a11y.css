@@ -22,7 +22,6 @@ html[data-a11y-motorik="true"] input[type="radio"],
 html[data-a11y-motorik="true"] select {
   min-height: 56px !important;
   min-width: 56px !important;
-  margin: 4px;
 }
 
 html[data-a11y-motorik="true"] *,

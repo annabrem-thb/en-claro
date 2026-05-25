@@ -23,6 +23,7 @@ function PhonemeExercise({
   bionicReading = false,
   zenMode = false,
   isHighContrast = false,
+  voiceAssistant = true, // Zawsze true z powodu wyjątku w App.jsx
 }) {
   const targetWord = data.word || '';
   const hintText = data.hints?.[language] || data.hints?.en || '';

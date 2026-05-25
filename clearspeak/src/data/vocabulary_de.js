@@ -1091,18 +1091,7 @@ export const wordDatabaseDE = {
   // Berufs- und Alltagswortschatz für Erwachsene.
   // ─────────────────────────────────────────────────────────────────────────────
   sequences: [
-    // Arbeitsgedächtnis
-    {
-      id: 'mem_span_1',
-      difficulty: 1,
-      instruction: 'Merke dir die Reihenfolge — jetzt umkehren!',
-      displayItems: ['📋', '💼', '✅'],
-      correct: ['✅', '💼', '📋'],
-      scrambled: ['📋', '💼', '✅'],
-      distractors: ['❌', '🛡️'],
-      displayTime: 3000,
-    },
-
+    
     // Chronologie & Semantik
     {
       id: 1,
@@ -1262,11 +1251,11 @@ export const wordDatabaseDE = {
       difficulty: 1,
       instruction: 'In welche Richtung zeigt der Pfeil?',
       items: [
-        { symbol: '→', target: 'right' },
-        { symbol: '←', target: 'left' },
-        { symbol: '→', target: 'right' },
-        { symbol: '→', target: 'right' },
-        { symbol: '←', target: 'left' },
+        { symbol: '➡️', target: 'right' },
+        { symbol: '⬅️', target: 'left' },
+        { symbol: '➡️', target: 'right' },
+        { symbol: '➡️', target: 'right' },
+        { symbol: '⬅️', target: 'left' },
       ],
       options: [
         { label: 'Links ⬅️', value: 'left' },
@@ -1289,16 +1278,16 @@ export const wordDatabaseDE = {
         { label: 'Rechts ➡️', value: 'right' },
       ],
     },
-    {
+      {
       id: 4,
       difficulty: 1,
-      instruction: 'In welche Richtung zeigt die Hand?',
+      instruction: 'In welche Richtung zeigt das Dreieck?',
       items: [
-        { symbol: '👈', target: 'left' },
-        { symbol: '👉', target: 'right' },
-        { symbol: '👈', target: 'left' },
-        { symbol: '👈', target: 'left' },
-        { symbol: '👉', target: 'right' },
+        { symbol: '◁', target: 'left' },
+        { symbol: '▷', target: 'right' },
+        { symbol: '▷', target: 'right' },
+        { symbol: '◁', target: 'left' },
+        { symbol: '▷', target: 'right' },
       ],
       options: [
         { label: 'Links ⬅️', value: 'left' },
@@ -1340,22 +1329,6 @@ export const wordDatabaseDE = {
     {
       id: 7,
       difficulty: 1,
-      instruction: 'Daumen hoch oder runter?',
-      items: [
-        { symbol: '👍', target: 'up' },
-        { symbol: '👎', target: 'down' },
-        { symbol: '👍', target: 'up' },
-        { symbol: '👍', target: 'up' },
-        { symbol: '👎', target: 'down' },
-      ],
-      options: [
-        { label: 'Hoch ⬆️', value: 'up' },
-        { label: 'Runter ⬇️', value: 'down' },
-      ],
-    },
-    {
-      id: 8,
-      difficulty: 1,
       instruction: 'Wo ist die eckige Klammer geöffnet?',
       items: [
         { symbol: '[', target: 'right' },
@@ -1370,23 +1343,7 @@ export const wordDatabaseDE = {
       ],
     },
     {
-      id: 9,
-      difficulty: 1,
-      instruction: 'In welche Richtung zeigt der senkrechte Pfeil?',
-      items: [
-        { symbol: '↑', target: 'up' },
-        { symbol: '↓', target: 'down' },
-        { symbol: '↑', target: 'up' },
-        { symbol: '↑', target: 'up' },
-        { symbol: '↓', target: 'down' },
-      ],
-      options: [
-        { label: 'Hoch ⬆️', value: 'up' },
-        { label: 'Runter ⬇️', value: 'down' },
-      ],
-    },
-    {
-      id: 10,
+      id: 8,
       difficulty: 1,
       instruction: 'In welche Richtung lehnt der Schrägstrich?',
       items: [

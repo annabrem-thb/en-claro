@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import BionicText from './common/BionicText.jsx';
 
 const LANGUAGES = [
   { code: 'de', flag: '🇩🇪', label: 'Deutsch' },
@@ -53,7 +54,7 @@ function IntroScreen({
   const A11yBtn = ({ active, onClick, icon, label }) => (
     <button 
       onClick={onClick} 
-      className={`${bigTargets ? 'py-3' : 'py-2 sm:py-2.5'} px-1 rounded-xl border-2 font-bold text-[10px] sm:text-[11px] leading-tight transition-all flex flex-col items-center justify-center gap-1 active:scale-95 ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm') : (isHighContrast ? 'border-white/30 text-white/50 hover:border-white/50' : 'border-slate-100 text-slate-500 hover:border-slate-300')}`}
+      className={`${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} px-1 rounded-xl border-2 font-bold text-[10px] sm:text-[11px] leading-tight transition-all flex flex-col items-center justify-center gap-1 active:scale-95 ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm') : (isHighContrast ? 'border-white/30 text-white/50 hover:border-white/50' : 'border-slate-100 text-slate-500 hover:border-slate-300')}`}
     >
       <span aria-hidden="true" className="text-lg sm:text-xl mb-0.5">{icon}</span>
       <span className="text-center">{label}</span>
@@ -70,32 +71,32 @@ function IntroScreen({
       />
 
       {/* Main Glassmorphism Panel: Protective "glass" card ensuring high contrast for LRS users */}
-      <div className={`relative z-10 flex flex-col items-center w-full max-w-lg px-5 sm:px-8 py-6 sm:py-8 rounded-[2rem] shadow-2xl text-center transition-all max-h-[98vh] overflow-y-auto ${
+      <div className={`relative z-10 flex flex-col items-center w-full max-w-lg px-5 sm:px-8 py-4 sm:py-6 rounded-[2rem] shadow-2xl text-center transition-all max-h-[98vh] overflow-y-auto ${
         isHighContrast 
           ? 'bg-black border-2 border-white' 
           : 'bg-white/90 backdrop-blur-md border border-slate-200'
       }`}>
 
         <div className={`w-full flex flex-col items-center ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
-          <div className="text-5xl sm:text-6xl mb-3 drop-shadow-lg" aria-hidden="true">🧠</div>
+          <div className="text-5xl sm:text-6xl mb-1 drop-shadow-lg" aria-hidden="true">🧠</div>
 
-          <h1 className={`text-3xl sm:text-4xl font-black mb-2 tracking-tighter drop-shadow-md ${isHighContrast ? 'text-white' : 'text-indigo-700'}`}>
+          <h1 className={`text-3xl sm:text-4xl font-black mb-1 tracking-tighter drop-shadow-md ${isHighContrast ? 'text-white' : 'text-indigo-700'}`}>
             {t('appTitle', 'Claro')}
           </h1>
           
-          <p className={`text-xs sm:text-sm font-bold mb-4 max-w-sm leading-snug ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>
+          <p className={`text-xs sm:text-sm font-bold mb-2 max-w-sm leading-snug ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>
             {t('intro.subtitle', 'Your safe space to grow! Choose mode and tools:')}
           </p>
 
-            <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1.5 w-full text-left sm:text-center">
+            <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center">
               {t('intro.chooseLanguage', 'Language')}
             </p>
-            <div className="grid grid-cols-3 gap-2 mb-4 w-full">
+            <div className="grid grid-cols-3 gap-1.5 mb-2 w-full">
               {LANGUAGES.map(({ code, flag, label }) => (
                 <button
                   key={code}
                   onClick={() => setLanguage(code)}
-                  className={`flex flex-row items-center justify-center gap-2 rounded-xl border-2 font-bold text-[11px] sm:text-xs transition-all active:scale-95 ${bigTargets ? 'py-3.5' : 'py-2.5 sm:py-3'} ${
+                  className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 font-bold text-[11px] sm:text-xs transition-all active:scale-95 ${bigTargets ? 'py-3' : 'py-2 sm:py-2.5'} ${
                     language === code
                       ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-md shadow-indigo-500/10'}`
                       : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300'}`
@@ -109,13 +110,13 @@ function IntroScreen({
               ))}
             </div>
 
-            <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1.5 w-full text-left sm:text-center">
+            <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center">
               {t('intro.appMode', 'Mode')}
             </p>
-            <div className="grid grid-cols-2 gap-2 mb-4 w-full">
+            <div className="grid grid-cols-2 gap-1.5 mb-2 w-full">
               <button
                 onClick={() => setIsGamified(false)}
-                className={`flex flex-row items-center justify-center gap-2 rounded-xl border-2 font-bold text-[11px] sm:text-xs transition-all active:scale-95 ${bigTargets ? 'py-3' : 'py-2 sm:py-2.5'} ${
+                className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 font-bold text-[11px] sm:text-xs transition-all active:scale-95 ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
                   !isGamified
                     ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-md'}`
                     : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300'}`
@@ -127,7 +128,7 @@ function IntroScreen({
               </button>
               <button
                 onClick={() => setIsGamified(true)}
-                className={`flex flex-row items-center justify-center gap-2 rounded-xl border-2 font-bold text-[11px] sm:text-xs transition-all active:scale-95 ${bigTargets ? 'py-3' : 'py-2 sm:py-2.5'} ${
+                className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 font-bold text-[11px] sm:text-xs transition-all active:scale-95 ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
                   isGamified
                     ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md'}`
                     : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-emerald-300'}`
@@ -139,10 +140,10 @@ function IntroScreen({
               </button>
             </div>
 
-            <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1.5 w-full text-left sm:text-center">
+            <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center">
               {t('intro.a11y', 'Comfort Tools')}
             </p>
-            <div className="grid grid-cols-3 gap-2 mb-6 w-full">
+            <div className="grid grid-cols-3 gap-1.5 mb-3 w-full">
               <A11yBtn active={hasLRS} onClick={() => toggleAddon('LRS')} icon="🅰️" label={t('intro.lrs', 'Friendly Font')} />
               <A11yBtn active={hasSpacing} onClick={() => toggleAddon('Spacing')} icon="🔠" label={t('intro.spacing', 'More Spacing')} />
               <A11yBtn active={hasVision} onClick={() => toggleAddon('Niedowidzenie')} icon="🔍" label={t('intro.vision', 'Bigger Text')} />
@@ -160,10 +161,18 @@ function IntroScreen({
               <A11yBtn active={hasZen} onClick={() => toggleInclusive('zenMode')} icon="🧘" label={t('intro.zen', 'Zen Mode')} />
             </div>
 
+            {/* --- KOMUNIKAT O ZALECANEJ PRZEGLĄDARCE --- */}
+            <div className={`mt-1 mb-2 p-2.5 sm:p-3 rounded-2xl flex items-center gap-3 border-2 text-left transition-colors ${isHighContrast ? 'bg-black border-white/50 text-white' : 'bg-blue-50 border-blue-200 text-blue-800'}`}>
+              <span className="text-xl sm:text-2xl shrink-0 drop-shadow-sm" aria-hidden="true">💡</span>
+              <p className="text-xs sm:text-sm font-medium leading-snug">
+                <BionicText text={t('intro.browserWarning', 'Dla najlepszej jakości asystenta głosowego zalecamy korzystanie z przeglądarki Google Chrome.')} enabled={!!inclusiveOptions?.bionicReading} />
+              </p>
+            </div>
+
             <button
               onClick={onStart}
-              className={`w-full font-black uppercase tracking-widest transition-all active:scale-95 rounded-2xl mt-2 ${
-                bigTargets ? 'py-5 text-lg sm:text-xl' : 'py-3.5 sm:py-4 text-base sm:text-lg'
+              className={`w-full font-black uppercase tracking-widest transition-all active:scale-95 rounded-2xl mt-1 ${
+                bigTargets ? 'py-4 text-lg sm:text-xl' : 'py-2.5 sm:py-3 text-base sm:text-lg'
               } ${isHighContrast ? 'bg-emerald-400 text-black hover:bg-emerald-300' : 'bg-emerald-500 hover:bg-emerald-400 text-white shadow-xl shadow-emerald-900/60'}`}
             >
             {t('start', 'Start')}

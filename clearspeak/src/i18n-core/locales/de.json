@@ -19,7 +19,8 @@
     "desaturation": "Sanfte Farben",
     "bionic": "Bionic",
     "voice": "Assistent",
-    "zen": "Zen-Modus"
+    "zen": "Zen-Modus",
+    "browserWarning": "Für die beste Qualität des Sprachassistenten empfehlen wir die Nutzung von Google Chrome."
   },
   "start": "Start",
   "done": "Fertig",
@@ -480,7 +481,7 @@
   "pillarIcons": {
     "Literacy": "📖",
     "Visual": "👁️",
-    "Cognitive": ""
+    "Cognitive": "🧩"
   },
   "categories": {
     "Phonem": "Wort: Laute",

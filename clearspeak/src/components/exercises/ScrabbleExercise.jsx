@@ -23,6 +23,7 @@ function ScrabbleExercise({
   extendedTime = false,
   bionicReading = false,
   zenMode = false,
+  voiceAssistant = true, // Zawsze true z powodu wyjątku w App.jsx
 }) {
   const [userScrabble, setUserScrabble] = useState([]);
   const [activeHighlight, setActiveHighlight] = useState(null);

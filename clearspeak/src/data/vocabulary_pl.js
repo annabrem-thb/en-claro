@@ -1424,17 +1424,7 @@ export const wordDatabasePL = {
   ],
 
   sequences: [
-    {
-      id: 'mem_span_1',
-      difficulty: 1,
-      instruction: 'Ułóż elementy od końca!',
-      displayItems: ['📋', '💰', '✅'],
-      correct: ['✅', '💰', '📋'],
-      scrambled: ['📋', '💰', '✅', '❌', '🛡️'],
-      displayTime: 3000,
-    },
-
-    {
+       {
       id: 1,
       difficulty: 1,
       instruction: 'Ułóż dni robocze tygodnia po kolei',
@@ -1600,22 +1590,6 @@ export const wordDatabasePL = {
     {
       id: 4,
       difficulty: 1,
-      instruction: 'W którą stronę skierowany jest palec?',
-      items: [
-        { symbol: '👈', target: 'left' },
-        { symbol: '👉', target: 'right' },
-        { symbol: '👈', target: 'left' },
-        { symbol: '👈', target: 'left' },
-        { symbol: '👉', target: 'right' },
-      ],
-      options: [
-        { label: 'Lewa ⬅️', value: 'left' },
-        { label: 'Prawa ➡️', value: 'right' },
-      ],
-    },
-    {
-      id: 5,
-      difficulty: 1,
       instruction: 'Przeczytaj słowo i wskaż odpowiedni kierunek',
       items: [
         { symbol: 'PRAWA', target: 'right' },
@@ -1648,22 +1622,6 @@ export const wordDatabasePL = {
     {
       id: 7,
       difficulty: 1,
-      instruction: 'Kciuk w górę czy w dół?',
-      items: [
-        { symbol: '👍', target: 'up' },
-        { symbol: '👎', target: 'down' },
-        { symbol: '👍', target: 'up' },
-        { symbol: '👍', target: 'up' },
-        { symbol: '👎', target: 'down' },
-      ],
-      options: [
-        { label: 'Góra ⬆️', value: 'up' },
-        { label: 'Dół ⬇️', value: 'down' },
-      ],
-    },
-    {
-      id: 8,
-      difficulty: 1,
       instruction: 'Gdzie są otwarte te nawiasy kwadratowe?',
       items: [
         { symbol: '[', target: 'right' },
@@ -1678,23 +1636,7 @@ export const wordDatabasePL = {
       ],
     },
     {
-      id: 9,
-      difficulty: 1,
-      instruction: 'W którą stronę wskazuje strzałka pionowa?',
-      items: [
-        { symbol: '↑', target: 'up' },
-        { symbol: '↓', target: 'down' },
-        { symbol: '↑', target: 'up' },
-        { symbol: '↑', target: 'up' },
-        { symbol: '↓', target: 'down' },
-      ],
-      options: [
-        { label: 'Góra ⬆️', value: 'up' },
-        { label: 'Dół ⬇️', value: 'down' },
-      ],
-    },
-    {
-      id: 10,
+      id: 8,
       difficulty: 1,
       instruction: 'W którą stronę pochylona jest kreska?',
       items: [
@@ -1807,6 +1749,21 @@ export const wordDatabasePL = {
         { id: 'i2', word: 'Marchew', bucketId: 'warz' },
         { id: 'i3', word: 'Gruszka', bucketId: 'owoc' },
         { id: 'i4', word: 'Cebula', bucketId: 'warz' }
+      ]
+    },
+    {
+      id: 12,
+      difficulty: 2,
+      instruction: 'Pozytywne czy Negatywne?',
+      buckets: [
+        { id: 'pos', label: 'Pozytywne', icon: '👍' },
+        { id: 'neg', label: 'Negatywne', icon: '👎' }
+      ],
+      items: [
+        { id: 'i1', word: 'Sukces', bucketId: 'pos' },
+        { id: 'i2', word: 'Porażka', bucketId: 'neg' },
+        { id: 'i3', word: 'Zysk', bucketId: 'pos' },
+        { id: 'i4', word: 'Strata', bucketId: 'neg' }
       ]
     }
   ],

@@ -13,7 +13,7 @@ import TTSController from '../common/TTSController';
  * 2. Cover & Write: The word is hidden, and the user types it from working memory.
  * 3. Check: The app automatically compares the input with the target word.
  */
-export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t: propT, speak, extendedTime, bigTargets }) {
+export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t: propT, speak, extendedTime, bigTargets, voiceAssistant = true }) {
   const [phase, setPhase] = useState('look');
   const [userInput, setUserInput] = useState('');
   

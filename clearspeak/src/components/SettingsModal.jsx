@@ -132,6 +132,7 @@ function SettingsModal({
   const [userSelectedTab, setUserSelectedTab] = useState('general');
 
   const bionicReading = !!inclusiveOptions?.bionicReading;
+  const voiceAssistantActive = !!inclusiveOptions?.voiceAssistant;
 
   // If gamification is turned off while the user is on the "Game" tab,
   // derive the active tab to be "general" to avoid showing an empty screen.
@@ -402,28 +403,6 @@ function SettingsModal({
                 </div>
               </section>
 
-              {/* ── 2.5. TEXT SIZE ────────────────────────────────────────────── */}
-              <section>
-                <SectionLabel isHighContrast={isHighContrast} sub={s.textSizeDesc} bionicReading={bionicReading}>{s.textSize}</SectionLabel>
-                <div className={`flex flex-col gap-2 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 ${isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100'}`}>
-                  <div className="flex items-center gap-4 mt-2">
-                    <span className={`text-base font-bold ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}>A</span>
-                    <input
-                      type="range"
-                      min="80"
-                      max="150"
-                      step="5"
-                      value={textScale}
-                      onChange={(e) => setTextScale(Number(e.target.value))}
-                      className={`w-full cursor-pointer rounded-lg appearance-none ${isHighContrast ? 'bg-white/30 accent-white' : 'bg-slate-200 accent-indigo-600'} ${bigTargets ? 'h-4' : 'h-2'}`}
-                    />
-                    <span className={`text-2xl font-bold ${isHighContrast ? 'text-white' : 'text-slate-600'}`}>A</span>
-                  </div>
-                  <div className={`text-right text-xs font-bold mt-1 ${isHighContrast ? 'text-white' : 'text-indigo-500'}`}>
-                    {textScale}%
-                  </div>
-                </div>
-              </section>
             </div>
           )}
 
@@ -483,8 +462,6 @@ function SettingsModal({
                     );
                   })}
 
-                  <div className={`h-px my-2 sm:col-span-2 ${isHighContrast ? 'bg-white/20' : 'bg-slate-200'}`} />
-
                   {[
                     { key: 'bionicReading', icon: '👁️', color: 'teal', tags: ['wzrok', 'bionic'], fallbackName: 'Bionic Reading', fallbackDesc: 'Pogrubia początki wyrazów ułatwiając fiksację wzroku.' },
                     { key: 'voiceAssistant', icon: '🗣️', color: 'violet', tags: ['słuch', 'asystent'], fallbackName: 'Asystent Głosowy', fallbackDesc: 'Odczytuje polecenia i pozwala na sterowanie głosem.' },
@@ -538,6 +515,29 @@ function SettingsModal({
                     );
                   })}
                 </div>
+          </section>
+
+          {/* ── 2.5. TEXT SIZE ────────────────────────────────────────────── */}
+          <section>
+            <SectionLabel isHighContrast={isHighContrast} sub={s.textSizeDesc} bionicReading={bionicReading}>{s.textSize}</SectionLabel>
+            <div className={`flex flex-col gap-2 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 ${isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100'}`}>
+              <div className="flex items-center gap-4 mt-2">
+                <span className={`text-base font-bold ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}>A</span>
+                <input
+                  type="range"
+                  min="80"
+                  max="150"
+                  step="5"
+                  value={textScale}
+                  onChange={(e) => setTextScale(Number(e.target.value))}
+                  className={`w-full cursor-pointer rounded-lg appearance-none ${isHighContrast ? 'bg-white/30 accent-white' : 'bg-slate-200 accent-indigo-600'} ${bigTargets ? 'h-4' : 'h-2'}`}
+                />
+                <span className={`text-2xl font-bold ${isHighContrast ? 'text-white' : 'text-slate-600'}`}>A</span>
+              </div>
+              <div className={`text-right text-xs font-bold mt-1 ${isHighContrast ? 'text-white' : 'text-indigo-500'}`}>
+                {textScale}%
+              </div>
+            </div>
               </section>
             </div>
           )}
@@ -589,10 +589,16 @@ function SettingsModal({
                   
                     <button
                       onClick={handleTestVoice}
-                      className={`w-full ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} rounded-xl font-bold transition-colors shadow-sm active:scale-[0.98] flex items-center justify-center gap-2 ${isHighContrast ? 'bg-black border border-white text-white hover:bg-white/20' : 'bg-white border border-slate-200 text-indigo-600 hover:border-indigo-300 hover:bg-indigo-50'}`}
+                      disabled={!voiceAssistantActive}
+                      className={`w-full ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} rounded-xl font-bold transition-colors shadow-sm flex items-center justify-center gap-2 ${!voiceAssistantActive ? 'opacity-50 grayscale cursor-not-allowed' : 'active:scale-[0.98]'} ${isHighContrast ? 'bg-black border border-white text-white hover:bg-white/20' : 'bg-white border border-slate-200 text-indigo-600 hover:border-indigo-300 hover:bg-indigo-50'}`}
                     >
                       <span className="text-base">🔊</span> {s.testVoice}
                     </button>
+                    {!voiceAssistantActive && (
+                      <p className={`text-[10px] text-center mt-3 font-medium ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}>
+                        {language === 'pl' ? 'Włącz Asystenta w zakładce Komfort, aby przetestować głos.' : language === 'de' ? 'Assistenten im Reiter Komfort aktivieren, um zu testen.' : 'Enable Assistant in Comfort tab to test.'}
+                      </p>
+                    )}
                   </div>
     
                   {/* Voice Selection (only if extra voices available) */}

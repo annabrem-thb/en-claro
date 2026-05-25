@@ -19,7 +19,8 @@
     "desaturation": "Soft colors",
     "bionic": "Bionic",
     "voice": "Voice Assist",
-    "zen": "Zen Mode"
+    "zen": "Zen Mode",
+    "browserWarning": "For the best voice assistant quality, we recommend using Google Chrome."
   },
   "start": "Start",
   "done": "Done",

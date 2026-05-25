@@ -225,6 +225,18 @@ function AppContent() {
       return <SkeletonLoader isHighContrast={isHighContrast} />;
     }
 
+    // Voice Assistant Mode Logic
+    // Voice icons (TTS & Mic) are only active if the Voice Assistant is enabled in settings,
+    // EXCEPT for these 4 exercises which always require voice functionality:
+    const isVoiceException = !!(
+      currentTask?.dictation || // Zapis: Dyktanda
+      currentTask?.lcwc ||      // Zapis: Pamięć (Spójrz na słowo...)
+      currentTask?.phonetic ||  // Słowo: Dźwięki (Phonem)
+      currentTask?.scrambled    // Zapis: Synteza (Scrabble)
+    );
+    
+    const voiceAssistantActive = !!inclusiveOptions.voiceAssistant || isVoiceException;
+
     const commonProps = {
       themeStyles, speak, t, language,
       onSuccess: handleSuccess,
@@ -235,6 +247,7 @@ function AppContent() {
       bionicReading: !!inclusiveOptions.bionicReading,
       zenMode:       !!inclusiveOptions.zenMode,
       isHighContrast,
+      voiceAssistant: voiceAssistantActive,
     };
     return <ExerciseContainer
       key={`${activeTab}-${currentIndex}`}

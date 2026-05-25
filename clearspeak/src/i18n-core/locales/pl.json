@@ -19,7 +19,8 @@
     "desaturation": "Łagodne barwy",
     "bionic": "Bionic",
     "voice": "Asystent",
-    "zen": "Tryb Zen"
+    "zen": "Tryb Zen",
+    "browserWarning": "Dla najlepszej jakości asystenta głosowego zalecamy korzystanie z przeglądarki Google Chrome."
   },
   "start": "Rozpocznij",
   "done": "Gotowe",

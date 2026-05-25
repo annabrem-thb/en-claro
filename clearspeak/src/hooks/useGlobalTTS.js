@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export const TTS_EXCEPTIONS = {
   pl: {
@@ -65,7 +65,6 @@ export function useGlobalTTS(language, extendedTime = false) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [activeBoundary, setActiveBoundary] = useState(null);
-  const audioRef = useRef(null);
 
   // Force loading voices to avoid empty array bug on Android/Chrome
   useEffect(() => {
@@ -82,7 +81,6 @@ export function useGlobalTTS(language, extendedTime = false) {
   // Monitor TTS playback state globally
   useEffect(() => {
     const interval = setInterval(() => {
-      if (audioRef.current) return; // If playing from cloud, we manage state manually
       setIsSpeaking(window.speechSynthesis?.speaking || false);
       setIsPaused(window.speechSynthesis?.paused || false);
     }, 200);
@@ -96,51 +94,12 @@ export function useGlobalTTS(language, extendedTime = false) {
     localStorage.setItem('cfg_voice_pitch', String(voicePitch));
   }, [selectedVoiceURIs, voiceSpeed, voicePitch]);
 
-  const speak = useCallback(async (text, slow = false) => {
-    // Cancel old playbacks
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
+  const speak = useCallback((text, slow = false) => {
     window.speechSynthesis?.cancel();
 
     const textToSpeak = getTTSException(text, language);
     const finalSpeed = (slow || extendedTime) ? voiceSpeed * 0.65 : voiceSpeed;
 
-    try {
-      // Attempt to play clear voice from the cloud via Netlify
-      const response = await fetch('/.netlify/functions/synthesize-speech', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text: textToSpeak,
-          languageCode: language === 'pl' ? 'pl-PL' : language === 'de' ? 'de-DE' : 'en-US',
-          // Using professional Wavenet voices (neural networks)
-          voiceName: language === 'pl' ? 'pl-PL-Wavenet-B' : language === 'de' ? 'de-DE-Wavenet-B' : 'en-US-Wavenet-D',
-          speed: finalSpeed,
-          // Google API pitch scale is from -20.0 to 20.0 (default 0.0)
-          pitch: (voicePitch - 1.0) * 10 
-        })
-      });
-
-      if (!response.ok) throw new Error('Cloud TTS niedostępne');
-
-      const { audioContent } = await response.json();
-      const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
-      
-      audioRef.current = audio;
-      
-      audio.onplay = () => { setIsSpeaking(true); setActiveBoundary({ charIndex: 0, charLength: textToSpeak.length }); };
-      audio.onended = () => { setIsSpeaking(false); setActiveBoundary(null); };
-      audio.onerror = () => { setIsSpeaking(false); setActiveBoundary(null); };
-      
-      await audio.play();
-      return; // Played successfully, end of procedure!
-    } catch (error) {
-      console.warn("Cloud TTS unavailable. Falling back to built-in offline browser TTS.", error.message);
-    }
-
-    // --- FALLBACK (Web Speech API) ---
     if (!window.speechSynthesis) return;
 
     const msg  = new SpeechSynthesisUtterance(textToSpeak);
@@ -182,11 +141,6 @@ export function useGlobalTTS(language, extendedTime = false) {
   }, [language, extendedTime, selectedVoiceURIs, voiceSpeed, voicePitch, voices]);
 
   const cancelTTS = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-      setIsSpeaking(false);
-    }
     if (window.speechSynthesis) {
       window.speechSynthesis.cancel();
       setActiveBoundary(null);
@@ -194,20 +148,12 @@ export function useGlobalTTS(language, extendedTime = false) {
   }, []);
 
   const pauseTTS = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      setIsPaused(true);
-    }
     if (window.speechSynthesis) {
       window.speechSynthesis.pause();
     }
   }, []);
 
   const resumeTTS = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.play();
-      setIsPaused(false);
-    }
     if (window.speechSynthesis) {
       window.speechSynthesis.resume();
     }
