@@ -81,14 +81,14 @@ function PhonemeExercise({
 
   const animClass = noFlash ? '' : 'animate-in zoom-in duration-500';
   const controlBtnSize = bigTargets
-    ? 'w-24 h-24 text-4xl'
-    : 'w-20 h-20 text-3xl';
-  const wordSize = bigTargets ? 'text-6xl sm:text-7xl' : 'text-5xl sm:text-6xl';
+    ? 'w-16 h-16 sm:w-24 sm:h-24 text-3xl sm:text-4xl'
+    : 'w-12 h-12 sm:w-20 sm:h-20 text-2xl sm:text-3xl';
+  const wordSize = bigTargets ? 'text-5xl sm:text-7xl' : 'text-4xl sm:text-6xl';
 
   return (
     <div className={`${animClass} flex w-full max-w-md flex-col items-center`}>
       {!zenMode && (
-        <h3 className={`mb-8 text-center text-xs md:text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}>
+        <h3 className={`mb-6 sm:mb-8 text-center text-[10px] sm:text-xs md:text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}>
           {t.categories?.Phonem || 'Phonemes'}
         </h3>
       )}
@@ -112,13 +112,13 @@ function PhonemeExercise({
       </div>
 
       {data.phonetic && (
-        <div className={`mb-8 rounded-xl border px-4 py-2 font-mono text-xl font-bold tracking-widest ${isHighContrast ? 'bg-black border-white text-white' : 'border-slate-100 bg-slate-50 text-slate-400'}`}>
+        <div className={`mb-6 sm:mb-8 rounded-xl border px-3 py-1.5 sm:px-4 sm:py-2 font-mono text-lg sm:text-xl font-bold tracking-widest ${isHighContrast ? 'bg-black border-white text-white' : 'border-slate-100 bg-slate-50 text-slate-400'}`}>
           {data.phonetic}
         </div>
       )}
 
       {!zenMode && hintText && (
-        <div className={`mb-12 px-4 text-center leading-relaxed font-medium transition-all duration-300 ${
+        <div className={`mb-8 sm:mb-12 px-4 text-center text-sm sm:text-base leading-relaxed font-medium transition-all duration-300 ${
           activeHighlight === 'hint' ? (isHighContrast ? 'text-white scale-105' : 'text-yellow-600 scale-105 drop-shadow-sm') : (isHighContrast ? 'text-white/70' : 'text-slate-500')
         }`}>
           💡 <BionicText text={hintText} enabled={bionicReading} />
@@ -138,7 +138,7 @@ function PhonemeExercise({
       <div className="mt-4 flex shrink-0 justify-center">
         <button
           onClick={onSuccess}
-          className={`rounded-full border-2 bg-transparent px-6 py-3 text-xs md:text-sm font-black tracking-widest uppercase transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-slate-600'}`}
+          className={`rounded-full border-2 bg-transparent px-5 py-2.5 sm:px-6 sm:py-3 text-[10px] sm:text-xs md:text-sm font-black tracking-widest uppercase transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-slate-600'}`}
           aria-label={t.skipPronunciation}
         >
           {t.done || 'Done'}

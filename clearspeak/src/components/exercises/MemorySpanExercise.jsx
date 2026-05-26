@@ -175,11 +175,11 @@ function MemorySpanExercise({
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
   const popAnim = noFlash ? '' : 'animate-in pop-in';
   const pulseClass = noFlash ? '' : 'animate-pulse';
-  const tileSize = bigTargets ? 'w-24 h-28' : 'w-20 h-24';
-  const tileText = bigTargets ? 'text-5xl' : 'text-4xl';
+  const tileSize = bigTargets ? 'w-20 h-24 sm:w-24 sm:h-28' : 'w-16 h-20 sm:w-20 sm:h-24';
+  const tileText = bigTargets ? 'text-4xl sm:text-5xl' : 'text-3xl sm:text-4xl';
   const letterBtn = bigTargets
-    ? 'w-20 h-20 text-2xl rounded-3xl'
-    : 'w-16 h-16 text-2xl rounded-2xl';
+    ? 'w-16 h-16 sm:w-20 sm:h-20 text-xl sm:text-2xl rounded-3xl'
+    : 'w-14 h-14 sm:w-16 sm:h-16 text-lg sm:text-2xl rounded-2xl';
   const hintPadding = bigTargets ? 'px-8 py-4' : 'px-6 py-3';
   const controlBtnSize = bigTargets
     ? 'w-20 h-20 text-3xl'
@@ -213,7 +213,7 @@ function MemorySpanExercise({
               {data.displayItems?.map((item, i) => (
                 <div
                   key={i}
-                  className={`${tileSize} rounded-3xl border-4 bg-white transition-all duration-300 flex items-center justify-center ${tileText} font-bold shadow-sm ${
+                  className={`${tileSize} rounded-3xl border-4 bg-white transition-all duration-300 flex items-center justify-center ${tileText} font-bold shadow-sm md:shadow-none ${
                     activeHighlight === `mem-${i}`
                       ? 'scale-110 ring-4 ring-yellow-400 bg-yellow-50 shadow-xl border-yellow-400 z-10'
                       : themeStyles.border
@@ -275,7 +275,7 @@ function MemorySpanExercise({
             {selectedItems.map((item, index) => (
               <div
                 key={index}
-                className={`rounded-xl px-4 py-2 font-bold shadow-sm ${popAnim} ${themeStyles.button} text-white`}
+                className={`rounded-xl px-4 py-2 font-bold shadow-sm md:shadow-none ${popAnim} ${themeStyles.button} text-white`}
               >
                 <BionicText text={String(item)} enabled={bionicReading} />
               </div>
@@ -296,7 +296,7 @@ function MemorySpanExercise({
                     ? 'cursor-default border-slate-200 bg-slate-100 text-slate-400 opacity-30' 
                     : activeHighlight === index
                       ? 'scale-105 ring-4 ring-yellow-400 bg-yellow-50 shadow-xl z-10 border-yellow-400 text-slate-900'
-                      : `bg-white shadow-sm ${themeStyles.border} ${themeStyles.accent} hover:bg-slate-50`
+                      : `bg-white shadow-sm md:shadow-none ${themeStyles.border} ${themeStyles.accent} hover:bg-slate-50`
                 }`}
                   aria-pressed={isSelected}
                 >

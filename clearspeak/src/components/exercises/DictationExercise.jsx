@@ -54,7 +54,7 @@ export default function DictationExercise({
   return (
     <div className={`flex flex-col items-center justify-center w-full ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
       {!zenMode && (
-        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
+        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 sm:mb-8" aria-live="polite">
           <BionicText text={t.categories?.Dictation || 'Dictation'} enabled={bionicReading} />
         </h3>
       )}
@@ -65,7 +65,7 @@ export default function DictationExercise({
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
           t={t}
-          controlBtnSize={bigTargets ? 'w-24 h-24 text-4xl' : 'w-20 h-20 text-3xl'}
+        controlBtnSize={bigTargets ? 'w-16 h-16 sm:w-24 sm:h-24 text-3xl sm:text-4xl' : 'w-14 h-14 sm:w-20 sm:h-20 text-2xl sm:text-3xl'}
         />
       </div>
       
@@ -75,7 +75,7 @@ export default function DictationExercise({
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && userInput.trim().length > 0 && handleCheck()}
-        className={`w-full max-w-md text-center text-2xl md:text-3xl font-bold p-6 rounded-3xl mb-8 focus:outline-none focus:ring-4 transition-shadow ${
+        className={`w-full max-w-md text-center text-xl sm:text-2xl md:text-3xl font-bold p-4 sm:p-6 rounded-2xl sm:rounded-3xl mb-6 sm:mb-8 focus:outline-none focus:ring-4 transition-shadow ${
           isHighContrast 
             ? 'bg-black border-4 border-white text-white focus:ring-white/50' 
             : 'bg-white border-2 border-slate-200 text-slate-800 focus:border-indigo-400 focus:ring-indigo-100 shadow-inner'
@@ -89,10 +89,10 @@ export default function DictationExercise({
       <button
         onClick={handleCheck}
         disabled={userInput.trim().length === 0}
-        className={`w-full max-w-xs ${bigTargets ? 'py-5 text-base' : 'py-4 text-sm'} rounded-full font-black uppercase tracking-widest transition-all active:scale-95 focus-visible:ring-4 focus:outline-none ${
+        className={`w-full max-w-xs ${bigTargets ? 'py-3 sm:py-5 text-sm sm:text-base' : 'py-2.5 sm:py-4 text-xs sm:text-sm'} rounded-full font-black uppercase tracking-widest transition-all active:scale-95 focus-visible:ring-4 focus:outline-none ${
           userInput.trim().length === 0
             ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-            : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} text-white shadow-xl hover:brightness-110`)
+            : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} text-white shadow-xl md:shadow-md hover:brightness-110`)
         }`}
       >
         <BionicText text={t.check || 'Check'} enabled={bionicReading} />

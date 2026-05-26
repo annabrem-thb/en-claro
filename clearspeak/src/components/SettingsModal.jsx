@@ -13,6 +13,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n/i18n.js';
 import { useGamification } from './GamificationContext.jsx';
 import BionicText from './common/BionicText.jsx';
+import { useUserSettingsContext } from './UserSettingsContext.jsx';
 
 // ─── Theme shop config ────────────────────────────────────────────────────────
 const THEME_CONFIG = {
@@ -92,6 +93,19 @@ const COLOR = {
   slate:  { ring: 'border-slate-400 bg-slate-50',   text: 'text-slate-700',  badge: 'bg-slate-100 text-slate-600',  dot: 'bg-slate-400'  },
 };
 
+// Mapowanie przestarzałych kluczy a11y na nowe nazwy w settings
+const A11Y_MAPPING = {
+  'LRS': 'lrs',
+  'Kontrast': 'contrast',
+  'Motorik': 'motorik',
+  'Niedowidzenie': 'vision',
+  'Daltonizm': 'color',
+  'Redukcja': 'motion',
+  'Linijka': 'ruler',
+  'Spacing': 'spacing',
+  'Desaturacja': 'desaturation'
+};
+
 // ─── Shared sub-components ────────────────────────────────────────────────────
 const Divider = () => <div className="h-px bg-slate-100 my-1" />;
 
@@ -111,28 +125,18 @@ const Toggle = ({ on, isHighContrast }) => (
 // ─── Main component ───────────────────────────────────────────────────────────
 function SettingsModal({
   open, onClose,
-  language = 'pl',        setLanguage,
-  theme = 'Natur',        setTheme,
-  dailyGoal = 5,          setDailyGoal,
-  // a11yAddons is now a SET of active add-ons (array of keys), LRS always implied
-  a11yAddons = [],        setA11yAddons,
   coins = 0,              setCoins,
   unlockedThemes = ['Natur'],  setUnlockedThemes,
-  inclusiveOptions = {},  setInclusiveOptions,
   selectedVoiceURIs = { pl: 'default', en: 'default', de: 'default' }, setSelectedVoiceURIs,
   voiceSpeed,             setVoiceSpeed,
-  voicePitch,             setVoicePitch,
-  isHighContrast = false,
-  bigTargets = false,
-  textScale = 100,
-  setTextScale,
+  voicePitch,             setVoicePitch
 }) {
   const { isGamified, setIsGamified } = useGamification();
+  const { settings, updateSetting } = useUserSettingsContext();
   const [voices, setVoices] = useState([]);
   const [userSelectedTab, setUserSelectedTab] = useState('general');
 
-  const bionicReading = !!inclusiveOptions?.bionicReading;
-  const voiceAssistantActive = !!inclusiveOptions?.voiceAssistant;
+  const { language, theme, textScale, bionicReading, voiceAssistant: voiceAssistantActive, contrast: isHighContrast, motorik: bigTargets } = settings;
 
   // If gamification is turned off while the user is on the "Game" tab,
   // derive the active tab to be "general" to avoid showing an empty screen.
@@ -187,14 +191,13 @@ function SettingsModal({
 
   // ─── A11y add-on toggle ─────────────────────────────────────────────────
   const toggleAddon = (key) => {
-    setA11yAddons?.((prev) =>
-      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
-    );
+    const mappedKey = A11Y_MAPPING[key];
+    updateSetting(mappedKey, !settings[mappedKey]);
   };
 
   // ─── Inclusive options toggle ───────────────────────────────────────────
   const toggleInclusive = (key) => {
-    setInclusiveOptions?.((prev) => ({ ...prev, [key]: !prev[key] }));
+    updateSetting(key, !settings[key]);
   };
 
   // ─── Theme purchase / equip ─────────────────────────────────────────────
@@ -202,11 +205,11 @@ function SettingsModal({
     const isUnlocked = unlockedThemes.includes(themeKey);
     const cost = THEME_CONFIG[themeKey].cost;
     if (isUnlocked) {
-      setTheme(themeKey);
+      updateSetting('theme', themeKey);
     } else if (coins >= cost) {
       setCoins((prev) => prev - cost);
       setUnlockedThemes((prev) => [...prev, themeKey]);
-      setTheme(themeKey);
+      updateSetting('theme', themeKey);
     }
   };
 
@@ -259,7 +262,7 @@ function SettingsModal({
               ⚙️ {s.settings}
             </h2>
             
-            {isGamified && !inclusiveOptions?.zenMode && (
+            {isGamified && !settings.zenMode && (
               <div className={`px-3 py-1 rounded-full font-black text-sm flex items-center gap-1.5 shadow-inner ${isHighContrast ? 'bg-white text-black' : 'bg-amber-100 text-amber-600'}`}>
                 <span className="text-base">💰</span> {coins}
               </div>
@@ -333,7 +336,7 @@ function SettingsModal({
                   ].map(({ code, flag, label }) => (
                     <button
                       key={code}
-                      onClick={() => setLanguage(code)}
+                    onClick={() => updateSetting('language', code)}
                       aria-pressed={language === code}
                       className={`flex-1 ${bigTargets ? 'py-6' : 'py-4'} rounded-2xl border-2 flex flex-col items-center gap-1 transition-all active:scale-95 ${
                         language === code
@@ -351,28 +354,30 @@ function SettingsModal({
               {/* ── 2. APP MODE ──────────────────────────────────────────────── */}
               <section>
                 <SectionLabel isHighContrast={isHighContrast}>{s.appMode}</SectionLabel>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
     
                   {/* V1 — classic */}
                   <button
                     onClick={() => setIsGamified(false)}
                     aria-pressed={!isGamified}
-                    className={`${bigTargets ? 'p-6' : 'p-5'} rounded-2xl border-2 text-left transition-all active:scale-95 ${
+                    className={`${bigTargets ? 'p-4 sm:p-6' : 'p-3 sm:p-5'} rounded-2xl border-2 text-left transition-all active:scale-95 flex flex-row sm:flex-col items-center sm:items-start gap-3 sm:gap-0 ${
                       !isGamified
                         ? (isHighContrast ? 'border-white bg-white/20 text-white shadow-lg' : 'border-slate-700 bg-slate-800 text-white shadow-lg')
                         : (isHighContrast ? 'border-white/30 bg-black text-white/70 hover:border-white/60' : 'border-slate-100 bg-white text-slate-600 hover:border-slate-200')
                     }`}
                   >
-                    <span className="text-3xl block mb-2" aria-hidden="true">📖</span>
-                    <span className={`text-[10px] font-black uppercase tracking-widest block mb-0.5 ${!isGamified ? 'text-white' : (isHighContrast ? 'text-white/70' : 'text-slate-700')}`}>
-                      {s.v1Label}
-                    </span>
-                    <span className={`text-[10px] leading-tight block ${!isGamified ? (isHighContrast ? 'text-white/80' : 'text-slate-300') : (isHighContrast ? 'text-white/50' : 'text-slate-400')}`}>
-                    <BionicText text={s.v1Desc} enabled={bionicReading} />
-                    </span>
+                    <span className="text-3xl sm:mb-2 shrink-0" aria-hidden="true">📖</span>
+                    <div className="flex-1 min-w-0">
+                      <span className={`text-[11px] sm:text-[10px] font-black uppercase tracking-widest block mb-0.5 ${!isGamified ? 'text-white' : (isHighContrast ? 'text-white/70' : 'text-slate-700')}`}>
+                        {s.v1Label}
+                      </span>
+                      <span className={`text-[11px] sm:text-[10px] leading-tight block ${!isGamified ? (isHighContrast ? 'text-white/80' : 'text-slate-300') : (isHighContrast ? 'text-white/50' : 'text-slate-400')}`}>
+                        <BionicText text={s.v1Desc} enabled={bionicReading} />
+                      </span>
+                    </div>
                     {!isGamified && (
-                      <span className={`mt-2 block text-[9px] font-black uppercase tracking-widest rounded-full px-2 py-0.5 w-fit ${isHighContrast ? 'bg-white text-black' : 'bg-white/20 text-white/90'}`}>
-                        ✓ {s.active}
+                      <span className={`mt-0 sm:mt-2 shrink-0 block text-[9px] font-black uppercase tracking-widest rounded-full px-2 py-0.5 w-fit ${isHighContrast ? 'bg-white text-black' : 'bg-white/20 text-white/90'}`}>
+                        ✓ <span className="hidden sm:inline">{s.active}</span>
                       </span>
                     )}
                   </button>
@@ -381,22 +386,24 @@ function SettingsModal({
                   <button
                     onClick={() => setIsGamified(true)}
                     aria-pressed={isGamified}
-                    className={`${bigTargets ? 'p-6' : 'p-5'} rounded-2xl border-2 text-left transition-all active:scale-95 ${
+                    className={`${bigTargets ? 'p-4 sm:p-6' : 'p-3 sm:p-5'} rounded-2xl border-2 text-left transition-all active:scale-95 flex flex-row sm:flex-col items-center sm:items-start gap-3 sm:gap-0 ${
                       isGamified
-                        ? (isHighContrast ? 'border-white bg-white/20 text-white shadow-lg' : 'border-emerald-400 bg-linear-to-br from-emerald-50 to-teal-50 shadow-lg')
+                        ? (isHighContrast ? 'border-white bg-white/20 text-white shadow-lg' : 'border-emerald-400 bg-gradient-to-br from-emerald-50 to-teal-50 shadow-lg')
                         : (isHighContrast ? 'border-white/30 bg-black text-white/70 hover:border-white/60' : 'border-slate-100 bg-white text-slate-600 hover:border-slate-200')
                     }`}
                   >
-                    <span className="text-3xl block mb-2" aria-hidden="true">🎮</span>
-                    <span className={`text-[10px] font-black uppercase tracking-widest block mb-0.5 ${isGamified ? (isHighContrast ? 'text-white' : 'text-emerald-700') : (isHighContrast ? 'text-white/70' : 'text-slate-700')}`}>
-                      {s.v2Label}
-                    </span>
-                    <span className={`text-[10px] leading-tight block ${isGamified ? (isHighContrast ? 'text-white/80' : 'text-emerald-600') : (isHighContrast ? 'text-white/50' : 'text-slate-400')}`}>
-                    <BionicText text={s.v2Desc} enabled={bionicReading} />
-                    </span>
+                    <span className="text-3xl sm:mb-2 shrink-0" aria-hidden="true">🎮</span>
+                    <div className="flex-1 min-w-0">
+                      <span className={`text-[11px] sm:text-[10px] font-black uppercase tracking-widest block mb-0.5 ${isGamified ? (isHighContrast ? 'text-white' : 'text-emerald-700') : (isHighContrast ? 'text-white/70' : 'text-slate-700')}`}>
+                        {s.v2Label}
+                      </span>
+                      <span className={`text-[11px] sm:text-[10px] leading-tight block ${isGamified ? (isHighContrast ? 'text-white/80' : 'text-emerald-600') : (isHighContrast ? 'text-white/50' : 'text-slate-400')}`}>
+                        <BionicText text={s.v2Desc} enabled={bionicReading} />
+                      </span>
+                    </div>
                     {isGamified && (
-                      <span className={`mt-2 block text-[9px] font-black uppercase tracking-widest rounded-full px-2 py-0.5 w-fit ${isHighContrast ? 'bg-white text-black' : 'bg-emerald-400 text-white'}`}>
-                        ✓ {s.active}
+                      <span className={`mt-0 sm:mt-2 shrink-0 block text-[9px] font-black uppercase tracking-widest rounded-full px-2 py-0.5 w-fit ${isHighContrast ? 'bg-white text-black' : 'bg-emerald-400 text-white'}`}>
+                        ✓ <span className="hidden sm:inline">{s.active}</span>
                       </span>
                     )}
                   </button>
@@ -414,7 +421,7 @@ function SettingsModal({
                 <SectionLabel isHighContrast={isHighContrast} sub={s.a11yAddonsDesc} bionicReading={bionicReading}>{s.a11yAddons}</SectionLabel>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {A11Y_ADDONS.map((profile) => {
-                    const isActive = a11yAddons.includes(profile.key);
+                  const isActive = settings[A11Y_MAPPING[profile.key]];
                     const c = COLOR[profile.color];
                     const info = s.a11y[profile.key] || { name: profile.key, desc: '' };
                     return (
@@ -467,7 +474,7 @@ function SettingsModal({
                     { key: 'voiceAssistant', icon: '🗣️', color: 'violet', tags: ['słuch', 'asystent'], fallbackName: 'Asystent Głosowy', fallbackDesc: 'Odczytuje polecenia i pozwala na sterowanie głosem.' },
                     { key: 'zenMode', icon: '🧘', color: 'green', tags: ['skupienie', 'redukcja'], fallbackName: 'Tryb Zen', fallbackDesc: 'Ukrywa zbędne grafiki dla pełnego skupienia.' }
                   ].map((profile) => {
-                    const isActive = !!inclusiveOptions[profile.key];
+                  const isActive = !!settings[profile.key];
                     const c = COLOR[profile.color];
                     const name = s.a11y?.[profile.key]?.name || s.intro?.[profile.key === 'bionicReading' ? 'bionic' : profile.key === 'voiceAssistant' ? 'voice' : 'zen'] || profile.fallbackName;
                     const desc = s.a11y?.[profile.key]?.desc || profile.fallbackDesc;
@@ -529,7 +536,7 @@ function SettingsModal({
                   max="150"
                   step="5"
                   value={textScale}
-                  onChange={(e) => setTextScale(Number(e.target.value))}
+                onChange={(e) => updateSetting('textScale', Number(e.target.value))}
                   className={`w-full cursor-pointer rounded-lg appearance-none ${isHighContrast ? 'bg-white/30 accent-white' : 'bg-slate-200 accent-indigo-600'} ${bigTargets ? 'h-4' : 'h-2'}`}
                 />
                 <span className={`text-2xl font-bold ${isHighContrast ? 'text-white' : 'text-slate-600'}`}>A</span>
@@ -642,7 +649,7 @@ function SettingsModal({
               {/* ── 6. THEME SHOP — only in V2 ───────────────────────────────── */}
               <section>
                 <SectionLabel isHighContrast={isHighContrast} sub={s.themeShopDesc} bionicReading={bionicReading}>{s.themeShop}</SectionLabel>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                   {Object.entries(THEME_CONFIG).map(([themeKey, config]) => {
                     const isUnlocked = unlockedThemes.includes(themeKey);
                     const isSelected = theme === themeKey;
@@ -655,7 +662,7 @@ function SettingsModal({
                         onClick={() => handleThemeSelect(themeKey)}
                         disabled={!isUnlocked && !canAfford}
                       aria-pressed={isSelected}
-                        className={`flex items-center justify-between ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 transition-all active:scale-[0.98] ${
+                        className={`flex items-center justify-between gap-2 ${bigTargets ? 'p-4 sm:p-6' : 'p-3 sm:p-4'} rounded-2xl border-2 transition-all active:scale-[0.98] ${
                           isSelected
                             ? (isHighContrast ? 'border-white bg-white/20 text-white shadow-sm' : 'border-emerald-400 bg-emerald-50 shadow-sm')
                             : isUnlocked

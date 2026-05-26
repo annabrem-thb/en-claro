@@ -172,8 +172,8 @@ export default function VisualCategorization({
 
   // Dynamic classes for Accessibility scaling
   const animClass = noFlash ? '' : 'animate-in fade-in duration-500';
-  const itemPadding = bigTargets ? 'px-8 py-5 text-lg' : 'px-5 py-3 text-sm';
-  const bucketMinHeight = bigTargets ? 'min-h-[200px]' : 'min-h-[160px]';
+  const itemPadding = bigTargets ? 'px-6 py-4 sm:px-8 sm:py-5 text-base sm:text-lg' : 'px-4 py-3 sm:px-5 sm:py-3 text-xs sm:text-sm';
+  const bucketMinHeight = bigTargets ? 'min-h-[160px] sm:min-h-[200px]' : 'min-h-[140px] sm:min-h-[160px]';
 
   return (
     <div className={`flex flex-col items-center w-full ${animClass} gap-8`}>
@@ -198,7 +198,7 @@ export default function VisualCategorization({
       {/* Unplaced Items Pool */}
       <div className={`flex flex-wrap justify-center gap-3 w-full p-4 rounded-3xl min-h-[100px] border-2 transition-colors ${activeItem ? (isHighContrast ? 'border-white/50' : 'border-indigo-200 bg-indigo-50/30') : 'border-transparent'}`} aria-label="Available items">
         {unplacedItems.map((item) => (
-          <button key={item.id} disabled={isShowingCorrection} onClick={() => handleItemClick(item)} className={`${itemPadding} rounded-2xl font-bold shadow-sm transition-all active:scale-95 disabled:opacity-80 ${
+          <button key={item.id} disabled={isShowingCorrection} onClick={() => handleItemClick(item)} className={`${itemPadding} rounded-2xl font-bold shadow-sm md:shadow-none transition-all active:scale-95 disabled:opacity-80 ${
             activeItem?.id === item.id 
               ? (isHighContrast ? 'bg-white text-black ring-4 ring-white/50' : 'bg-indigo-500 text-white ring-4 ring-indigo-200 shadow-md') 
               : activeHighlight === `item-${item.id}`

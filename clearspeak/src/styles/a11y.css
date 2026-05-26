@@ -3,14 +3,38 @@
    ========================================================================== */
 
 /* --- Dyslexia-friendly font (LRS) --- */
-html[data-a11y-lrs="false"] {
-  --dyn-font-family: Helvetica, Arial, Verdana, sans-serif;
+html[data-a11y-lrs="true"] {
+  --dyn-font-family: 'OpenDyslexic', Helvetica, Arial, Verdana, sans-serif;
+  --dyn-line-height: 1.75;
+  --dyn-word-spacing: 0.20em;
+  --dyn-letter-spacing: 0.08em;
+  --dyn-font-size: 14px; /* Reduced base size to prevent overflow (OpenDyslexic is naturally wider) */
+}
+
+@media (min-width: 768px) {
+  html[data-a11y-lrs="true"] {
+    --dyn-font-size: 14px; /* Scaled down for desktop monitors to avoid scrollbars */
+  }
+}
+
+/* --- Dyslexia Bionic Reading Enhancement ---
+   Bolds in OpenDyslexic are hard to spot. We add a subtle color 
+   to make Bionic Reading (and regular bolds) pop out safely. */
+html[data-a11y-lrs="true"] b,
+html[data-a11y-lrs="true"] strong {
+  color: #4338ca;
 }
 
 /* --- High contrast --- */
 html[data-a11y-contrast="true"] *:focus-visible {
   outline: 5px solid #22c55e;
   outline-offset: 4px;
+}
+
+/* Block custom colors from breaking WCAG AAA contrast */
+html[data-a11y-contrast="true"] b,
+html[data-a11y-contrast="true"] strong {
+  color: inherit !important;
 }
 
 /* --- Motor skills accommodations (Large targets) --- */
@@ -34,20 +58,41 @@ html[data-a11y-motorik="true"] *::after {
 html[data-a11y-vision="true"] {
   font-size: 115% !important;
 }
-html[data-a11y-vision="true"] * {
-  font-weight: 700;
-}
 
 /* --- Safe colors (Color blindness) --- */
 html[data-a11y-color="true"] {
+  --color-green-50: #eff6ff;
   --color-green-100: #dbeafe;
+  --color-green-200: #bfdbfe;
+  --color-green-300: #93c5fd;
+  --color-green-400: #60a5fa;
   --color-green-500: #3b82f6;
   --color-green-600: #2563eb;
   --color-green-700: #1d4ed8;
+  --color-green-800: #1e40af;
+  --color-green-900: #1e3a8a;
+  
+  --color-emerald-50: #eff6ff;
+  --color-emerald-100: #dbeafe;
+  --color-emerald-200: #bfdbfe;
+  --color-emerald-300: #93c5fd;
+  --color-emerald-400: #60a5fa;
+  --color-emerald-500: #3b82f6;
+  --color-emerald-600: #2563eb;
+  --color-emerald-700: #1d4ed8;
+  --color-emerald-800: #1e40af;
+  --color-emerald-900: #1e3a8a;
+  
+  --color-red-50: #fff7ed;
   --color-red-100: #ffedd5;
+  --color-red-200: #fed7aa;
+  --color-red-300: #fdba74;
+  --color-red-400: #fb923c;
   --color-red-500: #f97316;
   --color-red-600: #ea580c;
   --color-red-700: #c2410c;
+  --color-red-800: #9a3412;
+  --color-red-900: #7c2d12;
 }
 
 /* --- Calm screen (No flashes) --- */

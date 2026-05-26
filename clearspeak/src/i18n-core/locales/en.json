@@ -1,5 +1,5 @@
 {
-  "appTitle": "Claro",
+  "appTitle": "EnClaro",
   "introSubtitle": "Build your bridge to fluency.",
   "intro": {
     "subtitle": "Your safe space to grow! Choose mode and tools:",
@@ -105,7 +105,7 @@
   "ttsSettingsAria": "TTS settings",
   "settings": "Settings",
   "settingsTitle": "Settings",
-  "settingsSubtitle": "Claro · Accessible Gamification",
+  "settingsSubtitle": "EnClaro · Accessible Gamification",
   "settingsBack": "← Back",
   "settingsTheme": "Theme",
   "settingsAccessibility": "Comfort options",

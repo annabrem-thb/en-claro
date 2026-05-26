@@ -231,7 +231,7 @@ function SpatialExercise({
       {/* 3. Main Flashcard Area */}
       <div className="my-4 flex min-h-0 w-full flex-1 items-center justify-center">
         <div
-          className={`${cardSize} font-dyslexic flex items-center justify-center rounded-[50px] border-4 bg-white shadow-xl transition-all ${themeStyles.border} ${themeStyles.accent} ${animation}`}
+          className={`${cardSize} font-dyslexic flex items-center justify-center rounded-[50px] border-4 bg-white shadow-xl md:shadow-md transition-all ${themeStyles.border} ${themeStyles.accent} ${animation}`}
         >
           {/* Symbols often require bolding for d/b or p/q differentiation */}
           <BionicText text={currentItem?.symbol} enabled={bionicReading} />
@@ -251,7 +251,7 @@ function SpatialExercise({
                 : activeHighlight === i
                   ? 'scale-105 ring-4 ring-yellow-400 bg-yellow-50 border-yellow-400 text-slate-900 shadow-xl z-10'
                   : `${themeStyles.button} text-white hover:brightness-110`
-            } flex items-center justify-center gap-2 shadow-lg`}
+            } flex items-center justify-center gap-2 shadow-lg md:shadow-sm`}
           >
             {/* Numeric visual indicator for voice selection */}
             <span

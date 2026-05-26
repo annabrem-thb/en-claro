@@ -186,13 +186,13 @@ export default function VirtualGarden({
     ${earnedTrophies.length > 0 && t.srTrophies ? t.srTrophies.replace('{count}', earnedTrophies.length) : ''}`;
 
   const containerClasses = isFullScreen
-    ? `relative flex flex-col items-center justify-center gap-8 w-full h-full p-6 sm:p-10 rounded-4xl transition-all duration-1000 ${isHighContrast ? 'bg-black border-2 border-white' : `bg-white border-2 border-slate-100 shadow-sm`}`
+    ? `relative flex flex-col items-center justify-center gap-4 sm:gap-8 w-full h-full p-4 sm:p-10 rounded-3xl sm:rounded-4xl transition-all duration-1000 ${isHighContrast ? 'bg-black border-2 border-white' : `bg-white border-2 border-slate-100 shadow-sm`}`
     : `relative flex items-center justify-start gap-3 flex-1 h-12 px-3 rounded-2xl border transition-all duration-700 ${isHighContrast ? 'bg-transparent border-white/30' : `bg-slate-50 border-slate-200`}`;
 
-  const plantTextSize = isFullScreen ? 'text-[120px] md:text-[160px]' : 'text-3xl';
-  const flowerTextSize = isFullScreen ? 'text-4xl md:text-5xl' : 'text-lg';
-  const visitorTextSize = isFullScreen ? 'text-6xl md:text-8xl' : 'text-2xl';
-  const visitorPosition = isFullScreen ? 'absolute top-12 right-12 md:top-20 md:right-20' : 'absolute -top-3 right-2';
+  const plantTextSize = isFullScreen ? 'text-[64px] sm:text-[120px] md:text-[160px]' : 'text-3xl';
+  const flowerTextSize = isFullScreen ? 'text-2xl sm:text-4xl md:text-5xl' : 'text-lg';
+  const visitorTextSize = isFullScreen ? 'text-4xl sm:text-6xl md:text-8xl' : 'text-2xl';
+  const visitorPosition = isFullScreen ? 'absolute top-4 right-4 sm:top-12 sm:right-12 md:top-20 md:right-20' : 'absolute -top-3 right-2';
 
   return (
     <div className={containerClasses} aria-label="Progress Bar">
@@ -201,8 +201,8 @@ export default function VirtualGarden({
       </div>
 
       {minimalistMode ? (
-        <div className={`flex items-center gap-3 ${isFullScreen ? 'justify-center text-2xl mt-4' : 'px-2 text-sm'}`}>
-          <span className={`font-black uppercase tracking-widest ${isHighContrast ? 'text-white' : themeStyles?.accent}`}>{ecosystemState.plantName}</span>
+        <div className={`flex items-center gap-2 sm:gap-3 flex-wrap justify-center ${isFullScreen ? 'text-lg sm:text-2xl mt-4 px-2 text-center' : 'px-2 text-sm'}`}>
+          <span className={`font-black uppercase tracking-widest text-center ${isHighContrast ? 'text-white' : themeStyles?.accent}`}>{ecosystemState.plantName}</span>
           {ecosystemState.completedModules > 0 && (
             <span className={`opacity-70 font-medium ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>(+{ecosystemState.completedModules})</span>
           )}
@@ -231,11 +231,11 @@ export default function VirtualGarden({
         </div>
         
         {isFullScreen && earnedTrophies.length > 0 && (
-          <div className="flex flex-wrap justify-center gap-6 mt-4 md:mt-6">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mt-2 sm:mt-4 md:mt-6">
             {earnedTrophies.map((trophy, i) => (
               <div 
                 key={i} 
-                className={`text-4xl md:text-5xl ${noFlash ? '' : 'animate-in fade-in duration-1000'}`}
+                className={`text-3xl sm:text-4xl md:text-5xl ${noFlash ? '' : 'animate-in fade-in duration-1000'}`}
                 style={{ animationDelay: `${(i + 1) * 300}ms` }}
               >
                 {trophy.icon}
@@ -269,11 +269,11 @@ export default function VirtualGarden({
       )}
 
       {isFullScreen && (
-        <div className="flex flex-col items-center gap-2 mt-8 animate-in fade-in duration-1000 delay-500">
-          <h2 className={`text-xl md:text-2xl font-bold uppercase tracking-widest ${isHighContrast ? 'text-white' : 'text-slate-600'}`}>
+        <div className="flex flex-col items-center gap-1 sm:gap-2 mt-4 sm:mt-8 px-2 animate-in fade-in duration-1000 delay-500">
+          <h2 className={`text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-widest text-center ${isHighContrast ? 'text-white' : 'text-slate-600'}`}>
             {ecosystemState.plantName}
           </h2>
-          <p className={`text-sm font-medium max-w-xs text-center leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
+          <p className={`text-xs sm:text-sm font-medium max-w-xs px-2 text-center leading-relaxed break-words ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
             <BionicText>
               {ecosystemState.completedModules > 0 
                 ? `${t.gardenBlooming} ${ecosystemState.completedModules}` 
@@ -291,21 +291,21 @@ export default function VirtualGarden({
           />
           
           {todayStats && todayStats.total > 0 && (
-            <div className={`w-full max-w-xs mt-6 p-5 rounded-3xl border-2 transition-all ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 duration-700 delay-700'} ${isHighContrast ? 'bg-black border-white/30 text-white' : 'bg-white border-slate-100 shadow-sm text-slate-700'}`}>
-              <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 text-center">
+            <div className={`w-full max-w-[280px] sm:max-w-xs mt-4 sm:mt-6 p-3 sm:p-5 rounded-2xl sm:rounded-3xl border-2 transition-all ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 duration-700 delay-700'} ${isHighContrast ? 'bg-black border-white/30 text-white' : 'bg-white border-slate-100 shadow-sm text-slate-700'}`}>
+              <h3 className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-3 sm:mb-4 text-center break-words">
                 {t.dailySummary}
               </h3>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2 sm:gap-3">
                 {Object.entries(todayStats.byType).map(([type, count]) => (
-                  <div key={type} className="flex items-center justify-between text-sm">
-                    <span className={`font-bold ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>{t.categories?.[type] || t.pillars?.[type] || type}</span>
-                    <span className={`font-black ${isHighContrast ? 'text-white' : themeStyles?.accent || ''}`}>{count} {t.exercisesCount}</span>
+                  <div key={type} className="flex items-center justify-between gap-2 text-[10px] sm:text-sm">
+                    <span className={`font-bold truncate ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>{t.categories?.[type] || t.pillars?.[type] || type}</span>
+                    <span className={`font-black whitespace-nowrap ${isHighContrast ? 'text-white' : themeStyles?.accent || ''}`}>{count} {t.exercisesCount}</span>
                   </div>
                 ))}
                 <div className={`h-px my-1 ${isHighContrast ? 'bg-white/20' : 'bg-slate-100'}`} />
-                <div className="flex items-center justify-between text-sm">
-                  <span className={`font-black uppercase text-xs tracking-widest ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{t.totalEffort}</span>
-                  <span className={`font-black text-lg ${isHighContrast ? 'text-white' : themeStyles?.accent || ''}`}>{todayStats.total}</span>
+                <div className="flex items-center justify-between gap-2 text-xs sm:text-sm">
+                  <span className={`font-black uppercase text-[9px] sm:text-xs tracking-widest ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{t.totalEffort}</span>
+                  <span className={`font-black text-sm sm:text-lg ${isHighContrast ? 'text-white' : themeStyles?.accent || ''}`}>{todayStats.total}</span>
                 </div>
               </div>
             </div>

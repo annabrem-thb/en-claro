@@ -3,11 +3,11 @@
 @import "./a11y.css";
 
 :root {
-  --dyn-font-family: 'OpenDyslexic', Helvetica, Arial, Verdana, sans-serif;
-  --dyn-line-height: 1.75;
-  --dyn-word-spacing: 0.20em;
-  --dyn-letter-spacing: 0.08em;
-  --dyn-font-size: 16px; /* Increased default size for phones */
+  --dyn-font-family: Helvetica, Arial, Verdana, sans-serif;
+  --dyn-line-height: 1.5;
+  --dyn-word-spacing: normal;
+  --dyn-letter-spacing: normal;
+  --dyn-font-size: 16px; /* Standard readable size for phones */
   
   /* Safe limit for small touch screens:
      Maximum allowed zoom is 130% (1.3), protecting layout from breaking */
@@ -17,7 +17,7 @@
 /* Increase base font on tablets and monitors (from 768px width) */
 @media (min-width: 768px) {
   :root {
-    --dyn-font-size: 18px; /* Increased default size for computers */
+    --dyn-font-size: 14px; /* Reduced to compact the UI and fit on landscape monitors without scrolling */
     
     /* On large screens, the slider effect is reduced by 50% to prevent giant letters. 
        For example, 150% on slider will only enlarge text to 125% on desktop. */

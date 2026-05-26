@@ -25,7 +25,6 @@ import { useIndexedDB } from '../hooks/useIndexedDB.js';
 import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
 import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotifications.js';
 import { useGlobalTTS } from '../hooks/useGlobalTTS.js';
-import { useAppSettings } from '../hooks/useAppSettings.js';
 import { useExerciseSession } from '../hooks/useExerciseSession.js';
 import { useGamificationState } from '../hooks/useGamificationState.js';
 import { useVocabularyLoader } from '../hooks/useVocabularyLoader.js';
@@ -34,7 +33,7 @@ import { useSwipeNavigation } from '../hooks/useSwipeNavigation.js';
 
 import ExerciseContainer from './ExerciseContainer.jsx';
 import { GamificationProvider, useGamification } from './GamificationContext.jsx';
-import { UserSettingsProvider } from './UserSettingsContext.jsx';
+import { UserSettingsProvider, useUserSettingsContext } from './UserSettingsContext.jsx';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
 import { SurveyComponent } from './SurveyComponent';
@@ -56,15 +55,9 @@ const THEMES = {
 function AppContent() {
   const { isGamified, setIsGamified } = useGamification();
   
-  // Global App Settings Module
-  const {
-    language, setLanguage, theme, setTheme,
-    a11yAddons, setA11yAddons,
-    inclusiveOptions, setInclusiveOptions,
-    dailyGoal, setDailyGoal,
-    userDifficulty, setUserDifficulty,
-    textScale, setTextScale
-  } = useAppSettings();
+  // Nowe ujednolicone zarządzanie ustawieniami z Context API
+  const { settings, updateSetting } = useUserSettingsContext();
+  const { language, theme, dailyGoal, userDifficulty } = settings;
 
   // Vocabulary Loader Module
   const db = useVocabularyLoader(language);
@@ -84,7 +77,7 @@ function AppContent() {
     selectedVoiceURIs, setSelectedVoiceURIs, 
     voiceSpeed, setVoiceSpeed, 
     voicePitch, setVoicePitch 
-  } = useGlobalTTS(language, inclusiveOptions.extendedTime);
+  } = useGlobalTTS(language, settings.extendedTime);
 
   const [activeTab,    setActiveTab]    = useState('Literacy');
   const [lastPillar,   setLastPillar]   = useState('Literacy'); // Remembers the pillar for garden rendering
@@ -104,9 +97,9 @@ function AppContent() {
   } = useGamificationState();
 
   const { 
-    loadLevel, setSessionStartTime, setErrorTimestamps, 
+    setSessionStartTime, setErrorTimestamps, 
     setLoadLevel 
-  } = useCognitiveLoad(activeTab, inclusiveOptions.zenMode);
+  } = useCognitiveLoad(activeTab, settings.zenMode);
 
   // State for PWA Offline Support & Updates
   const {
@@ -136,35 +129,25 @@ function AppContent() {
   const l = fallbacks[language] || fallbacks.en;
 
   const themeStyles = THEMES[theme]         || THEMES.Natur;
-  const noFlash        = !!(inclusiveOptions.noFlash    || a11yAddons.includes('Redukcja'));
-  const bigTargets     = !!(inclusiveOptions.bigTargets || a11yAddons.includes('Motorik'));
-  const hideNavLabel   = a11yAddons.includes('Niedowidzenie');
-  const isHighContrast = a11yAddons.includes('Kontrast');
-  const hasRuler       = a11yAddons.includes('Linijka');
+  const noFlash        = settings.noFlash || settings.motion;
+  const bigTargets     = settings.bigTargets || settings.motorik;
+  const hideNavLabel   = settings.vision;
+  const isHighContrast = settings.contrast;
+  const hasRuler       = settings.ruler;
 
   // Reading Ruler logic
   const { cardRef, rulerPos } = useReadingRuler(hasRuler);
 
   useEffect(() => {
     const root = document.documentElement;
-    root.setAttribute('data-a11y-contrast', String(isHighContrast));
-    root.setAttribute('data-a11y-motor',    String(bigTargets));
-    root.setAttribute('data-a11y-vision',   String(a11yAddons.includes('Niedowidzenie')));
-    root.setAttribute('data-a11y-color',    String(a11yAddons.includes('Daltonizm')));
-    root.setAttribute('data-a11y-motion',   String(noFlash));
-    root.setAttribute('data-a11y-spacing',  String(a11yAddons.includes('Spacing')));
-    root.setAttribute('data-a11y-lrs',      String(a11yAddons.includes('LRS')));
-    root.setAttribute('data-a11y-desaturation', String(a11yAddons.includes('Desaturacja')));
-    root.setAttribute('data-a11y-minimalist', String(!!inclusiveOptions.minimalistMode));
     root.style.setProperty('--theme-accent', THEMES[theme]?.hex || '#10b981');
     
     // Extracts HEX color from classes like bg-[#F4F1EA] and sets it as a variable for gradients
     const bgHex = THEMES[theme]?.bg?.match(/\[(.*?)\]/)?.[1] || '#FDFBF7';
     root.style.setProperty('--theme-bg', isHighContrast ? '#000000' : bgHex);
     
-    root.style.setProperty('--user-text-scale', textScale / 100);
     root.lang = language;
-  }, [a11yAddons, inclusiveOptions, theme, isHighContrast, bigTargets, noFlash, language, textScale]);
+  }, [theme, isHighContrast, language]);
 
   // Training Session Module
   const {
@@ -177,8 +160,8 @@ function AppContent() {
     goNext, goPrev, handleSuccess, handleError
   } = useExerciseSession({
     db, activeTab, language,
-    userDifficulty, setUserDifficulty,
-    inclusiveOptions, t, speak, theme, isGamified,
+    userDifficulty, setUserDifficulty: (val) => updateSetting('userDifficulty', val),
+    inclusiveOptions: settings, t, speak, theme, isGamified,
     points, setPoints, setCoins, setRewards,
     dailyQuests, updateQuests, setDailyProgress,
     setPendingFeedback, setShowSuccess, setShowFeedback, setEarnedCoinsAnim,
@@ -236,17 +219,17 @@ function AppContent() {
       currentTask?.scrambled    // Zapis: Synteza (Scrabble)
     );
     
-    const voiceAssistantActive = !!inclusiveOptions.voiceAssistant || isVoiceException;
+    const voiceAssistantActive = !!settings.voiceAssistant || isVoiceException;
 
     const commonProps = {
       themeStyles, speak, t, language,
       onSuccess: handleSuccess,
       onError: handleError,
       bigTargets,
-      extendedTime: !!inclusiveOptions.extendedTime,
+      extendedTime: !!settings.extendedTime,
       noFlash,
-      bionicReading: !!inclusiveOptions.bionicReading,
-      zenMode:       !!inclusiveOptions.zenMode,
+      bionicReading: !!settings.bionicReading,
+      zenMode:       !!settings.zenMode,
       isHighContrast,
       voiceAssistant: voiceAssistantActive,
     };
@@ -258,28 +241,7 @@ function AppContent() {
 
   // --- Render Intro Screen ---
   if (showIntro) {
-    return <IntroScreen 
-      language={language} 
-      setLanguage={setLanguage} 
-      onStart={() => setShowIntro(false)} 
-          isGamified={isGamified}
-          setIsGamified={setIsGamified}
-          a11yAddons={a11yAddons}
-          setA11yAddons={setA11yAddons}
-          inclusiveOptions={inclusiveOptions}
-          setInclusiveOptions={setInclusiveOptions}
-      noFlash={noFlash}
-      isHighContrast={isHighContrast}
-      bigTargets={bigTargets}
-      selectedVoiceURIs={selectedVoiceURIs}
-      setSelectedVoiceURIs={setSelectedVoiceURIs}
-          voiceSpeed={voiceSpeed}
-          setVoiceSpeed={setVoiceSpeed}
-          voicePitch={voicePitch}
-          setVoicePitch={setVoicePitch}
-          textScale={textScale}
-          setTextScale={setTextScale}
-    />;
+    return <IntroScreen onStart={() => setShowIntro(false)} speak={speak} />;
   }
 
   // --- Render Settings Page ---
@@ -287,19 +249,6 @@ function AppContent() {
     return <SettingsModal 
       open={true}
       onClose={() => setSettingsOpen(false)} 
-      language={language}
-      setLanguage={setLanguage}
-      theme={theme}
-      setTheme={setTheme}
-      isGamified={isGamified}
-      setIsGamified={setIsGamified}
-      a11yAddons={a11yAddons}
-      setA11yAddons={setA11yAddons}
-      inclusiveOptions={inclusiveOptions}
-      setInclusiveOptions={setInclusiveOptions}
-      noFlash={noFlash}
-      isHighContrast={isHighContrast}
-      bigTargets={bigTargets}
       selectedVoiceURIs={selectedVoiceURIs}
       setSelectedVoiceURIs={setSelectedVoiceURIs}
       voiceSpeed={voiceSpeed}
@@ -310,14 +259,12 @@ function AppContent() {
       setCoins={setCoins}
       unlockedThemes={unlockedThemes}
       setUnlockedThemes={setUnlockedThemes}
-      textScale={textScale}
-      setTextScale={setTextScale}
     />;
   }
 
   // --- Render Main Application Layout ---
   return (
-    <div className={`flex h-screen h-dvh w-full overflow-hidden ${isHighContrast ? 'bg-black text-white' : `${themeStyles.bg} text-[#2D3732]`}`}>
+    <div className={`flex flex-col md:flex-row h-screen h-dvh w-full overflow-hidden ${isHighContrast ? 'bg-black text-white' : `${themeStyles.bg} text-[#2D3732]`}`}>
 
       {/* Navigation Sidebar */}
       <SidebarNav
@@ -337,10 +284,11 @@ function AppContent() {
         t={t}
         s={s}
         speak={speak}
+        noFlash={noFlash}
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen h-dvh overflow-hidden relative">
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden relative">
         
         {/* Subtle gradient at the top of the screen (masks scrolled text) */}
         <div 
@@ -350,7 +298,7 @@ function AppContent() {
         />
 
         <main 
-          className={`flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-none no-scrollbar px-3 md:px-8 pt-6 pb-[calc(3rem+env(safe-area-inset-bottom))] mx-auto w-full max-w-4xl ${isHighContrast ? 'text-white' : 'text-[#2D3732]'}`}
+          className={`flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-none no-scrollbar px-3 md:px-8 pt-4 md:pt-5 pb-[calc(1rem+env(safe-area-inset-bottom))] mx-auto w-full max-w-5xl ${isHighContrast ? 'text-white' : 'text-[#2D3732]'}`}
           {...swipeHandlers}
         >
           {activeTab === 'Garden' ? (
@@ -368,14 +316,14 @@ function AppContent() {
                 noFlash={noFlash}
                 dailyProgress={dailyProgress}
                 dailyGoal={dailyGoal}
-                minimalistMode={!!inclusiveOptions.minimalistMode}
+                minimalistMode={!!settings.minimalistMode}
               />
             </div>
           ) : (
             <>
               {/* Minimal Progress Row without numeric noise */}
-              {!inclusiveOptions.zenMode && (
-                <div className={`rounded-3xl px-4 py-3 mb-4 flex items-center justify-between gap-4 relative shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-md shadow-slate-200/40`}`}>
+              {!settings.zenMode && (
+                <div className={`rounded-3xl px-4 py-2.5 mb-3 md:mb-4 flex items-center justify-between gap-4 relative shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm md:shadow-none' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-md md:shadow-sm shadow-slate-200/40`}`}>
                   {rewards.length > 0 && isGamified && (
                     <div className={`absolute -top-4 left-4 px-3 py-1 rounded-full font-black text-xs uppercase tracking-widest shadow-lg border-2 z-20 flex items-center gap-1.5 ${isHighContrast ? 'bg-black border-white text-white' : `bg-[#FCFBF9] ${themeStyles.border} text-[#4A5D54]`} ${noFlash ? '' : 'animate-in zoom-in duration-300'}`}>
                       <span>{t.collectedLabel || s.collectedLabel}:</span>
@@ -405,7 +353,7 @@ function AppContent() {
               {/* Active Exercise Card */}
               <section 
                 ref={cardRef}
-                className={`rounded-4xl flex flex-col items-center relative w-full flex-1 px-4 py-6 sm:px-10 sm:py-8 ${isHighContrast ? 'bg-black border border-white/30 shadow-lg shadow-white/10' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-xl shadow-slate-200/30`}`}
+                className={`rounded-4xl flex flex-col items-center relative w-full flex-1 px-4 py-4 sm:px-8 sm:py-6 md:py-4 md:px-12 ${isHighContrast ? 'bg-black border border-white/30 shadow-lg md:shadow-sm shadow-white/10' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-xl md:shadow-md shadow-slate-200/30`}`}
                 aria-label={s.exerciseAria}
               >
                 {/* Reading Ruler Overlay (Restricted to Card) */}
@@ -420,7 +368,7 @@ function AppContent() {
                   <div className={`absolute top-4 z-20 ${noFlash ? '' : 'animate-in slide-in-from-top duration-300'}`}>
                 <span className={`px-6 py-3 rounded-2xl text-sm font-medium shadow-sm border ${isHighContrast ? 'bg-black border-white text-white' : 'bg-slate-50 border-slate-200 text-slate-600'}`}
                           role="status" aria-live="polite">
-                      <BionicText text={feedback.msg} enabled={!!inclusiveOptions.bionicReading} />
+                  <BionicText text={feedback.msg} enabled={!!settings.bionicReading} />
                     </span>
                   </div>
                 )}
@@ -430,15 +378,15 @@ function AppContent() {
               </section>
 
               {feedback?.type === 'success' ? (
-                <div className="mt-4 flex justify-center animate-in zoom-in duration-300 shrink-0 pb-2">
+                <div className="mt-3 md:mt-4 flex justify-center animate-in zoom-in duration-300 shrink-0 pb-1 md:pb-2">
                   <button onClick={goNext}
-                        className={`${bigTargets ? 'px-14 py-6 text-lg' : 'px-12 py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all ${noFlash ? '' : 'animate-bounce'} break-words ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} ${themeStyles.buttonText} opacity-90 hover:opacity-100`}`}>
+                        className={`${bigTargets ? 'px-14 py-5 md:py-6 text-lg' : 'px-12 py-3.5 md:py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all ${noFlash ? '' : 'animate-bounce'} break-words ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} ${themeStyles.buttonText} opacity-90 hover:opacity-100`}`}>
                     {t.next || s.next || l.next}
                   </button>
                 </div>
               ) : (
-                currentTask && !inclusiveOptions.zenMode && (
-                  <div className="mt-3 flex justify-center shrink-0 pb-2">
+            currentTask && !settings.zenMode && (
+                  <div className="mt-2 md:mt-3 flex justify-center shrink-0 pb-1 md:pb-2">
                     <button onClick={goNext}
                       className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} bg-transparent border-2 rounded-full font-black uppercase tracking-widest transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-400 hover:bg-slate-100'}`}>
                       {t.skip || s.skip || l.skip}

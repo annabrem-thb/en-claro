@@ -159,10 +159,10 @@ function ContextExercise({
   const pulseClass = noFlash
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-8 ring-red-100';
-  const btnPadding = bigTargets ? 'py-8' : 'py-6';
+  const btnPadding = bigTargets ? 'py-6 sm:py-8' : 'py-4 sm:py-6';
   const controlBtnSize = bigTargets
-    ? 'w-20 h-20 text-3xl'
-    : 'w-16 h-16 text-2xl';
+    ? 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
+    : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
 
   return (
     <div className={`${animClass} flex w-full flex-col items-center`}>
@@ -172,7 +172,7 @@ function ContextExercise({
         </h3>
       )}
 
-      <div className="mb-6 px-2 text-center text-2xl leading-relaxed font-bold text-slate-700">
+      <div className="mb-6 px-2 text-center text-xl sm:text-2xl leading-relaxed font-bold text-slate-700">
         <BionicText text={data.sentence_part1} enabled={bionicReading} />
         <span
           className={`mx-2 border-b-4 px-4 ${themeStyles.border} rounded-lg bg-slate-50 text-slate-300`}
@@ -222,7 +222,7 @@ function ContextExercise({
               opt.isCorrect ? onSuccess() : handleMistake();
             }}
             disabled={isListening}
-            className={`relative ${btnPadding} rounded-3xl border-2 text-xl font-black shadow-sm transition-all active:scale-95 ${
+            className={`relative ${btnPadding} rounded-2xl sm:rounded-3xl border-2 text-base sm:text-xl font-black shadow-sm md:shadow-none transition-all active:scale-95 ${
               isListening 
                 ? 'opacity-50 grayscale' 
                 : activeHighlight === i

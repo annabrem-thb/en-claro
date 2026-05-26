@@ -148,10 +148,10 @@ function GraphemeExercise({
   const pulseClass = noFlash
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-8 ring-red-100';
-  const btnPadding = bigTargets ? 'py-10 px-6' : 'py-8 px-4';
+  const btnPadding = bigTargets ? 'py-6 px-4 sm:py-10 sm:px-6' : 'py-5 px-3 sm:py-8 sm:px-4';
   const controlBtnSize = bigTargets
-    ? 'w-20 h-20 text-4xl'
-    : 'w-16 h-16 text-3xl';
+    ? 'w-16 h-16 sm:w-20 sm:h-20 text-3xl sm:text-4xl'
+    : 'w-12 h-12 sm:w-16 sm:h-16 text-2xl sm:text-3xl';
 
   return (
     <div className={`${animClass} flex w-full flex-col items-center`}>
@@ -188,7 +188,7 @@ function GraphemeExercise({
       )}
 
       {!zenMode && (
-        <h3 className="mb-10 max-w-xs px-6 text-center text-[11px] leading-relaxed font-black tracking-[0.15em] text-slate-500 uppercase">
+        <h3 className="mb-6 sm:mb-10 max-w-sm px-4 sm:px-6 text-center text-[10px] sm:text-[11px] leading-relaxed font-black tracking-[0.15em] text-slate-500 uppercase">
           <BionicText text={questionText} enabled={bionicReading} />
         </h3>
       )}
@@ -203,7 +203,7 @@ function GraphemeExercise({
               opt.isCorrect ? onSuccess() : onError();
             }}
             disabled={isListening}
-            className={`relative min-w-32 flex-1 ${btnPadding} flex flex-col items-center justify-center gap-3 rounded-4xl border-b-8 shadow-lg transition-all active:translate-y-2 active:border-b-0 ${
+            className={`relative min-w-32 flex-1 ${btnPadding} flex flex-col items-center justify-center gap-3 rounded-4xl border-b-8 shadow-lg md:shadow-sm transition-all active:translate-y-2 active:border-b-0 ${
               isListening 
                 ? 'opacity-50 grayscale text-white' 
                 : activeHighlight === i
@@ -212,17 +212,17 @@ function GraphemeExercise({
             }`}
           >
             <span
-              className="absolute top-4 left-5 text-sm font-black text-white/50"
+              className="absolute top-3 left-4 sm:top-4 sm:left-5 text-xs sm:text-sm font-black text-white/50"
               aria-hidden="true"
             >
               {i + 1}
             </span>
             {opt.icon && (
-              <span className="text-4xl" aria-hidden="true">
+              <span className="text-3xl sm:text-4xl" aria-hidden="true">
                 {opt.icon}
               </span>
             )}
-            <span className="w-full text-center text-xl font-bold wrap-break-word">
+            <span className="w-full text-center text-lg sm:text-xl font-bold wrap-break-word">
               <BionicText text={opt.text} enabled={bionicReading} />
             </span>
           </button>

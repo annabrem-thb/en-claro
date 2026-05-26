@@ -156,12 +156,12 @@ function ClockExercise({
   const btnPadding = bigTargets
     ? 'py-6 px-2 text-lg sm:text-2xl'
     : 'py-4 sm:py-5 px-2 text-base sm:text-xl';
-  const clockSize = bigTargets ? 'w-64 h-64' : 'w-56 h-56';
-  const hourLen = bigTargets ? 'h-16' : 'h-14';
-  const minLen = bigTargets ? 'h-24' : 'h-20';
+  const clockSize = bigTargets ? 'w-48 h-48 sm:w-64 sm:h-64' : 'w-44 h-44 sm:w-56 sm:h-56';
+  const hourLen = bigTargets ? 'h-14 sm:h-20' : 'h-12 sm:h-16';
+  const minLen = bigTargets ? 'h-20 sm:h-24' : 'h-16 sm:h-20';
   const controlBtnSize = bigTargets
-    ? 'w-16 h-16 text-2xl'
-    : 'w-12 h-12 text-xl';
+    ? 'w-14 h-14 sm:w-16 sm:h-16 text-xl sm:text-2xl'
+    : 'w-12 h-12 sm:w-14 sm:h-14 text-lg sm:text-xl';
 
   return (
     <div className={`${animClass} flex w-full flex-col items-center`}>
@@ -218,7 +218,7 @@ function ClockExercise({
         }
       `}</style>
       <div
-        className={`relative ${clockSize} mb-6 flex shrink-0 items-center justify-center rounded-full border-8 shadow-xl transition-colors duration-1000 ${
+        className={`relative ${clockSize} mb-6 flex shrink-0 items-center justify-center rounded-full border-8 shadow-xl md:shadow-md transition-colors duration-1000 ${
           data.isNight
             ? 'border-slate-700 bg-slate-800 shadow-blue-900/20'
             : 'border-slate-100 bg-white shadow-slate-200/50'
@@ -255,16 +255,13 @@ function ClockExercise({
         )}
         {/* Center pin */}
         <div
-          className={`z-10 h-4 w-4 rounded-full shadow-md ${data.isNight ? 'bg-blue-300' : 'bg-slate-800'}`}
+          className={`z-10 h-4 w-4 rounded-full shadow-md md:shadow-sm ${data.isNight ? 'bg-blue-300' : 'bg-slate-800'}`}
         />
         {/* Decorative tick marks */}
-        {[0, 90, 180, 270].map((deg) => (
-          <div
-            key={deg}
-            className={`absolute h-4 w-1.5 rounded-full ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`}
-            style={{ transform: `rotate(${deg}deg) translateY(-96px)` }}
-          />
-        ))}
+        <div className={`absolute top-2 h-3 w-1.5 sm:h-4 rounded-full ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`} />
+        <div className={`absolute bottom-2 h-3 w-1.5 sm:h-4 rounded-full ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`} />
+        <div className={`absolute left-2 w-3 h-1.5 sm:w-4 rounded-full ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`} />
+        <div className={`absolute right-2 w-3 h-1.5 sm:w-4 rounded-full ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`} />
       </div>
 
       {/* 5. Digital Time Options */}
@@ -278,7 +275,7 @@ function ClockExercise({
               opt.isCorrect ? onSuccess() : handleMistake();
             }}
             disabled={isListening}
-            className={`relative ${btnPadding} flex min-h-[4rem] items-center justify-center overflow-hidden rounded-2xl border-2 font-black text-center leading-tight shadow-sm transition-all active:scale-95 sm:rounded-3xl ${
+            className={`relative ${btnPadding} flex min-h-[4rem] items-center justify-center overflow-hidden rounded-2xl border-2 font-black text-center leading-tight shadow-sm md:shadow-none transition-all active:scale-95 sm:rounded-3xl ${
               isListening 
                 ? 'opacity-50 grayscale' 
                 : activeHighlight === i

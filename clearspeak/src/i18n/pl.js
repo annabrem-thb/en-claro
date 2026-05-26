@@ -1,6 +1,6 @@
 export default {
   // General & Navigation
-  appTitle: "Claro",
+  appTitle: "EnClaro",
   introSubtitle: "Zbuduj swój most do biegłości.",
 
   // Intro Screen
@@ -96,7 +96,7 @@ export default {
   // Settings
   settings: "Ustawienia",
   settingsTitle: "Ustawienia",
-  settingsSubtitle: "Claro · Dostępna Grywalizacja",
+  settingsSubtitle: "EnClaro · Dostępna Grywalizacja",
   settingsBack: "← Wróć",
   settingsTheme: "Motyw",
   settingsAccessibility: "Opcje komfortu",

@@ -150,15 +150,15 @@ function SyllableExercise({
 
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
   const bounceClass = noFlash ? '' : 'animate-bounce';
-  const charSize = bigTargets ? 'text-7xl' : 'text-6xl';
-  const btnPadding = bigTargets ? 'py-6' : 'py-5';
-  const cutHitbox = bigTargets ? 'w-14 h-20' : 'w-10 h-16';
+  const charSize = bigTargets ? 'text-5xl sm:text-7xl' : 'text-4xl sm:text-6xl';
+  const btnPadding = bigTargets ? 'py-5 sm:py-6' : 'py-4 sm:py-5';
+  const cutHitbox = bigTargets ? 'w-10 h-16 sm:w-14 sm:h-20' : 'w-8 h-12 sm:w-10 sm:h-16';
   const pulseClass = noFlash
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-8 ring-red-100';
   const controlBtnSize = bigTargets
-    ? 'w-20 h-20 text-3xl'
-    : 'w-16 h-16 text-2xl';
+    ? 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
+    : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
 
   return (
     <div className={`${animClass} flex w-full flex-col items-center`}>
@@ -252,7 +252,7 @@ function SyllableExercise({
                 <div
                   className={`w-1.5 rounded-full transition-all duration-300 ${
                     cuts.includes(index + 1)
-                      ? `h-14 ${themeStyles.button} shadow-lg`
+                      ? `h-14 ${themeStyles.button} shadow-lg md:shadow-sm`
                       : `h-4 bg-slate-100 ${isListening ? '' : 'group-hover:h-10 group-hover:bg-slate-200'}`
                   }`}
                 />

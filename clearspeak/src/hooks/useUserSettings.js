@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 // Domyślne wartości odpowiadające atrybutom w a11y.css
 const DEFAULT_SETTINGS = {
-  lrs: true, // Zgodnie z a11y.css, domyślnie włączone (OpenDyslexic)
+  lrs: false, // User choice by default
   contrast: false,
   motorik: false,
   vision: false,
@@ -11,29 +11,32 @@ const DEFAULT_SETTINGS = {
   spacing: false,
   desaturation: false,
   minimalist: false,
-  textScale: 1, // Używane w index.css jako --user-text-scale
-  appMode: 'gamified' // 'classic' lub 'gamified'
+  ruler: false,
+  adaptiveDifficulty: true,
+  bigTargets: false,
+  noFlash: false,
+  audioRewards: false,
+  extendedTime: false,
+  zenMode: false,
+  bionicReading: true,
+  muteNotifications: false,
+  voiceAssistant: false,
+  textScale: 100,
+  language: 'pl',
+  theme: 'Natur',
+  dailyGoal: 5,
+  userDifficulty: 2,
+  appMode: 'gamified'
 };
 
 export function useUserSettings() {
-  const [settings, setSettings] = useState(() => {
-    try {
-      const saved = localStorage.getItem('claro_user_settings');
-      return saved ? { ...DEFAULT_SETTINGS, ...JSON.parse(saved) } : DEFAULT_SETTINGS;
-    } catch (e) {
-      console.error("Błąd odczytu ustawień:", e);
-      return DEFAULT_SETTINGS;
-    }
-  });
+  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
 
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isPwaInstalled, setIsPwaInstalled] = useState(false);
 
   // --- EFEKT 1: Synchronizacja ustawień do CSS (HTML data-attributes) ---
   useEffect(() => {
-    // Zapisz do localStorage
-    localStorage.setItem('claro_user_settings', JSON.stringify(settings));
-    
     const html = document.documentElement;
     
     // Wstrzyknięcie atrybutów dla a11y.css (np. data-a11y-contrast="true")
@@ -44,7 +47,7 @@ export function useUserSettings() {
     });
 
     // Wstrzyknięcie skalowania tekstu dla index.css
-    html.style.setProperty('--user-text-scale', settings.textScale);
+    html.style.setProperty('--user-text-scale', settings.textScale / 100);
 
   }, [settings]);
 

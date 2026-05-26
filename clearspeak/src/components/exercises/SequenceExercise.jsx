@@ -218,10 +218,10 @@ function SequenceExercise({
   const pulseClass = noFlash
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-8 ring-red-100';
-  const btnPadding = bigTargets ? 'py-4 px-6 text-xl' : 'py-3 px-5 text-lg';
+  const btnPadding = bigTargets ? 'py-3 px-4 sm:py-4 sm:px-6 text-lg sm:text-xl' : 'py-2 px-3 sm:py-3 sm:px-5 text-base sm:text-lg';
   const controlBtnSize = bigTargets
-    ? 'w-20 h-20 text-3xl'
-    : 'w-16 h-16 text-2xl';
+    ? 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
+    : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
 
   return (
     <div className={`${animClass} flex w-full max-w-2xl flex-col items-center`}>
@@ -269,9 +269,9 @@ function SequenceExercise({
         </p>
       )}
 
-      <div className="mb-8 flex min-h-30 w-full flex-wrap content-start gap-3 rounded-3xl border-4 border-dashed border-slate-200 bg-slate-50 p-4">
+      <div className="mb-6 sm:mb-8 flex min-h-[100px] sm:min-h-[120px] w-full flex-wrap content-start gap-2 sm:gap-3 rounded-2xl sm:rounded-3xl border-4 border-dashed border-slate-200 bg-slate-50 p-3 sm:p-4">
         {selectedWords.length === 0 && (
-          <div className="flex h-full w-full items-center justify-center px-4 text-center text-sm font-black tracking-widest text-slate-300 uppercase">
+          <div className="flex h-full w-full items-center justify-center px-2 sm:px-4 text-center text-xs sm:text-sm font-black tracking-widest text-slate-300 uppercase">
             <BionicText
               text={t.tapToBuild || 'Tap words to build'}
               enabled={bionicReading}
@@ -283,7 +283,7 @@ function SequenceExercise({
             key={wordObj.id}
             onClick={() => handleDeselect(wordObj)}
             disabled={isListening || isShowingCorrection}
-            className={`${btnPadding} rounded-2xl font-black text-white shadow-md transition-all active:scale-95 ${
+            className={`${btnPadding} rounded-2xl font-black text-white shadow-md md:shadow-sm transition-all active:scale-95 ${
               isListening ? 'opacity-50 grayscale' : ''
             } ${
               isShowingCorrection ? 'bg-yellow-400 text-slate-900 shadow-xl scale-105 pointer-events-none' : themeStyles.button
@@ -294,13 +294,13 @@ function SequenceExercise({
         ))}
       </div>
 
-      <div className="mb-10 flex w-full flex-wrap justify-center gap-3">
+      <div className="mb-8 sm:mb-10 flex w-full flex-wrap justify-center gap-2 sm:gap-3">
         {availableWords.map((wordObj, i) => (
           <button
             key={wordObj.id}
             onClick={() => handleSelect(wordObj)}
             disabled={isListening || isShowingCorrection}
-            className={`relative ${btnPadding} rounded-2xl border-2 font-black shadow-sm transition-all active:scale-95 ${
+            className={`relative ${btnPadding} rounded-2xl border-2 font-black shadow-sm md:shadow-none transition-all active:scale-95 ${
               (isListening || isShowingCorrection)
                 ? 'opacity-50 grayscale border-slate-200 bg-white text-slate-600' 
                 : activeHighlight === wordObj.id
@@ -323,7 +323,7 @@ function SequenceExercise({
         <button
           onClick={handleCheck}
           disabled={isListening || isShowingCorrection}
-          className={`px-12 py-4 ${themeStyles.button} rounded-full text-xl font-black text-white shadow-xl transition-all active:scale-95 ${noFlash ? '' : 'animate-bounce'} ${(isListening || isShowingCorrection) ? 'opacity-50 grayscale cursor-not-allowed' : ''}`}
+          className={`px-8 py-3 sm:px-12 sm:py-4 ${themeStyles.button} rounded-full text-lg sm:text-xl font-black text-white shadow-xl transition-all active:scale-95 ${noFlash ? '' : 'animate-bounce'} ${(isListening || isShowingCorrection) ? 'opacity-50 grayscale cursor-not-allowed' : ''}`}
         >
           <BionicText text={t.check || 'Check'} enabled={bionicReading} />
         </button>

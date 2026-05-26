@@ -109,11 +109,11 @@ function ScrabbleExercise({
   // Dynamic Class Definitions
   const animClass = noFlash ? '' : 'animate-in zoom-in duration-500';
   const tileSize = bigTargets
-    ? 'w-16 h-20 sm:w-20 sm:h-24 text-4xl sm:text-5xl'
-    : 'w-12 h-16 sm:w-16 sm:h-20 text-3xl sm:text-4xl';
+    ? 'w-12 h-16 sm:w-20 sm:h-24 text-3xl sm:text-5xl'
+    : 'w-10 h-14 sm:w-16 sm:h-20 text-2xl sm:text-4xl';
   const letterBtn = bigTargets
-    ? 'w-20 h-20 sm:w-24 sm:h-24 text-3xl sm:text-4xl rounded-3xl sm:rounded-[2rem]'
-    : 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl rounded-2xl sm:rounded-3xl';
+    ? 'w-14 h-14 sm:w-24 sm:h-24 text-2xl sm:text-4xl rounded-2xl sm:rounded-[2rem]'
+    : 'w-12 h-12 sm:w-20 sm:h-20 text-xl sm:text-3xl rounded-xl sm:rounded-3xl';
   const slideAnim = noFlash ? '' : 'animate-in slide-in-from-bottom-2';
   const controlBtnSize = bigTargets
     ? 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
@@ -150,7 +150,7 @@ function ScrabbleExercise({
         {userScrabble.map((x, i) => (
           <div
             key={i}
-            className={`${tileSize} flex items-center justify-center font-black ${themeStyles.accent} rounded-lg border-2 bg-white shadow-sm sm:rounded-xl ${themeStyles.border} ${slideAnim}`}
+            className={`${tileSize} flex items-center justify-center font-black ${themeStyles.accent} rounded-lg border-2 bg-white shadow-sm md:shadow-none sm:rounded-xl ${themeStyles.border} ${slideAnim}`}
           >
             {x.letter}
           </div>
@@ -166,12 +166,12 @@ function ScrabbleExercise({
               key={i}
               disabled={isUsed}
               onClick={() => addLetter(l, i)}
-              className={`relative ${letterBtn} font-black shadow-md transition-all active:scale-90 ${
+              className={`relative ${letterBtn} font-black shadow-md md:shadow-sm transition-all active:scale-90 ${
                 isUsed
                   ? 'cursor-default border-slate-200 bg-slate-100 text-slate-400 opacity-30'
                   : activeHighlight === i
                     ? `scale-110 ring-4 ring-yellow-400 bg-yellow-50 shadow-xl z-10 text-slate-900`
-                    : 'border-transparent bg-slate-100 text-slate-700 hover:bg-white hover:shadow-lg'
+                    : 'border-transparent bg-slate-100 text-slate-700 hover:bg-white hover:shadow-lg md:hover:shadow-sm'
               }`}
             >
               {!isUsed && (
