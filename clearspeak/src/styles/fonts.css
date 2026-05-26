@@ -1,7 +1,7 @@
 /* --- OpenDyslexic Regular --- */
 @font-face {
   font-family: 'OpenDyslexic';
-  src: url('/fonts/opendyslexic-regular-webfont.woff2') format('woff2');
+  src: local('OpenDyslexic'), local('OpenDyslexic-Regular'), url('/fonts/opendyslexic-regular-webfont.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -10,7 +10,8 @@
 /* --- OpenDyslexic Bold --- */
 @font-face {
   font-family: 'OpenDyslexic';
-  src: url('/fonts/OpenDyslexic-Bold.otf') format('opentype');
+  /* Tip: Consider converting .otf to .woff2 for better web performance */
+  src: local('OpenDyslexic Bold'), local('OpenDyslexic-Bold'), url('/fonts/OpenDyslexic-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -19,7 +20,8 @@
 /* --- OpenDyslexic Italic --- */
 @font-face {
   font-family: 'OpenDyslexic';
-  src: url('/fonts/OpenDyslexic-Italic.otf') format('opentype');
+  /* Tip: Consider converting .otf to .woff2 for better web performance */
+  src: local('OpenDyslexic Italic'), local('OpenDyslexic-Italic'), url('/fonts/OpenDyslexic-Italic.otf') format('opentype');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -28,7 +30,8 @@
 /* --- OpenDyslexic Bold Italic --- */
 @font-face {
   font-family: 'OpenDyslexic';
-  src: url('/fonts/OpenDyslexic-BoldItalic.otf') format('opentype');
+  /* Tip: Consider converting .otf to .woff2 for better web performance */
+  src: local('OpenDyslexic Bold Italic'), local('OpenDyslexic-BoldItalic'), url('/fonts/OpenDyslexic-BoldItalic.otf') format('opentype');
   font-weight: 700;
   font-style: italic;
   font-display: swap;

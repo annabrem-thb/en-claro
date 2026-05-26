@@ -34,6 +34,7 @@ import { useSwipeNavigation } from '../hooks/useSwipeNavigation.js';
 
 import ExerciseContainer from './ExerciseContainer.jsx';
 import { GamificationProvider, useGamification } from './GamificationContext.jsx';
+import { UserSettingsProvider } from './UserSettingsContext.jsx';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
 import { SurveyComponent } from './SurveyComponent';
@@ -544,7 +545,9 @@ export default function App() {
   return (
     <Provider store={store}>
       <GamificationProvider>
-        <AppContent />
+        <UserSettingsProvider>
+          <AppContent />
+        </UserSettingsProvider>
       </GamificationProvider>
     </Provider>
   );

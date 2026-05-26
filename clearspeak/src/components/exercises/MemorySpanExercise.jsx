@@ -51,7 +51,6 @@ function MemorySpanExercise({
     if (!data.displayItems) return;
     window.speechSynthesis.cancel();
     clearAllTimeouts();
-czy z
     let delayAcc = 800; // Short pause before starting
     data.displayItems.forEach((item, index) => {
       const textToSpeak = String(item);

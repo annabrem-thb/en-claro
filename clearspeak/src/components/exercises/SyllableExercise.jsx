@@ -23,7 +23,7 @@ function SyllableExercise({
   extendedTime = false,
   bionicReading = false,
   zenMode = false,
-zy   voiceAssistant = false,
+  voiceAssistant = false,
 }) {
   const [cuts, setCuts] = useState([]);
   const [isResolved, setIsResolved] = useState(false);

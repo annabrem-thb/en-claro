@@ -39,19 +39,16 @@ html[data-a11y-vision="true"] * {
 }
 
 /* --- Safe colors (Color blindness) --- */
-html[data-a11y-color="true"] .bg-green-100 { background-color: #dbeafe !important; }
-html[data-a11y-color="true"] .bg-green-500 { background-color: #3b82f6 !important; }
-html[data-a11y-color="true"] .text-green-500 { color: #3b82f6 !important; }
-html[data-a11y-color="true"] .text-green-600 { color: #2563eb !important; }
-html[data-a11y-color="true"] .text-green-700 { color: #1d4ed8 !important; }
-html[data-a11y-color="true"] .ring-green-500 { --tw-ring-color: #3b82f6 !important; }
-
-html[data-a11y-color="true"] .bg-red-100 { background-color: #ffedd5 !important; }
-html[data-a11y-color="true"] .bg-red-500 { background-color: #f97316 !important; }
-html[data-a11y-color="true"] .text-red-500 { color: #f97316 !important; }
-html[data-a11y-color="true"] .text-red-600 { color: #ea580c !important; }
-html[data-a11y-color="true"] .text-red-700 { color: #c2410c !important; }
-html[data-a11y-color="true"] .ring-red-500 { --tw-ring-color: #f97316 !important; }
+html[data-a11y-color="true"] {
+  --color-green-100: #dbeafe;
+  --color-green-500: #3b82f6;
+  --color-green-600: #2563eb;
+  --color-green-700: #1d4ed8;
+  --color-red-100: #ffedd5;
+  --color-red-500: #f97316;
+  --color-red-600: #ea580c;
+  --color-red-700: #c2410c;
+}
 
 /* --- Calm screen (No flashes) --- */
 html[data-a11y-motion="true"] *,
@@ -60,6 +57,7 @@ html[data-a11y-motion="true"] *::after {
   animation-duration: 0.001ms !important;
   animation-iteration-count: 1 !important;
   transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
 }
 
 html[data-a11y-motion="true"] .animate-bounce,

@@ -17,7 +17,7 @@ export default function VisualCategorization({
   isHighContrast, 
   bigTargets, 
   bionicReading,
-oż  noFlash = false,
+  noFlash = false,
   zenMode = false,
   speak,
   extendedTime,

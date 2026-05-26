@@ -9,8 +9,8 @@
   --dyn-letter-spacing: 0.08em;
   --dyn-font-size: 16px; /* Increased default size for phones */
   
-  /* Bezpieczny limit dla małych ekranów dotykowych:
-     Maksymalne dozwolone powiększenie to 130% (1.3), chroniąc layout przed pękaniem */
+  /* Safe limit for small touch screens:
+     Maximum allowed zoom is 130% (1.3), protecting layout from breaking */
   --responsive-scale: min(var(--user-text-scale, 1), 1.3);
 }
 
@@ -30,6 +30,40 @@
     word-spacing: 0.05em !important;
     line-height: 1.35 !important;
   }
+}
+
+@theme {
+  /* Dodanie niestandardowej czcionki do systemu Tailwind (klasa: font-dyslexic) */
+  --font-dyslexic: var(--dyn-font-family);
+
+  /* Integracja skalowania ze standardowymi zmiennymi tekstu Tailwinda */
+  --text-xs: calc(0.75rem * var(--responsive-scale));
+  --text-sm: calc(0.875rem * var(--responsive-scale));
+  --text-base: calc(1rem * var(--responsive-scale));
+  --text-lg: calc(1.125rem * var(--responsive-scale));
+  --text-xl: calc(1.25rem * var(--responsive-scale));
+  --text-2xl: calc(1.5rem * var(--responsive-scale));
+  --text-3xl: calc(1.875rem * var(--responsive-scale));
+  --text-4xl: calc(2.25rem * var(--responsive-scale));
+  --text-5xl: calc(3rem * var(--responsive-scale));
+  --text-6xl: calc(3.75rem * var(--responsive-scale));
+  --text-7xl: calc(4.5rem * var(--responsive-scale));
+  --text-8xl: calc(6rem * var(--responsive-scale));
+  --text-9xl: calc(8rem * var(--responsive-scale));
+
+  /* Nowe rozmiary spacingu integrujące się z w-*, h-*, m-*, p-* itp. */
+  --spacing-scale-5: calc(1.25rem * var(--responsive-scale));
+  --spacing-scale-9: calc(2.25rem * var(--responsive-scale));
+  --spacing-scale-10: calc(2.5rem * var(--responsive-scale));
+  --spacing-scale-11: calc(2.75rem * var(--responsive-scale));
+  --spacing-scale-12: calc(3rem * var(--responsive-scale));
+
+  /* Skalowanie promienia zaokrągleń (border-radius) */
+  --radius-sm: calc(0.125rem * var(--responsive-scale));
+  --radius-md: calc(0.375rem * var(--responsive-scale));
+  --radius-lg: calc(0.5rem * var(--responsive-scale));
+  --radius-xl: calc(0.75rem * var(--responsive-scale));
+  --radius-2xl: calc(1rem * var(--responsive-scale));
 }
 
 @layer base {
@@ -86,29 +120,7 @@
 }
 
 @layer utilities {
-  /* Handle custom (arbitrary) small fonts from Tailwind */
-  .text-\[9px\]  { font-size: calc(0.5625rem * var(--responsive-scale)) !important; }
-  .text-\[10px\] { font-size: calc(0.625rem * var(--responsive-scale)) !important; }
-
-  /* Override Tailwind text classes to react to our slider (scaling ONLY text) */
-  .text-xs   { font-size: calc(0.75rem * var(--responsive-scale)) !important; }
-  .text-sm   { font-size: calc(0.875rem * var(--responsive-scale)) !important; }
-  .text-base { font-size: calc(1rem * var(--responsive-scale)) !important; }
-  .text-lg   { font-size: calc(1.125rem * var(--responsive-scale)) !important; }
-  .text-xl   { font-size: calc(1.25rem * var(--responsive-scale)) !important; }
-  .text-2xl  { font-size: calc(1.5rem * var(--responsive-scale)) !important; }
-  .text-3xl  { font-size: calc(1.875rem * var(--responsive-scale)) !important; }
-  .text-4xl  { font-size: calc(2.25rem * var(--responsive-scale)) !important; }
-  .text-5xl  { font-size: calc(3rem * var(--responsive-scale)) !important; }
-  .text-6xl  { font-size: calc(3.75rem * var(--responsive-scale)) !important; }
-  .text-7xl  { font-size: calc(4.5rem * var(--responsive-scale)) !important; }
-  .text-8xl  { font-size: calc(6rem * var(--responsive-scale)) !important; }
-  .text-9xl  { font-size: calc(8rem * var(--responsive-scale)) !important; }
-
-  /* Scale sizes (width/height) for icons, checkboxes, and round buttons */
-  .scale-size-5  { width: calc(1.25rem * var(--responsive-scale)) !important; height: calc(1.25rem * var(--responsive-scale)) !important; }
-  .scale-size-9  { width: calc(2.25rem * var(--responsive-scale)) !important; height: calc(2.25rem * var(--responsive-scale)) !important; }
-  .scale-size-10 { width: calc(2.5rem * var(--responsive-scale)) !important; height: calc(2.5rem * var(--responsive-scale)) !important; }
-  .scale-size-11 { width: calc(2.75rem * var(--responsive-scale)) !important; height: calc(2.75rem * var(--responsive-scale)) !important; }
-  .scale-size-12 { width: calc(3rem * var(--responsive-scale)) !important; height: calc(3rem * var(--responsive-scale)) !important; }
+  /* Dynamic arbitrary font sizes utilizing our CSS variable */
+  .text-\[9px\]  { font-size: calc(0.5625rem * var(--responsive-scale)); }
+  .text-\[10px\] { font-size: calc(0.625rem * var(--responsive-scale)); }
 }
