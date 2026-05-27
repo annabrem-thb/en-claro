@@ -18,7 +18,7 @@ function IntroScreen({ onStart, speak }) {
 
   const { language, contrast: isHighContrast, motorik: bigTargets, motion: noFlash } = settings;
 
-  // Mapowanie starych kluczy a11y na nowe
+  // Mapping legacy a11y keys to new names
   const A11Y_MAPPING = {
     'LRS': 'lrs',
     'Kontrast': 'contrast',
@@ -188,7 +188,7 @@ function IntroScreen({ onStart, speak }) {
               <A11yBtn active={hasZen} onClick={() => toggleInclusive('zenMode', t('intro.zen', 'Zen Mode'))} icon="🧘" label={t('intro.zen', 'Zen Mode')} />
             </div>
 
-            {/* --- KOMUNIKAT O ZALECANEJ PRZEGLĄDARCE --- */}
+            {/* --- RECOMMENDED BROWSER MESSAGE --- */}
             <div className={`mt-1 mb-2 p-2 sm:p-3 rounded-2xl flex items-center gap-2 sm:gap-3 border-2 text-left transition-colors ${isHighContrast ? 'bg-black border-white/50 text-white' : 'bg-blue-50 border-blue-200 text-blue-800'}`}>
               <span className="text-lg sm:text-2xl shrink-0 drop-shadow-sm" aria-hidden="true">💡</span>
               <p className="text-xs sm:text-sm font-medium leading-snug">

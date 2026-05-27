@@ -22,7 +22,7 @@ export default function ExerciseContainer({ currentTask, ...commonProps }) {
   const { t, language } = commonProps;
 
   if (!currentTask) {
-    return <div className="p-6 text-center text-slate-400">{t?.noData || 'No data'}</div>;
+    return <div className="p-6 text-center text-slate-400" role="alert" aria-live="polite">{t?.noData || 'No data'}</div>;
   }
 
   const exerciseProps = {
@@ -44,5 +44,5 @@ export default function ExerciseContainer({ currentTask, ...commonProps }) {
   if (currentTask.dictation)      return <DictationExercise {...exerciseProps} />;
   if (currentTask.correct)        return <SequenceExercise {...exerciseProps} />;
 
-  return <div className="p-6 text-red-400">{t?.formatNotRecognized || 'Format not recognized'}</div>;
+  return <div className="p-6 text-red-400" role="alert" aria-live="assertive">{t?.formatNotRecognized || 'Format not recognized'}</div>;
 }

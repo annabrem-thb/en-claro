@@ -15,7 +15,7 @@ import { useGamification } from './GamificationContext.jsx';
 import BionicText from './common/BionicText.jsx';
 import { useUserSettingsContext } from './UserSettingsContext.jsx';
 
-// ─── Theme shop config ────────────────────────────────────────────────────────
+// ─── Theme Shop Config ────────────────────────────────────────────────────────
 const THEME_CONFIG = {
   Natur:  { icon: '🌿', cost: 0  },
   Musik:  { icon: '🎵', cost: 3  },
@@ -24,7 +24,7 @@ const THEME_CONFIG = {
   Ocean:  { icon: '🐳', cost: 10 },
 };
 
-// ─── A11y add-on profiles (multi-select, on top of LRS base) ─────────────────
+// ─── A11y Add-on Profiles (multi-select, on top of LRS base) ─────────────────
 const A11Y_ADDONS = [
   {
     key: 'LRS',
@@ -82,7 +82,7 @@ const A11Y_ADDONS = [
   },
 ];
 
-// ─── Color map ────────────────────────────────────────────────────────────────
+// ─── Color Map ────────────────────────────────────────────────────────────────
 const COLOR = {
   violet: { ring: 'border-violet-400 bg-violet-50', text: 'text-violet-700', badge: 'bg-violet-100 text-violet-600', dot: 'bg-violet-400' },
   yellow: { ring: 'border-yellow-400 bg-yellow-50', text: 'text-yellow-700', badge: 'bg-yellow-100 text-yellow-600', dot: 'bg-yellow-400' },
@@ -93,7 +93,7 @@ const COLOR = {
   slate:  { ring: 'border-slate-400 bg-slate-50',   text: 'text-slate-700',  badge: 'bg-slate-100 text-slate-600',  dot: 'bg-slate-400'  },
 };
 
-// Mapowanie przestarzałych kluczy a11y na nowe nazwy w settings
+// Mapping legacy a11y keys to new names in settings
 const A11Y_MAPPING = {
   'LRS': 'lrs',
   'Kontrast': 'contrast',
@@ -106,7 +106,7 @@ const A11Y_MAPPING = {
   'Desaturacja': 'desaturation'
 };
 
-// ─── Shared sub-components ────────────────────────────────────────────────────
+// ─── Shared Sub-components ────────────────────────────────────────────────────
 const Divider = () => <div className="h-px bg-slate-100 my-1" />;
 
 const SectionLabel = ({ children, sub, isHighContrast }) => (
@@ -147,6 +147,7 @@ function SettingsModal({
   // --- Swipe-to-close logic ---
   const touchStart = useRef(null);
   const touchEnd = useRef(null);
+  const scrollRef = useRef(null);
 
   const onTouchStart = (e) => {
     touchEnd.current = null;
@@ -155,8 +156,13 @@ function SettingsModal({
   const onTouchMove = (e) => { touchEnd.current = { x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY }; };
   const onTouchEnd = () => {
     if (!touchStart.current || !touchEnd.current) return;
-    const distanceY = touchStart.current.y - touchEnd.current.y;
-    if (distanceY < -50 && Math.abs(distanceY) > Math.abs(touchStart.current.x - touchEnd.current.x)) onClose();
+    
+    // Allow closing only when the user is scrolled to the very top of the settings list
+    const isAtTop = scrollRef.current ? scrollRef.current.scrollTop <= 0 : true;
+    const distanceY = touchEnd.current.y - touchStart.current.y; // Positive value means downward swipe
+    const distanceX = Math.abs(touchEnd.current.x - touchStart.current.x);
+
+    if (isAtTop && distanceY > 50 && distanceY > distanceX) onClose();
   };
   
   // ─── Load available TTS voices ──────────────────────────────────────────
@@ -188,6 +194,12 @@ function SettingsModal({
   if (!open) return null;
 
   const s = useTranslation(language);
+
+  // Styles to enlarge slider thumbs, visible only when 'bigTargets' is enabled
+  const thumbBase = bigTargets ? "[&::-webkit-slider-thumb]:w-8 [&::-webkit-slider-thumb]:h-8 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:w-8 [&::-moz-range-thumb]:h-8 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:cursor-pointer" : "";
+  const thumbWhite = "[&::-webkit-slider-thumb]:bg-white [&::-moz-range-thumb]:bg-white";
+  const thumbIndigo600 = "[&::-webkit-slider-thumb]:bg-indigo-600 [&::-moz-range-thumb]:bg-indigo-600";
+  const thumbIndigo500 = "[&::-webkit-slider-thumb]:bg-indigo-500 [&::-moz-range-thumb]:bg-indigo-500";
 
   // ─── A11y add-on toggle ─────────────────────────────────────────────────
   const toggleAddon = (key) => {
@@ -245,14 +257,16 @@ function SettingsModal({
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className={`rounded-t-[40px] sm:rounded-[40px] shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[94vh] sm:max-h-[92vh] ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'}`}>
+      <div 
+        className={`rounded-t-[40px] sm:rounded-[40px] shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[94vh] sm:max-h-[92vh] ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'}`}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
 
         {/* ── Header & Tabs ─────────────────────────────────────────────── */}
         <div 
           className={`px-5 pt-4 pb-2 flex flex-col gap-4 border-b sticky top-0 z-20 shrink-0 touch-pan-x shadow-md backdrop-blur-xl transition-colors ${isHighContrast ? 'bg-black/90 border-white/30' : 'bg-white/90 border-slate-200'}`}
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
         >
           {/* Drag handle (mobile) */}
           <div className={`absolute top-2 left-1/2 -translate-x-1/2 w-10 h-1 rounded-full sm:hidden ${isHighContrast ? 'bg-white/30' : 'bg-slate-200'}`} />
@@ -278,50 +292,58 @@ function SettingsModal({
           </div>
 
           {/* Tabs */}
-          <div className={`flex p-1 rounded-2xl mb-4 overflow-x-auto ${isHighContrast ? 'bg-white/20' : 'bg-slate-200/50'}`}>
+          <div className={`grid ${isGamified ? 'grid-cols-4' : 'grid-cols-3'} gap-1 p-1.5 rounded-2xl mb-4 ${isHighContrast ? 'bg-white/20' : 'bg-slate-200/50'}`}>
             <button
               onClick={() => setUserSelectedTab('general')}
               aria-current={activeTab === 'general' ? 'step' : undefined}
-                className={`flex-1 ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-2 ${
-                activeTab === 'general' ? (isHighContrast ? 'bg-black border border-white text-white' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
+              className={`flex flex-col items-center justify-center ${bigTargets ? 'py-3' : 'py-2'} font-bold rounded-xl transition-all ${
+                activeTab === 'general' ? (isHighContrast ? 'bg-black border border-white text-white shadow-sm' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
               }`}
             >
-              {s.tabGeneral}
+              <span className={`${bigTargets ? 'text-xl' : 'text-lg'} mb-0.5`} aria-hidden="true">⚙️</span>
+              <span className="text-[10px] sm:text-xs truncate w-full text-center">{s.tabGeneral}</span>
             </button>
             <button
               onClick={() => setUserSelectedTab('a11y')}
               aria-current={activeTab === 'a11y' ? 'step' : undefined}
-              className={`flex-1 ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-2 ${
-                activeTab === 'a11y' ? (isHighContrast ? 'bg-black border border-white text-white' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
+              className={`flex flex-col items-center justify-center ${bigTargets ? 'py-3' : 'py-2'} font-bold rounded-xl transition-all ${
+                activeTab === 'a11y' ? (isHighContrast ? 'bg-black border border-white text-white shadow-sm' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
               }`}
             >
-              {s.tabA11y}
+              <span className={`${bigTargets ? 'text-xl' : 'text-lg'} mb-0.5`} aria-hidden="true">👁️</span>
+              <span className="text-[10px] sm:text-xs truncate w-full text-center">{s.tabA11y}</span>
             </button>
             <button
-                onClick={() => setUserSelectedTab('voice')}
-                aria-current={activeTab === 'voice' ? 'step' : undefined}
-                className={`flex-1 ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-2 ${
-                  activeTab === 'voice' ? (isHighContrast ? 'bg-black border border-white text-white' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
-                }`}
-              >
-                {s.tabVoice}
-              </button>
+              onClick={() => setUserSelectedTab('voice')}
+              aria-current={activeTab === 'voice' ? 'step' : undefined}
+              className={`flex flex-col items-center justify-center ${bigTargets ? 'py-3' : 'py-2'} font-bold rounded-xl transition-all ${
+                activeTab === 'voice' ? (isHighContrast ? 'bg-black border border-white text-white shadow-sm' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
+              }`}
+            >
+              <span className={`${bigTargets ? 'text-xl' : 'text-lg'} mb-0.5`} aria-hidden="true">🗣️</span>
+              <span className="text-[10px] sm:text-xs truncate w-full text-center">{s.tabVoice}</span>
+            </button>
             {isGamified && (
               <button
                 onClick={() => setUserSelectedTab('shop')}
                 aria-current={activeTab === 'shop' ? 'step' : undefined}
-                className={`flex-1 ${bigTargets ? 'py-4 text-sm' : 'py-2 text-xs'} font-bold rounded-xl transition-all whitespace-nowrap px-2 ${
-                  activeTab === 'shop' ? (isHighContrast ? 'bg-black border border-white text-white' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
+                className={`flex flex-col items-center justify-center ${bigTargets ? 'py-3' : 'py-2'} font-bold rounded-xl transition-all ${
+                  activeTab === 'shop' ? (isHighContrast ? 'bg-black border border-white text-white shadow-sm' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
                 }`}
               >
-                {s.tabShop}
+                <span className={`${bigTargets ? 'text-xl' : 'text-lg'} mb-0.5`} aria-hidden="true">🛒</span>
+                <span className="text-[10px] sm:text-xs truncate w-full text-center">{s.tabShop}</span>
               </button>
             )}
           </div>
         </div>
 
         {/* ── Scrollable body ─────────────────────────────────────────────── */}
-        <div className="p-5 pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto no-scrollbar flex flex-col gap-6 overscroll-none">
+        <div 
+          ref={scrollRef}
+          className="p-5 pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto flex flex-col gap-6 overscroll-none"
+          style={{ scrollbarWidth: 'thin', scrollbarColor: isHighContrast ? '#ffffff #000000' : '#cbd5e1 transparent' }}
+        >
 
           {activeTab === 'general' && (
             <div className="flex flex-col gap-6 animate-in fade-in duration-300">
@@ -338,14 +360,14 @@ function SettingsModal({
                       key={code}
                     onClick={() => updateSetting('language', code)}
                       aria-pressed={language === code}
-                      className={`flex-1 ${bigTargets ? 'py-6' : 'py-4'} rounded-2xl border-2 flex flex-col items-center gap-1 transition-all active:scale-95 ${
+                      className={`flex-1 ${bigTargets ? 'py-8 gap-2' : 'py-4 gap-1'} rounded-2xl border-2 flex flex-col items-center transition-all active:scale-95 ${
                         language === code
                           ? (isHighContrast ? 'border-white bg-white/20 text-white shadow-sm' : 'border-emerald-400 bg-emerald-50 shadow-sm')
                           : (isHighContrast ? 'border-white/30 bg-black text-white/70 hover:border-white/60' : 'border-slate-100 bg-white hover:border-slate-200')
                       }`}
                     >
-                      <span className="text-2xl" aria-hidden="true">{flag}</span>
-                      <span className={`text-xs font-black ${language === code ? (isHighContrast ? 'text-white' : 'text-slate-700') : (isHighContrast ? 'text-white/70' : 'text-slate-500')}`}>{label}</span>
+                      <span className={`${bigTargets ? 'text-4xl' : 'text-2xl'} transition-all`} aria-hidden="true">{flag}</span>
+                      <span className={`${bigTargets ? 'text-sm' : 'text-xs'} font-black transition-all ${language === code ? (isHighContrast ? 'text-white' : 'text-slate-700') : (isHighContrast ? 'text-white/70' : 'text-slate-500')}`}>{label}</span>
                     </button>
                   ))}
                 </div>
@@ -459,7 +481,7 @@ function SettingsModal({
                             ))}
                           </div>
                         </div>
-                        {/* Checkbox-style indicator */}
+                        {/* Checkbox-style visual indicator for screen readers / a11y */}
                         <div className={`shrink-0 scale-size-5 rounded-md border-2 flex items-center justify-center transition-all ${
                           isActive ? (isHighContrast ? 'border-white bg-white text-black' : `border-current ${c.ring} text-current`) : (isHighContrast ? 'border-white/50 bg-black' : 'border-slate-200 bg-white')
                         }`}>
@@ -537,7 +559,7 @@ function SettingsModal({
                   step="5"
                   value={textScale}
                 onChange={(e) => updateSetting('textScale', Number(e.target.value))}
-                  className={`w-full cursor-pointer rounded-lg appearance-none ${isHighContrast ? 'bg-white/30 accent-white' : 'bg-slate-200 accent-indigo-600'} ${bigTargets ? 'h-4' : 'h-2'}`}
+                  className={`w-full cursor-pointer rounded-lg appearance-none ${isHighContrast ? 'bg-white/30 accent-white' : 'bg-slate-200 accent-indigo-600'} ${bigTargets ? `h-4 ${thumbBase} ${isHighContrast ? thumbWhite : thumbIndigo600}` : 'h-2'}`}
                 />
                 <span className={`text-2xl font-bold ${isHighContrast ? 'text-white' : 'text-slate-600'}`}>A</span>
               </div>
@@ -568,7 +590,7 @@ function SettingsModal({
                       step="0.05"
                       value={voiceSpeed}
                       onChange={(e) => setVoiceSpeed(Number(e.target.value))}
-                      className={`w-full cursor-pointer my-3 ${isHighContrast ? 'accent-white' : 'accent-indigo-500'} ${bigTargets ? 'h-4' : ''}`}
+                      className={`w-full cursor-pointer rounded-lg appearance-none my-3 ${isHighContrast ? 'bg-white/30 accent-white' : 'bg-slate-200 accent-indigo-500'} ${bigTargets ? `h-4 ${thumbBase} ${isHighContrast ? thumbWhite : thumbIndigo500}` : 'h-2'}`}
                     />
                     <div className="flex justify-between mt-1 mb-4">
               <span className={`text-xs font-bold ${isHighContrast ? 'text-white/60' : 'text-slate-400'}`}>{s.slow}</span>
@@ -587,7 +609,7 @@ function SettingsModal({
                     step="0.05"
                     value={voicePitch}
                     onChange={(e) => setVoicePitch(Number(e.target.value))}
-                      className={`w-full cursor-pointer my-3 ${isHighContrast ? 'accent-white' : 'accent-indigo-500'} ${bigTargets ? 'h-4' : ''}`}
+                      className={`w-full cursor-pointer rounded-lg appearance-none my-3 ${isHighContrast ? 'bg-white/30 accent-white' : 'bg-slate-200 accent-indigo-500'} ${bigTargets ? `h-4 ${thumbBase} ${isHighContrast ? thumbWhite : thumbIndigo500}` : 'h-2'}`}
                   />
                   <div className="flex justify-between mt-1 mb-6">
                     <span className={`text-xs font-bold ${isHighContrast ? 'text-white/60' : 'text-slate-400'}`}>{s.pitchLow || 'Low'}</span>

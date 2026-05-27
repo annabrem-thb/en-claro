@@ -53,14 +53,13 @@ export default function MetacognitiveReflection({ onReflectionComplete }) {
       </p>
 
       {/* Accessible Radio Group for Metacognitive Choices */}
-      <div className="flex flex-col sm:flex-row gap-4 w-full mb-12" role="radiogroup" aria-label="Reflection rating">
+      <div className="flex flex-col sm:flex-row gap-4 w-full mb-12" role="group" aria-label={refl.title || 'Reflection rating'}>
         {RATING_OPTIONS.map((option) => {
           const isSelected = selectedRating === option.id;
           return (
             <button
               key={option.id}
-              role="radio"
-              aria-checked={isSelected}
+              aria-pressed={isSelected}
               onClick={() => setSelectedRating(option.id)}
               className={`flex-1 flex flex-col items-center justify-center gap-2 ${bigTargets ? 'p-8' : 'p-6'} rounded-3xl border-2 transition-all active:scale-95 focus:outline-none focus-visible:ring-4 ${
                 isSelected

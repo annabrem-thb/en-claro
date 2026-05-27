@@ -24,13 +24,18 @@ export function CognitiveEnergyIndicator({
   // Helper to render individual status dots with appropriate styling and animations
   const renderDot = (color, isActive) => {
     let classes = 'bg-slate-300 opacity-30';
+    let shapeIcon = null;
+
     if (isActive) {
-      if (color === 'green') classes = 'bg-emerald-500 shadow-sm';
-      if (color === 'yellow') classes = 'bg-amber-400 shadow-sm';
-      if (color === 'red') classes = `bg-red-500 shadow-sm ${noFlash ? '' : 'animate-pulse'}`;
+      // A11y WCAG 1.4.1: Do not rely solely on color. We use distinct icons.
+      if (color === 'green') { classes = 'bg-[var(--color-success)] shadow-sm'; shapeIcon = <span className="text-white text-[8px] font-black absolute inset-0 flex items-center justify-center" aria-hidden="true">✓</span>; }
+      if (color === 'yellow') { classes = 'bg-[var(--color-warning)] shadow-sm'; shapeIcon = <span className="text-black text-[8px] font-black absolute inset-0 flex items-center justify-center" aria-hidden="true">-</span>; }
+      if (color === 'red') { classes = `bg-[var(--color-error)] shadow-sm ${noFlash ? '' : 'animate-pulse'}`; shapeIcon = <span className="text-white text-[8px] font-black absolute inset-0 flex items-center justify-center" aria-hidden="true">✕</span>; }
     }
     return (
-      <div className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-500 ${classes}`} aria-hidden="true" />
+      <div className={`relative w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-500 ${classes}`} aria-hidden="true">
+        {shapeIcon}
+      </div>
     );
   };
 

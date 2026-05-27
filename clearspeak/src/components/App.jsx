@@ -55,7 +55,7 @@ const THEMES = {
 function AppContent() {
   const { isGamified, setIsGamified } = useGamification();
   
-  // Nowe ujednolicone zarządzanie ustawieniami z Context API
+  // Unified settings management using Context API
   const { settings, updateSetting } = useUserSettingsContext();
   const { language, theme, dailyGoal, userDifficulty } = settings;
 
@@ -133,6 +133,7 @@ function AppContent() {
   const bigTargets     = settings.bigTargets || settings.motorik;
   const hideNavLabel   = settings.vision;
   const isHighContrast = settings.contrast;
+  const isColorblind   = settings.color;
   const hasRuler       = settings.ruler;
 
   // Reading Ruler logic
@@ -140,7 +141,13 @@ function AppContent() {
 
   useEffect(() => {
     const root = document.documentElement;
-    root.style.setProperty('--theme-accent', THEMES[theme]?.hex || '#10b981');
+    
+    // Colorblind-safe palette (Protanopia and Deuteranopia friendly)
+    const safeAccent = isColorblind ? '#0072B2' : (THEMES[theme]?.hex || '#10b981');
+    root.style.setProperty('--theme-accent', safeAccent);
+    root.style.setProperty('--color-success', isColorblind ? '#0072B2' : '#10b981'); // Blue instead of Green
+    root.style.setProperty('--color-error', isColorblind ? '#D55E00' : '#ef4444');   // Vermilion instead of Red
+    root.style.setProperty('--color-warning', isColorblind ? '#F0E442' : '#f59e0b'); // Yellow instead of Amber
     
     // Extracts HEX color from classes like bg-[#F4F1EA] and sets it as a variable for gradients
     const bgHex = THEMES[theme]?.bg?.match(/\[(.*?)\]/)?.[1] || '#FDFBF7';
@@ -167,9 +174,6 @@ function AppContent() {
     setPendingFeedback, setShowSuccess, setShowFeedback, setEarnedCoinsAnim,
     setErrorTimestamps
   });
-
-  // Swipe Navigation (must be initialized after useExerciseSession to access goNext/goPrev)
-  const swipeHandlers = useSwipeNavigation({ onSwipeLeft: goNext, onSwipeRight: goPrev });
 
   // Analytics Logger - securely stores UX survey telemetry data into IndexedDB
   const handleFeedbackSubmit = useCallback(async (surveyData) => {
@@ -203,6 +207,34 @@ function AppContent() {
     setActiveTab('Garden');
     setFeedback(null);
   }, []);
+
+  // --- Gesture Navigation (Swipe to switch tabs) ---
+  const handleSwipeTab = useCallback((direction) => {
+    const availableTabs = isGamified ? [...PILLARS, 'Garden'] : PILLARS;
+    const currentIdx = availableTabs.indexOf(activeTab);
+    if (currentIdx === -1) return;
+
+    let newIdx = currentIdx;
+    if (direction === 'left' && currentIdx < availableTabs.length - 1) {
+      newIdx++;
+    } else if (direction === 'right' && currentIdx > 0) {
+      newIdx--;
+    }
+
+    if (newIdx !== currentIdx) {
+      const nextTab = availableTabs[newIdx];
+      if (nextTab === 'Garden') {
+        handleGardenClick();
+      } else {
+        handleTabChange(nextTab);
+      }
+    }
+  }, [activeTab, isGamified, handleTabChange, handleGardenClick]);
+
+  const swipeHandlers = useSwipeNavigation({ 
+    onSwipeLeft: () => handleSwipeTab('left'), 
+    onSwipeRight: () => handleSwipeTab('right') 
+  });
 
   const renderCurrentExercise = () => {
     if (isTransitioning) {
@@ -266,26 +298,28 @@ function AppContent() {
   return (
     <div className={`flex flex-col md:flex-row h-screen h-dvh w-full overflow-hidden ${isHighContrast ? 'bg-black text-white' : `${themeStyles.bg} text-[#2D3732]`}`}>
 
-      {/* Navigation Sidebar */}
-      <SidebarNav
-        pillars={PILLARS}
-        activeTab={activeTab}
-        onTabChange={handleTabChange}
-        onGardenClick={handleGardenClick}
-        dailyQuests={dailyQuests}
-        language={language}
-        isGamified={isGamified}
-        theme={theme}
-        themeStyles={themeStyles}
-        isHighContrast={isHighContrast}
-        bigTargets={bigTargets}
-        hideNavLabel={hideNavLabel}
-        setSettingsOpen={setSettingsOpen}
-        t={t}
-        s={s}
-        speak={speak}
-        noFlash={noFlash}
-      />
+        {/* Navigation Sidebar (Desktop) */}
+        <div className="hidden md:flex h-full shrink-0 z-40">
+          <SidebarNav
+            pillars={PILLARS}
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+            onGardenClick={handleGardenClick}
+            dailyQuests={dailyQuests}
+            language={language}
+            isGamified={isGamified}
+            theme={theme}
+            themeStyles={themeStyles}
+            isHighContrast={isHighContrast}
+            bigTargets={bigTargets}
+            hideNavLabel={hideNavLabel}
+            setSettingsOpen={setSettingsOpen}
+            t={t}
+            s={s}
+            speak={speak}
+            noFlash={noFlash}
+          />
+        </div>
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden relative">

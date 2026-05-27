@@ -16,6 +16,10 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
 
   const v = t.feedback || {};
 
+  // Styles enlarging slider thumbs, with dynamic background color injection via CSS variables
+  const thumbBase = bigTargets ? "[&::-webkit-slider-thumb]:w-8 [&::-webkit-slider-thumb]:h-8 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:w-8 [&::-moz-range-thumb]:h-8 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:cursor-pointer" : "";
+  const thumbColor = isHighContrast ? "[&::-webkit-slider-thumb]:bg-white [&::-moz-range-thumb]:bg-white" : "[&::-webkit-slider-thumb]:bg-[var(--thumb-color)] [&::-moz-range-thumb]:bg-[var(--thumb-color)]";
+
   // Sub-component for rendering accessible range sliders
   const RangeInput = ({ label, desc, value, setValue, leftLabel, rightLabel }) => (
     <div className={`flex flex-col gap-2 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 ${isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100'}`}>
@@ -37,8 +41,13 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
         step="1"
         value={value}
         onChange={(e) => setValue(Number(e.target.value))}
-        className={`w-full cursor-pointer bg-slate-200 rounded-lg appearance-none mt-2 ${bigTargets ? 'h-4' : 'h-2'}`}
-        style={{ accentColor: isHighContrast ? '#ffffff' : themeStyles?.hex || '#10b981' }}
+        aria-label={label}
+        aria-valuetext={`${value} out of 5`}
+        className={`w-full cursor-pointer rounded-lg appearance-none mt-2 ${isHighContrast ? 'bg-white/30' : 'bg-slate-200'} ${bigTargets ? `h-4 ${thumbBase} ${thumbColor}` : 'h-2'}`}
+        style={{ 
+          accentColor: isHighContrast ? '#ffffff' : themeStyles?.hex || '#10b981',
+          '--thumb-color': isHighContrast ? '#ffffff' : themeStyles?.hex || '#10b981'
+        }}
       />
       <div className="flex justify-between mt-1">
         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
@@ -65,7 +74,10 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
           </p>
         </div>
 
-        <div className="flex flex-col gap-4 my-2 overflow-y-auto overscroll-none no-scrollbar pr-1 pb-2">
+        <div 
+          className="flex flex-col gap-4 my-2 overflow-y-auto overscroll-none pr-1 pb-2"
+          style={{ scrollbarWidth: 'thin', scrollbarColor: isHighContrast ? '#ffffff #000000' : '#cbd5e1 transparent' }}
+        >
           <div className="flex flex-col gap-2">
             <h3 className={`text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}>
               {v.nasaTitle || 'NASA-TLX'}

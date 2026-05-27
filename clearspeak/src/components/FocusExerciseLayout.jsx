@@ -28,7 +28,8 @@ export default function FocusExerciseLayout({
   return (
     <div 
       className={`fixed inset-0 z-[100] flex flex-col ${isHighContrast ? 'bg-black text-white' : 'bg-[#fdfaf6] text-slate-800'}`}
-      role="main"
+      role="dialog"
+      aria-modal="true"
       aria-label={t?.activeExerciseView || "Active Exercise View"}
     >
       {/* Minimal Header */}
@@ -45,7 +46,7 @@ export default function FocusExerciseLayout({
         </button>
 
         {/* Simplified Progress Bar */}
-        <div className="flex items-center gap-4" aria-live="polite">
+      <div className="flex items-center gap-4" aria-live="polite" aria-atomic="true">
           <span className={`${bigTargets ? 'text-sm' : 'text-xs'} font-black uppercase tracking-widest opacity-70`}>
             {t?.task || 'Task'} {currentTaskNumber} {t?.of || 'of'} {totalTasks}
           </span>

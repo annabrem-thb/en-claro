@@ -22,7 +22,7 @@ export function ExerciseRenderer({ currentTask, ...commonProps }) {
   const { t } = commonProps;
 
   if (!currentTask) {
-    return <div className="p-6 text-center text-slate-400">{t.noData || 'No data'}</div>;
+    return <div className="p-6 text-center text-slate-400" role="alert" aria-live="polite">{t.noData || 'No data'}</div>;
   }
 
   // Duck-typing feature detection to route to the appropriate educational module
@@ -51,5 +51,5 @@ export function ExerciseRenderer({ currentTask, ...commonProps }) {
   if (currentTask.lcwc)
     return <LookCoverWriteCheck targetWord={currentTask.word} onSelfEvaluate={(res) => res.correct ? commonProps.onSuccess() : commonProps.onError()} data={currentTask} {...commonProps} />;
 
-  return <div className="p-6 text-red-400">{t.formatNotRecognized || 'Format not recognized'}</div>;
+  return <div className="p-6 text-red-400" role="alert" aria-live="assertive">{t.formatNotRecognized || 'Format not recognized'}</div>;
 }
