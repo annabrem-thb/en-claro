@@ -51,7 +51,7 @@ function ContextExercise({
   useEffect(() => {
     return () => {
       clearAudioTimeouts();
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
     };
   }, [clearAudioTimeouts]);
 
@@ -70,7 +70,7 @@ function ContextExercise({
   const handleMistake = useCallback(() => {
     onError();
     setSafeTimeout(() => {
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
       clearAudioTimeouts();
 
       const correctOpt = shuffledOptions.find((o) => o.isCorrect);
@@ -89,7 +89,7 @@ function ContextExercise({
 
   const handleVoiceMatch = (num) => {
     clearAudioTimeouts();
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     const selected = shuffledOptions[num - 1];
     if (selected) {
       selected.isCorrect ? onSuccess() : handleMistake();
@@ -99,7 +99,7 @@ function ContextExercise({
   };
 
   const readContextAndOptions = () => {
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     let delayAcc = 0;
@@ -218,7 +218,7 @@ function ContextExercise({
             key={i}
             onClick={() => {
               clearAudioTimeouts();
-              window.speechSynthesis.cancel();
+              window.speechSynthesis?.cancel();
               opt.isCorrect ? onSuccess() : handleMistake();
             }}
             disabled={isListening}

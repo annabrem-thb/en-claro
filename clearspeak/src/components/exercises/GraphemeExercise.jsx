@@ -56,7 +56,7 @@ function GraphemeExercise({
   useEffect(() => {
     return () => {
       clearAudioTimeouts();
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
     };
   }, [clearAudioTimeouts]);
 
@@ -87,7 +87,7 @@ function GraphemeExercise({
   // Handle voice commands for option selection (1, 2, 3...)
   const handleVoiceMatch = (num) => {
     clearAudioTimeouts();
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     const selectedIndex = num - 1;
     if (selectedIndex >= 0 && selectedIndex < shuffledOptions.length) {
       shuffledOptions[selectedIndex].isCorrect ? onSuccess() : onError();
@@ -97,7 +97,7 @@ function GraphemeExercise({
   };
 
   const readQuestionAndOptions = () => {
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     // pulling localized prefix from a simple map or dictionary
@@ -199,7 +199,7 @@ function GraphemeExercise({
             key={i}
             onClick={() => {
               clearAudioTimeouts();
-              window.speechSynthesis.cancel();
+              window.speechSynthesis?.cancel();
               opt.isCorrect ? onSuccess() : onError();
             }}
             disabled={isListening}

@@ -71,7 +71,7 @@ function SequenceExercise({
   useEffect(() => {
     return () => {
       clearAllTimeouts();
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
       setActiveHighlight(null);
       setIsShowingCorrection(false);
     };
@@ -85,7 +85,7 @@ function SequenceExercise({
   const handleSelect = useCallback((wordObj) => {
     if (isShowingCorrection) return;
     clearAllTimeouts();
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     setTaskWords((prev) => ({
       selected: [...prev.selected, wordObj],
       available: prev.available.filter((w) => w.id !== wordObj.id),
@@ -95,7 +95,7 @@ function SequenceExercise({
   const handleDeselect = useCallback((wordObj) => {
     if (isShowingCorrection) return;
     clearAllTimeouts();
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     setTaskWords((prev) => ({
       available: [...prev.available, wordObj],
       selected: prev.selected.filter((w) => w.id !== wordObj.id),
@@ -105,7 +105,7 @@ function SequenceExercise({
   const handleCheck = useCallback(() => {
     if (isShowingCorrection) return;
     clearAllTimeouts();
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     const correctSentence = Array.isArray(data.correct)
       ? data.correct.join(' ')
       : data.correct;
@@ -156,7 +156,7 @@ function SequenceExercise({
   const handleVoiceMatch = (num) => {
     if (isShowingCorrection) return;
     clearAllTimeouts();
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     const wordObj = availableWords[num - 1];
     if (wordObj) handleSelect(wordObj);
     else onError();
@@ -165,7 +165,7 @@ function SequenceExercise({
   const handleCommandMatch = (cmd) => {
     if (isShowingCorrection) return;
     clearAllTimeouts();
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     if (cmd === 'undo' && selectedWords.length > 0) {
       handleDeselect(selectedWords[selectedWords.length - 1]);
     } else if (cmd === 'check' && showCheckButton) {
@@ -176,7 +176,7 @@ function SequenceExercise({
   };
 
   const readAvailableWords = () => {
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     clearAllTimeouts();
 
     const instruction = data.instruction || t.orderCorrectly || '';

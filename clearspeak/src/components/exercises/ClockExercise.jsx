@@ -56,7 +56,7 @@ function ClockExercise({
   useEffect(() => {
     return () => {
       clearAudioTimeouts();
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
     };
   }, [clearAudioTimeouts]);
 
@@ -75,7 +75,7 @@ function ClockExercise({
   const handleMistake = useCallback(() => {
     onError();
     setSafeTimeout(() => {
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
       clearAudioTimeouts();
 
       const correctIndex = shuffledOptions.findIndex((o) => o.isCorrect);
@@ -96,7 +96,7 @@ function ClockExercise({
   // Map recognized voice input numbers to corresponding options
   const handleVoiceMatch = (num) => {
     clearAudioTimeouts();
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     const selectedIndex = num - 1;
     if (selectedIndex >= 0 && selectedIndex < shuffledOptions.length) {
       shuffledOptions[selectedIndex].isCorrect ? onSuccess() : handleMistake();
@@ -106,7 +106,7 @@ function ClockExercise({
   };
 
   const readTimeAndOptions = () => {
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     // Pull localized prefix from i18n dictionary or fallback
@@ -271,7 +271,7 @@ function ClockExercise({
             key={i}
             onClick={() => {
               clearAudioTimeouts();
-              window.speechSynthesis.cancel();
+              window.speechSynthesis?.cancel();
               opt.isCorrect ? onSuccess() : handleMistake();
             }}
             disabled={isListening}

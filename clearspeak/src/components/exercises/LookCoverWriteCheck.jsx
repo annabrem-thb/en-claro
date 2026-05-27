@@ -28,7 +28,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
   const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
 
   const handleReadWord = useCallback(() => {
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     clearAllTimeouts();
     if (speak) speak(targetWord, extendedTime);
   }, [speak, targetWord, extendedTime, clearAllTimeouts]);
@@ -43,7 +43,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
     }
     return () => {
       clearAllTimeouts();
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
     };
   }, [phase, speak, setSafeTimeout, handleReadWord, clearAllTimeouts]);
 

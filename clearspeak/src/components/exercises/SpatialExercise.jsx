@@ -44,7 +44,7 @@ function SpatialExercise({
   useEffect(() => {
     return () => {
       clearAudioTimeouts();
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
     };
   }, [clearAudioTimeouts]);
 
@@ -54,7 +54,7 @@ function SpatialExercise({
   const handleMistake = useCallback(() => {
     onError();
     setSafeTimeout(() => {
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
       clearAudioTimeouts();
 
       const currentTaskItem = data.items[currentIndex];
@@ -83,7 +83,7 @@ function SpatialExercise({
    */
   const handleChoice = (selectedValue) => {
     clearAudioTimeouts();
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     if (selectedValue === currentItem.target) {
       if (currentIndex + 1 >= data.items.length) {
         onSuccess();
@@ -116,7 +116,7 @@ function SpatialExercise({
 
   // --- Read Instruction & Options Aloud Logic ---
   const readInstructionAndOptions = () => {
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     speak(data.instruction, extendedTime);

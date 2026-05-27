@@ -44,7 +44,7 @@ function SyllableExercise({
   useEffect(() => {
     return () => {
       clearAudioTimeouts();
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
     };
   }, [clearAudioTimeouts]);
 
@@ -114,7 +114,7 @@ function SyllableExercise({
       speak(data.word, extendedTime);
       return;
     }
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     let delayAcc = 0;

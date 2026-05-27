@@ -39,13 +39,13 @@ function PhonemeExercise({
   useEffect(() => {
     return () => {
       clearAudioTimeouts();
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
     };
   }, [clearAudioTimeouts]);
 
   // --- Read Word (Spelled Out) & Hint Aloud ---
   const readWordAndHint = () => {
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     let delayAcc = 0;

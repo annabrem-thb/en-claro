@@ -39,7 +39,7 @@ export default function VisualCategorization({
   useEffect(() => {
     return () => {
       clearAudioTimeouts();
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
       setIsShowingCorrection(false);
     };
   }, [clearAudioTimeouts]);
@@ -48,7 +48,7 @@ export default function VisualCategorization({
   const isComplete = unplacedItems.length === 0;
 
   const readCategorization = useCallback(() => {
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     let delayAcc = 0;
@@ -141,7 +141,7 @@ export default function VisualCategorization({
         const targetBucket = data.buckets.find(b => b.id === hintItem.bucketId);
 
         setSafeTimeout(() => {
-          window.speechSynthesis.cancel();
+          window.speechSynthesis?.cancel();
           clearAudioTimeouts();
 
           // 1. Highlight and read the tile that returned to the pool

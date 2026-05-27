@@ -85,7 +85,6 @@ function IntroScreen({ onStart, speak }) {
       {/* Background Layer: Visible but does not interfere with text readability */}
       <div 
         className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${isHighContrast ? 'opacity-0' : 'opacity-10'} bg-gradient-to-br from-indigo-200 via-purple-100 to-emerald-100`}
-        style={{ backgroundImage: "url('/image.png')" }}
       />
 
       {/* Main Glassmorphism Panel: Protective "glass" card ensuring high contrast for LRS users */}

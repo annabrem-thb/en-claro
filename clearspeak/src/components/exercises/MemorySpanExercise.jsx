@@ -42,14 +42,14 @@ function MemorySpanExercise({
   useEffect(() => {
     return () => {
       clearAllTimeouts();
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
       setActiveHighlight(null);
     };
   }, [clearAllTimeouts]);
 
   const playMemorizationSequence = useCallback(() => {
     if (!data.displayItems) return;
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     clearAllTimeouts();
     let delayAcc = 800; // Short pause before starting
     data.displayItems.forEach((item, index) => {
@@ -81,7 +81,7 @@ function MemorySpanExercise({
     }
     return () => {
       clearAllTimeouts();
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
     };
   }, [isMemorizing, playMemorizationSequence, clearAllTimeouts]);
 
@@ -92,7 +92,7 @@ function MemorySpanExercise({
 
   const handleSelectItem = (item) => {
     clearAllTimeouts();
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     if (isChecking || isMemorizing) return;
     const newSelected = [...selectedItems, item];
     setSelectedItems(newSelected);
@@ -133,7 +133,7 @@ function MemorySpanExercise({
 
   // --- Read Options Aloud Logic ---
   const readAvailableItems = () => {
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     clearAllTimeouts();
 
     speak(data.instruction, extendedTime);

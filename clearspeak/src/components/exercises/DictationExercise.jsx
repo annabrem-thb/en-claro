@@ -28,12 +28,12 @@ export default function DictationExercise({
     }, 500);
     return () => {
       clearAllTimeouts();
-      window.speechSynthesis.cancel();
+      window.speechSynthesis?.cancel();
     };
   }, [data.audioPrompt, extendedTime, speak, setSafeTimeout, clearAllTimeouts]);
 
   const handleReplay = useCallback(() => {
-    window.speechSynthesis.cancel();
+    window.speechSynthesis?.cancel();
     clearAllTimeouts();
     speak(data.audioPrompt, extendedTime);
     if (inputRef.current) inputRef.current.focus();
