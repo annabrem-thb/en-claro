@@ -20,6 +20,7 @@ import BionicText         from './common/BionicText.jsx';
 import SkeletonLoader     from './common/SkeletonLoader.jsx';
 import SidebarNav         from './SidebarNav.jsx';
 import { FeedbackCollector } from './FeedbackCollector.jsx';
+import { CognitiveEnergyIndicator } from './CognitiveEnergyIndicator.jsx';
 import { saveLog } from '../utils/indexedDB.js';
 import { useIndexedDB } from '../hooks/useIndexedDB.js';
 import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
@@ -97,6 +98,9 @@ function AppContent() {
   } = useGamificationState();
 
   const { 
+    loadLevel,
+    showBreakModal,
+    setShowBreakModal,
     setSessionStartTime, setErrorTimestamps, 
     setLoadLevel 
   } = useCognitiveLoad(activeTab, settings.zenMode);
@@ -222,6 +226,7 @@ function AppContent() {
     }
 
     if (newIdx !== currentIdx) {
+      if (typeof navigator !== 'undefined' && navigator.vibrate && !settings.zenMode) navigator.vibrate(15);
       const nextTab = availableTabs[newIdx];
       if (nextTab === 'Garden') {
         handleGardenClick();
@@ -235,6 +240,49 @@ function AppContent() {
     onSwipeLeft: () => handleSwipeTab('left'), 
     onSwipeRight: () => handleSwipeTab('right') 
   });
+
+  // --- Keyboard Navigation (Ctrl/Cmd/Alt + 1-4) ---
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Ignore if focus is in an input field or textarea to allow normal typing
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+      // Direct Task Navigation (No modifiers required)
+      if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+        if (e.key === 'ArrowRight' || e.key === 'Enter') { e.preventDefault(); goNext(); return; }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); goPrev(); return; }
+      }
+
+      // Require a modifier key (Ctrl, Cmd, or Alt) to prevent accidental tab switching triggers
+      if (!(e.ctrlKey || e.metaKey || e.altKey)) return;
+
+      const availableTabs = isGamified ? [...PILLARS, 'Garden'] : PILLARS;
+      let targetTab = null;
+
+      switch (e.key) {
+        case '1': if (availableTabs.length >= 1) targetTab = availableTabs[0]; break;
+        case '2': if (availableTabs.length >= 2) targetTab = availableTabs[1]; break;
+        case '3': if (availableTabs.length >= 3) targetTab = availableTabs[2]; break;
+        case '4': if (availableTabs.length >= 4) targetTab = availableTabs[3]; break;
+        case ',':
+          e.preventDefault();
+          if (typeof navigator !== 'undefined' && navigator.vibrate && !settings.zenMode) navigator.vibrate(15);
+          setSettingsOpen(true);
+          return;
+        default: return; // Not a relevant key
+      }
+
+      if (targetTab) {
+        e.preventDefault(); // Prevent default browser tab switching
+        if (typeof navigator !== 'undefined' && navigator.vibrate && !settings.zenMode) navigator.vibrate(15);
+        
+        targetTab === 'Garden' ? handleGardenClick() : handleTabChange(targetTab);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isGamified, handleTabChange, handleGardenClick, goNext, goPrev, settings.zenMode, setSettingsOpen]);
 
   const renderCurrentExercise = () => {
     if (isTransitioning) {
@@ -265,10 +313,8 @@ function AppContent() {
       isHighContrast,
       voiceAssistant: voiceAssistantActive,
     };
-    return <ExerciseContainer
-      key={`${activeTab}-${currentIndex}`}
-      currentTask={currentTask}
-      {...commonProps} />;
+    
+    return <ExerciseContainer currentTask={currentTask} {...commonProps} />;
   };
 
   // --- Render Intro Screen ---
@@ -332,11 +378,11 @@ function AppContent() {
         />
 
         <main 
-          className={`flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-none no-scrollbar px-3 md:px-8 pt-4 md:pt-5 pb-[calc(1rem+env(safe-area-inset-bottom))] mx-auto w-full max-w-5xl ${isHighContrast ? 'text-white' : 'text-[#2D3732]'}`}
+          className={`flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-none no-scrollbar px-3 md:px-8 pt-4 md:pt-5 pb-[calc(1rem+env(safe-area-inset-bottom))] mx-auto w-full max-w-5xl touch-pan-y ${isHighContrast ? 'text-white' : 'text-[#2D3732]'}`}
           {...swipeHandlers}
         >
           {activeTab === 'Garden' ? (
-            <div id="garden-container" className={`flex-1 w-full h-full py-2 ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
+            <div id="garden-container" className={`flex-1 w-full h-full py-2 ${noFlash ? '' : 'animate-in fade-in slide-in-from-bottom-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}>
               <VirtualGarden 
                 points={points} 
                 streak={currentStreak} 
@@ -377,6 +423,22 @@ function AppContent() {
                     )}
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
+                  <CognitiveEnergyIndicator 
+                    loadLevel={loadLevel || 'green'}
+                    showModal={showBreakModal}
+                    onTakeBreak={() => {
+                      if (typeof setShowBreakModal === 'function') setShowBreakModal(false);
+                      handleGardenClick();
+                    }}
+                    onDismiss={() => {
+                      if (typeof setShowBreakModal === 'function') setShowBreakModal(false);
+                    }}
+                  t={t}
+                    themeStyles={themeStyles}
+                    isHighContrast={isHighContrast}
+                    noFlash={noFlash}
+                    bigTargets={bigTargets}
+                  />
                     <div className={`text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>
                       {!isGamified && `${safeIndex + 1} / ${activePillarTasks.length}`}
                     </div>
@@ -406,25 +468,34 @@ function AppContent() {
                     </span>
                   </div>
                 )}
-                <div className="w-full h-full flex flex-col items-center justify-center flex-1 min-h-0">
+                <div 
+                  key={`exercise-wrapper-${activeTab}-${currentIndex}`}
+                  className={`w-full h-full flex flex-col items-center justify-center flex-1 min-h-0 ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
+                >
                   {renderCurrentExercise()}
                 </div>
               </section>
 
               {feedback?.type === 'success' ? (
-                <div className="mt-3 md:mt-4 flex justify-center animate-in zoom-in duration-300 shrink-0 pb-1 md:pb-2">
+                <div className="mt-3 md:mt-4 flex flex-col items-center justify-center animate-in zoom-in duration-300 shrink-0 pb-1 md:pb-2">
                   <button onClick={goNext}
                         className={`${bigTargets ? 'px-14 py-5 md:py-6 text-lg' : 'px-12 py-3.5 md:py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all ${noFlash ? '' : 'animate-bounce'} break-words ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} ${themeStyles.buttonText} opacity-90 hover:opacity-100`}`}>
                     {t.next || s.next || l.next}
                   </button>
+                  <p className="hidden md:block mt-3 text-[10px] font-bold text-slate-400 opacity-60">
+                    💡 Press <kbd className="font-mono bg-slate-200/50 px-1.5 py-0.5 rounded text-slate-500">Enter</kbd> or <kbd className="font-mono bg-slate-200/50 px-1.5 py-0.5 rounded text-slate-500">→</kbd> to continue
+                  </p>
                 </div>
               ) : (
             currentTask && !settings.zenMode && (
-                  <div className="mt-2 md:mt-3 flex justify-center shrink-0 pb-1 md:pb-2">
+                  <div className="mt-2 md:mt-3 flex flex-col items-center justify-center shrink-0 pb-1 md:pb-2">
                     <button onClick={goNext}
                       className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} bg-transparent border-2 rounded-full font-black uppercase tracking-widest transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-400 hover:bg-slate-100'}`}>
                       {t.skip || s.skip || l.skip}
                     </button>
+                    <p className="hidden md:block mt-3 text-[10px] font-bold text-slate-400 opacity-60">
+                      💡 Press <kbd className="font-mono bg-slate-200/50 px-1.5 py-0.5 rounded text-slate-500">→</kbd> to skip task
+                    </p>
                   </div>
                 )
               )}
@@ -434,10 +505,78 @@ function AppContent() {
         
         {/* Subtle fade-out gradient at the bottom, indicating scrollable content */}
         <div 
-          className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none z-10" 
+          className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none z-10 hidden md:block" 
           style={{ background: 'linear-gradient(to top, var(--theme-bg) 5%, transparent)' }} 
           aria-hidden="true" 
         />
+
+        {/* Mobile Bottom Navigation */}
+        <nav 
+          className={`md:hidden shrink-0 flex items-center justify-around px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 z-40 transition-colors shadow-[0_-10px_40px_rgba(0,0,0,0.05)] border-t ${isHighContrast ? 'bg-black border-white/20' : 'bg-white border-slate-100'}`} 
+          aria-label={t.navAria || 'Main Navigation'}
+        >
+          {PILLARS.map(pillar => {
+            const isActive = activeTab === pillar;
+            const quest = dailyQuests.tasks.find(tsk => tsk.type === pillar);
+            const label = t.pillars?.[pillar] || pillar;
+            const icon = { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' }[pillar];
+            return (
+              <button 
+                key={pillar}
+                onClick={() => {
+                  if (typeof navigator !== 'undefined' && navigator.vibrate && !settings.zenMode) navigator.vibrate(15);
+                  handleTabChange(pillar);
+                }}
+                className={`relative flex flex-col items-center justify-center flex-1 min-w-0 p-2 rounded-2xl transition-all duration-300 active:scale-95 ${isActive ? (isHighContrast ? 'bg-white/20 text-white font-black shadow-sm' : `bg-slate-50 ${themeStyles.accent} font-black shadow-sm ring-1 ring-slate-900/5`) : (isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50/50')}`}
+                aria-pressed={isActive}
+                aria-label={label}
+              >
+                <div className={`text-2xl mb-1 ${isActive && !noFlash ? 'animate-bounce' : ''} ${isActive && isHighContrast ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]' : ''}`} aria-hidden="true">
+                  {icon}
+                </div>
+                {!hideNavLabel && (
+                  <span className="text-[10px] leading-none text-center max-w-full truncate">{label.split(' ')[0]}</span>
+                )}
+                {quest && !quest.completed && quest.current > 0 && (
+                  <span className={`absolute ${hideNavLabel ? 'top-2 right-3' : 'top-1 right-2'} w-2.5 h-2.5 bg-blue-500 border-2 ${isHighContrast ? 'border-black' : 'border-white'} rounded-full`} aria-hidden="true" />
+                )}
+              </button>
+            );
+          })}
+
+          {isGamified && (
+            <button 
+              onClick={() => {
+                if (typeof navigator !== 'undefined' && navigator.vibrate && !settings.zenMode) navigator.vibrate(15);
+                handleGardenClick();
+              }}
+              className={`relative flex flex-col items-center justify-center flex-1 min-w-0 p-2 rounded-2xl transition-all duration-300 active:scale-95 ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white/20 text-white font-black shadow-sm' : `bg-slate-50 ${themeStyles.accent} font-black shadow-sm ring-1 ring-slate-900/5`) : (isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50/50')}`}
+              aria-pressed={activeTab === 'Garden'}
+              aria-label={t.garden || 'Garden'}
+            >
+              <div className={`text-2xl mb-1 ${activeTab === 'Garden' && !noFlash ? 'animate-bounce' : ''}`} aria-hidden="true">
+                {t?.levelIcons?.[theme]?.[0] || '🌱'}
+              </div>
+              {!hideNavLabel && (
+                <span className="text-[10px] leading-none text-center max-w-full truncate">{t.garden || 'Garden'}</span>
+              )}
+            </button>
+          )}
+
+          <button 
+            onClick={() => {
+              if (typeof navigator !== 'undefined' && navigator.vibrate && !settings.zenMode) navigator.vibrate(15);
+              setSettingsOpen(true);
+            }}
+            className={`relative flex flex-col items-center justify-center flex-1 min-w-0 p-2 rounded-2xl transition-all duration-300 active:scale-95 ${isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50/50'}`}
+            aria-label={t.settingsAria || 'Settings'}
+          >
+            <div className="text-2xl mb-1" aria-hidden="true">⚙️</div>
+            {!hideNavLabel && (
+              <span className="text-[10px] leading-none text-center max-w-full truncate">{t.settings || 'Settings'}</span>
+            )}
+          </button>
+        </nav>
       </div>
 
       {/* Level-Up Success Overlay */}

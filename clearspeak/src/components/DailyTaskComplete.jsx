@@ -87,7 +87,7 @@ export default function DailyTaskComplete({
       <section 
         ref={modalRef}
         tabIndex="-1"
-        className={`w-full max-w-lg rounded-[2rem] ${bigTargets ? 'p-10' : 'p-8'} shadow-2xl focus:outline-none ${noFlash ? '' : 'animate-in zoom-in-95 duration-500'} ${
+        className={`w-full max-w-lg rounded-[2rem] ${bigTargets ? 'p-10' : 'p-8'} shadow-2xl focus:outline-none ${noFlash ? '' : 'animate-in fade-in slide-in-from-bottom-12 duration-500 ease-out'} ${
           isHighContrast 
             ? 'bg-black border-4 border-white text-white' 
             : 'bg-white border border-slate-100 text-slate-800'

@@ -37,6 +37,10 @@ export function useCognitiveLoad(activeTab, zenModeEnabled) {
       setLoadLevel(newLevel);
 
       if (newLevel === 'red' && !breakDismissed && !showBreakModal) {
+        // Trigger a gentle, distinct "double-tap" haptic vibration for the break alert
+        if (typeof navigator !== 'undefined' && navigator.vibrate && !zenModeEnabled) {
+          navigator.vibrate([40, 60, 40]);
+        }
         setShowBreakModal(true);
       }
     }, 5000); 

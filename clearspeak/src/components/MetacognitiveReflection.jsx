@@ -40,7 +40,7 @@ export default function MetacognitiveReflection({ onReflectionComplete }) {
   };
 
   return (
-    <div className={`flex flex-col items-center justify-center w-full max-w-xl mx-auto py-10 ${noFlash ? '' : 'animate-in fade-in zoom-in-95 duration-500'}`}>
+    <div className={`flex flex-col items-center justify-center w-full max-w-xl mx-auto py-10 ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}>
       
       <div className={`${bigTargets ? 'text-7xl' : 'text-6xl'} mb-6`} aria-hidden="true">🧠</div>
       

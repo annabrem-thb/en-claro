@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-// Domyślne wartości odpowiadające atrybutom w a11y.css
+// Default values corresponding to attributes in a11y.css
 const DEFAULT_SETTINGS = {
   lrs: false, // User choice by default
   contrast: false,
@@ -35,28 +35,28 @@ export function useUserSettings() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isPwaInstalled, setIsPwaInstalled] = useState(false);
 
-  // --- EFEKT 1: Synchronizacja ustawień do CSS (HTML data-attributes) ---
+  // --- EFFECT 1: Synchronize settings to CSS (HTML data-attributes) ---
   useEffect(() => {
     const html = document.documentElement;
     
-    // Wstrzyknięcie atrybutów dla a11y.css (np. data-a11y-contrast="true")
+    // Inject attributes for a11y.css (e.g., data-a11y-contrast="true")
     Object.keys(settings).forEach(key => {
       if (typeof settings[key] === 'boolean') {
         html.setAttribute(`data-a11y-${key}`, settings[key].toString());
       }
     });
 
-    // Wstrzyknięcie skalowania tekstu dla index.css
+    // Inject text scaling variable for index.css
     html.style.setProperty('--user-text-scale', settings.textScale / 100);
 
   }, [settings]);
 
-  // --- EFEKT 2: Obsługa stanu instalacji PWA ---
+  // --- EFFECT 2: Handle PWA installation state ---
   useEffect(() => {
     const handleBeforeInstall = (e) => {
-      // Zapobiegamy domyślnemu wyświetleniu natywnego paska instalacji
+      // Prevent the default native installation prompt
       e.preventDefault();
-      // Zapisujemy prompt, aby wywołać go własnym przyciskiem
+      // Save the prompt to trigger it via our custom button
       setDeferredPrompt(e);
     };
 
@@ -65,11 +65,11 @@ export function useUserSettings() {
       setDeferredPrompt(null);
     };
 
-    // Nasłuchiwanie na wbudowane eventy przeglądarki
+    // Listen to built-in browser events
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
     window.addEventListener('appinstalled', handleAppInstalled);
 
-    // Sprawdzanie, czy aplikacja jest już uruchomiona w trybie standalone (zainstalowana na pulpicie/w telefonie)
+    // Check if the app is already running in standalone mode (installed on desktop/mobile)
     if (window.matchMedia('(display-mode: standalone)').matches) {
       setIsPwaInstalled(true);
     }

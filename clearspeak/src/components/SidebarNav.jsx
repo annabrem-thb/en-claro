@@ -34,22 +34,28 @@ const SidebarNav = memo(function SidebarNav({
       </div>
       
       <nav className="flex-1 overflow-x-auto md:overflow-y-auto no-scrollbar py-2 md:py-3 px-2 md:px-3 flex flex-row md:flex-col gap-1 md:gap-1.5 justify-between md:justify-start" aria-label={s.navAria}>
-        {pillars.map(p => {
+        {pillars.map((p, index) => {
           const isSelected     = activeTab === p;
           const questForPillar = dailyQuests.tasks.find(q => q.type === p);
           const label          = t.pillars?.[p] || p;
           return (
             <button key={p}
               onClick={() => onTabChange(p)}
-              className={`relative flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} rounded-xl md:rounded-2xl transition-all flex-1 md:flex-none ${isSelected ? (isHighContrast ? 'bg-white text-black font-bold' : `${themeStyles.bg} ${themeStyles.accent} font-bold shadow-sm`) : (isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-50')}`}
+              title={`Shortcut: Ctrl + ${index + 1}`}
+              className={`relative group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isSelected ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
               aria-pressed={isSelected}
               aria-label={label}
             >
               <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">{PILLAR_ICONS[p]}</span>
               {!hideNavLabel && (
-                <AccessibleTTS text={label} speak={speak} language={language} className="flex md:flex">
-                  <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider truncate max-w-full">{label.split(' ')[0]}</span>
-                </AccessibleTTS>
+                <>
+                  <AccessibleTTS text={label} speak={speak} language={language} className="flex md:flex min-w-0">
+                    <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider truncate max-w-full">{label.split(' ')[0]}</span>
+                  </AccessibleTTS>
+                  <span className={`hidden lg:block shrink-0 ml-auto text-[10px] font-mono font-bold tracking-tighter transition-opacity ${isSelected ? 'opacity-50' : 'opacity-0 group-hover:opacity-40'}`} aria-hidden="true">
+                    ^ {index + 1}
+                  </span>
+                </>
               )}
               {questForPillar && !questForPillar.completed && questForPillar.current > 0 && (
                 <span className="absolute top-1 right-1 md:top-1.5 md:right-1.5 w-2 h-2 bg-blue-500 rounded-full" aria-hidden="true" />
@@ -64,7 +70,8 @@ const SidebarNav = memo(function SidebarNav({
         {isGamified && (
           <button
             onClick={onGardenClick}
-            className={`relative flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} rounded-xl md:rounded-2xl transition-all flex-1 md:flex-none ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-bold' : `${themeStyles.bg} ${themeStyles.accent} font-bold shadow-sm`) : (isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-50')}`}
+            title="Shortcut: Ctrl + 4"
+            className={`relative group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
             aria-pressed={activeTab === 'Garden'}
             aria-label={t.garden || "Garden"}
           >
@@ -72,23 +79,34 @@ const SidebarNav = memo(function SidebarNav({
               {t?.levelIcons?.[theme]?.[0] || '🌱'}
             </span>
             {!hideNavLabel && (
-              <AccessibleTTS text={t.garden || "Garden"} speak={speak} language={language} className="flex md:flex">
-                <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider truncate max-w-full">{t.garden || "Garden"}</span>
-              </AccessibleTTS>
+              <>
+                <AccessibleTTS text={t.garden || "Garden"} speak={speak} language={language} className="flex md:flex min-w-0">
+                  <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider truncate max-w-full">{t.garden || "Garden"}</span>
+                </AccessibleTTS>
+                <span className={`hidden lg:block shrink-0 ml-auto text-[10px] font-mono font-bold tracking-tighter transition-opacity ${activeTab === 'Garden' ? 'opacity-50' : 'opacity-0 group-hover:opacity-40'}`} aria-hidden="true">
+                  ^ 4
+                </span>
+              </>
             )}
           </button>
         )}
         
         <button
           onClick={() => setSettingsOpen(true)}
-          className={`flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} rounded-xl md:rounded-2xl transition-all flex-1 md:flex-none ${isHighContrast ? 'text-white hover:bg-white/10' : 'text-slate-500 hover:bg-slate-100'}`}
+          title="Shortcut: Ctrl + ,"
+          className={`group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
           aria-label={s.settingsAria}
         >
           <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">⚙️</span>
           {!hideNavLabel && (
-            <AccessibleTTS text={s.settingsAria} speak={speak} language={language} className="flex md:flex">
-              <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider truncate max-w-full">{s.settingsAria.split(' ')[0]}</span>
-            </AccessibleTTS>
+            <>
+              <AccessibleTTS text={s.settingsAria} speak={speak} language={language} className="flex md:flex min-w-0">
+                <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider truncate max-w-full">{s.settingsAria.split(' ')[0]}</span>
+              </AccessibleTTS>
+              <span className={`hidden lg:block shrink-0 ml-auto text-[10px] font-mono font-bold tracking-tighter transition-opacity opacity-0 group-hover:opacity-40`} aria-hidden="true">
+                ^ ,
+              </span>
+            </>
           )}
         </button>
       </nav>

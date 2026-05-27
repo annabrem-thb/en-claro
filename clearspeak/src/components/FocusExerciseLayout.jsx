@@ -64,7 +64,7 @@ export default function FocusExerciseLayout({
 
       {/* Single-Task Flow Area */}
       <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8 min-h-0 overflow-y-auto">
-        <div className={`w-full max-w-4xl flex-1 flex flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in zoom-in-95 duration-500'}`}>
+        <div className={`w-full max-w-4xl flex-1 flex flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}>
           {children}
         </div>
       </div>
