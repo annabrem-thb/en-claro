@@ -67,6 +67,7 @@ function IntroScreen({ onStart, speak }) {
   const A11yBtn = ({ active, onClick, icon, label }) => (
     <button 
       onClick={onClick} 
+      aria-pressed={active}
       className={`relative ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2'} px-1 rounded-xl border-2 font-bold text-[10px] sm:text-[11px] leading-tight transition-all flex flex-col items-center justify-center gap-1 active:scale-95 overflow-hidden ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm') : (isHighContrast ? 'border-white/30 text-white/50 hover:border-white/50' : 'border-slate-100 text-slate-500 hover:border-slate-300')}`}
     >
       {active && (

@@ -112,6 +112,14 @@ function VirtualGarden({
     }
   }, [ecosystemState.hasVisitor, theme]);
 
+  // Lottie animation for the Real-World Impact tree
+  const [treeAnimation, setTreeAnimation] = useState(null);
+  useEffect(() => {
+    import('../assets/animations/growing-tree.json')
+      .then((module) => setTreeAnimation(module.default))
+      .catch((error) => console.warn("Lottie tree animation not found. Using fallback emoji.", error));
+  }, []);
+
   const [todayStats, setTodayStats] = useState(null);
   const [maxStreak, setMaxStreak] = useState(0);
 
@@ -195,7 +203,7 @@ function VirtualGarden({
   const visitorPosition = isFullScreen ? 'absolute top-4 right-4 sm:top-12 sm:right-12 md:top-20 md:right-20' : 'absolute -top-3 right-2';
 
   return (
-    <div className={containerClasses} aria-label="Progress Bar">
+    <div className={containerClasses} role="region" aria-label={t.garden || "Virtual Garden Progress"}>
       <div className="sr-only" aria-live="polite">
         {srText}
       </div>

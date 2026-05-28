@@ -9,8 +9,8 @@ describe('Dyslexia PWA - Wirtualny Ogród', () => {
     cy.visit('/');
 
     // 2. Przejście przez ekran powitalny
-    // Tym razem wybieramy tryb grywalizacji (Game/Gra), ponieważ tylko on posiada ogród
-    cy.contains(/Gra|Gamified/i).click();
+    // Tym razem wybieramy tryb grywalizacji (Game / Gra / Gamified)
+    cy.contains(/Gra|Game|Gamified/i).click();
     cy.contains(/Rozpocznij|Start/i).click();
 
     // 3. Weryfikacja głównego widoku

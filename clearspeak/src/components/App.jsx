@@ -117,6 +117,29 @@ function AppContent() {
   // Affirmative Notifications Module
   const { affirmation, setAffirmation } = useAffirmativeNotifications(points, language);
 
+  // Real-World Impact (Tree Planting) Notification Logic
+  const prevPointsRef = useRef(points);
+  const [newTreeNotification, setNewTreeNotification] = useState(false);
+  const [isAppReady, setIsAppReady] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsAppReady(true), 1500); // Wait for initial IndexedDB load
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const prevTrees = Math.floor(prevPointsRef.current / 10);
+    const currentTrees = Math.floor(points / 10);
+    
+    if (isAppReady && currentTrees > prevTrees && currentTrees > 0) {
+      setNewTreeNotification(true);
+      if (typeof navigator !== 'undefined' && navigator.vibrate && !settings.zenMode) navigator.vibrate([50, 50, 50]);
+      const timer = setTimeout(() => setNewTreeNotification(false), 5000);
+      return () => clearTimeout(timer);
+    }
+    prevPointsRef.current = points;
+  }, [points, isAppReady, settings.zenMode]);
+
   useEffect(() => {
     if (!isGamified && activeTab === 'Garden') {
       setActiveTab('Literacy');
@@ -356,6 +379,8 @@ function AppContent() {
             hideNavLabel={hideNavLabel}
             setSettingsOpen={setSettingsOpen}
             t={t}
+            coins={coins}
+            loadLevel={loadLevel}
             s={s}
             speak={speak}
             noFlash={noFlash}
@@ -522,8 +547,8 @@ function AppContent() {
                   if (typeof navigator !== 'undefined' && navigator.vibrate && !settings.zenMode) navigator.vibrate(15);
                   handleTabChange(pillar);
                 }}
-                className={`relative flex flex-col items-center justify-center flex-1 min-w-0 p-2 rounded-2xl transition-all duration-300 active:scale-95 ${isActive ? (isHighContrast ? 'bg-white/20 text-white font-black shadow-sm' : `bg-slate-50 ${themeStyles.accent} font-black shadow-sm ring-1 ring-slate-900/5`) : (isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50/50')}`}
-                aria-pressed={isActive}
+              className={`relative flex flex-col items-center justify-center flex-1 min-w-0 p-2 rounded-2xl transition-all duration-300 active:scale-95 ${isActive ? (isHighContrast ? 'bg-white/20 text-white font-black shadow-sm' : `bg-slate-50 ${themeStyles.accent} font-black shadow-sm ring-1 ring-slate-900/5`) : (isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50/50')}`}
+              aria-current={isActive ? 'page' : undefined}
                 aria-label={label}
               >
                 <div className={`text-2xl mb-1 ${isActive && !noFlash ? 'animate-bounce' : ''} ${isActive && isHighContrast ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]' : ''}`} aria-hidden="true">
@@ -546,7 +571,7 @@ function AppContent() {
                 handleGardenClick();
               }}
               className={`relative flex flex-col items-center justify-center flex-1 min-w-0 p-2 rounded-2xl transition-all duration-300 active:scale-95 ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white/20 text-white font-black shadow-sm' : `bg-slate-50 ${themeStyles.accent} font-black shadow-sm ring-1 ring-slate-900/5`) : (isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50/50')}`}
-              aria-pressed={activeTab === 'Garden'}
+              aria-current={activeTab === 'Garden' ? 'page' : undefined}
               aria-label={t.garden || 'Garden'}
             >
               <div className={`text-2xl mb-1 ${activeTab === 'Garden' && !noFlash ? 'animate-bounce' : ''}`} aria-hidden="true">
@@ -573,6 +598,23 @@ function AppContent() {
           </button>
         </nav>
       </div>
+
+      {/* Real-World Impact (New Tree) Notification */}
+      {newTreeNotification && (
+        <div className="fixed top-16 sm:top-20 left-1/2 -translate-x-1/2 z-[110] px-4 w-full max-w-sm pointer-events-none">
+          <div className={`p-4 sm:p-5 rounded-3xl shadow-2xl border-2 flex items-center gap-3 sm:gap-4 ${noFlash ? '' : 'animate-in slide-in-from-top-8 fade-in duration-500'} ${isHighContrast ? 'bg-black border-white text-white' : 'bg-emerald-600 border-emerald-400 text-white'}`}>
+            <span className="text-4xl sm:text-5xl drop-shadow-md" aria-hidden="true">🌳</span>
+            <div>
+              <h4 className="font-black uppercase tracking-widest text-xs sm:text-sm mb-1">
+                {t.realWorldImpact?.newTreeTitle || 'Nowe Drzewo!'}
+              </h4>
+              <p className={`text-[10px] sm:text-xs font-medium leading-tight ${isHighContrast ? 'text-white/80' : 'text-emerald-50'}`}>
+                {t.realWorldImpact?.newTreeMsg || 'Twoja nauka sprawiła, że wirtualnie posadziliśmy kolejne drzewo!'}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Level-Up Success Overlay */}
       {showSuccess && (
@@ -604,6 +646,7 @@ function AppContent() {
     className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm"
     role="dialog"
     aria-modal="true"
+        aria-labelledby="survey-title"
   >
     {}
       <div className="relative w-full max-w-5xl max-h-[95vh] overflow-y-auto no-scrollbar rounded-3xl bg-white shadow-2xl animate-in zoom-in duration-300">

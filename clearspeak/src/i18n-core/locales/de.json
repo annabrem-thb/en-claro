@@ -694,5 +694,12 @@
       "q09": "Ich fühlte mich bei der Benutzung des Systems sehr sicher.",
       "q10": "Ich musste eine Menge lernen, bevor ich anfangen konnte, das System zu verwenden."
     }
+  },
+  "realWorldImpact": {
+    "title": "Dein Einfluss",
+    "desc": "Dein Fortschritt unterstützt reale Ziele. Alle 10 Punkte bedeuten einen virtuell gepflanzten Baum.",
+    "treesPlanted": "Gepflanzte Bäume",
+    "newTreeTitle": "Neuer Baum! 🎉",
+    "newTreeMsg": "Erstaunlich! Durch beständiges Lernen haben wir virtuell einen weiteren Baum gepflanzt."
   }
 }

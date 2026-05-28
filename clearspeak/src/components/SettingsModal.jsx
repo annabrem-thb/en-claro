@@ -167,6 +167,14 @@ function SettingsModal({
     if (isAtTop && distanceY > 50 && distanceY > distanceX) onClose();
   };
   
+  // Focus management: shift focus to the modal when opened for Screen Readers
+  const modalRef = useRef(null);
+  useEffect(() => {
+    if (open && modalRef.current) {
+      modalRef.current.focus();
+    }
+  }, [open]);
+
   // ─── PWA Install Prompt Logic ───────────────────────────────────────────
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -300,7 +308,12 @@ function SettingsModal({
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div 
-        className={`rounded-t-[40px] sm:rounded-[40px] shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[94vh] sm:max-h-[92vh] ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'}`}
+        ref={modalRef}
+        tabIndex="-1"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="settings-title"
+        className={`rounded-t-[40px] sm:rounded-[40px] shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[94vh] sm:max-h-[92vh] focus:outline-none ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'}`}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
@@ -314,7 +327,7 @@ function SettingsModal({
           <div className={`absolute top-2 left-1/2 -translate-x-1/2 w-10 h-1 rounded-full sm:hidden ${isHighContrast ? 'bg-white/30' : 'bg-slate-200'}`} />
 
           <div className="flex items-center justify-between px-1">
-            <h2 className={`text-base font-black tracking-tight flex items-center gap-2 ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>
+            <h2 id="settings-title" className={`text-base font-black tracking-tight flex items-center gap-2 ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>
               ⚙️ {s.settings}
             </h2>
             
@@ -334,10 +347,13 @@ function SettingsModal({
           </div>
 
           {/* Tabs */}
-          <div className={`grid ${isGamified ? 'grid-cols-4' : 'grid-cols-3'} gap-1 p-1.5 rounded-2xl mb-4 ${isHighContrast ? 'bg-white/20' : 'bg-slate-200/50'}`}>
+          <div role="tablist" aria-label={s.settingsAria || 'Settings Tabs'} className={`grid ${isGamified ? 'grid-cols-4' : 'grid-cols-3'} gap-1 p-1.5 rounded-2xl mb-4 ${isHighContrast ? 'bg-white/20' : 'bg-slate-200/50'}`}>
             <button
+              role="tab"
+              id="tab-general"
+              aria-controls="panel-general"
               onClick={() => setUserSelectedTab('general')}
-              aria-current={activeTab === 'general' ? 'step' : undefined}
+              aria-selected={activeTab === 'general'}
               className={`flex flex-col items-center justify-center ${bigTargets ? 'py-3' : 'py-2'} font-bold rounded-xl transition-all ${
                 activeTab === 'general' ? (isHighContrast ? 'bg-black border border-white text-white shadow-sm' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
               }`}
@@ -346,8 +362,11 @@ function SettingsModal({
               <span className="text-[10px] sm:text-xs truncate w-full text-center">{s.tabGeneral}</span>
             </button>
             <button
+              role="tab"
+              id="tab-a11y"
+              aria-controls="panel-a11y"
               onClick={() => setUserSelectedTab('a11y')}
-              aria-current={activeTab === 'a11y' ? 'step' : undefined}
+              aria-selected={activeTab === 'a11y'}
               className={`flex flex-col items-center justify-center ${bigTargets ? 'py-3' : 'py-2'} font-bold rounded-xl transition-all ${
                 activeTab === 'a11y' ? (isHighContrast ? 'bg-black border border-white text-white shadow-sm' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
               }`}
@@ -356,8 +375,11 @@ function SettingsModal({
               <span className="text-[10px] sm:text-xs truncate w-full text-center">{s.tabA11y}</span>
             </button>
             <button
+              role="tab"
+              id="tab-voice"
+              aria-controls="panel-voice"
               onClick={() => setUserSelectedTab('voice')}
-              aria-current={activeTab === 'voice' ? 'step' : undefined}
+              aria-selected={activeTab === 'voice'}
               className={`flex flex-col items-center justify-center ${bigTargets ? 'py-3' : 'py-2'} font-bold rounded-xl transition-all ${
                 activeTab === 'voice' ? (isHighContrast ? 'bg-black border border-white text-white shadow-sm' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
               }`}
@@ -367,8 +389,11 @@ function SettingsModal({
             </button>
             {isGamified && (
               <button
+                role="tab"
+                id="tab-shop"
+                aria-controls="panel-shop"
                 onClick={() => setUserSelectedTab('shop')}
-                aria-current={activeTab === 'shop' ? 'step' : undefined}
+                aria-selected={activeTab === 'shop'}
                 className={`flex flex-col items-center justify-center ${bigTargets ? 'py-3' : 'py-2'} font-bold rounded-xl transition-all ${
                   activeTab === 'shop' ? (isHighContrast ? 'bg-black border border-white text-white shadow-sm' : 'bg-white shadow-sm text-indigo-600') : (isHighContrast ? 'text-white/70 hover:text-white' : 'text-slate-500 hover:text-slate-700')
                 }`}
@@ -388,7 +413,7 @@ function SettingsModal({
         >
 
           {activeTab === 'general' && (
-            <div className="flex flex-col gap-4 sm:gap-6 animate-in fade-in duration-300">
+            <div id="panel-general" role="tabpanel" aria-labelledby="tab-general" className="flex flex-col gap-4 sm:gap-6 animate-in fade-in duration-300">
               {/* ── 1. LANGUAGE ──────────────────────────────────────────────── */}
               <section>
                 <SectionLabel isHighContrast={isHighContrast} bionicReading={bionicReading}>{s.language}</SectionLabel>
@@ -497,7 +522,7 @@ function SettingsModal({
           )}
 
           {activeTab === 'a11y' && (
-            <div className="flex flex-col gap-4 sm:gap-6 animate-in fade-in duration-300">
+            <div id="panel-a11y" role="tabpanel" aria-labelledby="tab-a11y" className="flex flex-col gap-4 sm:gap-6 animate-in fade-in duration-300">
 
               {/* ── 3. A11Y ADDONS ───────────────────────────────────────────── */}
               <section>
@@ -633,7 +658,7 @@ function SettingsModal({
           )}
 
           {activeTab === 'voice' && (
-            <div className="flex flex-col gap-4 sm:gap-6 animate-in fade-in duration-300">
+            <div id="panel-voice" role="tabpanel" aria-labelledby="tab-voice" className="flex flex-col gap-4 sm:gap-6 animate-in fade-in duration-300">
               <section>
                 <SectionLabel isHighContrast={isHighContrast} sub={s.voiceDesc} bionicReading={bionicReading}>{s.voiceOptions}</SectionLabel>
                 <div className="flex flex-col gap-4">
@@ -728,7 +753,7 @@ function SettingsModal({
           )}
 
           {activeTab === 'shop' && isGamified && ( // This is the new "Shop" tab
-            <div className="flex flex-col gap-4 sm:gap-6 animate-in fade-in duration-300">
+            <div id="panel-shop" role="tabpanel" aria-labelledby="tab-shop" className="flex flex-col gap-4 sm:gap-6 animate-in fade-in duration-300">
               {/* ── 6. THEME SHOP — only in V2 ───────────────────────────────── */}
               <section>
                 <SectionLabel isHighContrast={isHighContrast} sub={s.themeShopDesc} bionicReading={bionicReading}>{s.themeShop}</SectionLabel>

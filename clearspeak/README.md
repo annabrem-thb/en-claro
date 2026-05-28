@@ -17,6 +17,8 @@ The app allows for deep personalization of the interface to meet specific percep
 - **Comfort Buttons (Motorik)** - enlarged clickable areas for individuals with fine motor skill impairments.
 - **Zen Mode & Calm Screen** - disables animations, flashes, and unnecessary interface elements to reduce sensory overload.
 - **Focus Ruler** - a tool that assists in tracking text while reading.
+- **Advanced Screen Reader Support** - comprehensive semantic HTML, ARIA attributes (`aria-live`, `aria-current`, `role="dialog"`, `tablist`), and focus management (Focus Traps) ensuring a seamless experience for users with screen readers (NVDA, JAWS, VoiceOver).
+- **Keyboard Navigation** - fully operable via keyboard with dedicated shortcuts (e.g., Ctrl + 1-4) and visible focus indicators.
 
 ### 🗣️ Voice Assistant (TTS & Speech Recognition)
 - Built-in Text-to-Speech (TTS) support that reads commands, options, and provides spelling hints.
@@ -31,7 +33,8 @@ The app allows for deep personalization of the interface to meet specific percep
 
 ### 📱 PWA & Offline Mode
 - The application works without an internet connection (Service Worker).
-- Can be installed on mobile and desktop devices (Add to Home Screen).
+- **Custom Install Prompt** - seamless installation on mobile and desktop devices directly from the app settings.
+- **Offline Indicator** - unintrusive banner notifying the user when the internet connection is lost.
 - Automatic notifications about new content updates.
 
 ---
@@ -95,34 +98,34 @@ src/
 
 ---
 
-## 🚀 Uruchomienie projektu lokalnie
+## 🚀 Running the Project Locally
 
-### Wymagania
-- Node.js (wersja 18+)
+### Requirements
+- Node.js (version 18+)
 - npm / yarn
 
-### Instalacja
+### Installation
 
-1. Sklonuj repozytorium:
+1. Clone the repository:
    ```bash
    git clone <adres-repozytorium>
    cd clearspeak
    ```
 
-2. Zainstaluj zależności:
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. Uruchom serwer deweloperski:
+3. Start the development server:
    ```bash
    npm run dev
    ```
-   Aplikacja będzie dostępna pod adresem: `http://localhost:5173`
+   The app will be available at: `http://localhost:5173`
 
-### Budowanie i Testowanie
+### Building and Testing
 
-- **Wersja produkcyjna (PWA):**
+- **Production build (PWA):**
   ```bash
   npm run build
   ```

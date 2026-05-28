@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import AccessibleTTS from './common/AccessibleTTS.jsx';
+import { CognitiveEnergyIndicator } from './CognitiveEnergyIndicator.jsx';
 
 const PILLAR_ICONS = { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' };
 
@@ -18,6 +19,8 @@ const SidebarNav = memo(function SidebarNav({
   hideNavLabel,
   setSettingsOpen,
   t,
+  coins,
+  loadLevel,
   s,
   speak,
   noFlash
@@ -43,7 +46,7 @@ const SidebarNav = memo(function SidebarNav({
               onClick={() => onTabChange(p)}
               title={`Shortcut: Ctrl + ${index + 1}`}
               className={`relative group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isSelected ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
-              aria-pressed={isSelected}
+              aria-current={isSelected ? 'page' : undefined}
               aria-label={label}
             >
               <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">{PILLAR_ICONS[p]}</span>
@@ -72,7 +75,7 @@ const SidebarNav = memo(function SidebarNav({
             onClick={onGardenClick}
             title="Shortcut: Ctrl + 4"
             className={`relative group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
-            aria-pressed={activeTab === 'Garden'}
+            aria-current={activeTab === 'Garden' ? 'page' : undefined}
             aria-label={t.garden || "Garden"}
           >
             <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">
@@ -90,11 +93,26 @@ const SidebarNav = memo(function SidebarNav({
             )}
           </button>
         )}
-        
+
+        {isGamified && (
+          <div className={`hidden md:flex flex-col gap-2 mt-auto pt-3 border-t ${isHighContrast ? 'border-white/20' : themeStyles.border}`}>
+            <div className="flex items-center justify-between px-2 pt-2">
+              <span className={`text-[10px] font-bold uppercase tracking-wider ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{t.coins || 'Coins'}</span>
+              <div className={`px-2 py-0.5 rounded-full font-black text-xs flex items-center gap-1 shadow-inner ${isHighContrast ? 'bg-white text-black' : 'bg-amber-100 text-amber-600'}`}>
+                <span className="text-sm">💰</span> {coins}
+              </div>
+            </div>
+            <div className="flex items-center justify-between px-2">
+              <span className={`text-[10px] font-bold uppercase tracking-wider ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{t.energyTitle || 'Energy'}</span>
+              <CognitiveEnergyIndicator loadLevel={loadLevel} t={t} themeStyles={themeStyles} isHighContrast={isHighContrast} noFlash={noFlash} bigTargets={bigTargets} />
+            </div>
+          </div>
+        )}
+
         <button
           onClick={() => setSettingsOpen(true)}
           title="Shortcut: Ctrl + ,"
-          className={`group flex flex-col md:flex-row items-center justify-center md:justify-start md:mt-auto gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
+          className={`group flex flex-col md:flex-row items-center justify-center md:justify-start ${isGamified ? 'mt-2 md:mt-0' : 'md:mt-auto'} gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
           aria-label={s.settingsAria}
         >
           <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">⚙️</span>

@@ -308,5 +308,12 @@ export default {
       manageable: { label: "W sam raz", desc: "Robię postępy" },
       easy: { label: "Łatwe", desc: "Czuję się pewnie" }
     }
-    }
+    },
+  realWorldImpact: {
+    "title": "Twój Wpływ",
+    "desc": "Twoje postępy wspierają realne cele. Każde 10 punktów to jedno wirtualne drzewo.",
+    "treesPlanted": "Posadzone Drzewa",
+    "newTreeTitle": "Nowe Drzewo! 🎉",
+    "newTreeMsg": "Wspaniale! Twoja wytrwała nauka sprawiła, że wirtualnie posadziliśmy kolejne drzewo."
+  }
 };

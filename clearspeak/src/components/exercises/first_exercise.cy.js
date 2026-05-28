@@ -14,8 +14,8 @@ describe('Dyslexia PWA - Pierwsze uruchomienie i ćwiczenie', () => {
     // więc sprawdzamy, czy kontener zawiera odpowiedni tekst)
     cy.contains(/EnClaro/i).should('be.visible');
     
-    // Wybór trybu "Tylko nauka" (aby uprościć i przyspieszyć test)
-    cy.contains(/Tylko nauka|Learning Only/i).click();
+    // Wybór trybu nauki (dopasowane do "Tylko nauka" w PL oraz "Study only" w EN)
+    cy.contains(/Tylko nauka|Study only/i).click();
     
     // Weryfikacja aktywacji przycisku i kliknięcie "Rozpocznij"
     cy.contains(/Rozpocznij|Start/i).click();
@@ -26,8 +26,8 @@ describe('Dyslexia PWA - Pierwsze uruchomienie i ćwiczenie', () => {
     cy.get('section').should('be.visible');
 
     // Upewniamy się, że wczytały się dane z bazy, czyli brak komunikatu o błędzie formatu
-    cy.contains(/Brak zadań|No data/i).should('not.exist');
-    cy.contains(/Błąd formatu|Format not recognized/i).should('not.exist');
+    cy.contains(/Brak zadań|No tasks/i).should('not.exist');
+    cy.contains(/Błąd formatu|Task format/i).should('not.exist');
 
     // 4. Interakcja z pierwszym ćwiczeniem
     // Ponieważ nie wiemy z góry, na jakie ćwiczenie z puli trafimy (losowanie z seedem),
