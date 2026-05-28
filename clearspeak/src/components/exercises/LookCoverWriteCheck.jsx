@@ -28,7 +28,6 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
   const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
 
   const handleReadWord = useCallback(() => {
-    window.speechSynthesis?.cancel();
     clearAllTimeouts();
     if (speak) speak(targetWord, extendedTime);
   }, [speak, targetWord, extendedTime, clearAllTimeouts]);
@@ -38,19 +37,16 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
     if (phase === 'write' && inputRef.current) {
       inputRef.current.focus();
     }
-    if (phase === 'look' && speak) {
-      setSafeTimeout(() => handleReadWord(), 500);
-    }
     return () => {
       clearAllTimeouts();
       window.speechSynthesis?.cancel();
     };
-  }, [phase, speak, setSafeTimeout, handleReadWord, clearAllTimeouts]);
+  }, [phase, clearAllTimeouts]);
 
   // Step 1: Look Phase
   if (phase === 'look') {
     return (
-      <div className="flex flex-col items-center justify-center w-full animate-in fade-in duration-500">
+      <div className="flex h-full flex-col items-center justify-center w-full animate-in fade-in duration-500">
         {!zenMode && (
           <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
             {t.lookAndListen || 'Step 1: Study the word'}
@@ -89,7 +85,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
   // Step 2: Write Phase
   if (phase === 'write') {
     return (
-      <div className="flex flex-col items-center justify-center w-full animate-in slide-in-from-right-4 fade-in duration-500">
+      <div className="flex h-full flex-col items-center justify-center w-full animate-in slide-in-from-right-4 fade-in duration-500">
         {!zenMode && (
           <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
             {t.typeFromMemory || 'Step 2: Type from memory'}
@@ -132,7 +128,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
     const isCorrect = userInput.trim().toLowerCase() === targetWord.trim().toLowerCase();
 
     return (
-      <div className="flex flex-col items-center justify-center w-full animate-in slide-in-from-bottom-4 fade-in duration-500">
+      <div className="flex h-full flex-col items-center justify-center w-full animate-in slide-in-from-bottom-4 fade-in duration-500">
         {!zenMode && (
           <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400 mb-8" aria-live="polite">
             {t.compareSpelling || 'Step 3: Comparison'}
@@ -167,7 +163,7 @@ export default function LookCoverWriteCheck({ targetWord, onSelfEvaluate, langua
                 : 'bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-500 shadow-xl'
             }`}
           >
-            {t.next || t.done || 'Dalej'}
+            {t.next || t.done || 'Next'}
           </button>
         </div>
       </div>

@@ -48,16 +48,10 @@ export default function VisualCategorization({
   const isComplete = unplacedItems.length === 0;
 
   const readCategorization = useCallback(() => {
-    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     let delayAcc = 0;
-    const fallbacks = {
-      pl: "Przyporządkuj elementy",
-      de: "Ordne die Elemente zu",
-      en: "Categorize the items"
-    };
-    const instruction = data.instruction || t?.categorizeItems || (fallbacks[language] || fallbacks.en);
+    const instruction = data.instruction || t?.categorizeItems || 'Categorize the items';
     setSafeTimeout(() => { if (speak) speak(instruction, extendedTime); }, delayAcc);
     delayAcc += instruction.length * (extendedTime ? 100 : 75) + 1500;
 
@@ -141,7 +135,6 @@ export default function VisualCategorization({
         const targetBucket = data.buckets.find(b => b.id === hintItem.bucketId);
 
         setSafeTimeout(() => {
-          window.speechSynthesis?.cancel();
           clearAudioTimeouts();
 
           // 1. Highlight and read the tile that returned to the pool
@@ -176,10 +169,10 @@ export default function VisualCategorization({
   const bucketMinHeight = bigTargets ? 'min-h-[160px] sm:min-h-[200px]' : 'min-h-[140px] sm:min-h-[160px]';
 
   return (
-    <div className={`flex flex-col items-center w-full ${animClass} gap-8`}>
+    <div className={`flex h-full flex-col items-center justify-center w-full ${animClass} gap-4 sm:gap-8`}>
       {!zenMode && (
         <h2 className="text-sm font-black uppercase tracking-[0.15em] text-slate-400 text-center px-4" aria-live="polite">
-          <BionicText text={data.instruction || t?.categorizeItems || (language === 'pl' ? 'Przyporządkuj elementy' : language === 'de' ? 'Ordne die Elemente zu' : 'Categorize the items')} enabled={bionicReading} />
+          <BionicText text={data.instruction || t?.categorizeItems || 'Categorize the items'} enabled={bionicReading} />
         </h2>
       )}
 
@@ -210,13 +203,13 @@ export default function VisualCategorization({
         ))}
         {unplacedItems.length === 0 && (
           <span className="text-sm font-bold text-slate-400 my-auto">
-            {language === 'pl' ? 'Wszystkie elementy przypisane' : language === 'de' ? 'Alle Elemente zugeordnet' : 'All items placed'}
+            {t?.allItemsPlaced || 'All items placed'}
           </span>
         )}
       </div>
 
       {/* Target Buckets Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full w-max-2xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full max-w-2xl">
         {data.buckets.map((bucket) => {
           const bucketItems = data.items.filter((item) => placements[item.id] === bucket.id);
           return (
@@ -231,7 +224,7 @@ export default function VisualCategorization({
                 <span className="text-2xl" aria-hidden="true">{bucket.icon}</span>
                 <span className={`font-black uppercase tracking-widest text-xs ${isHighContrast ? 'text-white' : 'text-slate-500'}`}>{bucket.label}</span>
               </div>
-              <div className="flex flex-wrap gap-2 pointer-events-none">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 pointer-events-none">
                 {bucketItems.map((item) => (
                   <div key={item.id} className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold shadow-sm pointer-events-auto ${isShowingCorrection ? 'opacity-70 grayscale cursor-not-allowed' : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-white text-slate-700 border border-slate-200 hover:border-red-300 hover:bg-red-50')}`} onClick={(e) => handleRemoveFromBucket(item.id, e)} aria-label={`Remove ${item.word}`}>
                     {item.word} <span className="opacity-50" aria-hidden="true">✕</span>
@@ -245,7 +238,7 @@ export default function VisualCategorization({
 
       {/* Verification Action */}
       <button onClick={handleCheck} disabled={!isComplete || isShowingCorrection} className={`w-full max-w-sm mt-4 px-10 py-5 rounded-full font-black uppercase tracking-widest transition-all active:scale-95 text-sm focus-visible:ring-4 focus:outline-none ${(!isComplete || isShowingCorrection) ? 'bg-slate-100 text-slate-300 cursor-not-allowed border-2 border-transparent' : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-emerald-500 text-white shadow-xl hover:bg-emerald-400')}`}>
-        {t?.check || (language === 'pl' ? 'Sprawdź odpowiedzi' : language === 'de' ? 'Antworten überprüfen' : 'Check Answers')}
+        {t?.checkAnswers || t?.check || 'Check Answers'}
       </button>
     </div>
   );

@@ -1406,6 +1406,81 @@ export const wordDatabaseDE = {
     { id: 12, dictation: true, difficulty: 3, audioPrompt: 'Das Ergebnis der Analyse war sehr überraschend.', correct: 'Das Ergebnis der Analyse war sehr überraschend' }
   ],
 
+  readAloud: [
+    {
+      id: 1,
+      readAloud: true,
+      difficulty: 1,
+      text: 'Heute ist ein sehr sonniger und warmer Tag.'
+    },
+    {
+      id: 2,
+      readAloud: true,
+      difficulty: 1,
+      text: 'Meine kleine Katze schläft gerne auf dem Sofa im Wohnzimmer.'
+    },
+    {
+      id: 3,
+      readAloud: true,
+      difficulty: 2,
+      text: 'Gestern Abend habe ich ein sehr interessantes Buch gelesen.'
+    },
+    {
+      id: 4,
+      readAloud: true,
+      difficulty: 2,
+      text: 'Das Treffen mit dem neuen Kunden wurde auf morgen verschoben.'
+    },
+    {
+      id: 5,
+      readAloud: true,
+      difficulty: 3,
+      text: 'Moderne Informationstechnologien entwickeln sich in einem unglaublichen Tempo.'
+    },
+    {
+      id: 6,
+      readAloud: true,
+      difficulty: 3,
+      text: 'Das Engagement des gesamten Teams brachte im letzten Quartal spektakuläre Ergebnisse.'
+    },
+    {
+      id: 7,
+      readAloud: true,
+      difficulty: 1,
+      text: 'Gleich morgens trinke ich heißen Tee mit Zitrone.'
+    },
+    {
+      id: 8,
+      readAloud: true,
+      difficulty: 2,
+      text: 'Ein Spaziergang im Wald hilft mir, mich zu entspannen und völlig abzuschalten.'
+    },
+    {
+      id: 9,
+      readAloud: true,
+      difficulty: 3,
+      text: 'Der Umsetzungsplan für dieses ehrgeizige Projekt muss vom Vorstand genehmigt werden.'
+    },
+    {
+      id: 10,
+      readAloud: true,
+      difficulty: 2,
+      text: 'Jeden Tag versuche ich, neue und nützliche Fähigkeiten zu erlernen.'
+    },
+    {
+      id: 11,
+      readAloud: true,
+      difficulty: 3,
+      text: 'Das Unternehmen verzeichnete einen beispiellosen Umsatzanstieg im Finanzdienstleistungssektor.'
+    },
+    {
+      id: 12,
+      readAloud: true,
+      difficulty: 1,
+      text: 'Am Wochenende verbringe ich gerne Zeit mit meiner Familie.'
+    }
+  ],
+
   diagnostic: [
     { id: 'de_diag_1', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostik: das oder dass', questions: { de: 'Ich hoffe, ___ du kommst.' }, options: [{ text: 'das', isCorrect: false }, { text: 'dass', isCorrect: true }] },
     { id: 'de_diag_2', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostik: ie oder ei', questions: { de: 'Welches Wort ist richtig geschrieben?' }, options: [{ text: 'Brief', isCorrect: true }, { text: 'Breif', isCorrect: false }, { text: 'Brif', isCorrect: false }, { text: 'Brieff', isCorrect: false }] },

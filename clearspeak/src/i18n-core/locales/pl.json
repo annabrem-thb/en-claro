@@ -1,5 +1,5 @@
 {
-  "appTitle": "EnClaro",
+  "appTitle": "En Claro",
   "introSubtitle": "Zbuduj swój most do biegłości.",
   "intro": {
     "subtitle": "Twoja bezpieczna przestrzeń do rozwoju! Wybierz tryb i narzędzia:",
@@ -105,7 +105,7 @@
   "ttsSettingsAria": "Ustawienia mowy (TTS)",
   "settings": "Ustawienia",
   "settingsTitle": "Ustawienia",
-  "settingsSubtitle": "EnClaro · Dostępna Grywalizacja",
+  "settingsSubtitle": "En Claro · Dostępna Grywalizacja",
   "settingsBack": "← Wróć",
   "settingsTheme": "Motyw",
   "settingsAccessibility": "Opcje komfortu",
@@ -206,6 +206,10 @@
     "muteNotifications": {
       "name": "Wycisz powiadomienia",
       "desc": "Wyłącza mówienie o sukcesie/błędzie i dźwięki gry"
+    },
+    "cognitiveBreaks": {
+      "name": "Przypomnienia o przerwach",
+      "desc": "Aplikacja zasugeruje odpoczynek po serii błędów"
     }
   },
   "profiles": {
@@ -471,6 +475,7 @@
   "energyTitle": "Energia Poznawcza",
   "breakTitle": "Czas na przerwę?",
   "breakDesc": "Zauważyliśmy, że intensywnie pracujesz. Odpocznij w ogrodzie, aby zregenerować siły i zapobiec zmęczeniu.",
+  "breakTip": "Porada: Oderwij wzrok od ekranu i popatrz w dal (najlepiej na coś zielonego) przez co najmniej 20 sekund.",
   "takeBreakBtn": "Odpoczywam (+2 💰)",
   "continueBtn": "Ćwiczę dalej",
   "pillars": {
@@ -558,6 +563,10 @@
   "tapAndPronounce": "Naciśnij i wymów słowo",
   "skipPronunciation": "Pomiń sprawdzanie wymowy",
   "readSentenceAndOptions": "Przeczytaj zdanie i opcje",
+  "pressKey": "Naciśnij",
+  "or": "lub",
+  "toContinue": "aby kontynuować",
+  "toSkip": "aby pominąć",
   "thesisInfo": "Praca Magisterska\nDostępna Grywalizacja i Integracja Głosowa\nw PWA wspierającym ćwiczenia logopedyczne\ndla osób z dysleksją",
   "tags": {
     "kontrast": "kontrast",

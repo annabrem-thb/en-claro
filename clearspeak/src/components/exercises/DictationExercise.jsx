@@ -23,17 +23,13 @@ export default function DictationExercise({
 
   // Auto-play the dictation audio prompt shortly after the component mounts
   useEffect(() => {
-    setSafeTimeout(() => {
-      speak(data.audioPrompt, extendedTime);
-    }, 500);
     return () => {
       clearAllTimeouts();
       window.speechSynthesis?.cancel();
     };
-  }, [data.audioPrompt, extendedTime, speak, setSafeTimeout, clearAllTimeouts]);
+  }, [clearAllTimeouts]);
 
   const handleReplay = useCallback(() => {
-    window.speechSynthesis?.cancel();
     clearAllTimeouts();
     speak(data.audioPrompt, extendedTime);
     if (inputRef.current) inputRef.current.focus();
@@ -52,7 +48,7 @@ export default function DictationExercise({
   };
 
   return (
-    <div className={`flex flex-col items-center justify-center w-full ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
+    <div className={`flex h-full flex-col items-center justify-center w-full ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
       {!zenMode && (
         <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 sm:mb-8" aria-live="polite">
           <BionicText text={t.categories?.Dictation || 'Dictation'} enabled={bionicReading} />

@@ -1807,6 +1807,81 @@ export const wordDatabasePL = {
     { id: 12, dictation: true, difficulty: 3, audioPrompt: 'Spółka zaprezentowała nowe wyniki finansowe.', correct: 'Spółka zaprezentowała nowe wyniki finansowe' }
   ],
 
+  readAloud: [
+    {
+      id: 1,
+      readAloud: true,
+      difficulty: 1,
+      text: 'Dzisiaj jest bardzo słoneczny i ciepły dzień.',
+    },
+    {
+      id: 2,
+      readAloud: true,
+      difficulty: 1,
+      text: 'Mój mały kot lubi spać na kanapie w salonie.',
+    },
+    {
+      id: 3,
+      readAloud: true,
+      difficulty: 2,
+      text: 'Wczoraj wieczorem przeczytałem bardzo interesującą książkę.',
+    },
+    {
+      id: 4,
+      readAloud: true,
+      difficulty: 2,
+      text: 'Spotkanie z nowym klientem zostało przeniesione na jutro.',
+    },
+    {
+      id: 5,
+      readAloud: true,
+      difficulty: 3,
+      text: 'Współczesne technologie informatyczne rozwijają się w niesamowitym tempie.',
+    },
+    {
+      id: 6,
+      readAloud: true,
+      difficulty: 3,
+      text: 'Zaangażowanie całego zespołu przyniosło spektakularne rezultaty w ostatnim kwartale.',
+    },
+    {
+      id: 7,
+      readAloud: true,
+      difficulty: 1,
+      text: 'Z samego rana piję gorącą herbatę z cytryną.',
+    },
+    {
+      id: 8,
+      readAloud: true,
+      difficulty: 2,
+      text: 'Spacer po lesie pomaga mi się zrelaksować i całkowicie wyciszyć.',
+    },
+    {
+      id: 9,
+      readAloud: true,
+      difficulty: 3,
+      text: 'Harmonogram realizacji tego ambitnego projektu musi zostać zatwierdzony przez zarząd.',
+    },
+    {
+      id: 10,
+      readAloud: true,
+      difficulty: 2,
+      text: 'Każdego dnia staram się uczyć nowych i przydatnych umiejętności.',
+    },
+    {
+      id: 11,
+      readAloud: true,
+      difficulty: 3,
+      text: 'Przedsiębiorstwo odnotowało bezprecedensowy wzrost przychodów w sektorze usług finansowych.',
+    },
+    {
+      id: 12,
+      readAloud: true,
+      difficulty: 1,
+      text: 'W weekend lubię spędzać czas z moją rodziną.',
+    }
+  ],
+
   diagnostic: [
     { id: 'pl_diag_1', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostyka: Pisownia rz/ż', questions: { pl: 'Które słowo jest napisane błędnie?' }, options: [{ text: 'Przepraszam', isCorrect: false }, { text: 'Porządek', isCorrect: false }, { text: 'Wydażenie', isCorrect: true }, { text: 'Marzenie', isCorrect: false }] },
     { id: 'pl_diag_2', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostyka: Homofony', questions: { pl: 'Wybierz poprawne słowo: "Z chęcią ___ tę propozycję."' }, options: [{ text: 'przyjmę', isCorrect: true }, { text: 'przymne', isCorrect: false }, { text: 'pżyjmę', isCorrect: false }, { text: 'przymię', isCorrect: false }] },

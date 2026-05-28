@@ -100,7 +100,7 @@ export function useExerciseSession({
     if (activeTab === 'Garden') return [];
     let rawTasks = [];
     switch (activeTab) {
-      case 'Literacy':  rawTasks = [...(db.phonemes || []), ...(db.syllables || []), ...(db.graphemes || []), ...(db.scrabble || []), ...(db.lcwc || []), ...(db.context || []), ...(db.dictation || []), ...(db.diagnostic?.filter(d => d.pillar === 'Literacy') || [])]; break;
+      case 'Literacy':  rawTasks = [...(db.phonemes || []), ...(db.syllables || []), ...(db.graphemes || []), ...(db.scrabble || []), ...(db.lcwc || []), ...(db.context || []), ...(db.dictation || []), ...(db.readAloud || []), ...(db.diagnostic?.filter(d => d.pillar === 'Literacy') || [])]; break;
       case 'Visual':    rawTasks = [...(db.clock || []), ...(db.tracking || []), ...(db.diagnostic?.filter(d => d.pillar === 'Visual') || [])]; break;
       case 'Cognitive': rawTasks = [...(db.categorization || []), ...(db.sequences || []), ...(db.diagnostic?.filter(d => d.pillar === 'Cognitive') || [])]; break;
       default:          rawTasks = [];

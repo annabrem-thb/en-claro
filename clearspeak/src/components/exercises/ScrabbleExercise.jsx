@@ -84,14 +84,12 @@ function ScrabbleExercise({
   // Handle assembly of tiles
   const addLetter = (letter, index) => {
     clearAudioTimeouts();
-    window.speechSynthesis?.cancel();
     if (userScrabble.some((x) => x.index === index)) return;
     setUserScrabble((prev) => [...prev, { letter, index }]);
   };
 
   // --- Read Word & Available Tiles Aloud ---
   const readWordAndLetters = () => {
-    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     speak(data.word, extendedTime);
@@ -191,13 +189,13 @@ function ScrabbleExercise({
       {/* 4. Action Buttons */}
       <div className="mt-auto flex w-full max-w-2xl shrink-0 gap-2 px-2 pt-6 sm:gap-4">
         <button
-          onClick={() => { clearAudioTimeouts(); window.speechSynthesis?.cancel(); setUserScrabble([]); }}
+          onClick={() => { clearAudioTimeouts(); setUserScrabble([]); }}
           className={`flex-1 ${bigTargets ? 'py-4' : 'py-3 sm:py-4'} rounded-2xl bg-slate-50 text-[9px] font-black tracking-[0.2em] text-slate-400 uppercase transition-colors hover:text-slate-600 sm:text-[10px]`}
         >
           <BionicText text={t.delete || 'Delete'} enabled={bionicReading} />
         </button>
         <button
-          onClick={() => { clearAudioTimeouts(); window.speechSynthesis?.cancel(); handleDone(); }}
+          onClick={() => { clearAudioTimeouts(); handleDone(); }}
           disabled={userScrabble.length === 0}
           className={`flex-2 ${bigTargets ? 'py-4' : 'py-3 sm:py-4'} ${themeStyles.button} rounded-2xl font-black text-white shadow-lg transition-all hover:brightness-110 active:scale-95 disabled:opacity-30 disabled:grayscale`}
         >

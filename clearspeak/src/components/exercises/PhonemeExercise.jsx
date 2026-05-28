@@ -45,7 +45,6 @@ function PhonemeExercise({
 
   // --- Read Word (Spelled Out) & Hint Aloud ---
   const readWordAndHint = () => {
-    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     let delayAcc = 0;
@@ -86,7 +85,7 @@ function PhonemeExercise({
   const wordSize = bigTargets ? 'text-5xl sm:text-7xl' : 'text-4xl sm:text-6xl';
 
   return (
-    <div className={`${animClass} flex w-full max-w-md flex-col items-center`}>
+    <div className={`${animClass} flex h-full w-full max-w-md flex-col items-center justify-center`}>
       {!zenMode && (
         <h3 className={`mb-6 sm:mb-8 text-center text-[10px] sm:text-xs md:text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}>
           {t.categories?.Phonem || 'Phonemes'}

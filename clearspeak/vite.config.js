@@ -9,12 +9,13 @@ export default defineConfig({
       registerType: 'prompt',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'image.png', '**/*.json'],
       manifest: {
-        name: 'Claro',
-        short_name: 'Claro',
+        name: 'En Claro',
+        short_name: 'En Claro',
         description: 'Twoja bezstresowa przestrzeń do ćwiczeń językowych.',
         theme_color: '#fdfaf6',
         background_color: '#fdfaf6',
         display: 'standalone',
+        orientation: 'portrait',
         icons: [
           {
             src: 'pwa-192x192.png',

@@ -114,7 +114,6 @@ function SyllableExercise({
       speak(data.word, extendedTime);
       return;
     }
-    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     let delayAcc = 0;
@@ -161,7 +160,7 @@ function SyllableExercise({
     : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
 
   return (
-    <div className={`${animClass} flex w-full flex-col items-center`}>
+    <div className={`${animClass} flex h-full w-full flex-col items-center justify-center`}>
       {/* 1. Voice & Audio Controls */}
       {voiceAssistant && (
         <div className="mb-4 flex gap-6">

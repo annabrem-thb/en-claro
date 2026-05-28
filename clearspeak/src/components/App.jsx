@@ -125,13 +125,6 @@ function AppContent() {
   const t = useTranslation(language);
   const s = t; // Alias 's' retained for compatibility with legacy component props (e.g. SidebarNav)
   
-  const fallbacks = {
-    pl: { next: 'Dalej', skip: 'Pomiń', lvlTitle: 'Twój ogród rośnie!', lvlDesc: 'Kolejny cel został pomyślnie zrealizowany.', pwaTitle: 'Nowa wersja', pwaDesc: 'Dostępna jest nowa treść. Zaktualizuj aplikację, aby pobrać najnowsze zmiany do trybu offline.', pwaUp: 'Aktualizuj', pwaLater: 'Później' },
-    de: { next: 'Weiter', skip: 'Überspringen', lvlTitle: 'Dein Garten wächst!', lvlDesc: 'Ein weiteres Ziel wurde erfolgreich erreicht.', pwaTitle: 'Neue Version', pwaDesc: 'Neue Inhalte sind verfügbar. Bitte aktualisiere die App für die neuesten Offline-Änderungen.', pwaUp: 'Aktualisieren', pwaLater: 'Später' },
-    en: { next: 'Next', skip: 'Skip', lvlTitle: 'Your garden is growing!', lvlDesc: 'Another goal successfully completed.', pwaTitle: 'New version', pwaDesc: 'New content is available. Please update the app to get the latest offline changes.', pwaUp: 'Update', pwaLater: 'Later' }
-  };
-  const l = fallbacks[language] || fallbacks.en;
-
   const themeStyles = THEMES[theme]         || THEMES.Natur;
   const noFlash        = settings.noFlash || settings.motion;
   const bigTargets     = settings.bigTargets || settings.motorik;
@@ -296,7 +289,8 @@ function AppContent() {
       currentTask?.dictation || // Zapis: Dyktanda
       currentTask?.lcwc ||      // Zapis: Pamięć (Spójrz na słowo...)
       currentTask?.phonetic ||  // Słowo: Dźwięki (Phonem)
-      currentTask?.scrambled    // Zapis: Synteza (Scrabble)
+      currentTask?.scrambled || // Zapis: Synteza (Scrabble)
+      currentTask?.readAloud    // Czytanie: Na głos
     );
     
     const voiceAssistantActive = !!settings.voiceAssistant || isVoiceException;
@@ -480,10 +474,10 @@ function AppContent() {
                 <div className="mt-3 md:mt-4 flex flex-col items-center justify-center animate-in zoom-in duration-300 shrink-0 pb-1 md:pb-2">
                   <button onClick={goNext}
                         className={`${bigTargets ? 'px-14 py-5 md:py-6 text-lg' : 'px-12 py-3.5 md:py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all ${noFlash ? '' : 'animate-bounce'} break-words ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} ${themeStyles.buttonText} opacity-90 hover:opacity-100`}`}>
-                    {t.next || s.next || l.next}
+                    {t.next || 'Next'}
                   </button>
                   <p className="hidden md:block mt-3 text-[10px] font-bold text-slate-400 opacity-60">
-                    💡 Press <kbd className="font-mono bg-slate-200/50 px-1.5 py-0.5 rounded text-slate-500">Enter</kbd> or <kbd className="font-mono bg-slate-200/50 px-1.5 py-0.5 rounded text-slate-500">→</kbd> to continue
+                    💡 {t.pressKey || 'Press'} <kbd className="font-mono bg-slate-200/50 px-1.5 py-0.5 rounded text-slate-500">Enter</kbd> {t.or || 'or'} <kbd className="font-mono bg-slate-200/50 px-1.5 py-0.5 rounded text-slate-500">→</kbd> {t.toContinue || 'to continue'}
                   </p>
                 </div>
               ) : (
@@ -491,10 +485,10 @@ function AppContent() {
                   <div className="mt-2 md:mt-3 flex flex-col items-center justify-center shrink-0 pb-1 md:pb-2">
                     <button onClick={goNext}
                       className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} bg-transparent border-2 rounded-full font-black uppercase tracking-widest transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-400 hover:bg-slate-100'}`}>
-                      {t.skip || s.skip || l.skip}
+                      {t.skip || 'Skip'}
                     </button>
                     <p className="hidden md:block mt-3 text-[10px] font-bold text-slate-400 opacity-60">
-                      💡 Press <kbd className="font-mono bg-slate-200/50 px-1.5 py-0.5 rounded text-slate-500">→</kbd> to skip task
+                      💡 {t.pressKey || 'Press'} <kbd className="font-mono bg-slate-200/50 px-1.5 py-0.5 rounded text-slate-500">→</kbd> {t.toSkip || 'to skip'}
                     </p>
                   </div>
                 )
@@ -590,14 +584,14 @@ function AppContent() {
           <div className={`flex flex-col items-center rounded-4xl p-10 shadow-lg max-w-sm w-full border ${noFlash ? '' : 'animate-in fade-in zoom-in duration-700'} ${isHighContrast ? 'bg-black border-white' : 'bg-white border-slate-200'}`}>
           <div className={`text-5xl mb-4 opacity-80 drop-shadow-md ${noFlash ? '' : 'animate-bounce'}`} aria-hidden="true">🌱</div>
             <h2 id="level-up-title" className={`text-2xl font-bold mb-4 ${isHighContrast ? 'text-white' : 'text-slate-700'}`}>
-              {t.levelUpTitle || l.lvlTitle}
+              {t.levelUpTitle || 'Your garden is growing!'}
             </h2>
             <p className={`text-sm mb-8 leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
-              {t.levelUpDesc || l.lvlDesc}
+              {t.levelUpDesc || 'Another goal has been successfully achieved.'}
             </p>
             <button onClick={() => { setShowSuccess(false); if (pendingFeedback) { setShowFeedback(true); setPendingFeedback(false); } else { goNext(); } }}
               className={`w-full ${bigTargets ? 'py-7 text-xl' : 'py-4 text-lg'} rounded-3xl font-bold active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
-              {t.next || s.next || l.next}
+              {t.next || 'Next'}
             </button>
           </div>
         </div>
@@ -644,16 +638,16 @@ function AppContent() {
       {/* Non-intrusive PWA Update Prompt */}
       {needRefresh && (
         <div className={`fixed bottom-20 sm:bottom-24 right-4 z-50 p-5 rounded-3xl shadow-2xl max-w-xs border-2 ${noFlash ? '' : 'animate-in slide-in-from-right duration-500'} ${isHighContrast ? 'bg-black border-white text-white' : 'bg-white border-slate-100 text-slate-800'}`} role="alert" aria-live="assertive">
-          <h4 className="font-black text-sm mb-1 flex items-center gap-2"><span aria-hidden="true">🌱</span> {t.pwaNewVersion || l.pwaTitle}</h4>
+          <h4 className="font-black text-sm mb-1 flex items-center gap-2"><span aria-hidden="true">🌱</span> {t.pwaNewVersion || 'New version'}</h4>
           <p className={`text-xs font-medium mb-4 leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
-            {t.pwaDescription || l.pwaDesc}
+            {t.pwaDescription || 'New content is available. Please update the app to get the latest offline changes.'}
           </p>
           <div className="flex gap-2">
             <button onClick={() => updateServiceWorker(true)} className={`flex-1 py-3 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest text-white shadow-md active:scale-95 transition-all ${themeStyles.button}`}>
-              {t.pwaUpdate || l.pwaUp}
+              {t.pwaUpdate || 'Update'}
             </button>
             <button onClick={() => setNeedRefresh(false)} className={`flex-1 py-3 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all ${isHighContrast ? 'bg-white/10 hover:bg-white/20' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}>
-              {t.pwaLater || l.pwaLater}
+              {t.pwaLater || 'Later'}
             </button>
           </div>
         </div>

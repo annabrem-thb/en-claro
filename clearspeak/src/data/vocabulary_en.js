@@ -321,6 +321,81 @@ export const wordDatabaseEN = {
     { id: 12, dictation: true, difficulty: 3, audioPrompt: 'The results of the analysis were very surprising.', correct: 'The results of the analysis were very surprising' }
   ],
 
+  readAloud: [
+    {
+      id: 1,
+      readAloud: true,
+      difficulty: 1,
+      text: 'Today is a very sunny and warm day.'
+    },
+    {
+      id: 2,
+      readAloud: true,
+      difficulty: 1,
+      text: 'My little cat likes to sleep on the sofa in the living room.'
+    },
+    {
+      id: 3,
+      readAloud: true,
+      difficulty: 2,
+      text: 'I read a very interesting book yesterday evening.'
+    },
+    {
+      id: 4,
+      readAloud: true,
+      difficulty: 2,
+      text: 'The meeting with the new client has been rescheduled for tomorrow.'
+    },
+    {
+      id: 5,
+      readAloud: true,
+      difficulty: 3,
+      text: 'Modern information technologies are developing at an incredible pace.'
+    },
+    {
+      id: 6,
+      readAloud: true,
+      difficulty: 3,
+      text: 'The dedication of the entire team brought spectacular results in the last quarter.'
+    },
+    {
+      id: 7,
+      readAloud: true,
+      difficulty: 1,
+      text: 'I drink hot tea with lemon first thing in the morning.'
+    },
+    {
+      id: 8,
+      readAloud: true,
+      difficulty: 2,
+      text: 'A walk in the forest helps me relax and completely unwind.'
+    },
+    {
+      id: 9,
+      readAloud: true,
+      difficulty: 3,
+      text: 'The implementation schedule for this ambitious project must be approved by the board.'
+    },
+    {
+      id: 10,
+      readAloud: true,
+      difficulty: 2,
+      text: 'Every day I try to learn new and useful skills.'
+    },
+    {
+      id: 11,
+      readAloud: true,
+      difficulty: 3,
+      text: 'The enterprise recorded an unprecedented increase in revenue within the financial services sector.'
+    },
+    {
+      id: 12,
+      readAloud: true,
+      difficulty: 1,
+      text: 'On the weekend, I like to spend time with my family.'
+    }
+  ],
+
   diagnostic: [
     {
       id: 'en_diag_1',

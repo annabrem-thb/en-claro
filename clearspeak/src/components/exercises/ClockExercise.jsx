@@ -75,7 +75,6 @@ function ClockExercise({
   const handleMistake = useCallback(() => {
     onError();
     setSafeTimeout(() => {
-      window.speechSynthesis?.cancel();
       clearAudioTimeouts();
 
       const correctIndex = shuffledOptions.findIndex((o) => o.isCorrect);
@@ -96,7 +95,6 @@ function ClockExercise({
   // Map recognized voice input numbers to corresponding options
   const handleVoiceMatch = (num) => {
     clearAudioTimeouts();
-    window.speechSynthesis?.cancel();
     const selectedIndex = num - 1;
     if (selectedIndex >= 0 && selectedIndex < shuffledOptions.length) {
       shuffledOptions[selectedIndex].isCorrect ? onSuccess() : handleMistake();
@@ -106,18 +104,9 @@ function ClockExercise({
   };
 
   const readTimeAndOptions = () => {
-    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     // Pull localized prefix from i18n dictionary or fallback
-    const getOptionPrefix = (idx) => {
-      const prefixes = {
-        pl: `Opcja ${idx}: `,
-        en: `Option ${idx}: `,
-        de: `Option ${idx}: `
-      };
-      return t.optionPrefix ? t.optionPrefix(idx) : (prefixes[language] || prefixes['en']);
-    };
 
     speak(data.timeAnalog, extendedTime);
 
@@ -125,7 +114,7 @@ function ClockExercise({
     let delayAcc = charCount * (extendedTime ? 90 : 65) + 1500;
 
     shuffledOptions.forEach((opt, index) => {
-      const prefix = getOptionPrefix(index + 1);
+      const prefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
       
       // Remove colon from the prefix to prevent TTS from prematurely stopping
       const spokenPrefix = prefix.replace(':', '.');
@@ -164,7 +153,7 @@ function ClockExercise({
     : 'w-12 h-12 sm:w-14 sm:h-14 text-lg sm:text-xl';
 
   return (
-    <div className={`${animClass} flex w-full flex-col items-center`}>
+    <div className={`${animClass} flex h-full w-full flex-col items-center justify-center`}>
       {/* 1. Voice Controls Section */}
       {voiceAssistant && (
         <div className="mb-4 flex shrink-0 gap-4">
@@ -271,7 +260,6 @@ function ClockExercise({
             key={i}
             onClick={() => {
               clearAudioTimeouts();
-              window.speechSynthesis?.cancel();
               opt.isCorrect ? onSuccess() : handleMistake();
             }}
             disabled={isListening}

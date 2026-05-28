@@ -73,21 +73,15 @@ function GraphemeExercise({
   }, [data]);
 
   // The main instruction/question text
-  const fallbackQuestion = {
-    pl: "Wybierz poprawną pisownię:",
-    de: "Wähle die richtige Schreibweise:",
-    en: "Choose the correct spelling:"
-  };
   const questionText =
     data.questions?.[language] ||
     data.questions?.en ||
     t.chooseCorrectSpelling ||
-    (fallbackQuestion[language] || fallbackQuestion.en);
+    'Choose the correct spelling:';
 
   // Handle voice commands for option selection (1, 2, 3...)
   const handleVoiceMatch = (num) => {
     clearAudioTimeouts();
-    window.speechSynthesis?.cancel();
     const selectedIndex = num - 1;
     if (selectedIndex >= 0 && selectedIndex < shuffledOptions.length) {
       shuffledOptions[selectedIndex].isCorrect ? onSuccess() : onError();
@@ -97,18 +91,9 @@ function GraphemeExercise({
   };
 
   const readQuestionAndOptions = () => {
-    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     // pulling localized prefix from a simple map or dictionary
-    const getOptionPrefix = (idx) => {
-      const prefixes = {
-        pl: `Opcja ${idx}: `,
-        en: `Option ${idx}: `,
-        de: `Option ${idx}: `
-      };
-      return t.optionPrefix ? t.optionPrefix(idx) : (prefixes[language] || prefixes['en']);
-    };
 
     // Remove underscores and format time correctly for the TTS assistant
     const sanitizedQuestion = formatTimeForTTS(questionText.replace(/_+/g, ''), language);
@@ -121,7 +106,7 @@ function GraphemeExercise({
     shuffledOptions.forEach((opt, index) => {
       // Use the shared utility to get a pedagogical hint (e.g., "with double S")
       const hint = getSmartSpellingHint(opt.text, allOptionTexts, language, t);
-      const prefix = getOptionPrefix(index + 1);
+      const prefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
 
       // Remove colon from the prefix to prevent TTS from prematurely stopping the sentence
       const spokenPrefix = prefix.replace(':', '.');
@@ -154,7 +139,7 @@ function GraphemeExercise({
     : 'w-12 h-12 sm:w-16 sm:h-16 text-2xl sm:text-3xl';
 
   return (
-    <div className={`${animClass} flex w-full flex-col items-center`}>
+    <div className={`${animClass} flex h-full w-full flex-col items-center justify-center`}>
       {/* 1. Voice & Audio Controls */}
       {voiceAssistant && (
         <div className="mb-8 flex gap-6">
@@ -199,7 +184,6 @@ function GraphemeExercise({
             key={i}
             onClick={() => {
               clearAudioTimeouts();
-              window.speechSynthesis?.cancel();
               opt.isCorrect ? onSuccess() : onError();
             }}
             disabled={isListening}

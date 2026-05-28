@@ -54,7 +54,6 @@ function SpatialExercise({
   const handleMistake = useCallback(() => {
     onError();
     setSafeTimeout(() => {
-      window.speechSynthesis?.cancel();
       clearAudioTimeouts();
 
       const currentTaskItem = data.items[currentIndex];
@@ -83,7 +82,6 @@ function SpatialExercise({
    */
   const handleChoice = (selectedValue) => {
     clearAudioTimeouts();
-    window.speechSynthesis?.cancel();
     if (selectedValue === currentItem.target) {
       if (currentIndex + 1 >= data.items.length) {
         onSuccess();
@@ -116,19 +114,13 @@ function SpatialExercise({
 
   // --- Read Instruction & Options Aloud Logic ---
   const readInstructionAndOptions = () => {
-    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     speak(data.instruction, extendedTime);
     let delayAcc = (data.instruction || '').length * (extendedTime ? 100 : 75) + 1500;
 
     data.options.forEach((opt, index) => {
-      const optionPrefix =
-        {
-          pl: `Opcja ${index + 1}: `,
-          en: `Option ${index + 1}: `,
-          de: `Option ${index + 1}: `,
-        }[language] || `Option ${index + 1}: `;
+      const optionPrefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
 
       // Strip emojis from the label for the Text-to-Speech engine
       // to ensure clean pronunciation without character codes.
@@ -168,7 +160,7 @@ function SpatialExercise({
     : 'w-12 h-12 text-xl';
 
   return (
-    <div className="flex min-h-96 w-full flex-col items-center justify-between">
+    <div className="flex h-full w-full flex-col items-center justify-between">
       {/* 1. Voice & Audio Controls */}
       {voiceAssistant && (
         <div className="mb-2 flex shrink-0 gap-4">

@@ -1,6 +1,6 @@
 export default {
   // Allgemeine und Navigation
-  appTitle: "Claro",
+  appTitle: "En Claro",
   introSubtitle: "Baue deine Brücke zur Sprachkompetenz.",
 
   // Startbildschirm (Intro)
@@ -96,7 +96,7 @@ export default {
   // Einstellungen
   settings: "Einstellungen",
   settingsTitle: "Einstellungen",
-  settingsSubtitle: "Claro · Zugängliche Gamification",
+  settingsSubtitle: "En Claro · Zugängliche Gamification",
   settingsBack: "← Zurück",
   settingsTheme: "Thema",
   settingsAccessibility: "Komfortoptionen",
@@ -240,7 +240,7 @@ export default {
     submit: "Speichern und fortfahren",
     skip: "Diesmal überspringen"
   },
-  mapTitle: "Herausforderungskarte", choosePath: "Wähle deinen Weg", nextLevel: "Nächste Stufe", lockedNode: "Gesperrt", completedNode: "Abgeschlossen", backToMap: "Zurück zur Karte", energyTitle: "Kognitive Energie", breakTitle: "Zeit für eine Pause?", breakDesc: "Wir haben bemerkt, dass du intensiv arbeitest. Ruhe dich im Garten aus, um dich zu regenerieren.", takeBreakBtn: "Ausruhen (+2 💰)", continueBtn: "Weiter üben",
+  mapTitle: "Herausforderungskarte", choosePath: "Wähle deinen Weg", nextLevel: "Nächste Stufe", lockedNode: "Gesperrt", completedNode: "Abgeschlossen", backToMap: "Zurück zur Karte", energyTitle: "Kognitive Energie", breakTitle: "Zeit für eine Pause?", breakDesc: "Wir haben bemerkt, dass du intensiv arbeitest. Ruhe dich im Garten aus, um dich zu regenerieren.", breakTip: "Tipp: Schauen Sie für mindestens 20 Sekunden vom Bildschirm weg in die Ferne (am besten auf etwas Grünes).", takeBreakBtn: "Ausruhen (+2 💰)", continueBtn: "Weiter üben", categorizeItems: "Ordne die Elemente zu", allItemsPlaced: "Alle Elemente zugeordnet", checkAnswers: "Antworten überprüfen",
   
   // Übungsinhalte
   pillars: { Literacy: "Lesen und Schreiben", Visual: "Sehen und Raum", Cognitive: "Logik und Gedächtnis" },
@@ -249,9 +249,13 @@ export default {
   difficulty: "Schwierigkeitsgrad",
   diffLevels: ["Einfach", "Mittel", "Schwer"],
   questLabel: (target, type, pillars) => `Herausforderung (${target}): ${type === 'Any' ? 'Beliebig' : pillars[type] || type}`,
-  trackAndMatch: "Folge der Hervorhebung und gib die Richtung an", orderCorrectly: "In der richtigen Reihenfolge anordnen", undo: "Rückgängig", tempoLabel: "Lesetyp", normalMode: "Normal", slowMode: "Langsam", spellMode: "Buchstabieren", readAloud: "Laut vorlesen", syllablesListen: "Silben anhören", check: "Prüfen", delete: "Löschen", tapToSpeak: "Tippen zum Sprechen", listening: "Höre zu...", collectedLabel: "Gesammelt", selectCorrect: "Richtiges Wort wählen:", tapToBuild: "Wörter in der richtigen Reihenfolge wählen", listenCarefully: "Höre dir das Wort genau an.", readyToSegment: "Ich bin bereit zum Segmentieren", tapBoxesInstruction: "Tippe auf die Felder und sprich jeden Laut aus.", completeExercise: "Übung abschließen", playAudio: "Audio abspielen", lookAndListen: "Schau dir das Wort an und höre dir die Aussprache an.", studiedWord: "Ich habe das Wort studiert", sayWordAloud: "Sage das Wort laut.", breakIntoSounds: "Zerlege es in einzelne Laute.", takeYourTime: "Lass dir Zeit. Fühle die Form der Laute im Mund, bevor du schreibst.", coverAndWrite: "Wort abdecken und schreiben", typeFromMemory: "Gib das Wort aus dem Gedächtnis ein.", typeHere: "Hier tippen...", checkSpelling: "Meine Rechtschreibung prüfen", compareSpelling: "Vergleiche deine Schreibweise:", targetWord: "Zielwort", yourSpelling: "Deine Schreibweise", spelledCorrectly: "Ja, ich habe es richtig geschrieben!", tryAgain: "Ich muss es nochmal versuchen", listenToPhonemes: "Höre dir die getrennten Laute an.", typeBlendedWord: "Gib das Wort ein, das diese Laute bilden.", blendSounds: "Ich bin bereit, Laute zu verbinden", readParagraph: "Lies den folgenden Text sorgfältig durch.", paragraphRead: "Ich bin fertig mit dem Lesen", rtSummarize: "Zusammenfassen", rtSummarizeDesc: "Was war der Hauptgedanke dieses Textes?", rtQuestion: "Fragen", rtQuestionDesc: "Stelle eine Frage zu etwas Unklarem oder Interessantem im Text.", rtClarify: "Klären", rtClarifyDesc: "Identifiziere unklare Wörter und erkläre sie mit eigenen Worten.", rtPredict: "Vorhersagen", rtPredictDesc: "Was denkst du, wird als Nächstes passieren?", heard: "Gehört", voiceInput: "Spracheingabe", speakOptionNumber: "Sprich die Optionsnummer", speakTileNumber: "Sprich die Kachelnummer", speakGapNumber: "Sprich die Lückennummer zum Schneiden", tapAndPronounce: "Tippen und das Wort aussprechen", skipPronunciation: "Ausspracheprüfung überspringen", readSentenceAndOptions: "Satz und Optionen lesen", removeCut: (pos) => `Schnitt an Position ${pos} entfernen`, addCut: (pos) => `Schnitt an Position ${pos} hinzufügen`,
+  trackAndMatch: "Folge der Hervorhebung und gib die Richtung an", chooseCorrectSpelling: "Wähle die richtige Schreibweise:", optionPrefix: (idx) => `Option ${idx}: `, wordPrefix: (idx) => `Wort ${idx}: `, orderCorrectly: "In der richtigen Reihenfolge anordnen", undo: "Rückgängig", tempoLabel: "Lesetyp", normalMode: "Normal", slowMode: "Langsam", spellMode: "Buchstabieren", readAloud: "Laut vorlesen", syllablesListen: "Silben anhören", check: "Prüfen", delete: "Löschen", tapToSpeak: "Tippen zum Sprechen", listening: "Höre zu...", collectedLabel: "Gesammelt", selectCorrect: "Richtiges Wort wählen:", tapToBuild: "Wörter in der richtigen Reihenfolge wählen", listenCarefully: "Höre dir das Wort genau an.", readyToSegment: "Ich bin bereit zum Segmentieren", tapBoxesInstruction: "Tippe auf die Felder und sprich jeden Laut aus.", completeExercise: "Übung abschließen", playAudio: "Audio abspielen", lookAndListen: "Schau dir das Wort an und höre dir die Aussprache an.", studiedWord: "Ich habe das Wort studiert", sayWordAloud: "Sage das Wort laut.", breakIntoSounds: "Zerlege es in einzelne Laute.", takeYourTime: "Lass dir Zeit. Fühle die Form der Laute im Mund, bevor du schreibst.", coverAndWrite: "Wort abdecken und schreiben", typeFromMemory: "Gib das Wort aus dem Gedächtnis ein.", typeHere: "Hier tippen...", checkSpelling: "Meine Rechtschreibung prüfen", compareSpelling: "Vergleiche deine Schreibweise:", targetWord: "Zielwort", yourSpelling: "Deine Schreibweise", spelledCorrectly: "Ja, ich habe es richtig geschrieben!", tryAgain: "Ich muss es nochmal versuchen", listenToPhonemes: "Höre dir die getrennten Laute an.", typeBlendedWord: "Gib das Wort ein, das diese Laute bilden.", blendSounds: "Ich bin bereit, Laute zu verbinden", readParagraph: "Lies den folgenden Text sorgfältig durch.", paragraphRead: "Ich bin fertig mit dem Lesen", rtSummarize: "Zusammenfassen", rtSummarizeDesc: "Was war der Hauptgedanke dieses Textes?", rtQuestion: "Fragen", rtQuestionDesc: "Stelle eine Frage zu etwas Unklarem oder Interessantem im Text.", rtClarify: "Klären", rtClarifyDesc: "Identifiziere unklare Wörter und erkläre sie mit eigenen Worten.", rtPredict: "Vorhersagen", rtPredictDesc: "Was denkst du, wird als Nächstes passieren?", heard: "Gehört", voiceInput: "Spracheingabe", speakOptionNumber: "Sprich die Optionsnummer", speakTileNumber: "Sprich die Kachelnummer", speakGapNumber: "Sprich die Lückennummer zum Schneiden", tapAndPronounce: "Tippen und das Wort aussprechen", skipPronunciation: "Ausspracheprüfung überspringen", readSentenceAndOptions: "Satz und Optionen lesen", removeCut: (pos) => `Schnitt an Position ${pos} entfernen`, addCut: (pos) => `Schnitt an Position ${pos} hinzufügen`,
   
   // Zusätzliche Infos
+  pressKey: "Drücke",
+  or: "oder",
+  toContinue: "um fortzufahren",
+  toSkip: "um zu überspringen",
   thesisInfo: "Masterarbeit\nZugängliche Gamification und Sprachintegration\nin einer PWA zur Unterstützung von logopädischen Übungen\nfür Personen mit Legasthenie",
   tags: { kontrast: "kontrast", wzrok: "sehen", motor: "motor", dotyk: "berührung", zoom: "zoom", kolor: "farbe", ruch: "bewegung", epilepsja: "epilepsie", linijka: "fokus" },
 

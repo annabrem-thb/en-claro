@@ -70,7 +70,6 @@ function ContextExercise({
   const handleMistake = useCallback(() => {
     onError();
     setSafeTimeout(() => {
-      window.speechSynthesis?.cancel();
       clearAudioTimeouts();
 
       const correctOpt = shuffledOptions.find((o) => o.isCorrect);
@@ -89,7 +88,6 @@ function ContextExercise({
 
   const handleVoiceMatch = (num) => {
     clearAudioTimeouts();
-    window.speechSynthesis?.cancel();
     const selected = shuffledOptions[num - 1];
     if (selected) {
       selected.isCorrect ? onSuccess() : handleMistake();
@@ -99,12 +97,11 @@ function ContextExercise({
   };
 
   const readContextAndOptions = () => {
-    window.speechSynthesis?.cancel();
     clearAudioTimeouts();
 
     let delayAcc = 0;
     
-    const instruction = t.selectCorrect || (language === 'pl' ? 'Wybierz poprawne słowo:' : 'Select the correct word:');
+    const instruction = t.selectCorrect || 'Select the correct word:';
     setSafeTimeout(() => speak(instruction, extendedTime), delayAcc);
     delayAcc += instruction.length * (extendedTime ? 90 : 65) + 1000;
 
@@ -123,12 +120,7 @@ function ContextExercise({
 
     const allOptionTexts = shuffledOptions.map((o) => o.text);
     shuffledOptions.forEach((opt, index) => {
-      const prefixes = {
-        pl: `Opcja ${index + 1}: `,
-        en: `Option ${index + 1}: `,
-        de: `Option ${index + 1}: `
-      };
-      const optionPrefix = t.optionPrefix ? t.optionPrefix(index + 1) : (prefixes[language] || prefixes['en']);
+      const optionPrefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
 
       const hint = getSmartSpellingHint(opt.text, allOptionTexts, language, t);
 
@@ -165,7 +157,7 @@ function ContextExercise({
     : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
 
   return (
-    <div className={`${animClass} flex w-full flex-col items-center`}>
+    <div className={`${animClass} flex h-full w-full flex-col items-center justify-center`}>
       {!zenMode && (
         <h3 className="mb-6 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
           {t.selectCorrect || 'Select the correct word'}
@@ -218,7 +210,6 @@ function ContextExercise({
             key={i}
             onClick={() => {
               clearAudioTimeouts();
-              window.speechSynthesis?.cancel();
               opt.isCorrect ? onSuccess() : handleMistake();
             }}
             disabled={isListening}

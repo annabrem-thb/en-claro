@@ -85,7 +85,6 @@ function SequenceExercise({
   const handleSelect = useCallback((wordObj) => {
     if (isShowingCorrection) return;
     clearAllTimeouts();
-    window.speechSynthesis?.cancel();
     setTaskWords((prev) => ({
       selected: [...prev.selected, wordObj],
       available: prev.available.filter((w) => w.id !== wordObj.id),
@@ -95,7 +94,6 @@ function SequenceExercise({
   const handleDeselect = useCallback((wordObj) => {
     if (isShowingCorrection) return;
     clearAllTimeouts();
-    window.speechSynthesis?.cancel();
     setTaskWords((prev) => ({
       available: [...prev.available, wordObj],
       selected: prev.selected.filter((w) => w.id !== wordObj.id),
@@ -105,7 +103,6 @@ function SequenceExercise({
   const handleCheck = useCallback(() => {
     if (isShowingCorrection) return;
     clearAllTimeouts();
-    window.speechSynthesis?.cancel();
     const correctSentence = Array.isArray(data.correct)
       ? data.correct.join(' ')
       : data.correct;
@@ -156,7 +153,6 @@ function SequenceExercise({
   const handleVoiceMatch = (num) => {
     if (isShowingCorrection) return;
     clearAllTimeouts();
-    window.speechSynthesis?.cancel();
     const wordObj = availableWords[num - 1];
     if (wordObj) handleSelect(wordObj);
     else onError();
@@ -165,7 +161,6 @@ function SequenceExercise({
   const handleCommandMatch = (cmd) => {
     if (isShowingCorrection) return;
     clearAllTimeouts();
-    window.speechSynthesis?.cancel();
     if (cmd === 'undo' && selectedWords.length > 0) {
       handleDeselect(selectedWords[selectedWords.length - 1]);
     } else if (cmd === 'check' && showCheckButton) {
@@ -176,7 +171,6 @@ function SequenceExercise({
   };
 
   const readAvailableWords = () => {
-    window.speechSynthesis?.cancel();
     clearAllTimeouts();
 
     const instruction = data.instruction || t.orderCorrectly || '';
@@ -185,12 +179,7 @@ function SequenceExercise({
     let delayAcc = instruction.length * (extendedTime ? 100 : 75) + 1500;
 
     availableWords.forEach((wordObj, index) => {
-      const optionPrefix =
-        {
-          pl: `Słowo ${index + 1}: `,
-          en: `Word ${index + 1}: `,
-          de: `Wort ${index + 1}: `,
-        }[language] || `Word ${index + 1}: `;
+      const optionPrefix = t.wordPrefix ? t.wordPrefix(index + 1) : `Word ${index + 1}: `;
 
       // Remove colon from the prefix to prevent the TTS engine from cutting the sentence short
       const spokenPrefix = optionPrefix.replace(':', '.');
@@ -224,7 +213,7 @@ function SequenceExercise({
     : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
 
   return (
-    <div className={`${animClass} flex w-full max-w-2xl flex-col items-center`}>
+    <div className={`${animClass} flex h-full w-full max-w-2xl flex-col items-center justify-center`}>
       {!zenMode && (
         <h3 className="mb-6 text-center text-xs md:text-sm font-black tracking-widest text-slate-400 uppercase break-words">
           <BionicText
@@ -269,7 +258,7 @@ function SequenceExercise({
         </p>
       )}
 
-      <div className="mb-6 sm:mb-8 flex min-h-[100px] sm:min-h-[120px] w-full flex-wrap content-start gap-2 sm:gap-3 rounded-2xl sm:rounded-3xl border-4 border-dashed border-slate-200 bg-slate-50 p-3 sm:p-4">
+      <div className="mb-4 sm:mb-8 flex min-h-[80px] sm:min-h-[120px] w-full flex-wrap content-start gap-2 sm:gap-3 rounded-2xl sm:rounded-3xl border-4 border-dashed border-slate-200 bg-slate-50 p-2.5 sm:p-4">
         {selectedWords.length === 0 && (
           <div className="flex h-full w-full items-center justify-center px-2 sm:px-4 text-center text-xs sm:text-sm font-black tracking-widest text-slate-300 uppercase">
             <BionicText

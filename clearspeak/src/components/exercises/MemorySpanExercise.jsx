@@ -49,7 +49,6 @@ function MemorySpanExercise({
 
   const playMemorizationSequence = useCallback(() => {
     if (!data.displayItems) return;
-    window.speechSynthesis?.cancel();
     clearAllTimeouts();
     let delayAcc = 800; // Short pause before starting
     data.displayItems.forEach((item, index) => {
@@ -92,7 +91,6 @@ function MemorySpanExercise({
 
   const handleSelectItem = (item) => {
     clearAllTimeouts();
-    window.speechSynthesis?.cancel();
     if (isChecking || isMemorizing) return;
     const newSelected = [...selectedItems, item];
     setSelectedItems(newSelected);
@@ -133,7 +131,6 @@ function MemorySpanExercise({
 
   // --- Read Options Aloud Logic ---
   const readAvailableItems = () => {
-    window.speechSynthesis?.cancel();
     clearAllTimeouts();
 
     speak(data.instruction, extendedTime);
@@ -143,12 +140,7 @@ function MemorySpanExercise({
 
     stableScrambled.forEach((item, index) => {
       if (!selectedItems.includes(item)) {
-        const optionPrefix =
-          {
-            pl: `Opcja ${index + 1}: `,
-            en: `Option ${index + 1}: `,
-            de: `Option ${index + 1}: `,
-          }[language] || `Option ${index + 1}: `;
+        const optionPrefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
 
         // Remove colon from the prefix to prevent the TTS engine from cutting the sentence short
         const spokenPrefix = optionPrefix.replace(':', '.');
@@ -186,9 +178,7 @@ function MemorySpanExercise({
     : 'w-16 h-16 text-2xl';
 
   return (
-    <div
-      className={`${animClass} flex min-h-96 w-full flex-col items-center justify-between`}
-    >
+    <div className={`${animClass} flex h-full w-full flex-col items-center justify-between`}>
       <div className="w-full text-center">
         <h3 className="mb-6 px-4 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
           {isMemorizing ? t.memorize || 'Zapamiętaj!' : data.instruction}

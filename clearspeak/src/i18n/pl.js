@@ -1,6 +1,6 @@
 export default {
   // General & Navigation
-  appTitle: "EnClaro",
+  appTitle: "En Claro",
   introSubtitle: "Zbuduj swój most do biegłości.",
 
   // Intro Screen
@@ -96,7 +96,7 @@ export default {
   // Settings
   settings: "Ustawienia",
   settingsTitle: "Ustawienia",
-  settingsSubtitle: "EnClaro · Dostępna Grywalizacja",
+  settingsSubtitle: "En Claro · Dostępna Grywalizacja",
   settingsBack: "← Wróć",
   settingsTheme: "Motyw",
   settingsAccessibility: "Opcje komfortu",
@@ -141,6 +141,7 @@ export default {
     bionicReading: { name: 'Bionic Reading', desc: 'Pogrubia początki słów, ułatwia skupienie wzroku' },
     minimalistMode: { name: 'Widok minimalistyczny', desc: 'Ukrywa dekoracyjne grafiki i animacje Lottie' },
     muteNotifications: { name: 'Wycisz powiadomienia', desc: 'Wyłącza mówienie o sukcesie/błędzie i dźwięki gry' },
+    cognitiveBreaks: { name: 'Przypomnienia o przerwach', desc: 'Aplikacja zasugeruje odpoczynek po serii błędów' },
   },
   profiles: {
     Standard: { name: "Standard", desc: "Widok domyślny" },
@@ -239,7 +240,7 @@ export default {
     submit: "Zapisz i kontynuuj",
     skip: "Pomiń tym razem"
   },
-  mapTitle: "Mapa Wyzwań", choosePath: "Wybierz swoją ścieżkę", nextLevel: "Następny etap", lockedNode: "Zablokowane", completedNode: "Ukończone", backToMap: "Wróć do mapy", energyTitle: "Energia Poznawcza", breakTitle: "Czas na przerwę?", breakDesc: "Zauważyliśmy, że intensywnie pracujesz. Odpocznij w ogrodzie, aby zregenerować siły i zapobiec zmęczeniu.", takeBreakBtn: "Odpoczywam (+2 💰)", continueBtn: "Ćwiczę dalej",
+  mapTitle: "Mapa Wyzwań", choosePath: "Wybierz swoją ścieżkę", nextLevel: "Następny etap", lockedNode: "Zablokowane", completedNode: "Ukończone", backToMap: "Wróć do mapy", energyTitle: "Energia Poznawcza", breakTitle: "Czas na przerwę?", breakDesc: "Zauważyliśmy, że intensywnie pracujesz. Odpocznij w ogrodzie, aby zregenerować siły i zapobiec zmęczeniu.", breakTip: "Porada: Oderwij wzrok od ekranu i popatrz w dal (najlepiej na coś zielonego) przez co najmniej 20 sekund.", takeBreakBtn: "Odpoczywam (+2 💰)", continueBtn: "Ćwiczę dalej", categorizeItems: "Przyporządkuj elementy", allItemsPlaced: "Wszystkie elementy przypisane", checkAnswers: "Sprawdź odpowiedzi",
   
   // Exercise Content & Prompts
   pillars: { Literacy: "Czytanie i Pisanie", Visual: "Wzrok i Przestrzeń", Cognitive: "Logika i Pamięć" },
@@ -248,9 +249,13 @@ export default {
   difficulty: "Poziom trudności",
   diffLevels: ["Łatwy", "Średni", "Trudny"],
   questLabel: (target, type, pillars) => `Wyzwanie (${target}): ${type === 'Any' ? 'Dowolne' : pillars[type] || type}`,
-  trackAndMatch: "Podążaj za podświetleniem i wskaż kierunek", orderCorrectly: "Ułóż w odpowiedniej kolejności", undo: "Cofnij", tempoLabel: "Typ czytania", normalMode: "Normalne", slowMode: "Wolne", spellMode: "Literowanie", readAloud: "Czytaj na głos", syllablesListen: "Posłuchaj sylab", check: "Sprawdź", delete: "Usuń", tapToSpeak: "Dotknij, aby mówić", listening: "Słucham...", collectedLabel: "Zebrane", selectCorrect: "Wybierz poprawne słowo:", tapToBuild: "Wybierz słowa w odpowiedniej kolejności", listenCarefully: "Słuchaj uważnie słowa.", readyToSegment: "Jestem gotowy/a na podział", tapBoxesInstruction: "Dotknij pól, wymawiając każdy pojedynczy dźwięk.", completeExercise: "Zakończ ćwiczenie", playAudio: "Odtwórz dźwięk", lookAndListen: "Spójrz na słowo i posłuchaj jego wymowy.", studiedWord: "Przestudiowałem/am słowo", sayWordAloud: "Powiedz słowo głośno.", breakIntoSounds: "Podziel je na pojedyncze dźwięki.", takeYourTime: "Nie spiesz się. Poczuj kształt dźwięków w ustach przed pisaniem.", coverAndWrite: "Zakryj słowo i napisz", typeFromMemory: "Wpisz słowo z pamięci.", typeHere: "Wpisz tutaj...", checkSpelling: "Sprawdź moją pisownię", compareSpelling: "Porównaj swoją pisownię:", targetWord: "Słowo docelowe", yourSpelling: "Twoja pisownia", spelledCorrectly: "Tak, napisałem/am poprawnie!", tryAgain: "Muszę spróbować ponownie", listenToPhonemes: "Posłuchaj rozdzielonych dźwięków.", typeBlendedWord: "Wpisz słowo, które tworzą te dźwięki.", blendSounds: "Jestem gotowy/a połączyć dźwięki", readParagraph: "Przeczytaj uważnie poniższy tekst.", paragraphRead: "Skończyłem/am czytać", rtSummarize: "Podsumuj", rtSummarizeDesc: "Jaka była główna myśl tego tekstu?", rtQuestion: "Zapytaj", rtQuestionDesc: "Zadaj pytanie o coś niejasnego lub interesującego w tekście.", rtClarify: "Wyjaśnij", rtClarifyDesc: "Zidentyfikuj niezrozumiałe słowa lub zwroty i wyjaśnij je swoimi słowami.", rtPredict: "Przewiduj", rtPredictDesc: "Jak myślisz, co wydarzy się dalej lub jaki jest logiczny wniosek?", heard: "Usłyszano", voiceInput: "Wprowadzanie głosowe", speakOptionNumber: "Wymów numer opcji", speakTileNumber: "Wymów numer kafelka", speakGapNumber: "Wymów numer przerwy, by przeciąć", tapAndPronounce: "Naciśnij i wymów słowo", skipPronunciation: "Pomiń sprawdzanie wymowy", readSentenceAndOptions: "Przeczytaj zdanie i opcje", removeCut: (pos) => `Usuń cięcie w pozycji ${pos}`, addCut: (pos) => `Dodaj cięcie w pozycji ${pos}`,
+  trackAndMatch: "Podążaj za podświetleniem i wskaż kierunek", chooseCorrectSpelling: "Wybierz poprawną pisownię:", optionPrefix: (idx) => `Opcja ${idx}: `, wordPrefix: (idx) => `Słowo ${idx}: `, orderCorrectly: "Ułóż w odpowiedniej kolejności", undo: "Cofnij", tempoLabel: "Typ czytania", normalMode: "Normalne", slowMode: "Wolne", spellMode: "Literowanie", readAloud: "Czytaj na głos", syllablesListen: "Posłuchaj sylab", check: "Sprawdź", delete: "Usuń", tapToSpeak: "Dotknij, aby mówić", listening: "Słucham...", collectedLabel: "Zebrane", selectCorrect: "Wybierz poprawne słowo:", tapToBuild: "Wybierz słowa w odpowiedniej kolejności", listenCarefully: "Słuchaj uważnie słowa.", readyToSegment: "Jestem gotowy/a na podział", tapBoxesInstruction: "Dotknij pól, wymawiając każdy pojedynczy dźwięk.", completeExercise: "Zakończ ćwiczenie", playAudio: "Odtwórz dźwięk", lookAndListen: "Spójrz na słowo i posłuchaj jego wymowy.", studiedWord: "Przestudiowałem/am słowo", sayWordAloud: "Powiedz słowo głośno.", breakIntoSounds: "Podziel je na pojedyncze dźwięki.", takeYourTime: "Nie spiesz się. Poczuj kształt dźwięków w ustach przed pisaniem.", coverAndWrite: "Zakryj słowo i napisz", typeFromMemory: "Wpisz słowo z pamięci.", typeHere: "Wpisz tutaj...", checkSpelling: "Sprawdź moją pisownię", compareSpelling: "Porównaj swoją pisownię:", targetWord: "Słowo docelowe", yourSpelling: "Twoja pisownia", spelledCorrectly: "Tak, napisałem/am poprawnie!", tryAgain: "Muszę spróbować ponownie", listenToPhonemes: "Posłuchaj rozdzielonych dźwięków.", typeBlendedWord: "Wpisz słowo, które tworzą te dźwięki.", blendSounds: "Jestem gotowy/a połączyć dźwięki", readParagraph: "Przeczytaj uważnie poniższy tekst.", paragraphRead: "Skończyłem/am czytać", rtSummarize: "Podsumuj", rtSummarizeDesc: "Jaka była główna myśl tego tekstu?", rtQuestion: "Zapytaj", rtQuestionDesc: "Zadaj pytanie o coś niejasnego lub interesującego w tekście.", rtClarify: "Wyjaśnij", rtClarifyDesc: "Zidentyfikuj niezrozumiałe słowa lub zwroty i wyjaśnij je swoimi słowami.", rtPredict: "Przewiduj", rtPredictDesc: "Jak myślisz, co wydarzy się dalej lub jaki jest logiczny wniosek?", heard: "Usłyszano", voiceInput: "Wprowadzanie głosowe", speakOptionNumber: "Wymów numer opcji", speakTileNumber: "Wymów numer kafelka", speakGapNumber: "Wymów numer przerwy, by przeciąć", tapAndPronounce: "Naciśnij i wymów słowo", skipPronunciation: "Pomiń sprawdzanie wymowy", readSentenceAndOptions: "Przeczytaj zdanie i opcje", removeCut: (pos) => `Usuń cięcie w pozycji ${pos}`, addCut: (pos) => `Dodaj cięcie w pozycji ${pos}`,
   
   // Additional Information
+  pressKey: "Naciśnij",
+  or: "lub",
+  toContinue: "aby kontynuować",
+  toSkip: "aby pominąć",
   thesisInfo: "Praca Magisterska\nDostępna Grywalizacja i Integracja Głosowa\nw PWA wspierającym ćwiczenia logopedyczne\ndla osób z dysleksją",
   tags: { kontrast: "kontrast", wzrok: "wzrok", motor: "motor", dotyk: "dotyk", zoom: "zoom", kolor: "kolor", ruch: "ruch", epilepsja: "epilepsja", linijka: "skupienie" },
 
