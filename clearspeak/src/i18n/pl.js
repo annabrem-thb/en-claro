@@ -2,6 +2,9 @@ export default {
   // General & Navigation
   appTitle: "En Claro",
   introSubtitle: "Zbuduj swój most do biegłości.",
+  installApp: "Zainstaluj aplikację",
+  installAppDesc: "Pobierz na urządzenie, aby zyskać szybki dostęp i tryb offline.",
+  installed: "Zainstalowano",
 
   // Intro Screen
   intro: {
@@ -264,6 +267,7 @@ export default {
   pwaDescription: "Dostępna jest nowa treść. Zaktualizuj aplikację, aby pobrać najnowsze zmiany do trybu offline.",
   pwaUpdate: "Aktualizuj",
   pwaLater: "Później",
+  offlineMessage: "Jesteś w trybie offline. Niektóre funkcje mogą być niedostępne.",
   showOriginal: "Wyświetl oryginał",
   simplifyText: "Uprość tekst ✨",
   prevPage: "← Poprzednia",

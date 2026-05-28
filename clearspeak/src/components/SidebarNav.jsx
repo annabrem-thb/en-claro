@@ -25,15 +25,15 @@ const SidebarNav = memo(function SidebarNav({
   const animClass = noFlash ? '' : 'animate-in fade-in slide-in-from-bottom-12 md:slide-in-from-bottom-0 md:slide-in-from-left-12 duration-700 ease-out';
 
   return (
-    <aside className={`w-full md:w-60 flex flex-row md:flex-col shrink-0 z-40 order-last md:order-first ${animClass} ${isHighContrast ? 'bg-black border-t md:border-t-0 md:border-r border-white/20 shadow-sm' : `bg-[#fdfaf6] border-t md:border-t-0 md:border-r ${themeStyles.border} shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)] md:shadow-xl md:shadow-slate-200/50`}`}>
-      <div className={`hidden md:flex p-3 md:p-5 items-center gap-2 h-16 ${isHighContrast ? 'border-b border-white/20' : `border-b ${themeStyles.border}`}`}>
+    <aside className={`w-full md:w-60 flex flex-row md:flex-col shrink-0 min-h-0 z-40 order-last md:order-first ${animClass} ${isHighContrast ? 'bg-black border-t md:border-t-0 md:border-r border-white/20 shadow-sm' : `bg-[#fdfaf6] border-t md:border-t-0 md:border-r ${themeStyles.border} shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)] md:shadow-xl md:shadow-slate-200/50`}`}>
+      <div className={`hidden md:flex p-3 md:p-5 items-center gap-2 shrink-0 h-16 ${isHighContrast ? 'border-b border-white/20' : `border-b ${themeStyles.border}`}`}>
         <span className="text-2xl drop-shadow-sm" aria-hidden="true">🧠</span>
         <AccessibleTTS text={s.appTitle} speak={speak} language={language} className="hidden md:flex">
           <h1 className={`font-black text-base tracking-tighter ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>{s.appTitle}</h1>
         </AccessibleTTS>
       </div>
       
-      <nav className="flex-1 overflow-x-auto md:overflow-y-auto no-scrollbar py-2 md:py-3 px-2 md:px-3 flex flex-row md:flex-col gap-1 md:gap-1.5 justify-between md:justify-start" aria-label={s.navAria}>
+      <nav className="flex-1 min-h-0 overflow-x-auto md:overflow-y-auto no-scrollbar py-2 md:py-3 px-2 md:px-3 flex flex-row md:flex-col gap-1 md:gap-1.5 justify-between md:justify-start" aria-label={s.navAria}>
         {pillars.map((p, index) => {
           const isSelected     = activeTab === p;
           const questForPillar = dailyQuests.tasks.find(q => q.type === p);
@@ -42,7 +42,7 @@ const SidebarNav = memo(function SidebarNav({
             <button key={p}
               onClick={() => onTabChange(p)}
               title={`Shortcut: Ctrl + ${index + 1}`}
-              className={`relative group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isSelected ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
+              className={`relative group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isSelected ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
               aria-pressed={isSelected}
               aria-label={label}
             >
@@ -71,7 +71,7 @@ const SidebarNav = memo(function SidebarNav({
           <button
             onClick={onGardenClick}
             title="Shortcut: Ctrl + 4"
-            className={`relative group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
+            className={`relative group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
             aria-pressed={activeTab === 'Garden'}
             aria-label={t.garden || "Garden"}
           >
@@ -94,7 +94,7 @@ const SidebarNav = memo(function SidebarNav({
         <button
           onClick={() => setSettingsOpen(true)}
           title="Shortcut: Ctrl + ,"
-          className={`group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
+          className={`group flex flex-col md:flex-row items-center justify-center md:justify-start md:mt-auto gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
           aria-label={s.settingsAria}
         >
           <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">⚙️</span>

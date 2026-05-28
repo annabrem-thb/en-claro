@@ -12,6 +12,7 @@ import ContextExercise from './exercises/ContextExercise';
 import VisualCategorization from './exercises/VisualCategorization.jsx';
 import DictationExercise from './exercises/DictationExercise.jsx';
 import LookCoverWriteCheck from './exercises/LookCoverWriteCheck.jsx';
+import ReadAloudExercise from './exercises/ReadAloudExercise.jsx';
 
 /**
  * ExerciseContainer Component
@@ -43,6 +44,7 @@ export default function ExerciseContainer({ currentTask, ...commonProps }) {
   if (currentTask.lcwc)           return <LookCoverWriteCheck targetWord={currentTask.word} onSelfEvaluate={(res) => res.correct ? commonProps.onSuccess() : commonProps.onError()} {...exerciseProps} />;
   if (currentTask.dictation)      return <DictationExercise {...exerciseProps} />;
   if (currentTask.correct)        return <SequenceExercise {...exerciseProps} />;
+  if (currentTask.readAloud)      return <ReadAloudExercise {...exerciseProps} />;
 
   return <div className="p-6 text-red-400" role="alert" aria-live="assertive">{t?.formatNotRecognized || 'Format not recognized'}</div>;
 }

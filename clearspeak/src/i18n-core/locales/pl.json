@@ -1,6 +1,9 @@
 {
   "appTitle": "En Claro",
   "introSubtitle": "Zbuduj swój most do biegłości.",
+  "installApp": "Zainstaluj aplikację",
+  "installAppDesc": "Pobierz na urządzenie, aby zyskać szybki dostęp i tryb offline.",
+  "installed": "Zainstalowano",
   "intro": {
     "subtitle": "Twoja bezpieczna przestrzeń do rozwoju! Wybierz tryb i narzędzia:",
     "chooseLanguage": "Język",
@@ -583,6 +586,7 @@
   "pwaDescription": "Dostępna jest nowa treść. Zaktualizuj aplikację, aby pobrać najnowsze zmiany do trybu offline.",
   "pwaUpdate": "Aktualizuj",
   "pwaLater": "Później",
+  "offlineMessage": "Jesteś w trybie offline. Niektóre funkcje mogą być niedostępne.",
   "showOriginal": "Wyświetl oryginał",
   "simplifyText": "Uprość tekst ✨",
   "prevPage": "← Poprzednia",

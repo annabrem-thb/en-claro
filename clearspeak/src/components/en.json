@@ -1,6 +1,9 @@
 {
   "appTitle": "Claro",
   "start": "Start",
+  "installApp": "Install App",
+  "installAppDesc": "Download to your device for quick access and offline mode.",
+  "installed": "Installed",
   "intro": {
     "subtitle": "Your safe space to grow! Choose mode and tools:",
     "chooseLanguage": "Language",
@@ -28,7 +31,8 @@
     "success": "Success!",
     "error": "An error occurred.",
     "close": "Close"
-  },
+  },  
+  "offlineMessage": "You are currently offline. Some features may be unavailable.",
   "profile": {
     "title": "User Profile",
     "welcome": "Welcome back, {{name}}!",

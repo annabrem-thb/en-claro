@@ -80,7 +80,7 @@ function IntroScreen({ onStart, speak }) {
   );
 
   return (
-    <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 overflow-hidden ${isHighContrast ? 'bg-black' : 'bg-[#fdfaf6]'}`}>
+    <div className={`fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 overflow-hidden ${isHighContrast ? 'bg-black' : 'bg-[#fdfaf6]'}`}>
       
       {/* Background Layer: Visible but does not interfere with text readability */}
       <div 
@@ -88,27 +88,27 @@ function IntroScreen({ onStart, speak }) {
       />
 
       {/* Main Glassmorphism Panel: Protective "glass" card ensuring high contrast for LRS users */}
-      <div className={`relative z-10 flex flex-col items-center w-full max-w-lg px-4 sm:px-8 py-4 sm:py-6 rounded-[2rem] shadow-2xl text-center transition-all max-h-[96vh] sm:max-h-[98vh] overflow-y-auto no-scrollbar ${
+      <div className={`relative z-10 flex flex-col items-center w-full max-w-lg px-3 sm:px-6 py-3 sm:py-5 rounded-[2rem] shadow-2xl text-center transition-all max-h-[98vh] shrink min-h-0 overflow-y-auto no-scrollbar ${
         isHighContrast 
           ? 'bg-black border-2 border-white' 
           : 'bg-white/90 backdrop-blur-md border border-slate-200'
       }`}>
 
-        <div className={`w-full flex flex-col items-center ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
-          <div className="text-4xl sm:text-6xl mb-1 drop-shadow-lg" aria-hidden="true">🧠</div>
+        <div className={`w-full flex flex-col items-center shrink min-h-0 ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
+          <div className="text-3xl sm:text-5xl mb-1 drop-shadow-lg shrink-0" aria-hidden="true">🧠</div>
 
-          <h1 className={`text-2xl sm:text-4xl font-black mb-1 tracking-tighter drop-shadow-md ${isHighContrast ? 'text-white' : 'text-indigo-700'}`}>
+          <h1 className={`text-xl sm:text-3xl font-black mb-1 tracking-tighter drop-shadow-md shrink-0 ${isHighContrast ? 'text-white' : 'text-indigo-700'}`}>
             {t('appTitle', 'EnClaro')}
           </h1>
           
-          <p className={`text-[10px] sm:text-sm font-bold mb-2 max-w-sm leading-snug ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>
+          <p className={`text-[10px] sm:text-xs font-bold mb-2 max-w-sm leading-snug shrink-0 ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>
             <BionicText text={t('intro.subtitle', 'Your safe space to grow! Choose mode and tools:')} enabled={hasBionic} />
           </p>
 
             <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center">
               <BionicText text={t('intro.chooseLanguage', 'Language')} enabled={hasBionic} />
             </p>
-            <div className="grid grid-cols-3 gap-1 sm:gap-1.5 mb-2 w-full">
+            <div className="grid grid-cols-3 gap-1 sm:gap-1.5 mb-2 w-full shrink-0">
               {LANGUAGES.map(({ code, flag, label }) => (
                 <button
                   key={code}
@@ -133,7 +133,7 @@ function IntroScreen({ onStart, speak }) {
             <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center">
               <BionicText text={t('intro.appMode', 'Mode')} enabled={hasBionic} />
             </p>
-            <div className="grid grid-cols-2 gap-1 sm:gap-1.5 mb-2 w-full">
+            <div className="grid grid-cols-2 gap-1 sm:gap-1.5 mb-2 w-full shrink-0">
               <button
                 onClick={() => {
                   setIsGamified(false);
@@ -169,7 +169,7 @@ function IntroScreen({ onStart, speak }) {
             <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center">
               <BionicText text={t('intro.a11y', 'Comfort Tools')} enabled={hasBionic} />
             </p>
-            <div className="grid grid-cols-3 gap-1 sm:gap-1.5 mb-3 w-full">
+            <div className="grid grid-cols-3 gap-1 sm:gap-1.5 mb-2 sm:mb-3 w-full shrink-0">
               <A11yBtn active={hasLRS} onClick={() => toggleAddon('LRS', t('intro.lrs', 'Friendly Font'))} icon="🅰️" label={t('intro.lrs', 'Friendly Font')} />
               <A11yBtn active={hasSpacing} onClick={() => toggleAddon('Spacing', t('intro.spacing', 'More Spacing'))} icon="🔠" label={t('intro.spacing', 'More Spacing')} />
               <A11yBtn active={hasVision} onClick={() => toggleAddon('Niedowidzenie', t('intro.vision', 'Bigger Text'))} icon="🔍" label={t('intro.vision', 'Bigger Text')} />
@@ -188,8 +188,8 @@ function IntroScreen({ onStart, speak }) {
             </div>
 
             {/* --- RECOMMENDED BROWSER MESSAGE --- */}
-            <div className={`mt-1 mb-2 p-2 sm:p-3 rounded-2xl flex items-center gap-2 sm:gap-3 border-2 text-left transition-colors ${isHighContrast ? 'bg-black border-white/50 text-white' : 'bg-blue-50 border-blue-200 text-blue-800'}`}>
-              <span className="text-lg sm:text-2xl shrink-0 drop-shadow-sm" aria-hidden="true">💡</span>
+            <div className={`mt-1 mb-2 p-2 rounded-xl flex items-center gap-2 border-2 text-left transition-colors shrink-0 ${isHighContrast ? 'bg-black border-white/50 text-white' : 'bg-blue-50 border-blue-200 text-blue-800'}`}>
+              <span className="text-base sm:text-xl shrink-0 drop-shadow-sm" aria-hidden="true">💡</span>
               <p className="text-xs sm:text-sm font-medium leading-snug">
                 <BionicText text={t('intro.browserWarning', 'Dla najlepszej jakości asystenta głosowego zalecamy korzystanie z przeglądarki Google Chrome.')} enabled={hasBionic} />
               </p>
@@ -200,8 +200,8 @@ function IntroScreen({ onStart, speak }) {
                 if (settings.voiceAssistant && speak) speak(t('start', 'Start'));
                 onStart();
               }}
-              className={`w-full font-black uppercase tracking-widest transition-all active:scale-95 rounded-xl sm:rounded-2xl mt-1 shrink-0 ${
-                bigTargets ? 'py-3 sm:py-4 text-base sm:text-xl' : 'py-2 sm:py-3 text-sm sm:text-lg'
+              className={`w-full font-black uppercase tracking-widest transition-all active:scale-95 rounded-xl sm:rounded-2xl mt-auto shrink-0 ${
+                bigTargets ? 'py-3 sm:py-4 text-sm sm:text-lg' : 'py-2.5 sm:py-3 text-sm'
               } ${isHighContrast ? 'bg-emerald-400 text-black hover:bg-emerald-300' : 'bg-emerald-500 hover:bg-emerald-400 text-white shadow-xl shadow-emerald-900/60'}`}
             >
             <BionicText text={t('start', 'Start')} enabled={hasBionic} />

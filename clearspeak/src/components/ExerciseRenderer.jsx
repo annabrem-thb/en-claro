@@ -12,6 +12,7 @@ import MemorySpanExercise from './exercises/MemorySpanExercise';
 import VisualCategorization from './exercises/VisualCategorization.jsx';
 import DictationExercise from './exercises/DictationExercise.jsx';
 import LookCoverWriteCheck from './exercises/LookCoverWriteCheck.jsx';
+import ReadAloudExercise from './exercises/ReadAloudExercise.jsx';
 
 /**
  * ExerciseRenderer Component
@@ -50,6 +51,8 @@ export function ExerciseRenderer({ currentTask, ...commonProps }) {
     return <DictationExercise data={currentTask} {...commonProps} />;
   if (currentTask.lcwc)
     return <LookCoverWriteCheck targetWord={currentTask.word} onSelfEvaluate={(res) => res.correct ? commonProps.onSuccess() : commonProps.onError()} data={currentTask} {...commonProps} />;
+  if (currentTask.readAloud)
+    return <ReadAloudExercise data={currentTask} {...commonProps} />;
 
   return <div className="p-6 text-red-400" role="alert" aria-live="assertive">{t.formatNotRecognized || 'Format not recognized'}</div>;
 }

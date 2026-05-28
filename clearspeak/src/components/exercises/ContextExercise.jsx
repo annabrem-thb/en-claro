@@ -151,23 +151,23 @@ function ContextExercise({
   const pulseClass = noFlash
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-8 ring-red-100';
-  const btnPadding = bigTargets ? 'py-6 sm:py-8' : 'py-4 sm:py-6';
+  const btnPadding = bigTargets ? 'py-5 sm:py-6' : 'py-4 sm:py-5';
   const controlBtnSize = bigTargets
-    ? 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
-    : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
+    ? 'w-16 h-16 text-2xl sm:text-3xl'
+    : 'w-12 h-12 text-xl sm:text-2xl';
 
   return (
-    <div className={`${animClass} flex h-full w-full flex-col items-center justify-center`}>
+    <div className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-start overflow-hidden px-2 pt-6 sm:pt-10 pb-2`}>
       {!zenMode && (
-        <h3 className="mb-6 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
+        <h3 className="mb-2 sm:mb-4 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase shrink-0">
           {t.selectCorrect || 'Select the correct word'}
         </h3>
       )}
 
-      <div className="mb-6 px-2 text-center text-xl sm:text-2xl leading-relaxed font-bold text-slate-700">
+      <div className="mb-3 sm:mb-4 px-2 text-center text-base sm:text-xl md:text-2xl leading-relaxed font-bold text-slate-700 shrink min-h-0">
         <BionicText text={data.sentence_part1} enabled={bionicReading} />
         <span
-          className={`mx-2 border-b-4 px-4 ${themeStyles.border} rounded-lg bg-slate-50 text-slate-300`}
+          className={`mx-1 sm:mx-2 border-b-4 px-3 sm:px-4 ${themeStyles.border} rounded-lg bg-slate-50 text-slate-300`}
         >
           ____
         </span>
@@ -175,7 +175,7 @@ function ContextExercise({
       </div>
 
       {voiceAssistant && (
-        <div className="mb-8 flex gap-6">
+        <div className="mb-3 sm:mb-6 flex gap-4 sm:gap-6 shrink-0">
           <TTSController
             onReadAloud={readContextAndOptions}
             pauseAllTimeouts={pauseAllTimeouts}
@@ -199,12 +199,12 @@ function ContextExercise({
       )}
 
       {transcript && (
-        <p className="mb-4 text-center text-xs font-black tracking-widest text-slate-400 uppercase">
+        <p className="mb-2 sm:mb-3 text-center text-[10px] sm:text-xs font-black tracking-widest text-slate-400 uppercase shrink-0">
           {t.heard}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
 
-      <div className="grid w-full max-w-sm grid-cols-1 gap-3 px-2">
+      <div className="grid w-full max-w-sm grid-cols-1 gap-2 sm:gap-3 px-2 pt-4 pb-4 shrink min-h-0 overflow-y-auto">
         {shuffledOptions.map((opt, i) => (
           <button
             key={i}
@@ -235,4 +235,4 @@ function ContextExercise({
   );
 }
 
-export default ContextExercise;
+export default React.memo(ContextExercise);

@@ -133,16 +133,16 @@ function GraphemeExercise({
   const pulseClass = noFlash
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-8 ring-red-100';
-  const btnPadding = bigTargets ? 'py-6 px-4 sm:py-10 sm:px-6' : 'py-5 px-3 sm:py-8 sm:px-4';
+  const btnPadding = bigTargets ? 'py-5 px-4 sm:py-8 sm:px-6' : 'py-4 px-3 sm:py-6 sm:px-4';
   const controlBtnSize = bigTargets
-    ? 'w-16 h-16 sm:w-20 sm:h-20 text-3xl sm:text-4xl'
-    : 'w-12 h-12 sm:w-16 sm:h-16 text-2xl sm:text-3xl';
+    ? 'w-16 h-16 text-2xl sm:text-3xl'
+    : 'w-12 h-12 text-xl sm:text-2xl';
 
   return (
-    <div className={`${animClass} flex h-full w-full flex-col items-center justify-center`}>
+    <div className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-start overflow-hidden px-2 pt-6 sm:pt-10 pb-2`}>
       {/* 1. Voice & Audio Controls */}
       {voiceAssistant && (
-        <div className="mb-8 flex gap-6">
+        <div className="mb-2 sm:mb-4 flex gap-4 sm:gap-6 shrink-0">
           <TTSController
             onReadAloud={readQuestionAndOptions}
             pauseAllTimeouts={pauseAllTimeouts}
@@ -167,18 +167,18 @@ function GraphemeExercise({
       )}
 
       {transcript && (
-        <p className="mb-4 text-center text-xs font-black tracking-widest text-slate-400 uppercase">
+        <p className="mb-2 sm:mb-3 text-center text-[10px] sm:text-xs font-black tracking-widest text-slate-400 uppercase shrink-0">
           {t.heard}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
 
       {!zenMode && (
-        <h3 className="mb-6 sm:mb-10 max-w-sm px-4 sm:px-6 text-center text-[10px] sm:text-[11px] leading-relaxed font-black tracking-[0.15em] text-slate-500 uppercase">
+        <h3 className="mb-3 sm:mb-6 max-w-sm px-4 text-center text-[10px] sm:text-[11px] leading-relaxed font-black tracking-[0.15em] text-slate-500 uppercase shrink-0 min-h-0">
           <BionicText text={questionText} enabled={bionicReading} />
         </h3>
       )}
 
-      <div className="flex w-full max-w-sm flex-wrap justify-center gap-4 px-2">
+      <div className="flex w-full max-w-sm flex-wrap justify-center gap-2 sm:gap-3 px-2 pt-4 pb-4 shrink min-h-0 overflow-y-auto">
         {shuffledOptions.map((opt, i) => (
           <button
             key={i}
@@ -216,4 +216,4 @@ function GraphemeExercise({
   );
 }
 
-export default GraphemeExercise;
+export default React.memo(GraphemeExercise);

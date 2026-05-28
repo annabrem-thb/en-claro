@@ -135,6 +135,8 @@ function SettingsModal({
   const { settings, updateSetting } = useUserSettingsContext();
   const [voices, setVoices] = useState([]);
   const [userSelectedTab, setUserSelectedTab] = useState('general');
+  const [installPrompt, setInstallPrompt] = useState(null);
+  const [isInstalled, setIsInstalled] = useState(false);
 
   const { language, theme, textScale, bionicReading, voiceAssistant: voiceAssistantActive, contrast: isHighContrast, motorik: bigTargets } = settings;
 
@@ -165,6 +167,36 @@ function SettingsModal({
     if (isAtTop && distanceY > 50 && distanceY > distanceX) onClose();
   };
   
+  // ─── PWA Install Prompt Logic ───────────────────────────────────────────
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // Check if app is already running in standalone (installed) mode
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsInstalled(true);
+    }
+
+    const handleBeforeInstallPrompt = (e) => {
+      // Prevent the default mini-infobar from appearing
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      setInstallPrompt(e);
+    };
+
+    const handleAppInstalled = () => {
+      setIsInstalled(true);
+      setInstallPrompt(null);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
+
   // ─── Load available TTS voices ──────────────────────────────────────────
   useEffect(() => {
     if (!window.speechSynthesis) return;
@@ -210,6 +242,16 @@ function SettingsModal({
   // ─── Inclusive options toggle ───────────────────────────────────────────
   const toggleInclusive = (key) => {
     updateSetting(key, !settings[key]);
+  };
+
+  // ─── Install App Action ─────────────────────────────────────────────────
+  const handleInstallClick = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const { outcome } = await installPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setInstallPrompt(null);
+    }
   };
 
   // ─── Theme purchase / equip ─────────────────────────────────────────────
@@ -341,12 +383,12 @@ function SettingsModal({
         {/* ── Scrollable body ─────────────────────────────────────────────── */}
         <div 
           ref={scrollRef}
-          className="p-5 pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto flex flex-col gap-6 overscroll-none"
+          className="p-4 sm:p-5 pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto flex flex-col gap-4 sm:gap-6 overscroll-none"
           style={{ scrollbarWidth: 'thin', scrollbarColor: isHighContrast ? '#ffffff #000000' : '#cbd5e1 transparent' }}
         >
 
           {activeTab === 'general' && (
-            <div className="flex flex-col gap-6 animate-in fade-in duration-300">
+            <div className="flex flex-col gap-4 sm:gap-6 animate-in fade-in duration-300">
               {/* ── 1. LANGUAGE ──────────────────────────────────────────────── */}
               <section>
                 <SectionLabel isHighContrast={isHighContrast} bionicReading={bionicReading}>{s.language}</SectionLabel>
@@ -432,11 +474,30 @@ function SettingsModal({
                 </div>
               </section>
 
+              {/* ── 3. INSTALL APP ──────────────────────────────────────────────── */}
+              {!isInstalled && installPrompt && (
+                <section>
+                  <SectionLabel isHighContrast={isHighContrast}>{s.installApp || 'Install App'}</SectionLabel>
+                  <button
+                    onClick={handleInstallClick}
+                    className={`w-full ${bigTargets ? 'py-5 sm:py-6' : 'py-3 sm:py-4'} rounded-2xl border-2 font-black uppercase tracking-widest transition-all active:scale-95 shadow-md flex flex-col items-center justify-center gap-1 sm:gap-2 ${isHighContrast ? 'bg-white text-black border-white hover:bg-slate-200' : 'bg-indigo-500 text-white border-indigo-500 hover:bg-indigo-400'}`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-xl sm:text-2xl" aria-hidden="true">📱</span>
+                      {s.installApp || 'Install App'}
+                    </span>
+                    <span className={`text-[9px] sm:text-[10px] normal-case tracking-normal font-medium px-4 text-center ${isHighContrast ? 'text-black/70' : 'text-indigo-100'}`}>
+                      <BionicText text={s.installAppDesc || 'Download to your device for offline play'} enabled={bionicReading} />
+                    </span>
+                  </button>
+                </section>
+              )}
+
             </div>
           )}
 
           {activeTab === 'a11y' && (
-            <div className="flex flex-col gap-6 animate-in fade-in duration-300">
+            <div className="flex flex-col gap-4 sm:gap-6 animate-in fade-in duration-300">
 
               {/* ── 3. A11Y ADDONS ───────────────────────────────────────────── */}
               <section>
@@ -572,7 +633,7 @@ function SettingsModal({
           )}
 
           {activeTab === 'voice' && (
-            <div className="flex flex-col gap-6 animate-in fade-in duration-300">
+            <div className="flex flex-col gap-4 sm:gap-6 animate-in fade-in duration-300">
               <section>
                 <SectionLabel isHighContrast={isHighContrast} sub={s.voiceDesc} bionicReading={bionicReading}>{s.voiceOptions}</SectionLabel>
                 <div className="flex flex-col gap-4">
@@ -667,7 +728,7 @@ function SettingsModal({
           )}
 
           {activeTab === 'shop' && isGamified && ( // This is the new "Shop" tab
-            <div className="flex flex-col gap-6 animate-in fade-in duration-300">
+            <div className="flex flex-col gap-4 sm:gap-6 animate-in fade-in duration-300">
               {/* ── 6. THEME SHOP — only in V2 ───────────────────────────────── */}
               <section>
                 <SectionLabel isHighContrast={isHighContrast} sub={s.themeShopDesc} bionicReading={bionicReading}>{s.themeShop}</SectionLabel>

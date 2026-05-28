@@ -213,9 +213,9 @@ function SequenceExercise({
     : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
 
   return (
-    <div className={`${animClass} flex h-full w-full max-w-2xl flex-col items-center justify-center`}>
+    <div className={`${animClass} flex h-full min-h-0 w-full max-w-2xl flex-col items-center justify-start px-2 pt-6 sm:pt-10 pb-2 overflow-hidden`}>
       {!zenMode && (
-        <h3 className="mb-6 text-center text-xs md:text-sm font-black tracking-widest text-slate-400 uppercase break-words">
+        <h3 className="mb-2 sm:mb-4 text-center text-[10px] sm:text-xs md:text-sm font-black tracking-widest text-slate-400 uppercase break-words shrink-0">
           <BionicText
             text={data.instruction || t.orderCorrectly}
             enabled={bionicReading}
@@ -224,7 +224,7 @@ function SequenceExercise({
       )}
 
       {voiceAssistant && (
-        <div className="mb-8 flex gap-6">
+        <div className="mb-2 sm:mb-4 flex gap-4 sm:gap-6 shrink-0">
           <TTSController
             onReadAloud={readAvailableWords}
             pauseAllTimeouts={() => {
@@ -253,12 +253,12 @@ function SequenceExercise({
       )}
 
       {transcript && (
-        <p className="mb-4 text-center text-xs font-black tracking-widest text-slate-400 uppercase">
+        <p className="mb-1 sm:mb-2 text-center text-[10px] sm:text-xs font-black tracking-widest text-slate-400 uppercase shrink-0">
           {t.heard}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
 
-      <div className="mb-4 sm:mb-8 flex min-h-[80px] sm:min-h-[120px] w-full flex-wrap content-start gap-2 sm:gap-3 rounded-2xl sm:rounded-3xl border-4 border-dashed border-slate-200 bg-slate-50 p-2.5 sm:p-4">
+      <div className="mb-2 sm:mb-4 flex min-h-[60px] sm:min-h-[100px] w-full flex-wrap content-start gap-2 sm:gap-3 rounded-2xl sm:rounded-3xl border-4 border-dashed border-slate-200 bg-slate-50 p-2.5 sm:p-4 shrink min-h-0 overflow-y-auto">
         {selectedWords.length === 0 && (
           <div className="flex h-full w-full items-center justify-center px-2 sm:px-4 text-center text-xs sm:text-sm font-black tracking-widest text-slate-300 uppercase">
             <BionicText
@@ -283,7 +283,7 @@ function SequenceExercise({
         ))}
       </div>
 
-      <div className="mb-8 sm:mb-10 flex w-full flex-wrap justify-center gap-2 sm:gap-3">
+      <div className="mb-2 sm:mb-4 flex w-full flex-wrap justify-center gap-2 sm:gap-3 shrink min-h-0 overflow-y-auto pt-4 pb-4 px-2">
         {availableWords.map((wordObj, i) => (
           <button
             key={wordObj.id}
@@ -312,7 +312,7 @@ function SequenceExercise({
         <button
           onClick={handleCheck}
           disabled={isListening || isShowingCorrection}
-          className={`px-8 py-3 sm:px-12 sm:py-4 ${themeStyles.button} rounded-full text-lg sm:text-xl font-black text-white shadow-xl transition-all active:scale-95 ${noFlash ? '' : 'animate-bounce'} ${(isListening || isShowingCorrection) ? 'opacity-50 grayscale cursor-not-allowed' : ''}`}
+          className={`px-8 py-3 sm:px-12 sm:py-4 ${themeStyles.button} rounded-full text-lg sm:text-xl font-black text-white shadow-xl transition-all active:scale-95 mt-auto sm:mt-0 shrink-0 ${noFlash ? '' : 'animate-bounce'} ${(isListening || isShowingCorrection) ? 'opacity-50 grayscale cursor-not-allowed' : ''}`}
         >
           <BionicText text={t.check || 'Check'} enabled={bionicReading} />
         </button>
@@ -321,4 +321,4 @@ function SequenceExercise({
   );
 }
 
-export default SequenceExercise;
+export default React.memo(SequenceExercise);

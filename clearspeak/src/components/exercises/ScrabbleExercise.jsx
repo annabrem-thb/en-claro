@@ -119,13 +119,13 @@ function ScrabbleExercise({
 
   return (
     <div
-      className={`${animClass} flex h-full min-h-0 w-full flex-1 flex-col items-center justify-center py-2`}
+      className={`${animClass} flex h-full min-h-0 w-full flex-1 flex-col items-center justify-start pt-6 sm:pt-10 pb-2 px-2 overflow-hidden`}
     >
       {/* 1. Header & Voice Controls */}
-      <div className="mb-2 flex w-full shrink-0 flex-col items-center justify-center sm:mb-6">
+      <div className="mb-2 flex w-full shrink-0 flex-col items-center justify-center sm:mb-4">
         {!zenMode && (
           <div
-            className="mb-4 text-6xl drop-shadow-sm sm:mb-6 sm:text-8xl"
+            className="mb-1 text-4xl drop-shadow-sm sm:mb-2 sm:text-6xl shrink-0"
             aria-hidden="true"
           >
             {data.image || '🧩'}
@@ -144,7 +144,7 @@ function ScrabbleExercise({
       </div>
 
       {/* 2. Target Word Slots */}
-      <div className="mb-4 flex min-h-12 w-full max-w-4xl shrink-0 flex-wrap justify-center gap-1.5 border-b-4 border-dashed border-slate-100 px-2 pb-2 sm:mb-8 sm:min-h-16 sm:gap-2 sm:pb-4">
+      <div className="mb-2 sm:mb-4 flex min-h-[3rem] w-full max-w-4xl shrink flex-wrap justify-center gap-1.5 border-b-4 border-dashed border-slate-100 px-2 pt-2 pb-3 sm:mb-6 sm:min-h-16 sm:gap-2 sm:pb-5 min-h-0 overflow-y-auto">
         {userScrabble.map((x, i) => (
           <div
             key={i}
@@ -156,7 +156,7 @@ function ScrabbleExercise({
       </div>
 
       {/* 3. Available Tiles container */}
-      <div className="flex w-full max-w-4xl shrink-0 flex-wrap justify-center gap-2 px-2 sm:gap-3">
+      <div className="flex w-full max-w-4xl shrink flex-wrap justify-center gap-2 px-2 pt-4 pb-4 sm:gap-3 min-h-0 overflow-y-auto">
         {shuffledLetters.map((l, i) => {
           const isUsed = userScrabble.some((x) => x.index === i);
           return (
@@ -187,7 +187,7 @@ function ScrabbleExercise({
       </div>
 
       {/* 4. Action Buttons */}
-      <div className="mt-auto flex w-full max-w-2xl shrink-0 gap-2 px-2 pt-6 sm:gap-4">
+      <div className="mt-auto flex w-full max-w-2xl shrink-0 gap-2 px-2 pt-2 sm:gap-4 sm:pt-4">
         <button
           onClick={() => { clearAudioTimeouts(); setUserScrabble([]); }}
           className={`flex-1 ${bigTargets ? 'py-4' : 'py-3 sm:py-4'} rounded-2xl bg-slate-50 text-[9px] font-black tracking-[0.2em] text-slate-400 uppercase transition-colors hover:text-slate-600 sm:text-[10px]`}
@@ -206,4 +206,4 @@ function ScrabbleExercise({
   );
 }
 
-export default ScrabbleExercise;
+export default React.memo(ScrabbleExercise);

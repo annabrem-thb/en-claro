@@ -5,7 +5,7 @@ import { WeeklyCalendar } from './WeeklyCalendar.jsx';
 import { getAllLogs } from '../utils/indexedDB.js';
 import BionicText from '../components/common/BionicText.jsx';
 
-export default function VirtualGarden({ 
+function VirtualGarden({ 
   points, 
   streak, 
   dailyQuests, 
@@ -315,3 +315,5 @@ export default function VirtualGarden({
     </div>
   );
 }
+
+export default React.memo(VirtualGarden);

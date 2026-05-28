@@ -4,7 +4,7 @@ import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import TTSController from '../common/TTSController';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 
-export default function ReadAloudExercise({
+function ReadAloudExercise({
   data, themeStyles, onSuccess, onError, language, t, speak,
   noFlash, bigTargets, extendedTime, bionicReading, zenMode, voiceAssistant
 }) {
@@ -37,24 +37,28 @@ export default function ReadAloudExercise({
   const controlBtnSize = bigTargets ? 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl' : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
   const pulseClass = noFlash ? 'bg-red-500' : 'bg-red-500 animate-pulse ring-8 ring-red-100';
 
+  const handleReadAloud = useCallback(() => {
+    speak(data.text, extendedTime);
+  }, [speak, data.text, extendedTime]);
+
   return (
-    <div className={`flex h-full w-full flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
+    <div className={`flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
       {!zenMode && (
-        <h3 className="mb-6 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
+        <h3 className="mb-2 sm:mb-4 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase shrink-0">
           <BionicText text={t.readAloudTitle || 'Read aloud'} enabled={bionicReading} />
         </h3>
       )}
 
-      <div className="mb-8 px-4 sm:px-8 py-8 sm:py-12 w-full max-w-2xl bg-white border-2 border-slate-100 rounded-3xl shadow-sm text-center">
-        <span className="text-2xl sm:text-4xl font-bold leading-relaxed text-slate-700">
+      <div className="mb-3 sm:mb-6 px-4 sm:px-8 py-4 sm:py-8 w-full max-w-2xl bg-white border-2 border-slate-100 rounded-3xl shadow-sm text-center shrink min-h-0 overflow-y-auto flex flex-col justify-center items-center">
+        <span className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-relaxed text-slate-700">
           <BionicText text={data.text} enabled={bionicReading} />
         </span>
       </div>
 
-      <div className="flex gap-4 mb-6">
+      <div className="flex gap-4 mb-2 sm:mb-4 shrink-0">
         {voiceAssistant && (
           <TTSController
-            onReadAloud={() => speak(data.text, extendedTime)}
+            onReadAloud={handleReadAloud}
             pauseAllTimeouts={pauseAllTimeouts}
             resumeAllTimeouts={resumeAllTimeouts}
             t={t}
@@ -74,7 +78,7 @@ export default function ReadAloudExercise({
       </div>
 
       {transcript && (
-        <div className="flex flex-col items-center gap-4 w-full max-w-sm">
+        <div className="flex flex-col items-center gap-3 sm:gap-4 w-full max-w-sm shrink-0">
           <p className="text-center text-xs font-black tracking-widest text-slate-400 uppercase">
             {t.heard}: <span className="text-slate-600">{transcript}</span>
           </p>
@@ -89,3 +93,5 @@ export default function ReadAloudExercise({
     </div>
   );
 }
+
+export default React.memo(ReadAloudExercise);

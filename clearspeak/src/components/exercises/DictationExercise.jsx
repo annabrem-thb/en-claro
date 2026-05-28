@@ -3,7 +3,7 @@ import BionicText from '../common/BionicText';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 
-export default function DictationExercise({
+function DictationExercise({
   data,
   themeStyles,
   onSuccess,
@@ -48,14 +48,14 @@ export default function DictationExercise({
   };
 
   return (
-    <div className={`flex h-full flex-col items-center justify-center w-full ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
+    <div className={`flex h-full min-h-0 flex-col items-center justify-center w-full overflow-hidden px-2 py-2 ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
       {!zenMode && (
-        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 sm:mb-8" aria-live="polite">
+        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 sm:mb-4 shrink-0" aria-live="polite">
           <BionicText text={t.categories?.Dictation || 'Dictation'} enabled={bionicReading} />
         </h3>
       )}
 
-      <div className="mb-10">
+      <div className="mb-4 sm:mb-6 shrink-0">
         <TTSController
           onReadAloud={handleReplay}
           pauseAllTimeouts={pauseAllTimeouts}
@@ -71,7 +71,7 @@ export default function DictationExercise({
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && userInput.trim().length > 0 && handleCheck()}
-        className={`w-full max-w-md text-center text-xl sm:text-2xl md:text-3xl font-bold p-4 sm:p-6 rounded-2xl sm:rounded-3xl mb-6 sm:mb-8 focus:outline-none focus:ring-4 transition-shadow ${
+        className={`w-full max-w-md text-center text-lg sm:text-xl md:text-2xl font-bold p-4 sm:p-5 rounded-2xl sm:rounded-3xl mb-4 sm:mb-6 focus:outline-none focus:ring-4 transition-shadow shrink ${
           isHighContrast 
             ? 'bg-black border-4 border-white text-white focus:ring-white/50' 
             : 'bg-white border-2 border-slate-200 text-slate-800 focus:border-indigo-400 focus:ring-indigo-100 shadow-inner'
@@ -85,7 +85,7 @@ export default function DictationExercise({
       <button
         onClick={handleCheck}
         disabled={userInput.trim().length === 0}
-        className={`w-full max-w-xs ${bigTargets ? 'py-3 sm:py-5 text-sm sm:text-base' : 'py-2.5 sm:py-4 text-xs sm:text-sm'} rounded-full font-black uppercase tracking-widest transition-all active:scale-95 focus-visible:ring-4 focus:outline-none ${
+        className={`w-full max-w-xs shrink-0 mt-auto pt-2 ${bigTargets ? 'py-3 sm:py-5 text-sm sm:text-base' : 'py-2.5 sm:py-4 text-xs sm:text-sm'} rounded-full font-black uppercase tracking-widest transition-all active:scale-95 focus-visible:ring-4 focus:outline-none ${
           userInput.trim().length === 0
             ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
             : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} text-white shadow-xl md:shadow-md hover:brightness-110`)
@@ -96,3 +96,5 @@ export default function DictationExercise({
     </div>
   );
 }
+
+export default React.memo(DictationExercise);

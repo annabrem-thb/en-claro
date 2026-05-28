@@ -78,7 +78,7 @@ export default function DailyTaskComplete({
 
   return (
     <div 
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 p-4 backdrop-blur-md transition-opacity ${noFlash ? '' : 'animate-in fade-in duration-500'}`}
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 p-2 sm:p-4 backdrop-blur-md transition-opacity overflow-hidden ${noFlash ? '' : 'animate-in fade-in duration-500'}`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="completion-title"
@@ -87,16 +87,16 @@ export default function DailyTaskComplete({
       <section 
         ref={modalRef}
         tabIndex="-1"
-        className={`w-full max-w-lg rounded-[2rem] ${bigTargets ? 'p-10' : 'p-8'} shadow-2xl focus:outline-none ${noFlash ? '' : 'animate-in fade-in slide-in-from-bottom-12 duration-500 ease-out'} ${
+        className={`w-full max-w-lg rounded-[2rem] flex flex-col max-h-[98vh] shrink min-h-0 ${bigTargets ? 'p-6 sm:p-10' : 'p-4 sm:p-8'} shadow-2xl focus:outline-none ${noFlash ? '' : 'animate-in fade-in slide-in-from-bottom-12 duration-500 ease-out'} ${
           isHighContrast 
             ? 'bg-black border-4 border-white text-white' 
             : 'bg-white border border-slate-100 text-slate-800'
         }`}
       >
         {/* Affirmative Feedback (Competence) */}
-        <header className="flex flex-col items-center text-center mb-8" aria-live="polite">
-          <div className={`text-6xl mb-4 drop-shadow-md ${noFlash ? '' : 'animate-bounce'}`} aria-hidden="true">🧠</div>
-          <h1 id="completion-title" className={`${bigTargets ? 'text-4xl' : 'text-3xl'} font-black mb-2`}>
+        <header className="flex flex-col items-center text-center mb-4 sm:mb-8 shrink-0" aria-live="polite">
+          <div className={`text-5xl sm:text-6xl mb-2 sm:mb-4 drop-shadow-md ${noFlash ? '' : 'animate-bounce'}`} aria-hidden="true">🧠</div>
+          <h1 id="completion-title" className={`${bigTargets ? 'text-3xl sm:text-4xl' : 'text-2xl sm:text-3xl'} font-black mb-1 sm:mb-2`}>
             {dtc.title || 'Excellent Effort Today!'}
           </h1>
           <p id="completion-description" className={`${bigTargets ? 'text-base' : 'text-sm'} font-medium ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>
@@ -105,12 +105,12 @@ export default function DailyTaskComplete({
         </header>
 
         {/* Choice Selection (Autonomy) */}
-        <div className="mb-8">
-          <h2 className="text-xs font-black uppercase tracking-widest text-center mb-4 opacity-70">
+        <div className="mb-4 sm:mb-8 shrink min-h-0 overflow-y-auto pr-1">
+          <h2 className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-center mb-2 sm:mb-4 opacity-70 shrink-0">
           {dtc.chooseReward || 'Choose your next reward to grow'}
           </h2>
           
-          <ul className="flex flex-col gap-3" role="radiogroup" aria-label="Available plants to grow">
+          <ul className="flex flex-col gap-2 sm:gap-3 shrink-0" role="radiogroup" aria-label="Available plants to grow">
             {REWARD_OPTIONS.map((option) => {
               const isSelected = selectedRewardId === option.id;
               return (
@@ -119,21 +119,21 @@ export default function DailyTaskComplete({
                     role="radio"
                     aria-checked={isSelected}
                     onClick={() => chooseNextReward(option.id)}
-                    className={`w-full flex items-center gap-4 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 transition-all active:scale-[0.98] focus-visible:ring-4 focus-visible:ring-indigo-400 focus:outline-none ${
+                    className={`w-full flex items-center gap-3 sm:gap-4 ${bigTargets ? 'p-4 sm:p-6' : 'p-3 sm:p-4'} rounded-2xl border-2 transition-all active:scale-[0.98] focus-visible:ring-4 focus-visible:ring-indigo-400 focus:outline-none ${
                       isSelected 
                         ? (isHighContrast ? 'bg-white text-black border-white' : 'bg-emerald-50 border-emerald-400 text-emerald-800 shadow-md')
                         : (isHighContrast ? 'bg-black text-white border-white/30 hover:border-white' : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300')
                     }`}
                   >
-                    <span className={bigTargets ? 'text-4xl' : 'text-3xl'} aria-hidden="true">{option.icon}</span>
+                    <span className={bigTargets ? 'text-3xl sm:text-4xl' : 'text-2xl sm:text-3xl'} aria-hidden="true">{option.icon}</span>
                     <div className="text-left flex-1">
-                      <span className={`block font-bold ${bigTargets ? 'text-xl' : 'text-lg'} leading-none mb-1`}>{option.name}</span>
-                      <span className={`block ${bigTargets ? 'text-sm' : 'text-xs'} ${isSelected ? (isHighContrast ? 'text-black/70' : 'text-emerald-600') : (isHighContrast ? 'text-white/60' : 'text-slate-400')}`}>
+                      <span className={`block font-bold ${bigTargets ? 'text-lg sm:text-xl' : 'text-base sm:text-lg'} leading-none mb-1`}>{option.name}</span>
+                      <span className={`block ${bigTargets ? 'text-xs sm:text-sm' : 'text-[10px] sm:text-xs'} ${isSelected ? (isHighContrast ? 'text-black/70' : 'text-emerald-600') : (isHighContrast ? 'text-white/60' : 'text-slate-400')}`}>
                         {option.desc}
                       </span>
                     </div>
                     {/* Visual checkmark for cognitive clarity */}
-                    {isSelected && <span className="text-xl" aria-hidden="true">✔️</span>}
+                    {isSelected && <span className="text-lg sm:text-xl" aria-hidden="true">✔️</span>}
                   </button>
                 </li>
               );
@@ -144,7 +144,7 @@ export default function DailyTaskComplete({
         <button
           onClick={handleConfirmChoice}
           disabled={!selectedRewardId}
-          className={`w-full ${bigTargets ? 'py-6 text-base' : 'py-5 text-sm'} rounded-2xl font-black uppercase tracking-widest transition-all focus-visible:ring-4 focus-visible:ring-indigo-400 focus:outline-none ${
+          className={`w-full mt-auto shrink-0 ${bigTargets ? 'py-4 sm:py-6 text-sm sm:text-base' : 'py-3.5 sm:py-5 text-xs sm:text-sm'} rounded-2xl font-black uppercase tracking-widest transition-all focus-visible:ring-4 focus-visible:ring-indigo-400 focus:outline-none ${
             !selectedRewardId 
               ? 'bg-slate-100 text-slate-400 cursor-not-allowed opacity-50' 
               : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-xl')

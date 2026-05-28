@@ -1,0 +1,42 @@
+name: Cypress E2E Tests
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Pobranie repozytorium
+        uses: actions/checkout@v4
+
+      - name: Konfiguracja Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18 # lub wyższa, dopasowana do Twojego projektu
+          cache: 'npm'
+
+      - name: Instalacja zależności
+        run: npm ci
+
+      - name: Uruchomienie testów Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          # Uruchom serwer developerski przed rozpoczęciem testów
+          start: npm run dev
+          # Poczekaj aż serwer będzie dostępny pod podanym adresem
+          wait-on: 'http://localhost:5173'
+          # Czas oczekiwania na uruchomienie serwera (w sekundach)
+          wait-on-timeout: 120
+          
+      - name: Archiwizacja nagrań z błędami (Zrzuty ekranu / Filmy)
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore

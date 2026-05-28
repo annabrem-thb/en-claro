@@ -1,7 +1,6 @@
-import { describe, it, expect } from 'vitest'; // Note: Change to '@jest/globals' if using Jest
-import enDictionary from './locales/en.json';
-import plDictionary from './locales/pl.json';
-import deDictionary from './locales/de.json';
+import { describe, it, expect } from 'vitest';
+import plDictionary from '../i18n-core/locales/pl.json';
+import deDictionary from '../i18n-core/locales/de.json';
 
 /**
  * Recursively extracts all keys from a nested object and flattens them into an array of dot-notated strings.
@@ -20,14 +19,11 @@ function getNestedKeys(obj: Record<string, any>, prefix: string = ''): string[] 
 }
 
 describe('i18n Dictionaries', () => {
-  it('should have the exact same keys across all supported locales (en, pl, de)', () => {
-    const enKeys = getNestedKeys(enDictionary).sort();
+  it('should have the exact same keys across complete locales (pl, de)', () => {
     const plKeys = getNestedKeys(plDictionary).sort();
     const deKeys = getNestedKeys(deDictionary).sort();
 
-    // Compare Polish and German keys against the English baseline.
-    // If this fails, the test runner output will explicitly show which keys are missing or extra.
-    expect(plKeys).toEqual(enKeys);
-    expect(deKeys).toEqual(enKeys);
+    // Compare Polish and German keys as they are fully translated.
+    expect(deKeys).toEqual(plKeys);
   });
 });

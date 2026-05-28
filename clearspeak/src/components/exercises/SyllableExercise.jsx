@@ -94,7 +94,7 @@ function SyllableExercise({
     if (JSON.stringify(cuts) === JSON.stringify(correctCuts)) {
       setIsResolved(true);
       playSyllables();
-      setTimeout(onSuccess, extendedTime ? 2500 : 1500);
+      setSafeTimeout(onSuccess, extendedTime ? 2500 : 1500);
     } else {
       onError();
       setCuts([]); // Reset on failure
@@ -160,10 +160,10 @@ function SyllableExercise({
     : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
 
   return (
-    <div className={`${animClass} flex h-full w-full flex-col items-center justify-center`}>
+    <div className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}>
       {/* 1. Voice & Audio Controls */}
       {voiceAssistant && (
-        <div className="mb-4 flex gap-6">
+        <div className="mb-2 sm:mb-4 flex gap-4 sm:gap-6 shrink-0">
           <div className={isResolved ? 'pointer-events-none opacity-50 grayscale' : ''}>
             <TTSController
               onReadAloud={playSyllables}
@@ -192,20 +192,20 @@ function SyllableExercise({
       )}
 
       {transcript && (
-        <p className="mb-4 text-center text-xs font-black tracking-widest text-slate-400 uppercase">
+        <p className="mb-1 sm:mb-2 text-center text-[10px] sm:text-xs font-black tracking-widest text-slate-400 uppercase shrink-0">
           {t.heard}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
 
       {/* 2. Decorative Icon (Hidden in Zen Mode) */}
       {!zenMode && (
-        <div className="mb-6 text-6xl" aria-hidden="true">
+        <div className="mb-2 sm:mb-4 text-4xl sm:text-6xl shrink-0" aria-hidden="true">
           {data.icon || '✂️'}
         </div>
       )}
 
       {/* 2.5 Phonetic Hint Bubble (Synchronized with TTS readout) */}
-      <div className="h-8 mb-4 flex items-center justify-center w-full">
+      <div className="h-6 sm:h-8 mb-1 sm:mb-2 flex items-center justify-center w-full shrink-0">
         {activeHighlight !== null && (
           (() => {
             const syl = data.segments[activeHighlight];
@@ -223,7 +223,7 @@ function SyllableExercise({
       </div>
 
       {/* 3. Word Segmentation Interface */}
-      <div className="mb-10 flex flex-wrap items-center justify-center gap-y-6">
+      <div className="mb-4 sm:mb-6 flex flex-wrap items-center justify-center gap-y-4 sm:gap-y-6 shrink min-h-0 overflow-y-auto">
         {wordChars.map((char, index) => (
           <React.Fragment key={index}>
             <span
@@ -278,7 +278,7 @@ function SyllableExercise({
       </div>
 
       {/* 4. Action Buttons */}
-      <div className="mt-4 w-full max-w-xs space-y-3 px-4">
+      <div className="mt-auto pt-2 sm:pt-4 w-full max-w-xs space-y-2 sm:space-y-3 px-4 shrink-0">
         <button
           onClick={checkAnswer}
           disabled={isResolved || cuts.length === 0 || isListening}
@@ -307,4 +307,4 @@ function SyllableExercise({
   );
 }
 
-export default SyllableExercise;
+export default React.memo(SyllableExercise);

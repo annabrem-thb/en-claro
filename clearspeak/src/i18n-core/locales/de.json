@@ -1,6 +1,9 @@
 {
   "appTitle": "Claro",
   "introSubtitle": "Baue deine Brücke zur Sprachkompetenz.",
+  "installApp": "App installieren",
+  "installAppDesc": "Laden Sie die App herunter, um schnellen Zugriff und einen Offline-Modus zu erhalten.",
+  "installed": "Installiert",
   "intro": {
     "subtitle": "Dein sicherer Raum zum Wachsen! Wähle Modus und Werkzeuge:",
     "chooseLanguage": "Sprache",
@@ -206,6 +209,10 @@
     "muteNotifications": {
       "name": "Benachrichtigungen stumm",
       "desc": "Deaktiviert Sprachausgabe und Spieltöne"
+    },
+    "cognitiveBreaks": {
+      "name": "Pausen-Erinnerungen",
+      "desc": "Die App schlägt nach einer Reihe von Fehlern eine Pause vor"
     }
   },
   "profiles": {
@@ -471,6 +478,7 @@
   "energyTitle": "Kognitive Energie",
   "breakTitle": "Zeit für eine Pause?",
   "breakDesc": "Wir haben bemerkt, dass du intensiv arbeitest. Ruhe dich im Garten aus, um dich zu regenerieren.",
+  "breakTip": "Tipp: Schauen Sie vom Bildschirm weg und in die Ferne (am besten auf etwas Grünes) für mindestens 20 Sekunden.",
   "takeBreakBtn": "Ausruhen (+2 💰)",
   "continueBtn": "Weiter üben",
   "pillars": {
@@ -558,6 +566,10 @@
   "tapAndPronounce": "Tippen und das Wort aussprechen",
   "skipPronunciation": "Ausspracheprüfung überspringen",
   "readSentenceAndOptions": "Satz und Optionen lesen",
+  "pressKey": "Drücken",
+  "or": "oder",
+  "toContinue": "um fortzufahren",
+  "toSkip": "um zu überspringen",
   "thesisInfo": "Masterarbeit\nZugängliche Gamification und Sprachintegration\nin einer PWA zur Unterstützung von logopädischen Übungen\nfür Personen mit Legasthenie",
   "tags": {
     "kontrast": "kontrast",
@@ -574,6 +586,7 @@
   "pwaDescription": "Neuer Inhalt ist verfügbar. Aktualisiere die App, um die neuesten Änderungen herunterzuladen.",
   "pwaUpdate": "Aktualisieren",
   "pwaLater": "Später",
+  "offlineMessage": "Sie sind derzeit offline. Einige Funktionen sind möglicherweise nicht verfügbar.",
   "showOriginal": "Original anzeigen",
   "simplifyText": "Text vereinfachen ✨",
   "prevPage": "← Zurück",

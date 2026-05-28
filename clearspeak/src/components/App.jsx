@@ -32,6 +32,7 @@ import { useVocabularyLoader } from '../hooks/useVocabularyLoader.js';
 import { useReadingRuler } from '../hooks/useReadingRuler.js';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation.js';
 
+import OfflineIndicator from './OfflineIndicator.jsx';
 import ExerciseContainer from './ExerciseContainer.jsx';
 import { GamificationProvider, useGamification } from './GamificationContext.jsx';
 import { UserSettingsProvider, useUserSettingsContext } from './UserSettingsContext.jsx';
@@ -336,7 +337,7 @@ function AppContent() {
 
   // --- Render Main Application Layout ---
   return (
-    <div className={`flex flex-col md:flex-row h-screen h-dvh w-full overflow-hidden ${isHighContrast ? 'bg-black text-white' : `${themeStyles.bg} text-[#2D3732]`}`}>
+    <div className={`fixed inset-0 flex flex-col md:flex-row w-full overflow-hidden ${isHighContrast ? 'bg-black text-white' : `${themeStyles.bg} text-[#2D3732]`}`}>
 
         {/* Navigation Sidebar (Desktop) */}
         <div className="hidden md:flex h-full shrink-0 z-40">
@@ -362,7 +363,7 @@ function AppContent() {
         </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden relative">
+      <div className="flex-1 flex flex-col min-w-0 h-full min-h-0 overflow-hidden relative">
         
         {/* Subtle gradient at the top of the screen (masks scrolled text) */}
         <div 
@@ -443,7 +444,7 @@ function AppContent() {
               {/* Active Exercise Card */}
               <section 
                 ref={cardRef}
-                className={`rounded-4xl flex flex-col items-center relative w-full flex-1 px-4 py-4 sm:px-8 sm:py-6 md:py-4 md:px-12 ${isHighContrast ? 'bg-black border border-white/30 shadow-lg md:shadow-sm shadow-white/10' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-xl md:shadow-md shadow-slate-200/30`}`}
+                className={`rounded-4xl flex flex-col items-center relative w-full flex-1 min-h-0 px-4 py-4 sm:px-8 sm:py-6 md:py-4 md:px-12 ${isHighContrast ? 'bg-black border border-white/30 shadow-lg md:shadow-sm shadow-white/10' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-xl md:shadow-md shadow-slate-200/30`}`}
                 aria-label={s.exerciseAria}
               >
                 {/* Reading Ruler Overlay (Restricted to Card) */}
@@ -634,6 +635,9 @@ function AppContent() {
           </div>
         </div>
       )}
+
+      {/* PWA & Offline Indicators */}
+      <OfflineIndicator />
 
       {/* Non-intrusive PWA Update Prompt */}
       {needRefresh && (

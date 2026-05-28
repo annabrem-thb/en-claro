@@ -89,7 +89,7 @@ function SpatialExercise({
         if (!noFlash) {
           // Trigger card transition animation
           setAnimation('scale-95 opacity-0 transition-all duration-200');
-          setTimeout(() => {
+          setSafeTimeout(() => {
             setCurrentIndex((prev) => prev + 1);
             setAnimation('animate-in slide-in-from-right fade-in duration-300');
           }, 200);
@@ -150,8 +150,8 @@ function SpatialExercise({
   };
 
   // Dynamic Class Definitions based on a11y props
-  const btnPadding = bigTargets ? 'py-8' : 'py-6';
-  const cardSize = bigTargets ? 'w-52 h-64 text-9xl' : 'w-44 h-56 text-8xl';
+  const btnPadding = bigTargets ? 'py-6 sm:py-8' : 'py-4 sm:py-6';
+  const cardSize = bigTargets ? 'w-48 h-60 text-8xl' : 'w-40 h-52 text-7xl';
   const pulseClass = noFlash
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-4 ring-red-100';
@@ -160,7 +160,7 @@ function SpatialExercise({
     : 'w-12 h-12 text-xl';
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-between">
+    <div className="flex h-full min-h-0 w-full flex-col items-center justify-between overflow-hidden px-2 py-2">
       {/* 1. Voice & Audio Controls */}
       {voiceAssistant && (
         <div className="mb-2 flex shrink-0 gap-4">
@@ -194,9 +194,9 @@ function SpatialExercise({
       )}
 
       {/* 2. Header & Progress Dots (Hidden in Zen Mode) */}
-      <div className="mb-4 w-full shrink-0 text-center">
+      <div className="mb-2 sm:mb-4 w-full shrink-0 text-center">
         {!zenMode && (
-          <h3 className="mb-4 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
+          <h3 className="mb-2 sm:mb-4 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
             <BionicText text={data.instruction} enabled={bionicReading} />
           </h3>
         )}
@@ -221,7 +221,7 @@ function SpatialExercise({
       </div>
 
       {/* 3. Main Flashcard Area */}
-      <div className="my-4 flex min-h-0 w-full flex-1 items-center justify-center">
+      <div className="my-2 sm:my-4 flex min-h-0 w-full flex-1 items-center justify-center">
         <div
           className={`${cardSize} font-dyslexic flex items-center justify-center rounded-[50px] border-4 bg-white shadow-xl md:shadow-md transition-all ${themeStyles.border} ${themeStyles.accent} ${animation}`}
         >
@@ -231,7 +231,7 @@ function SpatialExercise({
       </div>
 
       {/* 4. Choice Buttons Grid */}
-      <div className="grid w-full max-w-sm shrink-0 grid-cols-2 gap-4 px-4">
+      <div className="grid w-full max-w-sm shrink-0 grid-cols-2 gap-3 px-2 sm:gap-4">
         {data.options?.map((option, i) => (
           <button
             key={i}
@@ -260,4 +260,4 @@ function SpatialExercise({
   );
 }
 
-export default SpatialExercise;
+export default React.memo(SpatialExercise);

@@ -10,7 +10,7 @@ import TTSController from '../common/TTSController';
  * Uses a WCAG-compliant "Tap-to-Select -> Tap-to-Drop" mechanism instead of 
  * native Drag & Drop to ensure full accessibility for motor-impaired users.
  */
-export default function VisualCategorization({ 
+function VisualCategorization({ 
   data, 
   onSuccess, 
   onError, 
@@ -169,15 +169,15 @@ export default function VisualCategorization({
   const bucketMinHeight = bigTargets ? 'min-h-[160px] sm:min-h-[200px]' : 'min-h-[140px] sm:min-h-[160px]';
 
   return (
-    <div className={`flex h-full flex-col items-center justify-center w-full ${animClass} gap-4 sm:gap-8`}>
+    <div className={`flex h-full min-h-0 flex-col items-center justify-start w-full ${animClass} gap-2 sm:gap-4 py-2 px-2 overflow-hidden`}>
       {!zenMode && (
-        <h2 className="text-sm font-black uppercase tracking-[0.15em] text-slate-400 text-center px-4" aria-live="polite">
+        <h2 className="text-xs sm:text-sm font-black uppercase tracking-[0.15em] text-slate-400 text-center px-4 shrink-0" aria-live="polite">
           <BionicText text={data.instruction || t?.categorizeItems || 'Categorize the items'} enabled={bionicReading} />
         </h2>
       )}
 
       {voiceAssistant && (
-        <div className="flex w-full justify-center">
+        <div className="flex w-full justify-center shrink-0">
           <TTSController
             onReadAloud={readCategorization}
             pauseAllTimeouts={pauseAllTimeouts}
@@ -189,7 +189,7 @@ export default function VisualCategorization({
       )}
 
       {/* Unplaced Items Pool */}
-      <div className={`flex flex-wrap justify-center gap-3 w-full p-4 rounded-3xl min-h-[100px] border-2 transition-colors ${activeItem ? (isHighContrast ? 'border-white/50' : 'border-indigo-200 bg-indigo-50/30') : 'border-transparent'}`} aria-label="Available items">
+      <div className={`flex flex-wrap justify-center gap-2 sm:gap-3 w-full p-2 sm:p-3 rounded-3xl min-h-[60px] sm:min-h-[80px] border-2 transition-colors shrink min-h-0 overflow-y-auto ${activeItem ? (isHighContrast ? 'border-white/50' : 'border-indigo-200 bg-indigo-50/30') : 'border-transparent'}`} aria-label="Available items">
         {unplacedItems.map((item) => (
           <button key={item.id} disabled={isShowingCorrection} onClick={() => handleItemClick(item)} className={`${itemPadding} rounded-2xl font-bold shadow-sm md:shadow-none transition-all active:scale-95 disabled:opacity-80 ${
             activeItem?.id === item.id 
@@ -209,7 +209,7 @@ export default function VisualCategorization({
       </div>
 
       {/* Target Buckets Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full max-w-2xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 w-full max-w-2xl shrink min-h-0 overflow-y-auto">
         {data.buckets.map((bucket) => {
           const bucketItems = data.items.filter((item) => placements[item.id] === bucket.id);
           return (
@@ -237,9 +237,11 @@ export default function VisualCategorization({
       </div>
 
       {/* Verification Action */}
-      <button onClick={handleCheck} disabled={!isComplete || isShowingCorrection} className={`w-full max-w-sm mt-4 px-10 py-5 rounded-full font-black uppercase tracking-widest transition-all active:scale-95 text-sm focus-visible:ring-4 focus:outline-none ${(!isComplete || isShowingCorrection) ? 'bg-slate-100 text-slate-300 cursor-not-allowed border-2 border-transparent' : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-emerald-500 text-white shadow-xl hover:bg-emerald-400')}`}>
+      <button onClick={handleCheck} disabled={!isComplete || isShowingCorrection} className={`w-full max-w-sm mt-auto pt-2 sm:pt-4 px-10 py-4 sm:py-5 shrink-0 rounded-full font-black uppercase tracking-widest transition-all active:scale-95 text-sm focus-visible:ring-4 focus:outline-none ${(!isComplete || isShowingCorrection) ? 'bg-slate-100 text-slate-300 cursor-not-allowed border-2 border-transparent' : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-emerald-500 text-white shadow-xl hover:bg-emerald-400')}`}>
         {t?.checkAnswers || t?.check || 'Check Answers'}
       </button>
     </div>
   );
 }
+
+export default React.memo(VisualCategorization);

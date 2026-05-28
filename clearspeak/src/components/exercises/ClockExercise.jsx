@@ -143,20 +143,20 @@ function ClockExercise({
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-4 ring-red-100';
   const btnPadding = bigTargets
-    ? 'py-6 px-2 text-lg sm:text-2xl'
-    : 'py-4 sm:py-5 px-2 text-base sm:text-xl';
-  const clockSize = bigTargets ? 'w-48 h-48 sm:w-64 sm:h-64' : 'w-44 h-44 sm:w-56 sm:h-56';
-  const hourLen = bigTargets ? 'h-14 sm:h-20' : 'h-12 sm:h-16';
-  const minLen = bigTargets ? 'h-20 sm:h-24' : 'h-16 sm:h-20';
+    ? 'py-5 px-2 text-lg sm:text-xl'
+    : 'py-4 px-2 text-base sm:text-lg';
+  const clockSize = bigTargets ? 'w-44 h-44 sm:w-60 sm:h-60' : 'w-36 h-36 sm:w-48 sm:h-48';
+  const hourLen = bigTargets ? 'h-12 sm:h-18' : 'h-10 sm:h-14';
+  const minLen = bigTargets ? 'h-18 sm:h-24' : 'h-14 sm:h-20';
   const controlBtnSize = bigTargets
     ? 'w-14 h-14 sm:w-16 sm:h-16 text-xl sm:text-2xl'
     : 'w-12 h-12 sm:w-14 sm:h-14 text-lg sm:text-xl';
 
   return (
-    <div className={`${animClass} flex h-full w-full flex-col items-center justify-center`}>
+    <div className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}>
       {/* 1. Voice Controls Section */}
       {voiceAssistant && (
-        <div className="mb-4 flex shrink-0 gap-4">
+        <div className="mb-2 sm:mb-4 flex shrink-0 gap-4">
           <TTSController
             onReadAloud={readTimeAndOptions}
             pauseAllTimeouts={pauseAllTimeouts}
@@ -182,13 +182,13 @@ function ClockExercise({
 
       {/* 2. Feedback Transcript */}
       {transcript && (
-        <p className="mb-2 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-400 uppercase">
+        <p className="mb-1 sm:mb-2 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-400 uppercase">
           {t.heard}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
 
       {/* 3. Visual Indicators (Partially hidden in Zen Mode) */}
-      <div className="mb-4 flex shrink-0 flex-col items-center">
+      <div className="mb-2 sm:mb-4 flex shrink-0 flex-col items-center">
         <div className={`mb-1 text-4xl ${bounceClass}`} aria-hidden="true">
           {data.isNight ? '🌙' : '☀️'}
         </div>
@@ -207,7 +207,7 @@ function ClockExercise({
         }
       `}</style>
       <div
-        className={`relative ${clockSize} mb-6 flex shrink-0 items-center justify-center rounded-full border-8 shadow-xl md:shadow-md transition-colors duration-1000 ${
+        className={`relative ${clockSize} mb-4 sm:mb-6 flex shrink-0 items-center justify-center rounded-full border-8 shadow-xl md:shadow-md transition-colors duration-1000 ${
           data.isNight
             ? 'border-slate-700 bg-slate-800 shadow-blue-900/20'
             : 'border-slate-100 bg-white shadow-slate-200/50'
@@ -254,7 +254,7 @@ function ClockExercise({
       </div>
 
       {/* 5. Digital Time Options */}
-      <div className="grid w-full max-w-md grid-cols-2 shrink-0 gap-3 px-2 sm:max-w-lg sm:gap-4">
+      <div className="grid w-full max-w-md grid-cols-2 shrink-0 gap-2 px-2 sm:max-w-lg sm:gap-3">
         {shuffledOptions.map((opt, i) => (
           <button
             key={i}
@@ -285,4 +285,4 @@ function ClockExercise({
   );
 }
 
-export default ClockExercise;
+export default React.memo(ClockExercise);

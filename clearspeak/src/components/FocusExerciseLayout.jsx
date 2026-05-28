@@ -27,31 +27,31 @@ export default function FocusExerciseLayout({
 
   return (
     <div 
-      className={`fixed inset-0 z-[100] flex flex-col ${isHighContrast ? 'bg-black text-white' : 'bg-[#fdfaf6] text-slate-800'}`}
+      className={`fixed inset-0 z-[100] flex flex-col min-h-0 overflow-hidden ${isHighContrast ? 'bg-black text-white' : 'bg-[#fdfaf6] text-slate-800'}`}
       role="dialog"
       aria-modal="true"
       aria-label={t?.activeExerciseView || "Active Exercise View"}
     >
       {/* Minimal Header */}
-      <header className={`flex items-center justify-between ${bigTargets ? 'p-6 sm:p-8' : 'p-4 sm:p-6'} shrink-0 border-b-4 ${isHighContrast ? 'border-white' : categoryColor} relative z-20 shadow-md`}>
+      <header className={`flex items-center justify-between ${bigTargets ? 'p-4 sm:p-8' : 'p-3 sm:p-6'} shrink-0 border-b-4 ${isHighContrast ? 'border-white' : categoryColor} relative z-20 shadow-md`}>
         <button 
           onClick={onExit}
-          className={`flex items-center gap-2 ${bigTargets ? 'px-8 py-5 text-base' : 'px-5 py-3 text-sm'} rounded-full font-bold uppercase tracking-widest transition-all active:scale-95 focus-visible:ring-4 focus:outline-none ${
+          className={`flex items-center gap-2 ${bigTargets ? 'px-6 py-4 sm:px-8 sm:py-5 text-sm sm:text-base' : 'px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm'} rounded-full font-bold uppercase tracking-widest transition-all active:scale-95 focus-visible:ring-4 focus:outline-none ${
             isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-white text-slate-600 shadow-sm hover:bg-slate-50'
           }`}
           aria-label={t?.exitExercise || "Exit Exercise and Return to Dashboard"}
         >
-          <span className={`${bigTargets ? 'text-2xl' : 'text-lg'} leading-none`} aria-hidden="true">✕</span> 
+          <span className={`${bigTargets ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg'} leading-none`} aria-hidden="true">✕</span> 
           <span className="hidden sm:inline">{t?.exit || 'Exit'}</span>
         </button>
 
         {/* Simplified Progress Bar */}
-      <div className="flex items-center gap-4" aria-live="polite" aria-atomic="true">
-          <span className={`${bigTargets ? 'text-sm' : 'text-xs'} font-black uppercase tracking-widest opacity-70`}>
+        <div className="flex items-center gap-3 sm:gap-4 shrink-0" aria-live="polite" aria-atomic="true">
+          <span className={`${bigTargets ? 'text-xs sm:text-sm' : 'text-[10px] sm:text-xs'} font-black uppercase tracking-widest opacity-70`}>
             {t?.task || 'Task'} {currentTaskNumber} {t?.of || 'of'} {totalTasks}
           </span>
           <div 
-            className={`${bigTargets ? 'w-24 sm:w-40 h-3.5' : 'w-20 sm:w-32 h-2.5'} rounded-full bg-slate-200/50 overflow-hidden shadow-inner`} 
+            className={`${bigTargets ? 'w-20 sm:w-40 h-3 sm:h-3.5' : 'w-16 sm:w-32 h-2 sm:h-2.5'} rounded-full bg-slate-200/50 overflow-hidden shadow-inner`} 
             aria-hidden="true"
           >
             <div 
@@ -63,8 +63,8 @@ export default function FocusExerciseLayout({
       </header>
 
       {/* Single-Task Flow Area */}
-      <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8 min-h-0 overflow-y-auto">
-        <div className={`w-full max-w-4xl flex-1 flex flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}>
+      <div className="flex-1 flex flex-col items-center justify-center p-2 sm:p-4 md:p-8 min-h-0 overflow-hidden">
+        <div className={`w-full max-w-4xl flex-1 flex flex-col items-center justify-center min-h-0 shrink ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}>
           {children}
         </div>
       </div>

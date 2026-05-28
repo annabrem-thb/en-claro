@@ -22,7 +22,7 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
 
   // Sub-component for rendering accessible range sliders
   const RangeInput = ({ label, desc, value, setValue, leftLabel, rightLabel }) => (
-    <div className={`flex flex-col gap-2 ${bigTargets ? 'p-6' : 'p-4'} rounded-2xl border-2 ${isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100'}`}>
+    <div className={`flex flex-col gap-1 sm:gap-2 ${bigTargets ? 'p-4 sm:p-6' : 'p-3 sm:p-4'} rounded-2xl border-2 shrink-0 ${isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100'}`}>
       <div className="flex justify-between items-end">
         <div>
           <span className={`text-xs font-black uppercase tracking-wider block ${isHighContrast ? 'text-white' : 'text-slate-700'}`}>
@@ -62,23 +62,23 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
 
   return (
     // Modal container with ARIA roles for screen reader support
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
-      <div className={`w-full max-w-md p-6 sm:p-8 pb-[calc(1.5rem+env(safe-area-inset-bottom))] rounded-4xl shadow-2xl flex flex-col gap-3 ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'} max-h-[95vh]`}>
-        <div className="text-center">
-          <div className="text-4xl mb-2" aria-hidden="true">🧠</div>
-          <h2 id="feedback-title" className={`text-xl sm:text-2xl font-black mb-2 ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4 md:p-6 bg-slate-900/60 backdrop-blur-sm overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
+      <div className={`w-full max-w-md p-4 sm:p-6 md:p-8 pb-[calc(1rem+env(safe-area-inset-bottom))] rounded-3xl sm:rounded-4xl shadow-2xl flex flex-col gap-2 sm:gap-3 ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'} max-h-[98vh] shrink min-h-0`}>
+        <div className="text-center shrink-0">
+          <div className="text-3xl sm:text-4xl mb-1 sm:mb-2" aria-hidden="true">🧠</div>
+          <h2 id="feedback-title" className={`text-lg sm:text-xl md:text-2xl font-black mb-1 sm:mb-2 ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>
             {v.title || 'A moment of reflection'}
           </h2>
-          <p className={`text-xs font-medium leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
+          <p className={`text-[10px] sm:text-xs font-medium leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
             {v.desc || 'Your feedback helps us adapt the experience.'}
           </p>
         </div>
 
         <div 
-          className="flex flex-col gap-4 my-2 overflow-y-auto overscroll-none pr-1 pb-2"
+          className="flex flex-col gap-2 sm:gap-4 my-1 sm:my-2 overflow-y-auto overscroll-none pr-1 pb-1 sm:pb-2 shrink min-h-0"
           style={{ scrollbarWidth: 'thin', scrollbarColor: isHighContrast ? '#ffffff #000000' : '#cbd5e1 transparent' }}
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 shrink-0">
             <h3 className={`text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}>
               {v.nasaTitle || 'NASA-TLX'}
             </h3>
@@ -89,17 +89,17 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
         </div>
 
         {/* Action buttons with dynamic scaling for accessibility */}
-        <div className="flex flex-col gap-2 mt-2">
+        <div className="flex flex-col gap-2 mt-auto pt-2 shrink-0">
           <button
             onClick={() => {
               onSubmit({ mental, effort, frustration });
               setMental(3); setEffort(3); setFrustration(3);
             }}
-            className={`w-full ${bigTargets ? 'py-6 text-base' : 'py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} text-white`}`}
+            className={`w-full ${bigTargets ? 'py-4 sm:py-6 text-sm sm:text-base' : 'py-3 sm:py-4 text-xs sm:text-sm'} rounded-full font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} text-white`}`}
           >
             {v.submit || 'Save'}
           </button>
-          <button onClick={onSkip} className={`w-full ${bigTargets ? 'py-5 text-sm' : 'py-3 text-xs'} rounded-full font-black uppercase tracking-widest transition-all ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-400 hover:bg-slate-50'}`}>
+          <button onClick={onSkip} className={`w-full ${bigTargets ? 'py-3 sm:py-5 text-xs sm:text-sm' : 'py-2 sm:py-3 text-[10px] sm:text-xs'} rounded-full font-black uppercase tracking-widest transition-all ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-400 hover:bg-slate-50'}`}>
             {v.skip || 'Skip'}
           </button>
         </div>

@@ -104,7 +104,7 @@ function MemorySpanExercise({
       } else {
         onError();
         const resetDelay = extendedTime ? 1500 : 800;
-        setTimeout(() => {
+        setSafeTimeout(() => {
           setSelectedItems([]);
           setIsChecking(false);
         }, resetDelay);
@@ -178,15 +178,15 @@ function MemorySpanExercise({
     : 'w-16 h-16 text-2xl';
 
   return (
-    <div className={`${animClass} flex h-full w-full flex-col items-center justify-between`}>
-      <div className="w-full text-center">
-        <h3 className="mb-6 px-4 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
+    <div className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center py-2 px-2 overflow-hidden`}>
+      <div className="w-full text-center shrink-0">
+        <h3 className="mb-2 sm:mb-4 px-4 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
           {isMemorizing ? t.memorize || 'Zapamiętaj!' : data.instruction}
         </h3>
 
         {/* Phase 1: memorization */}
         {isMemorizing ? (
-          <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-4 sm:gap-6">
             {voiceAssistant && (
               <TTSController
                 onReadAloud={playMemorizationSequence}
@@ -216,7 +216,7 @@ function MemorySpanExercise({
           </div>
         ) : (
           !zenMode && (
-            <div className="mb-8 text-6xl" aria-hidden="true">
+            <div className="mb-4 sm:mb-8 text-4xl sm:text-6xl shrink-0" aria-hidden="true">
               ❓
             </div>
           )
@@ -226,11 +226,11 @@ function MemorySpanExercise({
       {/* Phase 2: user input */}
       {!isMemorizing && (
         <div
-          className={`flex w-full flex-1 flex-col items-center ${noFlash ? '' : 'animate-in fade-in duration-500'}`}
+          className={`flex w-full min-h-0 flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in duration-500'}`}
         >
           {/* Voice Controls */}
           {voiceAssistant && (
-            <div className="mb-8 flex gap-6">
+            <div className="mb-2 sm:mb-4 flex gap-4 sm:gap-6 shrink-0">
               <TTSController
                 onReadAloud={readAvailableItems}
                 pauseAllTimeouts={pauseAllTimeouts}
@@ -255,13 +255,13 @@ function MemorySpanExercise({
           )}
 
           {transcript && (
-            <p className="mb-4 text-center text-xs font-black tracking-widest text-slate-400 uppercase">
+            <p className="mb-1 sm:mb-2 text-center text-[10px] sm:text-xs font-black tracking-widest text-slate-400 uppercase shrink-0">
               {t.heard}: <span className="text-slate-600">{transcript}</span>
             </p>
           )}
 
           {/* Selected sequence */}
-          <div className="mb-6 flex min-h-16 w-full flex-wrap justify-center gap-2 rounded-3xl border-2 border-dashed border-slate-200 bg-slate-50 p-4">
+          <div className="mb-2 sm:mb-4 flex min-h-[3rem] sm:min-h-16 w-full flex-wrap justify-center gap-2 rounded-3xl border-2 border-dashed border-slate-200 bg-slate-50 p-3 sm:p-4 shrink min-h-0 overflow-y-auto">
             {selectedItems.map((item, index) => (
               <div
                 key={index}
@@ -273,7 +273,7 @@ function MemorySpanExercise({
           </div>
 
           {/* Available items Grid */}
-          <div className="mb-6 flex w-full max-w-sm flex-wrap justify-center gap-3">
+          <div className="mb-2 sm:mb-4 flex w-full max-w-sm flex-wrap justify-center gap-2 sm:gap-3 shrink min-h-0 overflow-y-auto">
             {stableScrambled.map((item, index) => {
               const isSelected = selectedItems.includes(item);
               return (
@@ -319,4 +319,4 @@ function MemorySpanExercise({
   );
 }
 
-export default MemorySpanExercise;
+export default React.memo(MemorySpanExercise);
