@@ -151,7 +151,7 @@ function SpatialExercise({
 
   // Dynamic Class Definitions based on a11y props
   const btnPadding = bigTargets ? 'py-6 sm:py-8' : 'py-4 sm:py-6';
-  const cardSize = bigTargets ? 'w-48 h-60 text-8xl' : 'w-40 h-52 text-7xl';
+  const cardSize = bigTargets ? 'w-40 h-48 sm:w-48 sm:h-60 text-7xl sm:text-8xl' : 'w-32 h-40 sm:w-40 sm:h-52 text-6xl sm:text-7xl';
   const pulseClass = noFlash
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-4 ring-red-100';

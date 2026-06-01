@@ -95,6 +95,7 @@ export default {
   testSentence: "This is a test of the selected voice.",
   resetTTS: "Reset TTS settings",
   voiceSelectionAria: "Voice selection",
+  voiceAssistantHint: "Enable Assistant in Comfort tab to test voice.",
   ttsSettingsAria: "TTS settings",
 
   // Settings
@@ -211,6 +212,8 @@ export default {
   exportLogs: "Export data (CSV)",
   exportDesc: "Download NASA-TLX and UEQ survey results",
   noDataToExport: "No data to export",
+  shortcut: "Shortcut",
+  memorize: "Memorize!",
   mapTitle: "Challenge Map", choosePath: "Choose your path", nextLevel: "Next stage", lockedNode: "Locked", completedNode: "Completed", backToMap: "Back to map", energyTitle: "Cognitive Energy", breakTitle: "Time for a break?", breakDesc: "We noticed you're working intensively. Rest in the garden to regenerate and prevent fatigue.", breakTip: "Tip: Look away from the screen at something in the distance (preferably green) for at least 20 seconds.", takeBreakBtn: "Rest (+2 💰)", continueBtn: "Keep practicing", categorizeItems: "Categorize the items", allItemsPlaced: "All items placed", checkAnswers: "Check Answers",
   
   // Exercise Content

@@ -204,7 +204,7 @@ function ContextExercise({
         </p>
       )}
 
-      <div className="grid w-full max-w-sm grid-cols-1 gap-2 sm:gap-3 px-2 pt-4 pb-4 shrink min-h-0 overflow-y-auto">
+      <div className="grid w-full max-w-sm max-h-full grid-cols-1 gap-2 sm:gap-3 px-2 pt-2 pb-2 shrink min-h-0 overflow-y-auto no-scrollbar">
         {shuffledOptions.map((opt, i) => (
           <button
             key={i}

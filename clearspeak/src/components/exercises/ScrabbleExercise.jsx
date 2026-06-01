@@ -113,12 +113,12 @@ function ScrabbleExercise({
   const isVeryLong = wordLen > 18;
 
   const tileSize = bigTargets
-    ? isVeryLong ? 'w-10 h-14 sm:w-14 sm:h-20 text-2xl sm:text-4xl' : isLong ? 'w-11 h-15 sm:w-16 sm:h-22 text-3xl sm:text-5xl' : 'w-12 h-16 sm:w-20 sm:h-24 text-3xl sm:text-5xl'
-    : isVeryLong ? 'w-8 h-12 sm:w-12 sm:h-16 text-xl sm:text-3xl' : isLong ? 'w-9 h-13 sm:w-14 sm:h-18 text-2xl sm:text-4xl' : 'w-10 h-14 sm:w-16 sm:h-20 text-2xl sm:text-4xl';
+    ? isVeryLong ? 'w-8 h-10 sm:w-14 sm:h-20 text-xl sm:text-4xl' : isLong ? 'w-10 h-12 sm:w-16 sm:h-22 text-2xl sm:text-5xl' : 'w-12 h-16 sm:w-20 sm:h-24 text-3xl sm:text-5xl'
+    : isVeryLong ? 'w-6 h-8 sm:w-12 sm:h-16 text-lg sm:text-3xl' : isLong ? 'w-8 h-10 sm:w-14 sm:h-18 text-xl sm:text-4xl' : 'w-10 h-14 sm:w-16 sm:h-20 text-2xl sm:text-4xl';
 
   const letterBtn = bigTargets
-    ? 'w-14 h-14 sm:w-24 sm:h-24 text-2xl sm:text-4xl rounded-2xl sm:rounded-[2rem]'
-    : 'w-12 h-12 sm:w-20 sm:h-20 text-xl sm:text-3xl rounded-xl sm:rounded-3xl';
+    ? isVeryLong ? 'w-8 h-8 sm:w-16 sm:h-16 text-lg sm:text-3xl rounded-lg' : isLong ? 'w-11 h-11 sm:w-20 sm:h-20 text-xl sm:text-3xl rounded-xl' : 'w-14 h-14 sm:w-24 sm:h-24 text-2xl sm:text-4xl rounded-2xl sm:rounded-[2rem]'
+    : isVeryLong ? 'w-7 h-7 sm:w-12 sm:h-12 text-base sm:text-xl rounded-md' : isLong ? 'w-9 h-9 sm:w-16 sm:h-16 text-lg sm:text-2xl rounded-lg' : 'w-12 h-12 sm:w-20 sm:h-20 text-xl sm:text-3xl rounded-xl sm:rounded-3xl';
   const slideAnim = noFlash ? '' : 'animate-in slide-in-from-bottom-2';
   const controlBtnSize = bigTargets
     ? 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
@@ -126,7 +126,7 @@ function ScrabbleExercise({
 
   return (
     <div
-      className={`${animClass} flex h-full min-h-0 w-full flex-1 flex-col items-center justify-start pt-6 sm:pt-10 pb-2 px-2 overflow-hidden`}
+      className={`${animClass} flex h-full min-h-0 w-full flex-1 flex-col items-center justify-start pt-2 sm:pt-6 pb-2 px-2 overflow-hidden`}
     >
       {/* 1. Header & Voice Controls */}
       <div className="mb-2 flex w-full shrink-0 flex-col items-center justify-center sm:mb-4">
@@ -151,7 +151,7 @@ function ScrabbleExercise({
       </div>
 
       {/* 2. Target Word Slots */}
-      <div className="mb-2 sm:mb-4 flex min-h-[3rem] w-full max-w-4xl shrink flex-wrap justify-center gap-1.5 border-b-4 border-dashed border-slate-100 px-2 pt-2 pb-3 sm:mb-6 sm:min-h-16 sm:gap-2 sm:pb-5 min-h-0 overflow-y-auto">
+      <div className="mb-2 sm:mb-4 flex min-h-[3rem] max-h-[30vh] w-full max-w-4xl shrink flex-wrap justify-center gap-1 sm:gap-2 border-b-4 border-dashed border-slate-100 px-1 sm:px-2 pt-2 pb-2 sm:mb-4 sm:min-h-16 sm:pb-4 min-h-0 overflow-y-auto no-scrollbar">
         {userScrabble.map((x, i) => (
           <div
             key={i}
@@ -163,7 +163,7 @@ function ScrabbleExercise({
       </div>
 
       {/* 3. Available Tiles container */}
-      <div className="flex w-full max-w-4xl shrink flex-wrap justify-center gap-2 px-2 pt-4 pb-4 sm:gap-3 min-h-0 overflow-y-auto">
+      <div className="flex w-full max-w-4xl max-h-[35vh] shrink flex-wrap justify-center gap-1.5 sm:gap-3 px-1 pt-2 pb-2 sm:pt-4 sm:pb-4 min-h-0 overflow-y-auto no-scrollbar">
         {shuffledLetters.map((l, i) => {
           const isUsed = userScrabble.some((x) => x.index === i);
           return (

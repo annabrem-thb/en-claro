@@ -639,10 +639,10 @@ function AppContent() {
             <span className="text-4xl sm:text-5xl drop-shadow-md" aria-hidden="true">🌳</span>
             <div className="flex-1 min-w-0">
               <h4 className="font-black uppercase tracking-widest text-xs sm:text-sm mb-1">
-                {t.realWorldImpact?.newTreeTitle || 'Nowe Drzewo!'}
+                {t.realWorldImpact?.newTreeTitle || 'New Tree! 🎉'}
               </h4>
               <p className={`text-[10px] sm:text-xs font-medium leading-tight break-words hyphens-auto ${isHighContrast ? 'text-white/80' : 'text-emerald-50'}`}>
-                {t.realWorldImpact?.newTreeMsg || 'Twoja nauka sprawiła, że wirtualnie posadziliśmy kolejne drzewo!'}
+                {t.realWorldImpact?.newTreeMsg || 'Amazing! Your consistent learning helped us virtually plant another tree.'}
               </p>
             </div>
           </div>

@@ -83,7 +83,7 @@ const SidebarNav = memo(function SidebarNav({
           const questForPillar = dailyQuests.tasks.find(q => q.type === p);
           const label          = t.pillars?.[p] || p;
           return (
-            <Tooltip key={p} content={`Shortcut: Ctrl + ${index + 1}`} placement="top" isHighContrast={isHighContrast} wrapperClass="flex-1 md:flex-none flex">
+            <Tooltip key={p} content={`${t.shortcut || 'Shortcut'}: Ctrl + ${index + 1}`} placement="top" isHighContrast={isHighContrast} wrapperClass="flex-1 md:flex-none flex">
               <button 
                 onClick={() => onTabChange(p)}
                 className={`relative group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isSelected ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
@@ -113,7 +113,7 @@ const SidebarNav = memo(function SidebarNav({
         <div className={`block md:hidden w-px my-1 border-l ${isHighContrast ? 'border-white/20' : themeStyles.border}`} />
         
         {isGamified && (
-          <Tooltip content="Shortcut: Ctrl + 4" placement="top" isHighContrast={isHighContrast} wrapperClass="flex-1 md:flex-none flex">
+          <Tooltip content={`${t.shortcut || 'Shortcut'}: Ctrl + 4`} placement="top" isHighContrast={isHighContrast} wrapperClass="flex-1 md:flex-none flex">
             <button
               onClick={onGardenClick}
               className={`relative group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
@@ -169,7 +169,7 @@ const SidebarNav = memo(function SidebarNav({
           </Tooltip>
         )}
 
-        <Tooltip content="Shortcut: Ctrl + P" placement="top" isHighContrast={isHighContrast} wrapperClass={`flex-1 md:flex-none flex ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 md:mt-0' : 'md:mt-auto'}`}>
+        <Tooltip content={`${t.shortcut || 'Shortcut'}: Ctrl + P`} placement="top" isHighContrast={isHighContrast} wrapperClass={`flex-1 md:flex-none flex ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 md:mt-0' : 'md:mt-auto'}`}>
           <button
             onClick={() => setProfileOpen(true)}
             className={`group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
@@ -189,7 +189,7 @@ const SidebarNav = memo(function SidebarNav({
           </button>
         </Tooltip>
 
-        <Tooltip content="Shortcut: Ctrl + ," placement="top" isHighContrast={isHighContrast} wrapperClass="flex-1 md:flex-none flex">
+        <Tooltip content={`${t.shortcut || 'Shortcut'}: Ctrl + ,`} placement="top" isHighContrast={isHighContrast} wrapperClass="flex-1 md:flex-none flex">
           <button
             onClick={() => setSettingsOpen(true)}
             className={`group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}

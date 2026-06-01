@@ -119,6 +119,7 @@
   "testSentence": "This is a test of the selected voice.",
   "resetTTS": "Reset TTS to default",
   "voiceSelectionAria": "Voice selection",
+  "voiceAssistantHint": "Enable Assistant in Comfort tab to test voice.",
   "ttsSettingsAria": "TTS Settings",
   "settings": "Settings",
   "settingsTitle": "Settings",
@@ -371,6 +372,8 @@
   "exportLogs": "Export data (CSV)",
   "exportDesc": "Download NASA-TLX and UEQ survey results",
   "noDataToExport": "No data to export",
+  "shortcut": "Shortcut",
+  "memorize": "Memorize!",
   "feedback": {
     "title": "A moment of reflection",
     "desc": "How do you rate today's session? Your feedback helps us adapt the app to you.",

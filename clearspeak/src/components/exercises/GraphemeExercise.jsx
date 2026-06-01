@@ -178,7 +178,7 @@ function GraphemeExercise({
         </h3>
       )}
 
-      <div className="flex w-full max-w-sm flex-wrap justify-center gap-2 sm:gap-3 px-2 pt-4 pb-4 shrink min-h-0 overflow-y-auto">
+      <div className="flex w-full max-w-sm max-h-full flex-wrap justify-center gap-2 sm:gap-3 px-2 pt-2 pb-2 shrink min-h-0 overflow-y-auto no-scrollbar">
         {shuffledOptions.map((opt, i) => (
           <button
             key={i}

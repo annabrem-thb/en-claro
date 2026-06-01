@@ -192,7 +192,7 @@ function IntroScreen({ onStart, speak }) {
             <div className={`mt-1 mb-2 p-2 rounded-xl flex items-center gap-2 border-2 text-left transition-colors shrink-0 ${isHighContrast ? 'bg-black border-white/50 text-white' : 'bg-blue-50 border-blue-200 text-blue-800'}`}>
               <span className="text-base sm:text-xl shrink-0 drop-shadow-sm" aria-hidden="true">💡</span>
               <p className="text-xs sm:text-sm font-medium leading-snug">
-                <BionicText text={t('intro.browserWarning', 'Dla najlepszej jakości asystenta głosowego zalecamy korzystanie z przeglądarki Google Chrome.')} enabled={hasBionic} />
+                <BionicText text={t('intro.browserWarning', 'For the best Voice Assistant quality, we recommend using Google Chrome.')} enabled={hasBionic} />
               </p>
             </div>
 

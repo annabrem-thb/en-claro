@@ -91,6 +91,7 @@ export default {
   testSentence: "Dies ist ein Test der ausgewählten Stimme.",
   resetTTS: "TTS-Einstellungen zurücksetzen",
   voiceSelectionAria: "Sprachauswahl",
+  voiceAssistantHint: "Assistenten im Reiter Komfort aktivieren, um zu testen.",
   ttsSettingsAria: "TTS-Einstellungen",
 
   // Einstellungen
@@ -208,6 +209,8 @@ export default {
   exportLogs: "Daten exportieren (CSV)",
   exportDesc: "Lade NASA-TLX und UEQ Umfrageergebnisse herunter",
   noDataToExport: "Keine Daten zum Exportieren",
+  shortcut: "Tastenkürzel",
+  memorize: "Merke dir!",
   feedback: {
     title: "Ein Moment der Reflexion",
     desc: "Wie bewertest du die heutige Sitzung? Dein Feedback hilft uns, die App an dich anzupassen.",

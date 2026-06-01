@@ -165,8 +165,18 @@ function VisualCategorization({
 
   // Dynamic classes for Accessibility scaling
   const animClass = noFlash ? '' : 'animate-in fade-in duration-500';
-  const itemPadding = bigTargets ? 'px-6 py-4 sm:px-8 sm:py-5 text-base sm:text-lg' : 'px-4 py-3 sm:px-5 sm:py-3 text-xs sm:text-sm';
-  const bucketMinHeight = bigTargets ? 'min-h-[160px] sm:min-h-[200px]' : 'min-h-[140px] sm:min-h-[160px]';
+  
+  // Responsive dynamic sizing to integrate long words (e.g., German compound words)
+  const maxWordLen = Math.max(...data.items.map(i => i.word.length), 0);
+  const isLong = maxWordLen > 10;
+  const isVeryLong = maxWordLen > 15;
+
+  const itemPadding = bigTargets 
+    ? (isVeryLong ? 'px-3 py-2 sm:px-4 sm:py-3 text-sm' : isLong ? 'px-4 py-3 sm:px-6 sm:py-4 text-base' : 'px-6 py-4 sm:px-8 sm:py-5 text-base sm:text-lg') 
+    : (isVeryLong ? 'px-2 py-1.5 sm:px-3 sm:py-2 text-[10px] sm:text-xs' : isLong ? 'px-3 py-2 sm:px-4 sm:py-2 text-xs' : 'px-4 py-3 sm:px-5 sm:py-3 text-xs sm:text-sm');
+  const bucketMinHeight = bigTargets 
+    ? (isVeryLong ? 'min-h-[120px] sm:min-h-[160px]' : 'min-h-[160px] sm:min-h-[200px]') 
+    : (isVeryLong ? 'min-h-[100px] sm:min-h-[120px]' : 'min-h-[140px] sm:min-h-[160px]');
 
   return (
     <div className={`flex h-full min-h-0 flex-col items-center justify-start w-full ${animClass} gap-2 sm:gap-4 py-2 px-2 overflow-hidden`}>
@@ -189,7 +199,7 @@ function VisualCategorization({
       )}
 
       {/* Unplaced Items Pool */}
-      <div className={`flex flex-wrap justify-center gap-2 sm:gap-3 w-full p-2 sm:p-3 rounded-3xl min-h-[60px] sm:min-h-[80px] border-2 transition-colors shrink min-h-0 overflow-y-auto ${activeItem ? (isHighContrast ? 'border-white/50' : 'border-indigo-200 bg-indigo-50/30') : 'border-transparent'}`} aria-label="Available items">
+      <div className={`flex flex-wrap justify-center gap-2 sm:gap-3 w-full p-2 sm:p-3 rounded-3xl min-h-[60px] sm:min-h-[80px] max-h-[35vh] border-2 transition-colors shrink min-h-0 overflow-y-auto no-scrollbar ${activeItem ? (isHighContrast ? 'border-white/50' : 'border-indigo-200 bg-indigo-50/30') : 'border-transparent'}`} aria-label="Available items">
         {unplacedItems.map((item) => (
           <button key={item.id} disabled={isShowingCorrection} onClick={() => handleItemClick(item)} className={`${itemPadding} rounded-2xl font-bold shadow-sm md:shadow-none transition-all active:scale-95 disabled:opacity-80 ${
             activeItem?.id === item.id 
@@ -209,7 +219,7 @@ function VisualCategorization({
       </div>
 
       {/* Target Buckets Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 w-full max-w-2xl shrink min-h-0 overflow-y-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 w-full max-w-2xl shrink min-h-0 max-h-full overflow-y-auto no-scrollbar pb-2">
         {data.buckets.map((bucket) => {
           const bucketItems = data.items.filter((item) => placements[item.id] === bucket.id);
           return (

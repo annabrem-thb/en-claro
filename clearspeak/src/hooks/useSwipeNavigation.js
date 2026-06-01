@@ -1,73 +1,89 @@
-import { useRef, useState } from 'react';
+import { useState, useCallback } from 'react';
 
-export function useSwipeNavigation({ onSwipeLeft, onSwipeRight, threshold = 50, isFirstTab = false, isLastTab = false }) {
-  const touchStart = useRef(null);
-  const touchEnd = useRef(null);
-  const hasVibrated = useRef(false);
-  const [swipeOffset, setSwipeOffset] = useState(0);
-  const [isSwiping, setIsSwiping] = useState(false);
+/**
+ * Hook obsługujący gesty przesunięcia palcem (Swipe) na urządzeniach mobilnych.
+ * Obsługuje również przeciąganie myszką (Mouse Drag) na komputerach.
+ * Implementuje próg czułości (threshold), aby odróżnić przypadkowe dotknięcia
+ * i przewijanie w dół (scroll) od celowego przewijania w bok.
+ */
+export function useSwipeNavigation({ onSwipeLeft, onSwipeRight, swipeThreshold = 60 }) {
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
 
-  const onTouchStart = (e) => {
-    touchEnd.current = null;
-    hasVibrated.current = false;
-    touchStart.current = {
+  // --- GESTY DOTYKOWE (Touch) ---
+  const onTouchStart = useCallback((e) => {
+    setTouchEnd(null); // Reset przy nowym dotknięciu
+    setTouchStart({
       x: e.targetTouches[0].clientX,
-      y: e.targetTouches[0].clientY,
-    };
-    setIsSwiping(true);
-  };
+      y: e.targetTouches[0].clientY
+    });
+  }, []);
 
-  const onTouchMove = (e) => {
-    if (!touchStart.current) return;
-
-    touchEnd.current = {
+  const onTouchMove = useCallback((e) => {
+    setTouchEnd({
       x: e.targetTouches[0].clientX,
-      y: e.targetTouches[0].clientY,
-    };
+      y: e.targetTouches[0].clientY
+    });
+  }, []);
 
-    const distanceX = touchStart.current.x - touchEnd.current.x;
-    const distanceY = touchStart.current.y - touchEnd.current.y;
+  // --- WSPÓLNA LOGIKA OBLICZANIA GESTU ---
+  const handleSwipeEnd = useCallback(() => {
+    if (!touchStart || !touchEnd) return;
 
-    if (Math.abs(distanceX) > Math.abs(distanceY)) {
-      let rawOffset = -distanceX;
+    const distanceX = touchStart.x - touchEnd.x;
+    const distanceY = touchStart.y - touchEnd.y;
 
-      // Efekt "gumki" (opór) na skrajnych zakładkach
-      if ((isFirstTab && rawOffset > 0) || (isLastTab && rawOffset < 0)) {
-        rawOffset = rawOffset * 0.25;
-        
-        // Pojedyncze, delikatne haptyczne "puknięcie" imitujące opór
-        if (!hasVibrated.current && typeof navigator !== 'undefined' && navigator.vibrate) {
-          navigator.vibrate(10);
-          hasVibrated.current = true;
-        }
-      }
+    // Sprawdzamy czy gest był bardziej poziomy niż pionowy (zapobiega konfliktom ze scrollowaniem w dół)
+    const isHorizontalSwipe = Math.abs(distanceX) > Math.abs(distanceY);
 
-      setSwipeOffset(rawOffset);
-    }
-  };
-
-  const onTouchEnd = () => {
-    setIsSwiping(false);
-    setSwipeOffset(0); // Resetujemy po puszczeniu ekranu
-
-    if (!touchStart.current || !touchEnd.current) return;
-
-    const distanceX = touchStart.current.x - touchEnd.current.x;
-    const distanceY = touchStart.current.y - touchEnd.current.y;
-
-    // Ignorujemy przewijanie góra-dół (scrollowanie ćwiczeń)
-    if (Math.abs(distanceX) > Math.abs(distanceY)) {
-      // Sprawdzamy próg i blokujemy wywołanie akcji, jeśli jesteśmy na skraju
-      if (distanceX > threshold && onSwipeLeft && !isLastTab) {
-        onSwipeLeft();
-      } else if (distanceX < -threshold && onSwipeRight && !isFirstTab) {
-        onSwipeRight();
+    if (isHorizontalSwipe && Math.abs(distanceX) > swipeThreshold) {
+      if (distanceX > 0) {
+        // Przesunięcie palcem w lewo (użytkownik chce przejść do następnej zakładki po prawej)
+        if (onSwipeLeft) onSwipeLeft();
+      } else {
+        // Przesunięcie palcem w prawo (użytkownik chce przejść do poprzedniej zakładki po lewej)
+        if (onSwipeRight) onSwipeRight();
       }
     }
     
-    touchStart.current = null;
-    touchEnd.current = null;
-  };
+    // Reset stanu po wykonaniu gestu
+    setTouchStart(null);
+    setTouchEnd(null);
+  }, [touchStart, touchEnd, onSwipeLeft, onSwipeRight, swipeThreshold]);
 
-  return { onTouchStart, onTouchMove, onTouchEnd, swipeOffset, isSwiping };
+  const onTouchEnd = useCallback(() => {
+    handleSwipeEnd();
+  }, [handleSwipeEnd]);
+
+  // --- GESTY MYSZKĄ (Mouse) ---
+  const onMouseDown = useCallback((e) => {
+    setIsDragging(true);
+    setTouchEnd(null);
+    setTouchStart({ x: e.clientX, y: e.clientY });
+  }, []);
+
+  const onMouseMove = useCallback((e) => {
+    if (!isDragging) return;
+    // Wyłączamy domyślne zachowanie przeglądarki (np. zaznaczanie tekstu podczas przeciągania)
+    e.preventDefault();
+    setTouchEnd({ x: e.clientX, y: e.clientY });
+  }, [isDragging]);
+
+  const onMouseUp = useCallback(() => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    handleSwipeEnd();
+  }, [isDragging, handleSwipeEnd]);
+
+  const onMouseLeave = useCallback(() => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    handleSwipeEnd(); // Rozpatrujemy gest, nawet jeśli kursor opuścił obszar
+  }, [isDragging, handleSwipeEnd]);
+
+  return { 
+    onTouchStart, onTouchMove, onTouchEnd,
+    onMouseDown, onMouseMove, onMouseUp, onMouseLeave
+  };
 }

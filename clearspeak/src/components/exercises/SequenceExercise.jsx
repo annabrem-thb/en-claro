@@ -258,7 +258,7 @@ function SequenceExercise({
         </p>
       )}
 
-      <div className="mb-2 sm:mb-4 flex min-h-[60px] sm:min-h-[100px] w-full flex-wrap content-start gap-2 sm:gap-3 rounded-2xl sm:rounded-3xl border-4 border-dashed border-slate-200 bg-slate-50 p-2.5 sm:p-4 shrink min-h-0 overflow-y-auto">
+      <div className="mb-2 sm:mb-4 flex min-h-[60px] sm:min-h-[100px] w-full max-h-[35vh] flex-wrap content-start gap-2 sm:gap-3 rounded-2xl sm:rounded-3xl border-4 border-dashed border-slate-200 bg-slate-50 p-2.5 sm:p-4 shrink min-h-0 overflow-y-auto no-scrollbar">
         {selectedWords.length === 0 && (
           <div className="flex h-full w-full items-center justify-center px-2 sm:px-4 text-center text-xs sm:text-sm font-black tracking-widest text-slate-300 uppercase">
             <BionicText
@@ -283,7 +283,7 @@ function SequenceExercise({
         ))}
       </div>
 
-      <div className="mb-2 sm:mb-4 flex w-full flex-wrap justify-center gap-2 sm:gap-3 shrink min-h-0 overflow-y-auto pt-4 pb-4 px-2">
+      <div className="mb-2 sm:mb-4 flex w-full max-h-[40vh] flex-wrap justify-center gap-2 sm:gap-3 shrink min-h-0 overflow-y-auto no-scrollbar pt-2 pb-2 px-2">
         {availableWords.map((wordObj, i) => (
           <button
             key={wordObj.id}

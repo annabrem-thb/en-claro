@@ -156,12 +156,12 @@ function SyllableExercise({
   const isVeryLong = wordLen > 18;
 
   const charSize = bigTargets 
-    ? (isLong ? 'text-3xl sm:text-5xl' : 'text-5xl sm:text-7xl') 
-    : (isVeryLong ? 'text-xl sm:text-3xl' : isLong ? 'text-2xl sm:text-4xl' : 'text-4xl sm:text-6xl');
+    ? (isVeryLong ? 'text-2xl sm:text-4xl' : isLong ? 'text-3xl sm:text-5xl' : 'text-5xl sm:text-7xl') 
+    : (isVeryLong ? 'text-lg sm:text-3xl' : isLong ? 'text-xl sm:text-4xl' : 'text-4xl sm:text-6xl');
   const btnPadding = bigTargets ? 'py-5 sm:py-6' : 'py-4 sm:py-5';
   const cutHitbox = bigTargets 
-    ? (isLong ? 'w-8 h-12 sm:w-10 sm:h-14 mx-0.5' : 'w-10 h-16 sm:w-14 sm:h-20 mx-1') 
-    : (isVeryLong ? 'w-4 h-8 sm:w-6 sm:h-10 mx-px' : isLong ? 'w-6 h-10 sm:w-8 sm:h-12 mx-0.5' : 'w-8 h-12 sm:w-10 sm:h-16 mx-1');
+    ? (isVeryLong ? 'w-6 h-10 sm:w-8 sm:h-12 mx-0' : isLong ? 'w-8 h-12 sm:w-10 sm:h-14 mx-0.5' : 'w-10 h-16 sm:w-14 sm:h-20 mx-1') 
+    : (isVeryLong ? 'w-3 h-6 sm:w-6 sm:h-10 mx-0' : isLong ? 'w-5 h-8 sm:w-8 sm:h-12 mx-px' : 'w-8 h-12 sm:w-10 sm:h-16 mx-1');
   const pulseClass = noFlash
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-8 ring-red-100';
@@ -233,7 +233,7 @@ function SyllableExercise({
       </div>
 
       {/* 3. Word Segmentation Interface */}
-      <div className="mb-4 sm:mb-6 flex flex-wrap items-center justify-center gap-y-4 sm:gap-y-6 shrink min-h-0 overflow-y-auto">
+      <div className="mb-2 sm:mb-4 flex flex-wrap items-center justify-center gap-y-1 sm:gap-y-4 shrink min-h-0 max-h-full overflow-y-auto no-scrollbar w-full max-w-full">
         {wordChars.map((char, index) => (
           <React.Fragment key={index}>
             <span

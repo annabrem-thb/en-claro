@@ -167,11 +167,16 @@ function MemorySpanExercise({
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
   const popAnim = noFlash ? '' : 'animate-in pop-in';
   const pulseClass = noFlash ? '' : 'animate-pulse';
-  const tileSize = bigTargets ? 'w-20 h-24 sm:w-24 sm:h-28' : 'w-16 h-20 sm:w-20 sm:h-24';
-  const tileText = bigTargets ? 'text-4xl sm:text-5xl' : 'text-3xl sm:text-4xl';
+  
+  const itemCount = data.displayItems?.length || data.correct?.length || 0;
+  const isMany = itemCount > 4;
+
+  const tileSize = bigTargets 
+    ? (isMany ? 'w-14 h-16 sm:w-20 sm:h-24 text-2xl sm:text-4xl' : 'w-20 h-24 sm:w-24 sm:h-28 text-4xl sm:text-5xl') 
+    : (isMany ? 'w-10 h-12 sm:w-16 sm:h-20 text-xl sm:text-3xl' : 'w-16 h-20 sm:w-20 sm:h-24 text-3xl sm:text-4xl');
   const letterBtn = bigTargets
-    ? 'w-16 h-16 sm:w-20 sm:h-20 text-xl sm:text-2xl rounded-3xl'
-    : 'w-14 h-14 sm:w-16 sm:h-16 text-lg sm:text-2xl rounded-2xl';
+    ? (isMany ? 'w-12 h-12 sm:w-16 sm:h-16 text-lg sm:text-xl rounded-xl' : 'w-16 h-16 sm:w-20 sm:h-20 text-xl sm:text-2xl rounded-3xl')
+    : (isMany ? 'w-9 h-9 sm:w-14 sm:h-14 text-base sm:text-lg rounded-lg' : 'w-14 h-14 sm:w-16 sm:h-16 text-lg sm:text-2xl rounded-2xl');
   const hintPadding = bigTargets ? 'px-8 py-4' : 'px-6 py-3';
   const controlBtnSize = bigTargets
     ? 'w-20 h-20 text-3xl'
@@ -181,7 +186,7 @@ function MemorySpanExercise({
     <div className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center py-2 px-2 overflow-hidden`}>
       <div className="w-full text-center shrink-0">
         <h3 className="mb-2 sm:mb-4 px-4 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
-          {isMemorizing ? t.memorize || 'Zapamiętaj!' : data.instruction}
+          {isMemorizing ? t.memorize || 'Memorize!' : data.instruction}
         </h3>
 
         {/* Phase 1: memorization */}
@@ -203,7 +208,7 @@ function MemorySpanExercise({
               {data.displayItems?.map((item, i) => (
                 <div
                   key={i}
-                  className={`${tileSize} rounded-3xl border-4 bg-white transition-all duration-300 flex items-center justify-center ${tileText} font-bold shadow-sm md:shadow-none ${
+                  className={`${tileSize} rounded-2xl sm:rounded-3xl border-4 bg-white transition-all duration-300 flex items-center justify-center font-bold shadow-sm md:shadow-none ${
                     activeHighlight === `mem-${i}`
                       ? 'scale-110 ring-4 ring-yellow-400 bg-yellow-50 shadow-xl border-yellow-400 z-10'
                       : themeStyles.border

@@ -714,7 +714,7 @@ function SettingsModal({
                     </button>
                     {!voiceAssistantActive && (
                       <p className={`text-[10px] text-center mt-3 font-medium ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}>
-                        {language === 'pl' ? 'Włącz Asystenta w zakładce Komfort, aby przetestować głos.' : language === 'de' ? 'Assistenten im Reiter Komfort aktivieren, um zu testen.' : 'Enable Assistant in Comfort tab to test.'}
+                        {s.voiceAssistantHint || 'Enable Assistant in Comfort tab to test.'}
                       </p>
                     )}
                   </div>
