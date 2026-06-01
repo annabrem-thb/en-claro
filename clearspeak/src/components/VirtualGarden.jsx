@@ -305,8 +305,8 @@ function VirtualGarden({
               </h3>
               <div className="flex flex-col gap-2 sm:gap-3">
                 {Object.entries(todayStats.byType).map(([type, count]) => (
-                  <div key={type} className="flex items-center justify-between gap-2 text-[10px] sm:text-sm">
-                    <span className={`font-bold truncate ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>{t.categories?.[type] || t.pillars?.[type] || type}</span>
+                  <div key={type} className="flex items-center justify-between gap-2 text-[10px] sm:text-sm flex-nowrap">
+                    <span className={`font-bold truncate min-w-0 flex-1 ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>{t.categories?.[type] || t.pillars?.[type] || type}</span>
                     <span className={`font-black whitespace-nowrap ${isHighContrast ? 'text-white' : themeStyles?.accent || ''}`}>{count} {t.exercisesCount}</span>
                   </div>
                 ))}

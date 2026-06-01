@@ -1,6 +1,7 @@
 import React, { memo, useState, useEffect } from 'react';
 import AccessibleTTS from './common/AccessibleTTS.jsx';
 import { CognitiveEnergyIndicator } from './CognitiveEnergyIndicator.jsx';
+import Tooltip from './common/Tooltip.jsx';
 
 const PILLAR_ICONS = { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' };
 
@@ -82,13 +83,13 @@ const SidebarNav = memo(function SidebarNav({
           const questForPillar = dailyQuests.tasks.find(q => q.type === p);
           const label          = t.pillars?.[p] || p;
           return (
-            <button key={p}
-              onClick={() => onTabChange(p)}
-              title={`Shortcut: Ctrl + ${index + 1}`}
-              className={`relative group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isSelected ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
-              aria-current={isSelected ? 'page' : undefined}
-              aria-label={label}
-            >
+            <Tooltip key={p} content={`Shortcut: Ctrl + ${index + 1}`} placement="top" isHighContrast={isHighContrast} wrapperClass="flex-1 md:flex-none flex">
+              <button 
+                onClick={() => onTabChange(p)}
+                className={`relative group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isSelected ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
+                aria-current={isSelected ? 'page' : undefined}
+                aria-label={label}
+              >
               <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">{PILLAR_ICONS[p]}</span>
               {!hideNavLabel && (
                 <>
@@ -103,7 +104,8 @@ const SidebarNav = memo(function SidebarNav({
               {questForPillar && !questForPillar.completed && questForPillar.current > 0 && (
                 <span className="absolute top-1 right-1 md:top-1.5 md:right-1.5 w-2 h-2 bg-blue-500 rounded-full" aria-hidden="true" />
               )}
-            </button>
+              </button>
+            </Tooltip>
           );
         })}
         
@@ -111,13 +113,13 @@ const SidebarNav = memo(function SidebarNav({
         <div className={`block md:hidden w-px my-1 border-l ${isHighContrast ? 'border-white/20' : themeStyles.border}`} />
         
         {isGamified && (
-          <button
-            onClick={onGardenClick}
-            title="Shortcut: Ctrl + 4"
-            className={`relative group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
-            aria-current={activeTab === 'Garden' ? 'page' : undefined}
-            aria-label={t.garden || "Garden"}
-          >
+          <Tooltip content="Shortcut: Ctrl + 4" placement="top" isHighContrast={isHighContrast} wrapperClass="flex-1 md:flex-none flex">
+            <button
+              onClick={onGardenClick}
+              className={`relative group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
+              aria-current={activeTab === 'Garden' ? 'page' : undefined}
+              aria-label={t.garden || "Garden"}
+            >
             <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">
               {t?.levelIcons?.[theme]?.[0] || '🌱'}
             </span>
@@ -131,7 +133,8 @@ const SidebarNav = memo(function SidebarNav({
                 </span>
               </>
             )}
-          </button>
+            </button>
+          </Tooltip>
         )}
 
         {isGamified && (
@@ -150,27 +153,28 @@ const SidebarNav = memo(function SidebarNav({
         )}
 
         {!isInstalled && installPrompt && (
-          <button
-            onClick={handleInstallClick}
-            title={t.installApp || 'Install App'}
-            className={`group flex flex-col md:flex-row items-center justify-center md:justify-start ${isGamified ? 'mt-2 md:mt-0' : 'md:mt-auto'} gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-500 text-white hover:bg-indigo-400 shadow-md'}`}
-            aria-label={t.installApp || 'Install App'}
-          >
+          <Tooltip content={t.installApp || 'Install App'} placement="top" isHighContrast={isHighContrast} wrapperClass={`flex-1 md:flex-none flex ${isGamified ? 'mt-2 md:mt-0' : 'md:mt-auto'}`}>
+            <button
+              onClick={handleInstallClick}
+              className={`group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-500 text-white hover:bg-indigo-400 shadow-md'}`}
+              aria-label={t.installApp || 'Install App'}
+            >
             <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">📱</span>
             {!hideNavLabel && (
               <AccessibleTTS text={t.installApp || 'Install App'} speak={speak} language={language} className={`flex md:flex min-w-0 ${isHighContrast ? 'text-black' : 'text-white'}`}>
                 <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider truncate max-w-full">{t.installApp || 'Install App'}</span>
               </AccessibleTTS>
             )}
-          </button>
+            </button>
+          </Tooltip>
         )}
 
-        <button
-          onClick={() => setProfileOpen(true)}
-          title="Shortcut: Ctrl + P"
-          className={`group flex flex-col md:flex-row items-center justify-center md:justify-start ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 md:mt-0' : 'md:mt-auto'} gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
-          aria-label={t.profile || 'Profile'}
-        >
+        <Tooltip content="Shortcut: Ctrl + P" placement="top" isHighContrast={isHighContrast} wrapperClass={`flex-1 md:flex-none flex ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 md:mt-0' : 'md:mt-auto'}`}>
+          <button
+            onClick={() => setProfileOpen(true)}
+            className={`group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
+            aria-label={t.profile || 'Profile'}
+          >
           <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">👤</span>
           {!hideNavLabel && (
             <>
@@ -182,14 +186,15 @@ const SidebarNav = memo(function SidebarNav({
               </span>
             </>
           )}
-        </button>
+          </button>
+        </Tooltip>
 
-        <button
-          onClick={() => setSettingsOpen(true)}
-          title="Shortcut: Ctrl + ,"
-          className={`group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
-          aria-label={s.settingsAria}
-        >
+        <Tooltip content="Shortcut: Ctrl + ," placement="top" isHighContrast={isHighContrast} wrapperClass="flex-1 md:flex-none flex">
+          <button
+            onClick={() => setSettingsOpen(true)}
+            className={`group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
+            aria-label={s.settingsAria}
+          >
           <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">⚙️</span>
           {!hideNavLabel && (
             <>
@@ -201,7 +206,8 @@ const SidebarNav = memo(function SidebarNav({
               </span>
             </>
           )}
-        </button>
+          </button>
+        </Tooltip>
       </nav>
     </aside>
   );

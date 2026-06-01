@@ -495,7 +495,7 @@ function AppContent() {
                 )}
                 {feedback && (
               <div className={`absolute top-4 left-1/2 -translate-x-1/2 z-20 w-full max-w-[90%] sm:max-w-md ${noFlash ? '' : 'animate-in slide-in-from-top duration-300'}`}>
-            <span className={`block text-center break-words px-4 sm:px-6 py-3 rounded-2xl text-sm font-medium shadow-sm border ${isHighContrast ? 'bg-black border-white text-white' : 'bg-slate-50 border-slate-200 text-slate-600'}`}
+            <span className={`block text-center break-words hyphens-auto px-4 sm:px-6 py-3 rounded-2xl text-sm font-medium shadow-sm border ${isHighContrast ? 'bg-black border-white text-white' : 'bg-slate-50 border-slate-200 text-slate-600'}`}
                           role="status" aria-live="polite">
                   <BionicText text={feedback.msg} enabled={!!settings.bionicReading} />
                     </span>
@@ -518,7 +518,7 @@ function AppContent() {
               {feedback?.type === 'success' ? (
                 <div className="mt-3 md:mt-4 flex flex-col items-center justify-center animate-in zoom-in duration-300 shrink-0 pb-1 md:pb-2">
                   <button onClick={goNext}
-                        className={`${bigTargets ? 'px-14 py-5 md:py-6 text-lg' : 'px-12 py-3.5 md:py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all ${noFlash ? '' : 'animate-bounce'} break-words ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} ${themeStyles.buttonText} opacity-90 hover:opacity-100`}`}>
+                        className={`${bigTargets ? 'px-14 py-5 md:py-6 text-lg' : 'px-12 py-3.5 md:py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all ${noFlash ? '' : 'animate-bounce'} break-words hyphens-auto ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} ${themeStyles.buttonText} opacity-90 hover:opacity-100`}`}>
                     {t.next || 'Next'}
                   </button>
                   <p className="hidden md:block mt-3 text-[10px] font-bold text-slate-400 opacity-60">
@@ -637,11 +637,11 @@ function AppContent() {
         <div className="fixed top-16 sm:top-20 left-1/2 -translate-x-1/2 z-[110] px-4 w-full max-w-sm pointer-events-none">
           <div className={`p-4 sm:p-5 rounded-3xl shadow-2xl border-2 flex items-center gap-3 sm:gap-4 ${noFlash ? '' : 'animate-in slide-in-from-top-8 fade-in duration-500'} ${isHighContrast ? 'bg-black border-white text-white' : 'bg-emerald-600 border-emerald-400 text-white'}`}>
             <span className="text-4xl sm:text-5xl drop-shadow-md" aria-hidden="true">🌳</span>
-            <div>
+            <div className="flex-1 min-w-0">
               <h4 className="font-black uppercase tracking-widest text-xs sm:text-sm mb-1">
                 {t.realWorldImpact?.newTreeTitle || 'Nowe Drzewo!'}
               </h4>
-              <p className={`text-[10px] sm:text-xs font-medium leading-tight ${isHighContrast ? 'text-white/80' : 'text-emerald-50'}`}>
+              <p className={`text-[10px] sm:text-xs font-medium leading-tight break-words hyphens-auto ${isHighContrast ? 'text-white/80' : 'text-emerald-50'}`}>
                 {t.realWorldImpact?.newTreeMsg || 'Twoja nauka sprawiła, że wirtualnie posadziliśmy kolejne drzewo!'}
               </p>
             </div>
@@ -657,7 +657,7 @@ function AppContent() {
           aria-modal="true"
           aria-labelledby="level-up-title"
         >
-          <div className={`flex flex-col items-center rounded-4xl p-10 shadow-lg max-w-sm w-full border ${noFlash ? '' : 'animate-in fade-in zoom-in duration-700'} ${isHighContrast ? 'bg-black border-white' : 'bg-white border-slate-200'}`}>
+          <div className={`flex flex-col items-center rounded-4xl p-6 sm:p-10 shadow-lg max-w-sm w-full border ${noFlash ? '' : 'animate-in fade-in zoom-in duration-700'} ${isHighContrast ? 'bg-black border-white' : 'bg-white border-slate-200'}`}>
           <div className={`text-5xl mb-4 opacity-80 drop-shadow-md ${noFlash ? '' : 'animate-bounce'}`} aria-hidden="true">🌱</div>
             <h2 id="level-up-title" className={`text-2xl font-bold mb-4 ${isHighContrast ? 'text-white' : 'text-slate-700'}`}>
               {t.levelUpTitle || 'Your garden is growing!'}
@@ -717,7 +717,7 @@ function AppContent() {
 
       {/* Non-intrusive PWA Update Prompt */}
       {needRefresh && (
-        <div className={`fixed bottom-20 sm:bottom-24 right-4 z-50 p-5 rounded-3xl shadow-2xl max-w-xs border-2 ${noFlash ? '' : 'animate-in slide-in-from-right duration-500'} ${isHighContrast ? 'bg-black border-white text-white' : 'bg-white border-slate-100 text-slate-800'}`} role="alert" aria-live="assertive">
+        <div className={`fixed bottom-20 sm:bottom-24 left-4 right-4 sm:left-auto sm:right-4 w-auto sm:w-full sm:max-w-xs z-50 p-4 sm:p-5 rounded-3xl shadow-2xl border-2 ${noFlash ? '' : 'animate-in slide-in-from-bottom sm:slide-in-from-right duration-500'} ${isHighContrast ? 'bg-black border-white text-white' : 'bg-white border-slate-100 text-slate-800'}`} role="alert" aria-live="assertive">
           <h4 className="font-black text-sm mb-1 flex items-center gap-2"><span aria-hidden="true">🌱</span> {t.pwaNewVersion || 'New version'}</h4>
           <p className={`text-xs font-medium mb-4 leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
             {t.pwaDescription || 'New content is available. Please update the app to get the latest offline changes.'}

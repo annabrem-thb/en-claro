@@ -668,9 +668,9 @@ function SettingsModal({
                   
                   {/* Voice Speed Slider */}
                   <div className={`${bigTargets ? 'p-6 sm:p-8' : 'p-4 sm:p-5'} rounded-2xl border-2 ${isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100'}`}>
-                    <div className="flex justify-between items-center mb-3">
-              <span className={`text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>{s.voiceSpeed}</span>
-              <span className={`text-xs font-black px-2 py-1 rounded-md ${isHighContrast ? 'text-black bg-white' : 'text-indigo-500 bg-indigo-100'}`}>{Number(voiceSpeed).toFixed(2)}x</span>
+                    <div className="flex justify-between items-center mb-3 gap-2 flex-wrap">
+              <span className={`text-xs font-black uppercase tracking-widest flex-1 min-w-0 break-words ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>{s.voiceSpeed}</span>
+              <span className={`text-xs font-black px-2 py-1 rounded-md shrink-0 ${isHighContrast ? 'text-black bg-white' : 'text-indigo-500 bg-indigo-100'}`}>{Number(voiceSpeed).toFixed(2)}x</span>
                     </div>
                     <input
                       type="range"
@@ -687,9 +687,9 @@ function SettingsModal({
                     </div>
                   
                   {/* Voice Pitch Slider */}
-                  <div className="flex justify-between items-center mb-3 mt-6">
-                    <span className={`text-xs font-black uppercase tracking-widest ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>{s.voicePitch || 'Pitch'}</span>
-                    <span className={`text-xs font-black px-2 py-1 rounded-md ${isHighContrast ? 'text-black bg-white' : 'text-indigo-500 bg-indigo-100'}`}>{Number(voicePitch).toFixed(2)}</span>
+                  <div className="flex justify-between items-center mb-3 mt-6 gap-2 flex-wrap">
+                    <span className={`text-xs font-black uppercase tracking-widest flex-1 min-w-0 break-words ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}>{s.voicePitch || 'Pitch'}</span>
+                    <span className={`text-xs font-black px-2 py-1 rounded-md shrink-0 ${isHighContrast ? 'text-black bg-white' : 'text-indigo-500 bg-indigo-100'}`}>{Number(voicePitch).toFixed(2)}</span>
                   </div>
                   <input
                     type="range"

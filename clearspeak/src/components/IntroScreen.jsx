@@ -76,7 +76,7 @@ function IntroScreen({ onStart, speak }) {
         </div>
       )}
       <span aria-hidden="true" className="text-lg sm:text-xl mb-0.5">{icon}</span>
-      <span className="text-center px-1"><BionicText text={label} enabled={hasBionic} /></span>
+      <span className="text-center px-1 break-words hyphens-auto w-full"><BionicText text={label} enabled={hasBionic} /></span>
     </button>
   );
 
@@ -170,7 +170,7 @@ function IntroScreen({ onStart, speak }) {
             <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center">
               <BionicText text={t('intro.a11y', 'Comfort Tools')} enabled={hasBionic} />
             </p>
-            <div className="grid grid-cols-3 gap-1 sm:gap-1.5 mb-2 sm:mb-3 w-full shrink-0">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1 sm:gap-1.5 mb-2 sm:mb-3 w-full shrink-0">
               <A11yBtn active={hasLRS} onClick={() => toggleAddon('LRS', t('intro.lrs', 'Friendly Font'))} icon="🅰️" label={t('intro.lrs', 'Friendly Font')} />
               <A11yBtn active={hasSpacing} onClick={() => toggleAddon('Spacing', t('intro.spacing', 'More Spacing'))} icon="🔠" label={t('intro.spacing', 'More Spacing')} />
               <A11yBtn active={hasVision} onClick={() => toggleAddon('Niedowidzenie', t('intro.vision', 'Bigger Text'))} icon="🔍" label={t('intro.vision', 'Bigger Text')} />

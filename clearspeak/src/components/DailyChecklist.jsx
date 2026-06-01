@@ -64,8 +64,8 @@ export default function DailyChecklist({ quests, t }) {
               </div>
               
               {/* Quest Details */}
-              <div className="flex-1 flex flex-col">
-                <span className={`text-base font-bold ${isCompleted ? (isHighContrast ? 'text-black' : 'text-white') : 'text-slate-800'}`}>
+              <div className="flex-1 flex flex-col min-w-0">
+                <span className={`text-base font-bold break-words hyphens-auto ${isCompleted ? (isHighContrast ? 'text-black' : 'text-white') : 'text-slate-800'}`}>
                   <BionicText text={t.questLabel ? t.questLabel(task.target, task.type, t.pillars) : `Complete ${task.target} ${task.type} tasks`} enabled={bionicReading} />
                 </span>
                 <span className={`text-xs font-black uppercase tracking-widest mt-1 ${labelColorClass}`}>

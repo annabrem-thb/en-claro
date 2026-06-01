@@ -57,7 +57,13 @@ export default function ProfileModal({ open, onClose }) {
     try {
       const logs = await getAllLogs('ux_logs');
       if (logs.length === 0) return;
-      const csvContent = "data:text/csv;charset=utf-8,Timestamp,Mental,Effort,Frustration\n" 
+      
+      const headerTimestamp = t.common?.date || 'Timestamp';
+      const headerMental = t.feedback?.nasa?.mental || 'Mental';
+      const headerEffort = t.feedback?.nasa?.effort || 'Effort';
+      const headerFrustration = t.feedback?.nasa?.frustration || 'Frustration';
+      
+      const csvContent = `data:text/csv;charset=utf-8,${headerTimestamp},${headerMental},${headerEffort},${headerFrustration}\n` 
         + logs.map(e => `${e.timestamp},${e.metrics?.mental || 0},${e.metrics?.effort || 0},${e.metrics?.frustration || 0}`).join("\n");
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
@@ -100,7 +106,10 @@ export default function ProfileModal({ open, onClose }) {
                     <PolarAngleAxis dataKey="subject" tick={{ fill: isHighContrast ? '#ffffff' : '#475569', fontSize: 11, fontWeight: 700 }} />
                     <PolarRadiusAxis angle={30} domain={[0, 5]} tick={{ fill: isHighContrast ? '#ffffff' : '#94a3b8' }} />
                     <Radar name="UX Metrics" dataKey="value" stroke={isHighContrast ? '#ffffff' : '#6366f1'} fill={isHighContrast ? '#ffffff' : '#6366f1'} fillOpacity={0.4} isAnimationActive={!settings.noFlash} />
-                    <Tooltip contentStyle={{ backgroundColor: isHighContrast ? '#000' : '#fff', borderColor: isHighContrast ? '#fff' : '#e2e8f0', color: isHighContrast ? '#fff' : '#000', borderRadius: '12px', fontWeight: 'bold' }} />
+                    <Tooltip 
+                      contentStyle={{ backgroundColor: isHighContrast ? '#000' : '#fff', borderColor: isHighContrast ? '#fff' : '#e2e8f0', color: isHighContrast ? '#fff' : '#000', borderRadius: '12px', fontWeight: 'bold', whiteSpace: 'normal', wordWrap: 'break-word' }} 
+                      wrapperStyle={{ zIndex: 100, maxWidth: '80vw', outline: 'none' }} 
+                    />
                   </RadarChart>
                 </ResponsiveContainer>
               </div>
