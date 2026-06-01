@@ -2,6 +2,10 @@ export default {
   // General & Navigation
   appTitle: "En Claro",
   introSubtitle: "Build your bridge to fluency.",
+  installApp: "Install App",
+  installAppDesc: "Download to your device for quick access and offline mode.",
+  installed: "Installed",
+  offlineMessage: "You are currently offline. Some features may be unavailable.",
 
   // Intro Screen
   intro: {
@@ -120,15 +124,15 @@ export default {
   a11yAddons: "Comfort personalization options",
   a11yAddonsDesc: "Choose any combination — customize the app to your needs",
   a11y: {
-    LRS: { name: 'Friendly font', desc: 'Font facilitating reading (OpenDyslexic)' },
-    Kontrast: { name: 'High contrast', desc: 'Black and white WCAG AAA colors' },
-    Motorik: { name: 'Comfortable buttons', desc: 'Enlarged buttons and calm animations' },
-    Niedowidzenie: { name: 'Larger text', desc: 'Enlarged font and icons' },
-    Daltonizm: { name: 'Safe colors', desc: 'Optimized, readable color palette' },
-    Redukcja: { name: 'Calm screen', desc: 'No flashing and distracting motion' },
-    Linijka: { name: 'Focus ruler', desc: 'Highlights a horizontal line under the cursor' },
-    Spacing: { name: 'Larger spacing', desc: 'Increases spacing between letters and words' },
-    Desaturacja: { name: 'Soft colors', desc: 'Reduces the saturation of bright colors' },
+    lrs: { name: 'Friendly font', desc: 'Font facilitating reading (OpenDyslexic)' },
+    contrast: { name: 'High contrast', desc: 'Black and white WCAG AAA colors' },
+    motor: { name: 'Comfortable buttons', desc: 'Enlarged buttons and calm animations' },
+    vision: { name: 'Larger text', desc: 'Enlarged font and icons' },
+    colors: { name: 'Safe colors', desc: 'Optimized, readable color palette' },
+    motion: { name: 'Calm screen', desc: 'No flashing and distracting motion' },
+    ruler: { name: 'Focus ruler', desc: 'Highlights a horizontal line under the cursor' },
+    spacing: { name: 'Larger spacing', desc: 'Increases spacing between letters and words' },
+    desaturation: { name: 'Soft colors', desc: 'Reduces the saturation of bright colors' },
   },
   inclusive: {
     adaptiveDifficulty: { name: 'Adaptive difficulty', desc: 'Game matches pace to the player' },
@@ -141,21 +145,23 @@ export default {
     bionicReading: { name: 'Bionic Reading', desc: 'Bolds word beginnings, helps focus eyes' },
     minimalistMode: { name: 'Minimalist view', desc: 'Hides decorative graphics and Lottie animations' },
     muteNotifications: { name: 'Mute notifications', desc: 'Disables success/error speech and game sounds' },
+    cognitiveBreaks: { name: 'Cognitive Breaks', desc: 'App suggests a break after a series of errors' },
   },
+  bionicExplanation: "Bionic Reading® is a typographic method that supports the reading flow.",
   profiles: {
-    Standard: { name: "Standard", desc: "Default view" },
-    LRS: { name: "Friendly font", desc: "Font facilitating reading" },
-    Kontrast: { name: "High Contrast", desc: "Better readability" },
-    Motorik: { name: "Comfortable buttons", desc: "Larger buttons and calm animations" },
-    Niedowidzenie: { name: "Larger text", desc: "Enlarged font and icons" },
-    Daltonizm: { name: "Safe colors", desc: "Optimized, readable color palette" },
-    Redukcja: { name: "Calm screen", desc: "No flashing, no distracting motion" },
-    Bionic: { name: "Bionic Reading", desc: "Bolds word beginnings" },
-    Linijka: { name: "Focus ruler", desc: "Highlights a horizontal line under the cursor" },
-    Spacing: { name: "Larger spacing", desc: "Increases spacing between letters and words" },
-    Desaturacja: { name: "Soft colors", desc: "Reduces the saturation of bright colors" }
+    standard: { name: "Standard", desc: "Default view" },
+    lrs: { name: "Friendly font", desc: "Font facilitating reading" },
+    contrast: { name: "High Contrast", desc: "Better readability" },
+    motor: { name: "Comfortable buttons", desc: "Larger buttons and calm animations" },
+    vision: { name: "Larger text", desc: "Enlarged font and icons" },
+    colors: { name: "Safe colors", desc: "Optimized, readable color palette" },
+    motion: { name: "Calm screen", desc: "No flashing, no distracting motion" },
+    bionic: { name: "Bionic Reading", desc: "Bolds word beginnings" },
+    ruler: { name: "Focus ruler", desc: "Highlights a horizontal line under the cursor" },
+    spacing: { name: "Larger spacing", desc: "Increases spacing between letters and words" },
+    desaturation: { name: "Soft colors", desc: "Reduces the saturation of bright colors" }
   },
-  accDescriptions: { Standard: "Default view", Kontrast: "High contrast mode", LRS: "Friendly font", Motorik: "Comfortable buttons" },
+  accDescriptions: { standard: "Default view", contrast: "High contrast mode", lrs: "Friendly font", motor: "Comfortable buttons" },
 
   // Gamification, Themes & Garden
   versionGamified: "GAMIFICATION",
@@ -205,28 +211,6 @@ export default {
   exportLogs: "Export data (CSV)",
   exportDesc: "Download NASA-TLX and UEQ survey results",
   noDataToExport: "No data to export",
-  feedback: {
-    title: "A moment of reflection",
-    desc: "How do you evaluate today's session? Your feedback helps us adapt the app to you.",
-    nasaTitle: "Workload (NASA-TLX)",
-    mental: "Mental effort",
-    mentalDesc: "How much thinking did the tasks require?",
-    physical: "Fatigue and effort",
-    physicalDesc: "How tired do you feel after this session?",
-    frustration: "Frustration level",
-    frustrationDesc: "Did you feel stressed or irritated during tasks?",
-    low: "Low",
-    high: "High",
-    ueqTitle: "Your impressions (UEQ-Short)",
-    ueqAttractiveness: "Attractiveness",
-    ueqAttrLeft: "Unpleasant",
-    ueqAttrRight: "Pleasant",
-    ueqStimulation: "Stimulation",
-    ueqStimLeft: "Boring",
-    ueqStimRight: "Interesting",
-    submit: "Save and continue",
-    skip: "Skip this time"
-  },
   mapTitle: "Challenge Map", choosePath: "Choose your path", nextLevel: "Next stage", lockedNode: "Locked", completedNode: "Completed", backToMap: "Back to map", energyTitle: "Cognitive Energy", breakTitle: "Time for a break?", breakDesc: "We noticed you're working intensively. Rest in the garden to regenerate and prevent fatigue.", breakTip: "Tip: Look away from the screen at something in the distance (preferably green) for at least 20 seconds.", takeBreakBtn: "Rest (+2 💰)", continueBtn: "Keep practicing", categorizeItems: "Categorize the items", allItemsPlaced: "All items placed", checkAnswers: "Check Answers",
   
   // Exercise Content
@@ -260,7 +244,7 @@ export default {
   commands: {
     next: ["next", "continue", "done", "forward"],
     check: ["check", "confirm", "submit"],
-    undo: ["undo", "back", "delete", "remove"],
+    undo: ["undo", "back", "delete", "remove", "revert"],
     skip: ["skip", "pass", "i don't know"],
     hint: ["hint", "help me", "help"]
   },
@@ -325,5 +309,12 @@ export default {
     },
     submit: "Save and continue",
     skip: "Skip this time"
+  },
+  realWorldImpact: {
+    title: "Your Impact",
+    desc: "Your progress supports real-world goals. Every 10 points contributes to one virtually planted tree.",
+    treesPlanted: "Trees Planted",
+    newTreeTitle: "New Tree! 🎉",
+    newTreeMsg: "Amazing! Your consistent learning helped us virtually plant another tree."
   }
 };

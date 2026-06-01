@@ -1,4 +1,4 @@
-name: Cypress E2E Tests
+name: E2E Tests (Playwright)
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  cypress-run:
+  playwright-run:
     runs-on: ubuntu-latest
     
     steps:
@@ -23,20 +23,16 @@ jobs:
       - name: Instalacja zależności
         run: npm ci
 
-      - name: Uruchomienie testów Cypress
-        uses: cypress-io/github-action@v6
-        with:
-          # Uruchom serwer developerski przed rozpoczęciem testów
-          start: npm run dev
-          # Poczekaj aż serwer będzie dostępny pod podanym adresem
-          wait-on: 'http://localhost:5173'
-          # Czas oczekiwania na uruchomienie serwera (w sekundach)
-          wait-on-timeout: 120
-          
-      - name: Archiwizacja nagrań z błędami (Zrzuty ekranu / Filmy)
+      - name: Instalacja przeglądarek dla Playwright
+        run: npx playwright install --with-deps
+
+      - name: Uruchomienie testów Playwright
+        run: npx playwright test
+
+      - name: Archiwizacja raportu Playwright
         uses: actions/upload-artifact@v4
-        if: failure()
+        if: always()
         with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-          if-no-files-found: ignore
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

@@ -3,7 +3,7 @@ import Lottie from 'lottie-react';
 
 import { WeeklyCalendar } from './WeeklyCalendar.jsx';
 import { getAllLogs } from '../utils/indexedDB.js';
-import BionicText from '../components/common/BionicText.jsx';
+import BionicText from './common/BionicText.jsx';
 
 function VirtualGarden({ 
   points, 

@@ -121,15 +121,15 @@ export default {
   a11yAddons: "Personalisierungsoptionen für Komfort",
   a11yAddonsDesc: "Wähle eine beliebige Kombination — passe die App an deine Bedürfnisse an",
   a11y: {
-    LRS: { name: 'Freundliche Schrift', desc: 'Lesefördernde Schrift (OpenDyslexic)' },
-    Kontrast: { name: 'Hoher Kontrast', desc: 'Schwarz-Weiß WCAG AAA Farben' },
-    Motorik: { name: 'Bequeme Tasten', desc: 'Vergrößerte Tasten und ruhige Animationen' },
-    Niedowidzenie: { name: 'Größerer Text', desc: 'Vergrößerte Schrift und Symbole' },
-    Daltonizm: { name: 'Sichere Farben', desc: 'Optimierte, lesbare Farbpalette' },
-    Redukcja: { name: 'Ruhiger Bildschirm', desc: 'Kein Flackern und keine ablenkenden Bewegungen' },
-    Linijka: { name: 'Fokus-Lineal', desc: 'Hebt eine horizontale Linie unter dem Cursor hervor' },
-    Spacing: { name: 'Größere Abstände', desc: 'Erhöht die Abstände zwischen Buchstaben und Wörtern' },
-    Desaturacja: { name: 'Sanfte Farben', desc: 'Reduziert die Sättigung heller Farben' },
+    lrs: { name: 'Freundliche Schrift', desc: 'Lesefördernde Schrift (OpenDyslexic)' },
+    contrast: { name: 'Hoher Kontrast', desc: 'Schwarz-Weiß WCAG AAA Farben' },
+    motor: { name: 'Bequeme Tasten', desc: 'Vergrößerte Tasten und ruhige Animationen' },
+    vision: { name: 'Größerer Text', desc: 'Vergrößerte Schrift und Symbole' },
+    colors: { name: 'Sichere Farben', desc: 'Optimierte, lesbare Farbpalette' },
+    motion: { name: 'Ruhiger Bildschirm', desc: 'Kein Flackern und keine ablenkenden Bewegungen' },
+    ruler: { name: 'Fokus-Lineal', desc: 'Hebt eine horizontale Linie unter dem Cursor hervor' },
+    spacing: { name: 'Größere Abstände', desc: 'Erhöht die Abstände zwischen Buchstaben und Wörtern' },
+    desaturation: { name: 'Sanfte Farben', desc: 'Reduziert die Sättigung heller Farben' },
   },
   inclusive: {
     adaptiveDifficulty: { name: 'Adaptive Schwierigkeit', desc: 'Spiel passt sich dem Tempo des Spielers an' },
@@ -142,21 +142,23 @@ export default {
     bionicReading: { name: 'Bionic Reading', desc: 'Fettet Wortanfänge, hilft den Augen beim Fokussieren' },
     minimalistMode: { name: 'Minimalistische Ansicht', desc: 'Blendet dekorative Grafiken und Animationen aus' },
     muteNotifications: { name: 'Benachrichtigungen stumm', desc: 'Deaktiviert Sprachausgabe und Spieltöne' },
+    cognitiveBreaks: { name: 'Kognitive Pausen', desc: 'App schlägt nach einer Fehlerreihe eine Pause vor' },
   },
+  bionicExplanation: "Bionic Reading® ist eine typografische Methode, die den Lesefluss unterstützt.",
   profiles: {
-    Standard: { name: "Standard", desc: "Standardansicht" },
-    LRS: { name: "Freundliche Schrift", desc: "Lesefördernde Schrift" },
-    Kontrast: { name: "Hoher Kontrast", desc: "Bessere Lesbarkeit" },
-    Motorik: { name: "Bequeme Tasten", desc: "Größere Tasten und ruhige Animationen" },
-    Niedowidzenie: { name: "Größerer Text", desc: "Vergrößerte Schrift und Symbole" },
-    Daltonizm: { name: "Sichere Farben", desc: "Optimierte, lesbare Farbpalette" },
-    Redukcja: { name: "Ruhiger Bildschirm", desc: "Kein Flackern, keine ablenkenden Bewegungen" },
-    Bionic: { name: "Bionic Reading", desc: "Fettet Wortanfänge" },
-    Linijka: { name: "Fokus-Lineal", desc: "Hebt eine horizontale Linie unter dem Cursor hervor" },
-    Spacing: { name: "Größere Abstände", desc: "Erhöht die Abstände zwischen Buchstaben und Wörtern" },
-    Desaturacja: { name: "Sanfte Farben", desc: "Reduziert die Sättigung heller Farben" }
+    standard: { name: "Standard", desc: "Standardansicht" },
+    lrs: { name: "Freundliche Schrift", desc: "Lesefördernde Schrift" },
+    contrast: { name: "Hoher Kontrast", desc: "Bessere Lesbarkeit" },
+    motor: { name: "Bequeme Tasten", desc: "Größere Tasten und ruhige Animationen" },
+    vision: { name: "Größerer Text", desc: "Vergrößerte Schrift und Symbole" },
+    colors: { name: "Sichere Farben", desc: "Optimierte, lesbare Farbpalette" },
+    motion: { name: "Ruhiger Bildschirm", desc: "Kein Flackern, keine ablenkenden Bewegungen" },
+    bionic: { name: "Bionic Reading", desc: "Fettet Wortanfänge" },
+    ruler: { name: "Fokus-Lineal", desc: "Hebt eine horizontale Linie unter dem Cursor hervor" },
+    spacing: { name: "Größere Abstände", desc: "Erhöht die Abstände zwischen Buchstaben und Wörtern" },
+    desaturation: { name: "Sanfte Farben", desc: "Reduziert die Sättigung heller Farben" }
   },
-  accDescriptions: { Standard: "Standardansicht", Kontrast: "Hoher Kontrast Modus", LRS: "Freundliche Schrift", Motorik: "Bequeme Tasten" },
+  accDescriptions: { standard: "Standardansicht", contrast: "Hoher Kontrast Modus", lrs: "Freundliche Schrift", motor: "Bequeme Tasten" },
 
   // Gamification, Themen & Garten
   versionGamified: "GAMIFICATION",
@@ -244,7 +246,7 @@ export default {
   
   // Übungsinhalte
   pillars: { Literacy: "Lesen und Schreiben", Visual: "Sehen und Raum", Cognitive: "Logik und Gedächtnis" },
-  pillarIcons: { Literacy: '📖', Visual: '👁️', Cognitive: '' },
+  pillarIcons: { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' },
   categories: { Phonem: "Wort: Laute", Syllable: "Wort: Silben", Context: "Text: Lesen", Graphem: "Schreiben: Regeln", Scrabble: "Schreiben: Synthese", LCWC: "Schreiben: Gedächtnis", Dictation: "Schreiben: Diktate", Tracking: "Sehen: Verfolgung", Clock: "Sehen: Uhr", Categorization: "Logik: Kategorien", Sequence: "Logik: Sequenzen" },
   difficulty: "Schwierigkeitsgrad",
   diffLevels: ["Einfach", "Mittel", "Schwer"],
@@ -260,6 +262,10 @@ export default {
   tags: { kontrast: "kontrast", wzrok: "sehen", motor: "motor", dotyk: "berührung", zoom: "zoom", kolor: "farbe", ruch: "bewegung", epilepsja: "epilepsie", linijka: "fokus" },
 
   // PWA & UI
+  installApp: "App installieren",
+  installAppDesc: "Lade die App für schnellen Zugriff und Offline-Modus herunter.",
+  installed: "Installiert",
+  offlineMessage: "Du bist derzeit offline. Einige Funktionen sind möglicherweise nicht verfügbar.",
   pwaNewVersion: "Neue Version",
   pwaDescription: "Neuer Inhalt ist verfügbar. Aktualisiere die App, um die neuesten Änderungen herunterzuladen.",
   pwaUpdate: "Aktualisieren",
@@ -273,7 +279,7 @@ export default {
   commands: {
     next: ["weiter", "nächste", "fortfahren", "fertig"],
     check: ["prüfen", "bestätigen"],
-    undo: ["rückgängig", "zurück", "löschen"],
+    undo: ["rückgängig", "zurück", "löschen", "wiederherstellen"],
     skip: ["überspringen", "weiß nicht"],
     hint: ["hinweis", "hilf mir", "hilfe"]
   },
@@ -304,5 +310,12 @@ export default {
       manageable: { label: "Genau richtig", desc: "Ich mache Fortschritte" },
       easy: { label: "Einfach", desc: "Ich fühle mich sicher" }
     }
+  },
+  realWorldImpact: {
+    title: "Dein Einfluss",
+    desc: "Dein Fortschritt unterstützt reale Ziele. Alle 10 Punkte tragen zu einem virtuell gepflanzten Baum bei.",
+    treesPlanted: "Gepflanzte Bäume",
+    newTreeTitle: "Neuer Baum! 🎉",
+    newTreeMsg: "Erstaunlich! Dein stetiges Lernen hat uns geholfen, virtuell einen weiteren Baum zu pflanzen."
   }
 };

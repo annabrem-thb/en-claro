@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import AccessibleTTS from './common/AccessibleTTS.jsx';
 import { CognitiveEnergyIndicator } from './CognitiveEnergyIndicator.jsx';
 
@@ -18,6 +18,7 @@ const SidebarNav = memo(function SidebarNav({
   bigTargets,
   hideNavLabel,
   setSettingsOpen,
+  setProfileOpen,
   t,
   coins,
   loadLevel,
@@ -26,6 +27,45 @@ const SidebarNav = memo(function SidebarNav({
   noFlash
 }) {
   const animClass = noFlash ? '' : 'animate-in fade-in slide-in-from-bottom-12 md:slide-in-from-bottom-0 md:slide-in-from-left-12 duration-700 ease-out';
+
+  // ─── PWA Install Prompt Logic ───────────────────────────────────────────
+  const [installPrompt, setInstallPrompt] = useState(null);
+  const [isInstalled, setIsInstalled] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsInstalled(true);
+    }
+
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+
+    const handleAppInstalled = () => {
+      setIsInstalled(true);
+      setInstallPrompt(null);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const { outcome } = await installPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setInstallPrompt(null);
+    }
+  };
 
   return (
     <aside className={`w-full md:w-60 flex flex-row md:flex-col shrink-0 min-h-0 z-40 order-last md:order-first ${animClass} ${isHighContrast ? 'bg-black border-t md:border-t-0 md:border-r border-white/20 shadow-sm' : `bg-[#fdfaf6] border-t md:border-t-0 md:border-r ${themeStyles.border} shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)] md:shadow-xl md:shadow-slate-200/50`}`}>
@@ -109,10 +149,45 @@ const SidebarNav = memo(function SidebarNav({
           </div>
         )}
 
+        {!isInstalled && installPrompt && (
+          <button
+            onClick={handleInstallClick}
+            title={t.installApp || 'Install App'}
+            className={`group flex flex-col md:flex-row items-center justify-center md:justify-start ${isGamified ? 'mt-2 md:mt-0' : 'md:mt-auto'} gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-500 text-white hover:bg-indigo-400 shadow-md'}`}
+            aria-label={t.installApp || 'Install App'}
+          >
+            <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">📱</span>
+            {!hideNavLabel && (
+              <AccessibleTTS text={t.installApp || 'Install App'} speak={speak} language={language} className={`flex md:flex min-w-0 ${isHighContrast ? 'text-black' : 'text-white'}`}>
+                <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider truncate max-w-full">{t.installApp || 'Install App'}</span>
+              </AccessibleTTS>
+            )}
+          </button>
+        )}
+
+        <button
+          onClick={() => setProfileOpen(true)}
+          title="Shortcut: Ctrl + P"
+          className={`group flex flex-col md:flex-row items-center justify-center md:justify-start ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 md:mt-0' : 'md:mt-auto'} gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
+          aria-label={t.profile || 'Profile'}
+        >
+          <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">👤</span>
+          {!hideNavLabel && (
+            <>
+              <AccessibleTTS text={t.profile || 'Profile'} speak={speak} language={language} className="flex md:flex min-w-0">
+                <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider truncate max-w-full">{t.profile || 'Profile'}</span>
+              </AccessibleTTS>
+              <span className={`hidden lg:block shrink-0 ml-auto text-[10px] font-mono font-bold tracking-tighter transition-opacity opacity-0 group-hover:opacity-40`} aria-hidden="true">
+                ^ P
+              </span>
+            </>
+          )}
+        </button>
+
         <button
           onClick={() => setSettingsOpen(true)}
           title="Shortcut: Ctrl + ,"
-          className={`group flex flex-col md:flex-row items-center justify-center md:justify-start ${isGamified ? 'mt-2 md:mt-0' : 'md:mt-auto'} gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
+          className={`group flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 flex-1 md:flex-none ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
           aria-label={s.settingsAria}
         >
           <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">⚙️</span>

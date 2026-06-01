@@ -1,9 +1,10 @@
 {
-  "appTitle": "Claro",
+  "appTitle": "EnClaro",
   "introSubtitle": "Baue deine Brücke zur Sprachkompetenz.",
   "installApp": "App installieren",
-  "installAppDesc": "Laden Sie die App herunter, um schnellen Zugriff und einen Offline-Modus zu erhalten.",
+  "installAppDesc": "Lade die App für schnellen Zugriff und Offline-Modus herunter.",
   "installed": "Installiert",
+  "offlineMessage": "Du bist derzeit offline. Einige Funktionen sind möglicherweise nicht verfügbar.",
   "intro": {
     "subtitle": "Dein sicherer Raum zum Wachsen! Wähle Modus und Werkzeuge:",
     "chooseLanguage": "Sprache",
@@ -11,19 +12,19 @@
     "modeClassic": "Nur lernen",
     "modeGamified": "Spiel (Belohnungen)",
     "a11y": "Komfort-Tools",
-    "lrs": "Klare Schrift",
+    "lrs": "Freundliche Schrift",
     "contrast": "Kontrast",
     "vision": "Größerer Text",
-    "big": "Komfort-Tasten",
-    "spacing": "Mehr Abstand",
+    "big": "Bequeme Tasten",
+    "spacing": "Größere Abstände",
     "ruler": "Fokus-Lineal",
     "color": "Sichere Farben",
     "motion": "Ruhiger Bildschirm",
     "desaturation": "Sanfte Farben",
     "bionic": "Bionic",
-    "voice": "Assistent",
+    "voice": "Sprachassistent",
     "zen": "Zen-Modus",
-    "browserWarning": "Für die beste Qualität des Sprachassistenten empfehlen wir die Nutzung von Google Chrome."
+    "browserWarning": "Für die beste Qualität des Sprachassistenten empfehlen wir die Verwendung von Google Chrome."
   },
   "start": "Start",
   "done": "Fertig",
@@ -108,7 +109,7 @@
   "ttsSettingsAria": "TTS-Einstellungen",
   "settings": "Einstellungen",
   "settingsTitle": "Einstellungen",
-  "settingsSubtitle": "Claro · Zugängliche Gamification",
+  "settingsSubtitle": "EnClaro · Zugängliche Gamification",
   "settingsBack": "← Zurück",
   "settingsTheme": "Thema",
   "settingsAccessibility": "Komfortoptionen",
@@ -119,7 +120,7 @@
   "tabShop": "Shop",
   "tabGame": "Spiel",
   "textSize": "Textgröße",
-  "textSizeDesc": "Passe die Schriftgröße an deine Bedürfnisse an",
+  "textSizeDesc": "Passe die Schriftgröße an deine Lesepräferenzen an",
   "language": "Sprache",
   "languageLabel": "Oberflächensprache",
   "appMode": "App-Modus",
@@ -132,39 +133,39 @@
   "a11yAddons": "Personalisierungsoptionen für Komfort",
   "a11yAddonsDesc": "Wähle eine beliebige Kombination — passe die App an deine Bedürfnisse an",
   "a11y": {
-    "LRS": {
+    "lrs": {
       "name": "Freundliche Schrift",
       "desc": "Lesefördernde Schrift (OpenDyslexic)"
     },
-    "Kontrast": {
+    "contrast": {
       "name": "Hoher Kontrast",
       "desc": "Schwarz-Weiß WCAG AAA Farben"
     },
-    "Motorik": {
+    "motor": {
       "name": "Bequeme Tasten",
       "desc": "Vergrößerte Tasten und ruhige Animationen"
     },
-    "Niedowidzenie": {
+    "vision": {
       "name": "Größerer Text",
       "desc": "Vergrößerte Schrift und Symbole"
     },
-    "Daltonizm": {
+    "colors": {
       "name": "Sichere Farben",
       "desc": "Optimierte, lesbare Farbpalette"
     },
-    "Redukcja": {
+    "motion": {
       "name": "Ruhiger Bildschirm",
       "desc": "Kein Flackern und keine ablenkenden Bewegungen"
     },
-    "Linijka": {
+    "ruler": {
       "name": "Fokus-Lineal",
       "desc": "Hebt eine horizontale Linie unter dem Cursor hervor"
     },
-    "Spacing": {
+    "spacing": {
       "name": "Größere Abstände",
       "desc": "Erhöht die Abstände zwischen Buchstaben und Wörtern"
     },
-    "Desaturacja": {
+    "desaturation": {
       "name": "Sanfte Farben",
       "desc": "Reduziert die Sättigung heller Farben"
     }
@@ -211,61 +212,62 @@
       "desc": "Deaktiviert Sprachausgabe und Spieltöne"
     },
     "cognitiveBreaks": {
-      "name": "Pausen-Erinnerungen",
-      "desc": "Die App schlägt nach einer Reihe von Fehlern eine Pause vor"
+      "name": "Kognitive Pausen",
+      "desc": "App schlägt nach einer Fehlerreihe eine Pause vor"
     }
   },
+  "bionicExplanation": "Bionic Reading® ist eine typografische Methode, die den Lesefluss unterstützt.",
   "profiles": {
-    "Standard": {
+    "standard": {
       "name": "Standard",
       "desc": "Standardansicht"
     },
-    "LRS": {
+    "lrs": {
       "name": "Freundliche Schrift",
       "desc": "Lesefördernde Schrift"
     },
-    "Kontrast": {
+    "contrast": {
       "name": "Hoher Kontrast",
       "desc": "Bessere Lesbarkeit"
     },
-    "Motorik": {
+    "motor": {
       "name": "Bequeme Tasten",
       "desc": "Größere Tasten und ruhige Animationen"
     },
-    "Niedowidzenie": {
+    "vision": {
       "name": "Größerer Text",
       "desc": "Vergrößerte Schrift und Symbole"
     },
-    "Daltonizm": {
+    "colors": {
       "name": "Sichere Farben",
       "desc": "Optimierte, lesbare Farbpalette"
     },
-    "Redukcja": {
+    "motion": {
       "name": "Ruhiger Bildschirm",
       "desc": "Kein Flackern, keine ablenkenden Bewegungen"
     },
-    "Bionic": {
+    "bionic": {
       "name": "Bionic Reading",
       "desc": "Fettet Wortanfänge"
     },
-    "Linijka": {
+    "ruler": {
       "name": "Fokus-Lineal",
       "desc": "Hebt eine horizontale Linie unter dem Cursor hervor"
     },
-    "Spacing": {
+    "spacing": {
       "name": "Größere Abstände",
       "desc": "Erhöht die Abstände zwischen Buchstaben und Wörtern"
     },
-    "Desaturacja": {
+    "desaturation": {
       "name": "Sanfte Farben",
       "desc": "Reduziert die Sättigung heller Farben"
     }
   },
   "accDescriptions": {
-    "Standard": "Standardansicht",
-    "Kontrast": "Hoher Kontrast Modus",
-    "LRS": "Freundliche Schrift",
-    "Motorik": "Bequeme Tasten"
+    "standard": "Standardansicht",
+    "contrast": "Hoher Kontrast Modus",
+    "lrs": "Freundliche Schrift",
+    "motor": "Bequeme Tasten"
   },
   "versionGamified": "GAMIFICATION",
   "versionGamifiedSub": "Punkte und Belohnungen",
@@ -478,7 +480,6 @@
   "energyTitle": "Kognitive Energie",
   "breakTitle": "Zeit für eine Pause?",
   "breakDesc": "Wir haben bemerkt, dass du intensiv arbeitest. Ruhe dich im Garten aus, um dich zu regenerieren.",
-  "breakTip": "Tipp: Schauen Sie vom Bildschirm weg und in die Ferne (am besten auf etwas Grünes) für mindestens 20 Sekunden.",
   "takeBreakBtn": "Ausruhen (+2 💰)",
   "continueBtn": "Weiter üben",
   "pillars": {
@@ -566,10 +567,6 @@
   "tapAndPronounce": "Tippen und das Wort aussprechen",
   "skipPronunciation": "Ausspracheprüfung überspringen",
   "readSentenceAndOptions": "Satz und Optionen lesen",
-  "pressKey": "Drücken",
-  "or": "oder",
-  "toContinue": "um fortzufahren",
-  "toSkip": "um zu überspringen",
   "thesisInfo": "Masterarbeit\nZugängliche Gamification und Sprachintegration\nin einer PWA zur Unterstützung von logopädischen Übungen\nfür Personen mit Legasthenie",
   "tags": {
     "kontrast": "kontrast",
@@ -586,7 +583,6 @@
   "pwaDescription": "Neuer Inhalt ist verfügbar. Aktualisiere die App, um die neuesten Änderungen herunterzuladen.",
   "pwaUpdate": "Aktualisieren",
   "pwaLater": "Später",
-  "offlineMessage": "Sie sind derzeit offline. Einige Funktionen sind möglicherweise nicht verfügbar.",
   "showOriginal": "Original anzeigen",
   "simplifyText": "Text vereinfachen ✨",
   "prevPage": "← Zurück",
@@ -605,7 +601,8 @@
     "undo": [
       "rückgängig",
       "zurück",
-      "löschen"
+      "löschen",
+      "wiederherstellen"
     ],
     "skip": [
       "überspringen",
@@ -672,34 +669,34 @@
     "close": "Schließen"
   },
   "errors": {
-    "network": "Netzwerkverbindung fehlgeschlagen. Bitte versuchen Sie es erneut.",
-    "unauthorized": "Sie sind nicht berechtigt, diese Seite anzuzeigen.",
-    "timeout": "Zeitüberschreitung der Anforderung."
+    "network": "Netzwerkverbindung fehlgeschlagen. Bitte versuche es erneut.",
+    "unauthorized": "Du bist nicht berechtigt, diese Seite anzuzeigen.",
+    "timeout": "Die Anfrage hat das Zeitlimit überschritten."
   },
   "survey": {
     "susTitle": "System Usability Scale (SUS)",
     "susAnchors": {
-      "stronglyDisagree": "Stimme gar nicht zu",
-      "stronglyAgree": "Stimme voll zu"
+      "stronglyDisagree": "Stimme überhaupt nicht zu",
+      "stronglyAgree": "Stimme voll und ganz zu"
     },
     "sus": {
-      "q01": "Ich denke, dass ich das System gerne häufig benutzen würde.",
+      "q01": "Ich denke, dass ich dieses System häufig nutzen möchte.",
       "q02": "Ich fand das System unnötig komplex.",
-      "q03": "Ich fand das System einfach zu benutzen.",
-      "q04": "Ich glaube, ich würde die Hilfe einer technisch versierten Person benötigen, um das System benutzen zu können.",
-      "q05": "Ich fand, die verschiedenen Funktionen in diesem System waren gut integriert.",
-      "q06": "Ich denke, das System enthielt zu viele Inkonsistenzen.",
-      "q07": "Ich kann mir vorstellen, dass die meisten Leute den Umgang mit diesem System sehr schnell erlernen.",
-      "q08": "Ich fand das System sehr umständlich zu nutzen.",
-      "q09": "Ich fühlte mich bei der Benutzung des Systems sehr sicher.",
-      "q10": "Ich musste eine Menge lernen, bevor ich anfangen konnte, das System zu verwenden."
+      "q03": "Ich fand das System einfach zu bedienen.",
+      "q04": "Ich denke, dass ich die Unterstützung einer technischen Person benötigen würde, um dieses System nutzen zu können.",
+      "q05": "Ich fand die verschiedenen Funktionen in diesem System gut integriert.",
+      "q06": "Ich fand, dass es in diesem System zu viele Inkonsistenzen gab.",
+      "q07": "Ich kann mir vorstellen, dass die meisten Leute sehr schnell lernen würden, dieses System zu bedienen.",
+      "q08": "Ich fand das System sehr umständlich zu bedienen.",
+      "q09": "Ich fühlte mich bei der Nutzung des Systems sehr sicher.",
+      "q10": "Ich musste viele Dinge lernen, bevor ich mit diesem System loslegen konnte."
     }
   },
   "realWorldImpact": {
     "title": "Dein Einfluss",
-    "desc": "Dein Fortschritt unterstützt reale Ziele. Alle 10 Punkte bedeuten einen virtuell gepflanzten Baum.",
+    "desc": "Dein Fortschritt unterstützt reale Ziele. Alle 10 Punkte tragen zu einem virtuell gepflanzten Baum bei.",
     "treesPlanted": "Gepflanzte Bäume",
     "newTreeTitle": "Neuer Baum! 🎉",
-    "newTreeMsg": "Erstaunlich! Durch beständiges Lernen haben wir virtuell einen weiteren Baum gepflanzt."
+    "newTreeMsg": "Erstaunlich! Dein stetiges Lernen hat uns geholfen, virtuell einen weiteren Baum zu pflanzen."
   }
 }

@@ -5,7 +5,7 @@ export const wordDatabasePL = {
       word: 'Chrząszcz',
       difficulty: 3,
       phonetic: '/ xʂɔ̃ʂt͡ʂ /',
-      hints: {
+      hint: {
         pl: 'Drobny owad z twardymi pokrywami skrzydeł',
         en: 'Beetle — famous Polish tongue twister',
         de: 'Käfer — bekannter polnischer Zungenbrecher',
@@ -16,7 +16,7 @@ export const wordDatabasePL = {
       word: 'Szczegół',
       difficulty: 1,
       phonetic: '/ ˈʂt͡ʂɛ.ɡuw /',
-      hints: {
+      hint: {
         pl: 'Drobna, ale ważna informacja lub element całości',
         en: 'Detail — a small but important piece of information',
         de: 'Detail — ein kleines, aber wichtiges Merkmal',
@@ -27,7 +27,7 @@ export const wordDatabasePL = {
       word: 'Źródło',
       difficulty: 1,
       phonetic: '/ ˈʑrud.wɔ /',
-      hints: {
+      hint: {
         pl: 'Pierwotne miejsce wypływu wody lub pochodzenia informacji',
         en: 'Source — origin of water or information',
         de: 'Quelle — Herkunft von Wasser oder Information',
@@ -38,7 +38,7 @@ export const wordDatabasePL = {
       word: 'Gwóźdź',
       difficulty: 2,
       phonetic: '/ ɡvuɕd͡ʑ /',
-      hints: {
+      hint: {
         pl: 'Metalowy sztyft wbijany w drewno lub ścianę',
         en: 'Nail — metal fastener hammered into wood or wall',
         de: 'Nagel — Metallstift, der in Holz oder Wand getrieben wird',
@@ -49,7 +49,7 @@ export const wordDatabasePL = {
       word: 'Przestrzeń',
       difficulty: 1,
       phonetic: '/ ˈpʂɛst.ʂɛɲ /',
-      hints: {
+      hint: {
         pl: 'Nieograniczony obszar lub wolne miejsce w pomieszczeniu',
         en: 'Space — unlimited area or empty room',
         de: 'Raum — unbegrenzter Bereich oder leeres Zimmer',
@@ -60,7 +60,7 @@ export const wordDatabasePL = {
       word: 'Właściciel',
       difficulty: 2,
       phonetic: '/ vwaˈɕt͡ɕi.t͡ɕɛl /',
-      hints: {
+      hint: {
         pl: 'Osoba będąca prawnym posiadaczem nieruchomości lub firmy',
         en: 'Owner — legal possessor of property or business',
         de: 'Eigentümer — rechtmäßiger Besitzer von Immobilien oder Unternehmen',
@@ -71,7 +71,7 @@ export const wordDatabasePL = {
       word: 'Przyszłość',
       difficulty: 1,
       phonetic: '/ ˈpʂɨʂ.wɔɕt͡ɕ /',
-      hints: {
+      hint: {
         pl: 'Czas, który jeszcze przed nami; perspektywy na jutro',
         en: 'Future — time still ahead of us',
         de: 'Zukunft — die vor uns liegende Zeit',
@@ -82,7 +82,7 @@ export const wordDatabasePL = {
       word: 'Bezwzględny',
       difficulty: 3,
       phonetic: '/ bɛzˈvzɡlɛnd.nɨ /',
-      hints: {
+      hint: {
         pl: 'Surowy, niepodatny na litość ani wyjątki',
         en: 'Ruthless — strict, allowing no mercy or exceptions',
         de: 'Rücksichtslos — streng, keine Gnade kennend',
@@ -94,7 +94,7 @@ export const wordDatabasePL = {
       difficulty: 2,
       tags: ['business'],
       phonetic: '/ vɨ.na.ɡrɔˈd͡zɛ.ɲɛ /',
-      hints: {
+      hint: {
         pl: 'Pieniądze wypłacane pracownikowi za wykonywaną pracę',
         en: 'Salary — money paid to an employee for work',
         de: 'Gehalt — Geld, das einem Arbeitnehmer für Arbeit gezahlt wird',
@@ -105,7 +105,7 @@ export const wordDatabasePL = {
       word: 'Zaangażowanie',
       difficulty: 2,
       phonetic: '/ za.an.ɡaˈʐɔ.va.ɲɛ /',
-      hints: {
+      hint: {
         pl: 'Silne poświęcenie się sprawie, projektowi lub osobie',
         en: 'Commitment — strong dedication to a cause or project',
         de: 'Engagement — starke Hingabe an eine Sache oder Person',
@@ -116,7 +116,7 @@ export const wordDatabasePL = {
       word: 'Dżdżownica',
       difficulty: 3,
       phonetic: '/ d͡ʐd͡ʐɔvˈɲi.t͡sa /',
-      hints: {
+      hint: {
         pl: 'Pożyteczny pierścienica żyjąca w glebie',
         en: 'Earthworm — useful annelid living in the soil',
         de: 'Regenwurm — nützlicher Ringelwurm im Boden',
@@ -127,7 +127,7 @@ export const wordDatabasePL = {
       word: 'Pszczoła',
       difficulty: 2,
       phonetic: '/ ˈpʂt͡ʂɔ.wa /',
-      hints: {
+      hint: {
         pl: 'Owad produkujący miód',
         en: 'Bee — honey-producing insect',
         de: 'Biene — honigproduzierendes Insekt',
@@ -138,7 +138,7 @@ export const wordDatabasePL = {
       word: 'Szczęście',
       difficulty: 2,
       phonetic: '/ ˈʂt͡ʂɛɲ.ɕt͡ɕɛ /',
-      hints: {
+      hint: {
         pl: 'Stan zadowolenia i radości z życia',
         en: 'Happiness — a state of joy and contentment',
         de: 'Glück — ein Zustand der Freude und Zufriedenheit',
@@ -149,7 +149,7 @@ export const wordDatabasePL = {
       word: 'Skrzypce',
       difficulty: 3,
       phonetic: '/ ˈskʂɨp.t͡sɛ /',
-      hints: {
+      hint: {
         pl: 'Smyczkowy instrument muzyczny z czterema strunami',
         en: 'Violin — a four-stringed bowed instrument',
         de: 'Geige — ein viersaitiges Streichinstrument',
@@ -160,7 +160,7 @@ export const wordDatabasePL = {
       word: 'Przełożony',
       difficulty: 2,
       phonetic: '/ pʂɛˈwɔ.ʐɔ.nɨ /',
-      hints: {
+      hint: {
         pl: 'Osoba stojąca wyżej w hierarchii służbowej',
         en: 'Supervisor — a person higher in the work hierarchy',
         de: 'Vorgesetzter — eine Person höher in der beruflichen Hierarchie',
@@ -171,7 +171,7 @@ export const wordDatabasePL = {
       word: 'Zobowiązanie',
       difficulty: 2,
       phonetic: '/ zɔ.bɔ.vjɔ̃ˈza.ɲɛ /',
-      hints: {
+      hint: {
         pl: 'Obietnica lub obowiązek prawny, który należy wypełnić',
         en: 'Obligation — a promise or legal duty to fulfil',
         de: 'Verpflichtung — eine Zusage oder rechtliche Pflicht',
@@ -182,7 +182,7 @@ export const wordDatabasePL = {
       word: 'Współcześnie',
       difficulty: 3,
       phonetic: '/ ˈfspuw.t͡ʂɛ.ɲɛ /',
-      hints: {
+      hint: {
         pl: 'W dzisiejszych czasach; w obecnej epoce',
         en: 'Nowadays — in the current era or times',
         de: 'Heutzutage — in der gegenwärtigen Zeit',
@@ -193,7 +193,7 @@ export const wordDatabasePL = {
       word: 'Grzeczność',
       difficulty: 2,
       phonetic: '/ ˈɡʐɛt͡ʂnɔɕt͡ɕ /',
-      hints: {
+      hint: {
         pl: 'Dobre zachowanie, uprzejmość wobec innych',
         en: 'Politeness — good manners and courtesy towards others',
         de: 'Höflichkeit — gutes Benehmen und Freundlichkeit',
@@ -204,7 +204,7 @@ export const wordDatabasePL = {
       word: 'Odpowiedzialność',
       difficulty: 3,
       phonetic: '/ ɔt.pɔ.vjɛˈd͡ʑal.nɔɕt͡ɕ /',
-      hints: {
+      hint: {
         pl: 'Obowiązek ponoszenia konsekwencji swoich działań',
         en: 'Responsibility — the duty to bear the consequences of one\'s actions',
         de: 'Verantwortlichkeit — die Pflicht, die Konsequenzen des eigenen Handelns zu tragen',
@@ -215,7 +215,7 @@ export const wordDatabasePL = {
       word: 'Niespodziewany',
       difficulty: 2,
       phonetic: '/ ɲɛ.spɔ.d͡ʑɛˈva.nɨ /',
-      hints: {
+      hint: {
         pl: 'Taki, którego się nie spodziewano; zaskakujący',
         en: 'Unexpected — surprising, not anticipated',
         de: 'Unerwartet — überraschend, nicht vorhergesehen',
@@ -226,7 +226,7 @@ export const wordDatabasePL = {
       word: 'Drożdże',
       difficulty: 2,
       phonetic: '/ ˈdrɔʐ.d͡ʐɛ /',
-      hints: {
+      hint: {
         pl: 'Służą do wypieku ciasta',
         en: 'Yeast — used for baking',
         de: 'Hefe — zum Backen verwendet',
@@ -237,7 +237,7 @@ export const wordDatabasePL = {
       word: 'Hrabia',
       difficulty: 3,
       phonetic: '/ ˈxra.bja /',
-      hints: {
+      hint: {
         pl: 'Tytuł szlachecki',
         en: 'Count / Earl — a noble title',
         de: 'Graf — ein Adelstitel',
@@ -250,7 +250,7 @@ export const wordDatabasePL = {
       id: 1,
       difficulty: 1,
       focus: 'ó wymienne na o',
-      questions: {
+      question: {
         pl: 'Które słowo ma ó wymieniające się na o w innej formie?',
         en: "Which word's 'ó' alternates with 'o' in another grammatical form?",
         de: "Bei welchem Wort wechselt 'ó' zu 'o' in einer anderen Form?",
@@ -266,7 +266,7 @@ export const wordDatabasePL = {
       id: 2,
       difficulty: 2,
       focus: 'ó niewymienne (wyjątek)',
-      questions: {
+      question: {
         pl: 'Które ó NIGDY nie wymienia się na o ani e w żadnej formie?',
         en: "Which 'ó' NEVER changes to 'o' or 'e' in any grammatical form?",
         de: "Welches 'ó' wechselt in KEINER Form zu 'o' oder 'e'?",
@@ -282,7 +282,7 @@ export const wordDatabasePL = {
       id: 3,
       focus: 'rz po spółgłosce p',
       difficulty: 1,
-      questions: {
+      question: {
         pl: 'Po spółgłosce p zawsze piszemy rz (nie ż). Które słowo jest poprawne?',
         en: "After consonant 'p' we always write 'rz'. Which spelling is correct?",
         de: "Nach dem Konsonanten 'p' schreibt man immer 'rz'. Welche Schreibweise ist korrekt?",
@@ -298,7 +298,7 @@ export const wordDatabasePL = {
       id: 4,
       difficulty: 1,
       focus: 'rz po spółgłosce b',
-      questions: {
+      question: {
         pl: 'Po spółgłosce b zawsze piszemy rz. Które słowo jest poprawne?',
         en: "After consonant 'b' we always write 'rz'. Which is correct?",
         de: "Nach dem Konsonanten 'b' schreibt man immer 'rz'. Welches ist korrekt?",
@@ -314,7 +314,7 @@ export const wordDatabasePL = {
       id: 5,
       difficulty: 2,
       focus: 'ż wymienne na g',
-      questions: {
+      question: {
         pl: 'Które ż wymienia się na g w innej formie wyrazu?',
         en: "Which 'ż' alternates with 'g' in a related word form?",
         de: "Welches 'ż' wechselt mit 'g' in einer verwandten Wortform?",
@@ -330,7 +330,7 @@ export const wordDatabasePL = {
       id: 6,
       difficulty: 2,
       focus: 'h w zapożyczeniach (hierarchia, historia, humor)',
-      questions: {
+      question: {
         pl: 'Które słowo obcego pochodzenia piszemy przez h (nie ch)?',
         en: "Which word of foreign origin is written with 'h' (not 'ch')?",
         de: "Welches Fremdwort schreibt man mit 'h' (nicht 'ch')?",
@@ -346,7 +346,7 @@ export const wordDatabasePL = {
       id: 7,
       difficulty: 1,
       focus: 'nie z czasownikiem — piszemy osobno',
-      questions: {
+      question: {
         pl: 'Nie z czasownikiem piszemy zawsze oddzielnie. Które jest poprawne?',
         en: "'Nie' before a verb is always written as a separate word. Which is correct?",
         de: "'Nie' vor einem Verb schreibt man immer getrennt. Welches ist korrekt?",
@@ -362,7 +362,7 @@ export const wordDatabasePL = {
       id: 8,
       difficulty: 1,
       focus: 'nie z przymiotnikiem — piszemy razem',
-      questions: {
+      question: {
         pl: 'Nie z przymiotnikiem piszemy łącznie. Które jest poprawne?',
         en: "'Nie' before an adjective is written as one word. Which is correct?",
         de: "'Nie' vor einem Adjektiv schreibt man zusammen. Welches ist korrekt?",
@@ -378,7 +378,7 @@ export const wordDatabasePL = {
       id: 9,
       difficulty: 2,
       focus: '-bym / -byś / -by z osobową końcówką — razem z czasownikiem',
-      questions: {
+      question: {
         pl: 'Partykułę by z końcówką osobową piszemy razem z czasownikiem. Które jest poprawne?',
         en: "The particle 'by' with a personal ending is written together with the verb. Which is correct?",
         de: "Das Partikel 'by' mit persönlicher Endung schreibt man zusammen mit dem Verb.",
@@ -394,7 +394,7 @@ export const wordDatabasePL = {
       id: 10,
       difficulty: 1,
       focus: 'ą przed b i p (nie on / om)',
-      questions: {
+      question: {
         pl: 'Nosówkę tylną przed spółgłoską b piszemy jako ą (nie on). Które jest poprawne?',
         en: "The back nasal vowel before 'b' is written as 'ą' (not 'on'). Which is correct?",
         de: "Der hintere Nasal vor 'b' wird als 'ą' (nicht 'on') geschrieben.",
@@ -410,7 +410,7 @@ export const wordDatabasePL = {
       id: 11,
       difficulty: 2,
       focus: 'ę przed spółgłoską — nie pisz en',
-      questions: {
+      question: {
         pl: 'Nosówkę przednią przed spółgłoską piszemy jako ę. Które słowo jest poprawne?',
         en: "The front nasal vowel before a consonant is written as 'ę'. Which is correct?",
         de: "Der vordere Nasalvokal vor einem Konsonanten wird als 'ę' geschrieben.",
@@ -426,7 +426,7 @@ export const wordDatabasePL = {
       id: 12,
       difficulty: 2,
       focus: 'rz po spółgłosce t',
-      questions: {
+      question: {
         pl: 'Po spółgłosce t zawsze piszemy rz (nie ż). Które słowo jest poprawne?',
         en: "After consonant 't' we always write 'rz'. Which is correct?",
         de: "Nach dem Konsonanten 't' schreibt man immer 'rz'.",
@@ -442,7 +442,7 @@ export const wordDatabasePL = {
       id: 13,
       difficulty: 3,
       focus: 'nie z imiesłowem przymiotnikowym czynnym — osobno',
-      questions: {
+      question: {
         pl: 'Nie z imiesłowem przymiotnikowym czynnym (-ący, -ąca) piszemy osobno. Które jest poprawne?',
         en: "With active participles ending in -ący/-ąca, 'nie' is always separate.",
         de: "Bei aktiven Partizipien auf -ący/-ąca wird 'nie' immer getrennt geschrieben.",
@@ -458,7 +458,7 @@ export const wordDatabasePL = {
       id: 14,
       difficulty: 2,
       focus: 'ó po literze w — wymienne',
-      questions: {
+      question: {
         pl: 'Które słowo ma ó wymieniające się na e w dopełniaczu liczby mnogiej?',
         en: "Which word's 'ó' alternates with 'e' in the genitive plural?",
         de: "Bei welchem Wort wechselt 'ó' zu 'e' im Genitiv Plural?",
@@ -474,7 +474,7 @@ export const wordDatabasePL = {
       id: 15,
       difficulty: 3,
       focus: 'wziąć — częsty błąd z dodatkowym ś',
-      questions: {
+      question: {
         pl: 'Tylko jedna forma tego czasownika jest poprawna. Która?',
         en: "Only one form of this infinitive is correct. Which?",
         de: "Nur eine Form dieses Infinitivs ist korrekt. Welche?",
@@ -490,7 +490,7 @@ export const wordDatabasePL = {
       id: 16,
       difficulty: 2,
       focus: 'h vs ch — w wyrazach rodzimych ch po s',
-      questions: {
+      question: {
         pl: 'W wyrazie rodzimym po literze s piszemy ch. Które słowo jest poprawne?',
         en: "In native Polish words after 's' we write 'ch'. Which is correct?",
         de: "In polnischen Wörtern nach 's' schreibt man 'ch'.",
@@ -506,7 +506,7 @@ export const wordDatabasePL = {
       id: 17,
       difficulty: 1,
       focus: 'rz niewymienne',
-      questions: {
+      question: {
         pl: 'W którym słowie piszemy "rz", mimo że nie wymienia się na "r"?',
         en: "Which word is written with 'rz' despite not alternating with 'r'?",
         de: "Welches Wort wird mit 'rz' geschrieben, obwohl es nicht mit 'r' wechselt?",
@@ -522,7 +522,7 @@ export const wordDatabasePL = {
       id: 18,
       difficulty: 2,
       focus: 'ch na końcu wyrazu',
-      questions: {
+      question: {
         pl: 'Na końcu wyrazów rodzimych zawsze piszemy "ch". Które słowo jest poprawne?',
         en: "At the end of native Polish words we always write 'ch'. Which is correct?",
         de: "Am Ende nativer polnischer Wörter schreiben wir immer 'ch'.",
@@ -886,7 +886,7 @@ export const wordDatabasePL = {
         { text: 'morz', isCorrect: false },
         { text: 'moż', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Czasownik modalny (móc coś zrobić), pisany przez 'ż'",
         en: 'can / is able to — modal verb (not the sea!)',
       },
@@ -903,7 +903,7 @@ export const wordDatabasePL = {
         { text: 'morz', isCorrect: false },
         { text: 'moż', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Morze to wielki zbiornik wodny",
         en: "Sea - large body of water",
       },
@@ -920,7 +920,7 @@ export const wordDatabasePL = {
         { text: 'nie powinnien', isCorrect: false },
         { text: 'nie-powinien', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Partykułę 'nie' z czasownikami piszemy zawsze oddzielnie",
         en: "'nie' before a verb — always separate words",
       },
@@ -937,7 +937,7 @@ export const wordDatabasePL = {
         { text: 'nie-odwołalna', isCorrect: false },
         { text: 'nieodwołana', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Partykułę 'nie' z przymiotnikami piszemy łącznie",
         en: "'nie' + adjective — written as one word",
       },
@@ -954,7 +954,7 @@ export const wordDatabasePL = {
         { text: 'wźąć', isCorrect: false },
         { text: 'wziąnć', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Poprawny bezokolicznik to 'wziąć', forma z 'ść' jest błędna",
         en: "to take — 'wziąść' is an extremely common mistake",
       },
@@ -970,7 +970,7 @@ export const wordDatabasePL = {
         { text: 'zdążyła-bym', isCorrect: false },
         { text: 'zdążyłobym', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Cząstkę '-bym' dopisujemy łącznie do formy czasownika",
         en: 'Conditional -bym attaches directly to the verb form',
       },
@@ -986,7 +986,7 @@ export const wordDatabasePL = {
         { text: 'szczeguły', isCorrect: false },
         { text: 'sczegóły', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Pisownia przez 'ó', wymienia się na 'o' w słowie 'szczegół'",
         en: 'details — szczegół (ó) → szczegóły, never szczeguly',
       },
@@ -1002,7 +1002,7 @@ export const wordDatabasePL = {
         { text: 'nieprawidlowość', isCorrect: false },
         { text: 'nie-prawidłowość', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Partykułę 'nie' z rzeczownikami piszemy łącznie jako jedno słowo",
         en: "'nie' + noun — these compound together as one word",
       },
@@ -1018,7 +1018,7 @@ export const wordDatabasePL = {
         { text: 'zangażowaniem', isCorrect: false },
         { text: 'zaangażowanim', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Pisownia przez 'ż', słowo pochodzi od 'angaż'",
         en: 'commitment — ż (not rz) here; zaangażować ← angaż',
       },
@@ -1034,7 +1034,7 @@ export const wordDatabasePL = {
         { text: 'rzycie', isCorrect: false },
         { text: 'rzyście', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Poprawna pisownia to 'życie' (bez 'ś' w środku)",
         en: "into force / life — ż at the start, no 'ś'",
       },
@@ -1051,7 +1051,7 @@ export const wordDatabasePL = {
         { text: 'na-pewno', isCorrect: false },
         { text: 'napeno', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Wyrażenie przyimkowe 'na pewno' piszemy osobno.",
         en: "'na pewno' (for sure) is always written as two separate words.",
       },
@@ -1068,7 +1068,7 @@ export const wordDatabasePL = {
         { text: 'na-prawdę', isCorrect: false },
         { text: 'naprawde', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "'Naprawdę' (w znaczeniu 'rzeczywiście') piszemy łącznie.",
         en: "'Naprawdę' (really) is written as a single word.",
       },
@@ -1085,7 +1085,7 @@ export const wordDatabasePL = {
         { text: 'wniosiek', isCorrect: false },
         { text: 'wnosiek', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Poprawna forma to 'wniosek' — pisownia przez 'io'",
         en: 'application/request — wniosek, not wnosek',
       },
@@ -1102,7 +1102,7 @@ export const wordDatabasePL = {
         { text: 'wyzytę', isCorrect: false },
         { text: 'wisytę', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Słowo 'wizyta' (z łac. visita) — jedno 't' i 'i' przed 'zy'",
         en: "appointment — 'wizyta' has one 't' and begins with 'wi-'",
       },
@@ -1119,7 +1119,7 @@ export const wordDatabasePL = {
         { text: 'zaangarzowania', isCorrect: false },
         { text: 'zangażowania', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Pisownia przez 'ż' (od 'angaż'), z przedrostkiem 'za-' i z 'aa' w środku",
         en: 'commitment — zaangażowania: starts za-, then double a, then ż (not rz)',
       },
@@ -1135,7 +1135,7 @@ export const wordDatabasePL = {
         { text: 'przezwyciązyć', isCorrect: false },
         { text: 'przezwyciężyc', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Bezokolicznik zawsze kończy się na '-ć', nie na '-c'. Pisownia przez 'ę' przed 'ż'",
         en: 'to overcome — infinitive always ends -ć (with an accent), the ę before ż is correct',
       },
@@ -1152,7 +1152,7 @@ export const wordDatabasePL = {
         { text: 'sprawdzenie', isCorrect: true },
         { text: 'sprardzenie', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Pisownia przez 'w' + 'rz': spraw-dze-nie",
         en: 'verification — spraw-dze-nie, written with w then rz',
       },
@@ -1169,7 +1169,7 @@ export const wordDatabasePL = {
         { text: 'zobowiązań', isCorrect: true },
         { text: 'zobowionzań', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Dopełniacz liczby mnogiej od 'zobowiązanie' — końcówka '-ań' z kreską pod ą",
         en: "genitive plural of 'zobowiązanie' — zobowiązań, the ą stays",
       },
@@ -1186,7 +1186,7 @@ export const wordDatabasePL = {
         { text: 'hlep', isCorrect: false },
         { text: 'chlep', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Słowo 'chleb' na końcu ma 'b', a na początku dwuznak 'ch'.",
         en: "'chleb' (bread) starts with 'ch' and ends with 'b'.",
       },
@@ -1203,7 +1203,7 @@ export const wordDatabasePL = {
         { text: 'śrotki', isCorrect: false },
         { text: 'śrutki', isCorrect: false },
       ],
-      hints: {
+      hint: {
         pl: "Słowo 'środki' (fundusze) piszemy przez 'ó' wymienne (środki - środowisko) i 'd'.",
         en: "'środki' (funds) uses 'ó' and 'd'.",
       },
@@ -1883,15 +1883,20 @@ export const wordDatabasePL = {
   ],
 
   diagnostic: [
-    { id: 'pl_diag_1', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostyka: Pisownia rz/ż', questions: { pl: 'Które słowo jest napisane błędnie?' }, options: [{ text: 'Przepraszam', isCorrect: false }, { text: 'Porządek', isCorrect: false }, { text: 'Wydażenie', isCorrect: true }, { text: 'Marzenie', isCorrect: false }] },
-    { id: 'pl_diag_2', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostyka: Homofony', questions: { pl: 'Wybierz poprawne słowo: "Z chęcią ___ tę propozycję."' }, options: [{ text: 'przyjmę', isCorrect: true }, { text: 'przymne', isCorrect: false }, { text: 'pżyjmę', isCorrect: false }, { text: 'przymię', isCorrect: false }] },
-    { id: 'pl_diag_3', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostyka: Ó/U', questions: { pl: 'Które słowo posiada "ó" niewymienne?' }, options: [{ text: 'Wóz', isCorrect: false }, { text: 'Córka', isCorrect: true }, { text: 'Stół', isCorrect: false }, { text: 'Rów', isCorrect: false }] },
-    { id: 'pl_diag_4', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostyka: Podział na sylaby', questions: { pl: 'Ile sylab ma słowo "Zaangażowanie"?' }, options: [{ text: '4', isCorrect: false }, { text: '5', isCorrect: false }, { text: '6', isCorrect: true }, { text: '7', isCorrect: false }] },
-    { id: 'pl_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostyka: Dyskryminacja wzrokowa', questions: { pl: 'Wskaż literę, która nie pasuje do wzoru:\n\n p p q p p' }, options: [{ text: 'Pierwsza', isCorrect: false }, { text: 'Druga', isCorrect: false }, { text: 'Trzecia', isCorrect: true }, { text: 'Czwarta', isCorrect: false }] },
-    { id: 'pl_diag_6', pillar: 'Visual', difficulty: 3, focus: 'Diagnostyka: Odbicia lustrzane', questions: { pl: 'Który ciąg cyfr różni się od 5469?' }, options: [{ text: '5469', isCorrect: false }, { text: '5469', isCorrect: false }, { text: '5496', isCorrect: true }, { text: '5469', isCorrect: false }] },
-    { id: 'pl_diag_7', pillar: 'Visual', difficulty: 2, focus: 'Diagnostyka: Orientacja w czasie', questions: { pl: 'Jeżeli spotkanie zaczyna się o 14:00 i trwa 90 minut, o której się kończy?' }, options: [{ text: '15:00', isCorrect: false }, { text: '15:30', isCorrect: true }, { text: '16:00', isCorrect: false }, { text: '14:90', isCorrect: false }] },
-    { id: 'pl_diag_8', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostyka: Pamięć sekwencyjna', questions: { pl: 'Który miesiąc następuje bezpośrednio po sierpniu?' }, options: [{ text: 'Lipiec', isCorrect: false }, { text: 'Październik', isCorrect: false }, { text: 'Wrzesień', isCorrect: true }, { text: 'Listopad', isCorrect: false }] },
-    { id: 'pl_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostyka: Kategoryzacja', questions: { pl: 'Które słowo NIE należy do grupy zawodów?' }, options: [{ text: 'Nauczyciel', isCorrect: false }, { text: 'Lekarz', isCorrect: false }, { text: 'Biblioteka', isCorrect: true }, { text: 'Inżynier', isCorrect: false }] },
-    { id: 'pl_diag_10', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostyka: Pamięć logiczna', questions: { pl: 'Jeśli Jan jest wyższy od Piotra, a Piotr jest wyższy od Michała, to kto jest najniższy?' }, options: [{ text: 'Jan', isCorrect: false }, { text: 'Piotr', isCorrect: false }, { text: 'Michał', isCorrect: true }, { text: 'Wszyscy są równi', isCorrect: false }] }
+    { id: 'pl_diag_1', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostyka: Pisownia rz/ż', question: { pl: 'Które słowo jest napisane błędnie?' }, options: [{ text: 'Przepraszam', isCorrect: false }, { text: 'Porządek', isCorrect: false }, { text: 'Wydażenie', isCorrect: true }, { text: 'Marzenie', isCorrect: false }] },
+    { id: 'pl_diag_2', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostyka: Homofony', question: { pl: 'Wybierz poprawne słowo: "Z chęcią ___ tę propozycję."' }, options: [{ text: 'przyjmę', isCorrect: true }, { text: 'przymne', isCorrect: false }, { text: 'pżyjmę', isCorrect: false }, { text: 'przymię', isCorrect: false }] },
+    { id: 'pl_diag_3', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostyka: Ó/U', question: { pl: 'Które słowo posiada "ó" niewymienne?' }, options: [{ text: 'Wóz', isCorrect: false }, { text: 'Córka', isCorrect: true }, { text: 'Stół', isCorrect: false }, { text: 'Rów', isCorrect: false }] },
+    { id: 'pl_diag_4', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostyka: Podział na sylaby', question: { pl: 'Ile sylab ma słowo "Zaangażowanie"?' }, options: [{ text: '4', isCorrect: false }, { text: '5', isCorrect: false }, { text: '6', isCorrect: true }, { text: '7', isCorrect: false }] },
+    { id: 'pl_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostyka: Dyskryminacja wzrokowa', question: { pl: 'Wskaż literę, która nie pasuje do wzoru:\n\n p p q p p' }, options: [{ text: 'Pierwsza', isCorrect: false }, { text: 'Druga', isCorrect: false }, { text: 'Trzecia', isCorrect: true }, { text: 'Czwarta', isCorrect: false }] },
+    { id: 'pl_diag_6', pillar: 'Visual', difficulty: 3, focus: 'Diagnostyka: Odbicia lustrzane', question: { pl: 'Który ciąg cyfr różni się od 5469?' }, options: [{ text: '5469', isCorrect: false }, { text: '5469', isCorrect: false }, { text: '5496', isCorrect: true }, { text: '5469', isCorrect: false }] },
+    { id: 'pl_diag_7', pillar: 'Visual', difficulty: 2, focus: 'Diagnostyka: Orientacja w czasie', question: { pl: 'Jeżeli spotkanie zaczyna się o 14:00 i trwa 90 minut, o której się kończy?' }, options: [{ text: '15:00', isCorrect: false }, { text: '15:30', isCorrect: true }, { text: '16:00', isCorrect: false }, { text: '14:90', isCorrect: false }] },
+    { id: 'pl_diag_8', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostyka: Pamięć sekwencyjna', question: { pl: 'Który miesiąc następuje bezpośrednio po sierpniu?' }, options: [{ text: 'Lipiec', isCorrect: false }, { text: 'Październik', isCorrect: false }, { text: 'Wrzesień', isCorrect: true }, { text: 'Listopad', isCorrect: false }] },
+    { id: 'pl_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostyka: Kategoryzacja', question: { pl: 'Które słowo NIE należy do grupy zawodów?' }, options: [{ text: 'Nauczyciel', isCorrect: false }, { text: 'Lekarz', isCorrect: false }, { text: 'Biblioteka', isCorrect: true }, { text: 'Inżynier', isCorrect: false }] },
+    { id: 'pl_diag_10', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostyka: Pamięć logiczna', question: { pl: 'Jeśli Jan jest wyższy od Piotra, a Piotr jest wyższy od Michała, to kto jest najniższy?' }, options: [{ text: 'Jan', isCorrect: false }, { text: 'Piotr', isCorrect: false }, { text: 'Michał', isCorrect: true }, { text: 'Wszyscy są równi', isCorrect: false }] },
+    { id: 'pl_diag_11', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostyka: Pisownia ch/h', question: { pl: 'Wybierz słowo napisane poprawnie:' }, options: [{ text: 'Chmura', isCorrect: true }, { text: 'Hmura', isCorrect: false }, { text: 'Chałas', isCorrect: false }, { text: 'Hleb', isCorrect: false }] },
+    { id: 'pl_diag_12', pillar: 'Visual', difficulty: 3, focus: 'Diagnostyka: Rozróżnianie kształtów', question: { pl: 'Wskaż ciąg znaków, w którym znajduje się litera "b":' }, options: [{ text: 'd d d d q p', isCorrect: false }, { text: 'p q d q p d', isCorrect: false }, { text: 'd p q b d p', isCorrect: true }, { text: 'q q p d q p', isCorrect: false }] },
+    { id: 'pl_diag_13', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostyka: Kategoryzacja', question: { pl: 'Które z podanych słów nie jest owocem?' }, options: [{ text: 'Jabłko', isCorrect: false }, { text: 'Banan', isCorrect: false }, { text: 'Marchew', isCorrect: true }, { text: 'Gruszka', isCorrect: false }] },
+    { id: 'pl_diag_14', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostyka: Synonimy', question: { pl: 'Co jest synonimem słowa "Szybki"?' }, options: [{ text: 'Wolny', isCorrect: false }, { text: 'Błyskawiczny', isCorrect: true }, { text: 'Ociężały', isCorrect: false }, { text: 'Cichy', isCorrect: false }] },
+    { id: 'pl_diag_15', pillar: 'Cognitive', difficulty: 4, focus: 'Diagnostyka: Dedukcja', question: { pl: 'Jeśli każdy kwadrat jest prostokątem, a żaden prostokąt nie jest kołem, to:' }, options: [{ text: 'Żaden kwadrat nie jest kołem', isCorrect: true }, { text: 'Każdy prostokąt jest kwadratem', isCorrect: false }, { text: 'Każde koło jest kwadratem', isCorrect: false }, { text: 'Niektóre kwadraty są kołami', isCorrect: false }] }
   ]
 };

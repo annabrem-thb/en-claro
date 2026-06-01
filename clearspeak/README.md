@@ -108,7 +108,7 @@ src/
 
 1. Clone the repository:
    ```bash
-   git clone <adres-repozytorium>
+   git clone <repository-url>
    cd clearspeak
    ```
 
@@ -124,25 +124,18 @@ src/
    The app will be available at: `http://localhost:5173`
 
 ### Building and Testing
-
 - **Production build (PWA):**
   ```bash
   npm run build
   ```
-- **Uruchomienie testów jednostkowych (Vitest):**
+- **Running unit tests (Vitest):**
   ```bash
   npm run test
   ```
-- **Uruchomienie testów E2E (Cypress):**
+- **Running E2E tests (Cypress):**
   ```bash
   npx cypress open
   ```
-
 ---
-
-## 📊 Analityka i Badania UX
-Aplikacja wyposażona jest w bezinwazyjny moduł zbierania logów. W oparciu o ankiety **NASA-TLX** (obciążenie poznawcze) oraz **UEQ-Short** (doświadczenie użytkownika), dane zapisywane są bezpiecznie w pamięci przeglądarki (IndexedDB) z możliwością eksportu do pliku CSV z poziomu profilu, celem wsparcia badań naukowych.
-
----
-
-*Zaprojektowano z 💚 dla edukacji włączającej.*
+## 📊 Analytics and UX Research
+The application is equipped with a non-intrusive logging module. Based on the **NASA-TLX** (cognitive load) and **SUS** surveys, data is securely stored in the browser’s storage (IndexedDB) and can be exported to a CSV file from the profile page to support scientific research.

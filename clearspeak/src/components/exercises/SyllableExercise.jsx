@@ -149,9 +149,19 @@ function SyllableExercise({
 
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
   const bounceClass = noFlash ? '' : 'animate-bounce';
-  const charSize = bigTargets ? 'text-5xl sm:text-7xl' : 'text-4xl sm:text-6xl';
+
+  // Responsive dynamic sizing to integrate long words (e.g., German compound words)
+  const wordLen = data.word?.length || 0;
+  const isLong = wordLen > 12;
+  const isVeryLong = wordLen > 18;
+
+  const charSize = bigTargets 
+    ? (isLong ? 'text-3xl sm:text-5xl' : 'text-5xl sm:text-7xl') 
+    : (isVeryLong ? 'text-xl sm:text-3xl' : isLong ? 'text-2xl sm:text-4xl' : 'text-4xl sm:text-6xl');
   const btnPadding = bigTargets ? 'py-5 sm:py-6' : 'py-4 sm:py-5';
-  const cutHitbox = bigTargets ? 'w-10 h-16 sm:w-14 sm:h-20' : 'w-8 h-12 sm:w-10 sm:h-16';
+  const cutHitbox = bigTargets 
+    ? (isLong ? 'w-8 h-12 sm:w-10 sm:h-14 mx-0.5' : 'w-10 h-16 sm:w-14 sm:h-20 mx-1') 
+    : (isVeryLong ? 'w-4 h-8 sm:w-6 sm:h-10 mx-px' : isLong ? 'w-6 h-10 sm:w-8 sm:h-12 mx-0.5' : 'w-8 h-12 sm:w-10 sm:h-16 mx-1');
   const pulseClass = noFlash
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-8 ring-red-100';
@@ -182,7 +192,7 @@ function SyllableExercise({
                 ? 'cursor-not-allowed bg-slate-300 opacity-50 grayscale'
                 : isListening
                   ? pulseClass + ' text-white'
-                  : `${themeStyles.button} text-white hover:brightness-110`
+                  : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
             }`}
             aria-label={isListening ? t.listening : t.speakGapNumber}
           >
@@ -239,7 +249,7 @@ function SyllableExercise({
             {index < wordChars.length - 1 && (
               <button
                 onClick={() => toggleCut(index + 1)}
-                className={`group relative ${cutHitbox} mx-1 flex items-center justify-center transition-all`}
+              className={`group relative ${cutHitbox} flex items-center justify-center transition-all shrink-0`}
                 disabled={isResolved || isListening}
                 aria-label={
                   cuts.includes(index + 1)
@@ -284,7 +294,7 @@ function SyllableExercise({
           disabled={isResolved || cuts.length === 0 || isListening}
           className={`w-full ${btnPadding} rounded-3xl font-black tracking-widest uppercase shadow-xl transition-all ${
             cuts.length > 0 && !isResolved && !isListening
-              ? `${themeStyles.button} text-white active:scale-95`
+              ? `${themeStyles.button} ${themeStyles.buttonText} active:scale-95`
               : 'cursor-not-allowed bg-slate-100 text-slate-300'
           }`}
         >

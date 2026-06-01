@@ -13,7 +13,8 @@ import TTSController from '../common/TTSController';
  * 2. Cover & Write: The word is hidden, and the user types it from working memory.
  * 3. Check: The app automatically compares the input with the target word.
  */
-function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t: propT, speak, extendedTime, bigTargets, voiceAssistant = true, zenMode = false }) {
+function LookCoverWriteCheck({ targetWord, word, onSelfEvaluate, language: propLang, t: propT, speak, extendedTime, bigTargets, voiceAssistant = true, zenMode = false }) {
+  const activeWord = targetWord || word || '';
   const [phase, setPhase] = useState('look');
   const [userInput, setUserInput] = useState('');
   
@@ -29,8 +30,8 @@ function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t
 
   const handleReadWord = useCallback(() => {
     clearAllTimeouts();
-    if (speak) speak(targetWord, extendedTime);
-  }, [speak, targetWord, extendedTime, clearAllTimeouts]);
+    if (speak) speak(activeWord, extendedTime);
+  }, [speak, activeWord, extendedTime, clearAllTimeouts]);
 
   // WCAG Accessibility: Manage focus and TTS playback based on the active phase
   useEffect(() => {
@@ -65,7 +66,7 @@ function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t
 
         <div className={`px-4 py-6 sm:px-8 sm:py-10 rounded-3xl w-full max-w-md flex justify-center items-center mb-4 sm:mb-8 shadow-sm shrink min-h-0 overflow-y-auto ${isHighContrast ? 'bg-black border-2 border-white text-white' : 'bg-white border border-slate-200 text-slate-800'}`}>
           <span className="text-3xl sm:text-4xl md:text-5xl font-black tracking-widest break-all text-center">
-            <BionicText text={targetWord} enabled={bionicReading} />
+            <BionicText text={activeWord} enabled={bionicReading} />
           </span>
         </div>
 
@@ -125,7 +126,7 @@ function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t
 
   // Step 3: Check Phase (Automatic Evaluation)
   if (phase === 'check') {
-    const isCorrect = userInput.trim().toLowerCase() === targetWord.trim().toLowerCase();
+    const isCorrect = userInput.trim().toLowerCase() === activeWord.trim().toLowerCase();
 
     return (
       <div className="flex h-full min-h-0 flex-col items-center justify-center w-full overflow-hidden px-2 py-2 animate-in slide-in-from-bottom-4 fade-in duration-500">
@@ -140,7 +141,7 @@ function LookCoverWriteCheck({ targetWord, onSelfEvaluate, language: propLang, t
           <div className={`p-4 sm:p-5 rounded-2xl flex flex-col items-center gap-1.5 sm:gap-2 border-2 ${isHighContrast ? 'bg-black border-white/50' : 'bg-slate-50 border-slate-200'}`}>
             <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400">{t.targetWord || 'Correct Spelling'}</span>
             <span className={`text-xl sm:text-2xl font-black tracking-widest break-all ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>
-              {targetWord}
+              {activeWord}
             </span>
           </div>
 

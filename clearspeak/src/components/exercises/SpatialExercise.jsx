@@ -159,6 +159,8 @@ function SpatialExercise({
     ? 'w-16 h-16 text-2xl'
     : 'w-12 h-12 text-xl';
 
+  const isAlphaSymbol = /^[\p{L}]+$/u.test(currentItem?.symbol || '');
+
   return (
     <div className="flex h-full min-h-0 w-full flex-col items-center justify-between overflow-hidden px-2 py-2">
       {/* 1. Voice & Audio Controls */}
@@ -177,7 +179,7 @@ function SpatialExercise({
             className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-md transition-all active:scale-95 ${
               isListening
                 ? pulseClass + ' text-white'
-                : `${themeStyles.button} text-white hover:brightness-110`
+                : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
             }`}
             aria-label={isListening ? t.listening : t.speakOptionNumber}
             aria-pressed={isListening}
@@ -223,10 +225,10 @@ function SpatialExercise({
       {/* 3. Main Flashcard Area */}
       <div className="my-2 sm:my-4 flex min-h-0 w-full flex-1 items-center justify-center">
         <div
-          className={`${cardSize} font-dyslexic flex items-center justify-center rounded-[50px] border-4 bg-white shadow-xl md:shadow-md transition-all ${themeStyles.border} ${themeStyles.accent} ${animation}`}
+          className={`${cardSize} ${isAlphaSymbol ? 'font-dyslexic' : 'font-sans'} flex items-center justify-center rounded-[50px] border-4 bg-white shadow-xl md:shadow-md transition-all ${themeStyles.border} ${themeStyles.accent} ${animation}`}
         >
           {/* Symbols often require bolding for d/b or p/q differentiation */}
-          <BionicText text={currentItem?.symbol} enabled={bionicReading} />
+          <BionicText text={currentItem?.symbol} enabled={bionicReading && isAlphaSymbol} />
         </div>
       </div>
 
@@ -242,7 +244,7 @@ function SpatialExercise({
                 ? 'border-slate-500 bg-slate-400 opacity-50 grayscale text-white' 
                 : activeHighlight === i
                   ? 'scale-105 ring-4 ring-yellow-400 bg-yellow-50 border-yellow-400 text-slate-900 shadow-xl z-10'
-                  : `${themeStyles.button} text-white hover:brightness-110`
+                  : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
             } flex items-center justify-center gap-2 shadow-lg md:shadow-sm`}
           >
             {/* Numeric visual indicator for voice selection */}

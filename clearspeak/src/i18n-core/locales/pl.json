@@ -132,39 +132,39 @@
   "a11yAddons": "Opcje personalizacji komfortu",
   "a11yAddonsDesc": "Wybierz dowolne kombinacje — dostosuj aplikację do siebie",
   "a11y": {
-    "LRS": {
+    "lrs": {
       "name": "Przyjazna czcionka",
       "desc": "Czcionka ułatwiająca czytanie (OpenDyslexic)"
     },
-    "Kontrast": {
+    "contrast": {
       "name": "Wysoki kontrast",
       "desc": "Czarno-białe kolory WCAG AAA"
     },
-    "Motorik": {
+    "motor": {
       "name": "Wygodne przyciski",
       "desc": "Powiększone przyciski i spokojne animacje"
     },
-    "Niedowidzenie": {
+    "vision": {
       "name": "Większy tekst",
       "desc": "Powiększona czcionka i ikony"
     },
-    "Daltonizm": {
+    "colors": {
       "name": "Bezpieczne kolory",
       "desc": "Zoptymalizowana, czytelna paleta barw"
     },
-    "Redukcja": {
+    "motion": {
       "name": "Spokojny ekran",
       "desc": "Brak migotania i rozpraszającego ruchu"
     },
-    "Linijka": {
+    "ruler": {
       "name": "Linijka skupienia",
       "desc": "Podświetla poziomą linię pod kursorem"
     },
-    "Spacing": {
+    "spacing": {
       "name": "Większe odstępy",
       "desc": "Zwiększa odstępy między literami i słowami"
     },
-    "Desaturacja": {
+    "desaturation": {
       "name": "Łagodne barwy",
       "desc": "Zmniejsza nasycenie jaskrawych kolorów"
     }
@@ -216,56 +216,56 @@
     }
   },
   "profiles": {
-    "Standard": {
+    "standard": {
       "name": "Standard",
       "desc": "Widok domyślny"
     },
-    "LRS": {
+    "lrs": {
       "name": "Przyjazna czcionka",
       "desc": "Czcionka ułatwiająca czytanie"
     },
-    "Kontrast": {
+    "contrast": {
       "name": "Wysoki Kontrast",
       "desc": "Lepsza czytelność"
     },
-    "Motorik": {
+    "motor": {
       "name": "Wygodne przyciski",
       "desc": "Większe przyciski i spokojne animacje"
     },
-    "Niedowidzenie": {
+    "vision": {
       "name": "Większy tekst",
       "desc": "Powiększona czcionka i ikony"
     },
-    "Daltonizm": {
+    "colors": {
       "name": "Bezpieczne kolory",
       "desc": "Zoptymalizowana, czytelna paleta barw"
     },
-    "Redukcja": {
+    "motion": {
       "name": "Spokojny ekran",
       "desc": "Brak migotania, brak rozpraszającego ruchu"
     },
-    "Bionic": {
+    "bionic": {
       "name": "Bionic Reading",
       "desc": "Pogrubia początki wyrazów"
     },
-    "Linijka": {
+    "ruler": {
       "name": "Linijka skupienia",
       "desc": "Podświetla poziomą linię pod kursorem"
     },
-    "Spacing": {
+    "spacing": {
       "name": "Większe odstępy",
       "desc": "Zwiększa odstępy między literami i słowami"
     },
-    "Desaturacja": {
+    "desaturation": {
       "name": "Łagodne barwy",
       "desc": "Zmniejsza nasycenie jaskrawych kolorów"
     }
   },
   "accDescriptions": {
-    "Standard": "Widok domyślny",
-    "Kontrast": "Tryb wysokiego kontrastu",
-    "LRS": "Przyjazna czcionka",
-    "Motorik": "Wygodne przyciski"
+    "standard": "Widok domyślny",
+    "contrast": "Tryb wysokiego kontrastu",
+    "lrs": "Przyjazna czcionka",
+    "motor": "Wygodne przyciski"
   },
   "versionGamified": "GRYWALIZACJA",
   "versionGamifiedSub": "Punkty i nagrody",
@@ -466,6 +466,25 @@
       "frustration": "Poziom frustracji",
       "frustrationDesc": "Jak bardzo byłeś irytowany, zestresowany lub zniechęcony?"
     },
+    "ueqTitle": "Twoje wrażenia (UEQ-Short)",
+    "ueq": {
+      "obstructive": "Utrudniający",
+      "supportive": "Wspierający",
+      "complicated": "Skomplikowany",
+      "easy": "Łatwy",
+      "inefficient": "Nieefektywny",
+      "efficient": "Efektywny",
+      "confusing": "Niezrozumiały",
+      "clear": "Jasny",
+      "boring": "Nudny",
+      "exciting": "Ekscytujący",
+      "notInteresting": "Nieciekawy",
+      "interesting": "Ciekawy",
+      "conventional": "Konwencjonalny",
+      "inventive": "Odkrywczy",
+      "usual": "Zwyczajny",
+      "leadingEdge": "Nowatorski"
+    },
     "submit": "Zapisz i kontynuuj",
     "skip": "Pomiń tym razem"
   },
@@ -481,6 +500,9 @@
   "breakTip": "Porada: Oderwij wzrok od ekranu i popatrz w dal (najlepiej na coś zielonego) przez co najmniej 20 sekund.",
   "takeBreakBtn": "Odpoczywam (+2 💰)",
   "continueBtn": "Ćwiczę dalej",
+  "categorizeItems": "Przyporządkuj elementy",
+  "allItemsPlaced": "Wszystkie elementy przypisane",
+  "checkAnswers": "Sprawdź odpowiedzi",
   "pillars": {
     "Literacy": "Czytanie i Pisanie",
     "Visual": "Wzrok i Przestrzeń",
@@ -510,7 +532,11 @@
     "Średni",
     "Trudny"
   ],
+  "questLabel": "Wyzwanie",
   "trackAndMatch": "Podążaj za podświetleniem i wskaż kierunek",
+  "chooseCorrectSpelling": "Wybierz poprawną pisownię:",
+  "optionPrefix": "Opcja",
+  "wordPrefix": "Słowo",
   "orderCorrectly": "Ułóż w odpowiedniej kolejności",
   "undo": "Cofnij",
   "tempoLabel": "Typ czytania",
@@ -566,6 +592,8 @@
   "tapAndPronounce": "Naciśnij i wymów słowo",
   "skipPronunciation": "Pomiń sprawdzanie wymowy",
   "readSentenceAndOptions": "Przeczytaj zdanie i opcje",
+  "removeCut": "Usuń cięcie",
+  "addCut": "Dodaj cięcie",
   "pressKey": "Naciśnij",
   "or": "lub",
   "toContinue": "aby kontynuować",
@@ -694,5 +722,12 @@
       "q09": "Czułem(am) się bardzo pewnie podczas korzystania z systemu.",
       "q10": "Musiałem(am) się wiele nauczyć, zanim zacząłem/zaczęłam swobodnie korzystać z tego systemu."
     }
+  },
+  "realWorldImpact": {
+    "title": "Twój Wpływ",
+    "desc": "Twoje postępy wspierają realne cele. Każde 10 punktów to jedno wirtualne drzewo.",
+    "treesPlanted": "Posadzone Drzewa",
+    "newTreeTitle": "Nowe Drzewo! 🎉",
+    "newTreeMsg": "Wspaniale! Twoja wytrwała nauka sprawiła, że wirtualnie posadziliśmy kolejne drzewo."
   }
 }

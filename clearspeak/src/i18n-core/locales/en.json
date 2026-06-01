@@ -1,6 +1,10 @@
 {
   "appTitle": "EnClaro",
   "introSubtitle": "Build your bridge to fluency.",
+  "installApp": "Install App",
+  "installAppDesc": "Download to your device for quick access and offline mode.",
+  "installed": "Installed",
+  "offlineMessage": "You are currently offline. Some features may be unavailable.",
   "intro": {
     "subtitle": "Your safe space to grow! Choose mode and tools:",
     "chooseLanguage": "Language",
@@ -129,39 +133,39 @@
   "a11yAddons": "Comfort personalization options",
   "a11yAddonsDesc": "Choose any combination — customize the app to your needs",
   "a11y": {
-    "LRS": {
+    "lrs": {
       "name": "Friendly font",
       "desc": "Font facilitating reading (OpenDyslexic)"
     },
-    "Kontrast": {
+    "contrast": {
       "name": "High contrast",
       "desc": "Black and white WCAG AAA colors"
     },
-    "Motorik": {
+    "motor": {
       "name": "Comfortable buttons",
       "desc": "Enlarged buttons and calm animations"
     },
-    "Niedowidzenie": {
+    "vision": {
       "name": "Larger text",
       "desc": "Enlarged font and icons"
     },
-    "Daltonizm": {
+    "colors": {
       "name": "Safe colors",
       "desc": "Optimized, readable color palette"
     },
-    "Redukcja": {
+    "motion": {
       "name": "Calm screen",
       "desc": "No flashing and distracting motion"
     },
-    "Linijka": {
+    "ruler": {
       "name": "Focus ruler",
       "desc": "Highlights a horizontal line under the cursor"
     },
-    "Spacing": {
+    "spacing": {
       "name": "Larger spacing",
       "desc": "Increases spacing between letters and words"
     },
-    "Desaturacja": {
+    "desaturation": {
       "name": "Soft colors",
       "desc": "Reduces the saturation of bright colors"
     }
@@ -206,59 +210,64 @@
     "muteNotifications": {
       "name": "Mute notifications",
       "desc": "Disables success/error speech and game sounds"
+    },
+    "cognitiveBreaks": {
+      "name": "Break reminders",
+      "desc": "App suggests rest after a series of errors"
     }
   },
+  "bionicExplanation": "Bionic Reading® is a typographic method that supports the reading flow.",
   "profiles": {
-    "Standard": {
+    "standard": {
       "name": "Standard",
       "desc": "Default view"
     },
-    "LRS": {
+    "lrs": {
       "name": "Friendly font",
       "desc": "Font facilitating reading"
     },
-    "Kontrast": {
+    "contrast": {
       "name": "High Contrast",
       "desc": "Better readability"
     },
-    "Motorik": {
+    "motor": {
       "name": "Comfortable buttons",
       "desc": "Larger buttons and calm animations"
     },
-    "Niedowidzenie": {
+    "vision": {
       "name": "Larger text",
       "desc": "Enlarged font and icons"
     },
-    "Daltonizm": {
+    "colors": {
       "name": "Safe colors",
       "desc": "Optimized, readable color palette"
     },
-    "Redukcja": {
+    "motion": {
       "name": "Calm screen",
       "desc": "No flashing, no distracting motion"
     },
-    "Bionic": {
+    "bionic": {
       "name": "Bionic Reading",
       "desc": "Bolds word beginnings"
     },
-    "Linijka": {
+    "ruler": {
       "name": "Focus ruler",
       "desc": "Highlights a horizontal line under the cursor"
     },
-    "Spacing": {
+    "spacing": {
       "name": "Larger spacing",
       "desc": "Increases spacing between letters and words"
     },
-    "Desaturacja": {
+    "desaturation": {
       "name": "Soft colors",
       "desc": "Reduces the saturation of bright colors"
     }
   },
   "accDescriptions": {
-    "Standard": "Default view",
-    "Kontrast": "High contrast mode",
-    "LRS": "Friendly font",
-    "Motorik": "Comfortable buttons"
+    "standard": "Default view",
+    "contrast": "High contrast mode",
+    "lrs": "Friendly font",
+    "motor": "Comfortable buttons"
   },
   "versionGamified": "GAMIFICATION",
   "versionGamifiedSub": "Points and rewards",
@@ -594,7 +603,8 @@
       "undo",
       "back",
       "delete",
-      "remove"
+      "remove",
+      "revert"
     ],
     "skip": [
       "skip",
@@ -684,5 +694,12 @@
       "q09": "I felt very confident using the system.",
       "q10": "I needed to learn a lot of things before I could get going with this system."
     }
+  },
+  "realWorldImpact": {
+    "title": "Your Impact",
+    "desc": "Your progress supports real-world goals. Every 10 points contributes to one virtually planted tree.",
+    "treesPlanted": "Trees Planted",
+    "newTreeTitle": "New Tree! 🎉",
+    "newTreeMsg": "Amazing! Your consistent learning helped us virtually plant another tree."
   }
 }

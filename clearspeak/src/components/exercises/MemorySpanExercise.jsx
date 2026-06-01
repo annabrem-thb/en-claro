@@ -197,7 +197,7 @@ function MemorySpanExercise({
               />
             )}
             <div
-              className={`flex justify-center gap-4 ${pulseClass}`}
+              className={`flex flex-wrap justify-center gap-4 ${pulseClass}`}
               aria-live="polite"
             >
               {data.displayItems?.map((item, i) => (
@@ -244,7 +244,7 @@ function MemorySpanExercise({
                 className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
                   isListening
                     ? 'animate-pulse bg-red-500 text-white ring-8 ring-red-100'
-                    : `${themeStyles.button} text-white hover:brightness-110`
+                    : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
                 }`}
                 aria-label={isListening ? t.listening : t.speakOptionNumber}
                 aria-pressed={isListening}
@@ -265,7 +265,7 @@ function MemorySpanExercise({
             {selectedItems.map((item, index) => (
               <div
                 key={index}
-                className={`rounded-xl px-4 py-2 font-bold shadow-sm md:shadow-none ${popAnim} ${themeStyles.button} text-white`}
+                className={`rounded-xl px-4 py-2 font-bold shadow-sm md:shadow-none ${popAnim} ${themeStyles.button} ${themeStyles.buttonText}`}
               >
                 <BionicText text={String(item)} enabled={bionicReading} />
               </div>

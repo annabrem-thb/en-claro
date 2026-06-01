@@ -69,7 +69,7 @@ export function CognitiveEnergyIndicator({
             
             {/* Modal Action Buttons */}
             <div className="flex flex-col gap-3">
-              <button onClick={onTakeBreak} className={`w-full ${bigTargets ? 'py-6 text-base' : 'py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} text-white`}`}>
+              <button onClick={onTakeBreak} className={`w-full ${bigTargets ? 'py-6 text-base' : 'py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}>
                 {t.takeBreakBtn || 'Take a break (+2 💰)'}
               </button>
               <button onClick={onDismiss} className={`w-full ${bigTargets ? 'py-5 text-sm' : 'py-3 text-xs'} rounded-full font-black uppercase tracking-widest transition-all ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-400 hover:bg-slate-50'}`}>

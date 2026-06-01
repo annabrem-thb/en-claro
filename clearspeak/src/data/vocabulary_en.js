@@ -5,98 +5,98 @@ export const wordDatabaseEN = {
       word: 'Entrepreneur', 
       difficulty: 3, 
       phonetic: '/ ˌɒn.trə.prəˈnɜːr /', 
-      hints: { en: 'A person who sets up a business.', pl: 'Osoba zakładająca firmę.', de: 'Eine Person, die ein Unternehmen gründet.' } 
+      hint: { en: 'A person who sets up a business.', pl: 'Osoba zakładająca firmę.', de: 'Eine Person, die ein Unternehmen gründet.' } 
     },
     { 
       id: 2, 
       word: 'Paradigm', 
       difficulty: 3, 
       phonetic: '/ ˈpær.ə.daɪm /', 
-      hints: { en: 'A typical example or pattern of something.', pl: 'Typowy przykład lub wzorzec.', de: 'Ein typisches Beispiel oder Muster.' } 
+      hint: { en: 'A typical example or pattern of something.', pl: 'Typowy przykład lub wzorzec.', de: 'Ein typisches Beispiel oder Muster.' } 
     },
     { 
       id: 3, 
       word: 'Ubiquitous', 
       difficulty: 3, 
       phonetic: '/ juːˈbɪk.wɪ.təs /', 
-      hints: { en: 'Present, appearing, or found everywhere.', pl: 'Wszechobecny.', de: 'Allgegenwärtig.' } 
+      hint: { en: 'Present, appearing, or found everywhere.', pl: 'Wszechobecny.', de: 'Allgegenwärtig.' } 
     },
     { 
       id: 4, 
       word: 'Hierarchy', 
       difficulty: 2, 
       phonetic: '/ ˈhaɪə.rɑː.ki /', 
-      hints: { en: 'A system in which members are ranked according to status or authority.', pl: 'Hierarchia, system rang.', de: 'Hierarchie, Rangordnung.' } 
+      hint: { en: 'A system in which members are ranked according to status or authority.', pl: 'Hierarchia, system rang.', de: 'Hierarchie, Rangordnung.' } 
     },
     { 
       id: 5, 
       word: 'Colleague', 
       difficulty: 1, 
       phonetic: '/ ˈkɒl.iːɡ /', 
-      hints: { en: 'A person with whom one works in a profession or business.', pl: 'Współpracownik.', de: 'Kollege.' } 
+      hint: { en: 'A person with whom one works in a profession or business.', pl: 'Współpracownik.', de: 'Kollege.' } 
     },
     { 
       id: 6, 
       word: 'Bureaucracy', 
       difficulty: 3, 
       phonetic: '/ bjʊəˈrɒk.rə.si /', 
-      hints: { en: 'Excessively complicated administrative procedure.', pl: 'Biurokracja.', de: 'Bürokratie.' } 
+      hint: { en: 'Excessively complicated administrative procedure.', pl: 'Biurokracja.', de: 'Bürokratie.' } 
     },
     { 
       id: 7, 
       word: 'Conscientious', 
       difficulty: 3, 
       phonetic: '/ ˌkɒn.ʃiˈen.ʃəs /', 
-      hints: { en: 'Wishing to do what is right, especially to do one\'s work well.', pl: 'Sumienny.', de: 'Gewissenhaft.' } 
+      hint: { en: 'Wishing to do what is right, especially to do one\'s work well.', pl: 'Sumienny.', de: 'Gewissenhaft.' } 
     },
     { 
       id: 8, 
       word: 'Guarantee', 
       difficulty: 2, 
       phonetic: '/ ˌɡær.ənˈtiː /', 
-      hints: { en: 'A formal promise or assurance.', pl: 'Gwarancja.', de: 'Garantie.' } 
+      hint: { en: 'A formal promise or assurance.', pl: 'Gwarancja.', de: 'Garantie.' } 
     },
     { 
       id: 9, 
       word: 'Vulnerable', 
       difficulty: 2, 
       phonetic: '/ ˈvʌl.nər.ə.bəl /', 
-      hints: { en: 'Susceptible to physical or emotional attack or harm.', pl: 'Podatny, wrażliwy.', de: 'Verwundbar.' } 
+      hint: { en: 'Susceptible to physical or emotional attack or harm.', pl: 'Podatny, wrażliwy.', de: 'Verwundbar.' } 
     },
     { 
       id: 10, 
       word: 'Miscellaneous', 
       difficulty: 3, 
       phonetic: '/ ˌmɪs.əˈleɪ.ni.əs /', 
-      hints: { en: 'Of various types or from different sources.', pl: 'Rozmaity, różny.', de: 'Verschiedenes.' } 
+      hint: { en: 'Of various types or from different sources.', pl: 'Rozmaity, różny.', de: 'Verschiedenes.' } 
     },
     { 
       id: 11, 
       word: 'Queue', 
       difficulty: 3, 
       phonetic: '/ kjuː /', 
-      hints: { en: 'A line or sequence of people or vehicles.', pl: 'Kolejka.', de: 'Warteschlange.' } 
+      hint: { en: 'A line or sequence of people or vehicles.', pl: 'Kolejka.', de: 'Warteschlange.' } 
     },
     { 
       id: 12, 
       word: 'Maneuver', 
       difficulty: 3, 
       phonetic: '/ məˈnuː.vər /', 
-      hints: { en: 'A movement or series of moves requiring skill and care.', pl: 'Manewr.', de: 'Manöver.' } 
+      hint: { en: 'A movement or series of moves requiring skill and care.', pl: 'Manewr.', de: 'Manöver.' } 
     },
     { 
       id: 13, 
       word: 'Psychology', 
       difficulty: 3, 
       phonetic: '/ saɪˈkɒl.ə.dʒi /', 
-      hints: { en: 'Scientific study of the human mind and its functions.', pl: 'Psychologia.', de: 'Psychologie.' } 
+      hint: { en: 'Scientific study of the human mind and its functions.', pl: 'Psychologia.', de: 'Psychologie.' } 
     },
     { 
       id: 14, 
       word: 'Chaos', 
       difficulty: 2, 
       phonetic: '/ ˈkeɪ.ɒs /', 
-      hints: { en: 'Complete disorder and confusion.', pl: 'Całkowity nieporządek.', de: 'Völlige Unordnung.' } 
+      hint: { en: 'Complete disorder and confusion.', pl: 'Całkowity nieporządek.', de: 'Völlige Unordnung.' } 
     }
   ],
 
@@ -105,84 +105,84 @@ export const wordDatabaseEN = {
       id: 1, 
       difficulty: 3, 
       focus: 'affect vs effect', 
-      questions: { en: 'Which word completes: "The new policy will ___ our workflow"?', pl: 'Które słowo pasuje: "Nowa polityka ___ na nasz przepływ pracy"?', de: 'Welches Wort passt: "Die neue Richtlinie wird unseren Arbeitsablauf ___"?' }, 
+      question: { en: 'Which word completes: "The new policy will ___ our workflow"?', pl: 'Które słowo pasuje: "Nowa polityka ___ na nasz przepływ pracy"?', de: 'Welches Wort passt: "Die neue Richtlinie wird unseren Arbeitsablauf ___"?' }, 
       options: [{ text: 'affect', isCorrect: true, icon: '📉' }, { text: 'effect', isCorrect: false, icon: '❌' }, { text: 'afect', isCorrect: false, icon: '❌' }, { text: 'efect', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 2, 
       difficulty: 3, 
       focus: 'principal vs principle', 
-      questions: { en: 'Which word means "a fundamental truth or proposition"?', pl: 'Które słowo oznacza "podstawową prawdę lub zasadę"?', de: 'Welches Wort bedeutet "eine grundlegende Wahrheit oder ein Prinzip"?' }, 
+      question: { en: 'Which word means "a fundamental truth or proposition"?', pl: 'Które słowo oznacza "podstawową prawdę lub zasadę"?', de: 'Welches Wort bedeutet "eine grundlegende Wahrheit oder ein Prinzip"?' }, 
       options: [{ text: 'Principle', isCorrect: true, icon: '📜' }, { text: 'Principal', isCorrect: false, icon: '🏫' }, { text: 'Principell', isCorrect: false, icon: '❌' }, { text: 'Prinicpal', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 3, 
       difficulty: 3, 
       focus: 'stationery vs stationary', 
-      questions: { en: 'Which word refers to office supplies like paper and envelopes?', pl: 'Które słowo odnosi się do materiałów biurowych?', de: 'Welches Wort bezieht sich auf Büromaterial?' }, 
+      question: { en: 'Which word refers to office supplies like paper and envelopes?', pl: 'Które słowo odnosi się do materiałów biurowych?', de: 'Welches Wort bezieht sich auf Büromaterial?' }, 
       options: [{ text: 'Stationery', isCorrect: true, icon: '✉️' }, { text: 'Stationary', isCorrect: false, icon: '🚗' }, { text: 'Stationerry', isCorrect: false, icon: '❌' }, { text: 'Stationarry', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 4, 
       difficulty: 1, 
       focus: 'their vs there vs they\'re', 
-      questions: { en: 'Which word indicates possession (belonging to them)?', pl: 'Które słowo oznacza przynależność (ich)?', de: 'Welches Wort zeigt Besitz an (ihr/ihre)?' }, 
+      question: { en: 'Which word indicates possession (belonging to them)?', pl: 'Które słowo oznacza przynależność (ich)?', de: 'Welches Wort zeigt Besitz an (ihr/ihre)?' }, 
       options: [{ text: 'Their', isCorrect: true, icon: '👥' }, { text: 'There', isCorrect: false, icon: '📍' }, { text: 'They\'re', isCorrect: false, icon: '❌' }, { text: 'Thier', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 5, 
       difficulty: 2, 
       focus: 'its vs it\'s', 
-      questions: { en: 'Which word means "it is"?', pl: 'Które słowo jest skrótem od "it is" (to jest)?', de: 'Welches Wort bedeutet "es ist"?' }, 
+      question: { en: 'Which word means "it is"?', pl: 'Które słowo jest skrótem od "it is" (to jest)?', de: 'Welches Wort bedeutet "es ist"?' }, 
       options: [{ text: 'It\'s', isCorrect: true, icon: '✨' }, { text: 'Its', isCorrect: false, icon: '❌' }, { text: 'Its\'', isCorrect: false, icon: '❌' }, { text: 'Ites', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 6, 
       difficulty: 3, 
       focus: 'complement vs compliment', 
-      questions: { en: 'Which word means to politely praise or admire someone?', pl: 'Które słowo oznacza prawienie komplementów?', de: 'Welches Wort bedeutet, jemandem ein Kompliment zu machen?' }, 
+      question: { en: 'Which word means to politely praise or admire someone?', pl: 'Które słowo oznacza prawienie komplementów?', de: 'Welches Wort bedeutet, jemandem ein Kompliment zu machen?' }, 
       options: [{ text: 'Compliment', isCorrect: true, icon: '💬' }, { text: 'Complement', isCorrect: false, icon: '🧩' }, { text: 'Complimant', isCorrect: false, icon: '❌' }, { text: 'Complemant', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 7, 
       difficulty: 1, 
       focus: 'lose vs loose', 
-      questions: { en: 'Which word means to fail to win or to misplace something?', pl: 'Które słowo oznacza zgubić coś lub przegrać?', de: 'Welches Wort bedeutet, etwas zu verlieren?' }, 
+      question: { en: 'Which word means to fail to win or to misplace something?', pl: 'Które słowo oznacza zgubić coś lub przegrać?', de: 'Welches Wort bedeutet, etwas zu verlieren?' }, 
       options: [{ text: 'Lose', isCorrect: true, icon: '📉' }, { text: 'Loose', isCorrect: false, icon: '👕' }, { text: 'Looze', isCorrect: false, icon: '❌' }, { text: 'Loos', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 8, 
       difficulty: 2, 
       focus: 'accept vs except', 
-      questions: { en: 'Which word means to consent to receive something?', pl: 'Które słowo oznacza akceptację lub przyjęcie czegoś?', de: 'Welches Wort bedeutet, etwas anzunehmen?' }, 
+      question: { en: 'Which word means to consent to receive something?', pl: 'Które słowo oznacza akceptację lub przyjęcie czegoś?', de: 'Welches Wort bedeutet, etwas anzunehmen?' }, 
       options: [{ text: 'Accept', isCorrect: true, icon: '✅' }, { text: 'Except', isCorrect: false, icon: '🚫' }, { text: 'Acept', isCorrect: false, icon: '❌' }, { text: 'Exept', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 9, 
       difficulty: 2, 
       focus: 'advise vs advice', 
-      questions: { en: 'Which word is a VERB meaning to offer suggestions?', pl: 'Które słowo jest CZASOWNIKIEM oznaczającym doradzanie?', de: 'Welches Wort ist ein VERB und bedeutet, einen Rat zu geben?' }, 
+      question: { en: 'Which word is a VERB meaning to offer suggestions?', pl: 'Które słowo jest CZASOWNIKIEM oznaczającym doradzanie?', de: 'Welches Wort ist ein VERB und bedeutet, einen Rat zu geben?' }, 
       options: [{ text: 'Advise', isCorrect: true, icon: '🗣️' }, { text: 'Advice', isCorrect: false, icon: '📝' }, { text: 'Advize', isCorrect: false, icon: '❌' }, { text: 'Advis', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 10, 
       difficulty: 2, 
       focus: 'ensure vs insure', 
-      questions: { en: 'Which word means to make certain that something will happen?', pl: 'Które słowo oznacza upewnienie się, że coś się wydarzy?', de: 'Welches Wort bedeutet, sicherzustellen, dass etwas passiert?' }, 
+      question: { en: 'Which word means to make certain that something will happen?', pl: 'Które słowo oznacza upewnienie się, że coś się wydarzy?', de: 'Welches Wort bedeutet, sicherzustellen, dass etwas passiert?' }, 
       options: [{ text: 'Ensure', isCorrect: true, icon: '🔒' }, { text: 'Insure', isCorrect: false, icon: '📄' }, { text: 'Enshure', isCorrect: false, icon: '❌' }, { text: 'Inshure', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 11, 
       difficulty: 1, 
       focus: 'bare vs bear', 
-      questions: { en: 'Which word refers to a large heavy mammal?', pl: 'Które słowo oznacza dużego, ciężkiego ssaka?', de: 'Welches Wort bezieht sich auf ein großes, schweres Säugetier?' }, 
+      question: { en: 'Which word refers to a large heavy mammal?', pl: 'Które słowo oznacza dużego, ciężkiego ssaka?', de: 'Welches Wort bezieht sich auf ein großes, schweres Säugetier?' }, 
       options: [{ text: 'Bear', isCorrect: true, icon: '🐻' }, { text: 'Bare', isCorrect: false, icon: '🦶' }, { text: 'Bair', isCorrect: false, icon: '❌' }, { text: 'Beare', isCorrect: false, icon: '❌' }] 
     },
     { 
       id: 12, 
       difficulty: 2, 
       focus: 'break vs brake', 
-      questions: { en: 'Which word means a device for slowing or stopping a moving vehicle?', pl: 'Które słowo oznacza urządzenie do hamowania pojazdu?', de: 'Welches Wort bedeutet eine Vorrichtung zum Verlangsamen oder Anhalten eines Fahrzeugs?' }, 
+      question: { en: 'Which word means a device for slowing or stopping a moving vehicle?', pl: 'Które słowo oznacza urządzenie do hamowania pojazdu?', de: 'Welches Wort bedeutet eine Vorrichtung zum Verlangsamen oder Anhalten eines Fahrzeugs?' }, 
       options: [{ text: 'Brake', isCorrect: true, icon: '🛑' }, { text: 'Break', isCorrect: false, icon: '💔' }, { text: 'Braik', isCorrect: false, icon: '❌' }, { text: 'Brak', isCorrect: false, icon: '❌' }] 
     }
   ],
@@ -218,20 +218,20 @@ export const wordDatabaseEN = {
   ],
 
   context: [
-    { id: 1, difficulty: 3, tags: ['business'], sentence_part1: 'The committee needs to', sentence_part2: 'the long-term financial risks before proceeding.', options: [{ text: 'assess', isCorrect: true }, { text: 'access', isCorrect: false }, { text: 'asess', isCorrect: false }, { text: 'acess', isCorrect: false }], hints: { en: '"Assess" means to evaluate. "Access" means to enter or retrieve.', pl: '"Assess" oznacza oceniać. "Access" oznacza dostęp.' } },
-    { id: 2, difficulty: 3, tags: ['business'], sentence_part1: 'We must ensure that our supply chain remains', sentence_part2: 'despite the market volatility.', options: [{ text: 'resilient', isCorrect: true }, { text: 'resistant', isCorrect: false }, { text: 'resiliant', isCorrect: false }, { text: 'resistent', isCorrect: false }], hints: { en: '"Resilient" implies bouncing back from adversity. "Resistant" means blocking it entirely.', pl: '"Resilient" oznacza odporny, potrafiący się podnieść. "Resistant" to całkowicie blokujący.' } },
-    { id: 3, difficulty: 2, tags: ['business'], sentence_part1: 'Please', sentence_part2: 'that all files are saved on the shared drive.', options: [{ text: 'ensure', isCorrect: true }, { text: 'insure', isCorrect: false }, { text: 'enshure', isCorrect: false }, { text: 'inshure', isCorrect: false }], hints: { en: '"Ensure" is to make sure. "Insure" relates to insurance policies.', pl: '"Ensure" to upewnić się. "Insure" dotyczy ubezpieczeń.' } },
-    { id: 4, difficulty: 2, tags: ['everyday'], sentence_part1: 'I will', sentence_part2: 'the offer with great pleasure.', options: [{ text: 'accept', isCorrect: true }, { text: 'except', isCorrect: false }, { text: 'acept', isCorrect: false }, { text: 'exept', isCorrect: false }], hints: { en: '"Accept" means to receive. "Except" means to exclude.', pl: '"Accept" to przyjąć. "Except" to z wyjątkiem.' } },
-    { id: 5, difficulty: 3, tags: ['business'], sentence_part1: 'What do you', sentence_part2: 'from the recent drop in sales?', options: [{ text: 'infer', isCorrect: true }, { text: 'imply', isCorrect: false }, { text: 'inffer', isCorrect: false }, { text: 'implie', isCorrect: false }], hints: { en: 'To "infer" is to deduce. To "imply" is to suggest indirectly.', pl: '"Infer" to wnioskować. "Imply" to sugerować.' } },
-    { id: 6, difficulty: 2, tags: ['business'], sentence_part1: 'We will', sentence_part2: 'with the presentation after a short break.', options: [{ text: 'proceed', isCorrect: true }, { text: 'precede', isCorrect: false }, { text: 'procede', isCorrect: false }, { text: 'preceed', isCorrect: false }], hints: { en: '"Proceed" means to continue. "Precede" means to come before.', pl: '"Proceed" to kontynuować. "Precede" to poprzedzać.' } },
-    { id: 7, difficulty: 3, tags: ['business'], sentence_part1: 'Unfortunately, his handwriting on the form was completely', sentence_part2: '.', options: [{ text: 'illegible', isCorrect: true }, { text: 'eligible', isCorrect: false }, { text: 'illegable', isCorrect: false }, { text: 'eligable', isCorrect: false }], hints: { en: '"Illegible" means unreadable. "Eligible" means qualified.', pl: '"Illegible" to nieczytelny. "Eligible" to kwalifikujący się.' } },
-    { id: 8, difficulty: 2, tags: ['business'], sentence_part1: 'The auditor conducted a very', sentence_part2: 'review of our accounts.', options: [{ text: 'thorough', isCorrect: true }, { text: 'through', isCorrect: false }, { text: 'thoroughly', isCorrect: false }, { text: 'thru', isCorrect: false }], hints: { en: '"Thorough" means complete/detailed. "Through" is a preposition.', pl: '"Thorough" to dokładny. "Through" to przez.' } },
-    { id: 9, difficulty: 2, tags: ['everyday'], sentence_part1: 'She was', sentence_part2: 'employed at a marketing agency before joining us.', options: [{ text: 'formerly', isCorrect: true }, { text: 'formally', isCorrect: false }, { text: 'formarly', isCorrect: false }, { text: 'formely', isCorrect: false }], hints: { en: '"Formerly" means previously. "Formally" means officially.', pl: '"Formerly" to dawniej. "Formally" to formalnie.' } },
-    { id: 10, difficulty: 2, tags: ['business'], sentence_part1: 'All inquiries regarding payroll should be directed to', sentence_part2: '.', options: [{ text: 'personnel', isCorrect: true }, { text: 'personal', isCorrect: false }, { text: 'personel', isCorrect: false }, { text: 'personall', isCorrect: false }], hints: { en: '"Personnel" refers to staff. "Personal" means private.', pl: '"Personnel" to personel. "Personal" to osobisty.' } },
-    { id: 11, difficulty: 2, tags: ['everyday'], sentence_part1: 'Make sure', sentence_part2: 'ready for the presentation tomorrow.', options: [{ text: 'you\'re', isCorrect: true }, { text: 'your', isCorrect: false }, { text: 'yours', isCorrect: false }, { text: 'youre', isCorrect: false }], hints: { en: '"You\'re" is a contraction of "you are".', pl: '"You\'re" to skrót od "you are".', de: '"You\'re" ist die Abkürzung für "you are".' } },
-    { id: 12, difficulty: 3, tags: ['business'], sentence_part1: 'The speaker made an', sentence_part2: 'to the recent market trends.', options: [{ text: 'allusion', isCorrect: true }, { text: 'illusion', isCorrect: false }, { text: 'alusion', isCorrect: false }, { text: 'ilusion', isCorrect: false }], hints: { en: 'An "allusion" is an indirect reference. An "illusion" is a deception.', pl: '"Allusion" to aluzja. "Illusion" to iluzja.', de: '"Allusion" ist eine Anspielung. "Illusion" ist eine Täuschung.' } },
-    { id: 13, difficulty: 2, tags: ['business'], sentence_part1: 'The new manager is very', sentence_part2: 'about meeting the quarterly deadlines.', options: [{ text: 'anxious', isCorrect: true }, { text: 'anxous', isCorrect: false }, { text: 'anxtious', isCorrect: false }, { text: 'ankshous', isCorrect: false }], hints: { en: '"Anxious" comes from anxiety, spelled with x and ious.', pl: '"Anxious" (niespokojny) piszemy z x oraz ious.', de: '"Anxious" (besorgt) schreibt man mit x und ious.' } },
-    { id: 14, difficulty: 2, tags: ['everyday'], sentence_part1: 'Please do not', sentence_part2: 'to contact me if you have any questions.', options: [{ text: 'hesitate', isCorrect: true }, { text: 'hezitate', isCorrect: false }, { text: 'hesitat', isCorrect: false }, { text: 'hesitatee', isCorrect: false }], hints: { en: '"Hesitate" means to pause before saying or doing something.', pl: '"Hesitate" oznacza wahać się.', de: '"Hesitate" bedeutet zögern.' } }
+    { id: 1, difficulty: 3, tags: ['business'], sentence_part1: 'The committee needs to', sentence_part2: 'the long-term financial risks before proceeding.', options: [{ text: 'assess', isCorrect: true }, { text: 'access', isCorrect: false }, { text: 'asess', isCorrect: false }, { text: 'acess', isCorrect: false }], hint: { en: '"Assess" means to evaluate. "Access" means to enter or retrieve.', pl: '"Assess" oznacza oceniać. "Access" oznacza dostęp.' } },
+    { id: 2, difficulty: 3, tags: ['business'], sentence_part1: 'We must ensure that our supply chain remains', sentence_part2: 'despite the market volatility.', options: [{ text: 'resilient', isCorrect: true }, { text: 'resistant', isCorrect: false }, { text: 'resiliant', isCorrect: false }, { text: 'resistent', isCorrect: false }], hint: { en: '"Resilient" implies bouncing back from adversity. "Resistant" means blocking it entirely.', pl: '"Resilient" oznacza odporny, potrafiący się podnieść. "Resistant" to całkowicie blokujący.' } },
+    { id: 3, difficulty: 2, tags: ['business'], sentence_part1: 'Please', sentence_part2: 'that all files are saved on the shared drive.', options: [{ text: 'ensure', isCorrect: true }, { text: 'insure', isCorrect: false }, { text: 'enshure', isCorrect: false }, { text: 'inshure', isCorrect: false }], hint: { en: '"Ensure" is to make sure. "Insure" relates to insurance policies.', pl: '"Ensure" to upewnić się. "Insure" dotyczy ubezpieczeń.' } },
+    { id: 4, difficulty: 2, tags: ['everyday'], sentence_part1: 'I will', sentence_part2: 'the offer with great pleasure.', options: [{ text: 'accept', isCorrect: true }, { text: 'except', isCorrect: false }, { text: 'acept', isCorrect: false }, { text: 'exept', isCorrect: false }], hint: { en: '"Accept" means to receive. "Except" means to exclude.', pl: '"Accept" to przyjąć. "Except" to z wyjątkiem.' } },
+    { id: 5, difficulty: 3, tags: ['business'], sentence_part1: 'What do you', sentence_part2: 'from the recent drop in sales?', options: [{ text: 'infer', isCorrect: true }, { text: 'imply', isCorrect: false }, { text: 'inffer', isCorrect: false }, { text: 'implie', isCorrect: false }], hint: { en: 'To "infer" is to deduce. To "imply" is to suggest indirectly.', pl: '"Infer" to wnioskować. "Imply" to sugerować.' } },
+    { id: 6, difficulty: 2, tags: ['business'], sentence_part1: 'We will', sentence_part2: 'with the presentation after a short break.', options: [{ text: 'proceed', isCorrect: true }, { text: 'precede', isCorrect: false }, { text: 'procede', isCorrect: false }, { text: 'preceed', isCorrect: false }], hint: { en: '"Proceed" means to continue. "Precede" means to come before.', pl: '"Proceed" to kontynuować. "Precede" to poprzedzać.' } },
+    { id: 7, difficulty: 3, tags: ['business'], sentence_part1: 'Unfortunately, his handwriting on the form was completely', sentence_part2: '.', options: [{ text: 'illegible', isCorrect: true }, { text: 'eligible', isCorrect: false }, { text: 'illegable', isCorrect: false }, { text: 'eligable', isCorrect: false }], hint: { en: '"Illegible" means unreadable. "Eligible" means qualified.', pl: '"Illegible" to nieczytelny. "Eligible" to kwalifikujący się.' } },
+    { id: 8, difficulty: 2, tags: ['business'], sentence_part1: 'The auditor conducted a very', sentence_part2: 'review of our accounts.', options: [{ text: 'thorough', isCorrect: true }, { text: 'through', isCorrect: false }, { text: 'thoroughly', isCorrect: false }, { text: 'thru', isCorrect: false }], hint: { en: '"Thorough" means complete/detailed. "Through" is a preposition.', pl: '"Thorough" to dokładny. "Through" to przez.' } },
+    { id: 9, difficulty: 2, tags: ['everyday'], sentence_part1: 'She was', sentence_part2: 'employed at a marketing agency before joining us.', options: [{ text: 'formerly', isCorrect: true }, { text: 'formally', isCorrect: false }, { text: 'formarly', isCorrect: false }, { text: 'formely', isCorrect: false }], hint: { en: '"Formerly" means previously. "Formally" means officially.', pl: '"Formerly" to dawniej. "Formally" to formalnie.' } },
+    { id: 10, difficulty: 2, tags: ['business'], sentence_part1: 'All inquiries regarding payroll should be directed to', sentence_part2: '.', options: [{ text: 'personnel', isCorrect: true }, { text: 'personal', isCorrect: false }, { text: 'personel', isCorrect: false }, { text: 'personall', isCorrect: false }], hint: { en: '"Personnel" refers to staff. "Personal" means private.', pl: '"Personnel" to personel. "Personal" to osobisty.' } },
+    { id: 11, difficulty: 2, tags: ['everyday'], sentence_part1: 'Make sure', sentence_part2: 'ready for the presentation tomorrow.', options: [{ text: 'you\'re', isCorrect: true }, { text: 'your', isCorrect: false }, { text: 'yours', isCorrect: false }, { text: 'youre', isCorrect: false }], hint: { en: '"You\'re" is a contraction of "you are".', pl: '"You\'re" to skrót od "you are".', de: '"You\'re" ist die Abkürzung für "you are".' } },
+    { id: 12, difficulty: 3, tags: ['business'], sentence_part1: 'The speaker made an', sentence_part2: 'to the recent market trends.', options: [{ text: 'allusion', isCorrect: true }, { text: 'illusion', isCorrect: false }, { text: 'alusion', isCorrect: false }, { text: 'ilusion', isCorrect: false }], hint: { en: 'An "allusion" is an indirect reference. An "illusion" is a deception.', pl: '"Allusion" to aluzja. "Illusion" to iluzja.', de: '"Allusion" ist eine Anspielung. "Illusion" ist eine Täuschung.' } },
+    { id: 13, difficulty: 2, tags: ['business'], sentence_part1: 'The new manager is very', sentence_part2: 'about meeting the quarterly deadlines.', options: [{ text: 'anxious', isCorrect: true }, { text: 'anxous', isCorrect: false }, { text: 'anxtious', isCorrect: false }, { text: 'ankshous', isCorrect: false }], hint: { en: '"Anxious" comes from anxiety, spelled with x and ious.', pl: '"Anxious" (niespokojny) piszemy z x oraz ious.', de: '"Anxious" (besorgt) schreibt man mit x und ious.' } },
+    { id: 14, difficulty: 2, tags: ['everyday'], sentence_part1: 'Please do not', sentence_part2: 'to contact me if you have any questions.', options: [{ text: 'hesitate', isCorrect: true }, { text: 'hezitate', isCorrect: false }, { text: 'hesitat', isCorrect: false }, { text: 'hesitatee', isCorrect: false }], hint: { en: '"Hesitate" means to pause before saying or doing something.', pl: '"Hesitate" oznacza wahać się.', de: '"Hesitate" bedeutet zögern.' } }
   ],
 
   clock: [
@@ -402,7 +402,7 @@ export const wordDatabaseEN = {
       pillar: 'Literacy',
       difficulty: 4,
       focus: 'Diagnostic: Reading & Writing',
-      questions: { en: 'Read the following excerpt from a corporate email. Select the option that contains absolutely no orthographic, semantic, or homophone errors.' },
+      question: { en: 'Read the following excerpt from a corporate email. Select the option that contains absolutely no orthographic, semantic, or homophone errors.' },
       options: [
         { text: "A. The principle reason for the board meeting is to ensure the new policy doesn't effect our profit margins.", isCorrect: false },
         { text: "B. The principal reason for the broad meeting is to ensure the new policy doesn't affect our profit margins.", isCorrect: false },
@@ -415,7 +415,7 @@ export const wordDatabaseEN = {
       pillar: 'Visual',
       difficulty: 4,
       focus: 'Diagnostic: Vision & Space',
-      questions: { en: 'Scan the provided data string of client request codes below.\n\n[ TRIAL-FORM-DISCREET | TRAIL-FROM-DISCRETE | TRIAL-FROM-DISCREET | TRAIL-FORM-DISCRETE ]\n\nA client submitted a "TRIAL" request "FROM" a "DISCREET" server. Which of the data clusters matches this exact sequence without any visual metathesis (swapping) or homophone errors?' },
+      question: { en: 'Scan the provided data string of client request codes below.\n\n[ TRIAL-FORM-DISCREET | TRAIL-FROM-DISCRETE | TRIAL-FROM-DISCREET | TRAIL-FORM-DISCRETE ]\n\nA client submitted a "TRIAL" request "FROM" a "DISCREET" server. Which of the data clusters matches this exact sequence without any visual metathesis (swapping) or homophone errors?' },
       options: [
         { text: 'TRAIL-FROM-DISCRETE', isCorrect: false },
         { text: 'TRIAL-FORM-DISCREET', isCorrect: false },
@@ -428,7 +428,7 @@ export const wordDatabaseEN = {
       pillar: 'Cognitive',
       difficulty: 4,
       focus: 'Diagnostic: Logic & Memory',
-      questions: { en: 'Evaluate the logical constraints of the following project deployment schedule:\n\nIf the design phase precedes the testing phase, the launch proceeds on Friday. If testing precedes design, the launch is delayed. The CEO mandates that testing must not precede design, but due to a scheduling error, the development team accidentally swapped the phases.\n\nBased on the CEO\'s mandate versus the team\'s actual sequence of actions, what is the ultimate operational outcome?' },
+      question: { en: 'Evaluate the logical constraints of the following project deployment schedule:\n\nIf the design phase precedes the testing phase, the launch proceeds on Friday. If testing precedes design, the launch is delayed. The CEO mandates that testing must not precede design, but due to a scheduling error, the development team accidentally swapped the phases.\n\nBased on the CEO\'s mandate versus the team\'s actual sequence of actions, what is the ultimate operational outcome?' },
       options: [
         { text: 'The design phase precedes testing, so the launch proceeds on Friday.', isCorrect: false },
         { text: 'Testing precedes design, therefore the launch is delayed.', isCorrect: true },
@@ -436,12 +436,17 @@ export const wordDatabaseEN = {
         { text: 'The testing phase is completely swapped with the final launch phase.', isCorrect: false }
       ]
     },
-    { id: 'en_diag_4', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostic: Spelling', questions: { en: 'Which of the following is spelled correctly?' }, options: [{ text: 'Accommodate', isCorrect: true }, { text: 'Accomodate', isCorrect: false }, { text: 'Acommodate', isCorrect: false }, { text: 'Acomodate', isCorrect: false }] },
-    { id: 'en_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostic: Visual Discrimination', questions: { en: 'Identify the odd one out in this sequence:\n\n b b b d b b' }, options: [{ text: 'The 3rd letter', isCorrect: false }, { text: 'The 4th letter', isCorrect: true }, { text: 'The 5th letter', isCorrect: false }, { text: 'The 6th letter', isCorrect: false }] },
-    { id: 'en_diag_6', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostic: Working Memory', questions: { en: 'If the meeting is moved from 2 PM to 4 PM, and then delayed by another half hour, what time does it start?' }, options: [{ text: '4:00 PM', isCorrect: false }, { text: '4:30 PM', isCorrect: true }, { text: '2:30 PM', isCorrect: false }, { text: '5:00 PM', isCorrect: false }] },
-    { id: 'en_diag_7', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostic: Homophones', questions: { en: 'Choose the correct word: "The dog wagged ___ tail."' }, options: [{ text: 'its', isCorrect: true }, { text: 'it\'s', isCorrect: false }, { text: 'its\'', isCorrect: false }, { text: 'it', isCorrect: false }] },
-    { id: 'en_diag_8', pillar: 'Visual', difficulty: 3, focus: 'Diagnostic: Letter Reversal', questions: { en: 'Which word contains a reversed letter?\n\n m a r k e t i n g \n d e v e l o p m e n t \n s t r a t e q y \n c o m m i t t e e' }, options: [{ text: 'marketing', isCorrect: false }, { text: 'development', isCorrect: false }, { text: 'strateqy', isCorrect: true }, { text: 'committee', isCorrect: false }] },
-    { id: 'en_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostic: Categorization', questions: { en: 'Which of the following does NOT belong in a group of financial terms?' }, options: [{ text: 'Budget', isCorrect: false }, { text: 'Invoice', isCorrect: false }, { text: 'Recruitment', isCorrect: true }, { text: 'Revenue', isCorrect: false }] },
-    { id: 'en_diag_10', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostic: Syllable Segmentation', questions: { en: 'How many syllables are in the word "Responsibility"?' }, options: [{ text: '4', isCorrect: false }, { text: '5', isCorrect: false }, { text: '6', isCorrect: true }, { text: '7', isCorrect: false }] }
+    { id: 'en_diag_4', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostic: Spelling', question: { en: 'Which of the following is spelled correctly?' }, options: [{ text: 'Accommodate', isCorrect: true }, { text: 'Accomodate', isCorrect: false }, { text: 'Acommodate', isCorrect: false }, { text: 'Acomodate', isCorrect: false }] },
+    { id: 'en_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostic: Visual Discrimination', question: { en: 'Identify the odd one out in this sequence:\n\n b b b d b b' }, options: [{ text: 'The 3rd letter', isCorrect: false }, { text: 'The 4th letter', isCorrect: true }, { text: 'The 5th letter', isCorrect: false }, { text: 'The 6th letter', isCorrect: false }] },
+    { id: 'en_diag_6', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostic: Working Memory', question: { en: 'If the meeting is moved from 2 PM to 4 PM, and then delayed by another half hour, what time does it start?' }, options: [{ text: '4:00 PM', isCorrect: false }, { text: '4:30 PM', isCorrect: true }, { text: '2:30 PM', isCorrect: false }, { text: '5:00 PM', isCorrect: false }] },
+    { id: 'en_diag_7', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostic: Homophones', question: { en: 'Choose the correct word: "The dog wagged ___ tail."' }, options: [{ text: 'its', isCorrect: true }, { text: 'it\'s', isCorrect: false }, { text: 'its\'', isCorrect: false }, { text: 'it', isCorrect: false }] },
+    { id: 'en_diag_8', pillar: 'Visual', difficulty: 3, focus: 'Diagnostic: Letter Reversal', question: { en: 'Which word contains a reversed letter?\n\n m a r k e t i n g \n d e v e l o p m e n t \n s t r a t e q y \n c o m m i t t e e' }, options: [{ text: 'marketing', isCorrect: false }, { text: 'development', isCorrect: false }, { text: 'strateqy', isCorrect: true }, { text: 'committee', isCorrect: false }] },
+    { id: 'en_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostic: Categorization', question: { en: 'Which of the following does NOT belong in a group of financial terms?' }, options: [{ text: 'Budget', isCorrect: false }, { text: 'Invoice', isCorrect: false }, { text: 'Recruitment', isCorrect: true }, { text: 'Revenue', isCorrect: false }] },
+    { id: 'en_diag_10', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostic: Syllable Segmentation', question: { en: 'How many syllables are in the word "Responsibility"?' }, options: [{ text: '4', isCorrect: false }, { text: '5', isCorrect: false }, { text: '6', isCorrect: true }, { text: '7', isCorrect: false }] },
+    { id: 'en_diag_11', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostic: Spelling', question: { en: 'Which word is spelled correctly?' }, options: [{ text: 'Definitely', isCorrect: true }, { text: 'Definately', isCorrect: false }, { text: 'Definatly', isCorrect: false }, { text: 'Defenitely', isCorrect: false }] },
+    { id: 'en_diag_12', pillar: 'Visual', difficulty: 3, focus: 'Diagnostic: Shape Recognition', question: { en: 'Identify the sequence containing the letter "p":' }, options: [{ text: 'q q q q d b', isCorrect: false }, { text: 'b d q d b q', isCorrect: false }, { text: 'q d b p q d', isCorrect: true }, { text: 'b b d q d b', isCorrect: false }] },
+    { id: 'en_diag_13', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostic: Categorization', question: { en: 'Which of the following is NOT a vegetable?' }, options: [{ text: 'Carrot', isCorrect: false }, { text: 'Broccoli', isCorrect: false }, { text: 'Tomato', isCorrect: true }, { text: 'Spinach', isCorrect: false }] },
+    { id: 'en_diag_14', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostic: Synonyms', question: { en: 'What is a synonym for "Rapid"?' }, options: [{ text: 'Sluggish', isCorrect: false }, { text: 'Swift', isCorrect: true }, { text: 'Lethargic', isCorrect: false }, { text: 'Quiet', isCorrect: false }] },
+    { id: 'en_diag_15', pillar: 'Cognitive', difficulty: 4, focus: 'Diagnostic: Deduction', question: { en: 'If every square is a rectangle, and no rectangle is a circle, then:' }, options: [{ text: 'No square is a circle', isCorrect: true }, { text: 'Every rectangle is a square', isCorrect: false }, { text: 'Every circle is a square', isCorrect: false }, { text: 'Some squares are circles', isCorrect: false }] }
   ]
 };

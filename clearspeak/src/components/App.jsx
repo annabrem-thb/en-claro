@@ -19,6 +19,7 @@ import VirtualGarden      from './VirtualGarden.jsx';
 import BionicText         from './common/BionicText.jsx';
 import SkeletonLoader     from './common/SkeletonLoader.jsx';
 import SidebarNav         from './SidebarNav.jsx';
+import ProfileModal       from './ProfileModal.jsx';
 import { FeedbackCollector } from './FeedbackCollector.jsx';
 import { CognitiveEnergyIndicator } from './CognitiveEnergyIndicator.jsx';
 import { saveLog } from '../utils/indexedDB.js';
@@ -85,6 +86,7 @@ function AppContent() {
   const [lastPillar,   setLastPillar]   = useState('Literacy'); // Remembers the pillar for garden rendering
   const [showIntro,    setShowIntro]    = useState(true);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [profileOpen,  setProfileOpen]  = useState(false);
   const [showSuccess,  setShowSuccess]  = useState(false);
   const [earnedCoinsAnim, setEarnedCoinsAnim] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -281,6 +283,12 @@ function AppContent() {
         case '2': if (availableTabs.length >= 2) targetTab = availableTabs[1]; break;
         case '3': if (availableTabs.length >= 3) targetTab = availableTabs[2]; break;
         case '4': if (availableTabs.length >= 4) targetTab = availableTabs[3]; break;
+        case 'p':
+        case 'P':
+          e.preventDefault();
+          if (typeof navigator !== 'undefined' && navigator.vibrate && !settings.zenMode) navigator.vibrate(15);
+          setProfileOpen(true);
+          return;
         case ',':
           e.preventDefault();
           if (typeof navigator !== 'undefined' && navigator.vibrate && !settings.zenMode) navigator.vibrate(15);
@@ -358,6 +366,10 @@ function AppContent() {
     />;
   }
 
+  if (profileOpen) {
+    return <ProfileModal open={true} onClose={() => setProfileOpen(false)} />;
+  }
+
   // --- Render Main Application Layout ---
   return (
     <div className={`fixed inset-0 flex flex-col md:flex-row w-full overflow-hidden ${isHighContrast ? 'bg-black text-white' : `${themeStyles.bg} text-[#2D3732]`}`}>
@@ -378,6 +390,7 @@ function AppContent() {
             bigTargets={bigTargets}
             hideNavLabel={hideNavLabel}
             setSettingsOpen={setSettingsOpen}
+            setProfileOpen={setProfileOpen}
             t={t}
             coins={coins}
             loadLevel={loadLevel}
@@ -481,8 +494,8 @@ function AppContent() {
                   />
                 )}
                 {feedback && (
-                  <div className={`absolute top-4 z-20 ${noFlash ? '' : 'animate-in slide-in-from-top duration-300'}`}>
-                <span className={`px-6 py-3 rounded-2xl text-sm font-medium shadow-sm border ${isHighContrast ? 'bg-black border-white text-white' : 'bg-slate-50 border-slate-200 text-slate-600'}`}
+              <div className={`absolute top-4 left-1/2 -translate-x-1/2 z-20 w-full max-w-[90%] sm:max-w-md ${noFlash ? '' : 'animate-in slide-in-from-top duration-300'}`}>
+            <span className={`block text-center break-words px-4 sm:px-6 py-3 rounded-2xl text-sm font-medium shadow-sm border ${isHighContrast ? 'bg-black border-white text-white' : 'bg-slate-50 border-slate-200 text-slate-600'}`}
                           role="status" aria-live="polite">
                   <BionicText text={feedback.msg} enabled={!!settings.bionicReading} />
                     </span>
@@ -495,6 +508,12 @@ function AppContent() {
                   {renderCurrentExercise()}
                 </div>
               </section>
+
+              {settings.bionicReading && !settings.zenMode && (
+                <p className={`mt-2 md:mt-3 text-[9px] sm:text-[10px] font-bold text-center opacity-50 shrink-0 ${isHighContrast ? 'text-white' : 'text-slate-500'}`}>
+                  {t.bionicExplanation || 'Bionic Reading® is a typographic method that supports the reading flow.'}
+                </p>
+              )}
 
               {feedback?.type === 'success' ? (
                 <div className="mt-3 md:mt-4 flex flex-col items-center justify-center animate-in zoom-in duration-300 shrink-0 pb-1 md:pb-2">
@@ -582,6 +601,20 @@ function AppContent() {
               )}
             </button>
           )}
+
+          <button 
+            onClick={() => {
+              if (typeof navigator !== 'undefined' && navigator.vibrate && !settings.zenMode) navigator.vibrate(15);
+              setProfileOpen(true);
+            }}
+            className={`relative flex flex-col items-center justify-center flex-1 min-w-0 p-2 rounded-2xl transition-all duration-300 active:scale-95 ${isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50/50'}`}
+            aria-label={t.profile || 'Profile'}
+          >
+            <div className="text-2xl mb-1" aria-hidden="true">👤</div>
+            {!hideNavLabel && (
+              <span className="text-[10px] leading-none text-center max-w-full truncate">{t.profile || 'Profile'}</span>
+            )}
+          </button>
 
           <button 
             onClick={() => {
@@ -690,7 +723,7 @@ function AppContent() {
             {t.pwaDescription || 'New content is available. Please update the app to get the latest offline changes.'}
           </p>
           <div className="flex gap-2">
-            <button onClick={() => updateServiceWorker(true)} className={`flex-1 py-3 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest text-white shadow-md active:scale-95 transition-all ${themeStyles.button}`}>
+            <button onClick={() => updateServiceWorker(true)} className={`flex-1 py-3 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest shadow-md active:scale-95 transition-all ${themeStyles.button} ${themeStyles.buttonText}`}>
               {t.pwaUpdate || 'Update'}
             </button>
             <button onClick={() => setNeedRefresh(false)} className={`flex-1 py-3 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all ${isHighContrast ? 'bg-white/10 hover:bg-white/20' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}>

@@ -106,9 +106,16 @@ function ScrabbleExercise({
 
   // Dynamic Class Definitions
   const animClass = noFlash ? '' : 'animate-in zoom-in duration-500';
+
+  // Responsive dynamic sizing to integrate long words (e.g., German compound words)
+  const wordLen = data.word?.length || 0;
+  const isLong = wordLen > 12;
+  const isVeryLong = wordLen > 18;
+
   const tileSize = bigTargets
-    ? 'w-12 h-16 sm:w-20 sm:h-24 text-3xl sm:text-5xl'
-    : 'w-10 h-14 sm:w-16 sm:h-20 text-2xl sm:text-4xl';
+    ? isVeryLong ? 'w-10 h-14 sm:w-14 sm:h-20 text-2xl sm:text-4xl' : isLong ? 'w-11 h-15 sm:w-16 sm:h-22 text-3xl sm:text-5xl' : 'w-12 h-16 sm:w-20 sm:h-24 text-3xl sm:text-5xl'
+    : isVeryLong ? 'w-8 h-12 sm:w-12 sm:h-16 text-xl sm:text-3xl' : isLong ? 'w-9 h-13 sm:w-14 sm:h-18 text-2xl sm:text-4xl' : 'w-10 h-14 sm:w-16 sm:h-20 text-2xl sm:text-4xl';
+
   const letterBtn = bigTargets
     ? 'w-14 h-14 sm:w-24 sm:h-24 text-2xl sm:text-4xl rounded-2xl sm:rounded-[2rem]'
     : 'w-12 h-12 sm:w-20 sm:h-20 text-xl sm:text-3xl rounded-xl sm:rounded-3xl';
@@ -197,7 +204,7 @@ function ScrabbleExercise({
         <button
           onClick={() => { clearAudioTimeouts(); handleDone(); }}
           disabled={userScrabble.length === 0}
-          className={`flex-2 ${bigTargets ? 'py-4' : 'py-3 sm:py-4'} ${themeStyles.button} rounded-2xl font-black text-white shadow-lg transition-all hover:brightness-110 active:scale-95 disabled:opacity-30 disabled:grayscale`}
+          className={`flex-2 ${bigTargets ? 'py-4' : 'py-3 sm:py-4'} ${themeStyles.button} ${themeStyles.buttonText} rounded-2xl font-black shadow-lg transition-all hover:brightness-110 active:scale-95 disabled:opacity-30 disabled:grayscale`}
         >
           <BionicText text={t.check || t.done} enabled={bionicReading} />
         </button>

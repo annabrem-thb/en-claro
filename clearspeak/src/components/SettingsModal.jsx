@@ -500,6 +500,9 @@ function SettingsModal({
               </section>
 
               {/* ── 3. INSTALL APP ──────────────────────────────────────────────── */}
+              {/* Warunek `!isInstalled && installPrompt` jest kluczowy dla logiki PWA.
+                  Można go tymczasowo zakomentować (np. zamienić na `true`), 
+                  aby zawsze widzieć przycisk podczas pracy nad jego wyglądem. */}
               {!isInstalled && installPrompt && (
                 <section>
                   <SectionLabel isHighContrast={isHighContrast}>{s.installApp || 'Install App'}</SectionLabel>

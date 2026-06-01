@@ -229,6 +229,7 @@
       "desc": "App suggests rest after a series of errors"
     }
   },
+  "bionicExplanation": "Bionic Reading® is a typographic method that supports the reading flow.",
   "profiles": {
     "Standard": {
       "name": "Standard",
@@ -390,6 +391,25 @@
       "frustration": "Frustration Level",
       "frustrationDesc": "How insecure, discouraged, irritated, or stressed were you?"
     },
+    "ueqTitle": "Your impressions (UEQ-Short)",
+    "ueq": {
+      "obstructive": "Obstructive",
+      "supportive": "Supportive",
+      "complicated": "Complicated",
+      "easy": "Easy",
+      "inefficient": "Inefficient",
+      "efficient": "Efficient",
+      "confusing": "Confusing",
+      "clear": "Clear",
+      "boring": "Boring",
+      "exciting": "Exciting",
+      "notInteresting": "Not interesting",
+      "interesting": "Interesting",
+      "conventional": "Conventional",
+      "inventive": "Inventive",
+      "usual": "Usual",
+      "leadingEdge": "Leading edge"
+    },
     "submit": "Save and continue",
     "skip": "Skip this time"
   },
@@ -405,6 +425,9 @@
   "breakTip": "Tip: Look away from the screen into the distance (preferably at something green) for at least 20 seconds.",
   "takeBreakBtn": "Taking a break (+2 💰)",
   "continueBtn": "Keep practicing",
+  "categorizeItems": "Categorize items",
+  "allItemsPlaced": "All items placed",
+  "checkAnswers": "Check answers",
   "pillars": {
     "Literacy": "Reading and Writing",
     "Visual": "Visual and Spatial",
@@ -486,6 +509,8 @@
   "tapAndPronounce": "Tap and pronounce the word",
   "skipPronunciation": "Skip pronunciation check",
   "readSentenceAndOptions": "Read sentence and options",
+  "removeCut": "Remove cut",
+  "addCut": "Add cut",
   "pressKey": "Press",
   "or": "or",
   "toContinue": "to continue",
@@ -513,7 +538,7 @@
   "commands": {
     "next": ["next", "continue", "done"],
     "check": ["check", "confirm"],
-    "undo": ["undo", "back", "delete"],
+    "undo": ["undo", "back", "delete", "remove", "revert"],
     "skip": ["skip", "don't know"],
     "hint": ["hint", "help me", "help"]
   },

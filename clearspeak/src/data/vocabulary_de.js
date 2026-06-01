@@ -18,7 +18,7 @@ export const wordDatabaseDE = {
       tags: ['business'],
       word: 'Qualifikation',
       phonetic: '/ kvaːlɪfɪkaˈt͡si̯oːn /',
-      hints: { de: 'Eignung oder Befähigung für eine Aufgabe' }
+      hint: { de: 'Eignung oder Befähigung für eine Aufgabe' }
     },
     {
       id: 2,
@@ -26,7 +26,7 @@ export const wordDatabaseDE = {
       tags: ['everyday'],
       word: 'Psychiatrie',
       phonetic: '/ psyçiˈatʁiː /',
-      hints: { de: 'Medizinisches Fachgebiet für seelische Erkrankungen' }
+      hint: { de: 'Medizinisches Fachgebiet für seelische Erkrankungen' }
     },
     {
       id: 3,
@@ -34,7 +34,7 @@ export const wordDatabaseDE = {
       tags: ['everyday'],
       word: 'Rhythmus',
       phonetic: '/ ˈʁʏtmʊs /',
-      hints: { de: 'Gleichmäßige Abfolge von Tönen oder Bewegungen' }
+      hint: { de: 'Gleichmäßige Abfolge von Tönen oder Bewegungen' }
     },
     {
       id: 4,
@@ -42,7 +42,7 @@ export const wordDatabaseDE = {
       tags: ['business'],
       word: 'Choreographie',
       phonetic: '/ koʁeoɡʁaˈfiː /',
-      hints: { de: 'Erfindung und Einstudierung von Tänzen' }
+      hint: { de: 'Erfindung und Einstudierung von Tänzen' }
     },
     {
       id: 5,
@@ -50,7 +50,7 @@ export const wordDatabaseDE = {
       tags: ['business'],
       word: 'Verantwortung',
       phonetic: '/ fɛˈʁantvɔʁtʊŋ /',
-      hints: { de: 'Verpflichtung, für die Folgen einer Handlung einzustehen' }
+      hint: { de: 'Verpflichtung, für die Folgen einer Handlung einzustehen' }
     },
     {
       id: 6,
@@ -58,7 +58,7 @@ export const wordDatabaseDE = {
       tags: ['business'],
       word: 'Schlüsselkompetenz',
       phonetic: '/ ˈʃlʏsl̩kɔmpəˌtɛnt͡s /',
-      hints: { de: 'Besonders wichtige Fähigkeit im Berufsleben' }
+      hint: { de: 'Besonders wichtige Fähigkeit im Berufsleben' }
     },
     {
       id: 7,
@@ -66,7 +66,7 @@ export const wordDatabaseDE = {
       tags: ['everyday'],
       word: 'Beschleunigung',
       phonetic: '/ bəˈʃlɔʏ̯nɪɡʊŋ /',
-      hints: { de: 'Prozess, bei dem etwas schneller wird' }
+      hint: { de: 'Prozess, bei dem etwas schneller wird' }
     },
     {
       id: 8,
@@ -74,7 +74,7 @@ export const wordDatabaseDE = {
       tags: ['business'],
       word: 'Widersprüchlich',
       phonetic: '/ ˈviːdɐʃpʁʏçlɪç /',
-      hints: { de: 'Gegensätzlich, nicht übereinstimmend' }
+      hint: { de: 'Gegensätzlich, nicht übereinstimmend' }
     },
     {
       id: 9,
@@ -82,7 +82,7 @@ export const wordDatabaseDE = {
       tags: ['everyday'],
       word: 'Baum',
       phonetic: '/ baʊm /',
-      hints: { de: 'Große Pflanze mit Stamm und Blättern' }
+      hint: { de: 'Große Pflanze mit Stamm und Blättern' }
     },
     {
       id: 10,
@@ -90,7 +90,7 @@ export const wordDatabaseDE = {
       tags: ['everyday'],
       word: 'Apfel',
       phonetic: '/ ˈapfəl /',
-      hints: { de: 'Beliebtes rundes Obst, oft rot oder grün' }
+      hint: { de: 'Beliebtes rundes Obst, oft rot oder grün' }
     },
     {
       id: 11,
@@ -98,7 +98,7 @@ export const wordDatabaseDE = {
       tags: ['everyday'],
       word: 'Portemonnaie',
       phonetic: '/ pɔʁtmɔˈneː /',
-      hints: { de: 'Anderes Wort für Geldbeutel (aus dem Französischen)' }
+      hint: { de: 'Anderes Wort für Geldbeutel (aus dem Französischen)' }
     },
     {
       id: 12,
@@ -106,7 +106,7 @@ export const wordDatabaseDE = {
       tags: ['business'],
       word: 'Enthusiasmus',
       phonetic: '/ ɛntuzi̯ˈasmʊs /',
-      hints: { de: 'Begeisterung oder leidenschaftlicher Eifer' }
+      hint: { de: 'Begeisterung oder leidenschaftlicher Eifer' }
     },
     {
       id: 13,
@@ -114,7 +114,7 @@ export const wordDatabaseDE = {
       tags: ['business'],
       word: 'Ressource',
       phonetic: '/ ʁɛˈsʊʁsə /',
-      hints: { de: 'Mittel, Gegebenheit, wie z.B. Rohstoffe oder Personal', en: 'Resource', pl: 'Zasoby' }
+      hint: { de: 'Mittel, Gegebenheit, wie z.B. Rohstoffe oder Personal', en: 'Resource', pl: 'Zasoby' }
     },
     {
       id: 14,
@@ -122,7 +122,7 @@ export const wordDatabaseDE = {
       tags: ['everyday'],
       word: 'Authentisch',
       phonetic: '/ aʊ̯ˈtɛntɪʃ /',
-      hints: { de: 'Echt, nicht gefälscht', en: 'Authentic', pl: 'Autentyczny' }
+      hint: { de: 'Echt, nicht gefälscht', en: 'Authentic', pl: 'Autentyczny' }
     }
   ],
 
@@ -135,7 +135,7 @@ export const wordDatabaseDE = {
       id: 1,
       difficulty: 1,
       focus: 'ie / ei — Verwechslung der Vokalkombinationen',
-      questions: {
+      question: {
         de: "Welches Wort wird mit ‚ie' geschrieben? (sprich: langes i)",
         pl: "Które słowo pisze się przez ‚ie'? (wymawia się jako długie i)",
         en: "Which word is written with 'ie'? (pronounced as a long i)",
@@ -151,7 +151,7 @@ export const wordDatabaseDE = {
       id: 2,
       difficulty: 1,
       focus: 'dass / das — subordinating conjunction vs. article/pronoun',
-      questions: {
+      question: {
         de: "Welches ‚dass' / ‚das' passt? — Ich glaube, ___ er kommt.",
         pl: "Które ‚dass' / ‚das' pasuje? — Wierzę, ___ że on przyjdzie.",
         en: "Which 'dass'/'das' fits? — I believe ___ he is coming.",
@@ -167,7 +167,7 @@ export const wordDatabaseDE = {
       id: 3,
       difficulty: 1,
       focus: 'ss / ß — nach kurzem Vokal ss, nach langem Vokal/Diphthong ß',
-      questions: {
+      question: {
         de: 'Welche Schreibung ist korrekt? — Ich ___e die Straße entlang.',
         pl: 'Która pisownia jest poprawna? — Idę wzdłuż ulicy.',
         en: 'Which spelling is correct? — I walk along the street.',
@@ -183,7 +183,7 @@ export const wordDatabaseDE = {
       id: 4,
       difficulty: 1,
       focus: 'Auslautverhärtung — d → t am Wortende',
-      questions: {
+      question: {
         de: "Wie lautet die korrekte Schreibung? (der Plural ist ‚Hunde')",
         pl: "Jak brzmi poprawna pisownia? (liczba mnoga to ‚Hunde')",
         en: "What is the correct spelling? (the plural is 'Hunde')",
@@ -199,7 +199,7 @@ export const wordDatabaseDE = {
       id: 5,
       difficulty: 1,
       focus: 'Auslautverhärtung — b → p am Wortende',
-      questions: {
+      question: {
         de: "Wie lautet die korrekte Schreibung? (der Plural ist ‚Diebe')",
         pl: "Jak brzmi poprawna pisownia? (liczba mnoga to ‚Diebe')",
         en: "What is the correct spelling? (the plural is 'Diebe')",
@@ -215,7 +215,7 @@ export const wordDatabaseDE = {
       id: 6,
       difficulty: 1,
       focus: 'Auslautverhärtung — g → k am Wortende',
-      questions: {
+      question: {
         de: "Wie lautet die korrekte Schreibung? (der Plural ist ‚Tage')",
         pl: "Jak brzmi poprawna pisownia? (liczba mnoga to ‚Tage')",
         en: "What is the correct spelling? (the plural is 'Tage')",
@@ -231,7 +231,7 @@ export const wordDatabaseDE = {
       id: 7,
       difficulty: 2,
       focus: 'Dehnungs-h — stilles h nach langem Vokal',
-      questions: {
+      question: {
         de: "Welche Schreibung des Wortes für ‚Verkehrsmittel auf Schienen' ist korrekt?",
         pl: "Która pisownia słowa oznaczającego ‚środek transportu szynowego' jest poprawna?",
         en: "Which spelling of the word for 'rail transport' is correct?",
@@ -247,7 +247,7 @@ export const wordDatabaseDE = {
       id: 8,
       difficulty: 1,
       focus: 'Großschreibung — Substantive groß, Adjektive klein',
-      questions: {
+      question: {
         de: 'Was ist korrekt? Der ___ Lehrer erklärte das Thema sehr gut.',
         pl: 'Co jest poprawne? Dobry nauczyciel wyjaśnił temat bardzo dobrze.',
         en: 'What is correct? The good teacher explained the topic very well.',
@@ -263,7 +263,7 @@ export const wordDatabaseDE = {
       id: 9,
       difficulty: 2,
       focus: 'v → f-Laut in einheimischen Wörtern',
-      questions: {
+      question: {
         de: 'Welches einheimische Wort beginnt mit v, wird aber wie f gesprochen?',
         pl: 'Które rodzime słowo zaczyna się od v, ale wymawia się jak f?',
         en: 'Which native German word starts with v but is pronounced like f?',
@@ -279,7 +279,7 @@ export const wordDatabaseDE = {
       id: 10,
       difficulty: 2,
       focus: 'ph = f in Fremdwörtern',
-      questions: {
+      question: {
         de: 'Welche Schreibung des Fachs für Körperpflege und Medikamente ist korrekt?',
         pl: 'Która pisownia określenia placówki z lekami i produktami do higieny jest poprawna?',
         en: 'Which spelling of the word for the shop selling medicines is correct?',
@@ -295,7 +295,7 @@ export const wordDatabaseDE = {
       id: 11,
       difficulty: 2,
       focus: 'tz statt z nach kurzem Vokal',
-      questions: {
+      question: {
         de: 'Wie schreibt man das Wort für einen Ort, an dem man sitzt?',
         pl: 'Jak pisze się słowo oznaczające miejsce, gdzie się siedzi?',
         en: 'How do you spell the word for a place where you sit?',
@@ -311,7 +311,7 @@ export const wordDatabaseDE = {
       id: 12,
       difficulty: 1,
       focus: 'ck statt k nach kurzem Vokal',
-      questions: {
+      question: {
         de: 'Wie heißt das Kleidungsstück für den Unterkörper?',
         pl: 'Jak nazywa się część ubrania na dolną część ciała?',
         en: 'What is the word for the piece of clothing for the lower body?',
@@ -645,7 +645,7 @@ export const wordDatabaseDE = {
         { text: 'daß', isCorrect: false },
         { text: 'daas', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: "‚dass' ist hier eine Konjunktion (Bindewort), man kann es nicht durch dies/jenes ersetzen.",
         en: "'dass' = subordinating conjunction (that); 'das' = article or pronoun (the/which)",
       },
@@ -662,7 +662,7 @@ export const wordDatabaseDE = {
         { text: 'daß', isCorrect: false },
         { text: 'daas', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: "‚das' ist hier der bestimmte Artikel zu dem Wort Dokument.",
         en: "'das' here = definite article for a neuter noun",
       },
@@ -679,7 +679,7 @@ export const wordDatabaseDE = {
         { text: 'Verantvortung', isCorrect: false },
         { text: 'verantvortung', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: 'Nomen werden im Deutschen immer großgeschrieben.',
         en: 'All nouns in German are capitalised — Verantwortung is a noun',
       },
@@ -695,7 +695,7 @@ export const wordDatabaseDE = {
         { text: 'unseren', isCorrect: false },
         { text: 'unsrem', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: 'Dativ: Die Endung -em muss komplett ausgeschrieben werden (unserem).',
         en: 'Dative masculine/neuter: unserem — the dative ending -em must be complete',
       },
@@ -711,7 +711,7 @@ export const wordDatabaseDE = {
         { text: 'betrieft', isCorrect: false },
         { text: 'betriefft', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: 'Nach dem kurzen i wird der Konsonant f verdoppelt (ff).',
         en: 'treffen → betreffen → betrifft: the double f comes from the short vowel before it',
       },
@@ -727,7 +727,7 @@ export const wordDatabaseDE = {
         { text: 'Arbeits-Vertrag', isCorrect: false },
         { text: 'arbeitvertrag', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: 'Zusammengesetzte Nomen (Komposita) werden im Deutschen zusammen geschrieben.',
         en: 'German compound nouns are always written as one word, never separated',
       },
@@ -743,7 +743,7 @@ export const wordDatabaseDE = {
         { text: 'erfolgreih', isCorrect: false },
         { text: 'erfolkreich', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: 'Adjektive und Adverbien werden im Deutschen kleingeschrieben.',
         en: 'erfolgreich is an adjective/adverb — adjectives and adverbs are NOT capitalised in German',
       },
@@ -759,7 +759,7 @@ export const wordDatabaseDE = {
         { text: 'Kwalifikation', isCorrect: false },
         { text: 'Qualifikatzion', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: 'Die Endung -tion wird immer mit t geschrieben, nie mit q oder z.',
         en: 'Foreign suffix -tion is always written with t (never z or q)',
       },
@@ -775,7 +775,7 @@ export const wordDatabaseDE = {
         { text: 'Geschwindigkheit', isCorrect: false },
         { text: 'Geschwindigkeid', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: 'Die Endung ist -igkeit (geschwind + ig + keit), nicht -ichkeit.',
         en: 'The suffix is -igkeit (from geschwind + ig + keit), not -ichkeit',
       },
@@ -792,7 +792,7 @@ export const wordDatabaseDE = {
         { text: 'übernimt', isCorrect: false },
         { text: 'übernimmpt', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: 'Kommt von nehmen. In der 3. Person Singular wird das m verdoppelt (nimmt).',
         en: 'From nehmen: the m is doubled in the 3rd person singular (nimmt).',
       },
@@ -809,7 +809,7 @@ export const wordDatabaseDE = {
         { text: 'seidt', isCorrect: false },
         { text: 'seith', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: "‚seit' verwendet man bei Zeitangaben (seit wann?). ‚seid' ist ein Verb (ihr seid).",
         en: "'seit' is for time (since), 'seid' is the verb (you are).",
       },
@@ -826,7 +826,7 @@ export const wordDatabaseDE = {
         { text: 'Wieder stand', isCorrect: false },
         { text: 'Wider stand', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: "‚Wider' bedeutet ‚gegen' (Widerstand = gegen etwas stehen). ‚Wieder' bedeutet ‚nochmal'.",
         en: "'wider' means against, 'wieder' means again.",
       },
@@ -843,7 +843,7 @@ export const wordDatabaseDE = {
         { text: 'Angepot', isCorrect: false },
         { text: 'Angeboot', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: 'Auslautverhärtung: Man spricht ein [t], schreibt aber ein d (Angebote).',
         en: 'Hardened ending: spoken as [t] but written as d (Angebot -> Angebote).',
       },
@@ -860,7 +860,7 @@ export const wordDatabaseDE = {
         { text: 'Geshpräch', isCorrect: false },
         { text: 'Gespreech', isCorrect: false }
       ],
-      hints: {
+      hint: {
         de: 'Kommt von "sprechen", daher mit ä.',
         en: 'Derived from "sprechen" (to speak), hence written with ä.',
       },
@@ -1222,6 +1222,15 @@ export const wordDatabaseDE = {
       distractors: ['Zahlung'],
       correct: ['Angebot', 'Protokoll', 'Rechnung', 'Vertrag'],
     },
+    {
+      id: 11,
+      difficulty: 2,
+      tags: ['business'],
+      instruction: 'Ablauf eines Standard-Meetings',
+      scrambled: ['Zusammenfassung', 'Begrüßung', 'Verabschiedung', 'Themenbesprechung'],
+      distractors: ['Mittagspause'],
+      correct: ['Begrüßung', 'Themenbesprechung', 'Zusammenfassung', 'Verabschiedung'],
+    }
   ],
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -1357,7 +1366,7 @@ export const wordDatabaseDE = {
         { label: 'Links (\\) ⬅️', value: 'left' },
         { label: 'Rechts (/) ➡️', value: 'right' },
       ],
-        }
+    }
   ],
 
   lcwc: [
@@ -1482,15 +1491,20 @@ export const wordDatabaseDE = {
   ],
 
   diagnostic: [
-    { id: 'de_diag_1', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostik: das oder dass', questions: { de: 'Ich hoffe, ___ du kommst.' }, options: [{ text: 'das', isCorrect: false }, { text: 'dass', isCorrect: true }] },
-    { id: 'de_diag_2', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostik: ie oder ei', questions: { de: 'Welches Wort ist richtig geschrieben?' }, options: [{ text: 'Brief', isCorrect: true }, { text: 'Breif', isCorrect: false }, { text: 'Brif', isCorrect: false }, { text: 'Brieff', isCorrect: false }] },
-    { id: 'de_diag_3', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostik: Großschreibung', questions: { de: 'Welches Wort muss großgeschrieben werden?' }, options: [{ text: 'laufen', isCorrect: false }, { text: 'schnell', isCorrect: false }, { text: 'auto', isCorrect: true }, { text: 'weil', isCorrect: false }] },
-    { id: 'de_diag_4', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostik: ss oder ß', questions: { de: 'Welches Wort ist richtig?' }, options: [{ text: 'Strasse', isCorrect: false }, { text: 'Straße', isCorrect: true }, { text: 'Straße', isCorrect: false }, { text: 'Strase', isCorrect: false }] },
-    { id: 'de_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostik: Visuelle Diskriminierung', questions: { de: 'Welcher Buchstabe passt nicht in die Reihe?\n\n p p q p p' }, options: [{ text: 'Der erste', isCorrect: false }, { text: 'Der zweite', isCorrect: false }, { text: 'Der dritte', isCorrect: true }, { text: 'Der vierte', isCorrect: false }] },
-    { id: 'de_diag_6', pillar: 'Visual', difficulty: 3, focus: 'Diagnostik: Zahlendreher', questions: { de: 'Welche Zahlenfolge weicht von 5469 ab?' }, options: [{ text: '5469', isCorrect: false }, { text: '5469', isCorrect: false }, { text: '5496', isCorrect: true }, { text: '5469', isCorrect: false }] },
-    { id: 'de_diag_7', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostik: Zeitgefühl', questions: { de: 'Wenn ein Meeting um 14:00 Uhr beginnt und 90 Minuten dauert, wann endet es?' }, options: [{ text: '15:00 Uhr', isCorrect: false }, { text: '15:30 Uhr', isCorrect: true }, { text: '16:00 Uhr', isCorrect: false }, { text: '14:90 Uhr', isCorrect: false }] },
-    { id: 'de_diag_8', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostik: Sequentielles Gedächtnis', questions: { de: 'Welcher Monat folgt direkt auf August?' }, options: [{ text: 'Juli', isCorrect: false }, { text: 'Oktober', isCorrect: false }, { text: 'September', isCorrect: true }, { text: 'November', isCorrect: false }] },
-    { id: 'de_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostik: Kategorisierung', questions: { de: 'Welches Wort gehört NICHT zu den Berufen?' }, options: [{ text: 'Lehrer', isCorrect: false }, { text: 'Arzt', isCorrect: false }, { text: 'Bibliothek', isCorrect: true }, { text: 'Ingenieur', isCorrect: false }] },
-    { id: 'de_diag_10', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostik: Logisches Denken', questions: { de: 'Wenn Jan größer als Peter ist, und Peter größer als Michael ist, wer ist am kleinsten?' }, options: [{ text: 'Jan', isCorrect: false }, { text: 'Peter', isCorrect: false }, { text: 'Michael', isCorrect: true }, { text: 'Alle sind gleich groß', isCorrect: false }] }
+    { id: 'de_diag_1', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostik: das oder dass', question: { de: 'Ich hoffe, ___ du kommst.' }, options: [{ text: 'das', isCorrect: false }, { text: 'dass', isCorrect: true }] },
+    { id: 'de_diag_2', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostik: ie oder ei', question: { de: 'Welches Wort ist richtig geschrieben?' }, options: [{ text: 'Brief', isCorrect: true }, { text: 'Breif', isCorrect: false }, { text: 'Brif', isCorrect: false }, { text: 'Brieff', isCorrect: false }] },
+    { id: 'de_diag_3', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostik: Großschreibung', question: { de: 'Welches Wort muss großgeschrieben werden?' }, options: [{ text: 'laufen', isCorrect: false }, { text: 'schnell', isCorrect: false }, { text: 'auto', isCorrect: true }, { text: 'weil', isCorrect: false }] },
+    { id: 'de_diag_4', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostik: ss oder ß', question: { de: 'Welches Wort ist richtig?' }, options: [{ text: 'Strasse', isCorrect: false }, { text: 'Straße', isCorrect: true }, { text: 'Strass', isCorrect: false }, { text: 'Strase', isCorrect: false }] },
+    { id: 'de_diag_5', pillar: 'Visual', difficulty: 2, focus: 'Diagnostik: Visuelle Diskriminierung', question: { de: 'Welcher Buchstabe passt nicht in die Reihe?\n\n p p q p p' }, options: [{ text: 'Der erste', isCorrect: false }, { text: 'Der zweite', isCorrect: false }, { text: 'Der dritte', isCorrect: true }, { text: 'Der vierte', isCorrect: false }] },
+    { id: 'de_diag_6', pillar: 'Visual', difficulty: 3, focus: 'Diagnostik: Zahlendreher', question: { de: 'Welche Zahlenfolge weicht von 5469 ab?' }, options: [{ text: '5469', isCorrect: false }, { text: '5469', isCorrect: false }, { text: '5496', isCorrect: true }, { text: '5469', isCorrect: false }] },
+    { id: 'de_diag_7', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostik: Zeitgefühl', question: { de: 'Wenn ein Meeting um 14:00 Uhr beginnt und 90 Minuten dauert, wann endet es?' }, options: [{ text: '15:00 Uhr', isCorrect: false }, { text: '15:30 Uhr', isCorrect: true }, { text: '16:00 Uhr', isCorrect: false }, { text: '14:90 Uhr', isCorrect: false }] },
+    { id: 'de_diag_8', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostik: Sequentielles Gedächtnis', question: { de: 'Welcher Monat folgt direkt auf August?' }, options: [{ text: 'Juli', isCorrect: false }, { text: 'Oktober', isCorrect: false }, { text: 'September', isCorrect: true }, { text: 'November', isCorrect: false }] },
+    { id: 'de_diag_9', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostik: Kategorisierung', question: { de: 'Welches Wort gehört NICHT zu den Berufen?' }, options: [{ text: 'Lehrer', isCorrect: false }, { text: 'Arzt', isCorrect: false }, { text: 'Bibliothek', isCorrect: true }, { text: 'Ingenieur', isCorrect: false }] },
+    { id: 'de_diag_10', pillar: 'Cognitive', difficulty: 3, focus: 'Diagnostik: Logisches Denken', question: { de: 'Wenn Jan größer als Peter ist, und Peter größer als Michael ist, wer ist am kleinsten?' }, options: [{ text: 'Jan', isCorrect: false }, { text: 'Peter', isCorrect: false }, { text: 'Michael', isCorrect: true }, { text: 'Alle sind gleich groß', isCorrect: false }] },
+    { id: 'de_diag_11', pillar: 'Literacy', difficulty: 2, focus: 'Diagnostik: v oder f', question: { de: 'Welches Wort ist richtig geschrieben?' }, options: [{ text: 'Vogel', isCorrect: true }, { text: 'Fogel', isCorrect: false }, { text: 'Phogel', isCorrect: false }, { text: 'Wogel', isCorrect: false }] },
+    { id: 'de_diag_12', pillar: 'Visual', difficulty: 3, focus: 'Diagnostik: Buchstabendreher', question: { de: 'Finde die korrekte Schreibweise:' }, options: [{ text: 'Maschine', isCorrect: true }, { text: 'Mashcine', isCorrect: false }, { text: 'Mascihne', isCorrect: false }, { text: 'Machsine', isCorrect: false }] },
+    { id: 'de_diag_13', pillar: 'Cognitive', difficulty: 2, focus: 'Diagnostik: Wortgruppen', question: { de: 'Welches Wort ist KEIN Obst?' }, options: [{ text: 'Apfel', isCorrect: false }, { text: 'Birne', isCorrect: false }, { text: 'Karotte', isCorrect: true }, { text: 'Banane', isCorrect: false }] },
+    { id: 'de_diag_14', pillar: 'Literacy', difficulty: 3, focus: 'Diagnostik: Synonyme', question: { de: 'Was ist ein Synonym für "schnell"?' }, options: [{ text: 'Langsam', isCorrect: false }, { text: 'Rasant', isCorrect: true }, { text: 'Träge', isCorrect: false }, { text: 'Ruhig', isCorrect: false }] },
+    { id: 'de_diag_15', pillar: 'Cognitive', difficulty: 4, focus: 'Diagnostik: Logik', question: { de: 'Wenn alle Katzen Tiere sind, und alle Tiere atmen, dann...' }, options: [{ text: 'atmen alle Katzen', isCorrect: true }, { text: 'sind alle Tiere Katzen', isCorrect: false }, { text: 'atmen nur Katzen', isCorrect: false }, { text: 'sind einige Tiere keine Katzen', isCorrect: false }] }
   ]
 };
