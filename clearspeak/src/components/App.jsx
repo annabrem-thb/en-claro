@@ -3,7 +3,7 @@
  * Main application component responsible for state management, theming, and exercise rendering.
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Provider } from 'react-redux';
 import store from './store.js';
 

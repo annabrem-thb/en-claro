@@ -115,7 +115,7 @@ function VirtualGarden({
   // Lottie animation for the Real-World Impact tree
   const [treeAnimation, setTreeAnimation] = useState(null);
   useEffect(() => {
-    import('../assets/animations/growing-tree.json')
+    import('../animations/growing-tree.json')
       .then((module) => setTreeAnimation(module.default))
       .catch((error) => console.warn("Lottie tree animation not found. Using fallback emoji.", error));
   }, []);

@@ -1,8 +1,8 @@
 import React from 'react';
-import { useTranslation } from '../../i18n/i18n.js';
+import { useTranslation } from 'react-i18next';
 
 export default function AccessibleTTS({ text, speak, language = 'pl', children, className = "" }) {
-  const t = useTranslation(language);
+  const { t } = useTranslation();
 
   const handleRead = (e) => {
     // Trigger system TTS with a forced slower rate for comprehension (slow = true)

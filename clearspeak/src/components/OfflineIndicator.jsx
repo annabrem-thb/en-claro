@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from '../i18n/i18n';
+import { useTranslation } from 'react-i18next';
 import { useUserSettingsContext } from './UserSettingsContext';
 
 /**
@@ -10,7 +10,7 @@ import { useUserSettingsContext } from './UserSettingsContext';
 export default function OfflineIndicator() {
   const { settings } = useUserSettingsContext();
   const { language, contrast: isHighContrast } = settings;
-  const t = useTranslation(language);
+  const { t } = useTranslation();
   
   const [isOffline, setIsOffline] = useState(typeof navigator !== 'undefined' ? !navigator.onLine : false);
 
