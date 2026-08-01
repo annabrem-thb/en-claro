@@ -2,11 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUserSettingsContext } from './UserSettingsContext';
 
-/**
- * OfflineIndicator Component
- * Displays a non-intrusive banner at the bottom of the screen when the browser
- * loses internet connectivity. It relies on the standard `navigator.onLine` API.
- */
 export default function OfflineIndicator() {
   const { settings } = useUserSettingsContext();
   const { language, contrast: isHighContrast } = settings;

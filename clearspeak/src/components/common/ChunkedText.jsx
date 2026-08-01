@@ -2,18 +2,15 @@ import React, { useState, useMemo, useEffect } from 'react';
 import BionicText from './BionicText.jsx';
 import { useAppSettings } from '../../hooks/useAppSettings.js';
 
-/**
- * ChunkedText Component
- * Prevents visual crowding by paginating long blocks of text
- * and allows toggling to an AI-simplified version (e.g., NLP/BART).
- */
-export default function ChunkedText({ 
-  originalText, 
-  simplifiedText,
-  wordsPerScreen = 30, // Recommended word limit per view for dyslexic adults
-  t = {},
-  className = '' 
-}) {
+export default function ChunkedText(
+  { 
+    originalText, 
+    simplifiedText,
+    wordsPerScreen = 30,
+    t = {},
+    className = '' 
+  }
+) {
   const [useSimplified, setUseSimplified] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -25,10 +22,8 @@ export default function ChunkedText({
   };
   const l = fallbacks[language] || fallbacks.en;
 
-  // Select text source
   const activeText = useSimplified && simplifiedText ? simplifiedText : originalText;
 
-  // Chunking Algorithm
   const chunks = useMemo(() => {
     if (!activeText) return [];
     const words = activeText.split(/\s+/);
@@ -39,7 +34,6 @@ export default function ChunkedText({
     return result;
   }, [activeText, wordsPerScreen]);
 
-  // Reset page index on text version change
   useEffect(() => {
     setCurrentPage(0);
   }, [useSimplified]);
@@ -48,7 +42,7 @@ export default function ChunkedText({
 
   return (
     <div className={`flex flex-col gap-5 w-full ${className}`}>
-      {/* AI Simplification Toggle */}
+      {}
       {simplifiedText && (
         <div className="flex justify-end">
           <button
@@ -60,12 +54,12 @@ export default function ChunkedText({
         </div>
       )}
 
-      {/* Main reading area */}
+      {}
       <div className="min-h-[120px] text-lg leading-relaxed">
         <BionicText text={chunks[currentPage]} />
       </div>
 
-      {/* Content Pacing Controls */}
+      {}
       {chunks.length > 1 && (
         <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-2">
           <button disabled={currentPage === 0} onClick={() => setCurrentPage(p => p - 1)} className="px-5 py-2.5 rounded-xl font-bold text-sm bg-slate-100 text-slate-600 disabled:opacity-30">

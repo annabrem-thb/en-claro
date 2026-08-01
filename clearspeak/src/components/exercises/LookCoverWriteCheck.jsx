@@ -5,15 +5,9 @@ import BionicText from '../common/BionicText';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 
-/**
- * LookCoverWriteCheck Component
- * 
- * Dyslexia-friendly spelling strategy implementation:
- * 1. Look: The user observes and listens to the target word without time pressure.
- * 2. Cover & Write: The word is hidden, and the user types it from working memory.
- * 3. Check: The app automatically compares the input with the target word.
- */
-function LookCoverWriteCheck({ targetWord, word, onSelfEvaluate, language: propLang, t: propT, speak, extendedTime, bigTargets, voiceAssistant = true, zenMode = false }) {
+function LookCoverWriteCheck(
+  { targetWord, word, onSelfEvaluate, language: propLang, t: propT, speak, extendedTime, bigTargets, voiceAssistant = true, zenMode = false }
+) {
   const activeWord = targetWord || word || '';
   const [phase, setPhase] = useState('look');
   const [userInput, setUserInput] = useState('');
@@ -33,7 +27,6 @@ function LookCoverWriteCheck({ targetWord, word, onSelfEvaluate, language: propL
     if (speak) speak(activeWord, extendedTime);
   }, [speak, activeWord, extendedTime, clearAllTimeouts]);
 
-  // WCAG Accessibility: Manage focus and TTS playback based on the active phase
   useEffect(() => {
     if (phase === 'write' && inputRef.current) {
       inputRef.current.focus();
@@ -44,7 +37,6 @@ function LookCoverWriteCheck({ targetWord, word, onSelfEvaluate, language: propL
     };
   }, [phase, clearAllTimeouts]);
 
-  // Step 1: Look Phase
   if (phase === 'look') {
     return (
       <div className="flex h-full min-h-0 flex-col items-center justify-center w-full overflow-hidden px-2 py-2 animate-in fade-in duration-500">
@@ -83,7 +75,6 @@ function LookCoverWriteCheck({ targetWord, word, onSelfEvaluate, language: propL
     );
   }
 
-  // Step 2: Write Phase
   if (phase === 'write') {
     return (
       <div className="flex h-full min-h-0 flex-col items-center justify-center w-full overflow-hidden px-2 py-2 animate-in slide-in-from-right-4 fade-in duration-500">
@@ -124,7 +115,6 @@ function LookCoverWriteCheck({ targetWord, word, onSelfEvaluate, language: propL
     );
   }
 
-  // Step 3: Check Phase (Automatic Evaluation)
   if (phase === 'check') {
     const isCorrect = userInput.trim().toLowerCase() === activeWord.trim().toLowerCase();
 
@@ -135,9 +125,9 @@ function LookCoverWriteCheck({ targetWord, word, onSelfEvaluate, language: propL
             {t.compareSpelling || 'Step 3: Comparison'}
           </h2>
         )}
-        
+
         <div className="w-full max-w-md flex flex-col gap-3 sm:gap-4 mb-4 sm:mb-6 shrink min-h-0 overflow-y-auto">
-          {/* Target Word Display */}
+          {}
           <div className={`p-4 sm:p-5 rounded-2xl flex flex-col items-center gap-1.5 sm:gap-2 border-2 ${isHighContrast ? 'bg-black border-white/50' : 'bg-slate-50 border-slate-200'}`}>
             <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400">{t.targetWord || 'Correct Spelling'}</span>
             <span className={`text-xl sm:text-2xl font-black tracking-widest break-all ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>
@@ -145,7 +135,7 @@ function LookCoverWriteCheck({ targetWord, word, onSelfEvaluate, language: propL
             </span>
           </div>
 
-          {/* User Input Display */}
+          {}
           <div className={`p-4 sm:p-5 rounded-2xl flex flex-col items-center gap-1.5 sm:gap-2 border-2 ${isHighContrast ? 'bg-black border-white/50' : (isCorrect ? 'bg-emerald-50 border-emerald-200 shadow-sm' : 'bg-red-50 border-red-200 shadow-sm')}`}>
             <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400">{t.yourSpelling || 'Your Spelling'}</span>
             <span className={`text-xl sm:text-2xl font-bold tracking-widest break-all ${isHighContrast ? 'text-white' : (isCorrect ? 'text-emerald-600' : 'text-red-500')}`}>
@@ -154,7 +144,7 @@ function LookCoverWriteCheck({ targetWord, word, onSelfEvaluate, language: propL
           </div>
         </div>
 
-        {/* Automatic Evaluation Action Button */}
+        {}
         <div className="flex w-full max-w-md shrink-0 mt-auto pt-2">
           <button
             onClick={() => onSelfEvaluate({ correct: isCorrect, input: userInput })}

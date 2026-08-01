@@ -5,7 +5,6 @@ import { getSmartSpellingHint } from '../../utils/spellingHints';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 
-// Helper to enforce correct TTS pronunciation of hours and minutes
 const formatTimeForTTS = (text, lang) => {
   if (!text) return '';
   return text.replace(/\b0?(\d+):(\d+)\b/g, (match, h, m) => {
@@ -20,26 +19,23 @@ const formatTimeForTTS = (text, lang) => {
   }).replace(/\s*Uhr\s*Uhr/gi, ' Uhr');
 };
 
-/**
- * GraphemeExercise Component
- * Refactored to inherit logic from shared utilities.
- * Focuses on choosing the correct spelling between two or more options.
- */
-function GraphemeExercise({
-  data,
-  themeStyles,
-  onSuccess,
-  onError,
-  language,
-  t,
-  speak,
-  noFlash = false,
-  bigTargets = false,
-  extendedTime = false,
-  bionicReading = false,
-  zenMode = false,
-  voiceAssistant = false,
-}) {
+function GraphemeExercise(
+  {
+    data,
+    themeStyles,
+    onSuccess,
+    onError,
+    language,
+    t,
+    speak,
+    noFlash = false,
+    bigTargets = false,
+    extendedTime = false,
+    bionicReading = false,
+    zenMode = false,
+    voiceAssistant = false,
+  }
+) {
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
     t,
@@ -60,7 +56,6 @@ function GraphemeExercise({
     };
   }, [clearAudioTimeouts]);
 
-  // Shuffle options predictably based on the task ID
   const shuffledOptions = useMemo(() => {
     if (!data.options) return [];
     const seed = data.id || 0;
@@ -72,14 +67,12 @@ function GraphemeExercise({
     );
   }, [data]);
 
-  // The main instruction/question text
   const questionText =
     data.questions?.[language] ||
     data.questions?.en ||
     t.chooseCorrectSpelling ||
     'Choose the correct spelling:';
 
-  // Handle voice commands for option selection (1, 2, 3...)
   const handleVoiceMatch = (num) => {
     clearAudioTimeouts();
     const selectedIndex = num - 1;
@@ -93,9 +86,6 @@ function GraphemeExercise({
   const readQuestionAndOptions = () => {
     clearAudioTimeouts();
 
-    // pulling localized prefix from a simple map or dictionary
-
-    // Remove underscores and format time correctly for the TTS assistant
     const sanitizedQuestion = formatTimeForTTS(questionText.replace(/_+/g, ''), language);
     speak(sanitizedQuestion, extendedTime);
 
@@ -104,16 +94,13 @@ function GraphemeExercise({
 
     const allOptionTexts = shuffledOptions.map((o) => o.text);
     shuffledOptions.forEach((opt, index) => {
-      // Use the shared utility to get a pedagogical hint (e.g., "with double S")
       const hint = getSmartSpellingHint(opt.text, allOptionTexts, language, t);
       const prefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
 
-      // Remove colon from the prefix to prevent TTS from prematurely stopping the sentence
       const spokenPrefix = prefix.replace(':', '.');
       const spokenHint = formatTimeForTTS(hint, language);
       const fullSpokenText = `${spokenPrefix} ${spokenHint}`;
 
-      // Calculate step duration based on the spoken string length
       const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
 
       setSafeTimeout(() => {
@@ -140,7 +127,7 @@ function GraphemeExercise({
 
   return (
     <div className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-start overflow-hidden px-2 pt-6 sm:pt-10 pb-2`}>
-      {/* 1. Voice & Audio Controls */}
+      {}
       {voiceAssistant && (
         <div className="mb-2 sm:mb-4 flex gap-4 sm:gap-6 shrink-0">
           <TTSController

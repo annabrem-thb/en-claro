@@ -10,7 +10,6 @@ const LANGUAGES = [
   { code: 'en', flag: '🇺🇸', label: 'English' },
 ];
 
-// ─── Component ────────────────────────────────────────────────────────────────
 function IntroScreen({ onStart, speak }) {
   const { t } = useTranslation();
   const { settings, updateSetting } = useUserSettingsContext();
@@ -18,7 +17,6 @@ function IntroScreen({ onStart, speak }) {
 
   const { language, contrast: isHighContrast, motorik: bigTargets, motion: noFlash } = settings;
 
-  // Mapping legacy a11y keys to new names
   const A11Y_MAPPING = {
     'LRS': 'lrs',
     'Kontrast': 'contrast',
@@ -82,13 +80,13 @@ function IntroScreen({ onStart, speak }) {
 
   return (
     <div className={`fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 overflow-hidden ${isHighContrast ? 'bg-black' : 'bg-[#fdfaf6]'}`}>
-      
-      {/* Background Layer: Visible but does not interfere with text readability */}
+
+      {}
       <div 
         className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${isHighContrast ? 'opacity-0' : 'opacity-10'} bg-gradient-to-br from-indigo-200 via-purple-100 to-emerald-100`}
       />
 
-      {/* Main Glassmorphism Panel: Protective "glass" card ensuring high contrast for LRS users */}
+      {}
       <div className={`relative z-10 flex flex-col items-center w-full max-w-lg px-3 sm:px-6 py-3 sm:py-5 rounded-[2rem] shadow-2xl text-center transition-all max-h-[98vh] shrink min-h-0 overflow-y-auto no-scrollbar ${
         isHighContrast 
           ? 'bg-black border-2 border-white' 
@@ -106,7 +104,7 @@ function IntroScreen({ onStart, speak }) {
             <BionicText text={t('intro.subtitle', 'Your safe space to grow! Choose mode and tools:')} enabled={hasBionic} />
           </p>
 
-            {/* Accessibility Improvement: Use fieldset and legend to group related controls */}
+            {}
             <fieldset className="grid grid-cols-3 gap-1 sm:gap-1.5 mb-2 w-full shrink-0 border-none p-0 m-0">
               <legend className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center p-0">
                 <BionicText text={t('intro.chooseLanguage', 'Language')} enabled={hasBionic} />
@@ -189,7 +187,7 @@ function IntroScreen({ onStart, speak }) {
               <A11yBtn active={hasZen} onClick={() => toggleInclusive('zenMode', t('intro.zen', 'Zen Mode'))} icon="🧘" label={t('intro.zen', 'Zen Mode')} />
             </fieldset>
 
-            {/* --- RECOMMENDED BROWSER MESSAGE --- */}
+            {}
             <div className={`mt-1 mb-2 p-2 rounded-xl flex items-center gap-2 border-2 text-left transition-colors shrink-0 ${isHighContrast ? 'bg-black border-white/50 text-white' : 'bg-blue-50 border-blue-200 text-blue-800'}`}>
               <span className="text-base sm:text-xl shrink-0 drop-shadow-sm" aria-hidden="true">💡</span>
               <p className="text-xs sm:text-sm font-medium leading-snug">

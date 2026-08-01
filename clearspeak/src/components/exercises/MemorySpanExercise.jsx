@@ -1,36 +1,30 @@
-// MemorySpanExercise.jsx — a11y-aware with Shared Logic for Voice & Bionic Reading
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-// Importing shared components and hooks to prevent code duplication
 import BionicText from '../common/BionicText';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 
-/**
- * MemorySpanExercise Component
- * Refactored to use centralized hooks for cleaner code.
- * Focuses on sequence memorization and manual/voice recall.
- */
-function MemorySpanExercise({
-  data,
-  themeStyles,
-  onSuccess,
-  onError,
-  t,
-  language = 'en',
-  speak,
-  noFlash = false,
-  bigTargets = false,
-  extendedTime = false,
-  bionicReading = false,
-  zenMode = false,
-  voiceAssistant = false,
-}) {
+function MemorySpanExercise(
+  {
+    data,
+    themeStyles,
+    onSuccess,
+    onError,
+    t,
+    language = 'en',
+    speak,
+    noFlash = false,
+    bigTargets = false,
+    extendedTime = false,
+    bionicReading = false,
+    zenMode = false,
+    voiceAssistant = false,
+  }
+) {
   const [isMemorizing, setIsMemorizing] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const [isChecking, setIsChecking] = useState(false);
 
-  // Centralized voice logic using custom hook
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
     t,
@@ -50,10 +44,10 @@ function MemorySpanExercise({
   const playMemorizationSequence = useCallback(() => {
     if (!data.displayItems) return;
     clearAllTimeouts();
-    let delayAcc = 800; // Short pause before starting
+    let delayAcc = 800;
     data.displayItems.forEach((item, index) => {
       const textToSpeak = String(item);
-      const stepDuration = textToSpeak.length * (extendedTime ? 100 : 75) + 1500; // Long exposure time for memory retention
+      const stepDuration = textToSpeak.length * (extendedTime ? 100 : 75) + 1500;
 
       setSafeTimeout(() => {
         setActiveHighlight(`mem-${index}`);
@@ -67,7 +61,6 @@ function MemorySpanExercise({
       delayAcc += stepDuration;
     });
 
-    // Smoothly transition to the recall phase after the sequence is read aloud
     setSafeTimeout(() => {
       setIsMemorizing(false);
       setActiveHighlight(null);
@@ -95,7 +88,6 @@ function MemorySpanExercise({
     const newSelected = [...selectedItems, item];
     setSelectedItems(newSelected);
 
-    // Validation logic
     if (newSelected.length === data.correct.length) {
       setIsChecking(true);
       const isCorrect = newSelected.every((val, i) => val === data.correct[i]);
@@ -112,7 +104,6 @@ function MemorySpanExercise({
     }
   };
 
-  // Voice recognition logic for numbers
   const handleVoiceMatch = (num) => {
     const selectedIndex = num - 1;
     if (selectedIndex >= 0 && selectedIndex < stableScrambled.length) {
@@ -120,7 +111,7 @@ function MemorySpanExercise({
       if (!selectedItems.includes(selectedItem)) {
         handleSelectItem(selectedItem);
       } else {
-        onError(); // Item already selected
+        onError();
       }
     } else {
       onError();
@@ -129,7 +120,6 @@ function MemorySpanExercise({
 
   const handleHint = () => speak([...data.correct].reverse().join(', '), true);
 
-  // --- Read Options Aloud Logic ---
   const readAvailableItems = () => {
     clearAllTimeouts();
 
@@ -142,11 +132,9 @@ function MemorySpanExercise({
       if (!selectedItems.includes(item)) {
         const optionPrefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
 
-        // Remove colon from the prefix to prevent the TTS engine from cutting the sentence short
         const spokenPrefix = optionPrefix.replace(':', '.');
         const fullSpokenText = `${spokenPrefix} ${item}`;
 
-        // Calculate the pause duration based on the SPOKEN text length
         const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
 
         setSafeTimeout(() => {
@@ -163,7 +151,6 @@ function MemorySpanExercise({
     });
   };
 
-  // Dynamic styling
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
   const popAnim = noFlash ? '' : 'animate-in pop-in';
   const pulseClass = noFlash ? '' : 'animate-pulse';
@@ -189,7 +176,7 @@ function MemorySpanExercise({
           {isMemorizing ? t.memorize || 'Memorize!' : data.instruction}
         </h3>
 
-        {/* Phase 1: memorization */}
+        {}
         {isMemorizing ? (
           <div className="flex flex-col items-center gap-4 sm:gap-6">
             {voiceAssistant && (
@@ -228,12 +215,12 @@ function MemorySpanExercise({
         )}
       </div>
 
-      {/* Phase 2: user input */}
+      {}
       {!isMemorizing && (
         <div
           className={`flex w-full min-h-0 flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in duration-500'}`}
         >
-          {/* Voice Controls */}
+          {}
           {voiceAssistant && (
             <div className="mb-2 sm:mb-4 flex gap-4 sm:gap-6 shrink-0">
               <TTSController
@@ -265,7 +252,7 @@ function MemorySpanExercise({
             </p>
           )}
 
-          {/* Selected sequence */}
+          {}
           <div className="mb-2 sm:mb-4 flex min-h-[3rem] sm:min-h-16 w-full flex-wrap justify-center gap-2 rounded-3xl border-2 border-dashed border-slate-200 bg-slate-50 p-3 sm:p-4 shrink min-h-0 overflow-y-auto">
             {selectedItems.map((item, index) => (
               <div
@@ -277,7 +264,7 @@ function MemorySpanExercise({
             ))}
           </div>
 
-          {/* Available items Grid */}
+          {}
           <div className="mb-2 sm:mb-4 flex w-full max-w-sm flex-wrap justify-center gap-2 sm:gap-3 shrink min-h-0 overflow-y-auto">
             {stableScrambled.map((item, index) => {
               const isSelected = selectedItems.includes(item);
@@ -309,7 +296,7 @@ function MemorySpanExercise({
             })}
           </div>
 
-          {/* Hint Button */}
+          {}
           {!zenMode && (
             <button
               onClick={handleHint}

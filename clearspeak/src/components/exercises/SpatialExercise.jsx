@@ -4,30 +4,26 @@ import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 
-/**
- * SpatialExercise Component
- * Refactored to use centralized utilities for voice recognition and text processing.
- * Focuses on directional or spatial recognition tasks using flashcards.
- */
-function SpatialExercise({
-  data,
-  themeStyles,
-  onSuccess,
-  onError,
-  language,
-  t,
-  speak,
-  noFlash = false,
-  bigTargets = false,
-  extendedTime = false,
-  bionicReading = false,
-  zenMode = false,
-  voiceAssistant = false,
-}) {
+function SpatialExercise(
+  {
+    data,
+    themeStyles,
+    onSuccess,
+    onError,
+    language,
+    t,
+    speak,
+    noFlash = false,
+    bigTargets = false,
+    extendedTime = false,
+    bionicReading = false,
+    zenMode = false,
+    voiceAssistant = false,
+  }
+) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animation, setAnimation] = useState('');
 
-  // Centralized voice logic using custom hook
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
     t,
@@ -50,7 +46,6 @@ function SpatialExercise({
 
   const currentItem = data.items[currentIndex];
 
-  // Delayed feedback on error with visual indication
   const handleMistake = useCallback(() => {
     onError();
     setSafeTimeout(() => {
@@ -76,10 +71,6 @@ function SpatialExercise({
     }, extendedTime ? 3500 : 2500);
   }, [onError, setSafeTimeout, clearAudioTimeouts, data, currentIndex, speak, extendedTime]);
 
-  /**
-   * Logic for selecting an answer.
-   * Includes transition animations between items in a multi-item task.
-   */
   const handleChoice = (selectedValue) => {
     clearAudioTimeouts();
     if (selectedValue === currentItem.target) {
@@ -87,7 +78,6 @@ function SpatialExercise({
         onSuccess();
       } else {
         if (!noFlash) {
-          // Trigger card transition animation
           setAnimation('scale-95 opacity-0 transition-all duration-200');
           setSafeTimeout(() => {
             setCurrentIndex((prev) => prev + 1);
@@ -102,17 +92,12 @@ function SpatialExercise({
     }
   };
 
-  /**
-   * Voice Recognition Callbacks
-   * Maps spoken numbers (1-4) to the corresponding option value.
-   */
   const handleVoiceMatch = (num) => {
     const option = data.options[num - 1];
     if (option) handleChoice(option.value);
     else handleMistake();
   };
 
-  // --- Read Instruction & Options Aloud Logic ---
   const readInstructionAndOptions = () => {
     clearAudioTimeouts();
 
@@ -122,18 +107,14 @@ function SpatialExercise({
     data.options.forEach((opt, index) => {
       const optionPrefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
 
-      // Strip emojis from the label for the Text-to-Speech engine
-      // to ensure clean pronunciation without character codes.
       const cleanLabel = opt.label.replace(
         /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{1FAB0}-\u{1FABF}\u{1FAC0}-\u{1FACF}\u{1FAD0}-\u{1FADF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu,
         '',
       );
       
-      // Remove colon from the prefix so TTS doesn't cut the sentence short
       const spokenPrefix = optionPrefix.replace(':', '.');
       const fullSpokenText = `${spokenPrefix} ${cleanLabel}`;
       
-      // Calculate pause duration based on SPOKEN text with a safe buffer
       const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
       
       setSafeTimeout(() => {
@@ -149,7 +130,6 @@ function SpatialExercise({
     });
   };
 
-  // Dynamic Class Definitions based on a11y props
   const btnPadding = bigTargets ? 'py-6 sm:py-8' : 'py-4 sm:py-6';
   const cardSize = bigTargets ? 'w-40 h-48 sm:w-48 sm:h-60 text-7xl sm:text-8xl' : 'w-32 h-40 sm:w-40 sm:h-52 text-6xl sm:text-7xl';
   const pulseClass = noFlash
@@ -163,7 +143,7 @@ function SpatialExercise({
 
   return (
     <div className="flex h-full min-h-0 w-full flex-col items-center justify-between overflow-hidden px-2 py-2">
-      {/* 1. Voice & Audio Controls */}
+      {}
       {voiceAssistant && (
         <div className="mb-2 flex shrink-0 gap-4">
           <TTSController
@@ -195,7 +175,7 @@ function SpatialExercise({
         </p>
       )}
 
-      {/* 2. Header & Progress Dots (Hidden in Zen Mode) */}
+      {}
       <div className="mb-2 sm:mb-4 w-full shrink-0 text-center">
         {!zenMode && (
           <h3 className="mb-2 sm:mb-4 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
@@ -222,17 +202,17 @@ function SpatialExercise({
         )}
       </div>
 
-      {/* 3. Main Flashcard Area */}
+      {}
       <div className="my-2 sm:my-4 flex min-h-0 w-full flex-1 items-center justify-center">
         <div
           className={`${cardSize} ${isAlphaSymbol ? 'font-dyslexic' : 'font-sans'} flex items-center justify-center rounded-[50px] border-4 bg-white shadow-xl md:shadow-md transition-all ${themeStyles.border} ${themeStyles.accent} ${animation}`}
         >
-          {/* Symbols often require bolding for d/b or p/q differentiation */}
+          {}
           <BionicText text={currentItem?.symbol} enabled={bionicReading && isAlphaSymbol} />
         </div>
       </div>
 
-      {/* 4. Choice Buttons Grid */}
+      {}
       <div className="grid w-full max-w-sm shrink-0 grid-cols-2 gap-3 px-2 sm:gap-4">
         {data.options?.map((option, i) => (
           <button
@@ -247,7 +227,7 @@ function SpatialExercise({
                   : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
             } flex items-center justify-center gap-2 shadow-lg md:shadow-sm`}
           >
-            {/* Numeric visual indicator for voice selection */}
+            {}
             <span
               className="absolute top-3 left-4 text-xs font-black text-white/50"
               aria-hidden="true"

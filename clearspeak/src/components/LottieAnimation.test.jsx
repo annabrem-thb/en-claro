@@ -5,8 +5,6 @@ import { describe, it, expect, vi } from 'vitest';
 import LottieAnimation from './LottieAnimation';
 import * as appSettingsHook from '../hooks/useAppSettings';
 
-// Zastępujemy bibliotekę lottie-react mockiem,
-// aby uniknąć ciężkiego renderowania SVG/Canvas w środowisku testowym (JSDOM).
 vi.mock('lottie-react', () => {
   return {
     default: () => <div data-testid="lottie-mock">Mocked Lottie</div>
@@ -34,31 +32,28 @@ describe('LottieAnimation Component', () => {
 
     render(<LottieAnimation animationData={{}} noFlash={true} fallbackEmoji="🌱" />);
     
-    // Animacja Lottie NIE powinna istnieć w DOM
     expect(screen.queryByTestId('lottie-mock')).not.toBeInTheDocument();
     
-    // Statyczny znak zastępczy POWINIEN się pojawić
     expect(screen.getByText('🌱')).toBeInTheDocument();
   });
 
   it('powinien zaaplikować odpowiednie filtry dla trybu wysokiego kontrastu (WCAG)', () => {
     vi.spyOn(appSettingsHook, 'useAppSettings').mockReturnValue({
       theme: 'Natur',
-      a11yAddons: ['Kontrast'] // Symulujemy włączony wysoki kontrast
+      a11yAddons: ['Kontrast']
     });
 
     render(<LottieAnimation animationData={{}} ariaLabel="Test Kontrastu" />);
     
     const wrapper = screen.getByLabelText('Test Kontrastu');
     
-    // Sprawdzamy czy wygenerowany styl poprawnie zaaplikował szarości/kontrasty
     expect(wrapper.style.filter).toContain('grayscale(100%)');
     expect(wrapper.style.filter).toContain('contrast(150%)');
   });
 
   it('powinien zaaplikować rotację barw (hue-rotate) w zależności od motywu z kontekstu', () => {
     vi.spyOn(appSettingsHook, 'useAppSettings').mockReturnValue({
-      theme: 'Space', // Kosmos to chłodne, zmutowane kolory
+      theme: 'Space',
       a11yAddons: []
     });
 

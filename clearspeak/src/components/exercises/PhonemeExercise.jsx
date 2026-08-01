@@ -3,28 +3,24 @@ import BionicText from '../common/BionicText';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 
-/**
- * PhonemeExercise Component
- * 
- * Function: Focuses on pronunciation and Grapheme-to-Phoneme mapping.
- * The user must listen to the spelling and correctly pronounce the word aloud.
- */
-function PhonemeExercise({
-  data,
-  themeStyles,
-  onSuccess,
-  onError,
-  language,
-  t,
-  speak,
-  noFlash = false,
-  bigTargets = false,
-  extendedTime = false,
-  bionicReading = false,
-  zenMode = false,
-  isHighContrast = false,
-  voiceAssistant = true, // Zawsze true z powodu wyjątku w App.jsx
-}) {
+function PhonemeExercise(
+  {
+    data,
+    themeStyles,
+    onSuccess,
+    onError,
+    language,
+    t,
+    speak,
+    noFlash = false,
+    bigTargets = false,
+    extendedTime = false,
+    bionicReading = false,
+    zenMode = false,
+    isHighContrast = false,
+    voiceAssistant = true,
+  }
+) {
   const targetWord = data.word || '';
   const hintText = data.hints?.[language] || data.hints?.en || '';
 
@@ -43,14 +39,12 @@ function PhonemeExercise({
     };
   }, [clearAudioTimeouts]);
 
-  // --- Read Word (Spelled Out) & Hint Aloud ---
   const readWordAndHint = () => {
     clearAudioTimeouts();
 
     let delayAcc = 0;
     const chars = Array.from(targetWord);
 
-    // 1. Spell the word letter by letter
     chars.forEach((char, i) => {
       const stepDuration = extendedTime ? 900 : 600;
       setSafeTimeout(() => {
@@ -63,9 +57,8 @@ function PhonemeExercise({
       delayAcc += stepDuration;
     });
 
-    delayAcc += 800; // Silent pause
+    delayAcc += 800;
 
-    // 2. Read the supplementary hint
     if (hintText) {
       const hintDuration = hintText.length * (extendedTime ? 90 : 65) + 1000;
       setSafeTimeout(() => {

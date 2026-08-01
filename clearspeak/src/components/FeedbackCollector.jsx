@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 
-/**
- * FeedbackCollector Component
- * Renders a modal dialog for collecting UX metrics (NASA-TLX and UEQ-Short).
- * Fully supports accessibility (WCAG), high contrast, reduced motion (noFlash),
- * and enlarged touch targets (bigTargets) for motor-impaired users.
- */
-export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHighContrast, noFlash, bigTargets }) {
-  // Local state for NASA-TLX and UEQ-Short survey metrics
+export function FeedbackCollector(
+  { open, onSubmit, onSkip, t, themeStyles, isHighContrast, noFlash, bigTargets }
+) {
   const [mental, setMental] = useState(3);
   const [effort, setEffort] = useState(3);
   const [frustration, setFrustration] = useState(3);
@@ -16,11 +11,9 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
 
   const v = t.feedback || {};
 
-  // Styles enlarging slider thumbs, with dynamic background color injection via CSS variables
   const thumbBase = bigTargets ? "[&::-webkit-slider-thumb]:w-8 [&::-webkit-slider-thumb]:h-8 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:w-8 [&::-moz-range-thumb]:h-8 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:cursor-pointer" : "";
   const thumbColor = isHighContrast ? "[&::-webkit-slider-thumb]:bg-white [&::-moz-range-thumb]:bg-white" : "[&::-webkit-slider-thumb]:bg-[var(--thumb-color)] [&::-moz-range-thumb]:bg-[var(--thumb-color)]";
 
-  // Sub-component for rendering accessible range sliders
   const RangeInput = ({ label, desc, value, setValue, leftLabel, rightLabel }) => (
     <div className={`flex flex-col gap-1.5 sm:gap-2 ${bigTargets ? 'p-4 sm:p-6' : 'p-3 sm:p-4'} rounded-2xl border-2 shrink-0 ${isHighContrast ? 'bg-black border-white/30' : 'bg-slate-50 border-slate-100'}`}>
       <div className="flex justify-between items-center gap-2">
@@ -61,7 +54,6 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
   );
 
   return (
-    // Modal container with ARIA roles for screen reader support
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4 md:p-6 bg-slate-900/60 backdrop-blur-sm overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
       <div 
         className={`relative w-full max-w-md max-h-[98vh] rounded-3xl sm:rounded-4xl shadow-2xl overflow-y-auto flex flex-col ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'}`}
@@ -87,7 +79,7 @@ export function FeedbackCollector({ open, onSubmit, onSkip, t, themeStyles, isHi
             <RangeInput label={v.nasa?.frustration || v.frustration} desc={v.nasa?.frustrationDesc || v.frustrationDesc} value={frustration} setValue={setFrustration} />
           </div>
 
-          {/* Action buttons with dynamic scaling for accessibility */}
+          {}
           <div className="flex flex-col gap-2 mt-2 shrink-0">
             <button
               onClick={() => {

@@ -5,24 +5,23 @@ import { seededShuffle } from '../../utils/shuffleUtils.js';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 
-/**
- * Refactored to eliminate impurity errors and cascading renders.
- */
-function SequenceExercise({
-  data,
-  themeStyles,
-  onSuccess,
-  onError,
-  language,
-  t,
-  speak,
-  noFlash = false,
-  bigTargets = false,
-  extendedTime = false,
-  bionicReading = false,
-  zenMode = false,
-  voiceAssistant = false,
-}) {
+function SequenceExercise(
+  {
+    data,
+    themeStyles,
+    onSuccess,
+    onError,
+    language,
+    t,
+    speak,
+    noFlash = false,
+    bigTargets = false,
+    extendedTime = false,
+    bionicReading = false,
+    zenMode = false,
+    voiceAssistant = false,
+  }
+) {
   const [prevId, setPrevId] = useState(data.id || data.correct);
 
   const prepareWords = (correctData, id, scrambledData, distractors = []) => {
@@ -54,8 +53,6 @@ function SequenceExercise({
     prepareWords(data.correct, data.id, data.scrambled),
   );
 
-  // Check for task ID changes during render. 
-  // prepareWords is pure (uses seededShuffle), so this follows React's best practices.
   const currentId = data.id || data.correct;
   if (currentId !== prevId) {
     setTaskWords(prepareWords(data.correct, currentId, data.scrambled));
@@ -119,13 +116,11 @@ function SequenceExercise({
           ? data.correct.split(' ')
           : [];
 
-      // Present the correct answer temporarily
       setTaskWords({
         available: [],
         selected: wordsArray.map((w, i) => ({ id: `correct-${i}`, text: w })),
       });
 
-      // Wait for the error feedback, then read the correct sequence
       setSafeTimeout(() => {
         speak(correctSentence, extendedTime);
 
@@ -181,11 +176,9 @@ function SequenceExercise({
     availableWords.forEach((wordObj, index) => {
       const optionPrefix = t.wordPrefix ? t.wordPrefix(index + 1) : `Word ${index + 1}: `;
 
-      // Remove colon from the prefix to prevent the TTS engine from cutting the sentence short
       const spokenPrefix = optionPrefix.replace(':', '.');
       const fullSpokenText = `${spokenPrefix} ${wordObj.text}`;
 
-      // Calculate the pause duration based on the SPOKEN text length
       const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
 
       setSafeTimeout(() => {

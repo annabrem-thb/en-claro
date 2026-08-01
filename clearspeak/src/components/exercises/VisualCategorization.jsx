@@ -3,28 +3,23 @@ import BionicText from '../common/BionicText';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 
-/**
- * VisualCategorization Component (Mind-Mapping)
- * 
- * Dyslexia-focused spatial organization strategy:
- * Uses a WCAG-compliant "Tap-to-Select -> Tap-to-Drop" mechanism instead of 
- * native Drag & Drop to ensure full accessibility for motor-impaired users.
- */
-function VisualCategorization({ 
-  data, 
-  onSuccess, 
-  onError, 
-  isHighContrast, 
-  bigTargets, 
-  bionicReading,
-  noFlash = false,
-  zenMode = false,
-  speak,
-  extendedTime,
-  t,
-  language,
-  voiceAssistant = false,
-}) {
+function VisualCategorization(
+  { 
+    data, 
+    onSuccess, 
+    onError, 
+    isHighContrast, 
+    bigTargets, 
+    bionicReading,
+    noFlash = false,
+    zenMode = false,
+    speak,
+    extendedTime,
+    t,
+    language,
+    voiceAssistant = false,
+  }
+) {
   const [placements, setPlacements] = useState({});
   const [activeItem, setActiveItem] = useState(null);
   const [activeHighlight, setActiveHighlight] = useState(null);
@@ -78,14 +73,12 @@ function VisualCategorization({
     });
   }, [data, unplacedItems, speak, extendedTime, setSafeTimeout, clearAudioTimeouts, t]);
 
-  // WCAG Action: Select an item to be moved
   const handleItemClick = (item) => {
     if (isShowingCorrection) return;
     if (activeItem?.id === item.id) setActiveItem(null);
     else setActiveItem(item);
   };
 
-  // WCAG Action: Drop the selected item into the target bucket
   const handleBucketClick = (bucketId) => {
     if (isShowingCorrection) return;
     if (activeItem) {
@@ -94,7 +87,6 @@ function VisualCategorization({
     }
   };
 
-  // WCAG Action: Return an item back to the unplaced pool
   const handleRemoveFromBucket = (itemId, e) => {
     e.stopPropagation();
     if (isShowingCorrection) return;
@@ -105,7 +97,6 @@ function VisualCategorization({
     });
   };
 
-  // Non-punitive Self-Correction Validation
   const handleCheck = () => {
     if (isShowingCorrection) return;
     const isAllCorrect = data.items.every((item) => placements[item.id] === item.bucketId);
@@ -117,7 +108,6 @@ function VisualCategorization({
       setIsShowingCorrection(true);
       setActiveItem(null);
 
-      // Self-Correction Loop: Keep correct items in buckets, gently return incorrect ones to the pool
       const correctPlacements = {};
       const incorrectItems = [];
       data.items.forEach((item) => {
@@ -129,7 +119,6 @@ function VisualCategorization({
       });
       setPlacements(correctPlacements);
 
-      // Visual and auditory hint for the first incorrect item
       if (incorrectItems.length > 0) {
         const hintItem = incorrectItems[0];
         const targetBucket = data.buckets.find(b => b.id === hintItem.bucketId);
@@ -137,36 +126,31 @@ function VisualCategorization({
         setSafeTimeout(() => {
           clearAudioTimeouts();
 
-          // 1. Highlight and read the tile that returned to the pool
           setActiveHighlight(`item-${hintItem.id}`);
           if (speak) speak(`${hintItem.word}`, extendedTime);
 
           const itemDur = hintItem.word.length * (extendedTime ? 100 : 75) + 1500;
           const bucketDur = targetBucket.label.length * (extendedTime ? 100 : 75) + 1500;
 
-          // 2. Then highlight the target bucket
           setSafeTimeout(() => {
             setActiveHighlight(`bucket-${targetBucket.id}`);
             if (speak) speak(`${targetBucket.label}`, extendedTime);
           }, itemDur);
 
-          // 3. Clear highlights and unlock the interface
           setSafeTimeout(() => {
             setActiveHighlight(null);
             setIsShowingCorrection(false);
           }, itemDur + bucketDur);
 
-        }, extendedTime ? 3500 : 2500); // Wait for the error message
+        }, extendedTime ? 3500 : 2500);
       } else {
         setIsShowingCorrection(false);
       }
     }
   };
 
-  // Dynamic classes for Accessibility scaling
   const animClass = noFlash ? '' : 'animate-in fade-in duration-500';
   
-  // Responsive dynamic sizing to integrate long words (e.g., German compound words)
   const maxWordLen = Math.max(...data.items.map(i => i.word.length), 0);
   const isLong = maxWordLen > 10;
   const isVeryLong = maxWordLen > 15;
@@ -198,7 +182,7 @@ function VisualCategorization({
         </div>
       )}
 
-      {/* Unplaced Items Pool */}
+      {}
       <div className={`flex flex-wrap justify-center gap-2 sm:gap-3 w-full p-2 sm:p-3 rounded-3xl min-h-[60px] sm:min-h-[80px] max-h-[35vh] border-2 transition-colors shrink min-h-0 overflow-y-auto no-scrollbar ${activeItem ? (isHighContrast ? 'border-white/50' : 'border-indigo-200 bg-indigo-50/30') : 'border-transparent'}`} aria-label="Available items">
         {unplacedItems.map((item) => (
           <button key={item.id} disabled={isShowingCorrection} onClick={() => handleItemClick(item)} className={`${itemPadding} rounded-2xl font-bold shadow-sm md:shadow-none transition-all active:scale-95 disabled:opacity-80 ${
@@ -218,7 +202,7 @@ function VisualCategorization({
         )}
       </div>
 
-      {/* Target Buckets Grid */}
+      {}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 w-full max-w-2xl shrink min-h-0 max-h-full overflow-y-auto no-scrollbar pb-2">
         {data.buckets.map((bucket) => {
           const bucketItems = data.items.filter((item) => placements[item.id] === bucket.id);
@@ -246,7 +230,7 @@ function VisualCategorization({
         })}
       </div>
 
-      {/* Verification Action */}
+      {}
       <button onClick={handleCheck} disabled={!isComplete || isShowingCorrection} className={`w-full max-w-sm mt-auto pt-2 sm:pt-4 px-10 py-4 sm:py-5 shrink-0 rounded-full font-black uppercase tracking-widest transition-all active:scale-95 text-sm focus-visible:ring-4 focus:outline-none ${(!isComplete || isShowingCorrection) ? 'bg-slate-100 text-slate-300 cursor-not-allowed border-2 border-transparent' : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-emerald-500 text-white shadow-xl hover:bg-emerald-400')}`}>
         {t?.checkAnswers || t?.check || 'Check Answers'}
       </button>

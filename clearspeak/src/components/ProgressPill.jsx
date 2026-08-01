@@ -15,7 +15,6 @@ export function ProgressPill({ points, max, theme, isGamified, t, isHighContrast
     );
   }
 
-  // State to track the most recently gained point for animation
   const [justGained, setJustGained] = useState(null);
 
   useEffect(() => {
@@ -37,7 +36,7 @@ export function ProgressPill({ points, max, theme, isGamified, t, isHighContrast
     <div className="flex flex-1 flex-col gap-1" role="progressbar" aria-valuenow={points} aria-valuemin={0} aria-valuemax={max} aria-label={stageName}>
       <div className="flex items-end justify-between px-1">
         <div className="flex items-center gap-2">
-          {/* Using 'key' forces React to remount the span, triggering the pop-in animation on stage evolution */}
+          {}
           <span key={stageIcon} className="text-2xl animate-in zoom-in duration-300" aria-hidden="true">{stageIcon}</span>
           <span className={`text-[8px] font-black tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{stageName}</span>
         </div>

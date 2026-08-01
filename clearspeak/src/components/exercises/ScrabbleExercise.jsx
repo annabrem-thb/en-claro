@@ -1,30 +1,25 @@
-// ScrabbleExercise.jsx — a11y-aware with Shared Logic for Voice, Bionic Reading & fluid layout
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-// Importing shared components and hooks to maintain professional architecture
 import BionicText from '../common/BionicText';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 
-/**
- * ScrabbleExercise Component
- * Refactored to use centralized utilities.
- * Focuses on word assembly from scrambled tiles with image support.
- */
-function ScrabbleExercise({
-  data,
-  themeStyles,
-  onSuccess,
-  onError,
-  language,
-  t,
-  speak,
-  noFlash = false,
-  bigTargets = false,
-  extendedTime = false,
-  bionicReading = false,
-  zenMode = false,
-  voiceAssistant = true, // Zawsze true z powodu wyjątku w App.jsx
-}) {
+function ScrabbleExercise(
+  {
+    data,
+    themeStyles,
+    onSuccess,
+    onError,
+    language,
+    t,
+    speak,
+    noFlash = false,
+    bigTargets = false,
+    extendedTime = false,
+    bionicReading = false,
+    zenMode = false,
+    voiceAssistant = true,
+  }
+) {
   const [userScrabble, setUserScrabble] = useState([]);
   const [activeHighlight, setActiveHighlight] = useState(null);
   const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
@@ -41,7 +36,6 @@ function ScrabbleExercise({
     };
   }, [clearAudioTimeouts]);
 
-  // Predictable shuffle logic based on ID to avoid unnecessary reshuffling on renders
   const shuffledLetters = useMemo(() => {
     if (!data.scrambled && !data.word) return [];
     const letters = [...(data.scrambled || data.word.split('')), ...(data.distractors || [])];
@@ -62,7 +56,6 @@ function ScrabbleExercise({
     return letters;
   }, [data.word, data.id, data.scrambled, data.distractors]);
 
-  // Main validation logic
   const handleDone = useCallback(() => {
     if (userScrabble.length === 0) return;
     const assembled = userScrabble
@@ -73,29 +66,25 @@ function ScrabbleExercise({
       onSuccess();
     } else {
       onError();
-      setUserScrabble([]); // Reset on failure
-      // Wait for the error feedback to complete, then read the target word as a hint
+      setUserScrabble([]);
       setSafeTimeout(() => {
         speak(data.word, extendedTime);
       }, extendedTime ? 3500 : 2500);
     }
   }, [userScrabble, data.word, onSuccess, onError, setSafeTimeout, speak, extendedTime]);
 
-  // Handle assembly of tiles
   const addLetter = (letter, index) => {
     clearAudioTimeouts();
     if (userScrabble.some((x) => x.index === index)) return;
     setUserScrabble((prev) => [...prev, { letter, index }]);
   };
 
-  // --- Read Word & Available Tiles Aloud ---
   const readWordAndLetters = () => {
     clearAudioTimeouts();
 
     speak(data.word, extendedTime);
   };
 
-  // Auto-submit logic when all letters are exhausted
   useEffect(() => {
     if (data.word && userScrabble.length === data.word.length) {
       const delay = extendedTime ? 1000 : 500;
@@ -104,10 +93,8 @@ function ScrabbleExercise({
     }
   }, [userScrabble, data.word, handleDone, extendedTime]);
 
-  // Dynamic Class Definitions
   const animClass = noFlash ? '' : 'animate-in zoom-in duration-500';
 
-  // Responsive dynamic sizing to integrate long words (e.g., German compound words)
   const wordLen = data.word?.length || 0;
   const isLong = wordLen > 12;
   const isVeryLong = wordLen > 18;
@@ -128,7 +115,7 @@ function ScrabbleExercise({
     <div
       className={`${animClass} flex h-full min-h-0 w-full flex-1 flex-col items-center justify-start pt-2 sm:pt-6 pb-2 px-2 overflow-hidden`}
     >
-      {/* 1. Header & Voice Controls */}
+      {}
       <div className="mb-2 flex w-full shrink-0 flex-col items-center justify-center sm:mb-4">
         {!zenMode && (
           <div
@@ -150,7 +137,7 @@ function ScrabbleExercise({
         </div>
       </div>
 
-      {/* 2. Target Word Slots */}
+      {}
       <div className="mb-2 sm:mb-4 flex min-h-[3rem] max-h-[30vh] w-full max-w-4xl shrink flex-wrap justify-center gap-1 sm:gap-2 border-b-4 border-dashed border-slate-100 px-1 sm:px-2 pt-2 pb-2 sm:mb-4 sm:min-h-16 sm:pb-4 min-h-0 overflow-y-auto no-scrollbar">
         {userScrabble.map((x, i) => (
           <div
@@ -162,7 +149,7 @@ function ScrabbleExercise({
         ))}
       </div>
 
-      {/* 3. Available Tiles container */}
+      {}
       <div className="flex w-full max-w-4xl max-h-[35vh] shrink flex-wrap justify-center gap-1.5 sm:gap-3 px-1 pt-2 pb-2 sm:pt-4 sm:pb-4 min-h-0 overflow-y-auto no-scrollbar">
         {shuffledLetters.map((l, i) => {
           const isUsed = userScrabble.some((x) => x.index === i);
@@ -193,7 +180,7 @@ function ScrabbleExercise({
         })}
       </div>
 
-      {/* 4. Action Buttons */}
+      {}
       <div className="mt-auto flex w-full max-w-2xl shrink-0 gap-2 px-2 pt-2 sm:gap-4 sm:pt-4">
         <button
           onClick={() => { clearAudioTimeouts(); setUserScrabble([]); }}

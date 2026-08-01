@@ -1,8 +1,3 @@
-/**
- * Defines the exact shape of our translation namespaces.
- * This ensures that whenever a new language is added, it MUST implement all keys.
- * It also provides autocomplete and type safety when using the `useTranslation` hook.
- */
 export interface CommonNamespace {
   save: string;
   cancel: string;
@@ -60,7 +55,6 @@ export interface SurveyNamespace {
   };
 }
 
-// The main dictionary schema wrapping all namespaces
 export interface TranslationDictionary {
   common: CommonNamespace;
   profile: ProfileNamespace;

@@ -5,8 +5,8 @@ export default function AccessibleTTS({ text, speak, language = 'pl', children, 
   const { t } = useTranslation();
 
   const handleRead = (e) => {
-    // Trigger system TTS with a forced slower rate for comprehension (slow = true)
-    if (speak && text) speak(text, true); 
+    if (speak && text)
+      speak(text, true); 
   };
 
   const fallbackTitle = {

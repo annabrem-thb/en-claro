@@ -1,6 +1,3 @@
-  };
-}
-
 export interface IntroNamespace {
   subtitle: string;
   chooseLanguage: string;
@@ -22,7 +19,6 @@ export interface IntroNamespace {
   zen: string;
 }
 
-// The main dictionary schema wrapping all namespaces
 export interface TranslationDictionary {
   appTitle: string;
   start: string;
@@ -31,8 +27,6 @@ export interface TranslationDictionary {
   profile: ProfileNamespace;
   errors: ErrorsNamespace;
   feedback: FeedbackNamespace;
-  survey: SurveyNamespace;
-
-    // Fallback signature to safely allow legacy keys during the incremental migration
+  survey: SurveyNamespace
   [key: string]: any;
 }

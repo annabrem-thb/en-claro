@@ -8,11 +8,6 @@ const LANGUAGES = [
   { code: 'de', flag: '🇩🇪', label: 'Deutsch' },
 ];
 
-/**
- * LanguageSwitcher Component
- * A simple, accessible component for changing the application's language.
- * It integrates with the existing UserSettingsContext.
- */
 export default function LanguageSwitcher() {
   const { settings, updateSetting } = useUserSettingsContext();
   const { language, contrast: isHighContrast, bionicReading } = settings;

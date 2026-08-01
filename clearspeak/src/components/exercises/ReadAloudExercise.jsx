@@ -15,8 +15,6 @@ function ReadAloudExercise({
     return () => window.speechSynthesis?.cancel();
   }, []);
 
-  // Funkcja normalizująca tekst: usuwa interpunkcję i wielkie litery, żeby 
-  // porównanie nie psuło się przez przecinki dodawane przez rozpoznawanie mowy
   const normalizeText = (text) => 
     text.toLowerCase().replace(/[.,!?;:„”"'-]/g, '').trim();
 
@@ -25,8 +23,6 @@ function ReadAloudExercise({
     const cleanSpoken = normalizeText(transcript);
     const cleanTarget = normalizeText(data.text);
     
-    // Zezwalamy na zaliczenie zadania, jeśli mowa w dużym stopniu się pokrywa.
-    // Jest to łagodniejsze dla osób z dysleksją i radzi sobie z drobnymi przejęzyczeniami.
     if (cleanSpoken === cleanTarget || cleanSpoken.includes(cleanTarget) || cleanTarget.includes(cleanSpoken)) {
       onSuccess();
     } else {

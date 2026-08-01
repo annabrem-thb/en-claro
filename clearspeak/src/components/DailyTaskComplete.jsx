@@ -3,19 +3,16 @@ import { useGamification } from './GamificationContext';
 import { useTranslation } from '../i18n/i18n';
 import { useAppSettings } from '../hooks/useAppSettings';
 
-/**
- * DailyTaskComplete Component
- * A WCAG-compliant modal that reinforces competence and satisfies autonomy 
- * by letting the user choose their next virtual garden reward.
- */
-export default function DailyTaskComplete({ 
-  isOpen, 
-  onClose, 
-  language = 'pl', 
-  isHighContrast = false, 
-  noFlash = false,
-  bigTargets = false
-}) {
+export default function DailyTaskComplete(
+  { 
+    isOpen, 
+    onClose, 
+    language = 'pl', 
+    isHighContrast = false, 
+    noFlash = false,
+    bigTargets = false
+  }
+) {
   const { selectedRewardId, chooseNextReward, unlockSelectedReward } = useGamification();
   const { theme } = useAppSettings();
   const t = useTranslation(language);
@@ -23,7 +20,6 @@ export default function DailyTaskComplete({
 
   const modalRef = useRef(null);
 
-  // WCAG Focus Management: Trap focus inside the dialog when it opens
   useEffect(() => {
     if (isOpen && modalRef.current) {
       modalRef.current.focus();
@@ -63,7 +59,6 @@ export default function DailyTaskComplete({
   const currentTheme = theme || 'Natur';
   const options = FALLBACK_REWARDS[currentTheme] || FALLBACK_REWARDS['Natur'];
 
-  // Resolve localized text for options based on selected language, defaulting to English
   const REWARD_OPTIONS = options.map(opt => ({
     id: opt.id,
     icon: opt.icon,
@@ -93,7 +88,7 @@ export default function DailyTaskComplete({
             : 'bg-white border border-slate-100 text-slate-800'
         }`}
       >
-        {/* Affirmative Feedback (Competence) */}
+        {}
         <header className="flex flex-col items-center text-center mb-4 sm:mb-8 shrink-0" aria-live="polite">
           <div className={`text-5xl sm:text-6xl mb-2 sm:mb-4 drop-shadow-md ${noFlash ? '' : 'animate-bounce'}`} aria-hidden="true">🧠</div>
           <h1 id="completion-title" className={`${bigTargets ? 'text-3xl sm:text-4xl' : 'text-2xl sm:text-3xl'} font-black mb-1 sm:mb-2`}>
@@ -104,7 +99,7 @@ export default function DailyTaskComplete({
           </p>
         </header>
 
-        {/* Choice Selection (Autonomy) */}
+        {}
         <div className="mb-4 sm:mb-8 shrink min-h-0 overflow-y-auto pr-1">
           <h2 className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-center mb-2 sm:mb-4 opacity-70 shrink-0">
           {dtc.chooseReward || 'Choose your next reward to grow'}
@@ -132,7 +127,7 @@ export default function DailyTaskComplete({
                         {option.desc}
                       </span>
                     </div>
-                    {/* Visual checkmark for cognitive clarity */}
+                    {}
                     {isSelected && <span className="text-lg sm:text-xl" aria-hidden="true">✔️</span>}
                   </button>
                 </li>

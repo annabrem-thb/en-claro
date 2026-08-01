@@ -1,13 +1,7 @@
-/* 
- * App.jsx (Version 4)
- * Main application component responsible for state management, theming, and exercise rendering.
- */
-
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Provider } from 'react-redux';
 import store from './store.js';
 
-// Initialize global i18next engine (new architecture)
 import '../hooks/config.ts';
 
 import { useTranslation }  from '../i18n/i18n.js';
@@ -41,11 +35,9 @@ import { useRegisterSW } from 'virtual:pwa-register/react';
 
 import { SurveyComponent } from './SurveyComponent';
 
-// --- Global Constants & Configurations ---
 const POINTS_PER_LEVEL = 5;
 const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
 
-// Horticultural Therapy Framework - soft and soothing color palettes, elimination of pure white
 const THEMES = {
   Natur: { accent: 'text-[#4A5D54]', bg: 'bg-[#F4F1EA]', button: 'bg-[#8A9A86]', buttonText: 'text-[#F4F1EA]', border: 'border-[#D0D6CE]', hex: '#8A9A86', price: 0 },
   Musik: { accent: 'text-[#6B5B7B]', bg: 'bg-[#F3F0F5]', button: 'bg-[#8F7D9E]', buttonText: 'text-[#F3F0F5]', border: 'border-[#D1C8D6]', hex: '#8F7D9E', price: 3 },
@@ -54,18 +46,14 @@ const THEMES = {
   Ocean: { accent: 'text-[#437A7A]', bg: 'bg-[#EFF5F5]', button: 'bg-[#67A3A3]', buttonText: 'text-[#EFF5F5]', border: 'border-[#C4DBDB]', hex: '#67A3A3', price: 10 },
 };
 
-// --- Main App Component ---
 function AppContent() {
   const { isGamified, setIsGamified } = useGamification();
   
-  // Unified settings management using Context API
   const { settings, updateSetting } = useUserSettingsContext();
   const { language, theme, dailyGoal, userDifficulty } = settings;
 
-  // Vocabulary Loader Module
   const db = useVocabularyLoader(language);
 
-  // Synchronize global language state (PWA) with i18next engine
   useEffect(() => {
     import('i18next').then((i18next) => {
       if (i18next.default.language !== language) {
@@ -74,7 +62,6 @@ function AppContent() {
     });
   }, [language]);
 
-  // Global TTS (Voice) Module
   const { 
     speak, 
     selectedVoiceURIs, setSelectedVoiceURIs, 
@@ -83,7 +70,7 @@ function AppContent() {
   } = useGlobalTTS(language, settings.extendedTime);
 
   const [activeTab,    setActiveTab]    = useState('Literacy');
-  const [lastPillar,   setLastPillar]   = useState('Literacy'); // Remembers the pillar for garden rendering
+  const [lastPillar,   setLastPillar]   = useState('Literacy');
   const [showIntro,    setShowIntro]    = useState(true);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [profileOpen,  setProfileOpen]  = useState(false);
@@ -92,7 +79,6 @@ function AppContent() {
   const [showFeedback, setShowFeedback] = useState(false);
   const [pendingFeedback, setPendingFeedback] = useState(false);
 
-  // Gamification Module (Progress state, Coins, Shop)
   const {
     points, setPoints, coins, setCoins,
     rewards, setRewards,
@@ -108,7 +94,6 @@ function AppContent() {
     setLoadLevel 
   } = useCognitiveLoad(activeTab, settings.zenMode);
 
-  // State for PWA Offline Support & Updates
   const {
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
@@ -116,16 +101,14 @@ function AppContent() {
 
   const [dailyProgress, setDailyProgress] = useIndexedDB('daily_progress', 'date', 'cfg_daily_progress');
 
-  // Affirmative Notifications Module
   const { affirmation, setAffirmation } = useAffirmativeNotifications(points, language);
 
-  // Real-World Impact (Tree Planting) Notification Logic
   const prevPointsRef = useRef(points);
   const [newTreeNotification, setNewTreeNotification] = useState(false);
   const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsAppReady(true), 1500); // Wait for initial IndexedDB load
+    const timer = setTimeout(() => setIsAppReady(true), 1500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -149,7 +132,7 @@ function AppContent() {
   }, [isGamified, activeTab]);
 
   const t = useTranslation(language);
-  const s = t; // Alias 's' retained for compatibility with legacy component props (e.g. SidebarNav)
+  const s = t;
   
   const themeStyles = THEMES[theme]         || THEMES.Natur;
   const noFlash        = settings.noFlash || settings.motion;
@@ -159,27 +142,23 @@ function AppContent() {
   const isColorblind   = settings.color;
   const hasRuler       = settings.ruler;
 
-  // Reading Ruler logic
   const { cardRef, rulerPos } = useReadingRuler(hasRuler);
 
   useEffect(() => {
     const root = document.documentElement;
     
-    // Colorblind-safe palette (Protanopia and Deuteranopia friendly)
     const safeAccent = isColorblind ? '#0072B2' : (THEMES[theme]?.hex || '#10b981');
     root.style.setProperty('--theme-accent', safeAccent);
-    root.style.setProperty('--color-success', isColorblind ? '#0072B2' : '#10b981'); // Blue instead of Green
-    root.style.setProperty('--color-error', isColorblind ? '#D55E00' : '#ef4444');   // Vermilion instead of Red
-    root.style.setProperty('--color-warning', isColorblind ? '#F0E442' : '#f59e0b'); // Yellow instead of Amber
+    root.style.setProperty('--color-success', isColorblind ? '#0072B2' : '#10b981');
+    root.style.setProperty('--color-error', isColorblind ? '#D55E00' : '#ef4444');
+    root.style.setProperty('--color-warning', isColorblind ? '#F0E442' : '#f59e0b');
     
-    // Extracts HEX color from classes like bg-[#F4F1EA] and sets it as a variable for gradients
     const bgHex = THEMES[theme]?.bg?.match(/\[(.*?)\]/)?.[1] || '#FDFBF7';
     root.style.setProperty('--theme-bg', isHighContrast ? '#000000' : bgHex);
     
     root.lang = language;
   }, [theme, isHighContrast, language]);
 
-  // Training Session Module
   const {
     currentIndex, setCurrentIndex,
     setCycle,
@@ -198,7 +177,6 @@ function AppContent() {
     setErrorTimestamps
   });
 
-  // Analytics Logger - securely stores UX survey telemetry data into IndexedDB
   const handleFeedbackSubmit = useCallback(async (surveyData) => {
     const logEntry = {
       timestamp: new Date().toISOString(),
@@ -216,7 +194,6 @@ function AppContent() {
     goNext();
   }, [points, goNext]);
 
-  // --- Navigation Handlers ---
   const handleTabChange = useCallback((pillar) => {
     setActiveTab(pillar);
     setLastPillar(pillar);
@@ -231,7 +208,6 @@ function AppContent() {
     setFeedback(null);
   }, []);
 
-  // --- Gesture Navigation (Swipe to switch tabs) ---
   const handleSwipeTab = useCallback((direction) => {
     const availableTabs = isGamified ? [...PILLARS, 'Garden'] : PILLARS;
     const currentIdx = availableTabs.indexOf(activeTab);
@@ -260,20 +236,18 @@ function AppContent() {
     onSwipeRight: () => handleSwipeTab('right') 
   });
 
-  // --- Keyboard Navigation (Ctrl/Cmd/Alt + 1-4) ---
   useEffect(() => {
     const handleKeyDown = (e) => {
-      // Ignore if focus is in an input field or textarea to allow normal typing
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')
+        return;
 
-      // Direct Task Navigation (No modifiers required)
       if (!e.ctrlKey && !e.metaKey && !e.altKey) {
         if (e.key === 'ArrowRight' || e.key === 'Enter') { e.preventDefault(); goNext(); return; }
         if (e.key === 'ArrowLeft') { e.preventDefault(); goPrev(); return; }
       }
 
-      // Require a modifier key (Ctrl, Cmd, or Alt) to prevent accidental tab switching triggers
-      if (!(e.ctrlKey || e.metaKey || e.altKey)) return;
+      if (!(e.ctrlKey || e.metaKey || e.altKey))
+        return;
 
       const availableTabs = isGamified ? [...PILLARS, 'Garden'] : PILLARS;
       let targetTab = null;
@@ -294,11 +268,12 @@ function AppContent() {
           if (typeof navigator !== 'undefined' && navigator.vibrate && !settings.zenMode) navigator.vibrate(15);
           setSettingsOpen(true);
           return;
-        default: return; // Not a relevant key
+        default:
+          return;
       }
 
       if (targetTab) {
-        e.preventDefault(); // Prevent default browser tab switching
+        e.preventDefault();
         if (typeof navigator !== 'undefined' && navigator.vibrate && !settings.zenMode) navigator.vibrate(15);
         
         targetTab === 'Garden' ? handleGardenClick() : handleTabChange(targetTab);
@@ -314,15 +289,8 @@ function AppContent() {
       return <SkeletonLoader isHighContrast={isHighContrast} />;
     }
 
-    // Voice Assistant Mode Logic
-    // Voice icons (TTS & Mic) are only active if the Voice Assistant is enabled in settings,
-    // EXCEPT for these 4 exercises which always require voice functionality:
     const isVoiceException = !!(
-      currentTask?.dictation || // Zapis: Dyktanda
-      currentTask?.lcwc ||      // Zapis: Pamięć (Spójrz na słowo...)
-      currentTask?.phonetic ||  // Słowo: Dźwięki (Phonem)
-      currentTask?.scrambled || // Zapis: Synteza (Scrabble)
-      currentTask?.readAloud    // Czytanie: Na głos
+      (currentTask?.dictation || currentTask?.lcwc || currentTask?.phonetic || currentTask?.scrambled || currentTask?.readAloud)
     );
     
     const voiceAssistantActive = !!settings.voiceAssistant || isVoiceException;
@@ -343,12 +311,10 @@ function AppContent() {
     return <ExerciseContainer currentTask={currentTask} {...commonProps} />;
   };
 
-  // --- Render Intro Screen ---
   if (showIntro) {
     return <IntroScreen onStart={() => setShowIntro(false)} speak={speak} />;
   }
 
-  // --- Render Settings Page ---
   if (settingsOpen) {
     return <SettingsModal open={true} onClose={() => setSettingsOpen(false)} />;
   }
@@ -357,40 +323,39 @@ function AppContent() {
     return <ProfileModal open={true} onClose={() => setProfileOpen(false)} />;
   }
 
-  // --- Render Main Application Layout ---
   return (
     <div className={`fixed inset-0 flex flex-col md:flex-row w-full overflow-hidden ${isHighContrast ? 'bg-black text-white' : `${themeStyles.bg} text-[#2D3732]`}`}>
 
-        {/* Navigation Sidebar (Desktop) */}
-        <div className="hidden md:flex h-full shrink-0 z-40">
-          <SidebarNav
-            pillars={PILLARS}
-            activeTab={activeTab}
-            onTabChange={handleTabChange}
-            onGardenClick={handleGardenClick}
-            dailyQuests={dailyQuests}
-            language={language}
-            isGamified={isGamified}
-            theme={theme}
-            themeStyles={themeStyles}
-            isHighContrast={isHighContrast}
-            bigTargets={bigTargets}
-            hideNavLabel={hideNavLabel}
-            setSettingsOpen={setSettingsOpen}
-            setProfileOpen={setProfileOpen}
-            t={t}
-            coins={coins}
-            loadLevel={loadLevel}
-            s={s}
-            speak={speak}
-            noFlash={noFlash}
-          />
-        </div>
+      {}
+      <div className="hidden md:flex h-full shrink-0 z-40">
+        <SidebarNav
+          pillars={PILLARS}
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          onGardenClick={handleGardenClick}
+          dailyQuests={dailyQuests}
+          language={language}
+          isGamified={isGamified}
+          theme={theme}
+          themeStyles={themeStyles}
+          isHighContrast={isHighContrast}
+          bigTargets={bigTargets}
+          hideNavLabel={hideNavLabel}
+          setSettingsOpen={setSettingsOpen}
+          setProfileOpen={setProfileOpen}
+          t={t}
+          coins={coins}
+          loadLevel={loadLevel}
+          s={s}
+          speak={speak}
+          noFlash={noFlash}
+        />
+      </div>
 
-      {/* Main Content Area */}
+      {}
       <div className="flex-1 flex flex-col min-w-0 h-full min-h-0 overflow-hidden relative">
         
-        {/* Subtle gradient at the top of the screen (masks scrolled text) */}
+        {}
         <div 
           className="absolute top-0 left-0 right-0 h-10 pointer-events-none z-10" 
           style={{ background: 'linear-gradient(to bottom, var(--theme-bg) 0%, transparent)' }} 
@@ -421,7 +386,7 @@ function AppContent() {
             </div>
           ) : (
             <>
-              {/* Minimal Progress Row without numeric noise */}
+              {}
               {!settings.zenMode && (
                 <div className={`rounded-3xl px-3 sm:px-4 py-2.5 mb-3 md:mb-4 flex items-center justify-between gap-4 relative shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm md:shadow-none' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-md md:shadow-sm shadow-slate-200/40`}`}>
                   {rewards.length > 0 && isGamified && (
@@ -466,13 +431,13 @@ function AppContent() {
                 </div>
               )}
 
-              {/* Active Exercise Card */}
+              {}
               <section 
                 ref={cardRef}
                 className={`rounded-4xl flex flex-col items-center relative w-full flex-1 min-h-0 px-2 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-12 ${isHighContrast ? 'bg-black border border-white/30 shadow-lg md:shadow-sm shadow-white/10' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-xl md:shadow-md shadow-slate-200/30`}`}
                 aria-label={s.exerciseAria}
               >
-                {/* Reading Ruler Overlay (Restricted to Card) */}
+                {}
                 {hasRuler && rulerPos.visible && (
                   <div 
                     className={`absolute left-0 right-0 h-16 pointer-events-none z-[100] transition-transform duration-75 ${isHighContrast ? 'bg-white/10 border-y border-white/30' : 'bg-indigo-500/10 border-y border-indigo-500/20 backdrop-invert-[0.02]'}`}
@@ -529,14 +494,14 @@ function AppContent() {
           )}
         </main>
         
-        {/* Subtle fade-out gradient at the bottom, indicating scrollable content */}
+        {}
         <div 
           className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none z-10 hidden md:block" 
           style={{ background: 'linear-gradient(to top, var(--theme-bg) 5%, transparent)' }} 
           aria-hidden="true" 
         />
 
-        {/* Mobile Bottom Navigation */}
+        {}
         <nav 
           className={`md:hidden shrink-0 flex items-center justify-around px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 z-40 transition-colors shadow-[0_-10px_40px_rgba(0,0,0,0.05)] border-t ${isHighContrast ? 'bg-black border-white/20' : 'bg-white border-slate-100'}`} 
           aria-label={t.navAria || 'Main Navigation'}
@@ -619,7 +584,7 @@ function AppContent() {
         </nav>
       </div>
 
-      {/* Real-World Impact (New Tree) Notification */}
+      {}
       {newTreeNotification && (
         <div className="fixed top-16 sm:top-20 left-1/2 -translate-x-1/2 z-[110] px-4 w-full max-w-sm pointer-events-none">
           <div className={`p-4 sm:p-5 rounded-3xl shadow-2xl border-2 flex items-center gap-3 sm:gap-4 ${noFlash ? '' : 'animate-in slide-in-from-top-8 fade-in duration-500'} ${isHighContrast ? 'bg-black border-white text-white' : 'bg-emerald-600 border-emerald-400 text-white'}`}>
@@ -636,7 +601,7 @@ function AppContent() {
         </div>
       )}
 
-      {/* Level-Up Success Overlay */}
+      {}
       {showSuccess && (
         <div 
           className={`fixed inset-0 z-50 flex items-center justify-center p-6 text-center ${isHighContrast ? 'bg-black/90 backdrop-blur-sm' : 'bg-slate-50/90 backdrop-blur-md'}`}
@@ -660,35 +625,35 @@ function AppContent() {
         </div>
       )}
 
-      {/* Point 9: UX Metrics Micro-survey (NASA-TLX) */}
-{showFeedback && (
-  <div 
-    className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm"
-    role="dialog"
-    aria-modal="true"
-        aria-labelledby="survey-title"
-  >
-    {}
-      <div className="relative w-full max-w-5xl max-h-[95vh] overflow-y-auto no-scrollbar rounded-3xl bg-white shadow-2xl animate-in zoom-in duration-300">
-      
       {}
-      <button 
-        onClick={() => {
-          setShowFeedback(false);
-          goNext(); 
-        }}
-        className="absolute top-4 right-4 z-10 scale-size-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors font-bold"
-      >
-        ✕
-      </button>
+      {showFeedback && (
+        <div 
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+              aria-labelledby="survey-title"
+        >
+          {}
+            <div className="relative w-full max-w-5xl max-h-[95vh] overflow-y-auto no-scrollbar rounded-3xl bg-white shadow-2xl animate-in zoom-in duration-300">
+            
+            {}
+            <button 
+              onClick={() => {
+                setShowFeedback(false);
+                goNext(); 
+              }}
+              className="absolute top-4 right-4 z-10 scale-size-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors font-bold"
+            >
+              ✕
+            </button>
 
-      <SurveyComponent />
-      
-    </div>
-  </div>
-)}
+            <SurveyComponent />
+            
+          </div>
+        </div>
+      )}
 
-      {/* Gentle Affirmative Toast Notification */}
+      {}
       {affirmation && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] px-4 w-full max-w-sm pointer-events-none">
           <div className={`p-4 rounded-2xl shadow-lg border ${noFlash ? '' : 'animate-in slide-in-from-bottom-8 fade-in duration-700'} ${isHighContrast ? 'bg-black border-white text-white' : 'bg-white border-slate-100 text-slate-700'}`}>
@@ -699,10 +664,10 @@ function AppContent() {
         </div>
       )}
 
-      {/* PWA & Offline Indicators */}
+      {}
       <OfflineIndicator />
 
-      {/* Non-intrusive PWA Update Prompt */}
+      {}
       {needRefresh && (
         <div className={`fixed bottom-20 sm:bottom-24 left-4 right-4 sm:left-auto sm:right-4 w-auto sm:w-full sm:max-w-xs z-50 p-4 sm:p-5 rounded-3xl shadow-2xl border-2 ${noFlash ? '' : 'animate-in slide-in-from-bottom sm:slide-in-from-right duration-500'} ${isHighContrast ? 'bg-black border-white text-white' : 'bg-white border-slate-100 text-slate-800'}`} role="alert" aria-live="assertive">
           <h4 className="font-black text-sm mb-1 flex items-center gap-2"><span aria-hidden="true">🌱</span> {t.pwaNewVersion || 'New version'}</h4>

@@ -25,10 +25,6 @@ export default function ProfileModal({ open, onClose }) {
     try {
       const logs = await getAllLogs('ux_logs');
       
-      // 🔒 ZABEZPIECZENIE (Only this user)
-      // W wersji PWA IndexedDB dane są lokalne, więc siłą rzeczy należą do tego urządzenia/użytkownika.
-      // Po wpięciu logowania chmurowego (Supabase) wystarczy dodać:
-      // const userLogs = logs.filter(log => log.user_id === currentUser.id);
       const userLogs = logs;
       
       setLogCount(userLogs.length);

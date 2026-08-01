@@ -5,7 +5,6 @@ import { getSmartSpellingHint } from '../../utils/spellingHints';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 
-// Helper to enforce correct TTS pronunciation of hours and minutes
 const formatTimeForTTS = (text, lang) => {
   if (!text) return '';
   return text.replace(/\b0?(\d+):(\d+)\b/g, (match, h, m) => {
@@ -55,7 +54,6 @@ function ContextExercise({
     };
   }, [clearAudioTimeouts]);
 
-  // Shuffle options predictably based on the sentence seed
   const shuffledOptions = useMemo(() => {
     if (!data.options) return [];
     const hash = (str) =>
@@ -66,7 +64,6 @@ function ContextExercise({
     );
   }, [data]);
 
-  // Delayed feedback: reads the full sentence with the correct word
   const handleMistake = useCallback(() => {
     onError();
     setSafeTimeout(() => {
@@ -77,10 +74,9 @@ function ContextExercise({
         const part1 = data.sentence_part1 || '';
         const part2 = data.sentence_part2 || '';
         const fullSentence = `${part1} ${correctOpt.text} ${part2}`
-          .replace(/\s+([.,!?;:])/g, '$1') // Remove spaces before punctuation marks
-          .replace(/\s+/g, ' ')            // Reduce multiple spaces to a single space
+          .replace(/\s+([.,!?;:])/g, '$1')
+          .replace(/\s+/g, ' ')
           .trim();
-        // Format time for TTS within the context sentence
         speak(formatTimeForTTS(fullSentence, language), extendedTime);
       }
     }, extendedTime ? 3500 : 2500);
@@ -124,12 +120,10 @@ function ContextExercise({
 
       const hint = getSmartSpellingHint(opt.text, allOptionTexts, language, t);
 
-      // Remove colon from the prefix to prevent TTS from stopping prematurely
       const spokenPrefix = optionPrefix.replace(':', '.');
       const spokenHint = formatTimeForTTS(hint, language);
       const fullSpokenText = `${spokenPrefix} ${spokenHint}`;
 
-      // Calculate step duration based on spoken text length (includes buffer for expanded numbers)
       const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
 
       setSafeTimeout(() => {

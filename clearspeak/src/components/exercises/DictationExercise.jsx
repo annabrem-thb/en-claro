@@ -21,7 +21,6 @@ function DictationExercise({
   const inputRef = useRef(null);
   const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
 
-  // Auto-play the dictation audio prompt shortly after the component mounts
   useEffect(() => {
     return () => {
       clearAllTimeouts();
@@ -36,7 +35,6 @@ function DictationExercise({
   }, [data.audioPrompt, extendedTime, speak, clearAllTimeouts]);
 
   const handleCheck = () => {
-    // Normalize strings for forgiving validation (ignore case and punctuation)
     const cleanInput = userInput.trim().toLowerCase().replace(/[.,!?;:]/g, '');
     const cleanCorrect = data.correct.trim().toLowerCase().replace(/[.,!?;:]/g, '');
     

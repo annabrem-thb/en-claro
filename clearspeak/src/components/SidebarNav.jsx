@@ -29,7 +29,6 @@ const SidebarNav = memo(function SidebarNav({
 }) {
   const animClass = noFlash ? '' : 'animate-in fade-in slide-in-from-bottom-12 md:slide-in-from-bottom-0 md:slide-in-from-left-12 duration-700 ease-out';
 
-  // ─── PWA Install Prompt Logic ───────────────────────────────────────────
   const [installPrompt, setInstallPrompt] = useState(null);
   const [isInstalled, setIsInstalled] = useState(false);
 

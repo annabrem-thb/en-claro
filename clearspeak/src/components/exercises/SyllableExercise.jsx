@@ -5,26 +5,23 @@ import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 import { getTTSException } from '../../hooks/useGlobalTTS';
 
-/**
- * SyllableExercise Component
- * Focuses on segmenting words into syllables by "cutting" between characters.
- * Refactored to use centralized voice and text helpers.
- */
-function SyllableExercise({
-  data,
-  themeStyles,
-  onSuccess,
-  onError,
-  language = 'en',
-  t,
-  speak,
-  noFlash = false,
-  bigTargets = false,
-  extendedTime = false,
-  bionicReading = false,
-  zenMode = false,
-  voiceAssistant = false,
-}) {
+function SyllableExercise(
+  {
+    data,
+    themeStyles,
+    onSuccess,
+    onError,
+    language = 'en',
+    t,
+    speak,
+    noFlash = false,
+    bigTargets = false,
+    extendedTime = false,
+    bionicReading = false,
+    zenMode = false,
+    voiceAssistant = false,
+  }
+) {
   const [cuts, setCuts] = useState([]);
   const [isResolved, setIsResolved] = useState(false);
 
@@ -48,7 +45,6 @@ function SyllableExercise({
     };
   }, [clearAudioTimeouts]);
 
-  // Map character index to syllable index for highlighting animations
   const charToSyl = useMemo(() => {
     if (!data.segments || !data.word) return [];
     const mapping = [];
@@ -65,10 +61,6 @@ function SyllableExercise({
     return mapping;
   }, [data.segments, data.word]);
 
-  /**
-   * Logic to toggle a cut at a specific index.
-   * Sorts cuts to ensure comparison logic works correctly.
-   */
   const toggleCut = (index) => {
     if (isResolved) return;
     setCuts((prev) =>
@@ -78,10 +70,6 @@ function SyllableExercise({
     );
   };
 
-  /**
-   * Verification logic.
-   * Dynamically calculates correct cut positions based on word segment lengths.
-   */
   const checkAnswer = () => {
     if (!data.segments) return;
     const correctCuts = [];
@@ -97,18 +85,13 @@ function SyllableExercise({
       setSafeTimeout(onSuccess, extendedTime ? 2500 : 1500);
     } else {
       onError();
-      setCuts([]); // Reset on failure
-      // Wait for the error feedback to finish, then present the correct segmentation
+      setCuts([]);
       setSafeTimeout(() => {
         playSyllables();
       }, extendedTime ? 3500 : 2500);
     }
   };
 
-  /**
-   * Auditory feedback logic.
-   * Plays segments one by one with a delay.
-   */
   const playSyllables = () => {
     if (!data.segments) {
       speak(data.word, extendedTime);
@@ -130,9 +113,7 @@ function SyllableExercise({
     });
   };
 
-  // Voice recognition callbacks
   const handleVoiceMatch = (num) => {
-    // Allows user to say "1", "2", etc., to toggle cuts between letters
     if (num >= 1 && num < data.word.length) {
       toggleCut(num);
     } else {
@@ -150,7 +131,6 @@ function SyllableExercise({
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
   const bounceClass = noFlash ? '' : 'animate-bounce';
 
-  // Responsive dynamic sizing to integrate long words (e.g., German compound words)
   const wordLen = data.word?.length || 0;
   const isLong = wordLen > 12;
   const isVeryLong = wordLen > 18;
@@ -171,7 +151,7 @@ function SyllableExercise({
 
   return (
     <div className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}>
-      {/* 1. Voice & Audio Controls */}
+      {}
       {voiceAssistant && (
         <div className="mb-2 sm:mb-4 flex gap-4 sm:gap-6 shrink-0">
           <div className={isResolved ? 'pointer-events-none opacity-50 grayscale' : ''}>
@@ -207,14 +187,14 @@ function SyllableExercise({
         </p>
       )}
 
-      {/* 2. Decorative Icon (Hidden in Zen Mode) */}
+      {}
       {!zenMode && (
         <div className="mb-2 sm:mb-4 text-4xl sm:text-6xl shrink-0" aria-hidden="true">
           {data.icon || '✂️'}
         </div>
       )}
 
-      {/* 2.5 Phonetic Hint Bubble (Synchronized with TTS readout) */}
+      {}
       <div className="h-6 sm:h-8 mb-1 sm:mb-2 flex items-center justify-center w-full shrink-0">
         {activeHighlight !== null && (
           (() => {
@@ -232,7 +212,7 @@ function SyllableExercise({
         )}
       </div>
 
-      {/* 3. Word Segmentation Interface */}
+      {}
       <div className="mb-2 sm:mb-4 flex flex-wrap items-center justify-center gap-y-1 sm:gap-y-4 shrink min-h-0 max-h-full overflow-y-auto no-scrollbar w-full max-w-full">
         {wordChars.map((char, index) => (
           <React.Fragment key={index}>
@@ -275,7 +255,7 @@ function SyllableExercise({
                   </span>
                 )}
 
-                {/* Visible numeric indicator for Voice Control */}
+                {}
                 {!isResolved && (
                   <span className="absolute -bottom-6 text-[10px] font-black text-slate-300">
                     {index + 1}
@@ -287,7 +267,7 @@ function SyllableExercise({
         ))}
       </div>
 
-      {/* 4. Action Buttons */}
+      {}
       <div className="mt-auto pt-2 sm:pt-4 w-full max-w-xs space-y-2 sm:space-y-3 px-4 shrink-0">
         <button
           onClick={checkAnswer}

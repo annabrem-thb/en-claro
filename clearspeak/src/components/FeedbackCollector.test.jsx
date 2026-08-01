@@ -24,7 +24,6 @@ describe('FeedbackCollector Component', () => {
   const mockThemeStyles = { accent: 'text-indigo-600', button: 'bg-indigo-600' };
 
   beforeEach(() => {
-    // Czyścimy mocki przed każdym testem
     mockOnSubmit.mockClear();
     mockOnSkip.mockClear();
   });
@@ -70,7 +69,6 @@ describe('FeedbackCollector Component', () => {
     expect(valueDisplay.textContent).toBe('3');
     fireEvent.change(mentalSlider, { target: { value: '5' } });
 
-    // Musimy ponownie znaleźć element, ponieważ komponent się przerenderował
     const updatedValueDisplay = screen.getByLabelText('Wysiłek umysłowy').previousElementSibling.lastChild;
     expect(updatedValueDisplay.textContent).toBe('5');
   });

@@ -1,26 +1,21 @@
 import React, { useEffect } from 'react';
 import { useAppSettings } from '../hooks/useAppSettings';
 
-/**
- * FocusExerciseLayout Component
- * Enforces a linear, single-task flow by stripping away sidebars and complex navigation.
- * Prevents multitasking and cognitive overload by dedicating 100% of the screen space to one exercise.
- * Supports accessibility: High Contrast, Reduced Motion (noFlash), and Large Targets (bigTargets).
- */
-export default function FocusExerciseLayout({ 
-  children, 
-  onExit, 
-  currentTaskNumber, 
-  totalTasks,
-  categoryColor = 'bg-sky-500',
-  t
-}) {
+export default function FocusExerciseLayout(
+  { 
+    children, 
+    onExit, 
+    currentTaskNumber, 
+    totalTasks,
+    categoryColor = 'bg-sky-500',
+    t
+  }
+) {
   const { a11yAddons, inclusiveOptions } = useAppSettings();
   const isHighContrast = a11yAddons?.includes('Kontrast');
   const noFlash = !!(inclusiveOptions?.noFlash || a11yAddons?.includes('Redukcja'));
   const bigTargets = !!(inclusiveOptions?.bigTargets || a11yAddons?.includes('Motorik'));
 
-  // Ensure the user starts at the top of the screen to prevent disorientation
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -32,7 +27,7 @@ export default function FocusExerciseLayout({
       aria-modal="true"
       aria-label={t?.activeExerciseView || "Active Exercise View"}
     >
-      {/* Minimal Header */}
+      {}
       <header className={`flex items-center justify-between ${bigTargets ? 'p-4 sm:p-6' : 'p-2 sm:p-4'} shrink-0 border-b-4 ${isHighContrast ? 'border-white' : categoryColor} relative z-20 shadow-md`}>
         <button 
           onClick={onExit}
@@ -45,7 +40,7 @@ export default function FocusExerciseLayout({
           <span className="hidden sm:inline">{t('close')}</span>
         </button>
 
-        {/* Simplified Progress Bar */}
+        {}
         <div className="flex items-center gap-3 sm:gap-4 shrink-0" aria-live="polite" aria-atomic="true">
           <span className={`${bigTargets ? 'text-sm' : 'text-xs'} font-black uppercase tracking-widest opacity-70`}>
             {t?.task || 'Task'} {currentTaskNumber} {t?.of || 'of'} {totalTasks}
@@ -62,13 +57,13 @@ export default function FocusExerciseLayout({
         </div>
       </header>
 
-      {/* Single-Task Flow Area */}
+      {}
       <div className="flex-1 flex flex-col items-center justify-center p-2 sm:p-4 md:p-6 min-h-0 overflow-hidden">
         <div className={`w-full max-w-4xl flex-1 flex flex-col items-center justify-center min-h-0 shrink ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}>
           {children}
         </div>
       </div>
-      
+
     </div>
   );
 }

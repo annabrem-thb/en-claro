@@ -4,7 +4,6 @@ import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import TTSController from '../common/TTSController';
 
-// Helper to enforce correct TTS pronunciation of hours and minutes
 const formatTimeForTTS = (text, lang) => {
   if (!text) return '';
   return text.replace(/\b0?(\d+):(\d+)\b/g, (match, h, m) => {
@@ -19,27 +18,23 @@ const formatTimeForTTS = (text, lang) => {
   }).replace(/\s*Uhr\s*Uhr/gi, ' Uhr');
 };
 
-/**
- * ClockExercise Component
- * Refactored to use shared hooks and components for cleaner structure.
- * Supports: Bionic Reading, Zen Mode, Voice Selection, and Full i18n.
- */
-function ClockExercise({
-  data,
-  themeStyles,
-  onSuccess,
-  onError,
-  language,
-  t,
-  speak,
-  noFlash = false,
-  bigTargets = false,
-  extendedTime = false,
-  bionicReading = false,
-  zenMode = false,
-  voiceAssistant = false,
-}) {
-  // Voice recognition logic
+function ClockExercise(
+  {
+    data,
+    themeStyles,
+    onSuccess,
+    onError,
+    language,
+    t,
+    speak,
+    noFlash = false,
+    bigTargets = false,
+    extendedTime = false,
+    bionicReading = false,
+    zenMode = false,
+    voiceAssistant = false,
+  }
+) {
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
     t,
@@ -60,7 +55,6 @@ function ClockExercise({
     };
   }, [clearAudioTimeouts]);
 
-  // Shuffle options predictably using a seed to maintain consistency across re-renders
   const shuffledOptions = useMemo(() => {
     if (!data.options) return [];
     const hash = (s) =>
@@ -71,7 +65,6 @@ function ClockExercise({
     );
   }, [data]);
 
-  // Delayed feedback loop on incorrect answer
   const handleMistake = useCallback(() => {
     onError();
     setSafeTimeout(() => {
@@ -92,7 +85,6 @@ function ClockExercise({
     }, extendedTime ? 3500 : 2500);
   }, [onError, setSafeTimeout, clearAudioTimeouts, shuffledOptions, data, speak, extendedTime]);
 
-  // Map recognized voice input numbers to corresponding options
   const handleVoiceMatch = (num) => {
     clearAudioTimeouts();
     const selectedIndex = num - 1;
@@ -106,8 +98,6 @@ function ClockExercise({
   const readTimeAndOptions = () => {
     clearAudioTimeouts();
 
-    // Pull localized prefix from i18n dictionary or fallback
-
     speak(data.timeAnalog, extendedTime);
 
     const charCount = (data.timeAnalog || '').length;
@@ -116,12 +106,10 @@ function ClockExercise({
     shuffledOptions.forEach((opt, index) => {
       const prefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
       
-      // Remove colon from the prefix to prevent TTS from prematurely stopping
       const spokenPrefix = prefix.replace(':', '.');
       const spokenTime = formatTimeForTTS(opt.text, language);
       const fullSpokenText = `${spokenPrefix} ${spokenTime}`;
 
-      // Calculate step duration based on spoken string length with extra buffer for numbers
       const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
 
       setSafeTimeout(() => {
@@ -154,7 +142,7 @@ function ClockExercise({
 
   return (
     <div className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}>
-      {/* 1. Voice Controls Section */}
+      {}
       {voiceAssistant && (
         <div className="mb-2 sm:mb-4 flex shrink-0 gap-4">
           <TTSController
@@ -180,14 +168,14 @@ function ClockExercise({
         </div>
       )}
 
-      {/* 2. Feedback Transcript */}
+      {}
       {transcript && (
         <p className="mb-1 sm:mb-2 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-400 uppercase">
           {t.heard}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
 
-      {/* 3. Visual Indicators (Partially hidden in Zen Mode) */}
+      {}
       <div className="mb-2 sm:mb-4 flex shrink-0 flex-col items-center">
         <div className={`mb-1 text-4xl ${bounceClass}`} aria-hidden="true">
           {data.isNight ? '🌙' : '☀️'}
@@ -199,7 +187,7 @@ function ClockExercise({
         )}
       </div>
 
-      {/* 4. The Analog Clock Face */}
+      {}
       <style>{`
         @keyframes clock-tick {
           from { transform: rotate(0deg); }
@@ -213,7 +201,7 @@ function ClockExercise({
             : 'border-slate-100 bg-white shadow-slate-200/50'
         }`}
       >
-        {/* Hour hand */}
+        {}
         <div
           className={`absolute w-2 ${hourLen} rounded-full transition-all duration-700 ${data.isNight ? 'bg-blue-200' : 'bg-slate-800'}`}
           style={{
@@ -222,7 +210,7 @@ function ClockExercise({
             bottom: '50%',
           }}
         />
-        {/* Minute hand */}
+        {}
         <div
           className={`absolute w-1.5 ${minLen} rounded-full transition-all duration-700 ${data.isNight ? 'bg-slate-400' : 'bg-slate-400'}`}
           style={{
@@ -231,7 +219,7 @@ function ClockExercise({
             bottom: '50%',
           }}
         />
-        {/* Second hand (ticking animation) - disabled in noFlash mode for accessibility */}
+        {}
         {!noFlash && (
           <div
             className={`absolute w-0.5 ${minLen} rounded-full bg-red-500 z-0`}
@@ -242,18 +230,18 @@ function ClockExercise({
             }}
           />
         )}
-        {/* Center pin */}
+        {}
         <div
           className={`z-10 h-4 w-4 rounded-full shadow-md md:shadow-sm ${data.isNight ? 'bg-blue-300' : 'bg-slate-800'}`}
         />
-        {/* Decorative tick marks */}
+        {}
         <div className={`absolute top-2 h-3 w-1.5 sm:h-4 rounded-full ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`} />
         <div className={`absolute bottom-2 h-3 w-1.5 sm:h-4 rounded-full ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`} />
         <div className={`absolute left-2 w-3 h-1.5 sm:w-4 rounded-full ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`} />
         <div className={`absolute right-2 w-3 h-1.5 sm:w-4 rounded-full ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`} />
       </div>
 
-      {/* 5. Digital Time Options */}
+      {}
       <div className="grid w-full max-w-md grid-cols-2 shrink-0 gap-2 px-2 sm:max-w-lg sm:gap-3">
         {shuffledOptions.map((opt, i) => (
           <button

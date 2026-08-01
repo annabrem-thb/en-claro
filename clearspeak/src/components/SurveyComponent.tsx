@@ -4,7 +4,6 @@ import { useAppSettings } from '../hooks/useAppSettings.js';
 import { useGamification } from './GamificationContext.jsx';
 import { NasaTlxPayload, SusPayload, AppVersion } from '../../public/survey';
 
-// DRY Configuration: Array mappings for NASA-TLX
 const NASA_SCALES: Array<{ id: keyof NasaTlxPayload; label: string; desc: string }> = [
   { id: 'mentalDemand', label: 'feedback.nasa.mental', desc: 'feedback.nasa.mentalDesc' },
   { id: 'physicalDemand', label: 'feedback.nasa.physical', desc: 'feedback.nasa.physicalDesc' },
@@ -14,7 +13,6 @@ const NASA_SCALES: Array<{ id: keyof NasaTlxPayload; label: string; desc: string
   { id: 'frustration', label: 'feedback.nasa.frustration', desc: 'feedback.nasa.frustrationDesc' }
 ];
 
-// DRY Configuration: Array mappings for System Usability Scale (SUS)
 const SUS_SCALES: Array<{ id: keyof SusPayload; label: string }> = [
   { id: 'sus01', label: 'survey.sus.q01' },
   { id: 'sus02', label: 'survey.sus.q02' },
@@ -32,10 +30,8 @@ export const SurveyComponent: React.FC = () => {
   const { language, theme, a11yAddons, inclusiveOptions, userDifficulty, dailyGoal } = useAppSettings();
   const { isGamified } = useGamification();
   
-  // Retrieve `t` method natively from react-i18next
   const { t } = useTranslation();
 
-  // State definitions matching the schema requirements
   const [nasaScores, setNasaScores] = useState<NasaTlxPayload>({
     mentalDemand: 50,
     physicalDemand: 50,
@@ -61,16 +57,12 @@ export const SurveyComponent: React.FC = () => {
     setSusScores((prev) => ({ ...prev, [id]: value }));
   };
 
-  /**
-   * Handles processing the form and passing the payload to the Netlify Serverless Function proxy.
-   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
 
     try {
-      // Retrieve or generate a persistent anonymous participant ID
       let participantId = localStorage.getItem('cfg_participant_id');
       if (!participantId) {
         participantId = typeof crypto !== 'undefined' && crypto.randomUUID 
@@ -133,7 +125,7 @@ export const SurveyComponent: React.FC = () => {
         <p className="text-sm font-medium text-slate-500 mt-2">{t('feedback.desc')}</p>
       </header>
 
-      {/* --- NASA-TLX Section --- */}
+      {}
       <fieldset className="flex flex-col gap-5">
         <legend className="text-lg font-black uppercase tracking-widest text-slate-400 mb-4 border-b w-full pb-2">
           {t('feedback.nasaTitle')}
@@ -154,7 +146,7 @@ export const SurveyComponent: React.FC = () => {
                 {nasaScores[scale.id]}
               </span>
             </div>
-            {/* Accessible slider input */}
+            {}
             <input
               id={scale.id}
               type="range"
@@ -174,7 +166,7 @@ export const SurveyComponent: React.FC = () => {
         </div>
       </fieldset>
 
-      {/* --- System Usability Scale (SUS) Section --- */}
+      {}
       <fieldset className="flex flex-col gap-4">
         <legend className="text-lg font-black uppercase tracking-widest text-slate-400 mb-4 border-b w-full pb-2">
           {t('survey.susTitle')}
@@ -191,7 +183,7 @@ export const SurveyComponent: React.FC = () => {
                 {t('survey.susAnchors.stronglyDisagree', 'Strongly Disagree')}
               </span>
               
-              {/* 5-Point Likert Radio Buttons */}
+              {}
               <div className="flex gap-2 md:gap-4 items-center justify-center flex-1" role="radiogroup" aria-labelledby={`label-${scale.id}`}>
                 {[1, 2, 3, 4, 5].map((val) => (
                   <label key={`${scale.id}-${val}`} className="flex flex-col items-center cursor-pointer group p-1 relative">
@@ -218,7 +210,7 @@ export const SurveyComponent: React.FC = () => {
         </div>
       </fieldset>
 
-      {/* --- Error & Submission --- */}
+      {}
       {error && (
         <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-lg font-medium text-sm">
           {error}

@@ -14,11 +14,6 @@ import DictationExercise from './exercises/DictationExercise.jsx';
 import LookCoverWriteCheck from './exercises/LookCoverWriteCheck.jsx';
 import ReadAloudExercise from './exercises/ReadAloudExercise.jsx';
 
-/**
- * ExerciseRenderer Component
- * Factory component that renders the appropriate exercise component
- * based on the task data (`currentTask`) using Duck Typing.
- */
 export function ExerciseRenderer({ currentTask, ...commonProps }) {
   const { t } = commonProps;
 
@@ -26,7 +21,6 @@ export function ExerciseRenderer({ currentTask, ...commonProps }) {
     return <div className="p-6 text-center text-slate-400" role="alert" aria-live="polite">{t.noData || 'No data'}</div>;
   }
 
-  // Duck-typing feature detection to route to the appropriate educational module
   if (currentTask.sentence_part1)
     return <ContextExercise data={currentTask} {...commonProps} />;
   if (currentTask.focus)

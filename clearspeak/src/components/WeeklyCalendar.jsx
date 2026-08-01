@@ -1,10 +1,5 @@
 import React from 'react';
 
-/**
- * WeeklyCalendar Component
- * Displays a 7-day progress tracker to visualize daily goal completion.
- * Supports i18n, high contrast, reduced motion (noFlash), and large touch targets.
- */
 const DAY_LABELS = {
   pl: ['N', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'],
   en: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
@@ -45,14 +40,12 @@ export function WeeklyCalendar({
 }) {
   const today = new Date();
   
-  // Generate the last 7 days including today
   const weekDays = Array.from({ length: 7 }).map((_, index) => {
     const date = new Date();
     date.setDate(today.getDate() - (6 - index));
     return date;
   });
 
-  // Resolve correct localized day initials with a safe fallback
   const labels = DAY_LABELS[language] || DAY_LABELS[t?.language] || DAY_LABELS.en;
   const icon = t?.levelIcons?.[theme]?.[0] || '✨';
 

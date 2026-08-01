@@ -112,7 +112,6 @@ function VirtualGarden({
     }
   }, [ecosystemState.hasVisitor, theme]);
 
-  // Lottie animation for the Real-World Impact tree
   const [treeAnimation, setTreeAnimation] = useState(null);
   useEffect(() => {
     import('../animations/growing-tree.json')
@@ -183,7 +182,6 @@ function VirtualGarden({
       Ocean: [ { req: 3, icon: '🐚' }, { req: 7, icon: '🦀' }, { req: 14, icon: '🧜‍♀️' }, { req: 30, icon: '🔱' } ],
     };
     const monuments = themeMonuments[theme] || themeMonuments.Natur;
-    // Use the higher value: either historical from IndexedDB OR current active session
     const effectiveStreak = Math.max(maxStreak, streak || 0);
     return monuments.filter(m => effectiveStreak >= m.req);
   }, [maxStreak, streak, theme]);

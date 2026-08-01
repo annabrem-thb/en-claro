@@ -3,10 +3,8 @@ import { seededShuffle } from '../utils/shuffleUtils.js';
 import { saveLog } from '../utils/indexedDB.js';
 import { useSafeTimeouts } from './useSafeTimeouts.js';
 
-// Global instance to bypass strict browser AudioContext limits
 let sharedAudioCtx = null;
 
-// Function synthesizing unique success sounds for individual themes
 const playThemeSound = (theme) => {
   try {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -90,7 +88,6 @@ export function useExerciseSession({
     return () => clearTimeout(timer);
   }, [currentIndex, activeTab, theme]);
   
-  // Automatic saving of the current task index to browser memory
   useEffect(() => {
     localStorage.setItem('idx', String(currentIndex));
   }, [currentIndex]);

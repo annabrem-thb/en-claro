@@ -13,7 +13,6 @@ const THEMES = {
   Ocean: { name: "Ocean", icon: "🐳", desc: "Morski spokój", price: 10 },
 };
 
-// Reusable toggle component for settings
 const SettingToggle = ({ label, desc, checked, onChange, bionic, isHighContrast }) => (
   <div className={`flex items-center justify-between p-3 rounded-xl transition-colors ${checked ? (isHighContrast ? 'bg-white/10' : 'bg-slate-50') : ''}`}>
     <div className="flex-1 min-w-0 mr-4">
@@ -30,8 +29,6 @@ const SettingToggle = ({ label, desc, checked, onChange, bionic, isHighContrast 
     </button>
   </div>
 );
-
-// --- Tab Content Components ---
 
 const GeneralTab = () => {
   const { t } = useTranslation();
@@ -184,8 +181,10 @@ export default function SettingsModal({ open, onClose }) {
 
   const TABS = [
     { id: 'general', label: t('tabGeneral') },
-    { id: 'a11y', label: t('tabA11y') },
-    // { id: 'voice', label: t('tabVoice') }, // Voice tab can be added here
+    {
+      id: 'a11y',
+      label: t('tabA11y')
+    },
   ];
 
   if (isGamified) {
@@ -197,8 +196,8 @@ export default function SettingsModal({ open, onClose }) {
       case 'general': return <GeneralTab />;
       case 'a11y': return <A11yTab />;
       case 'shop': return <ShopTab />;
-      // case 'voice': return <VoiceTab />;
-      default: return <GeneralTab />;
+      default:
+        return <GeneralTab />;
     }
   };
 
@@ -214,7 +213,7 @@ export default function SettingsModal({ open, onClose }) {
         className={`relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-3xl shadow-2xl animate-in zoom-in duration-300 ${settings.contrast ? 'bg-black border-2 border-white' : 'bg-slate-100'}`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
+        {}
         <header className={`shrink-0 p-4 border-b ${settings.contrast ? 'border-white/20' : 'border-slate-200'} flex items-center justify-between`}>
           <h2 id="settings-title" className={`text-lg font-bold ${settings.contrast ? 'text-white' : 'text-slate-800'}`}>
             {t('settingsTitle')}
@@ -228,9 +227,9 @@ export default function SettingsModal({ open, onClose }) {
           </button>
         </header>
 
-        {/* Main Content */}
+        {}
         <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden">
-          {/* Tab Navigation */}
+          {}
           <nav className={`shrink-0 flex flex-row md:flex-col p-2 space-x-1 md:space-x-0 md:space-y-1 overflow-x-auto md:overflow-y-auto border-b md:border-b-0 md:border-r ${settings.contrast ? 'border-white/20' : 'border-slate-200'}`}>
             {TABS.map(tab => (
               <button
@@ -249,13 +248,13 @@ export default function SettingsModal({ open, onClose }) {
             ))}
           </nav>
 
-          {/* Tab Panel */}
+          {}
           <div className="flex-1 p-4 overflow-y-auto">
             {renderTabContent()}
           </div>
         </div>
 
-        {/* Footer */}
+        {}
         <footer className={`shrink-0 p-3 text-center border-t ${settings.contrast ? 'border-white/20' : 'border-slate-200'}`}>
           <p className={`text-xs ${settings.contrast ? 'text-white/50' : 'text-slate-400'}`}>
             {t('settingsFooter')}

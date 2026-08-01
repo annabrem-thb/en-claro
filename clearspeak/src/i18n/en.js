@@ -1,5 +1,4 @@
 export default {
-  // General & Navigation
   appTitle: "En Claro",
   introSubtitle: "Build your bridge to fluency.",
   installApp: "Install App",
@@ -7,7 +6,6 @@ export default {
   installed: "Installed",
   offlineMessage: "You are currently offline. Some features may be unavailable.",
 
-  // Intro Screen
   intro: {
     subtitle: "Your safe space to grow! Choose mode and tools:",
     chooseLanguage: "Language",
@@ -58,7 +56,6 @@ export default {
   exerciseAria: "Exercise",
   readAloudTitle: "Read aloud",
 
-  // Messages & Notifications
   successMsg: ["Great!", "Excellent!", "Wonderful!", "Super!"],
   errorMsg: ["Let's analyze this together.", "Let's try again.", "Almost right, look again."],
   streakMsg: [
@@ -72,7 +69,6 @@ export default {
   levelUpDesc: "Another goal has been successfully achieved.",
   hint: "Hint",
 
-  // Voice Assistant (TTS)
   voice: {
     success: ["Excellent", "Great", "Wonderful", "Outstanding"],
     error: ["Let's analyze this together", "Let's try again", "Almost right, look again"],
@@ -99,7 +95,6 @@ export default {
   voiceAssistantHint: "Enable Assistant in Comfort tab to test voice.",
   ttsSettingsAria: "TTS settings",
 
-  // Settings
   settings: "Settings",
   settingsTitle: "Settings",
   settingsSubtitle: "En Claro · Accessible Gamification",
@@ -120,7 +115,6 @@ export default {
   v2Label: "Gamification",
   v2Desc: "Points, coins, and rewards",
   
-  // Accessibility (A11y)
   a11yBase: "Base mode — always active",
   a11yBaseDesc: "Friendly font (OpenDyslexic), increased spacing, mild cream background",
   a11yAddons: "Comfort personalization options",
@@ -170,7 +164,6 @@ export default {
   },
   accDescriptions: { standard: "Default view", contrast: "High contrast mode", lrs: "Friendly font", motor: "Comfortable buttons" },
 
-  // Gamification, Themes & Garden
   versionGamified: "GAMIFICATION",
   versionGamifiedSub: "Points and rewards",
   versionBase: "BASE",
@@ -202,7 +195,6 @@ export default {
   srTrophies: "Through perseverance, {count} unique objects appeared in the garden.",
   rewardItems: { Natur: ["💎", "🏆", "💡", "📈", "🎯"], Musik: ["💎", "🏆", "💡", "📈", "🎯"], Kunst: ["💎", "🏆", "💡", "📈", "🎯"], Space: ["💎", "🏆", "💡", "📈", "🎯"], Ocean: ["💎", "🏆", "💡", "📈", "🎯"] },
   
-  // Progress & Analytics
   dailyGoal: "Daily goal",
   goal5: "5 min — Quick review",
   exercisesCount_one: "{{count}} exercise",
@@ -224,7 +216,6 @@ export default {
   memorize: "Memorize!",
   mapTitle: "Challenge Map", choosePath: "Choose your path", nextLevel: "Next stage", lockedNode: "Locked", completedNode: "Completed", backToMap: "Back to map", energyTitle: "Cognitive Energy", breakTitle: "Time for a break?", breakDesc: "We noticed you're working intensively. Rest in the garden to regenerate and prevent fatigue.", breakTip: "Tip: Look away from the screen at something in the distance (preferably green) for at least 20 seconds.", takeBreakBtn: "Rest (+2 💰)", continueBtn: "Keep practicing", categorizeItems: "Categorize the items", allItemsPlaced: "All items placed", checkAnswers: "Check Answers",
   
-  // Exercise Content
   pillars: { Literacy: "Reading and Writing", Visual: "Vision and Space", Cognitive: "Logic and Memory" },
   pillarIcons: { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' },
   categories: { Phonem: "Word: Sounds", Syllable: "Word: Syllables", Context: "Text: Reading", Graphem: "Writing: Rules", Scrabble: "Writing: Synthesis", LCWC: "Writing: Memory", Dictation: "Writing: Dictations", Tracking: "Vision: Tracking", Clock: "Vision: Clock", Categorization: "Logic: Categories", Sequence: "Logic: Sequences" },
@@ -233,7 +224,6 @@ export default {
   questLabel: (target, type, pillars) => `Challenge (${target}): ${type === 'Any' ? 'Any' : pillars[type] || type}`,
   trackAndMatch: "Follow the highlight and indicate direction", chooseCorrectSpelling: "Choose the correct spelling:", optionPrefix: (idx) => `Option ${idx}: `, wordPrefix: (idx) => `Word ${idx}: `, orderCorrectly: "Arrange in the correct order", undo: "Undo", tempoLabel: "Reading type", normalMode: "Normal", slowMode: "Slow", spellMode: "Spelling", readAloud: "Read aloud", syllablesListen: "Listen to syllables", check: "Check", delete: "Delete", tapToSpeak: "Tap to speak", listening: "Listening...", collectedLabel: "Collected", selectCorrect: "Select correct word:", tapToBuild: "Select words in the correct order", listenCarefully: "Listen carefully to the word.", readyToSegment: "I'm ready to segment", tapBoxesInstruction: "Tap boxes while pronouncing each sound.", completeExercise: "Complete exercise", playAudio: "Play audio", lookAndListen: "Look at the word and listen to its pronunciation.", studiedWord: "I've studied the word", sayWordAloud: "Say the word aloud.", breakIntoSounds: "Break it down into single sounds.", takeYourTime: "Take your time. Feel the shape of sounds in your mouth before writing.", coverAndWrite: "Cover word and write", typeFromMemory: "Type word from memory.", typeHere: "Type here...", checkSpelling: "Check my spelling", compareSpelling: "Compare your spelling:", targetWord: "Target word", yourSpelling: "Your spelling", spelledCorrectly: "Yes, I spelled it correctly!", tryAgain: "I need to try again", listenToPhonemes: "Listen to the separated sounds.", typeBlendedWord: "Type the word these sounds make.", blendSounds: "I'm ready to blend sounds", readParagraph: "Read the following text carefully.", paragraphRead: "I've finished reading", rtSummarize: "Summarize", rtSummarizeDesc: "What was the main idea of this text?", rtQuestion: "Ask", rtQuestionDesc: "Ask a question about something unclear or interesting in the text.", rtClarify: "Clarify", rtClarifyDesc: "Identify unclear words or phrases and explain them in your own words.", rtPredict: "Predict", rtPredictDesc: "What do you think will happen next or what is the logical conclusion?", heard: "Heard", voiceInput: "Voice input", speakOptionNumber: "Speak option number", speakTileNumber: "Speak tile number", speakGapNumber: "Speak gap number to cut", tapAndPronounce: "Tap and pronounce the word", skipPronunciation: "Skip pronunciation check", readSentenceAndOptions: "Read sentence and options", removeCut: (pos) => `Remove cut at position ${pos}`, addCut: (pos) => `Add cut at position ${pos}`,
   
-  // Additional Info
   pressKey: "Press",
   or: "or",
   toContinue: "to continue",
@@ -241,7 +231,6 @@ export default {
   thesisInfo: "Master's Thesis\nAccessible Gamification and Voice Integration\nin a PWA supporting speech therapy exercises\nfor individuals with dyslexia",
   tags: { kontrast: "contrast", wzrok: "vision", motor: "motor", dotyk: "touch", zoom: "zoom", kolor: "color", ruch: "motion", epilepsja: "epilepsy", linijka: "focus" },
 
-  // PWA & UI
   pwaNewVersion: "New version",
   pwaDescription: "New content is available. Update the application to download the latest changes for offline mode.",
   pwaUpdate: "Update",
@@ -251,7 +240,6 @@ export default {
   prevPage: "← Previous",
   nextPage: "Next →",
 
-  // Speech Recognition (Commands & Synonyms)
   commands: {
     next: ["next", "continue", "done", "forward"],
     check: ["check", "confirm", "submit"],
@@ -339,25 +327,6 @@ export default {
       q09: "I felt very confident using the system.",
       q10: "I needed to learn a lot of things before I could get going with this system."
     }
-  },
-  realWorldImpact: {
-    title: "Your Impact",
-    desc: "Your progress supports real-world goals. Every 10 points contributes to one virtually planted tree.",
-    treesPlanted: "Trees Planted",
-    newTreeTitle: "New Tree! 🎉",
-    newTreeMsg: "Amazing! Your consistent learning helped us virtually plant another tree."
-  }
-};
-      complicated: "Complicated", easy: "Easy",
-      inefficient: "Inefficient", efficient: "Efficient",
-      confusing: "Confusing", clear: "Clear",
-      boring: "Boring", exciting: "Exciting",
-      notInteresting: "Not interesting", interesting: "Interesting",
-      conventional: "Conventional", inventive: "Inventive",
-      usual: "Usual", leadingEdge: "Leading Edge"
-    },
-    submit: "Save and continue",
-    skip: "Skip this time"
   },
   realWorldImpact: {
     title: "Your Impact",
