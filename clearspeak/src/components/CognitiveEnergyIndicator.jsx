@@ -56,20 +56,20 @@ export function CognitiveEnergyIndicator({
       {/* 2. Break Recommendation Modal (Triggered on high cognitive load) */}
       {showModal && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="break-title">
-          <div className={`w-full max-w-sm ${bigTargets ? 'p-8 sm:p-10' : 'p-6 sm:p-8'} rounded-4xl shadow-2xl flex flex-col gap-3 ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'}`}>
+          <div className={`w-full max-w-sm ${bigTargets ? 'p-8 sm:p-10' : 'p-4 sm:p-6 md:p-8'} rounded-4xl shadow-2xl flex flex-col gap-3 ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'bg-black border-2 border-white' : 'bg-white'}`}>
             <div className="text-center">
               <div className={`text-5xl mb-4 ${noFlash ? '' : 'animate-bounce'}`} aria-hidden="true">☕</div>
-              <h2 id="break-title" className={`text-xl sm:text-2xl font-black mb-2 ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>
+              <h2 id="break-title" className={`text-lg sm:text-xl md:text-2xl font-black mb-2 ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>
                 {t.breakTitle || 'Time for a break?'}
               </h2>
-              <p className={`text-sm font-medium leading-relaxed mb-6 ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
+              <p className={`text-xs sm:text-sm font-medium leading-relaxed mb-6 ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}>
                 {t.breakDesc || 'We noticed you are working intensely. Take a rest in the garden to recharge.'}
               </p>
             </div>
             
             {/* Modal Action Buttons */}
             <div className="flex flex-col gap-3">
-              <button onClick={onTakeBreak} className={`w-full ${bigTargets ? 'py-6 text-base' : 'py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}>
+              <button onClick={onTakeBreak} className={`w-full ${bigTargets ? 'py-5 text-base' : 'py-3 sm:py-4 text-sm'} rounded-full font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}>
                 {t.takeBreakBtn || 'Take a break (+2 💰)'}
               </button>
               <button onClick={onDismiss} className={`w-full ${bigTargets ? 'py-5 text-sm' : 'py-3 text-xs'} rounded-full font-black uppercase tracking-widest transition-all ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-400 hover:bg-slate-50'}`}>

@@ -70,27 +70,27 @@ exports.handler = async (event, context) => {
       a11y_addons: translatedAddons ? JSON.stringify(translatedAddons) : null,
       inclusive_options: payload.inclusiveOptions ? JSON.stringify(payload.inclusiveOptions) : null,
       
-      user_difficulty: payload.userDifficulty || null,
-      daily_goal: payload.dailyGoal || null,
+      user_difficulty: payload.userDifficulty,
+      daily_goal: payload.dailyGoal,
       
-      mental_demand: payload.mental ?? payload.mentalDemand ?? null,
-      physical_demand: payload.physical ?? payload.physicalDemand ?? null,
-      temporal_demand: payload.temporal ?? payload.temporalDemand ?? null,
-      performance: payload.performance ?? null,
-      effort: payload.effort ?? null,
-      frustration: payload.frustration ?? null,
+      mental_demand: payload.mental,
+      physical_demand: payload.physical,
+      temporal_demand: payload.temporal,
+      performance: payload.performance,
+      effort: payload.effort,
+      frustration: payload.frustration,
       
       // SUS Survey (mapping for different frontend naming conventions)
-      sus_q01: payload.sus_q01 ?? payload.susQ01 ?? payload.sus01 ?? null,
-      sus_q02: payload.sus_q02 ?? payload.susQ02 ?? payload.sus02 ?? null,
-      sus_q03: payload.sus_q03 ?? payload.susQ03 ?? payload.sus03 ?? null,
-      sus_q04: payload.sus_q04 ?? payload.susQ04 ?? payload.sus04 ?? null,
-      sus_q05: payload.sus_q05 ?? payload.susQ05 ?? payload.sus05 ?? null,
-      sus_q06: payload.sus_q06 ?? payload.susQ06 ?? payload.sus06 ?? null,
-      sus_q07: payload.sus_q07 ?? payload.susQ07 ?? payload.sus07 ?? null,
-      sus_q08: payload.sus_q08 ?? payload.susQ08 ?? payload.sus08 ?? null,
-      sus_q09: payload.sus_q09 ?? payload.susQ09 ?? payload.sus09 ?? null,
-      sus_q10: payload.sus_q10 ?? payload.susQ10 ?? payload.sus10 ?? null
+      sus_q01: payload.sus_q01,
+      sus_q02: payload.sus_q02,
+      sus_q03: payload.sus_q03,
+      sus_q04: payload.sus_q04,
+      sus_q05: payload.sus_q05,
+      sus_q06: payload.sus_q06,
+      sus_q07: payload.sus_q07,
+      sus_q08: payload.sus_q08,
+      sus_q09: payload.sus_q09,
+      sus_q10: payload.sus_q10
     };
 
     const { data, error } = await supabase

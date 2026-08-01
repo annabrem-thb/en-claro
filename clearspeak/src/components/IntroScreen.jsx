@@ -106,10 +106,11 @@ function IntroScreen({ onStart, speak }) {
             <BionicText text={t('intro.subtitle', 'Your safe space to grow! Choose mode and tools:')} enabled={hasBionic} />
           </p>
 
-            <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center">
-              <BionicText text={t('intro.chooseLanguage', 'Language')} enabled={hasBionic} />
-            </p>
-            <div className="grid grid-cols-3 gap-1 sm:gap-1.5 mb-2 w-full shrink-0">
+            {/* Accessibility Improvement: Use fieldset and legend to group related controls */}
+            <fieldset className="grid grid-cols-3 gap-1 sm:gap-1.5 mb-2 w-full shrink-0 border-none p-0 m-0">
+              <legend className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center p-0">
+                <BionicText text={t('intro.chooseLanguage', 'Language')} enabled={hasBionic} />
+              </legend>
               {LANGUAGES.map(({ code, flag, label }) => (
                 <button
                   key={code}
@@ -129,12 +130,12 @@ function IntroScreen({ onStart, speak }) {
                   <span className="uppercase tracking-wider"><BionicText text={label} enabled={hasBionic} /></span>
                 </button>
               ))}
-            </div>
+            </fieldset>
 
-            <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center">
-              <BionicText text={t('intro.appMode', 'Mode')} enabled={hasBionic} />
-            </p>
-            <div className="grid grid-cols-2 gap-1 sm:gap-1.5 mb-2 w-full shrink-0">
+            <fieldset className="grid grid-cols-2 gap-1 sm:gap-1.5 mb-2 w-full shrink-0 border-none p-0 m-0">
+              <legend className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center p-0">
+                <BionicText text={t('intro.appMode', 'Mode')} enabled={hasBionic} />
+              </legend>
               <button
                 onClick={() => {
                   setIsGamified(false);
@@ -165,12 +166,12 @@ function IntroScreen({ onStart, speak }) {
                 <span className="text-sm sm:text-lg drop-shadow-sm" aria-hidden="true">🎮</span>
                 <span className="uppercase tracking-wider text-center"><BionicText text={t('intro.modeGamified', 'Gamified')} enabled={hasBionic} /></span>
               </button>
-            </div>
+            </fieldset>
 
-            <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center">
-              <BionicText text={t('intro.a11y', 'Comfort Tools')} enabled={hasBionic} />
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1 sm:gap-1.5 mb-2 sm:mb-3 w-full shrink-0">
+            <fieldset className="grid grid-cols-2 sm:grid-cols-3 gap-1 sm:gap-1.5 mb-2 sm:mb-3 w-full shrink-0 border-none p-0 m-0">
+              <legend className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 mb-1 w-full text-left sm:text-center p-0">
+                <BionicText text={t('intro.a11y', 'Comfort Tools')} enabled={hasBionic} />
+              </legend>
               <A11yBtn active={hasLRS} onClick={() => toggleAddon('LRS', t('intro.lrs', 'Friendly Font'))} icon="🅰️" label={t('intro.lrs', 'Friendly Font')} />
               <A11yBtn active={hasSpacing} onClick={() => toggleAddon('Spacing', t('intro.spacing', 'More Spacing'))} icon="🔠" label={t('intro.spacing', 'More Spacing')} />
               <A11yBtn active={hasVision} onClick={() => toggleAddon('Niedowidzenie', t('intro.vision', 'Bigger Text'))} icon="🔍" label={t('intro.vision', 'Bigger Text')} />
@@ -186,7 +187,7 @@ function IntroScreen({ onStart, speak }) {
               <A11yBtn active={hasMotorik} onClick={() => toggleAddon('Motorik', t('intro.big', 'Wygodne przyciski'))} icon="🖐️" label={t('intro.big', 'Wygodne przyciski')} />
               <A11yBtn active={hasMotion} onClick={() => toggleAddon('Redukcja', t('intro.motion', 'Reduced Motion'))} icon="⏸️" label={t('intro.motion', 'Reduced Motion')} />
               <A11yBtn active={hasZen} onClick={() => toggleInclusive('zenMode', t('intro.zen', 'Zen Mode'))} icon="🧘" label={t('intro.zen', 'Zen Mode')} />
-            </div>
+            </fieldset>
 
             {/* --- RECOMMENDED BROWSER MESSAGE --- */}
             <div className={`mt-1 mb-2 p-2 rounded-xl flex items-center gap-2 border-2 text-left transition-colors shrink-0 ${isHighContrast ? 'bg-black border-white/50 text-white' : 'bg-blue-50 border-blue-200 text-blue-800'}`}>

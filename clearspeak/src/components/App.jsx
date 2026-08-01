@@ -350,20 +350,7 @@ function AppContent() {
 
   // --- Render Settings Page ---
   if (settingsOpen) {
-    return <SettingsModal 
-      open={true}
-      onClose={() => setSettingsOpen(false)} 
-      selectedVoiceURIs={selectedVoiceURIs}
-      setSelectedVoiceURIs={setSelectedVoiceURIs}
-      voiceSpeed={voiceSpeed}
-      setVoiceSpeed={setVoiceSpeed}
-      voicePitch={voicePitch}
-      setVoicePitch={setVoicePitch}
-      coins={coins}
-      setCoins={setCoins}
-      unlockedThemes={unlockedThemes}
-      setUnlockedThemes={setUnlockedThemes}
-    />;
+    return <SettingsModal open={true} onClose={() => setSettingsOpen(false)} />;
   }
 
   if (profileOpen) {
@@ -411,7 +398,7 @@ function AppContent() {
         />
 
         <main 
-          className={`flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-none no-scrollbar px-3 md:px-8 pt-4 md:pt-5 pb-[calc(1rem+env(safe-area-inset-bottom))] mx-auto w-full max-w-5xl touch-pan-y ${isHighContrast ? 'text-white' : 'text-[#2D3732]'}`}
+          className={`flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-none no-scrollbar px-3 md:px-6 xl:px-8 pt-4 md:pt-5 pb-[calc(1rem+env(safe-area-inset-bottom))] mx-auto w-full max-w-5xl touch-pan-y ${isHighContrast ? 'text-white' : 'text-[#2D3732]'}`}
           {...swipeHandlers}
         >
           {activeTab === 'Garden' ? (
@@ -436,7 +423,7 @@ function AppContent() {
             <>
               {/* Minimal Progress Row without numeric noise */}
               {!settings.zenMode && (
-                <div className={`rounded-3xl px-4 py-2.5 mb-3 md:mb-4 flex items-center justify-between gap-4 relative shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm md:shadow-none' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-md md:shadow-sm shadow-slate-200/40`}`}>
+                <div className={`rounded-3xl px-3 sm:px-4 py-2.5 mb-3 md:mb-4 flex items-center justify-between gap-4 relative shrink-0 ${isHighContrast ? 'bg-black border border-white/30 shadow-sm md:shadow-none' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-md md:shadow-sm shadow-slate-200/40`}`}>
                   {rewards.length > 0 && isGamified && (
                     <div className={`absolute -top-4 left-4 px-3 py-1 rounded-full font-black text-xs uppercase tracking-widest shadow-lg border-2 z-20 flex items-center gap-1.5 ${isHighContrast ? 'bg-black border-white text-white' : `bg-[#FCFBF9] ${themeStyles.border} text-[#4A5D54]`} ${noFlash ? '' : 'animate-in zoom-in duration-300'}`}>
                       <span>{t.collectedLabel || s.collectedLabel}:</span>
@@ -482,7 +469,7 @@ function AppContent() {
               {/* Active Exercise Card */}
               <section 
                 ref={cardRef}
-                className={`rounded-4xl flex flex-col items-center relative w-full flex-1 min-h-0 px-4 py-4 sm:px-8 sm:py-6 md:py-4 md:px-12 ${isHighContrast ? 'bg-black border border-white/30 shadow-lg md:shadow-sm shadow-white/10' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-xl md:shadow-md shadow-slate-200/30`}`}
+                className={`rounded-4xl flex flex-col items-center relative w-full flex-1 min-h-0 px-2 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-12 ${isHighContrast ? 'bg-black border border-white/30 shadow-lg md:shadow-sm shadow-white/10' : `bg-[#FCFBF9] border ${themeStyles.border} shadow-xl md:shadow-md shadow-slate-200/30`}`}
                 aria-label={s.exerciseAria}
               >
                 {/* Reading Ruler Overlay (Restricted to Card) */}

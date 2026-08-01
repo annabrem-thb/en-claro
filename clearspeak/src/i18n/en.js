@@ -26,7 +26,8 @@ export default {
     desaturation: "Soft colors",
     bionic: "Bionic",
     voice: "Voice Assist",
-    zen: "Zen Mode"
+    zen: "Zen Mode",
+    browserWarning: "For the best voice assistant quality, we recommend using Google Chrome."
   },
 
   start: "Start",
@@ -123,7 +124,9 @@ export default {
   a11yBase: "Base mode — always active",
   a11yBaseDesc: "Friendly font (OpenDyslexic), increased spacing, mild cream background",
   a11yAddons: "Comfort personalization options",
-  a11yAddonsDesc: "Choose any combination — customize the app to your needs",
+  a11yAddonsDesc: "Choose any combination — customize the app to your needs",  
+  textSize: "Text size",
+  textSizeDesc: "Adjust the font size to your reading preferences",
   a11y: {
     lrs: { name: 'Friendly font', desc: 'Font facilitating reading (OpenDyslexic)' },
     contrast: { name: 'High contrast', desc: 'Black and white WCAG AAA colors' },
@@ -146,7 +149,10 @@ export default {
     bionicReading: { name: 'Bionic Reading', desc: 'Bolds word beginnings, helps focus eyes' },
     minimalistMode: { name: 'Minimalist view', desc: 'Hides decorative graphics and Lottie animations' },
     muteNotifications: { name: 'Mute notifications', desc: 'Disables success/error speech and game sounds' },
-    cognitiveBreaks: { name: 'Cognitive Breaks', desc: 'App suggests a break after a series of errors' },
+    cognitiveBreaks: {
+      name: "Break reminders",
+      desc: "App suggests rest after a series of errors"
+    }
   },
   bionicExplanation: "Bionic Reading® is a typographic method that supports the reading flow.",
   profiles: {
@@ -199,6 +205,8 @@ export default {
   // Progress & Analytics
   dailyGoal: "Daily goal",
   goal5: "5 min — Quick review",
+  exercisesCount_one: "{{count}} exercise",
+  exercisesCount_other: "{{count}} exercises",
   goal10: "10 min — Good habit",
   goal15: "15 min — Deep focus",
   goal20: "20 min — Intensive training",
@@ -302,6 +310,44 @@ export default {
     ueqTitle: "Your impressions (UEQ-Short)",
     ueq: {
       obstructive: "Obstructive", supportive: "Supportive",
+      complicated: "Complicated", easy: "Easy",
+      inefficient: "Inefficient", efficient: "Efficient",
+      confusing: "Confusing", clear: "Clear",
+      boring: "Boring", exciting: "Exciting",
+      notInteresting: "Not interesting", interesting: "Interesting",
+      conventional: "Conventional", inventive: "Inventive",
+      usual: "Usual", leadingEdge: "Leading Edge"
+    },
+    submit: "Save and continue",
+    skip: "Skip this time"
+  },
+  survey: {
+    susTitle: "System Usability Scale (SUS)",
+    susAnchors: {
+      stronglyDisagree: "Strongly Disagree",
+      stronglyAgree: "Strongly Agree"
+    },
+    sus: {
+      q01: "I think that I would like to use this system frequently.",
+      q02: "I found the system unnecessarily complex.",
+      q03: "I thought the system was easy to use.",
+      q04: "I think that I would need the support of a technical person to be able to use this system.",
+      q05: "I found the various functions in this system were well integrated.",
+      q06: "I thought there was too much inconsistency in this system.",
+      q07: "I would imagine that most people would learn to use this system very quickly.",
+      q08: "I found the system very cumbersome to use.",
+      q09: "I felt very confident using the system.",
+      q10: "I needed to learn a lot of things before I could get going with this system."
+    }
+  },
+  realWorldImpact: {
+    title: "Your Impact",
+    desc: "Your progress supports real-world goals. Every 10 points contributes to one virtually planted tree.",
+    treesPlanted: "Trees Planted",
+    newTreeTitle: "New Tree! 🎉",
+    newTreeMsg: "Amazing! Your consistent learning helped us virtually plant another tree."
+  }
+};
       complicated: "Complicated", easy: "Easy",
       inefficient: "Inefficient", efficient: "Efficient",
       confusing: "Confusing", clear: "Clear",

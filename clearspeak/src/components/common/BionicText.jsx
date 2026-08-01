@@ -1,39 +1,43 @@
-import React from 'react';
-import { useAppSettings } from '../../hooks/useAppSettings.js';
+import React, { useMemo } from 'react';
 
-export default function BionicText({ text, children, className = '', enabled }) {
-  const { inclusiveOptions } = useAppSettings();
-  const content = text || children;
-
-  const isBionic = enabled !== undefined ? enabled : inclusiveOptions?.bionicReading;
-
-  // Return original content if Bionic Reading is disabled or content is not a string
-  if (!isBionic || typeof content !== 'string') {
-    return <span className={className}>{content}</span>;
-  }
-
-  // Split text into words while preserving spaces as separate array elements
-  const words = content.split(/(\s+)/);
-
-  const bionicContent = words.map((word, index) => {
-    // Render whitespace characters as-is
-    if (/^\s+$/.test(word)) {
-      return word;
+/**
+ * BionicText Component (Optimized with Memoization)
+ * 
+ * Renders text with the Bionic Reading method, bolding the first half of each word.
+ * This optimized version uses `React.memo` to prevent unnecessary re-renders and
+ * `useMemo` to cache the result of the text processing, ensuring high performance
+ * even with frequent updates.
+ * 
+ * @param {object} props
+ * @param {string} props.text - The text to be rendered.
+ * @param {boolean} [props.enabled=false] - Toggles Bionic Reading on or off.
+ */
+function BionicText({ text, enabled = false }) {
+  // useMemo caches the processed JSX. The calculation only re-runs if 'text' or 'enabled' changes.
+  const processedText = useMemo(() => {
+    if (!enabled || !text) {
+      return text;
     }
 
-    // Bionic Reading Algorithm: calculate the midpoint of the word to bold the first half
-    const mid = Math.ceil(word.length / 2);
-    
-    const boldPart = word.slice(0, mid);
-    const normalPart = word.slice(mid);
+    // The core logic of Bionic Reading
+    return text.split(/(\s+)/).map((segment, index) => {
+      // Preserve whitespace segments (spaces, newlines)
+      if (segment.match(/\s+/)) {
+        return segment;
+      }
+      // Process only word segments
+      const midpoint = Math.ceil(segment.length / 2);
+      const boldPart = segment.substring(0, midpoint);
+      const regularPart = segment.substring(midpoint);
+      return (
+        <React.Fragment key={index}>
+          <b className="font-black">{boldPart}</b>{regularPart}
+        </React.Fragment>
+      );
+    });
+  }, [text, enabled]);
 
-    return (
-      <span key={index}>
-        <b className="font-black">{boldPart}</b>
-        <span className="opacity-80">{normalPart}</span>
-      </span>
-    );
-  });
-
-  return <span className={className}>{bionicContent}</span>;
+  return <>{processedText}</>;
 }
+
+export default React.memo(BionicText);

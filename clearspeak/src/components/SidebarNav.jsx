@@ -86,7 +86,7 @@ const SidebarNav = memo(function SidebarNav({
             <Tooltip key={p} content={`${t.shortcut || 'Shortcut'}: Ctrl + ${index + 1}`} placement="top" isHighContrast={isHighContrast} wrapperClass="flex-1 md:flex-none flex">
               <button 
                 onClick={() => onTabChange(p)}
-                className={`relative group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isSelected ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
+                className={`relative group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isSelected ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5' scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
                 aria-current={isSelected ? 'page' : undefined}
                 aria-label={label}
               >
@@ -116,7 +116,7 @@ const SidebarNav = memo(function SidebarNav({
           <Tooltip content={`${t.shortcut || 'Shortcut'}: Ctrl + 4`} placement="top" isHighContrast={isHighContrast} wrapperClass="flex-1 md:flex-none flex">
             <button
               onClick={onGardenClick}
-              className={`relative group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5 scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
+              className={`relative group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white text-black font-black shadow-lg scale-105 z-10' : `bg-white ${themeStyles.accent} font-black shadow-md ring-1 ring-slate-900/5' scale-[1.02] z-10`) : (isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm')}`}
               aria-current={activeTab === 'Garden' ? 'page' : undefined}
               aria-label={t.garden || "Garden"}
             >
@@ -156,7 +156,7 @@ const SidebarNav = memo(function SidebarNav({
           <Tooltip content={t.installApp || 'Install App'} placement="top" isHighContrast={isHighContrast} wrapperClass={`flex-1 md:flex-none flex ${isGamified ? 'mt-2 md:mt-0' : 'md:mt-auto'}`}>
             <button
               onClick={handleInstallClick}
-              className={`group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-500 text-white hover:bg-indigo-400 shadow-md'}`}
+              className={`group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-500 text-white hover:bg-indigo-400 shadow-md'}`}
               aria-label={t.installApp || 'Install App'}
             >
             <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">📱</span>
@@ -172,7 +172,7 @@ const SidebarNav = memo(function SidebarNav({
         <Tooltip content={`${t.shortcut || 'Shortcut'}: Ctrl + P`} placement="top" isHighContrast={isHighContrast} wrapperClass={`flex-1 md:flex-none flex ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 md:mt-0' : 'md:mt-auto'}`}>
           <button
             onClick={() => setProfileOpen(true)}
-            className={`group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
+            className={`group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
             aria-label={t.profile || 'Profile'}
           >
           <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">👤</span>
@@ -192,7 +192,7 @@ const SidebarNav = memo(function SidebarNav({
         <Tooltip content={`${t.shortcut || 'Shortcut'}: Ctrl + ,`} placement="top" isHighContrast={isHighContrast} wrapperClass="flex-1 md:flex-none flex">
           <button
             onClick={() => setSettingsOpen(true)}
-            className={`group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-5' : 'p-1.5 md:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
+            className={`group w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 ${isHighContrast ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50 hover:shadow-sm'}`}
             aria-label={s.settingsAria}
           >
           <span className={hideNavLabel ? 'text-2xl' : 'text-xl md:text-xl'} aria-hidden="true">⚙️</span>

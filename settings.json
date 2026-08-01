@@ -1,0 +1,156 @@
+{
+  "voice": {
+    "success": [
+      "Excellent",
+      "Great",
+      "Wonderful",
+      "Outstanding"
+    ],
+    "error": [
+      "Let's analyze this together",
+      "Let's try again",
+      "Almost right, look again"
+    ],
+    "streak": [
+      "{count} in a row! You're on fire!",
+      "Amazing! That's {count} correct answers!",
+      "Great streak! Keep it up!",
+      "Fantastic! {count} hits without a mistake!"
+    ]
+  },
+  "voiceOptions": "Voice actor",
+  "voiceDesc": "Choose voice for the voice assistant",
+  "voiceDefault": "System default",
+  "voiceSpeed": "Speech speed",
+  "slow": "Slower",
+  "fast": "Faster",
+  "voicePitch": "Voice pitch",
+  "pitchLow": "Low",
+  "pitchHigh": "High",
+  "testVoice": "Test voice",
+  "testSentence": "This is a test of the selected voice.",
+  "resetTTS": "Reset TTS settings",
+  "voiceSelectionAria": "Voice selection",
+  "voiceAssistantHint": "Enable Assistant in Comfort tab to test voice.",
+  "ttsSettingsAria": "TTS settings",
+  "settings": "Settings",
+  "settingsTitle": "Settings",
+  "settingsSubtitle": "EnClaro · Accessible Gamification",
+  "settingsBack": "← Back",
+  "settingsTheme": "Theme",
+  "settingsAccessibility": "Comfort options",
+  "settingsFooter": "Your settings are saved automatically.",
+  "tabGeneral": "General",
+  "tabA11y": "Comfort",
+  "tabVoice": "Voice",
+  "tabShop": "Shop",
+  "tabGame": "Game",
+  "textSize": "Text size",
+  "textSizeDesc": "Adjust the font size to your reading preferences",
+  "language": "Language",
+  "languageLabel": "Interface language",
+  "appMode": "App mode",
+  "v1Label": "Classic",
+  "v1Desc": "Exercises without gamification",
+  "v2Label": "Gamification",
+  "v2Desc": "Points, coins, and rewards",
+  "a11yBase": "Base mode — always active",
+  "a11yBaseDesc": "Friendly font (OpenDyslexic), increased spacing, mild cream background",
+  "a11yAddons": "Comfort personalization options",
+  "a11yAddonsDesc": "Choose any combination — customize the app to your needs",
+  "a11y": {
+    "lrs": {
+      "name": "Friendly font",
+      "desc": "Font facilitating reading (OpenDyslexic)"
+    },
+    "contrast": {
+      "name": "High contrast",
+      "desc": "Black and white WCAG AAA colors"
+    },
+    "motor": {
+      "name": "Comfortable buttons",
+      "desc": "Enlarged buttons and calm animations"
+    },
+    "vision": {
+      "name": "Larger text",
+      "desc": "Enlarged font and icons"
+    },
+    "colors": {
+      "name": "Safe colors",
+      "desc": "Optimized, readable color palette"
+    },
+    "motion": {
+      "name": "Calm screen",
+      "desc": "No flashing and distracting motion"
+    },
+    "ruler": {
+      "name": "Focus ruler",
+      "desc": "Highlights a horizontal line under the cursor"
+    },
+    "spacing": {
+      "name": "Larger spacing",
+      "desc": "Increases spacing between letters and words"
+    },
+    "desaturation": {
+      "name": "Soft colors",
+      "desc": "Reduces the saturation of bright colors"
+    }
+  },
+  "inclusive": {
+    "adaptiveDifficulty": {
+      "name": "Adaptive difficulty",
+      "desc": "Game matches pace to the player"
+    },
+    "bigTargets": {
+      "name": "Large touch targets",
+      "desc": "Buttons min. 56px (easier to tap)"
+    },
+    "noFlash": {
+      "name": "No flash mode",
+      "desc": "No flickering — epilepsy and motion sensitivity"
+    },
+    "audioRewards": {
+      "name": "Audio rewards",
+      "desc": "Audio signals instead of just visual"
+    },
+    "extendedTime": {
+      "name": "Extended time",
+      "desc": "No time pressure, 3s instead of 1.5s"
+    },
+    "voiceAssistant": {
+      "name": "Voice Assistant",
+      "desc": "Automatic reading of commands and answers"
+    },
+    "zenMode": {
+      "name": "Zen Mode",
+      "desc": "Hides distractions (points, progress bars)"
+    },
+    "bionicReading": {
+      "name": "Bionic Reading",
+      "desc": "Bolds word beginnings, helps focus eyes"
+    },
+    "minimalistMode": {
+      "name": "Minimalist view",
+      "desc": "Hides decorative graphics and Lottie animations"
+    },
+    "muteNotifications": {
+      "name": "Mute notifications",
+      "desc": "Disables success/error speech and game sounds"
+    },
+    "cognitiveBreaks": {
+      "name": "Break reminders",
+      "desc": "App suggests rest after a series of errors"
+    }
+  },
+  "bionicExplanation": "Bionic Reading® is a typographic method that supports the reading flow.",
+  "versionGamified": "GAMIFICATION",
+  "versionGamifiedSub": "Points and rewards",
+  "versionBase": "BASE",
+  "versionBaseSub": "No points",
+  "gamificationTitle": "Inclusive gamification options",
+  "gamificationDesc": "Customize the reward system to your needs",
+  "themeShop": "Theme shop",
+  "themeShopDesc": "Spend coins on new visual themes",
+  "earnCoinHint": "You earn 1 coin for every correct answer",
+  "needMoreCoins": "Not enough coins"
+}

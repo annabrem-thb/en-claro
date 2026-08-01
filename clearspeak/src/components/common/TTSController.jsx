@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAppSettings } from '../../hooks/useAppSettings';
+import { useTranslation } from 'react-i18next';
 
 /**
  * TTSController Component
@@ -10,19 +10,11 @@ export default function TTSController({
   onReadAloud,
   pauseAllTimeouts,
   resumeAllTimeouts,
-  t,
   controlBtnSize = 'w-16 h-16 text-2xl'
 }) {
   const [isPaused, setIsPaused] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-
-  const { language } = useAppSettings();
-  const fallbacks = {
-    pl: { resume: "Wznów", pause: "Wstrzymaj", readAloud: "Czytaj na głos" },
-    de: { resume: "Fortsetzen", pause: "Pausieren", readAloud: "Vorlesen" },
-    en: { resume: "Resume", pause: "Pause", readAloud: "Read aloud" }
-  };
-  const l = fallbacks[language] || fallbacks.en;
+  const { t } = useTranslation();
 
   // Polling Web Speech API state bypasses known event bugs on Android/iOS
   // and allows for dynamic icon updates when the assistant finishes speaking
@@ -55,7 +47,7 @@ export default function TTSController({
     <button
       onClick={handleToggle}
       className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-400 shadow-sm transition-all hover:text-slate-600 active:scale-90`}
-      aria-label={isPaused ? (t?.resume || l.resume) : (isSpeaking ? (t?.pause || l.pause) : (t?.readAloudTitle || l.readAloud))}
+      aria-label={isPaused ? t('resume') : (isSpeaking ? t('pause') : t('readAloudTitle'))}
     >
       {isPaused ? '▶️' : (isSpeaking ? '⏸️' : '🔊')}
     </button>

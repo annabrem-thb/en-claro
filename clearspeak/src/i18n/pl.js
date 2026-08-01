@@ -198,6 +198,9 @@ export default {
   // Progress & Analytics
   dailyGoal: "Cel dzienny",
   goal5: "5 min — Szybka powtórka",
+  exercisesCount_one: "{{count}} ćwiczenie",
+  exercisesCount_few: "{{count}} ćwiczenia",
+  exercisesCount_many: "{{count}} ćwiczeń",
   goal10: "10 min — Dobry nawyk",
   goal15: "15 min — Głębokie skupienie",
   goal20: "20 min — Intensywny trening",

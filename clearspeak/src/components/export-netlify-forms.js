@@ -65,9 +65,9 @@ const generateCSV = (submissions) => {
       sub.app_version || '',
       sub.participant_id || '',
       sub.user_language || '',
-      sub.mental_demand, sub.physical_demand, sub.temporal_demand, sub.performance, sub.effort, sub.frustration,
-      sub.sus_q01, sub.sus_q02, sub.sus_q03, sub.sus_q04, sub.sus_q05,
-      sub.sus_q06, sub.sus_q07, sub.sus_q08, sub.sus_q09, sub.sus_q10
+      sub.mental_demand ?? '', sub.physical_demand ?? '', sub.temporal_demand ?? '', sub.performance ?? '', sub.effort ?? '', sub.frustration ?? '',
+      sub.sus_q01 ?? '', sub.sus_q02 ?? '', sub.sus_q03 ?? '', sub.sus_q04 ?? '', sub.sus_q05 ?? '',
+      sub.sus_q06 ?? '', sub.sus_q07 ?? '', sub.sus_q08 ?? '', sub.sus_q09 ?? '', sub.sus_q10 ?? ''
     ].join(',');
   });
 
