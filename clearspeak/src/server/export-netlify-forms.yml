@@ -1,0 +1,42 @@
+name: Daily Supabase Forms Export
+
+on:
+  schedule:
+    # Runs at 00:00 UTC every day
+    - cron: '0 0 * * *'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  export-and-email:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Export Script
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        # Make sure this path points to where your script is located
+        run: node src/components/export-netlify-forms.js
+
+      - name: Send Email with CSV
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Daily UX Survey Results (Supabase)"
+          to: ${{ secrets.EMAIL_RECIPIENT }}
+          from: "GitHub Actions Bot"
+          body: "Hello, attached are the latest Supabase survey submissions formatted for SPSS."
+          attachments: ./ux_survey_results.csv

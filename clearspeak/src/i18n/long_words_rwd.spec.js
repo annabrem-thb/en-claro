@@ -1,0 +1,58 @@
+import { test, expect } from '@playwright/test';
+
+test.describe('Dyslexia PWA - Ekstremalne Testy RWD (Długie Słowa)', () => {
+  test.beforeEach(async ({ page: page }) => {
+    await page.goto('/');
+    await page.evaluate(() => window.localStorage.clear());
+  });
+  test('powinno łamać długie niemieckie słowa w ustawieniach i zapobiegać poziomemu scrollowi', async ({
+    page: page,
+    isMobile: isMobile,
+  }) => {
+    test.skip(
+      !isMobile,
+      'Ten test RWD jest przeznaczony dla wąskich ekranów mobilnych',
+    );
+    await page.goto('/');
+    await page.locator('button[lang="de"]').click();
+    await page.locator('text=/Nur lernen/i').click();
+    await page.locator('text=/Start/i').click();
+    await page.locator('nav button[aria-label="Einstellungen"]').click();
+    await page.locator('button[role="tab"] >> text="Stimme"').click();
+    await expect(page.locator('text=Sprechgeschwindigkeit')).toBeVisible();
+    const hasHorizontalScroll = await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth >
+        document.documentElement.clientWidth,
+    );
+    expect(hasHorizontalScroll).toBe(false);
+  });
+  test('powinno zapobiegać awarii layoutu przy wstrzyknięciu sztucznego, 63-znakowego słowa', async ({
+    page: page,
+    isMobile: isMobile,
+  }) => {
+    test.skip(
+      !isMobile,
+      'Ten test RWD jest przeznaczony dla wąskich ekranów mobilnych',
+    );
+    await page.goto('/');
+    await page.locator('text=/Tylko nauka|Study only/i').click();
+    await page.locator('text=/Rozpocznij|Start/i').click();
+    await expect(page.locator('main')).toBeVisible();
+    await page.evaluate(() => {
+      const mainArea = document.querySelector('main');
+      const badWordElement = document.createElement('div');
+      badWordElement.textContent =
+        'Rindfleischetikettierungsüberwachungsaufgabenübertragungsgesetz';
+      badWordElement.className =
+        'text-3xl font-black break-words hyphens-auto w-full';
+      mainArea.appendChild(badWordElement);
+    });
+    const hasHorizontalScroll = await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth >
+        document.documentElement.clientWidth,
+    );
+    expect(hasHorizontalScroll).toBe(false);
+  });
+});
