@@ -33,7 +33,7 @@ export interface CommonNamespace {
   close: string;
 }
 
-export interface ProfileNamespace {
+export interface ProfileDashboardNamespace {
   title: string;
   welcome: string;
   lastLogin: string;
@@ -98,9 +98,10 @@ export interface SurveyNamespace {
 export interface TranslationDictionary {
   appTitle: string;
   start: string;
+  profile: string;
   intro: IntroNamespace;
   common: CommonNamespace;
-  profile: ProfileNamespace;
+  profileDashboard: ProfileDashboardNamespace;
   errors: ErrorsNamespace;
   feedback: FeedbackNamespace;
   survey: SurveyNamespace;

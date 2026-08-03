@@ -19,6 +19,10 @@ const makeDailyQuests = () => [
   },
   { id: 3, type: 'Any', target: 10, current: 0, completed: false, reward: 5 },
 ];
+
+// Single source of truth for all gamification state (exercise-economy points/
+// coins/quests, the daily-reward-choice flow, and the classic/gamified mode
+// toggle). Consumed exclusively through GamificationContext's useGamification().
 export function useGamificationState() {
   const [points, setPoints] = useState(
     () => Number(localStorage.getItem('pts')) || 0,
@@ -41,6 +45,15 @@ export function useGamificationState() {
       ? data
       : { date: today, tasks: makeDailyQuests() };
   });
+
+  const [isGamified, setIsGamified] = useState(() => {
+    const stored = localStorage.getItem('cfg_gamified');
+    return stored === null ? false : JSON.parse(stored);
+  });
+  const [selectedRewardId, setSelectedRewardId] = useState(null);
+  const [competencePoints, setCompetencePoints] = useState(0);
+  const [unlockedRewards, setUnlockedRewards] = useState([]);
+
   const updateQuests = useCallback((pillarType) => {
     setDailyQuests((prev) => {
       const newTasks = prev.tasks.map((task) => {
@@ -56,6 +69,24 @@ export function useGamificationState() {
       return { ...prev, tasks: newTasks };
     });
   }, []);
+
+  const completeDailyTask = useCallback(() => {
+    setCompetencePoints((prev) => prev + 1);
+  }, []);
+
+  const chooseNextReward = useCallback((id) => {
+    setSelectedRewardId(id);
+  }, []);
+
+  const unlockSelectedReward = useCallback(() => {
+    setSelectedRewardId((current) => {
+      if (current) {
+        setUnlockedRewards((prev) => [...prev, current]);
+      }
+      return null;
+    });
+  }, []);
+
   useEffect(() => {
     localStorage.setItem('pts', String(points));
     localStorage.setItem('rew', JSON.stringify(rewards));
@@ -63,6 +94,11 @@ export function useGamificationState() {
     localStorage.setItem('cfg_unlocked_themes', JSON.stringify(unlockedThemes));
     localStorage.setItem('cfg_quests', JSON.stringify(dailyQuests));
   }, [points, rewards, coins, unlockedThemes, dailyQuests]);
+
+  useEffect(() => {
+    localStorage.setItem('cfg_gamified', JSON.stringify(isGamified));
+  }, [isGamified]);
+
   return {
     points: points,
     setPoints: setPoints,
@@ -75,5 +111,13 @@ export function useGamificationState() {
     dailyQuests: dailyQuests,
     setDailyQuests: setDailyQuests,
     updateQuests: updateQuests,
+    isGamified: isGamified,
+    setIsGamified: setIsGamified,
+    competencePoints: competencePoints,
+    completeDailyTask: completeDailyTask,
+    selectedRewardId: selectedRewardId,
+    chooseNextReward: chooseNextReward,
+    unlockedRewards: unlockedRewards,
+    unlockSelectedReward: unlockSelectedReward,
   };
 }

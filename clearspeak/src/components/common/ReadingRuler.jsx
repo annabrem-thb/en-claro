@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useAppSettings } from '../../hooks/useAppSettings';
+
+import { useUserSettingsContext } from '../UserSettingsContext';
 
 export default function ReadingRuler() {
-  const { a11yAddons } = useAppSettings();
+  const { settings } = useUserSettingsContext();
   const [mouseY, setMouseY] = useState(0);
-  
-  const isActive = a11yAddons?.includes('Linijka');
+
+  const isActive = settings.ruler;
   const variant = 'shade';
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export default function ReadingRuler() {
   if (variant === 'underline') {
     return (
       <div
-        className="pointer-events-none fixed left-0 right-0 z-[9999] border-b-4 border-yellow-400 transition-transform duration-75 ease-out"
+        className="pointer-events-none fixed right-0 left-0 z-[9999] border-b-4 border-yellow-400 transition-transform duration-75 ease-out"
         style={{ top: `${mouseY + 20}px` }}
         aria-hidden="true"
       />
@@ -38,7 +39,7 @@ export default function ReadingRuler() {
   if (variant === 'shade') {
     return (
       <div
-        className="pointer-events-none fixed left-0 right-0 z-[9999] h-20 transition-transform duration-75 ease-out shadow-[0_0_0_9999px_rgba(0,0,0,0.5)]"
+        className="pointer-events-none fixed right-0 left-0 z-[9999] h-20 shadow-[0_0_0_9999px_rgba(0,0,0,0.5)] transition-transform duration-75 ease-out"
         style={{ top: `${mouseY}px`, transform: 'translateY(-50%)' }}
         aria-hidden="true"
       />
@@ -47,7 +48,7 @@ export default function ReadingRuler() {
 
   return (
     <div
-      className="pointer-events-none fixed left-0 right-0 z-[9999] h-20 bg-slate-400/20 border-y border-slate-500/30 transition-transform duration-75 ease-out"
+      className="pointer-events-none fixed right-0 left-0 z-[9999] h-20 border-y border-slate-500/30 bg-slate-400/20 transition-transform duration-75 ease-out"
       style={{ top: `${mouseY}px`, transform: 'translateY(-50%)' }}
       aria-hidden="true"
     />

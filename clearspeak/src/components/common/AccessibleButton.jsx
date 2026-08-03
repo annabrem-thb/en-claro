@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
-import { useAppSettings } from '../../hooks/useAppSettings';
 
-export default function AccessibleButton({ onClick, children, className = '', ...props }) {
-  const { a11yAddons, inclusiveOptions } = useAppSettings();
+import { useUserSettingsContext } from '../UserSettingsContext';
+
+export default function AccessibleButton({
+  onClick,
+  children,
+  className = '',
+  ...props
+}) {
+  const { settings } = useUserSettingsContext();
   const [isLocked, setIsLocked] = useState(false);
 
   const handleClick = (e) => {
-    if (isLocked)
-      return;
+    if (isLocked) return;
 
-    const isMotorikActive = a11yAddons?.includes('Motorik') || inclusiveOptions?.bigTargets;
+    const isMotorikActive = settings.motorik || settings.bigTargets;
     if (isMotorikActive) {
       setIsLocked(true);
       setTimeout(() => {
@@ -26,7 +31,7 @@ export default function AccessibleButton({ onClick, children, className = '', ..
     <button
       onClick={handleClick}
       disabled={props.disabled || isLocked}
-      className={`${className} transition-opacity duration-200 ${isLocked ? 'opacity-70 cursor-wait' : ''}`}
+      className={`${className} transition-opacity duration-200 ${isLocked ? 'cursor-wait opacity-70' : ''}`}
       {...props}
     >
       {children}

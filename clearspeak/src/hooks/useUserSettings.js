@@ -27,10 +27,20 @@ const DEFAULT_SETTINGS = {
   userDifficulty: 2,
   appMode: 'gamified',
 };
+const SETTINGS_STORAGE_KEY = 'cfg_settings';
+
 export function useUserSettings() {
-  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState(() => {
+    const saved = localStorage.getItem(SETTINGS_STORAGE_KEY);
+    return saved
+      ? { ...DEFAULT_SETTINGS, ...JSON.parse(saved) }
+      : DEFAULT_SETTINGS;
+  });
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isPwaInstalled, setIsPwaInstalled] = useState(false);
+  useEffect(() => {
+    localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
+  }, [settings]);
   useEffect(() => {
     const html = document.documentElement;
     Object.keys(settings).forEach((key) => {

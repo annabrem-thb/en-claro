@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
+
 import { useTranslation } from 'react-i18next';
+
 import { useUserSettingsContext } from './UserSettingsContext';
 
 export default function OfflineIndicator() {
   const { settings } = useUserSettingsContext();
   const { language, contrast: isHighContrast } = settings;
   const { t } = useTranslation();
-  
-  const [isOffline, setIsOffline] = useState(typeof navigator !== 'undefined' ? !navigator.onLine : false);
+
+  const [isOffline, setIsOffline] = useState(
+    typeof navigator !== 'undefined' ? !navigator.onLine : false,
+  );
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -20,7 +24,7 @@ export default function OfflineIndicator() {
 
     return () => {
       window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline',handleOffline);
+      window.removeEventListener('offline', handleOffline);
     };
   }, []);
 
@@ -29,12 +33,15 @@ export default function OfflineIndicator() {
   }
 
   return (
-    <div 
-      className={`fixed bottom-0 left-0 right-0 z-[100] p-3 text-center text-xs font-bold ${isHighContrast ? 'bg-white text-black' : 'bg-yellow-400 text-yellow-900'} animate-in fade-in slide-in-from-bottom-4`} 
+    <div
+      className={`fixed right-0 bottom-0 left-0 z-[100] p-3 text-center text-xs font-bold ${isHighContrast ? 'bg-white text-black' : 'bg-yellow-400 text-yellow-900'} animate-in fade-in slide-in-from-bottom-4`}
       role="status"
     >
       <span aria-hidden="true">⚠️ </span>
-      {t.offlineMessage || 'You are currently offline. Some features may be unavailable.'}
+      {t(
+        'offlineMessage',
+        'You are currently offline. Some features may be unavailable.',
+      )}
     </div>
   );
 }

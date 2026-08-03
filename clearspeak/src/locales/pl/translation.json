@@ -1,5 +1,5 @@
 {
-  "appTitle": "En Claro",
+  "appTitle": "EnClaro",
   "introSubtitle": "Zbuduj swój most do biegłości.",
   "installApp": "Zainstaluj aplikację",
   "installAppDesc": "Pobierz na urządzenie, aby zyskać szybki dostęp i tryb offline.",
@@ -44,6 +44,7 @@
   "loading": "Wczytywanie...",
   "noData": "Brak zadań w tej sekcji.",
   "formatNotRecognized": "Błąd formatu zadania.",
+  "profile": "Profil",
   "level": "Poziom",
   "quests": "Zadania Dnia",
   "shop": "Sklep Motywów",
@@ -100,7 +101,7 @@
   "ttsSettingsAria": "Ustawienia mowy (TTS)",
   "settings": "Ustawienia",
   "settingsTitle": "Ustawienia",
-  "settingsSubtitle": "En Claro · Dostępna Grywalizacja",
+  "settingsSubtitle": "EnClaro · Dostępna Grywalizacja",
   "settingsBack": "← Wróć",
   "settingsTheme": "Motyw",
   "settingsAccessibility": "Opcje komfortu",

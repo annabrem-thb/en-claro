@@ -1,49 +1,25 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext } from 'react';
 
-const GamificationContext = createContext();
+import { useGamificationState } from '../hooks/useGamificationState.js';
+
+const GamificationContext = createContext(null);
 
 export function GamificationProvider({ children }) {
-  const [selectedRewardId, setSelectedRewardId] = useState(null);
-  const [competencePoints, setCompetencePoints] = useState(0);
-  const [unlockedRewards, setUnlockedRewards] = useState([]);
-  const [isGamified, setIsGamified] = useState(() => {
-    const stored = localStorage.getItem('cfg_gamified');
-    return stored === null ? false : JSON.parse(stored);
-  });
-
-  useEffect(() => {
-    localStorage.setItem('cfg_gamified', JSON.stringify(isGamified));
-  }, [isGamified]);
-
-  const completeDailyTask = () => {
-    setCompetencePoints((prev) => prev + 1);
-  };
-
-  const chooseNextReward = (id) => {
-    setSelectedRewardId(id);
-  };
-
-  const unlockSelectedReward = () => {
-    if (selectedRewardId) {
-      setUnlockedRewards((prev) => [...prev, selectedRewardId]);
-      setSelectedRewardId(null);
-    }
-  };
-
-  const value = {
-    isGamified, setIsGamified,
-    competencePoints, completeDailyTask,
-    selectedRewardId, chooseNextReward,
-    unlockedRewards, unlockSelectedReward
-  };
+  const gamification = useGamificationState();
 
   return (
-    <GamificationContext.Provider value={value}>
+    <GamificationContext.Provider value={gamification}>
       {children}
     </GamificationContext.Provider>
   );
 }
 
 export function useGamification() {
-  return useContext(GamificationContext);
+  const context = useContext(GamificationContext);
+  if (!context) {
+    throw new Error(
+      'useGamification must be used within a GamificationProvider',
+    );
+  }
+  return context;
 }

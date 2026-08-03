@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 
 const LOCALES_DIR = path.join(__dirname, 'src', 'locales');
 const LANGUAGES = ['en', 'pl', 'de'];
-const NAMESPACES = ['translation', 'common', 'profile', 'errors', 'feedback', 'survey'];
+const NAMESPACES = ['translation', 'common', 'profileDashboard', 'errors', 'feedback', 'survey'];
 const BASE_LANG = 'en';
 
 // Function to "flatten" nested objects for easy key comparison, e.g., "a11y.LRS.name"

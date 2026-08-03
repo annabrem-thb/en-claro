@@ -3,16 +3,16 @@
    ========================================================================== */
 
 /* --- Dyslexia-friendly font (LRS) --- */
-html[data-a11y-lrs="true"] {
+html[data-a11y-lrs='true'] {
   --dyn-font-family: 'OpenDyslexic', Helvetica, Arial, Verdana, sans-serif;
   --dyn-line-height: 1.75;
-  --dyn-word-spacing: 0.20em;
+  --dyn-word-spacing: 0.2em;
   --dyn-letter-spacing: 0.08em;
   --dyn-font-size: 14px; /* Reduced base size to prevent overflow (OpenDyslexic is naturally wider) */
 }
 
 @media (min-width: 768px) {
-  html[data-a11y-lrs="true"] {
+  html[data-a11y-lrs='true'] {
     --dyn-font-size: 14px; /* Scaled down for desktop monitors to avoid scrollbars */
   }
 }
@@ -20,47 +20,47 @@ html[data-a11y-lrs="true"] {
 /* --- Dyslexia Bionic Reading Enhancement ---
    Bolds in OpenDyslexic are hard to spot. We add a subtle color 
    to make Bionic Reading (and regular bolds) pop out safely. */
-html[data-a11y-lrs="true"] b,
-html[data-a11y-lrs="true"] strong {
+html[data-a11y-lrs='true'] b,
+html[data-a11y-lrs='true'] strong {
   color: #4338ca;
 }
 
 /* --- High contrast --- */
-html[data-a11y-contrast="true"] *:focus-visible {
+html[data-a11y-contrast='true'] *:focus-visible {
   outline: 5px solid #22c55e;
   outline-offset: 4px;
 }
 
 /* Block custom colors from breaking WCAG AAA contrast */
-html[data-a11y-contrast="true"] b,
-html[data-a11y-contrast="true"] strong {
+html[data-a11y-contrast='true'] b,
+html[data-a11y-contrast='true'] strong {
   color: inherit !important;
 }
 
 /* --- Motor skills accommodations (Large targets) --- */
-html[data-a11y-motorik="true"] button,
-html[data-a11y-motorik="true"] a,
-html[data-a11y-motorik="true"] [role="button"],
-html[data-a11y-motorik="true"] input[type="checkbox"],
-html[data-a11y-motorik="true"] input[type="radio"],
-html[data-a11y-motorik="true"] select {
+html[data-a11y-motorik='true'] button,
+html[data-a11y-motorik='true'] a,
+html[data-a11y-motorik='true'] [role='button'],
+html[data-a11y-motorik='true'] input[type='checkbox'],
+html[data-a11y-motorik='true'] input[type='radio'],
+html[data-a11y-motorik='true'] select {
   min-height: 56px !important;
   min-width: 56px !important;
 }
 
-html[data-a11y-motorik="true"] *,
-html[data-a11y-motorik="true"] *::before,
-html[data-a11y-motorik="true"] *::after {
+html[data-a11y-motorik='true'] *,
+html[data-a11y-motorik='true'] *::before,
+html[data-a11y-motorik='true'] *::after {
   transition-duration: 0.5s !important;
 }
 
 /* --- Vision accommodations (Zoom and boldness) --- */
-html[data-a11y-vision="true"] {
+html[data-a11y-vision='true'] {
   font-size: 115% !important;
 }
 
 /* --- Safe colors (Color blindness) --- */
-html[data-a11y-color="true"] {
+html[data-a11y-color='true'] {
   --color-green-50: #eff6ff;
   --color-green-100: #dbeafe;
   --color-green-200: #bfdbfe;
@@ -71,7 +71,7 @@ html[data-a11y-color="true"] {
   --color-green-700: #1d4ed8;
   --color-green-800: #1e40af;
   --color-green-900: #1e3a8a;
-  
+
   --color-emerald-50: #eff6ff;
   --color-emerald-100: #dbeafe;
   --color-emerald-200: #bfdbfe;
@@ -82,7 +82,7 @@ html[data-a11y-color="true"] {
   --color-emerald-700: #1d4ed8;
   --color-emerald-800: #1e40af;
   --color-emerald-900: #1e3a8a;
-  
+
   --color-red-50: #fff7ed;
   --color-red-100: #ffedd5;
   --color-red-200: #fed7aa;
@@ -96,54 +96,53 @@ html[data-a11y-color="true"] {
 }
 
 /* --- Calm screen (No flashes) --- */
-html[data-a11y-motion="true"] *,
-html[data-a11y-motion="true"] *::before,
-html[data-a11y-motion="true"] *::after {
+html[data-a11y-motion='true'] *,
+html[data-a11y-motion='true'] *::before,
+html[data-a11y-motion='true'] *::after {
   animation-duration: 0.001ms !important;
   animation-iteration-count: 1 !important;
   transition-duration: 0.001ms !important;
   scroll-behavior: auto !important;
 }
 
-html[data-a11y-motion="true"] .animate-bounce,
-html[data-a11y-motion="true"] .animate-pulse,
-html[data-a11y-motion="true"] .animate-spin,
-html[data-a11y-motion="true"] .animate-in {
+html[data-a11y-motion='true'] .animate-bounce,
+html[data-a11y-motion='true'] .animate-pulse,
+html[data-a11y-motion='true'] .animate-spin,
+html[data-a11y-motion='true'] .animate-in {
   animation: none !important;
   opacity: 1 !important;
 }
 
 /* --- Increased spacing (Spacing) --- */
-html[data-a11y-spacing="true"] {
+html[data-a11y-spacing='true'] {
   --dyn-letter-spacing: 0.15em;
   --dyn-word-spacing: 0.35em;
-  --dyn-line-height: 2.0;
+  --dyn-line-height: 2;
 }
-html[data-a11y-spacing="true"] * {
+html[data-a11y-spacing='true'] * {
   letter-spacing: var(--dyn-letter-spacing) !important;
   word-spacing: var(--dyn-word-spacing) !important;
   line-height: var(--dyn-line-height) !important;
 }
-html[data-a11y-spacing="true"] span,
-html[data-a11y-spacing="true"] b,
-html[data-a11y-spacing="true"] strong,
-html[data-a11y-spacing="true"] i,
-html[data-a11y-spacing="true"] em {
+html[data-a11y-spacing='true'] span,
+html[data-a11y-spacing='true'] b,
+html[data-a11y-spacing='true'] strong,
+html[data-a11y-spacing='true'] i,
+html[data-a11y-spacing='true'] em {
   letter-spacing: inherit !important;
   word-spacing: inherit !important;
 }
 
 /* --- Soft colors (Desaturation) --- */
-html[data-a11y-desaturation="true"] body::after {
-  content: "";
+html[data-a11y-desaturation='true'] body::after {
+  content: '';
   position: fixed;
   inset: 0;
   z-index: 99998;
   pointer-events: none;
-  backdrop-filter: saturate(0.4);
 }
 
 /* --- Minimalist appearance --- */
-html[data-a11y-minimalist="true"] .decorative-graphic {
+html[data-a11y-minimalist='true'] .decorative-graphic {
   display: none !important;
 }

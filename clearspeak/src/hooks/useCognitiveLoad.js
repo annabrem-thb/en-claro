@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { useAppSettings } from './useAppSettings.js';
+import { useUserSettingsContext } from '../components/UserSettingsContext.jsx';
 
 export function useCognitiveLoad(activeTab, zenModeEnabled) {
-  const { inclusiveOptions: inclusiveOptions } = useAppSettings();
+  const { settings } = useUserSettingsContext();
   const [sessionStartTime, setSessionStartTime] = useState(Date.now());
   const [errorTimestamps, setErrorTimestamps] = useState([]);
   const [loadLevel, setLoadLevel] = useState('green');
@@ -33,7 +33,7 @@ export function useCognitiveLoad(activeTab, zenModeEnabled) {
       if (recentErrors >= 4 || durationMins >= 15) newLevel = 'red';
       else if (recentErrors >= 2 || durationMins >= 7) newLevel = 'yellow';
       setLoadLevel(newLevel);
-      const breaksEnabled = inclusiveOptions?.cognitiveBreaks;
+      const breaksEnabled = settings.cognitiveBreaks;
       const COOLDOWN_MS = 10 * 60 * 1e3;
       const isCooldownOver = now - lastBreakTime > COOLDOWN_MS;
       if (
@@ -62,7 +62,7 @@ export function useCognitiveLoad(activeTab, zenModeEnabled) {
     showBreakModal,
     activeTab,
     zenModeEnabled,
-    inclusiveOptions?.cognitiveBreaks,
+    settings.cognitiveBreaks,
     lastBreakTime,
   ]);
   return {

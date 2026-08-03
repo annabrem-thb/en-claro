@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 
-import { Provider } from 'react-redux';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
 import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotifications.js';
 import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
 import { useExerciseSession } from '../hooks/useExerciseSession.js';
-import { useGamificationState } from '../hooks/useGamificationState.js';
 import { useGlobalTTS } from '../hooks/useGlobalTTS.js';
 import { useIndexedDB } from '../hooks/useIndexedDB.js';
 import { useReadingRuler } from '../hooks/useReadingRuler.js';
@@ -37,7 +35,6 @@ import {
 import VirtualGarden from './VirtualGarden.jsx';
 import BionicText from './common/BionicText.jsx';
 import SkeletonLoader from './common/SkeletonLoader.jsx';
-import store from './store.js';
 
 const POINTS_PER_LEVEL = 5;
 const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
@@ -91,7 +88,21 @@ const THEMES = {
 };
 
 function AppContent() {
-  const { isGamified, setIsGamified } = useGamification();
+  const {
+    isGamified,
+    setIsGamified,
+    points,
+    setPoints,
+    coins,
+    setCoins,
+    rewards,
+    setRewards,
+    unlockedThemes,
+    setUnlockedThemes,
+    dailyQuests,
+    setDailyQuests,
+    updateQuests,
+  } = useGamification();
 
   const { settings, updateSetting } = useUserSettingsContext();
   const { language, theme, dailyGoal, userDifficulty } = settings;
@@ -125,20 +136,6 @@ function AppContent() {
   const [earnedCoinsAnim, setEarnedCoinsAnim] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [pendingFeedback, setPendingFeedback] = useState(false);
-
-  const {
-    points,
-    setPoints,
-    coins,
-    setCoins,
-    rewards,
-    setRewards,
-    unlockedThemes,
-    setUnlockedThemes,
-    dailyQuests,
-    setDailyQuests,
-    updateQuests,
-  } = useGamificationState();
 
   const {
     loadLevel,
@@ -1009,12 +1006,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <GamificationProvider>
-        <UserSettingsProvider>
-          <AppContent />
-        </UserSettingsProvider>
-      </GamificationProvider>
-    </Provider>
+    <GamificationProvider>
+      <UserSettingsProvider>
+        <AppContent />
+      </UserSettingsProvider>
+    </GamificationProvider>
   );
 }

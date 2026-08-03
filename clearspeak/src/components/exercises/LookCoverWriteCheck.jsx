@@ -1,26 +1,41 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useAppSettings } from '../../hooks/useAppSettings.js';
-import { useTranslation } from '../../i18n/i18n.js';
-import BionicText from '../common/BionicText';
+
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTranslation } from '../../i18n/i18n.js';
+import { useUserSettingsContext } from '../UserSettingsContext.jsx';
+import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
 
-function LookCoverWriteCheck(
-  { targetWord, word, onSelfEvaluate, language: propLang, t: propT, speak, extendedTime, bigTargets, voiceAssistant = true, zenMode = false }
-) {
+function LookCoverWriteCheck({
+  targetWord,
+  word,
+  onSelfEvaluate,
+  language: propLang,
+  t: propT,
+  speak,
+  extendedTime,
+  bigTargets,
+  voiceAssistant = true,
+  zenMode = false,
+}) {
   const activeWord = targetWord || word || '';
   const [phase, setPhase] = useState('look');
   const [userInput, setUserInput] = useState('');
-  
-  const { a11yAddons, inclusiveOptions, language: hookLang } = useAppSettings();
-  const language = propLang || hookLang || 'pl';
+
+  const { settings } = useUserSettingsContext();
+  const language = propLang || settings.language || 'pl';
   const t = propT || useTranslation(language);
 
-  const isHighContrast = a11yAddons?.includes('Kontrast');
-  const bionicReading = inclusiveOptions?.bionicReading;
+  const isHighContrast = settings.contrast;
+  const bionicReading = settings.bionicReading;
 
   const inputRef = useRef(null);
-  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+  const {
+    setSafeTimeout,
+    clearAllTimeouts,
+    pauseAllTimeouts,
+    resumeAllTimeouts,
+  } = useSafeTimeouts();
 
   const handleReadWord = useCallback(() => {
     clearAllTimeouts();
@@ -39,35 +54,44 @@ function LookCoverWriteCheck(
 
   if (phase === 'look') {
     return (
-      <div className="flex h-full min-h-0 flex-col items-center justify-center w-full overflow-hidden px-2 py-2 animate-in fade-in duration-500">
+      <div className="animate-in fade-in flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 duration-500">
         {!zenMode && (
-          <h2 className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-2 sm:mb-4 shrink-0" aria-live="polite">
+          <h2
+            className="mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase sm:mb-4 sm:text-xs"
+            aria-live="polite"
+          >
             {t.lookAndListen || 'Step 1: Study the word'}
           </h2>
         )}
-        
-        <div className="mb-3 sm:mb-6 shrink-0">
+
+        <div className="mb-3 shrink-0 sm:mb-6">
           <TTSController
             onReadAloud={handleReadWord}
             pauseAllTimeouts={pauseAllTimeouts}
             resumeAllTimeouts={resumeAllTimeouts}
             t={t}
-            controlBtnSize={bigTargets ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'}
+            controlBtnSize={
+              bigTargets ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'
+            }
           />
         </div>
 
-        <div className={`px-4 py-6 sm:px-8 sm:py-10 rounded-3xl w-full max-w-md flex justify-center items-center mb-4 sm:mb-8 shadow-sm shrink min-h-0 overflow-y-auto ${isHighContrast ? 'bg-black border-2 border-white text-white' : 'bg-white border border-slate-200 text-slate-800'}`}>
-          <span className="text-3xl sm:text-4xl md:text-5xl font-black tracking-widest break-all text-center">
+        <div
+          className={`mb-4 flex min-h-0 w-full max-w-md shrink items-center justify-center overflow-y-auto rounded-3xl px-4 py-6 shadow-sm sm:mb-8 sm:px-8 sm:py-10 ${isHighContrast ? 'border-2 border-white bg-black text-white' : 'border border-slate-200 bg-white text-slate-800'}`}
+        >
+          <span className="text-center text-3xl font-black tracking-widest break-all sm:text-4xl md:text-5xl">
             <BionicText text={activeWord} enabled={bionicReading} />
           </span>
         </div>
 
         <button
           onClick={() => setPhase('write')}
-          className={`px-8 py-4 sm:px-10 sm:py-5 mt-auto rounded-full font-black uppercase tracking-widest transition-all active:scale-95 text-xs sm:text-sm focus-visible:ring-4 focus:outline-none shrink-0 ${
-            isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-600 text-white shadow-xl hover:bg-indigo-500'
+          className={`mt-auto shrink-0 rounded-full px-8 py-4 text-xs font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:px-10 sm:py-5 sm:text-sm ${
+            isHighContrast
+              ? 'bg-white text-black hover:bg-slate-200'
+              : 'bg-indigo-600 text-white shadow-xl hover:bg-indigo-500'
           }`}
-          aria-label={t.coverAndWrite || "Hide word and start typing"}
+          aria-label={t.coverAndWrite || 'Hide word and start typing'}
         >
           {t.coverAndWrite || 'Hide Word & Write'}
         </button>
@@ -77,25 +101,28 @@ function LookCoverWriteCheck(
 
   if (phase === 'write') {
     return (
-      <div className="flex h-full min-h-0 flex-col items-center justify-center w-full overflow-hidden px-2 py-2 animate-in slide-in-from-right-4 fade-in duration-500">
+      <div className="animate-in slide-in-from-right-4 fade-in flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 duration-500">
         {!zenMode && (
-          <h2 className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-2 sm:mb-4 shrink-0" aria-live="polite">
+          <h2
+            className="mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase sm:mb-4 sm:text-xs"
+            aria-live="polite"
+          >
             {t.typeFromMemory || 'Step 2: Type from memory'}
           </h2>
         )}
-        
+
         <input
           ref={inputRef}
           type="text"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
-          className={`w-full max-w-md text-center text-2xl sm:text-3xl font-bold p-4 sm:p-6 rounded-2xl sm:rounded-3xl mb-4 sm:mb-6 focus:outline-none focus:ring-4 transition-shadow shrink min-h-0 ${
-            isHighContrast 
-              ? 'bg-black border-4 border-white text-white focus:ring-white/50' 
-              : 'bg-white border-2 border-indigo-100 text-slate-800 focus:border-indigo-400 focus:ring-indigo-100 shadow-inner'
+          className={`mb-4 min-h-0 w-full max-w-md shrink rounded-2xl p-4 text-center text-2xl font-bold transition-shadow focus:ring-4 focus:outline-none sm:mb-6 sm:rounded-3xl sm:p-6 sm:text-3xl ${
+            isHighContrast
+              ? 'border-4 border-white bg-black text-white focus:ring-white/50'
+              : 'border-2 border-indigo-100 bg-white text-slate-800 shadow-inner focus:border-indigo-400 focus:ring-indigo-100'
           }`}
-          placeholder={t.typeHere || "..."}
-          aria-label={t.typeFromMemory || "Type the hidden word"}
+          placeholder={t.typeHere || '...'}
+          aria-label={t.typeFromMemory || 'Type the hidden word'}
           autoComplete="off"
           spellCheck="false"
         />
@@ -103,10 +130,12 @@ function LookCoverWriteCheck(
         <button
           onClick={() => setPhase('check')}
           disabled={userInput.trim().length === 0}
-          className={`px-8 py-4 sm:px-10 sm:py-5 mt-auto rounded-full font-black uppercase tracking-widest transition-all active:scale-95 text-xs sm:text-sm focus-visible:ring-4 focus:outline-none shrink-0 ${
+          className={`mt-auto shrink-0 rounded-full px-8 py-4 text-xs font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:px-10 sm:py-5 sm:text-sm ${
             userInput.trim().length === 0
-              ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-              : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-emerald-500 text-white shadow-xl hover:bg-emerald-400')
+              ? 'cursor-not-allowed bg-slate-200 text-slate-400'
+              : isHighContrast
+                ? 'bg-white text-black hover:bg-slate-200'
+                : 'bg-emerald-500 text-white shadow-xl hover:bg-emerald-400'
           }`}
         >
           {t.checkSpelling || 'Check My Answer'}
@@ -116,42 +145,60 @@ function LookCoverWriteCheck(
   }
 
   if (phase === 'check') {
-    const isCorrect = userInput.trim().toLowerCase() === activeWord.trim().toLowerCase();
+    const isCorrect =
+      userInput.trim().toLowerCase() === activeWord.trim().toLowerCase();
 
     return (
-      <div className="flex h-full min-h-0 flex-col items-center justify-center w-full overflow-hidden px-2 py-2 animate-in slide-in-from-bottom-4 fade-in duration-500">
+      <div className="animate-in slide-in-from-bottom-4 fade-in flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 duration-500">
         {!zenMode && (
-          <h2 className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-2 sm:mb-4 shrink-0" aria-live="polite">
+          <h2
+            className="mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase sm:mb-4 sm:text-xs"
+            aria-live="polite"
+          >
             {t.compareSpelling || 'Step 3: Comparison'}
           </h2>
         )}
 
-        <div className="w-full max-w-md flex flex-col gap-3 sm:gap-4 mb-4 sm:mb-6 shrink min-h-0 overflow-y-auto">
+        <div className="mb-4 flex min-h-0 w-full max-w-md shrink flex-col gap-3 overflow-y-auto sm:mb-6 sm:gap-4">
           {}
-          <div className={`p-4 sm:p-5 rounded-2xl flex flex-col items-center gap-1.5 sm:gap-2 border-2 ${isHighContrast ? 'bg-black border-white/50' : 'bg-slate-50 border-slate-200'}`}>
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400">{t.targetWord || 'Correct Spelling'}</span>
-            <span className={`text-xl sm:text-2xl font-black tracking-widest break-all ${isHighContrast ? 'text-white' : 'text-slate-800'}`}>
+          <div
+            className={`flex flex-col items-center gap-1.5 rounded-2xl border-2 p-4 sm:gap-2 sm:p-5 ${isHighContrast ? 'border-white/50 bg-black' : 'border-slate-200 bg-slate-50'}`}
+          >
+            <span className="text-[10px] font-bold tracking-widest text-slate-400 uppercase sm:text-xs">
+              {t.targetWord || 'Correct Spelling'}
+            </span>
+            <span
+              className={`text-xl font-black tracking-widest break-all sm:text-2xl ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
+            >
               {activeWord}
             </span>
           </div>
 
           {}
-          <div className={`p-4 sm:p-5 rounded-2xl flex flex-col items-center gap-1.5 sm:gap-2 border-2 ${isHighContrast ? 'bg-black border-white/50' : (isCorrect ? 'bg-emerald-50 border-emerald-200 shadow-sm' : 'bg-red-50 border-red-200 shadow-sm')}`}>
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400">{t.yourSpelling || 'Your Spelling'}</span>
-            <span className={`text-xl sm:text-2xl font-bold tracking-widest break-all ${isHighContrast ? 'text-white' : (isCorrect ? 'text-emerald-600' : 'text-red-500')}`}>
+          <div
+            className={`flex flex-col items-center gap-1.5 rounded-2xl border-2 p-4 sm:gap-2 sm:p-5 ${isHighContrast ? 'border-white/50 bg-black' : isCorrect ? 'border-emerald-200 bg-emerald-50 shadow-sm' : 'border-red-200 bg-red-50 shadow-sm'}`}
+          >
+            <span className="text-[10px] font-bold tracking-widest text-slate-400 uppercase sm:text-xs">
+              {t.yourSpelling || 'Your Spelling'}
+            </span>
+            <span
+              className={`text-xl font-bold tracking-widest break-all sm:text-2xl ${isHighContrast ? 'text-white' : isCorrect ? 'text-emerald-600' : 'text-red-500'}`}
+            >
               {userInput}
             </span>
           </div>
         </div>
 
         {}
-        <div className="flex w-full max-w-md shrink-0 mt-auto pt-2">
+        <div className="mt-auto flex w-full max-w-md shrink-0 pt-2">
           <button
-            onClick={() => onSelfEvaluate({ correct: isCorrect, input: userInput })}
-            className={`w-full py-4 sm:py-5 rounded-2xl font-black uppercase tracking-widest transition-all active:scale-95 text-xs sm:text-sm border-2 focus:outline-none focus-visible:ring-4 ${
-              isHighContrast 
-                ? 'bg-white text-black border-white hover:bg-slate-200'
-                : 'bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-500 shadow-xl'
+            onClick={() =>
+              onSelfEvaluate({ correct: isCorrect, input: userInput })
+            }
+            className={`w-full rounded-2xl border-2 py-4 text-xs font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:py-5 sm:text-sm ${
+              isHighContrast
+                ? 'border-white bg-white text-black hover:bg-slate-200'
+                : 'border-indigo-600 bg-indigo-600 text-white shadow-xl hover:bg-indigo-500'
             }`}
           >
             {t.next || t.done || 'Next'}
