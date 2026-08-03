@@ -9,11 +9,12 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:knip": "knip",
+    "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run",
-    "test:e2e": "cypress open",
+    "test:e2e": "playwright test",
     "serve": "npm run build && npm run preview",
     "clean": "rm -rf dist node_modules .vite",
     "audit:check": "npm audit"
@@ -56,6 +57,7 @@
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3",
     "vite": "^8.0.12",
     "vite-plugin-pwa": "^1.3.0",
     "vitest": "^4.1.7"

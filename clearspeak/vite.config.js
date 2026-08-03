@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { defaultExclude } from 'vitest/config';
 
 export default defineConfig({
   plugins: [
@@ -60,5 +61,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    // Playwright specs live in tests-playwright/ and use @playwright/test,
+    // not vitest — exclude them so vitest doesn't try (and fail) to collect them.
+    exclude: [...defaultExclude, 'tests-playwright/**'],
   },
 });

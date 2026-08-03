@@ -27,11 +27,9 @@ i18n.use(initReactI18next).init({
 
 export default i18n;
 
-declare module 'i18next' {
-  interface CustomTypeOptions {
-    defaultNS: 'translation';
-    resources: {
-      translation: typeof enDictionary;
-    };
-  }
-}
+// Deliberately no `declare module 'i18next' { interface CustomTypeOptions ... }`
+// augmentation here: the dictionary mixes dot-path nested keys, colon-namespaced
+// keys, and two parallel translation systems (see src/i18n/i18n.js), so a typed
+// resource shape either rejects real call sites or blows the type-checker's
+// instantiation depth on this large a dictionary. `t()` falls back to accepting
+// any string key, which matches how the app actually calls it today.

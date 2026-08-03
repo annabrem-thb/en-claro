@@ -486,10 +486,12 @@ function AppContent() {
 
   return (
     <div
-      className={`fixed inset-0 flex w-full flex-col overflow-hidden md:flex-row ${isHighContrast ? 'bg-black text-white' : `${themeStyles.bg} text-[#2D3732]`}`}
+      className={`fixed inset-0 flex w-full flex-col overflow-hidden lg:flex-row ${isHighContrast ? 'bg-black text-white' : `${themeStyles.bg} text-[#2D3732]`}`}
     >
       {}
-      <div className="z-40 hidden h-full shrink-0 md:flex">
+      {/* lg: matches SidebarNav's own breakpoint, so tablets in portrait keep
+          the bottom bar below instead of switching to a squeezed sidebar. */}
+      <div className="z-40 hidden h-full shrink-0 lg:flex">
         <SidebarNav
           pillars={PILLARS}
           activeTab={activeTab}
@@ -727,8 +729,10 @@ function AppContent() {
         />
 
         {}
+        {/* lg: matches the sidebar wrapper's breakpoint above, so tablets in
+            portrait keep this bottom bar instead of a cramped desktop sidebar. */}
         <nav
-          className={`z-40 flex shrink-0 items-center justify-around border-t px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] transition-colors md:hidden ${isHighContrast ? 'border-white/20 bg-black' : 'border-slate-100 bg-white'}`}
+          className={`z-40 flex shrink-0 items-center justify-around border-t px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] transition-colors lg:hidden ${isHighContrast ? 'border-white/20 bg-black' : 'border-slate-100 bg-white'}`}
           aria-label={t.navAria || 'Main Navigation'}
         >
           {PILLARS.map((pillar) => {

@@ -23,7 +23,7 @@ jobs:
       - name: Run Export Script
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         # Make sure this path points to where your script is located
         run: node src/components/export-netlify-forms.js
 

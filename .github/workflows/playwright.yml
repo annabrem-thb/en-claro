@@ -4,6 +4,9 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+defaults:
+  run:
+    working-directory: clearspeak
 jobs:
   test:
     timeout-minutes: 60
@@ -15,6 +18,8 @@ jobs:
         node-version: lts/*
     - name: Install dependencies
       run: npm ci
+    - name: Type check
+      run: npm run typecheck
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
@@ -23,5 +28,5 @@ jobs:
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
-        path: playwright-report/
+        path: clearspeak/playwright-report/
         retention-days: 30
