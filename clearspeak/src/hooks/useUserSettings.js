@@ -20,6 +20,10 @@ const DEFAULT_SETTINGS = {
   bionicReading: true,
   muteNotifications: false,
   voiceAssistant: false,
+  // Default on: with no cap on the point/streak system, this is the only
+  // safety net against overlong sessions for users who never visit
+  // Settings. Kept easily reachable as an opt-out toggle (A11yTab).
+  cognitiveBreaks: true,
   textScale: 100,
   language: 'pl',
   theme: 'Natur',
@@ -29,12 +33,26 @@ const DEFAULT_SETTINGS = {
 };
 const SETTINGS_STORAGE_KEY = 'cfg_settings';
 
+// First-run only: if the user has never saved a preference, seed `motion`
+// from the OS-level prefers-reduced-motion signal instead of defaulting to
+// full animation. Once the user has an explicit saved choice (via the manual
+// "Calm screen" toggle), that always wins on later loads.
+function getDefaultSettings() {
+  const prefersReducedMotion =
+    typeof window !== 'undefined' &&
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return prefersReducedMotion
+    ? { ...DEFAULT_SETTINGS, motion: true }
+    : DEFAULT_SETTINGS;
+}
+
 export function useUserSettings() {
   const [settings, setSettings] = useState(() => {
     const saved = localStorage.getItem(SETTINGS_STORAGE_KEY);
     return saved
-      ? { ...DEFAULT_SETTINGS, ...JSON.parse(saved) }
-      : DEFAULT_SETTINGS;
+      ? { ...getDefaultSettings(), ...JSON.parse(saved) }
+      : getDefaultSettings();
   });
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isPwaInstalled, setIsPwaInstalled] = useState(false);

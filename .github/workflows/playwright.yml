@@ -20,6 +20,8 @@ jobs:
       run: npm ci
     - name: Type check
       run: npm run typecheck
+    - name: Check locale completeness
+      run: npm run check:locales
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests

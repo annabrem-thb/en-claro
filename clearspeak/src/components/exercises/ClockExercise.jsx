@@ -1,47 +1,53 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import BionicText from '../common/BionicText';
+
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
 
 const formatTimeForTTS = (text, lang) => {
   if (!text) return '';
-  return text.replace(/\b0?(\d+):(\d+)\b/g, (match, h, m) => {
-    const min = parseInt(m, 10);
-    if (lang === 'pl') {
-      return min === 0 ? `godzina ${h}` : `godzina ${h} i ${min} minut`;
-    }
-    if (lang === 'de') {
-      return min === 0 ? `${h} Uhr` : `${h} Uhr ${min}`;
-    }
-    return min === 0 ? `${h}` : `${h} ${min}`;
-  }).replace(/\s*Uhr\s*Uhr/gi, ' Uhr');
+  return text
+    .replace(/\b0?(\d+):(\d+)\b/g, (match, h, m) => {
+      const min = parseInt(m, 10);
+      if (lang === 'pl') {
+        return min === 0 ? `godzina ${h}` : `godzina ${h} i ${min} minut`;
+      }
+      if (lang === 'de') {
+        return min === 0 ? `${h} Uhr` : `${h} Uhr ${min}`;
+      }
+      return min === 0 ? `${h}` : `${h} ${min}`;
+    })
+    .replace(/\s*Uhr\s*Uhr/gi, ' Uhr');
 };
 
-function ClockExercise(
-  {
-    data,
-    themeStyles,
-    onSuccess,
-    onError,
-    language,
-    t,
-    speak,
-    noFlash = false,
-    bigTargets = false,
-    extendedTime = false,
-    bionicReading = false,
-    zenMode = false,
-    voiceAssistant = false,
-  }
-) {
+function ClockExercise({
+  data,
+  themeStyles,
+  onSuccess,
+  onError,
+  language,
+  t,
+  speak,
+  noFlash = false,
+  bigTargets = false,
+  extendedTime = false,
+  bionicReading = false,
+  zenMode = false,
+  voiceAssistant = false,
+}) {
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
     t,
   );
 
   const [activeHighlight, setActiveHighlight] = useState(null);
-  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+  const {
+    setSafeTimeout,
+    clearAllTimeouts,
+    pauseAllTimeouts,
+    resumeAllTimeouts,
+  } = useSafeTimeouts();
 
   const clearAudioTimeouts = useCallback(() => {
     clearAllTimeouts();
@@ -67,23 +73,37 @@ function ClockExercise(
 
   const handleMistake = useCallback(() => {
     onError();
-    setSafeTimeout(() => {
-      clearAudioTimeouts();
+    setSafeTimeout(
+      () => {
+        clearAudioTimeouts();
 
-      const correctIndex = shuffledOptions.findIndex((o) => o.isCorrect);
-      if (correctIndex !== -1) {
-        const correctOpt = shuffledOptions[correctIndex];
-        setActiveHighlight(correctIndex);
-        
-        const spokenTime = formatTimeForTTS(correctOpt.text, language);
-        speak(`${data.timeAnalog}. ${spokenTime}`, extendedTime);
-        
-        setSafeTimeout(() => {
-          setActiveHighlight(null);
-        }, extendedTime ? 4000 : 3000);
-      }
-    }, extendedTime ? 3500 : 2500);
-  }, [onError, setSafeTimeout, clearAudioTimeouts, shuffledOptions, data, speak, extendedTime]);
+        const correctIndex = shuffledOptions.findIndex((o) => o.isCorrect);
+        if (correctIndex !== -1) {
+          const correctOpt = shuffledOptions[correctIndex];
+          setActiveHighlight(correctIndex);
+
+          const spokenTime = formatTimeForTTS(correctOpt.text, language);
+          speak(`${data.timeAnalog}. ${spokenTime}`, extendedTime);
+
+          setSafeTimeout(
+            () => {
+              setActiveHighlight(null);
+            },
+            extendedTime ? 4000 : 3000,
+          );
+        }
+      },
+      extendedTime ? 3500 : 2500,
+    );
+  }, [
+    onError,
+    setSafeTimeout,
+    clearAudioTimeouts,
+    shuffledOptions,
+    data,
+    speak,
+    extendedTime,
+  ]);
 
   const handleVoiceMatch = (num) => {
     clearAudioTimeouts();
@@ -104,22 +124,26 @@ function ClockExercise(
     let delayAcc = charCount * (extendedTime ? 90 : 65) + 1500;
 
     shuffledOptions.forEach((opt, index) => {
-      const prefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
-      
+      const prefix = t('optionPrefix', { number: index + 1 });
+
       const spokenPrefix = prefix.replace(':', '.');
       const spokenTime = formatTimeForTTS(opt.text, language);
       const fullSpokenText = `${spokenPrefix} ${spokenTime}`;
 
-      const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
+      const stepDuration =
+        fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
 
       setSafeTimeout(() => {
         setActiveHighlight(index);
         speak(fullSpokenText);
       }, delayAcc);
 
-      setSafeTimeout(() => {
-        setActiveHighlight((prev) => (prev === index ? null : prev));
-      }, delayAcc + stepDuration - 200);
+      setSafeTimeout(
+        () => {
+          setActiveHighlight((prev) => (prev === index ? null : prev));
+        },
+        delayAcc + stepDuration - 200,
+      );
 
       delayAcc += stepDuration;
     });
@@ -133,7 +157,9 @@ function ClockExercise(
   const btnPadding = bigTargets
     ? 'py-5 px-2 text-lg sm:text-xl'
     : 'py-4 px-2 text-base sm:text-lg';
-  const clockSize = bigTargets ? 'w-44 h-44 sm:w-60 sm:h-60' : 'w-36 h-36 sm:w-48 sm:h-48';
+  const clockSize = bigTargets
+    ? 'w-44 h-44 sm:w-60 sm:h-60'
+    : 'w-36 h-36 sm:w-48 sm:h-48';
   const hourLen = bigTargets ? 'h-12 sm:h-18' : 'h-10 sm:h-14';
   const minLen = bigTargets ? 'h-18 sm:h-24' : 'h-14 sm:h-20';
   const controlBtnSize = bigTargets
@@ -141,10 +167,12 @@ function ClockExercise(
     : 'w-12 h-12 sm:w-14 sm:h-14 text-lg sm:text-xl';
 
   return (
-    <div className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}>
+    <div
+      className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}
+    >
       {}
       {voiceAssistant && (
-        <div className="mb-2 sm:mb-4 flex shrink-0 gap-4">
+        <div className="mb-2 flex shrink-0 gap-4 sm:mb-4">
           <TTSController
             onReadAloud={readTimeAndOptions}
             pauseAllTimeouts={pauseAllTimeouts}
@@ -160,7 +188,7 @@ function ClockExercise(
                 ? pulseClass + ' text-white'
                 : `${themeStyles.button} text-white hover:brightness-110`
             }`}
-            aria-label={isListening ? t.listening : t.speakOptionNumber}
+            aria-label={isListening ? t('listening') : t('speakOptionNumber')}
             aria-pressed={isListening}
           >
             {isListening ? '🛑' : '🎤'}
@@ -170,18 +198,18 @@ function ClockExercise(
 
       {}
       {transcript && (
-        <p className="mb-1 sm:mb-2 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-400 uppercase">
-          {t.heard}: <span className="text-slate-600">{transcript}</span>
+        <p className="mb-1 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-2">
+          {t('heard')}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
 
       {}
-      <div className="mb-2 sm:mb-4 flex shrink-0 flex-col items-center">
+      <div className="mb-2 flex shrink-0 flex-col items-center sm:mb-4">
         <div className={`mb-1 text-4xl ${bounceClass}`} aria-hidden="true">
           {data.isNight ? '🌙' : '☀️'}
         </div>
         {!zenMode && (
-          <p className="text-xs font-medium tracking-wide text-slate-400 italic">
+          <p className="max-w-[65ch] text-xs font-medium tracking-wide text-slate-600 italic">
             <BionicText text={data.timeAnalog} enabled={bionicReading} />
           </p>
         )}
@@ -195,7 +223,7 @@ function ClockExercise(
         }
       `}</style>
       <div
-        className={`relative ${clockSize} mb-4 sm:mb-6 flex shrink-0 items-center justify-center rounded-full border-8 shadow-xl md:shadow-md transition-colors duration-1000 ${
+        className={`relative ${clockSize} mb-4 flex shrink-0 items-center justify-center rounded-full border-8 shadow-xl transition-colors duration-1000 sm:mb-6 md:shadow-md ${
           data.isNight
             ? 'border-slate-700 bg-slate-800 shadow-blue-900/20'
             : 'border-slate-100 bg-white shadow-slate-200/50'
@@ -222,7 +250,7 @@ function ClockExercise(
         {}
         {!noFlash && (
           <div
-            className={`absolute w-0.5 ${minLen} rounded-full bg-red-500 z-0`}
+            className={`absolute w-0.5 ${minLen} z-0 rounded-full bg-red-500`}
             style={{
               transformOrigin: 'bottom center',
               bottom: '50%',
@@ -235,14 +263,22 @@ function ClockExercise(
           className={`z-10 h-4 w-4 rounded-full shadow-md md:shadow-sm ${data.isNight ? 'bg-blue-300' : 'bg-slate-800'}`}
         />
         {}
-        <div className={`absolute top-2 h-3 w-1.5 sm:h-4 rounded-full ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`} />
-        <div className={`absolute bottom-2 h-3 w-1.5 sm:h-4 rounded-full ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`} />
-        <div className={`absolute left-2 w-3 h-1.5 sm:w-4 rounded-full ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`} />
-        <div className={`absolute right-2 w-3 h-1.5 sm:w-4 rounded-full ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`} />
+        <div
+          className={`absolute top-2 h-3 w-1.5 rounded-full sm:h-4 ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`}
+        />
+        <div
+          className={`absolute bottom-2 h-3 w-1.5 rounded-full sm:h-4 ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`}
+        />
+        <div
+          className={`absolute left-2 h-1.5 w-3 rounded-full sm:w-4 ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`}
+        />
+        <div
+          className={`absolute right-2 h-1.5 w-3 rounded-full sm:w-4 ${data.isNight ? 'bg-slate-600' : 'bg-slate-200'}`}
+        />
       </div>
 
       {}
-      <div className="grid w-full max-w-md grid-cols-2 shrink-0 gap-2 px-2 sm:max-w-lg sm:gap-3">
+      <div className="grid w-full max-w-md shrink-0 grid-cols-2 gap-2 px-2 sm:max-w-lg sm:gap-3">
         {shuffledOptions.map((opt, i) => (
           <button
             key={i}
@@ -251,11 +287,11 @@ function ClockExercise(
               opt.isCorrect ? onSuccess() : handleMistake();
             }}
             disabled={isListening}
-            className={`relative ${btnPadding} flex min-h-[4rem] items-center justify-center overflow-hidden rounded-2xl border-2 font-black text-center leading-tight shadow-sm md:shadow-none transition-all active:scale-95 sm:rounded-3xl ${
-              isListening 
-                ? 'opacity-50 grayscale' 
+            className={`relative ${btnPadding} flex min-h-[4rem] items-center justify-center overflow-hidden rounded-2xl border-2 text-center leading-tight font-black shadow-sm transition-all active:scale-95 sm:rounded-3xl md:shadow-none ${
+              isListening
+                ? 'opacity-50 grayscale'
                 : activeHighlight === i
-                  ? 'scale-105 ring-4 ring-yellow-400 bg-yellow-50 shadow-xl z-10 border-yellow-400 text-slate-900'
+                  ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
                   : `${themeStyles.border} ${themeStyles.accent} bg-white hover:${themeStyles.bg}`
             }`}
           >

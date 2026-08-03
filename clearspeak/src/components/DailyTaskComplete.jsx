@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import { useTranslation } from '../i18n/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { useGamification } from './GamificationContext';
 import { useUserSettingsContext } from './UserSettingsContext';
@@ -17,8 +17,8 @@ export default function DailyTaskComplete({
     useGamification();
   const { settings } = useUserSettingsContext();
   const { theme } = settings;
-  const t = useTranslation(language);
-  const dtc = t.dailyTaskComplete || {};
+  const { t } = useTranslation();
+  const dtc = t('dailyTaskComplete', { returnObjects: true }) || {};
 
   const modalRef = useRef(null);
 
@@ -252,7 +252,7 @@ export default function DailyTaskComplete({
                         {option.name}
                       </span>
                       <span
-                        className={`block ${bigTargets ? 'text-xs sm:text-sm' : 'text-[10px] sm:text-xs'} ${isSelected ? (isHighContrast ? 'text-black/70' : 'text-emerald-600') : isHighContrast ? 'text-white/60' : 'text-slate-400'}`}
+                        className={`block ${bigTargets ? 'text-xs sm:text-sm' : 'text-[10px] sm:text-xs'} ${isSelected ? (isHighContrast ? 'text-black/70' : 'text-emerald-600') : isHighContrast ? 'text-white/60' : 'text-slate-600'}`}
                       >
                         {option.desc}
                       </span>
@@ -275,7 +275,7 @@ export default function DailyTaskComplete({
           disabled={!selectedRewardId}
           className={`mt-auto w-full shrink-0 ${bigTargets ? 'py-4 text-sm sm:py-6 sm:text-base' : 'py-3.5 text-xs sm:py-5 sm:text-sm'} rounded-2xl font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-400 ${
             !selectedRewardId
-              ? 'cursor-not-allowed bg-slate-100 text-slate-400 opacity-50'
+              ? 'cursor-not-allowed bg-slate-100 text-slate-600 opacity-50'
               : isHighContrast
                 ? 'bg-white text-black hover:bg-slate-200'
                 : 'bg-indigo-600 text-white shadow-xl hover:bg-indigo-500'

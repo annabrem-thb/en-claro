@@ -1,22 +1,25 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import BionicText from '../common/BionicText';
+
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
-import { getSmartSpellingHint } from '../../utils/spellingHints';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { getSmartSpellingHint } from '../../utils/spellingHints';
+import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
 
 const formatTimeForTTS = (text, lang) => {
   if (!text) return '';
-  return text.replace(/\b0?(\d+):(\d+)\b/g, (match, h, m) => {
-    const min = parseInt(m, 10);
-    if (lang === 'pl') {
-      return min === 0 ? `godzina ${h}` : `godzina ${h} i ${min} minut`;
-    }
-    if (lang === 'de') {
-      return min === 0 ? `${h} Uhr` : `${h} Uhr ${min}`;
-    }
-    return min === 0 ? `${h}` : `${h} ${min}`;
-  }).replace(/\s*Uhr\s*Uhr/gi, ' Uhr');
+  return text
+    .replace(/\b0?(\d+):(\d+)\b/g, (match, h, m) => {
+      const min = parseInt(m, 10);
+      if (lang === 'pl') {
+        return min === 0 ? `godzina ${h}` : `godzina ${h} i ${min} minut`;
+      }
+      if (lang === 'de') {
+        return min === 0 ? `${h} Uhr` : `${h} Uhr ${min}`;
+      }
+      return min === 0 ? `${h}` : `${h} ${min}`;
+    })
+    .replace(/\s*Uhr\s*Uhr/gi, ' Uhr');
 };
 
 function ContextExercise({
@@ -40,7 +43,12 @@ function ContextExercise({
   );
 
   const [activeHighlight, setActiveHighlight] = useState(null);
-  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+  const {
+    setSafeTimeout,
+    clearAllTimeouts,
+    pauseAllTimeouts,
+    resumeAllTimeouts,
+  } = useSafeTimeouts();
 
   const clearAudioTimeouts = useCallback(() => {
     clearAllTimeouts();
@@ -66,21 +74,33 @@ function ContextExercise({
 
   const handleMistake = useCallback(() => {
     onError();
-    setSafeTimeout(() => {
-      clearAudioTimeouts();
+    setSafeTimeout(
+      () => {
+        clearAudioTimeouts();
 
-      const correctOpt = shuffledOptions.find((o) => o.isCorrect);
-      if (correctOpt) {
-        const part1 = data.sentence_part1 || '';
-        const part2 = data.sentence_part2 || '';
-        const fullSentence = `${part1} ${correctOpt.text} ${part2}`
-          .replace(/\s+([.,!?;:])/g, '$1')
-          .replace(/\s+/g, ' ')
-          .trim();
-        speak(formatTimeForTTS(fullSentence, language), extendedTime);
-      }
-    }, extendedTime ? 3500 : 2500);
-  }, [onError, setSafeTimeout, clearAudioTimeouts, shuffledOptions, data, speak, extendedTime, language]);
+        const correctOpt = shuffledOptions.find((o) => o.isCorrect);
+        if (correctOpt) {
+          const part1 = data.sentence_part1 || '';
+          const part2 = data.sentence_part2 || '';
+          const fullSentence = `${part1} ${correctOpt.text} ${part2}`
+            .replace(/\s+([.,!?;:])/g, '$1')
+            .replace(/\s+/g, ' ')
+            .trim();
+          speak(formatTimeForTTS(fullSentence, language), extendedTime);
+        }
+      },
+      extendedTime ? 3500 : 2500,
+    );
+  }, [
+    onError,
+    setSafeTimeout,
+    clearAudioTimeouts,
+    shuffledOptions,
+    data,
+    speak,
+    extendedTime,
+    language,
+  ]);
 
   const handleVoiceMatch = (num) => {
     clearAudioTimeouts();
@@ -96,27 +116,34 @@ function ContextExercise({
     clearAudioTimeouts();
 
     let delayAcc = 0;
-    
-    const instruction = t.selectCorrect || 'Select the correct word:';
+
+    const instruction = t('selectCorrect') || 'Select the correct word:';
     setSafeTimeout(() => speak(instruction, extendedTime), delayAcc);
     delayAcc += instruction.length * (extendedTime ? 90 : 65) + 1000;
 
     if (data.sentence_part1) {
-      setSafeTimeout(() => speak(formatTimeForTTS(data.sentence_part1, language), extendedTime), delayAcc);
+      setSafeTimeout(
+        () =>
+          speak(formatTimeForTTS(data.sentence_part1, language), extendedTime),
+        delayAcc,
+      );
       delayAcc += data.sentence_part1.length * (extendedTime ? 90 : 65) + 1000;
     }
-    
+
     if (data.sentence_part2) {
       const cleanPart2 = data.sentence_part2.replace(/^[\.,!?;:]+$/, '');
       if (cleanPart2.trim()) {
-         setSafeTimeout(() => speak(formatTimeForTTS(cleanPart2, language), extendedTime), delayAcc);
+        setSafeTimeout(
+          () => speak(formatTimeForTTS(cleanPart2, language), extendedTime),
+          delayAcc,
+        );
       }
       delayAcc += data.sentence_part2.length * (extendedTime ? 90 : 65) + 1500;
     }
 
     const allOptionTexts = shuffledOptions.map((o) => o.text);
     shuffledOptions.forEach((opt, index) => {
-      const optionPrefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
+      const optionPrefix = t('optionPrefix', { number: index + 1 });
 
       const hint = getSmartSpellingHint(opt.text, allOptionTexts, language, t);
 
@@ -124,16 +151,20 @@ function ContextExercise({
       const spokenHint = formatTimeForTTS(hint, language);
       const fullSpokenText = `${spokenPrefix} ${spokenHint}`;
 
-      const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
+      const stepDuration =
+        fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
 
       setSafeTimeout(() => {
         setActiveHighlight(index);
         speak(fullSpokenText);
       }, delayAcc);
 
-      setSafeTimeout(() => {
-        setActiveHighlight((prev) => (prev === index ? null : prev));
-      }, delayAcc + stepDuration - 200);
+      setSafeTimeout(
+        () => {
+          setActiveHighlight((prev) => (prev === index ? null : prev));
+        },
+        delayAcc + stepDuration - 200,
+      );
 
       delayAcc += stepDuration;
     });
@@ -151,17 +182,19 @@ function ContextExercise({
     : 'w-12 h-12 text-xl sm:text-2xl';
 
   return (
-    <div className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-start overflow-hidden px-2 pt-6 sm:pt-10 pb-2`}>
+    <div
+      className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-start overflow-hidden px-2 pt-6 pb-2 sm:pt-10`}
+    >
       {!zenMode && (
-        <h3 className="mb-2 sm:mb-4 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase shrink-0">
-          {t.selectCorrect || 'Select the correct word'}
+        <h3 className="mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4">
+          {t('selectCorrect') || 'Select the correct word'}
         </h3>
       )}
 
-      <div className="mb-3 sm:mb-4 px-2 text-center text-base sm:text-xl md:text-2xl leading-relaxed font-bold text-slate-700 shrink min-h-0">
+      <div className="mx-auto mb-3 min-h-0 max-w-[65ch] shrink px-2 text-center text-base leading-relaxed font-bold text-slate-700 sm:mb-4 sm:text-xl md:text-2xl">
         <BionicText text={data.sentence_part1} enabled={bionicReading} />
         <span
-          className={`mx-1 sm:mx-2 border-b-4 px-3 sm:px-4 ${themeStyles.border} rounded-lg bg-slate-50 text-slate-300`}
+          className={`mx-1 border-b-4 px-3 sm:mx-2 sm:px-4 ${themeStyles.border} rounded-lg bg-slate-50 text-slate-300`}
         >
           ____
         </span>
@@ -169,7 +202,7 @@ function ContextExercise({
       </div>
 
       {voiceAssistant && (
-        <div className="mb-3 sm:mb-6 flex gap-4 sm:gap-6 shrink-0">
+        <div className="mb-3 flex shrink-0 gap-4 sm:mb-6 sm:gap-6">
           <TTSController
             onReadAloud={readContextAndOptions}
             pauseAllTimeouts={pauseAllTimeouts}
@@ -185,7 +218,7 @@ function ContextExercise({
                 ? pulseClass + ' text-white'
                 : `${themeStyles.button} text-white hover:brightness-110`
             }`}
-            aria-label={t.voiceInput}
+            aria-label={t('voiceInput')}
           >
             {isListening ? '🛑' : '🎤'}
           </button>
@@ -193,12 +226,12 @@ function ContextExercise({
       )}
 
       {transcript && (
-        <p className="mb-2 sm:mb-3 text-center text-[10px] sm:text-xs font-black tracking-widest text-slate-400 uppercase shrink-0">
-          {t.heard}: <span className="text-slate-600">{transcript}</span>
+        <p className="mb-2 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-3 sm:text-xs">
+          {t('heard')}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
 
-      <div className="grid w-full max-w-sm max-h-full grid-cols-1 gap-2 sm:gap-3 px-2 pt-2 pb-2 shrink min-h-0 overflow-y-auto no-scrollbar">
+      <div className="no-scrollbar grid max-h-full min-h-0 w-full max-w-sm shrink grid-cols-1 gap-2 overflow-y-auto px-2 pt-2 pb-2 sm:gap-3">
         {shuffledOptions.map((opt, i) => (
           <button
             key={i}
@@ -207,11 +240,11 @@ function ContextExercise({
               opt.isCorrect ? onSuccess() : handleMistake();
             }}
             disabled={isListening}
-            className={`relative ${btnPadding} rounded-2xl sm:rounded-3xl border-2 text-base sm:text-xl font-black shadow-sm md:shadow-none transition-all active:scale-95 ${
-              isListening 
-                ? 'opacity-50 grayscale' 
+            className={`relative ${btnPadding} rounded-2xl border-2 text-base font-black shadow-sm transition-all active:scale-95 sm:rounded-3xl sm:text-xl md:shadow-none ${
+              isListening
+                ? 'opacity-50 grayscale'
                 : activeHighlight === i
-                  ? 'scale-105 ring-4 ring-yellow-400 bg-yellow-50 shadow-xl z-10 border-yellow-400 text-slate-900'
+                  ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
                   : `${themeStyles.border} ${themeStyles.accent} bg-white hover:${themeStyles.bg}`
             }`}
           >

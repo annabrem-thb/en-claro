@@ -5,13 +5,22 @@ const STAGE_ICONS = {
   Musik: ['𝅘𝅥𝅰', '𝅘𝅥𝅯', '♩', '𝅗𝅥', '🎻'],
   Kunst: ['🖌️', '🎨', '🖼️', '🖼️', '✨'],
   Space: ['🌠', '☄️', '🌙', '🪐', '🚀'],
-  Ocean: ['💧', '🐟', '🪸', '🐬', '🐳']
+  Ocean: ['💧', '🐟', '🪸', '🐬', '🐳'],
 };
 
-export function ProgressPill({ points, max, theme, isGamified, t, isHighContrast = false }) {
+export function ProgressPill({
+  points,
+  max,
+  theme,
+  isGamified,
+  t,
+  isHighContrast = false,
+}) {
   if (!isGamified) {
     return (
-      <div className={`h-3 flex-1 rounded-full ${isHighContrast ? 'bg-white/20' : 'bg-slate-100'}`} />
+      <div
+        className={`h-3 flex-1 rounded-full ${isHighContrast ? 'bg-white/20' : 'bg-slate-100'}`}
+      />
     );
   }
 
@@ -25,32 +34,60 @@ export function ProgressPill({ points, max, theme, isGamified, t, isHighContrast
     }
   }, [points]);
 
-  const stages = t.progressStages[theme] || t.progressStages.Natur;
+  const progressStages = t('progressStages', { returnObjects: true });
+  const stages = progressStages[theme] || progressStages.Natur;
   const icons = STAGE_ICONS[theme] || STAGE_ICONS.Natur;
-  
+
   const stageIndex = Math.min(points, max - 1);
   const stageName = stages[stageIndex];
   const stageIcon = icons[stageIndex];
 
   return (
-    <div className="flex flex-1 flex-col gap-1" role="progressbar" aria-valuenow={points} aria-valuemin={0} aria-valuemax={max} aria-label={stageName}>
+    <div
+      className="flex flex-1 flex-col gap-1"
+      role="progressbar"
+      aria-valuenow={points}
+      aria-valuemin={0}
+      aria-valuemax={max}
+      aria-label={stageName}
+    >
       <div className="flex items-end justify-between px-1">
         <div className="flex items-center gap-2">
           {}
-          <span key={stageIcon} className="text-2xl animate-in zoom-in duration-300" aria-hidden="true">{stageIcon}</span>
-          <span className={`text-[8px] font-black tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}>{stageName}</span>
+          <span
+            key={stageIcon}
+            className="animate-in zoom-in text-2xl duration-300"
+            aria-hidden="true"
+          >
+            {stageIcon}
+          </span>
+          <span
+            className={`text-[8px] font-black tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+          >
+            {stageName}
+          </span>
         </div>
-        <span className="text-[9px] font-black text-slate-300">{points} / {max}</span>
+        <span className="text-[9px] font-black text-slate-300">
+          {points} / {max}
+        </span>
       </div>
-      <div className="flex gap-1 h-2 w-full mt-1">
+      <div className="mt-1 flex h-2 w-full gap-1">
         {[...Array(max)].map((_, i) => (
-          <div 
-            key={i} 
+          <div
+            key={i}
             className={`flex-1 rounded-full transition-all duration-500 ease-out ${
-              i < points ? (isHighContrast ? 'bg-white' : 'bg-slate-400') : (isHighContrast ? 'bg-white/20' : 'bg-slate-200')
+              i < points
+                ? isHighContrast
+                  ? 'bg-white'
+                  : 'bg-slate-400'
+                : isHighContrast
+                  ? 'bg-white/20'
+                  : 'bg-slate-200'
             } ${
-              i === justGained ? 'scale-125 ring-2 ring-current drop-shadow-md z-10' : 'scale-100'
-            }`} 
+              i === justGained
+                ? 'z-10 scale-125 ring-2 ring-current drop-shadow-md'
+                : 'scale-100'
+            }`}
           />
         ))}
       </div>

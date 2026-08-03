@@ -66,7 +66,9 @@ export default function ChunkedText({
             onClick={() => setUseSimplified(!useSimplified)}
             className="rounded-full bg-indigo-50 px-4 py-2 text-xs font-black tracking-widest text-indigo-700 uppercase shadow-sm transition-colors hover:bg-indigo-100"
           >
-            {useSimplified ? t.showOriginal || l.show : t.simplifyText || l.sim}
+            {useSimplified
+              ? t('showOriginal') || l.show
+              : t('simplifyText') || l.sim}
           </button>
         </div>
       )}
@@ -84,9 +86,9 @@ export default function ChunkedText({
             onClick={() => setCurrentPage((p) => p - 1)}
             className="rounded-xl bg-slate-100 px-5 py-2.5 text-sm font-bold text-slate-600 disabled:opacity-30"
           >
-            {t.prevPage || l.prev}
+            {t('prevPage') || l.prev}
           </button>
-          <span className="text-xs font-black tracking-widest text-slate-400">
+          <span className="text-xs font-black tracking-widest text-slate-600">
             {currentPage + 1} / {chunks.length}
           </span>
           <button
@@ -94,7 +96,7 @@ export default function ChunkedText({
             onClick={() => setCurrentPage((p) => p + 1)}
             className="rounded-xl bg-indigo-500 px-5 py-2.5 text-sm font-bold text-white disabled:opacity-30"
           >
-            {t.nextPage || l.next}
+            {t('nextPage') || l.next}
           </button>
         </div>
       )}

@@ -2,6 +2,7 @@ export const wordDatabaseEN = {
   phonemes: [
     {
       id: 1,
+      type: 'phoneme',
       word: 'Entrepreneur',
       difficulty: 3,
       phonetic: '/ ˌɒn.trə.prəˈnɜːr /',
@@ -13,6 +14,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      type: 'phoneme',
       word: 'Paradigm',
       difficulty: 3,
       phonetic: '/ ˈpær.ə.daɪm /',
@@ -24,6 +26,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      type: 'phoneme',
       word: 'Ubiquitous',
       difficulty: 3,
       phonetic: '/ juːˈbɪk.wɪ.təs /',
@@ -35,6 +38,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      type: 'phoneme',
       word: 'Hierarchy',
       difficulty: 2,
       phonetic: '/ ˈhaɪə.rɑː.ki /',
@@ -46,6 +50,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      type: 'phoneme',
       word: 'Colleague',
       difficulty: 1,
       phonetic: '/ ˈkɒl.iːɡ /',
@@ -57,6 +62,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      type: 'phoneme',
       word: 'Bureaucracy',
       difficulty: 3,
       phonetic: '/ bjʊəˈrɒk.rə.si /',
@@ -68,6 +74,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      type: 'phoneme',
       word: 'Conscientious',
       difficulty: 3,
       phonetic: '/ ˌkɒn.ʃiˈen.ʃəs /',
@@ -79,6 +86,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      type: 'phoneme',
       word: 'Guarantee',
       difficulty: 2,
       phonetic: '/ ˌɡær.ənˈtiː /',
@@ -90,6 +98,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      type: 'phoneme',
       word: 'Vulnerable',
       difficulty: 2,
       phonetic: '/ ˈvʌl.nər.ə.bəl /',
@@ -101,6 +110,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      type: 'phoneme',
       word: 'Miscellaneous',
       difficulty: 3,
       phonetic: '/ ˌmɪs.əˈleɪ.ni.əs /',
@@ -112,6 +122,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      type: 'phoneme',
       word: 'Queue',
       difficulty: 3,
       phonetic: '/ kjuː /',
@@ -123,6 +134,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      type: 'phoneme',
       word: 'Maneuver',
       difficulty: 3,
       phonetic: '/ məˈnuː.vər /',
@@ -134,6 +146,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      type: 'phoneme',
       word: 'Psychology',
       difficulty: 3,
       phonetic: '/ saɪˈkɒl.ə.dʒi /',
@@ -145,6 +158,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      type: 'phoneme',
       word: 'Chaos',
       difficulty: 2,
       phonetic: '/ ˈkeɪ.ɒs /',
@@ -158,6 +172,7 @@ export const wordDatabaseEN = {
   graphemes: [
     {
       id: 1,
+      type: 'grapheme',
       difficulty: 3,
       focus: 'affect vs effect',
       question: {
@@ -166,14 +181,31 @@ export const wordDatabaseEN = {
         de: 'Welches Wort passt: "Die neue Richtlinie wird unseren Arbeitsablauf ___"?',
       },
       options: [
-        { text: 'affect', isCorrect: true, icon: '📉' },
-        { text: 'effect', isCorrect: false, icon: '❌' },
-        { text: 'afect', isCorrect: false, icon: '❌' },
-        { text: 'efect', isCorrect: false, icon: '❌' },
+        {
+          text: 'affect',
+          isCorrect: true,
+          icon: '📉',
+        },
+        {
+          text: 'effect',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'afect',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'efect',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
     {
       id: 2,
+      type: 'grapheme',
       difficulty: 3,
       focus: 'principal vs principle',
       question: {
@@ -182,14 +214,31 @@ export const wordDatabaseEN = {
         de: 'Welches Wort bedeutet "eine grundlegende Wahrheit oder ein Prinzip"?',
       },
       options: [
-        { text: 'Principle', isCorrect: true, icon: '📜' },
-        { text: 'Principal', isCorrect: false, icon: '🏫' },
-        { text: 'Principell', isCorrect: false, icon: '❌' },
-        { text: 'Prinicpal', isCorrect: false, icon: '❌' },
+        {
+          text: 'Principle',
+          isCorrect: true,
+          icon: '📜',
+        },
+        {
+          text: 'Principal',
+          isCorrect: false,
+          icon: '🏫',
+        },
+        {
+          text: 'Principell',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Prinicpal',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
     {
       id: 3,
+      type: 'grapheme',
       difficulty: 3,
       focus: 'stationery vs stationary',
       question: {
@@ -198,14 +247,31 @@ export const wordDatabaseEN = {
         de: 'Welches Wort bezieht sich auf Büromaterial?',
       },
       options: [
-        { text: 'Stationery', isCorrect: true, icon: '✉️' },
-        { text: 'Stationary', isCorrect: false, icon: '🚗' },
-        { text: 'Stationerry', isCorrect: false, icon: '❌' },
-        { text: 'Stationarry', isCorrect: false, icon: '❌' },
+        {
+          text: 'Stationery',
+          isCorrect: true,
+          icon: '✉️',
+        },
+        {
+          text: 'Stationary',
+          isCorrect: false,
+          icon: '🚗',
+        },
+        {
+          text: 'Stationerry',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Stationarry',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
     {
       id: 4,
+      type: 'grapheme',
       difficulty: 1,
       focus: "their vs there vs they're",
       question: {
@@ -214,14 +280,31 @@ export const wordDatabaseEN = {
         de: 'Welches Wort zeigt Besitz an (ihr/ihre)?',
       },
       options: [
-        { text: 'Their', isCorrect: true, icon: '👥' },
-        { text: 'There', isCorrect: false, icon: '📍' },
-        { text: "They're", isCorrect: false, icon: '❌' },
-        { text: 'Thier', isCorrect: false, icon: '❌' },
+        {
+          text: 'Their',
+          isCorrect: true,
+          icon: '👥',
+        },
+        {
+          text: 'There',
+          isCorrect: false,
+          icon: '📍',
+        },
+        {
+          text: "They're",
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Thier',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
     {
       id: 5,
+      type: 'grapheme',
       difficulty: 2,
       focus: "its vs it's",
       question: {
@@ -230,14 +313,31 @@ export const wordDatabaseEN = {
         de: 'Welches Wort bedeutet "es ist"?',
       },
       options: [
-        { text: "It's", isCorrect: true, icon: '✨' },
-        { text: 'Its', isCorrect: false, icon: '❌' },
-        { text: "Its'", isCorrect: false, icon: '❌' },
-        { text: 'Ites', isCorrect: false, icon: '❌' },
+        {
+          text: "It's",
+          isCorrect: true,
+          icon: '✨',
+        },
+        {
+          text: 'Its',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: "Its'",
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Ites',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
     {
       id: 6,
+      type: 'grapheme',
       difficulty: 3,
       focus: 'complement vs compliment',
       question: {
@@ -246,14 +346,31 @@ export const wordDatabaseEN = {
         de: 'Welches Wort bedeutet, jemandem ein Kompliment zu machen?',
       },
       options: [
-        { text: 'Compliment', isCorrect: true, icon: '💬' },
-        { text: 'Complement', isCorrect: false, icon: '🧩' },
-        { text: 'Complimant', isCorrect: false, icon: '❌' },
-        { text: 'Complemant', isCorrect: false, icon: '❌' },
+        {
+          text: 'Compliment',
+          isCorrect: true,
+          icon: '💬',
+        },
+        {
+          text: 'Complement',
+          isCorrect: false,
+          icon: '🧩',
+        },
+        {
+          text: 'Complimant',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Complemant',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
     {
       id: 7,
+      type: 'grapheme',
       difficulty: 1,
       focus: 'lose vs loose',
       question: {
@@ -262,14 +379,31 @@ export const wordDatabaseEN = {
         de: 'Welches Wort bedeutet, etwas zu verlieren?',
       },
       options: [
-        { text: 'Lose', isCorrect: true, icon: '📉' },
-        { text: 'Loose', isCorrect: false, icon: '👕' },
-        { text: 'Looze', isCorrect: false, icon: '❌' },
-        { text: 'Loos', isCorrect: false, icon: '❌' },
+        {
+          text: 'Lose',
+          isCorrect: true,
+          icon: '📉',
+        },
+        {
+          text: 'Loose',
+          isCorrect: false,
+          icon: '👕',
+        },
+        {
+          text: 'Looze',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Loos',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
     {
       id: 8,
+      type: 'grapheme',
       difficulty: 2,
       focus: 'accept vs except',
       question: {
@@ -278,14 +412,31 @@ export const wordDatabaseEN = {
         de: 'Welches Wort bedeutet, etwas anzunehmen?',
       },
       options: [
-        { text: 'Accept', isCorrect: true, icon: '✅' },
-        { text: 'Except', isCorrect: false, icon: '🚫' },
-        { text: 'Acept', isCorrect: false, icon: '❌' },
-        { text: 'Exept', isCorrect: false, icon: '❌' },
+        {
+          text: 'Accept',
+          isCorrect: true,
+          icon: '✅',
+        },
+        {
+          text: 'Except',
+          isCorrect: false,
+          icon: '🚫',
+        },
+        {
+          text: 'Acept',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Exept',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
     {
       id: 9,
+      type: 'grapheme',
       difficulty: 2,
       focus: 'advise vs advice',
       question: {
@@ -294,14 +445,31 @@ export const wordDatabaseEN = {
         de: 'Welches Wort ist ein VERB und bedeutet, einen Rat zu geben?',
       },
       options: [
-        { text: 'Advise', isCorrect: true, icon: '🗣️' },
-        { text: 'Advice', isCorrect: false, icon: '📝' },
-        { text: 'Advize', isCorrect: false, icon: '❌' },
-        { text: 'Advis', isCorrect: false, icon: '❌' },
+        {
+          text: 'Advise',
+          isCorrect: true,
+          icon: '🗣️',
+        },
+        {
+          text: 'Advice',
+          isCorrect: false,
+          icon: '📝',
+        },
+        {
+          text: 'Advize',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Advis',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
     {
       id: 10,
+      type: 'grapheme',
       difficulty: 2,
       focus: 'ensure vs insure',
       question: {
@@ -310,14 +478,31 @@ export const wordDatabaseEN = {
         de: 'Welches Wort bedeutet, sicherzustellen, dass etwas passiert?',
       },
       options: [
-        { text: 'Ensure', isCorrect: true, icon: '🔒' },
-        { text: 'Insure', isCorrect: false, icon: '📄' },
-        { text: 'Enshure', isCorrect: false, icon: '❌' },
-        { text: 'Inshure', isCorrect: false, icon: '❌' },
+        {
+          text: 'Ensure',
+          isCorrect: true,
+          icon: '🔒',
+        },
+        {
+          text: 'Insure',
+          isCorrect: false,
+          icon: '📄',
+        },
+        {
+          text: 'Enshure',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Inshure',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
     {
       id: 11,
+      type: 'grapheme',
       difficulty: 1,
       focus: 'bare vs bear',
       question: {
@@ -326,14 +511,31 @@ export const wordDatabaseEN = {
         de: 'Welches Wort bezieht sich auf ein großes, schweres Säugetier?',
       },
       options: [
-        { text: 'Bear', isCorrect: true, icon: '🐻' },
-        { text: 'Bare', isCorrect: false, icon: '🦶' },
-        { text: 'Bair', isCorrect: false, icon: '❌' },
-        { text: 'Beare', isCorrect: false, icon: '❌' },
+        {
+          text: 'Bear',
+          isCorrect: true,
+          icon: '🐻',
+        },
+        {
+          text: 'Bare',
+          isCorrect: false,
+          icon: '🦶',
+        },
+        {
+          text: 'Bair',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Beare',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
     {
       id: 12,
+      type: 'grapheme',
       difficulty: 2,
       focus: 'break vs brake',
       question: {
@@ -342,16 +544,33 @@ export const wordDatabaseEN = {
         de: 'Welches Wort bedeutet eine Vorrichtung zum Verlangsamen oder Anhalten eines Fahrzeugs?',
       },
       options: [
-        { text: 'Brake', isCorrect: true, icon: '🛑' },
-        { text: 'Break', isCorrect: false, icon: '💔' },
-        { text: 'Braik', isCorrect: false, icon: '❌' },
-        { text: 'Brak', isCorrect: false, icon: '❌' },
+        {
+          text: 'Brake',
+          isCorrect: true,
+          icon: '🛑',
+        },
+        {
+          text: 'Break',
+          isCorrect: false,
+          icon: '💔',
+        },
+        {
+          text: 'Braik',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Brak',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
   ],
   syllables: [
     {
       id: 1,
+      type: 'syllable',
       difficulty: 3,
       word: 'Bureaucracy',
       segments: ['Bu', 'reau', 'cra', 'cy'],
@@ -359,6 +578,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      type: 'syllable',
       difficulty: 3,
       word: 'Simultaneously',
       segments: ['Si', 'mul', 'ta', 'ne', 'ous', 'ly'],
@@ -366,6 +586,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      type: 'syllable',
       difficulty: 3,
       word: 'Conscientious',
       segments: ['Con', 'sci', 'en', 'tious'],
@@ -373,6 +594,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      type: 'syllable',
       difficulty: 2,
       word: 'Responsibility',
       segments: ['Re', 'spon', 'si', 'bil', 'i', 'ty'],
@@ -380,6 +602,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      type: 'syllable',
       difficulty: 3,
       word: 'Entrepreneur',
       segments: ['En', 'tre', 'pre', 'neur'],
@@ -387,6 +610,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      type: 'syllable',
       difficulty: 2,
       word: 'Organization',
       segments: ['Or', 'ga', 'ni', 'za', 'tion'],
@@ -394,6 +618,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      type: 'syllable',
       difficulty: 2,
       word: 'Communication',
       segments: ['Com', 'mu', 'ni', 'ca', 'tion'],
@@ -401,6 +626,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      type: 'syllable',
       difficulty: 1,
       word: 'Development',
       segments: ['De', 'vel', 'op', 'ment'],
@@ -408,6 +634,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      type: 'syllable',
       difficulty: 2,
       word: 'Professional',
       segments: ['Pro', 'fes', 'sion', 'al'],
@@ -415,6 +642,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      type: 'syllable',
       difficulty: 2,
       word: 'Appreciation',
       segments: ['Ap', 'pre', 'ci', 'a', 'tion'],
@@ -422,6 +650,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      type: 'syllable',
       difficulty: 3,
       word: 'Unbelievable',
       segments: ['Un', 'be', 'liev', 'a', 'ble'],
@@ -429,6 +658,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      type: 'syllable',
       difficulty: 2,
       word: 'Reliability',
       segments: ['Re', 'li', 'a', 'bil', 'i', 'ty'],
@@ -438,6 +668,7 @@ export const wordDatabaseEN = {
   scrabble: [
     {
       id: 1,
+      type: 'scrabble',
       difficulty: 3,
       word: 'COLLEAGUE',
       scrambled: ['C', 'O', 'L', 'L', 'E', 'A', 'G', 'U', 'E'],
@@ -446,6 +677,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      type: 'scrabble',
       difficulty: 3,
       word: 'GUARANTEE',
       scrambled: ['G', 'U', 'A', 'R', 'A', 'N', 'T', 'E', 'E'],
@@ -454,6 +686,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      type: 'scrabble',
       difficulty: 3,
       word: 'ASSESSMENT',
       scrambled: ['A', 'S', 'S', 'E', 'S', 'S', 'M', 'E', 'N', 'T'],
@@ -462,6 +695,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      type: 'scrabble',
       difficulty: 2,
       word: 'COMMITTEE',
       scrambled: ['C', 'O', 'M', 'M', 'I', 'T', 'T', 'E', 'E'],
@@ -470,6 +704,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      type: 'scrabble',
       difficulty: 2,
       word: 'SCHEDULE',
       scrambled: ['S', 'C', 'H', 'E', 'D', 'U', 'L', 'E'],
@@ -478,6 +713,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      type: 'scrabble',
       difficulty: 2,
       word: 'STRATEGY',
       scrambled: ['S', 'T', 'R', 'A', 'T', 'E', 'G', 'Y'],
@@ -486,6 +722,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      type: 'scrabble',
       difficulty: 2,
       word: 'MANAGEMENT',
       scrambled: ['M', 'A', 'N', 'A', 'G', 'E', 'M', 'E', 'N', 'T'],
@@ -494,6 +731,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      type: 'scrabble',
       difficulty: 2,
       word: 'KNOWLEDGE',
       scrambled: ['K', 'N', 'O', 'W', 'L', 'E', 'D', 'G', 'E'],
@@ -502,6 +740,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      type: 'scrabble',
       difficulty: 2,
       word: 'EXPERIENCE',
       scrambled: ['E', 'X', 'P', 'E', 'R', 'I', 'E', 'N', 'C', 'E'],
@@ -510,6 +749,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      type: 'scrabble',
       difficulty: 2,
       word: 'LEADERSHIP',
       scrambled: ['L', 'E', 'A', 'D', 'E', 'R', 'S', 'H', 'I', 'P'],
@@ -518,6 +758,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      type: 'scrabble',
       difficulty: 3,
       word: 'AUTHENTIC',
       scrambled: ['A', 'U', 'T', 'H', 'E', 'N', 'T', 'I', 'C'],
@@ -526,6 +767,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      type: 'scrabble',
       difficulty: 3,
       word: 'INDEPENDENT',
       scrambled: ['I', 'N', 'D', 'E', 'P', 'E', 'N', 'D', 'E', 'N', 'T'],
@@ -536,15 +778,28 @@ export const wordDatabaseEN = {
   context: [
     {
       id: 1,
+      type: 'context',
       difficulty: 3,
       tags: ['business'],
       sentence_part1: 'The committee needs to',
       sentence_part2: 'the long-term financial risks before proceeding.',
       options: [
-        { text: 'assess', isCorrect: true },
-        { text: 'access', isCorrect: false },
-        { text: 'asess', isCorrect: false },
-        { text: 'acess', isCorrect: false },
+        {
+          text: 'assess',
+          isCorrect: true,
+        },
+        {
+          text: 'access',
+          isCorrect: false,
+        },
+        {
+          text: 'asess',
+          isCorrect: false,
+        },
+        {
+          text: 'acess',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: '"Assess" means to evaluate. "Access" means to enter or retrieve.',
@@ -553,15 +808,28 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      type: 'context',
       difficulty: 3,
       tags: ['business'],
       sentence_part1: 'We must ensure that our supply chain remains',
       sentence_part2: 'despite the market volatility.',
       options: [
-        { text: 'resilient', isCorrect: true },
-        { text: 'resistant', isCorrect: false },
-        { text: 'resiliant', isCorrect: false },
-        { text: 'resistent', isCorrect: false },
+        {
+          text: 'resilient',
+          isCorrect: true,
+        },
+        {
+          text: 'resistant',
+          isCorrect: false,
+        },
+        {
+          text: 'resiliant',
+          isCorrect: false,
+        },
+        {
+          text: 'resistent',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: '"Resilient" implies bouncing back from adversity. "Resistant" means blocking it entirely.',
@@ -570,15 +838,28 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      type: 'context',
       difficulty: 2,
       tags: ['business'],
       sentence_part1: 'Please',
       sentence_part2: 'that all files are saved on the shared drive.',
       options: [
-        { text: 'ensure', isCorrect: true },
-        { text: 'insure', isCorrect: false },
-        { text: 'enshure', isCorrect: false },
-        { text: 'inshure', isCorrect: false },
+        {
+          text: 'ensure',
+          isCorrect: true,
+        },
+        {
+          text: 'insure',
+          isCorrect: false,
+        },
+        {
+          text: 'enshure',
+          isCorrect: false,
+        },
+        {
+          text: 'inshure',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: '"Ensure" is to make sure. "Insure" relates to insurance policies.',
@@ -587,15 +868,28 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      type: 'context',
       difficulty: 2,
       tags: ['everyday'],
       sentence_part1: 'I will',
       sentence_part2: 'the offer with great pleasure.',
       options: [
-        { text: 'accept', isCorrect: true },
-        { text: 'except', isCorrect: false },
-        { text: 'acept', isCorrect: false },
-        { text: 'exept', isCorrect: false },
+        {
+          text: 'accept',
+          isCorrect: true,
+        },
+        {
+          text: 'except',
+          isCorrect: false,
+        },
+        {
+          text: 'acept',
+          isCorrect: false,
+        },
+        {
+          text: 'exept',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: '"Accept" means to receive. "Except" means to exclude.',
@@ -604,15 +898,28 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      type: 'context',
       difficulty: 3,
       tags: ['business'],
       sentence_part1: 'What do you',
       sentence_part2: 'from the recent drop in sales?',
       options: [
-        { text: 'infer', isCorrect: true },
-        { text: 'imply', isCorrect: false },
-        { text: 'inffer', isCorrect: false },
-        { text: 'implie', isCorrect: false },
+        {
+          text: 'infer',
+          isCorrect: true,
+        },
+        {
+          text: 'imply',
+          isCorrect: false,
+        },
+        {
+          text: 'inffer',
+          isCorrect: false,
+        },
+        {
+          text: 'implie',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: 'To "infer" is to deduce. To "imply" is to suggest indirectly.',
@@ -621,15 +928,28 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      type: 'context',
       difficulty: 2,
       tags: ['business'],
       sentence_part1: 'We will',
       sentence_part2: 'with the presentation after a short break.',
       options: [
-        { text: 'proceed', isCorrect: true },
-        { text: 'precede', isCorrect: false },
-        { text: 'procede', isCorrect: false },
-        { text: 'preceed', isCorrect: false },
+        {
+          text: 'proceed',
+          isCorrect: true,
+        },
+        {
+          text: 'precede',
+          isCorrect: false,
+        },
+        {
+          text: 'procede',
+          isCorrect: false,
+        },
+        {
+          text: 'preceed',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: '"Proceed" means to continue. "Precede" means to come before.',
@@ -638,16 +958,29 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      type: 'context',
       difficulty: 3,
       tags: ['business'],
       sentence_part1:
         'Unfortunately, his handwriting on the form was completely',
       sentence_part2: '.',
       options: [
-        { text: 'illegible', isCorrect: true },
-        { text: 'eligible', isCorrect: false },
-        { text: 'illegable', isCorrect: false },
-        { text: 'eligable', isCorrect: false },
+        {
+          text: 'illegible',
+          isCorrect: true,
+        },
+        {
+          text: 'eligible',
+          isCorrect: false,
+        },
+        {
+          text: 'illegable',
+          isCorrect: false,
+        },
+        {
+          text: 'eligable',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: '"Illegible" means unreadable. "Eligible" means qualified.',
@@ -656,15 +989,28 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      type: 'context',
       difficulty: 2,
       tags: ['business'],
       sentence_part1: 'The auditor conducted a very',
       sentence_part2: 'review of our accounts.',
       options: [
-        { text: 'thorough', isCorrect: true },
-        { text: 'through', isCorrect: false },
-        { text: 'thoroughly', isCorrect: false },
-        { text: 'thru', isCorrect: false },
+        {
+          text: 'thorough',
+          isCorrect: true,
+        },
+        {
+          text: 'through',
+          isCorrect: false,
+        },
+        {
+          text: 'thoroughly',
+          isCorrect: false,
+        },
+        {
+          text: 'thru',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: '"Thorough" means complete/detailed. "Through" is a preposition.',
@@ -673,15 +1019,28 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      type: 'context',
       difficulty: 2,
       tags: ['everyday'],
       sentence_part1: 'She was',
       sentence_part2: 'employed at a marketing agency before joining us.',
       options: [
-        { text: 'formerly', isCorrect: true },
-        { text: 'formally', isCorrect: false },
-        { text: 'formarly', isCorrect: false },
-        { text: 'formely', isCorrect: false },
+        {
+          text: 'formerly',
+          isCorrect: true,
+        },
+        {
+          text: 'formally',
+          isCorrect: false,
+        },
+        {
+          text: 'formarly',
+          isCorrect: false,
+        },
+        {
+          text: 'formely',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: '"Formerly" means previously. "Formally" means officially.',
@@ -690,15 +1049,28 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      type: 'context',
       difficulty: 2,
       tags: ['business'],
       sentence_part1: 'All inquiries regarding payroll should be directed to',
       sentence_part2: '.',
       options: [
-        { text: 'personnel', isCorrect: true },
-        { text: 'personal', isCorrect: false },
-        { text: 'personel', isCorrect: false },
-        { text: 'personall', isCorrect: false },
+        {
+          text: 'personnel',
+          isCorrect: true,
+        },
+        {
+          text: 'personal',
+          isCorrect: false,
+        },
+        {
+          text: 'personel',
+          isCorrect: false,
+        },
+        {
+          text: 'personall',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: '"Personnel" refers to staff. "Personal" means private.',
@@ -707,15 +1079,28 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      type: 'context',
       difficulty: 2,
       tags: ['everyday'],
       sentence_part1: 'Make sure',
       sentence_part2: 'ready for the presentation tomorrow.',
       options: [
-        { text: "you're", isCorrect: true },
-        { text: 'your', isCorrect: false },
-        { text: 'yours', isCorrect: false },
-        { text: 'youre', isCorrect: false },
+        {
+          text: "you're",
+          isCorrect: true,
+        },
+        {
+          text: 'your',
+          isCorrect: false,
+        },
+        {
+          text: 'yours',
+          isCorrect: false,
+        },
+        {
+          text: 'youre',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: '"You\'re" is a contraction of "you are".',
@@ -725,15 +1110,28 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      type: 'context',
       difficulty: 3,
       tags: ['business'],
       sentence_part1: 'The speaker made an',
       sentence_part2: 'to the recent market trends.',
       options: [
-        { text: 'allusion', isCorrect: true },
-        { text: 'illusion', isCorrect: false },
-        { text: 'alusion', isCorrect: false },
-        { text: 'ilusion', isCorrect: false },
+        {
+          text: 'allusion',
+          isCorrect: true,
+        },
+        {
+          text: 'illusion',
+          isCorrect: false,
+        },
+        {
+          text: 'alusion',
+          isCorrect: false,
+        },
+        {
+          text: 'ilusion',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: 'An "allusion" is an indirect reference. An "illusion" is a deception.',
@@ -743,15 +1141,28 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      type: 'context',
       difficulty: 2,
       tags: ['business'],
       sentence_part1: 'The new manager is very',
       sentence_part2: 'about meeting the quarterly deadlines.',
       options: [
-        { text: 'anxious', isCorrect: true },
-        { text: 'anxous', isCorrect: false },
-        { text: 'anxtious', isCorrect: false },
-        { text: 'ankshous', isCorrect: false },
+        {
+          text: 'anxious',
+          isCorrect: true,
+        },
+        {
+          text: 'anxous',
+          isCorrect: false,
+        },
+        {
+          text: 'anxtious',
+          isCorrect: false,
+        },
+        {
+          text: 'ankshous',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: '"Anxious" comes from anxiety, spelled with x and ious.',
@@ -761,15 +1172,28 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      type: 'context',
       difficulty: 2,
       tags: ['everyday'],
       sentence_part1: 'Please do not',
       sentence_part2: 'to contact me if you have any questions.',
       options: [
-        { text: 'hesitate', isCorrect: true },
-        { text: 'hezitate', isCorrect: false },
-        { text: 'hesitat', isCorrect: false },
-        { text: 'hesitatee', isCorrect: false },
+        {
+          text: 'hesitate',
+          isCorrect: true,
+        },
+        {
+          text: 'hezitate',
+          isCorrect: false,
+        },
+        {
+          text: 'hesitat',
+          isCorrect: false,
+        },
+        {
+          text: 'hesitatee',
+          isCorrect: false,
+        },
       ],
       hint: {
         en: '"Hesitate" means to pause before saying or doing something.',
@@ -781,218 +1205,414 @@ export const wordDatabaseEN = {
   clock: [
     {
       id: 1,
+      type: 'clock',
       difficulty: 3,
       timeAnalog: 'Seventeen minutes past eight in the evening',
       isNight: true,
       hourRotation: 248,
       minuteRotation: 102,
       options: [
-        { text: '8:17 PM', isCorrect: true },
-        { text: '8:17 AM', isCorrect: false },
-        { text: '3:40 PM', isCorrect: false },
-        { text: '7:17 PM', isCorrect: false },
+        {
+          text: '8:17 PM',
+          isCorrect: true,
+        },
+        {
+          text: '8:17 AM',
+          isCorrect: false,
+        },
+        {
+          text: '3:40 PM',
+          isCorrect: false,
+        },
+        {
+          text: '7:17 PM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 2,
+      type: 'clock',
       difficulty: 3,
       timeAnalog: 'Nine minutes to two in the afternoon',
       isNight: false,
       hourRotation: 55,
       minuteRotation: 306,
       options: [
-        { text: '1:51 PM', isCorrect: true },
-        { text: '1:51 AM', isCorrect: false },
-        { text: '10:05 PM', isCorrect: false },
-        { text: '2:51 PM', isCorrect: false },
+        {
+          text: '1:51 PM',
+          isCorrect: true,
+        },
+        {
+          text: '1:51 AM',
+          isCorrect: false,
+        },
+        {
+          text: '10:05 PM',
+          isCorrect: false,
+        },
+        {
+          text: '2:51 PM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 3,
+      type: 'clock',
       difficulty: 1,
       timeAnalog: 'Quarter past three in the afternoon',
       isNight: false,
       hourRotation: 98,
       minuteRotation: 90,
       options: [
-        { text: '3:15 PM', isCorrect: true },
-        { text: '3:15 AM', isCorrect: false },
-        { text: '3:03 PM', isCorrect: false },
-        { text: '4:15 PM', isCorrect: false },
+        {
+          text: '3:15 PM',
+          isCorrect: true,
+        },
+        {
+          text: '3:15 AM',
+          isCorrect: false,
+        },
+        {
+          text: '3:03 PM',
+          isCorrect: false,
+        },
+        {
+          text: '4:15 PM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 4,
+      type: 'clock',
       difficulty: 1,
       timeAnalog: 'Half past six in the evening',
       isNight: true,
       hourRotation: 195,
       minuteRotation: 180,
       options: [
-        { text: '6:30 PM', isCorrect: true },
-        { text: '6:30 AM', isCorrect: false },
-        { text: '6:06 PM', isCorrect: false },
-        { text: '7:30 PM', isCorrect: false },
+        {
+          text: '6:30 PM',
+          isCorrect: true,
+        },
+        {
+          text: '6:30 AM',
+          isCorrect: false,
+        },
+        {
+          text: '6:06 PM',
+          isCorrect: false,
+        },
+        {
+          text: '7:30 PM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 5,
+      type: 'clock',
       difficulty: 1,
       timeAnalog: 'Ten to ten in the morning',
       isNight: false,
       hourRotation: 295,
       minuteRotation: 300,
       options: [
-        { text: '9:50 AM', isCorrect: true },
-        { text: '9:50 PM', isCorrect: false },
-        { text: '10:50 AM', isCorrect: false },
-        { text: '9:10 AM', isCorrect: false },
+        {
+          text: '9:50 AM',
+          isCorrect: true,
+        },
+        {
+          text: '9:50 PM',
+          isCorrect: false,
+        },
+        {
+          text: '10:50 AM',
+          isCorrect: false,
+        },
+        {
+          text: '9:10 AM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 6,
+      type: 'clock',
       difficulty: 1,
       timeAnalog: 'Noon',
       isNight: false,
       hourRotation: 0,
       minuteRotation: 0,
       options: [
-        { text: '12:00 PM', isCorrect: true },
-        { text: '12:00 AM', isCorrect: false },
-        { text: '12:30 PM', isCorrect: false },
-        { text: '6:00 PM', isCorrect: false },
+        {
+          text: '12:00 PM',
+          isCorrect: true,
+        },
+        {
+          text: '12:00 AM',
+          isCorrect: false,
+        },
+        {
+          text: '12:30 PM',
+          isCorrect: false,
+        },
+        {
+          text: '6:00 PM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 7,
+      type: 'clock',
       difficulty: 1,
       timeAnalog: 'Midnight',
       isNight: true,
       hourRotation: 0,
       minuteRotation: 0,
       options: [
-        { text: '12:00 AM', isCorrect: true },
-        { text: '12:00 PM', isCorrect: false },
-        { text: '12:12 AM', isCorrect: false },
-        { text: '6:00 AM', isCorrect: false },
+        {
+          text: '12:00 AM',
+          isCorrect: true,
+        },
+        {
+          text: '12:00 PM',
+          isCorrect: false,
+        },
+        {
+          text: '12:12 AM',
+          isCorrect: false,
+        },
+        {
+          text: '6:00 AM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 8,
+      type: 'clock',
       difficulty: 2,
       timeAnalog: 'Quarter to nine in the evening',
       isNight: true,
       hourRotation: 262,
       minuteRotation: 270,
       options: [
-        { text: '8:45 PM', isCorrect: true },
-        { text: '8:45 AM', isCorrect: false },
-        { text: '9:45 PM', isCorrect: false },
-        { text: '9:40 PM', isCorrect: false },
+        {
+          text: '8:45 PM',
+          isCorrect: true,
+        },
+        {
+          text: '8:45 AM',
+          isCorrect: false,
+        },
+        {
+          text: '9:45 PM',
+          isCorrect: false,
+        },
+        {
+          text: '9:40 PM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 9,
+      type: 'clock',
       difficulty: 1,
       timeAnalog: 'Twenty past four in the afternoon',
       isNight: false,
       hourRotation: 130,
       minuteRotation: 120,
       options: [
-        { text: '4:20 PM', isCorrect: true },
-        { text: '4:20 AM', isCorrect: false },
-        { text: '4:04 PM', isCorrect: false },
-        { text: '8:16 PM', isCorrect: false },
+        {
+          text: '4:20 PM',
+          isCorrect: true,
+        },
+        {
+          text: '4:20 AM',
+          isCorrect: false,
+        },
+        {
+          text: '4:04 PM',
+          isCorrect: false,
+        },
+        {
+          text: '8:16 PM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 10,
+      type: 'clock',
       difficulty: 1,
       timeAnalog: 'Half past eight in the morning',
       isNight: false,
       hourRotation: 255,
       minuteRotation: 180,
       options: [
-        { text: '8:30 AM', isCorrect: true },
-        { text: '8:30 PM', isCorrect: false },
-        { text: '6:40 AM', isCorrect: false },
-        { text: '9:30 AM', isCorrect: false },
+        {
+          text: '8:30 AM',
+          isCorrect: true,
+        },
+        {
+          text: '8:30 PM',
+          isCorrect: false,
+        },
+        {
+          text: '6:40 AM',
+          isCorrect: false,
+        },
+        {
+          text: '9:30 AM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 11,
+      type: 'clock',
       difficulty: 2,
       timeAnalog: 'Quarter to eight in the morning',
       isNight: false,
       hourRotation: 232,
       minuteRotation: 270,
       options: [
-        { text: '7:45 AM', isCorrect: true },
-        { text: '7:45 PM', isCorrect: false },
-        { text: '8:45 AM', isCorrect: false },
-        { text: '7:09 AM', isCorrect: false },
+        {
+          text: '7:45 AM',
+          isCorrect: true,
+        },
+        {
+          text: '7:45 PM',
+          isCorrect: false,
+        },
+        {
+          text: '8:45 AM',
+          isCorrect: false,
+        },
+        {
+          text: '7:09 AM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 12,
+      type: 'clock',
       difficulty: 2,
       timeAnalog: 'Twenty past two in the afternoon',
       isNight: false,
       hourRotation: 70,
       minuteRotation: 120,
       options: [
-        { text: '2:20 PM', isCorrect: true },
-        { text: '2:20 AM', isCorrect: false },
-        { text: '2:04 PM', isCorrect: false },
-        { text: '4:10 PM', isCorrect: false },
+        {
+          text: '2:20 PM',
+          isCorrect: true,
+        },
+        {
+          text: '2:20 AM',
+          isCorrect: false,
+        },
+        {
+          text: '2:04 PM',
+          isCorrect: false,
+        },
+        {
+          text: '4:10 PM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 13,
+      type: 'clock',
       difficulty: 3,
       timeAnalog: 'Five past eleven at night',
       isNight: true,
       hourRotation: 332,
       minuteRotation: 30,
       options: [
-        { text: '11:05 PM', isCorrect: true },
-        { text: '11:05 AM', isCorrect: false },
-        { text: '11:01 PM', isCorrect: false },
-        { text: '1:55 AM', isCorrect: false },
+        {
+          text: '11:05 PM',
+          isCorrect: true,
+        },
+        {
+          text: '11:05 AM',
+          isCorrect: false,
+        },
+        {
+          text: '11:01 PM',
+          isCorrect: false,
+        },
+        {
+          text: '1:55 AM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 14,
+      type: 'clock',
       difficulty: 1,
       timeAnalog: 'Quarter past nine in the morning',
       isNight: false,
       hourRotation: 278,
       minuteRotation: 90,
       options: [
-        { text: '9:15 AM', isCorrect: true },
-        { text: '9:15 PM', isCorrect: false },
-        { text: '9:03 AM', isCorrect: false },
-        { text: '3:45 AM', isCorrect: false },
+        {
+          text: '9:15 AM',
+          isCorrect: true,
+        },
+        {
+          text: '9:15 PM',
+          isCorrect: false,
+        },
+        {
+          text: '9:03 AM',
+          isCorrect: false,
+        },
+        {
+          text: '3:45 AM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 15,
+      type: 'clock',
       difficulty: 2,
       timeAnalog: 'Ten to nine in the evening',
       isNight: true,
       hourRotation: 265,
       minuteRotation: 300,
       options: [
-        { text: '8:50 PM', isCorrect: true },
-        { text: '8:50 AM', isCorrect: false },
-        { text: '9:50 PM', isCorrect: false },
-        { text: '10:40 PM', isCorrect: false },
+        {
+          text: '8:50 PM',
+          isCorrect: true,
+        },
+        {
+          text: '8:50 AM',
+          isCorrect: false,
+        },
+        {
+          text: '9:50 PM',
+          isCorrect: false,
+        },
+        {
+          text: '10:40 PM',
+          isCorrect: false,
+        },
       ],
     },
   ],
   sequences: [
     {
       id: 1,
+      type: 'sequence',
       difficulty: 3,
       tags: ['business'],
       instruction: 'Order the steps of a professional negotiation',
@@ -1011,6 +1631,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      type: 'sequence',
       difficulty: 3,
       instruction: 'Order the software development life cycle (SDLC)',
       scrambled: [
@@ -1030,6 +1651,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      type: 'sequence',
       difficulty: 1,
       instruction: 'Order the workdays of the week',
       scrambled: ['Wednesday', 'Monday', 'Thursday', 'Tuesday', 'Friday'],
@@ -1037,6 +1659,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      type: 'sequence',
       difficulty: 2,
       instruction: 'Order the months of Q4',
       scrambled: ['December', 'October', 'November'],
@@ -1044,6 +1667,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      type: 'sequence',
       difficulty: 2,
       tags: ['business'],
       instruction: 'Order these career stages from entry to senior',
@@ -1052,6 +1676,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      type: 'sequence',
       difficulty: 2,
       tags: ['business'],
       instruction: 'Standard meeting agenda order',
@@ -1072,6 +1697,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      type: 'sequence',
       difficulty: 1,
       instruction: 'Order the time units from shortest to longest',
       scrambled: ['Hour', 'Second', 'Day', 'Minute'],
@@ -1079,6 +1705,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      type: 'sequence',
       difficulty: 1,
       instruction: 'Order these letters alphabetically',
       scrambled: ['F', 'B', 'D', 'H'],
@@ -1086,6 +1713,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      type: 'sequence',
       difficulty: 2,
       tags: ['business'],
       instruction: 'Order the sales funnel steps',
@@ -1094,6 +1722,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      type: 'sequence',
       difficulty: 1,
       instruction: 'Order the numbers from smallest to largest',
       scrambled: ['1000', '10', '100', '10000'],
@@ -1103,325 +1732,850 @@ export const wordDatabaseEN = {
   tracking: [
     {
       id: 1,
+      type: 'spatial',
       difficulty: 1,
       instruction: 'Where is the loop of this letter?',
       items: [
-        { symbol: 'b', target: 'right' },
-        { symbol: 'd', target: 'left' },
-        { symbol: 'd', target: 'left' },
-        { symbol: 'b', target: 'right' },
+        {
+          symbol: 'b',
+          target: 'right',
+        },
+        {
+          symbol: 'd',
+          target: 'left',
+        },
+        {
+          symbol: 'd',
+          target: 'left',
+        },
+        {
+          symbol: 'b',
+          target: 'right',
+        },
       ],
       options: [
-        { label: 'Left ⬅️', value: 'left' },
-        { label: 'Right ➡️', value: 'right' },
+        {
+          label: 'Left ⬅️',
+          value: 'left',
+        },
+        {
+          label: 'Right ➡️',
+          value: 'right',
+        },
       ],
     },
     {
       id: 2,
+      type: 'spatial',
       difficulty: 1,
       instruction: 'Which way does the arrow point?',
       items: [
-        { symbol: '→', target: 'right' },
-        { symbol: '←', target: 'left' },
-        { symbol: '→', target: 'right' },
-        { symbol: '←', target: 'left' },
+        {
+          symbol: '→',
+          target: 'right',
+        },
+        {
+          symbol: '←',
+          target: 'left',
+        },
+        {
+          symbol: '→',
+          target: 'right',
+        },
+        {
+          symbol: '←',
+          target: 'left',
+        },
       ],
       options: [
-        { label: 'Left ⬅️', value: 'left' },
-        { label: 'Right ➡️', value: 'right' },
+        {
+          label: 'Left ⬅️',
+          value: 'left',
+        },
+        {
+          label: 'Right ➡️',
+          value: 'right',
+        },
       ],
     },
     {
       id: 3,
+      type: 'spatial',
       difficulty: 2,
       instruction: 'Where is the loop of this letter?',
       items: [
-        { symbol: 'p', target: 'right' },
-        { symbol: 'q', target: 'left' },
-        { symbol: 'p', target: 'right' },
-        { symbol: 'q', target: 'left' },
+        {
+          symbol: 'p',
+          target: 'right',
+        },
+        {
+          symbol: 'q',
+          target: 'left',
+        },
+        {
+          symbol: 'p',
+          target: 'right',
+        },
+        {
+          symbol: 'q',
+          target: 'left',
+        },
       ],
       options: [
-        { label: 'Left ⬅️', value: 'left' },
-        { label: 'Right ➡️', value: 'right' },
+        {
+          label: 'Left ⬅️',
+          value: 'left',
+        },
+        {
+          label: 'Right ➡️',
+          value: 'right',
+        },
       ],
     },
     {
       id: 4,
+      type: 'spatial',
       difficulty: 1,
       instruction: 'Read the word and point to that direction',
       items: [
-        { symbol: 'RIGHT', target: 'right' },
-        { symbol: 'LEFT', target: 'left' },
-        { symbol: 'RIGHT', target: 'right' },
-        { symbol: 'LEFT', target: 'left' },
+        {
+          symbol: 'RIGHT',
+          target: 'right',
+        },
+        {
+          symbol: 'LEFT',
+          target: 'left',
+        },
+        {
+          symbol: 'RIGHT',
+          target: 'right',
+        },
+        {
+          symbol: 'LEFT',
+          target: 'left',
+        },
       ],
       options: [
-        { label: 'Left ⬅️', value: 'left' },
-        { label: 'Right ➡️', value: 'right' },
+        {
+          label: 'Left ⬅️',
+          value: 'left',
+        },
+        {
+          label: 'Right ➡️',
+          value: 'right',
+        },
       ],
     },
     {
       id: 5,
+      type: 'spatial',
       difficulty: 2,
       instruction: 'Where is the loop of this letter?',
       items: [
-        { symbol: 'q', target: 'left' },
-        { symbol: 'p', target: 'right' },
-        { symbol: 'p', target: 'right' },
-        { symbol: 'q', target: 'left' },
+        {
+          symbol: 'q',
+          target: 'left',
+        },
+        {
+          symbol: 'p',
+          target: 'right',
+        },
+        {
+          symbol: 'p',
+          target: 'right',
+        },
+        {
+          symbol: 'q',
+          target: 'left',
+        },
       ],
       options: [
-        { label: 'Left ⬅️', value: 'left' },
-        { label: 'Right ➡️', value: 'right' },
+        {
+          label: 'Left ⬅️',
+          value: 'left',
+        },
+        {
+          label: 'Right ➡️',
+          value: 'right',
+        },
       ],
     },
     {
       id: 6,
+      type: 'spatial',
       difficulty: 1,
       instruction: 'Which way does the arrow point?',
       items: [
-        { symbol: '◁', target: 'left' },
-        { symbol: '▷', target: 'right' },
-        { symbol: '▷', target: 'right' },
-        { symbol: '◁', target: 'left' },
+        {
+          symbol: '◁',
+          target: 'left',
+        },
+        {
+          symbol: '▷',
+          target: 'right',
+        },
+        {
+          symbol: '▷',
+          target: 'right',
+        },
+        {
+          symbol: '◁',
+          target: 'left',
+        },
       ],
       options: [
-        { label: 'Left ⬅️', value: 'left' },
-        { label: 'Right ➡️', value: 'right' },
+        {
+          label: 'Left ⬅️',
+          value: 'left',
+        },
+        {
+          label: 'Right ➡️',
+          value: 'right',
+        },
       ],
     },
     {
       id: 7,
+      type: 'spatial',
       difficulty: 2,
       instruction: 'Find the odd letter out',
       items: [
-        { symbol: 'm', target: 'down' },
-        { symbol: 'w', target: 'up' },
-        { symbol: 'w', target: 'up' },
-        { symbol: 'm', target: 'down' },
+        {
+          symbol: 'm',
+          target: 'down',
+        },
+        {
+          symbol: 'w',
+          target: 'up',
+        },
+        {
+          symbol: 'w',
+          target: 'up',
+        },
+        {
+          symbol: 'm',
+          target: 'down',
+        },
       ],
       options: [
-        { label: 'm (down)', value: 'down' },
-        { label: 'w (up)', value: 'up' },
+        {
+          label: 'm (down)',
+          value: 'down',
+        },
+        {
+          label: 'w (up)',
+          value: 'up',
+        },
       ],
     },
     {
       id: 8,
+      type: 'spatial',
       difficulty: 1,
       instruction: 'Uppercase or lowercase?',
       items: [
-        { symbol: 'A', target: 'up' },
-        { symbol: 'b', target: 'down' },
-        { symbol: 'C', target: 'up' },
-        { symbol: 'd', target: 'down' },
+        {
+          symbol: 'A',
+          target: 'up',
+        },
+        {
+          symbol: 'b',
+          target: 'down',
+        },
+        {
+          symbol: 'C',
+          target: 'up',
+        },
+        {
+          symbol: 'd',
+          target: 'down',
+        },
       ],
       options: [
-        { label: 'Uppercase 🔠', value: 'up' },
-        { label: 'Lowercase 🔡', value: 'down' },
+        {
+          label: 'Uppercase 🔠',
+          value: 'up',
+        },
+        {
+          label: 'Lowercase 🔡',
+          value: 'down',
+        },
       ],
     },
   ],
   lcwc: [
-    { id: 1, lcwc: true, difficulty: 3, word: 'Sustainability' },
-    { id: 2, lcwc: true, difficulty: 3, word: 'Perseverance' },
-    { id: 3, lcwc: true, difficulty: 2, word: 'Accommodation' },
-    { id: 4, lcwc: true, difficulty: 2, word: 'Recommendation' },
-    { id: 5, lcwc: true, difficulty: 3, word: 'Embarrassment' },
-    { id: 6, lcwc: true, difficulty: 3, word: 'Occurrence' },
-    { id: 7, lcwc: true, difficulty: 2, word: 'Necessary' },
-    { id: 8, lcwc: true, difficulty: 2, word: 'Privilege' },
-    { id: 9, lcwc: true, difficulty: 3, word: 'Questionnaire' },
-    { id: 10, lcwc: true, difficulty: 3, word: 'Pronunciation' },
-    { id: 11, lcwc: true, difficulty: 3, word: 'Entrepreneur' },
-    { id: 12, lcwc: true, difficulty: 3, word: 'Simultaneously' },
+    {
+      id: 1,
+      type: 'lookCoverWriteCheck',
+      lcwc: true,
+      difficulty: 3,
+      word: 'Sustainability',
+    },
+    {
+      id: 2,
+      type: 'lookCoverWriteCheck',
+      lcwc: true,
+      difficulty: 3,
+      word: 'Perseverance',
+    },
+    {
+      id: 3,
+      type: 'lookCoverWriteCheck',
+      lcwc: true,
+      difficulty: 2,
+      word: 'Accommodation',
+    },
+    {
+      id: 4,
+      type: 'lookCoverWriteCheck',
+      lcwc: true,
+      difficulty: 2,
+      word: 'Recommendation',
+    },
+    {
+      id: 5,
+      type: 'lookCoverWriteCheck',
+      lcwc: true,
+      difficulty: 3,
+      word: 'Embarrassment',
+    },
+    {
+      id: 6,
+      type: 'lookCoverWriteCheck',
+      lcwc: true,
+      difficulty: 3,
+      word: 'Occurrence',
+    },
+    {
+      id: 7,
+      type: 'lookCoverWriteCheck',
+      lcwc: true,
+      difficulty: 2,
+      word: 'Necessary',
+    },
+    {
+      id: 8,
+      type: 'lookCoverWriteCheck',
+      lcwc: true,
+      difficulty: 2,
+      word: 'Privilege',
+    },
+    {
+      id: 9,
+      type: 'lookCoverWriteCheck',
+      lcwc: true,
+      difficulty: 3,
+      word: 'Questionnaire',
+    },
+    {
+      id: 10,
+      type: 'lookCoverWriteCheck',
+      lcwc: true,
+      difficulty: 3,
+      word: 'Pronunciation',
+    },
+    {
+      id: 11,
+      type: 'lookCoverWriteCheck',
+      lcwc: true,
+      difficulty: 3,
+      word: 'Entrepreneur',
+    },
+    {
+      id: 12,
+      type: 'lookCoverWriteCheck',
+      lcwc: true,
+      difficulty: 3,
+      word: 'Simultaneously',
+    },
   ],
   categorization: [
     {
       id: 1,
+      type: 'categorization',
       difficulty: 3,
       instruction: 'Categorize these cognitive biases',
       buckets: [
-        { id: 'social', label: 'Social Biases', icon: '👥' },
-        { id: 'memory', label: 'Memory Biases', icon: '🧠' },
+        {
+          id: 'social',
+          label: 'Social Biases',
+          icon: '👥',
+        },
+        {
+          id: 'memory',
+          label: 'Memory Biases',
+          icon: '🧠',
+        },
       ],
       items: [
-        { id: 'i1', word: 'Groupthink', bucketId: 'social' },
-        { id: 'i2', word: 'Hindsight bias', bucketId: 'memory' },
-        { id: 'i3', word: 'Bandwagon effect', bucketId: 'social' },
-        { id: 'i4', word: 'Misinformation effect', bucketId: 'memory' },
+        {
+          id: 'i1',
+          word: 'Groupthink',
+          bucketId: 'social',
+        },
+        {
+          id: 'i2',
+          word: 'Hindsight bias',
+          bucketId: 'memory',
+        },
+        {
+          id: 'i3',
+          word: 'Bandwagon effect',
+          bucketId: 'social',
+        },
+        {
+          id: 'i4',
+          word: 'Misinformation effect',
+          bucketId: 'memory',
+        },
       ],
     },
     {
       id: 2,
+      type: 'categorization',
       difficulty: 1,
       tags: ['business'],
       instruction: 'Assign words to the correct department',
       buckets: [
-        { id: 'hr', label: 'HR', icon: '👥' },
-        { id: 'fin', label: 'Finance', icon: '💰' },
+        {
+          id: 'hr',
+          label: 'HR',
+          icon: '👥',
+        },
+        {
+          id: 'fin',
+          label: 'Finance',
+          icon: '💰',
+        },
       ],
       items: [
-        { id: 'i1', word: 'Budget', bucketId: 'fin' },
-        { id: 'i2', word: 'Recruitment', bucketId: 'hr' },
-        { id: 'i3', word: 'Invoice', bucketId: 'fin' },
-        { id: 'i4', word: 'Vacations', bucketId: 'hr' },
+        {
+          id: 'i1',
+          word: 'Budget',
+          bucketId: 'fin',
+        },
+        {
+          id: 'i2',
+          word: 'Recruitment',
+          bucketId: 'hr',
+        },
+        {
+          id: 'i3',
+          word: 'Invoice',
+          bucketId: 'fin',
+        },
+        {
+          id: 'i4',
+          word: 'Vacations',
+          bucketId: 'hr',
+        },
       ],
     },
     {
       id: 3,
+      type: 'categorization',
       difficulty: 2,
       instruction: 'Assign words to the correct part of speech',
       buckets: [
-        { id: 'noun', label: 'Noun (Thing)', icon: '📦' },
-        { id: 'verb', label: 'Verb (Action)', icon: '🏃' },
+        {
+          id: 'noun',
+          label: 'Noun (Thing)',
+          icon: '📦',
+        },
+        {
+          id: 'verb',
+          label: 'Verb (Action)',
+          icon: '🏃',
+        },
       ],
       items: [
-        { id: 'i1', word: 'Meeting', bucketId: 'noun' },
-        { id: 'i2', word: 'Analyze', bucketId: 'verb' },
-        { id: 'i3', word: 'Decision', bucketId: 'noun' },
-        { id: 'i4', word: 'Calculate', bucketId: 'verb' },
+        {
+          id: 'i1',
+          word: 'Meeting',
+          bucketId: 'noun',
+        },
+        {
+          id: 'i2',
+          word: 'Analyze',
+          bucketId: 'verb',
+        },
+        {
+          id: 'i3',
+          word: 'Decision',
+          bucketId: 'noun',
+        },
+        {
+          id: 'i4',
+          word: 'Calculate',
+          bucketId: 'verb',
+        },
       ],
     },
     {
       id: 4,
+      type: 'categorization',
       difficulty: 2,
       instruction: 'Assign words to the correct spelling rule',
       buckets: [
-        { id: 'ie', label: 'Spelled with IE', icon: '📝' },
-        { id: 'ei', label: 'Spelled with EI', icon: '📝' },
+        {
+          id: 'ie',
+          label: 'Spelled with IE',
+          icon: '📝',
+        },
+        {
+          id: 'ei',
+          label: 'Spelled with EI',
+          icon: '📝',
+        },
       ],
       items: [
-        { id: 'i1', word: 'Believe', bucketId: 'ie' },
-        { id: 'i2', word: 'Receive', bucketId: 'ei' },
-        { id: 'i3', word: 'Achieve', bucketId: 'ie' },
-        { id: 'i4', word: 'Deceive', bucketId: 'ei' },
+        {
+          id: 'i1',
+          word: 'Believe',
+          bucketId: 'ie',
+        },
+        {
+          id: 'i2',
+          word: 'Receive',
+          bucketId: 'ei',
+        },
+        {
+          id: 'i3',
+          word: 'Achieve',
+          bucketId: 'ie',
+        },
+        {
+          id: 'i4',
+          word: 'Deceive',
+          bucketId: 'ei',
+        },
       ],
     },
     {
       id: 5,
+      type: 'categorization',
       difficulty: 1,
       instruction: 'Categorize by word type',
       buckets: [
-        { id: 'adj', label: 'Adjective', icon: '✨' },
-        { id: 'adv', label: 'Adverb', icon: '🏃' },
+        {
+          id: 'adj',
+          label: 'Adjective',
+          icon: '✨',
+        },
+        {
+          id: 'adv',
+          label: 'Adverb',
+          icon: '🏃',
+        },
       ],
       items: [
-        { id: 'i1', word: 'Quick', bucketId: 'adj' },
-        { id: 'i2', word: 'Quickly', bucketId: 'adv' },
-        { id: 'i3', word: 'Happy', bucketId: 'adj' },
-        { id: 'i4', word: 'Happily', bucketId: 'adv' },
+        {
+          id: 'i1',
+          word: 'Quick',
+          bucketId: 'adj',
+        },
+        {
+          id: 'i2',
+          word: 'Quickly',
+          bucketId: 'adv',
+        },
+        {
+          id: 'i3',
+          word: 'Happy',
+          bucketId: 'adj',
+        },
+        {
+          id: 'i4',
+          word: 'Happily',
+          bucketId: 'adv',
+        },
       ],
     },
     {
       id: 6,
+      type: 'categorization',
       difficulty: 2,
       instruction: 'Categorize homophones',
       buckets: [
-        { id: 'place', label: 'Location/Place', icon: '📍' },
-        { id: 'pos', label: 'Possession', icon: '👥' },
+        {
+          id: 'place',
+          label: 'Location/Place',
+          icon: '📍',
+        },
+        {
+          id: 'pos',
+          label: 'Possession',
+          icon: '👥',
+        },
       ],
       items: [
-        { id: 'i1', word: 'There', bucketId: 'place' },
-        { id: 'i2', word: 'Their', bucketId: 'pos' },
-        { id: 'i3', word: 'Here', bucketId: 'place' },
-        { id: 'i4', word: 'Our', bucketId: 'pos' },
+        {
+          id: 'i1',
+          word: 'There',
+          bucketId: 'place',
+        },
+        {
+          id: 'i2',
+          word: 'Their',
+          bucketId: 'pos',
+        },
+        {
+          id: 'i3',
+          word: 'Here',
+          bucketId: 'place',
+        },
+        {
+          id: 'i4',
+          word: 'Our',
+          bucketId: 'pos',
+        },
       ],
     },
     {
       id: 7,
+      type: 'categorization',
       difficulty: 3,
       instruction: 'Categorize prefixes and suffixes',
       buckets: [
-        { id: 'pre', label: 'Prefix', icon: '⬅️' },
-        { id: 'suf', label: 'Suffix', icon: '➡️' },
+        {
+          id: 'pre',
+          label: 'Prefix',
+          icon: '⬅️',
+        },
+        {
+          id: 'suf',
+          label: 'Suffix',
+          icon: '➡️',
+        },
       ],
       items: [
-        { id: 'i1', word: 'Un-', bucketId: 'pre' },
-        { id: 'i2', word: '-ment', bucketId: 'suf' },
-        { id: 'i3', word: 'Re-', bucketId: 'pre' },
-        { id: 'i4', word: '-tion', bucketId: 'suf' },
+        {
+          id: 'i1',
+          word: 'Un-',
+          bucketId: 'pre',
+        },
+        {
+          id: 'i2',
+          word: '-ment',
+          bucketId: 'suf',
+        },
+        {
+          id: 'i3',
+          word: 'Re-',
+          bucketId: 'pre',
+        },
+        {
+          id: 'i4',
+          word: '-tion',
+          bucketId: 'suf',
+        },
       ],
     },
     {
       id: 8,
+      type: 'categorization',
       difficulty: 1,
       instruction: 'Categorize by double letters',
       buckets: [
-        { id: 'double', label: 'Double Letter', icon: '🔠' },
-        { id: 'single', label: 'Single Letter', icon: '🔡' },
+        {
+          id: 'double',
+          label: 'Double Letter',
+          icon: '🔠',
+        },
+        {
+          id: 'single',
+          label: 'Single Letter',
+          icon: '🔡',
+        },
       ],
       items: [
-        { id: 'i1', word: 'Apple', bucketId: 'double' },
-        { id: 'i2', word: 'Banana', bucketId: 'single' },
-        { id: 'i3', word: 'Letter', bucketId: 'double' },
-        { id: 'i4', word: 'Word', bucketId: 'single' },
+        {
+          id: 'i1',
+          word: 'Apple',
+          bucketId: 'double',
+        },
+        {
+          id: 'i2',
+          word: 'Banana',
+          bucketId: 'single',
+        },
+        {
+          id: 'i3',
+          word: 'Letter',
+          bucketId: 'double',
+        },
+        {
+          id: 'i4',
+          word: 'Word',
+          bucketId: 'single',
+        },
       ],
     },
     {
       id: 9,
+      type: 'categorization',
       difficulty: 2,
       instruction: 'Categorize by business department',
       buckets: [
-        { id: 'it', label: 'IT', icon: '💻' },
-        { id: 'sales', label: 'Sales', icon: '📈' },
+        {
+          id: 'it',
+          label: 'IT',
+          icon: '💻',
+        },
+        {
+          id: 'sales',
+          label: 'Sales',
+          icon: '📈',
+        },
       ],
       items: [
-        { id: 'i1', word: 'Server', bucketId: 'it' },
-        { id: 'i2', word: 'Revenue', bucketId: 'sales' },
-        { id: 'i3', word: 'Database', bucketId: 'it' },
-        { id: 'i4', word: 'Lead', bucketId: 'sales' },
+        {
+          id: 'i1',
+          word: 'Server',
+          bucketId: 'it',
+        },
+        {
+          id: 'i2',
+          word: 'Revenue',
+          bucketId: 'sales',
+        },
+        {
+          id: 'i3',
+          word: 'Database',
+          bucketId: 'it',
+        },
+        {
+          id: 'i4',
+          word: 'Lead',
+          bucketId: 'sales',
+        },
       ],
     },
     {
       id: 10,
+      type: 'categorization',
       difficulty: 1,
       instruction: 'Categorize by time',
       buckets: [
-        { id: 'past', label: 'Past', icon: '⏪' },
-        { id: 'future', label: 'Future', icon: '⏩' },
+        {
+          id: 'past',
+          label: 'Past',
+          icon: '⏪',
+        },
+        {
+          id: 'future',
+          label: 'Future',
+          icon: '⏩',
+        },
       ],
       items: [
-        { id: 'i1', word: 'Yesterday', bucketId: 'past' },
-        { id: 'i2', word: 'Tomorrow', bucketId: 'future' },
-        { id: 'i3', word: 'Previously', bucketId: 'past' },
-        { id: 'i4', word: 'Soon', bucketId: 'future' },
+        {
+          id: 'i1',
+          word: 'Yesterday',
+          bucketId: 'past',
+        },
+        {
+          id: 'i2',
+          word: 'Tomorrow',
+          bucketId: 'future',
+        },
+        {
+          id: 'i3',
+          word: 'Previously',
+          bucketId: 'past',
+        },
+        {
+          id: 'i4',
+          word: 'Soon',
+          bucketId: 'future',
+        },
       ],
     },
     {
       id: 11,
+      type: 'categorization',
       difficulty: 1,
       instruction: 'Fruit or Vegetable?',
       buckets: [
-        { id: 'fruit', label: 'Fruit', icon: '🍎' },
-        { id: 'veg', label: 'Vegetable', icon: '🥕' },
+        {
+          id: 'fruit',
+          label: 'Fruit',
+          icon: '🍎',
+        },
+        {
+          id: 'veg',
+          label: 'Vegetable',
+          icon: '🥕',
+        },
       ],
       items: [
-        { id: 'i1', word: 'Apple', bucketId: 'fruit' },
-        { id: 'i2', word: 'Carrot', bucketId: 'veg' },
-        { id: 'i3', word: 'Pear', bucketId: 'fruit' },
-        { id: 'i4', word: 'Onion', bucketId: 'veg' },
+        {
+          id: 'i1',
+          word: 'Apple',
+          bucketId: 'fruit',
+        },
+        {
+          id: 'i2',
+          word: 'Carrot',
+          bucketId: 'veg',
+        },
+        {
+          id: 'i3',
+          word: 'Pear',
+          bucketId: 'fruit',
+        },
+        {
+          id: 'i4',
+          word: 'Onion',
+          bucketId: 'veg',
+        },
       ],
     },
     {
       id: 12,
+      type: 'categorization',
       difficulty: 2,
       instruction: 'Positive or Negative?',
       buckets: [
-        { id: 'pos', label: 'Positive', icon: '👍' },
-        { id: 'neg', label: 'Negative', icon: '👎' },
+        {
+          id: 'pos',
+          label: 'Positive',
+          icon: '👍',
+        },
+        {
+          id: 'neg',
+          label: 'Negative',
+          icon: '👎',
+        },
       ],
       items: [
-        { id: 'i1', word: 'Success', bucketId: 'pos' },
-        { id: 'i2', word: 'Failure', bucketId: 'neg' },
-        { id: 'i3', word: 'Profit', bucketId: 'pos' },
-        { id: 'i4', word: 'Loss', bucketId: 'neg' },
+        {
+          id: 'i1',
+          word: 'Success',
+          bucketId: 'pos',
+        },
+        {
+          id: 'i2',
+          word: 'Failure',
+          bucketId: 'neg',
+        },
+        {
+          id: 'i3',
+          word: 'Profit',
+          bucketId: 'pos',
+        },
+        {
+          id: 'i4',
+          word: 'Loss',
+          bucketId: 'neg',
+        },
       ],
     },
   ],
   dictation: [
     {
       id: 1,
+      type: 'dictation',
       dictation: true,
       difficulty: 3,
       audioPrompt:
@@ -1431,6 +2585,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      type: 'dictation',
       dictation: true,
       difficulty: 1,
       audioPrompt: 'The meeting is scheduled for tomorrow.',
@@ -1438,6 +2593,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      type: 'dictation',
       dictation: true,
       difficulty: 2,
       audioPrompt: 'Please review the attached document.',
@@ -1445,6 +2601,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      type: 'dictation',
       dictation: true,
       difficulty: 2,
       audioPrompt: 'The company has seen significant growth.',
@@ -1452,6 +2609,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      type: 'dictation',
       dictation: true,
       difficulty: 2,
       audioPrompt: 'We need to update the project timeline.',
@@ -1459,6 +2617,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      type: 'dictation',
       dictation: true,
       difficulty: 3,
       audioPrompt: 'It is necessary to accommodate their request.',
@@ -1466,6 +2625,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      type: 'dictation',
       dictation: true,
       difficulty: 2,
       audioPrompt: 'The committee reached a unanimous decision.',
@@ -1473,6 +2633,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      type: 'dictation',
       dictation: true,
       difficulty: 2,
       audioPrompt: 'Their knowledge of the subject is thorough.',
@@ -1480,6 +2641,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      type: 'dictation',
       dictation: true,
       difficulty: 3,
       audioPrompt: 'The principal addressed the new principle.',
@@ -1487,6 +2649,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      type: 'dictation',
       dictation: true,
       difficulty: 2,
       audioPrompt: 'I can definitely recommend this strategy.',
@@ -1494,6 +2657,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      type: 'dictation',
       dictation: true,
       difficulty: 2,
       audioPrompt: 'The invoice must be paid by Friday.',
@@ -1501,6 +2665,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      type: 'dictation',
       dictation: true,
       difficulty: 3,
       audioPrompt: 'The results of the analysis were very surprising.',
@@ -1510,72 +2675,84 @@ export const wordDatabaseEN = {
   readAloud: [
     {
       id: 1,
+      type: 'readAloud',
       readAloud: true,
       difficulty: 1,
       text: 'Today is a very sunny and warm day.',
     },
     {
       id: 2,
+      type: 'readAloud',
       readAloud: true,
       difficulty: 1,
       text: 'My little cat likes to sleep on the sofa in the living room.',
     },
     {
       id: 3,
+      type: 'readAloud',
       readAloud: true,
       difficulty: 2,
       text: 'I read a very interesting book yesterday evening.',
     },
     {
       id: 4,
+      type: 'readAloud',
       readAloud: true,
       difficulty: 2,
       text: 'The meeting with the new client has been rescheduled for tomorrow.',
     },
     {
       id: 5,
+      type: 'readAloud',
       readAloud: true,
       difficulty: 3,
       text: 'Modern information technologies are developing at an incredible pace.',
     },
     {
       id: 6,
+      type: 'readAloud',
       readAloud: true,
       difficulty: 3,
       text: 'The dedication of the entire team brought spectacular results in the last quarter.',
     },
     {
       id: 7,
+      type: 'readAloud',
       readAloud: true,
       difficulty: 1,
       text: 'I drink hot tea with lemon first thing in the morning.',
     },
     {
       id: 8,
+      type: 'readAloud',
       readAloud: true,
       difficulty: 2,
       text: 'A walk in the forest helps me relax and completely unwind.',
     },
     {
       id: 9,
+      type: 'readAloud',
       readAloud: true,
       difficulty: 3,
       text: 'The implementation schedule for this ambitious project must be approved by the board.',
     },
     {
       id: 10,
+      type: 'readAloud',
       readAloud: true,
       difficulty: 2,
       text: 'Every day I try to learn new and useful skills.',
     },
     {
       id: 11,
+      type: 'readAloud',
       readAloud: true,
       difficulty: 3,
       text: 'The enterprise recorded an unprecedented increase in revenue within the financial services sector.',
     },
     {
       id: 12,
+      type: 'readAloud',
       readAloud: true,
       difficulty: 1,
       text: 'On the weekend, I like to spend time with my family.',
@@ -1584,6 +2761,7 @@ export const wordDatabaseEN = {
   diagnostic: [
     {
       id: 'en_diag_1',
+      type: 'diagnostic',
       pillar: 'Literacy',
       difficulty: 4,
       focus: 'Diagnostic: Reading & Writing',
@@ -1611,6 +2789,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 'en_diag_2',
+      type: 'diagnostic',
       pillar: 'Visual',
       difficulty: 4,
       focus: 'Diagnostic: Vision & Space',
@@ -1618,14 +2797,27 @@ export const wordDatabaseEN = {
         en: 'Scan the provided data string of client request codes below.\n\n[ TRIAL-FORM-DISCREET | TRAIL-FROM-DISCRETE | TRIAL-FROM-DISCREET | TRAIL-FORM-DISCRETE ]\n\nA client submitted a "TRIAL" request "FROM" a "DISCREET" server. Which of the data clusters matches this exact sequence without any visual metathesis (swapping) or homophone errors?',
       },
       options: [
-        { text: 'TRAIL-FROM-DISCRETE', isCorrect: false },
-        { text: 'TRIAL-FORM-DISCREET', isCorrect: false },
-        { text: 'TRIAL-FROM-DISCREET', isCorrect: true },
-        { text: 'TRAIL-FORM-DISCRETE', isCorrect: false },
+        {
+          text: 'TRAIL-FROM-DISCRETE',
+          isCorrect: false,
+        },
+        {
+          text: 'TRIAL-FORM-DISCREET',
+          isCorrect: false,
+        },
+        {
+          text: 'TRIAL-FROM-DISCREET',
+          isCorrect: true,
+        },
+        {
+          text: 'TRAIL-FORM-DISCRETE',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 'en_diag_3',
+      type: 'diagnostic',
       pillar: 'Cognitive',
       difficulty: 4,
       focus: 'Diagnostic: Logic & Memory',
@@ -1653,19 +2845,35 @@ export const wordDatabaseEN = {
     },
     {
       id: 'en_diag_4',
+      type: 'diagnostic',
       pillar: 'Literacy',
       difficulty: 3,
       focus: 'Diagnostic: Spelling',
-      question: { en: 'Which of the following is spelled correctly?' },
+      question: {
+        en: 'Which of the following is spelled correctly?',
+      },
       options: [
-        { text: 'Accommodate', isCorrect: true },
-        { text: 'Accomodate', isCorrect: false },
-        { text: 'Acommodate', isCorrect: false },
-        { text: 'Acomodate', isCorrect: false },
+        {
+          text: 'Accommodate',
+          isCorrect: true,
+        },
+        {
+          text: 'Accomodate',
+          isCorrect: false,
+        },
+        {
+          text: 'Acommodate',
+          isCorrect: false,
+        },
+        {
+          text: 'Acomodate',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 'en_diag_5',
+      type: 'diagnostic',
       pillar: 'Visual',
       difficulty: 2,
       focus: 'Diagnostic: Visual Discrimination',
@@ -1673,14 +2881,27 @@ export const wordDatabaseEN = {
         en: 'Identify the odd one out in this sequence:\n\n b b b d b b',
       },
       options: [
-        { text: 'The 3rd letter', isCorrect: false },
-        { text: 'The 4th letter', isCorrect: true },
-        { text: 'The 5th letter', isCorrect: false },
-        { text: 'The 6th letter', isCorrect: false },
+        {
+          text: 'The 3rd letter',
+          isCorrect: false,
+        },
+        {
+          text: 'The 4th letter',
+          isCorrect: true,
+        },
+        {
+          text: 'The 5th letter',
+          isCorrect: false,
+        },
+        {
+          text: 'The 6th letter',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 'en_diag_6',
+      type: 'diagnostic',
       pillar: 'Cognitive',
       difficulty: 3,
       focus: 'Diagnostic: Working Memory',
@@ -1688,27 +2909,55 @@ export const wordDatabaseEN = {
         en: 'If the meeting is moved from 2 PM to 4 PM, and then delayed by another half hour, what time does it start?',
       },
       options: [
-        { text: '4:00 PM', isCorrect: false },
-        { text: '4:30 PM', isCorrect: true },
-        { text: '2:30 PM', isCorrect: false },
-        { text: '5:00 PM', isCorrect: false },
+        {
+          text: '4:00 PM',
+          isCorrect: false,
+        },
+        {
+          text: '4:30 PM',
+          isCorrect: true,
+        },
+        {
+          text: '2:30 PM',
+          isCorrect: false,
+        },
+        {
+          text: '5:00 PM',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 'en_diag_7',
+      type: 'diagnostic',
       pillar: 'Literacy',
       difficulty: 2,
       focus: 'Diagnostic: Homophones',
-      question: { en: 'Choose the correct word: "The dog wagged ___ tail."' },
+      question: {
+        en: 'Choose the correct word: "The dog wagged ___ tail."',
+      },
       options: [
-        { text: 'its', isCorrect: true },
-        { text: "it's", isCorrect: false },
-        { text: "its'", isCorrect: false },
-        { text: 'it', isCorrect: false },
+        {
+          text: 'its',
+          isCorrect: true,
+        },
+        {
+          text: "it's",
+          isCorrect: false,
+        },
+        {
+          text: "its'",
+          isCorrect: false,
+        },
+        {
+          text: 'it',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 'en_diag_8',
+      type: 'diagnostic',
       pillar: 'Visual',
       difficulty: 3,
       focus: 'Diagnostic: Letter Reversal',
@@ -1716,14 +2965,27 @@ export const wordDatabaseEN = {
         en: 'Which word contains a reversed letter?\n\n m a r k e t i n g \n d e v e l o p m e n t \n s t r a t e q y \n c o m m i t t e e',
       },
       options: [
-        { text: 'marketing', isCorrect: false },
-        { text: 'development', isCorrect: false },
-        { text: 'strateqy', isCorrect: true },
-        { text: 'committee', isCorrect: false },
+        {
+          text: 'marketing',
+          isCorrect: false,
+        },
+        {
+          text: 'development',
+          isCorrect: false,
+        },
+        {
+          text: 'strateqy',
+          isCorrect: true,
+        },
+        {
+          text: 'committee',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 'en_diag_9',
+      type: 'diagnostic',
       pillar: 'Cognitive',
       difficulty: 2,
       focus: 'Diagnostic: Categorization',
@@ -1731,79 +2993,167 @@ export const wordDatabaseEN = {
         en: 'Which of the following does NOT belong in a group of financial terms?',
       },
       options: [
-        { text: 'Budget', isCorrect: false },
-        { text: 'Invoice', isCorrect: false },
-        { text: 'Recruitment', isCorrect: true },
-        { text: 'Revenue', isCorrect: false },
+        {
+          text: 'Budget',
+          isCorrect: false,
+        },
+        {
+          text: 'Invoice',
+          isCorrect: false,
+        },
+        {
+          text: 'Recruitment',
+          isCorrect: true,
+        },
+        {
+          text: 'Revenue',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 'en_diag_10',
+      type: 'diagnostic',
       pillar: 'Literacy',
       difficulty: 3,
       focus: 'Diagnostic: Syllable Segmentation',
-      question: { en: 'How many syllables are in the word "Responsibility"?' },
+      question: {
+        en: 'How many syllables are in the word "Responsibility"?',
+      },
       options: [
-        { text: '4', isCorrect: false },
-        { text: '5', isCorrect: false },
-        { text: '6', isCorrect: true },
-        { text: '7', isCorrect: false },
+        {
+          text: '4',
+          isCorrect: false,
+        },
+        {
+          text: '5',
+          isCorrect: false,
+        },
+        {
+          text: '6',
+          isCorrect: true,
+        },
+        {
+          text: '7',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 'en_diag_11',
+      type: 'diagnostic',
       pillar: 'Literacy',
       difficulty: 2,
       focus: 'Diagnostic: Spelling',
-      question: { en: 'Which word is spelled correctly?' },
+      question: {
+        en: 'Which word is spelled correctly?',
+      },
       options: [
-        { text: 'Definitely', isCorrect: true },
-        { text: 'Definately', isCorrect: false },
-        { text: 'Definatly', isCorrect: false },
-        { text: 'Defenitely', isCorrect: false },
+        {
+          text: 'Definitely',
+          isCorrect: true,
+        },
+        {
+          text: 'Definately',
+          isCorrect: false,
+        },
+        {
+          text: 'Definatly',
+          isCorrect: false,
+        },
+        {
+          text: 'Defenitely',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 'en_diag_12',
+      type: 'diagnostic',
       pillar: 'Visual',
       difficulty: 3,
       focus: 'Diagnostic: Shape Recognition',
-      question: { en: 'Identify the sequence containing the letter "p":' },
+      question: {
+        en: 'Identify the sequence containing the letter "p":',
+      },
       options: [
-        { text: 'q q q q d b', isCorrect: false },
-        { text: 'b d q d b q', isCorrect: false },
-        { text: 'q d b p q d', isCorrect: true },
-        { text: 'b b d q d b', isCorrect: false },
+        {
+          text: 'q q q q d b',
+          isCorrect: false,
+        },
+        {
+          text: 'b d q d b q',
+          isCorrect: false,
+        },
+        {
+          text: 'q d b p q d',
+          isCorrect: true,
+        },
+        {
+          text: 'b b d q d b',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 'en_diag_13',
+      type: 'diagnostic',
       pillar: 'Cognitive',
       difficulty: 2,
       focus: 'Diagnostic: Categorization',
-      question: { en: 'Which of the following is NOT a vegetable?' },
+      question: {
+        en: 'Which of the following is NOT a vegetable?',
+      },
       options: [
-        { text: 'Carrot', isCorrect: false },
-        { text: 'Broccoli', isCorrect: false },
-        { text: 'Tomato', isCorrect: true },
-        { text: 'Spinach', isCorrect: false },
+        {
+          text: 'Carrot',
+          isCorrect: false,
+        },
+        {
+          text: 'Broccoli',
+          isCorrect: false,
+        },
+        {
+          text: 'Tomato',
+          isCorrect: true,
+        },
+        {
+          text: 'Spinach',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 'en_diag_14',
+      type: 'diagnostic',
       pillar: 'Literacy',
       difficulty: 3,
       focus: 'Diagnostic: Synonyms',
-      question: { en: 'What is a synonym for "Rapid"?' },
+      question: {
+        en: 'What is a synonym for "Rapid"?',
+      },
       options: [
-        { text: 'Sluggish', isCorrect: false },
-        { text: 'Swift', isCorrect: true },
-        { text: 'Lethargic', isCorrect: false },
-        { text: 'Quiet', isCorrect: false },
+        {
+          text: 'Sluggish',
+          isCorrect: false,
+        },
+        {
+          text: 'Swift',
+          isCorrect: true,
+        },
+        {
+          text: 'Lethargic',
+          isCorrect: false,
+        },
+        {
+          text: 'Quiet',
+          isCorrect: false,
+        },
       ],
     },
     {
       id: 'en_diag_15',
+      type: 'diagnostic',
       pillar: 'Cognitive',
       difficulty: 4,
       focus: 'Diagnostic: Deduction',
@@ -1811,10 +3161,22 @@ export const wordDatabaseEN = {
         en: 'If every square is a rectangle, and no rectangle is a circle, then:',
       },
       options: [
-        { text: 'No square is a circle', isCorrect: true },
-        { text: 'Every rectangle is a square', isCorrect: false },
-        { text: 'Every circle is a square', isCorrect: false },
-        { text: 'Some squares are circles', isCorrect: false },
+        {
+          text: 'No square is a circle',
+          isCorrect: true,
+        },
+        {
+          text: 'Every rectangle is a square',
+          isCorrect: false,
+        },
+        {
+          text: 'Every circle is a square',
+          isCorrect: false,
+        },
+        {
+          text: 'Some squares are circles',
+          isCorrect: false,
+        },
       ],
     },
   ],

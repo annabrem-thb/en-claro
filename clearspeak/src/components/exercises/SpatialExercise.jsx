@@ -1,26 +1,25 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import BionicText from '../common/BionicText';
+
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
 
-function SpatialExercise(
-  {
-    data,
-    themeStyles,
-    onSuccess,
-    onError,
-    language,
-    t,
-    speak,
-    noFlash = false,
-    bigTargets = false,
-    extendedTime = false,
-    bionicReading = false,
-    zenMode = false,
-    voiceAssistant = false,
-  }
-) {
+function SpatialExercise({
+  data,
+  themeStyles,
+  onSuccess,
+  onError,
+  language,
+  t,
+  speak,
+  noFlash = false,
+  bigTargets = false,
+  extendedTime = false,
+  bionicReading = false,
+  zenMode = false,
+  voiceAssistant = false,
+}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animation, setAnimation] = useState('');
 
@@ -30,7 +29,12 @@ function SpatialExercise(
   );
 
   const [activeHighlight, setActiveHighlight] = useState(null);
-  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+  const {
+    setSafeTimeout,
+    clearAllTimeouts,
+    pauseAllTimeouts,
+    resumeAllTimeouts,
+  } = useSafeTimeouts();
 
   const clearAudioTimeouts = useCallback(() => {
     clearAllTimeouts();
@@ -48,28 +52,44 @@ function SpatialExercise(
 
   const handleMistake = useCallback(() => {
     onError();
-    setSafeTimeout(() => {
-      clearAudioTimeouts();
+    setSafeTimeout(
+      () => {
+        clearAudioTimeouts();
 
-      const currentTaskItem = data.items[currentIndex];
-      const correctIndex = data.options.findIndex((o) => o.value === currentTaskItem.target);
-      
-      if (correctIndex !== -1) {
-        const correctOpt = data.options[correctIndex];
-        const cleanLabel = correctOpt.label.replace(
-          /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{1FAB0}-\u{1FABF}\u{1FAC0}-\u{1FACF}\u{1FAD0}-\u{1FADF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu,
-          '',
+        const currentTaskItem = data.items[currentIndex];
+        const correctIndex = data.options.findIndex(
+          (o) => o.value === currentTaskItem.target,
         );
 
-        setActiveHighlight(correctIndex);
-        speak(cleanLabel, extendedTime);
+        if (correctIndex !== -1) {
+          const correctOpt = data.options[correctIndex];
+          const cleanLabel = correctOpt.label.replace(
+            /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{1FAB0}-\u{1FABF}\u{1FAC0}-\u{1FACF}\u{1FAD0}-\u{1FADF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu,
+            '',
+          );
 
-        setSafeTimeout(() => {
-          setActiveHighlight(null);
-        }, cleanLabel.length * (extendedTime ? 100 : 75) + 1500);
-      }
-    }, extendedTime ? 3500 : 2500);
-  }, [onError, setSafeTimeout, clearAudioTimeouts, data, currentIndex, speak, extendedTime]);
+          setActiveHighlight(correctIndex);
+          speak(cleanLabel, extendedTime);
+
+          setSafeTimeout(
+            () => {
+              setActiveHighlight(null);
+            },
+            cleanLabel.length * (extendedTime ? 100 : 75) + 1500,
+          );
+        }
+      },
+      extendedTime ? 3500 : 2500,
+    );
+  }, [
+    onError,
+    setSafeTimeout,
+    clearAudioTimeouts,
+    data,
+    currentIndex,
+    speak,
+    extendedTime,
+  ]);
 
   const handleChoice = (selectedValue) => {
     clearAudioTimeouts();
@@ -102,36 +122,43 @@ function SpatialExercise(
     clearAudioTimeouts();
 
     speak(data.instruction, extendedTime);
-    let delayAcc = (data.instruction || '').length * (extendedTime ? 100 : 75) + 1500;
+    let delayAcc =
+      (data.instruction || '').length * (extendedTime ? 100 : 75) + 1500;
 
     data.options.forEach((opt, index) => {
-      const optionPrefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
+      const optionPrefix = t('optionPrefix', { number: index + 1 });
 
       const cleanLabel = opt.label.replace(
         /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{1FAB0}-\u{1FABF}\u{1FAC0}-\u{1FACF}\u{1FAD0}-\u{1FADF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu,
         '',
       );
-      
+
       const spokenPrefix = optionPrefix.replace(':', '.');
       const fullSpokenText = `${spokenPrefix} ${cleanLabel}`;
-      
-      const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
-      
+
+      const stepDuration =
+        fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
+
       setSafeTimeout(() => {
         setActiveHighlight(index);
         speak(fullSpokenText);
       }, delayAcc);
-      
-      setSafeTimeout(() => {
-        setActiveHighlight((prev) => (prev === index ? null : prev));
-      }, delayAcc + stepDuration - 200);
+
+      setSafeTimeout(
+        () => {
+          setActiveHighlight((prev) => (prev === index ? null : prev));
+        },
+        delayAcc + stepDuration - 200,
+      );
 
       delayAcc += stepDuration;
     });
   };
 
   const btnPadding = bigTargets ? 'py-6 sm:py-8' : 'py-4 sm:py-6';
-  const cardSize = bigTargets ? 'w-40 h-48 sm:w-48 sm:h-60 text-7xl sm:text-8xl' : 'w-32 h-40 sm:w-40 sm:h-52 text-6xl sm:text-7xl';
+  const cardSize = bigTargets
+    ? 'w-40 h-48 sm:w-48 sm:h-60 text-7xl sm:text-8xl'
+    : 'w-32 h-40 sm:w-40 sm:h-52 text-6xl sm:text-7xl';
   const pulseClass = noFlash
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-4 ring-red-100';
@@ -161,7 +188,7 @@ function SpatialExercise(
                 ? pulseClass + ' text-white'
                 : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
             }`}
-            aria-label={isListening ? t.listening : t.speakOptionNumber}
+            aria-label={isListening ? t('listening') : t('speakOptionNumber')}
             aria-pressed={isListening}
           >
             {isListening ? '🛑' : '🎤'}
@@ -170,15 +197,15 @@ function SpatialExercise(
       )}
 
       {transcript && (
-        <p className="mb-2 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-400 uppercase">
-          {t.heard}: <span className="text-slate-600">{transcript}</span>
+        <p className="mb-2 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase">
+          {t('heard')}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
 
       {}
-      <div className="mb-2 sm:mb-4 w-full shrink-0 text-center">
+      <div className="mb-2 w-full shrink-0 text-center sm:mb-4">
         {!zenMode && (
-          <h3 className="mb-2 sm:mb-4 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
+          <h3 className="mx-auto mb-2 max-w-[65ch] text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4">
             <BionicText text={data.instruction} enabled={bionicReading} />
           </h3>
         )}
@@ -203,12 +230,15 @@ function SpatialExercise(
       </div>
 
       {}
-      <div className="my-2 sm:my-4 flex min-h-0 w-full flex-1 items-center justify-center">
+      <div className="my-2 flex min-h-0 w-full flex-1 items-center justify-center sm:my-4">
         <div
-          className={`${cardSize} ${isAlphaSymbol ? 'font-dyslexic' : 'font-sans'} flex items-center justify-center rounded-[50px] border-4 bg-white shadow-xl md:shadow-md transition-all ${themeStyles.border} ${themeStyles.accent} ${animation}`}
+          className={`${cardSize} ${isAlphaSymbol ? 'font-dyslexic' : 'font-sans'} flex items-center justify-center rounded-[50px] border-4 bg-white shadow-xl transition-all md:shadow-md ${themeStyles.border} ${themeStyles.accent} ${animation}`}
         >
           {}
-          <BionicText text={currentItem?.symbol} enabled={bionicReading && isAlphaSymbol} />
+          <BionicText
+            text={currentItem?.symbol}
+            enabled={bionicReading && isAlphaSymbol}
+          />
         </div>
       </div>
 
@@ -220,10 +250,10 @@ function SpatialExercise(
             onClick={() => handleChoice(option.value)}
             disabled={isListening}
             className={`relative ${btnPadding} rounded-[35px] border-b-4 text-lg font-black tracking-widest uppercase transition-all active:translate-y-1 active:border-b-0 ${
-              isListening 
-                ? 'border-slate-500 bg-slate-400 opacity-50 grayscale text-white' 
+              isListening
+                ? 'border-slate-500 bg-slate-400 text-white opacity-50 grayscale'
                 : activeHighlight === i
-                  ? 'scale-105 ring-4 ring-yellow-400 bg-yellow-50 border-yellow-400 text-slate-900 shadow-xl z-10'
+                  ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
                   : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
             } flex items-center justify-center gap-2 shadow-lg md:shadow-sm`}
           >

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:analyze": "ANALYZE=true vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:knip": "knip",
@@ -15,6 +16,7 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:e2e": "playwright test",
+    "check:locales": "node check-locales.mjs",
     "serve": "npm run build && npm run preview",
     "clean": "rm -rf dist node_modules .vite",
     "audit:check": "npm audit"
@@ -34,6 +36,7 @@
     "recharts": "^3.8.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "^4.3.0",
@@ -56,6 +59,7 @@
     "postcss": "^8.5.15",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
+    "rollup-plugin-visualizer": "^7.0.1",
     "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.12",

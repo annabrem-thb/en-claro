@@ -1,27 +1,34 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+
 import '@testing-library/jest-dom/vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
+
 import { FeedbackCollector } from './FeedbackCollector';
 
 describe('FeedbackCollector Component', () => {
   const mockOnSubmit = vi.fn();
   const mockOnSkip = vi.fn();
-  const mockT = {
-    feedback: {
-      title: 'Chwila na refleksję',
-      desc: 'Twoja opinia pomaga nam dostosować aplikację.',
-      nasaTitle: 'NASA-TLX',
-      mental: 'Wysiłek umysłowy',
-      physical: 'Wysiłek fizyczny',
-      frustration: 'Poziom frustracji',
-      low: 'Niski',
-      high: 'Wysoki',
-      submit: 'Zapisz',
-      skip: 'Pomiń',
-    },
+  const feedbackDict = {
+    title: 'Chwila na refleksję',
+    desc: 'Twoja opinia pomaga nam dostosować aplikację.',
+    nasaTitle: 'NASA-TLX',
+    mental: 'Wysiłek umysłowy',
+    physical: 'Wysiłek fizyczny',
+    frustration: 'Poziom frustracji',
+    low: 'Niski',
+    high: 'Wysoki',
+    submit: 'Zapisz',
+    skip: 'Pomiń',
   };
-  const mockThemeStyles = { accent: 'text-indigo-600', button: 'bg-indigo-600' };
+  // Real react-i18next's `t` is a function, not a plain dictionary object —
+  // this mock matches that shape (`t(key, { returnObjects: true })`) so the
+  // component under test is exercised the same way the real app calls it.
+  const mockT = (key) => (key === 'feedback' ? feedbackDict : key);
+  const mockThemeStyles = {
+    accent: 'text-indigo-600',
+    button: 'bg-indigo-600',
+  };
 
   beforeEach(() => {
     mockOnSubmit.mockClear();
@@ -36,7 +43,7 @@ describe('FeedbackCollector Component', () => {
         onSkip={mockOnSkip}
         t={mockT}
         themeStyles={mockThemeStyles}
-      />
+      />,
     );
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -49,7 +56,7 @@ describe('FeedbackCollector Component', () => {
         onSkip={mockOnSkip}
         t={mockT}
         themeStyles={mockThemeStyles}
-      />
+      />,
     );
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText('Chwila na refleksję')).toBeInTheDocument();
@@ -60,7 +67,7 @@ describe('FeedbackCollector Component', () => {
 
   it('powinien aktualizować wartość suwaka po interakcji użytkownika', () => {
     render(
-      <FeedbackCollector open={true} t={mockT} themeStyles={mockThemeStyles} />
+      <FeedbackCollector open={true} t={mockT} themeStyles={mockThemeStyles} />,
     );
 
     const mentalSlider = screen.getByLabelText('Wysiłek umysłowy');
@@ -69,18 +76,32 @@ describe('FeedbackCollector Component', () => {
     expect(valueDisplay.textContent).toBe('3');
     fireEvent.change(mentalSlider, { target: { value: '5' } });
 
-    const updatedValueDisplay = screen.getByLabelText('Wysiłek umysłowy').previousElementSibling.lastChild;
+    const updatedValueDisplay =
+      screen.getByLabelText('Wysiłek umysłowy').previousElementSibling
+        .lastChild;
     expect(updatedValueDisplay.textContent).toBe('5');
   });
 
   it('powinien wywołać onSubmit z poprawnymi wartościami po kliknięciu "Zapisz"', () => {
     render(
-      <FeedbackCollector open={true} onSubmit={mockOnSubmit} onSkip={mockOnSkip} t={mockT} themeStyles={mockThemeStyles} />
+      <FeedbackCollector
+        open={true}
+        onSubmit={mockOnSubmit}
+        onSkip={mockOnSkip}
+        t={mockT}
+        themeStyles={mockThemeStyles}
+      />,
     );
 
-    fireEvent.change(screen.getByLabelText('Wysiłek umysłowy'), { target: { value: '4' } });
-    fireEvent.change(screen.getByLabelText('Wysiłek fizyczny'), { target: { value: '2' } });
-    fireEvent.change(screen.getByLabelText('Poziom frustracji'), { target: { value: '1' } });
+    fireEvent.change(screen.getByLabelText('Wysiłek umysłowy'), {
+      target: { value: '4' },
+    });
+    fireEvent.change(screen.getByLabelText('Wysiłek fizyczny'), {
+      target: { value: '2' },
+    });
+    fireEvent.change(screen.getByLabelText('Poziom frustracji'), {
+      target: { value: '1' },
+    });
 
     fireEvent.click(screen.getByRole('button', { name: 'Zapisz' }));
 
@@ -93,7 +114,13 @@ describe('FeedbackCollector Component', () => {
 
   it('powinien wywołać onSkip po kliknięciu "Pomiń"', () => {
     render(
-      <FeedbackCollector open={true} onSubmit={mockOnSubmit} onSkip={mockOnSkip} t={mockT} themeStyles={mockThemeStyles} />
+      <FeedbackCollector
+        open={true}
+        onSubmit={mockOnSubmit}
+        onSkip={mockOnSkip}
+        t={mockT}
+        themeStyles={mockThemeStyles}
+      />,
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Pomiń' }));

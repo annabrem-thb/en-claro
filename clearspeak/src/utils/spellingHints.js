@@ -68,13 +68,7 @@ export function getSmartSpellingHint(word, allOptions, lang, t) {
   const pronunciations = PRONUNCIATIONS[lang];
   if (pronunciations && pronunciations[differingPart]) {
     const hint = pronunciations[differingPart];
-    if (t?.spellingHint) return t.spellingHint(word, hint);
-    const hintTemplates = {
-      pl: `${word}, pisane przez ${hint}`,
-      de: `${word}, mit ${hint}`,
-      en: `${word}, with ${hint}`,
-    };
-    return hintTemplates[lang] || hintTemplates['en'];
+    return t('spellingHint', { word, hint });
   }
   return word;
 }

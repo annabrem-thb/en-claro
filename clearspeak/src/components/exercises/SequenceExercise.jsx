@@ -1,27 +1,26 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import BionicText from '../common/BionicText';
+
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
-import { seededShuffle } from '../../utils/shuffleUtils.js';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { seededShuffle } from '../../utils/shuffleUtils.js';
+import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
 
-function SequenceExercise(
-  {
-    data,
-    themeStyles,
-    onSuccess,
-    onError,
-    language,
-    t,
-    speak,
-    noFlash = false,
-    bigTargets = false,
-    extendedTime = false,
-    bionicReading = false,
-    zenMode = false,
-    voiceAssistant = false,
-  }
-) {
+function SequenceExercise({
+  data,
+  themeStyles,
+  onSuccess,
+  onError,
+  language,
+  t,
+  speak,
+  noFlash = false,
+  bigTargets = false,
+  extendedTime = false,
+  bionicReading = false,
+  zenMode = false,
+  voiceAssistant = false,
+}) {
   const [prevId, setPrevId] = useState(data.id || data.correct);
 
   const prepareWords = (correctData, id, scrambledData, distractors = []) => {
@@ -37,9 +36,9 @@ function SequenceExercise(
     }
 
     const combined = [...baseArray, ...distractors];
-    const seedString = id || (Array.isArray(correctData)
-        ? correctData.join('')
-        : String(correctData));
+    const seedString =
+      id ||
+      (Array.isArray(correctData) ? correctData.join('') : String(correctData));
 
     const words = seededShuffle(combined, seedString);
 
@@ -63,7 +62,12 @@ function SequenceExercise(
 
   const [activeHighlight, setActiveHighlight] = useState(null);
   const [isShowingCorrection, setIsShowingCorrection] = useState(false);
-  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+  const {
+    setSafeTimeout,
+    clearAllTimeouts,
+    pauseAllTimeouts,
+    resumeAllTimeouts,
+  } = useSafeTimeouts();
 
   useEffect(() => {
     return () => {
@@ -79,23 +83,29 @@ function SequenceExercise(
     t,
   );
 
-  const handleSelect = useCallback((wordObj) => {
-    if (isShowingCorrection) return;
-    clearAllTimeouts();
-    setTaskWords((prev) => ({
-      selected: [...prev.selected, wordObj],
-      available: prev.available.filter((w) => w.id !== wordObj.id),
-    }));
-  }, [clearAllTimeouts, isShowingCorrection]);
+  const handleSelect = useCallback(
+    (wordObj) => {
+      if (isShowingCorrection) return;
+      clearAllTimeouts();
+      setTaskWords((prev) => ({
+        selected: [...prev.selected, wordObj],
+        available: prev.available.filter((w) => w.id !== wordObj.id),
+      }));
+    },
+    [clearAllTimeouts, isShowingCorrection],
+  );
 
-  const handleDeselect = useCallback((wordObj) => {
-    if (isShowingCorrection) return;
-    clearAllTimeouts();
-    setTaskWords((prev) => ({
-      available: [...prev.available, wordObj],
-      selected: prev.selected.filter((w) => w.id !== wordObj.id),
-    }));
-  }, [clearAllTimeouts, isShowingCorrection]);
+  const handleDeselect = useCallback(
+    (wordObj) => {
+      if (isShowingCorrection) return;
+      clearAllTimeouts();
+      setTaskWords((prev) => ({
+        available: [...prev.available, wordObj],
+        selected: prev.selected.filter((w) => w.id !== wordObj.id),
+      }));
+    },
+    [clearAllTimeouts, isShowingCorrection],
+  );
 
   const handleCheck = useCallback(() => {
     if (isShowingCorrection) return;
@@ -121,21 +131,41 @@ function SequenceExercise(
         selected: wordsArray.map((w, i) => ({ id: `correct-${i}`, text: w })),
       });
 
-      setSafeTimeout(() => {
-        speak(correctSentence, extendedTime);
+      setSafeTimeout(
+        () => {
+          speak(correctSentence, extendedTime);
 
-        setSafeTimeout(() => {
-          const combined = [...wordsArray, ...(data.distractors || [])];
-          const shuffled = combined.sort(() => Math.random() - 0.5);
-          setTaskWords({
-            available: shuffled.map((w, i) => ({ id: `word-${i}`, text: w })),
-            selected: [],
-          });
-          setIsShowingCorrection(false);
-        }, correctSentence.length * (extendedTime ? 100 : 75) + 2000);
-      }, extendedTime ? 3500 : 2500);
+          setSafeTimeout(
+            () => {
+              const combined = [...wordsArray, ...(data.distractors || [])];
+              const shuffled = combined.sort(() => Math.random() - 0.5);
+              setTaskWords({
+                available: shuffled.map((w, i) => ({
+                  id: `word-${i}`,
+                  text: w,
+                })),
+                selected: [],
+              });
+              setIsShowingCorrection(false);
+            },
+            correctSentence.length * (extendedTime ? 100 : 75) + 2000,
+          );
+        },
+        extendedTime ? 3500 : 2500,
+      );
     }
-  }, [selectedWords, data.correct, data.distractors, onSuccess, onError, clearAllTimeouts, setSafeTimeout, speak, extendedTime, isShowingCorrection]);
+  }, [
+    selectedWords,
+    data.correct,
+    data.distractors,
+    onSuccess,
+    onError,
+    clearAllTimeouts,
+    setSafeTimeout,
+    speak,
+    extendedTime,
+    isShowingCorrection,
+  ]);
 
   const targetLength = Array.isArray(data.correct)
     ? data.correct.length
@@ -143,7 +173,9 @@ function SequenceExercise(
       ? data.correct.split(' ').length
       : 0;
 
-  const showCheckButton = availableWords.length === 0 || (data.distractors && selectedWords.length === targetLength);
+  const showCheckButton =
+    availableWords.length === 0 ||
+    (data.distractors && selectedWords.length === targetLength);
 
   const handleVoiceMatch = (num) => {
     if (isShowingCorrection) return;
@@ -168,27 +200,31 @@ function SequenceExercise(
   const readAvailableWords = () => {
     clearAllTimeouts();
 
-    const instruction = data.instruction || t.orderCorrectly || '';
+    const instruction = data.instruction || t('orderCorrectly') || '';
     speak(instruction, extendedTime);
 
     let delayAcc = instruction.length * (extendedTime ? 100 : 75) + 1500;
 
     availableWords.forEach((wordObj, index) => {
-      const optionPrefix = t.wordPrefix ? t.wordPrefix(index + 1) : `Word ${index + 1}: `;
+      const optionPrefix = t('wordPrefix', { number: index + 1 });
 
       const spokenPrefix = optionPrefix.replace(':', '.');
       const fullSpokenText = `${spokenPrefix} ${wordObj.text}`;
 
-      const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
+      const stepDuration =
+        fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
 
       setSafeTimeout(() => {
         setActiveHighlight(wordObj.id);
         speak(fullSpokenText);
       }, delayAcc);
 
-      setSafeTimeout(() => {
-        setActiveHighlight((prev) => (prev === wordObj.id ? null : prev));
-      }, delayAcc + stepDuration - 200);
+      setSafeTimeout(
+        () => {
+          setActiveHighlight((prev) => (prev === wordObj.id ? null : prev));
+        },
+        delayAcc + stepDuration - 200,
+      );
 
       delayAcc += stepDuration;
     });
@@ -200,24 +236,28 @@ function SequenceExercise(
   const pulseClass = noFlash
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-8 ring-red-100';
-  const btnPadding = bigTargets ? 'py-3 px-4 sm:py-4 sm:px-6 text-lg sm:text-xl' : 'py-2 px-3 sm:py-3 sm:px-5 text-base sm:text-lg';
+  const btnPadding = bigTargets
+    ? 'py-3 px-4 sm:py-4 sm:px-6 text-lg sm:text-xl'
+    : 'py-2 px-3 sm:py-3 sm:px-5 text-base sm:text-lg';
   const controlBtnSize = bigTargets
     ? 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
     : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
 
   return (
-    <div className={`${animClass} flex h-full min-h-0 w-full max-w-2xl flex-col items-center justify-start px-2 pt-6 sm:pt-10 pb-2 overflow-hidden`}>
+    <div
+      className={`${animClass} flex h-full min-h-0 w-full max-w-2xl flex-col items-center justify-start overflow-hidden px-2 pt-6 pb-2 sm:pt-10`}
+    >
       {!zenMode && (
-        <h3 className="mb-2 sm:mb-4 text-center text-[10px] sm:text-xs md:text-sm font-black tracking-widest text-slate-400 uppercase break-words shrink-0">
+        <h3 className="mx-auto mb-2 max-w-[65ch] shrink-0 text-center text-[10px] font-black tracking-widest break-words text-slate-600 uppercase sm:mb-4 sm:text-xs md:text-sm">
           <BionicText
-            text={data.instruction || t.orderCorrectly}
+            text={data.instruction || t('orderCorrectly')}
             enabled={bionicReading}
           />
         </h3>
       )}
 
       {voiceAssistant && (
-        <div className="mb-2 sm:mb-4 flex gap-4 sm:gap-6 shrink-0">
+        <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
           <TTSController
             onReadAloud={readAvailableWords}
             pauseAllTimeouts={() => {
@@ -238,7 +278,7 @@ function SequenceExercise(
                 ? pulseClass + ' text-white'
                 : `${themeStyles.button} text-white hover:brightness-110`
             }`}
-            aria-label={isListening ? t.listening : t.voiceInput}
+            aria-label={isListening ? t('listening') : t('voiceInput')}
           >
             {isListening ? '🛑' : '🎤'}
           </button>
@@ -246,16 +286,16 @@ function SequenceExercise(
       )}
 
       {transcript && (
-        <p className="mb-1 sm:mb-2 text-center text-[10px] sm:text-xs font-black tracking-widest text-slate-400 uppercase shrink-0">
-          {t.heard}: <span className="text-slate-600">{transcript}</span>
+        <p className="mb-1 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-2 sm:text-xs">
+          {t('heard')}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
 
-      <div className="mb-2 sm:mb-4 flex min-h-[60px] sm:min-h-[100px] w-full max-h-[35vh] flex-wrap content-start gap-2 sm:gap-3 rounded-2xl sm:rounded-3xl border-4 border-dashed border-slate-200 bg-slate-50 p-2.5 sm:p-4 shrink min-h-0 overflow-y-auto no-scrollbar">
+      <div className="no-scrollbar mb-2 flex max-h-[35vh] min-h-0 min-h-[60px] w-full shrink flex-wrap content-start gap-2 overflow-y-auto rounded-2xl border-4 border-dashed border-slate-200 bg-slate-50 p-2.5 sm:mb-4 sm:min-h-[100px] sm:gap-3 sm:rounded-3xl sm:p-4">
         {selectedWords.length === 0 && (
-          <div className="flex h-full w-full items-center justify-center px-2 sm:px-4 text-center text-xs sm:text-sm font-black tracking-widest text-slate-300 uppercase">
+          <div className="flex h-full w-full items-center justify-center px-2 text-center text-xs font-black tracking-widest text-slate-300 uppercase sm:px-4 sm:text-sm">
             <BionicText
-              text={t.tapToBuild || 'Tap words to build'}
+              text={t('tapToBuild') || 'Tap words to build'}
               enabled={bionicReading}
             />
           </div>
@@ -265,10 +305,12 @@ function SequenceExercise(
             key={wordObj.id}
             onClick={() => handleDeselect(wordObj)}
             disabled={isListening || isShowingCorrection}
-            className={`${btnPadding} rounded-2xl font-black text-white shadow-md md:shadow-sm transition-all active:scale-95 ${
+            className={`${btnPadding} rounded-2xl font-black text-white shadow-md transition-all active:scale-95 md:shadow-sm ${
               isListening ? 'opacity-50 grayscale' : ''
             } ${
-              isShowingCorrection ? 'bg-yellow-400 text-slate-900 shadow-xl scale-105 pointer-events-none' : themeStyles.button
+              isShowingCorrection
+                ? 'pointer-events-none scale-105 bg-yellow-400 text-slate-900 shadow-xl'
+                : themeStyles.button
             }`}
           >
             <BionicText text={wordObj.text} enabled={bionicReading} />
@@ -276,17 +318,17 @@ function SequenceExercise(
         ))}
       </div>
 
-      <div className="mb-2 sm:mb-4 flex w-full max-h-[40vh] flex-wrap justify-center gap-2 sm:gap-3 shrink min-h-0 overflow-y-auto no-scrollbar pt-2 pb-2 px-2">
+      <div className="no-scrollbar mb-2 flex max-h-[40vh] min-h-0 w-full shrink flex-wrap justify-center gap-2 overflow-y-auto px-2 pt-2 pb-2 sm:mb-4 sm:gap-3">
         {availableWords.map((wordObj, i) => (
           <button
             key={wordObj.id}
             onClick={() => handleSelect(wordObj)}
             disabled={isListening || isShowingCorrection}
-            className={`relative ${btnPadding} rounded-2xl border-2 font-black shadow-sm md:shadow-none transition-all active:scale-95 ${
-              (isListening || isShowingCorrection)
-                ? 'opacity-50 grayscale border-slate-200 bg-white text-slate-600' 
+            className={`relative ${btnPadding} rounded-2xl border-2 font-black shadow-sm transition-all active:scale-95 md:shadow-none ${
+              isListening || isShowingCorrection
+                ? 'border-slate-200 bg-white text-slate-600 opacity-50 grayscale'
                 : activeHighlight === wordObj.id
-                  ? 'scale-105 ring-4 ring-yellow-400 bg-yellow-50 border-yellow-400 text-slate-900 shadow-xl z-10'
+                  ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
                   : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
             }`}
           >
@@ -305,9 +347,9 @@ function SequenceExercise(
         <button
           onClick={handleCheck}
           disabled={isListening || isShowingCorrection}
-          className={`px-8 py-3 sm:px-12 sm:py-4 ${themeStyles.button} rounded-full text-lg sm:text-xl font-black text-white shadow-xl transition-all active:scale-95 mt-auto sm:mt-0 shrink-0 ${noFlash ? '' : 'animate-bounce'} ${(isListening || isShowingCorrection) ? 'opacity-50 grayscale cursor-not-allowed' : ''}`}
+          className={`px-8 py-3 sm:px-12 sm:py-4 ${themeStyles.button} mt-auto shrink-0 rounded-full text-lg font-black text-white shadow-xl transition-all active:scale-95 sm:mt-0 sm:text-xl ${noFlash ? '' : 'animate-bounce'} ${isListening || isShowingCorrection ? 'cursor-not-allowed opacity-50 grayscale' : ''}`}
         >
-          <BionicText text={t.check || 'Check'} enabled={bionicReading} />
+          <BionicText text={t('check') || 'Check'} enabled={bionicReading} />
         </button>
       )}
     </div>

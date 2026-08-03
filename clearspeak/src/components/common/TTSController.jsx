@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
+
 import { useTranslation } from 'react-i18next';
 
-export default function TTSController(
-  {
-    onReadAloud,
-    pauseAllTimeouts,
-    resumeAllTimeouts,
-    controlBtnSize = 'w-16 h-16 text-2xl'
-  }
-) {
+export default function TTSController({
+  onReadAloud,
+  pauseAllTimeouts,
+  resumeAllTimeouts,
+  controlBtnSize = 'w-16 h-16 text-2xl',
+}) {
   const [isPaused, setIsPaused] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const { t } = useTranslation();
@@ -38,10 +37,12 @@ export default function TTSController(
   return (
     <button
       onClick={handleToggle}
-      className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-400 shadow-sm transition-all hover:text-slate-600 active:scale-90`}
-      aria-label={isPaused ? t('resume') : (isSpeaking ? t('pause') : t('readAloudTitle'))}
+      className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-600 shadow-sm transition-all hover:text-slate-600 active:scale-90`}
+      aria-label={
+        isPaused ? t('resume') : isSpeaking ? t('pause') : t('readAloudTitle')
+      }
     >
-      {isPaused ? '▶️' : (isSpeaking ? '⏸️' : '🔊')}
+      {isPaused ? '▶️' : isSpeaking ? '⏸️' : '🔊'}
     </button>
   );
 }

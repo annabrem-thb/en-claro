@@ -44,7 +44,7 @@ export default function DailyChecklist({ quests, t }) {
       <h2
         className={`px-1 text-xl font-black ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
       >
-        {t.quests || 'Daily Checklist'}
+        {t('quests') || 'Daily Checklist'}
       </h2>
 
       <div className="flex flex-col gap-3" role="list">
@@ -100,18 +100,22 @@ export default function DailyChecklist({ quests, t }) {
                   className={`text-base font-bold break-words hyphens-auto ${isCompleted ? (isHighContrast ? 'text-black' : 'text-white') : 'text-slate-800'}`}
                 >
                   <BionicText
-                    text={
-                      t.questLabel
-                        ? t.questLabel(task.target, task.type, t.pillars)
-                        : `Complete ${task.target} ${task.type} tasks`
-                    }
+                    text={t('questLabel', {
+                      target: task.target,
+                      typeLabel:
+                        task.type === 'Any'
+                          ? t('questAny')
+                          : t('pillars', { returnObjects: true })?.[
+                              task.type
+                            ] || task.type,
+                    })}
                     enabled={bionicReading}
                   />
                 </span>
                 <span
                   className={`mt-1 text-xs font-black tracking-widest uppercase ${labelColorClass}`}
                 >
-                  {task.current} / {task.target} {t.done || 'Done'}
+                  {task.current} / {task.target} {t('done') || 'Done'}
                 </span>
               </div>
             </div>

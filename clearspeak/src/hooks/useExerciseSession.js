@@ -1,6 +1,8 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import { seededShuffle } from '../utils/shuffleUtils.js';
+
 import { saveLog } from '../utils/indexedDB.js';
+import { seededShuffle } from '../utils/shuffleUtils.js';
+
 import { useSafeTimeouts } from './useSafeTimeouts.js';
 
 let sharedAudioCtx = null;
@@ -15,7 +17,7 @@ const playThemeSound = (theme) => {
     if (sharedAudioCtx.state === 'suspended') sharedAudioCtx.resume();
     const ctx = sharedAudioCtx;
     const now = ctx.currentTime;
-    
+
     const playTone = (freq, type, startTime, duration, vol) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -30,7 +32,7 @@ const playThemeSound = (theme) => {
       osc.stop(startTime + duration);
     };
 
-    switch(theme) {
+    switch (theme) {
       case 'Ocean':
         playTone(400, 'sine', now, 0.15, 0.2);
         playTone(600, 'sine', now + 0.1, 0.15, 0.2);
@@ -44,11 +46,11 @@ const playThemeSound = (theme) => {
         playTone(523.25, 'triangle', now, 0.3, 0.15);
         playTone(659.25, 'triangle', now + 0.1, 0.3, 0.15);
         playTone(783.99, 'triangle', now + 0.2, 0.4, 0.15);
-        playTone(1046.50, 'triangle', now + 0.3, 0.6, 0.15);
+        playTone(1046.5, 'triangle', now + 0.3, 0.6, 0.15);
         break;
       case 'Kunst':
         playTone(329.63, 'sine', now, 0.5, 0.15);
-        playTone(415.30, 'sine', now, 0.5, 0.15);
+        playTone(415.3, 'sine', now, 0.5, 0.15);
         playTone(523.25, 'sine', now, 0.5, 0.15);
         break;
       case 'Natur':
@@ -58,22 +60,39 @@ const playThemeSound = (theme) => {
         break;
     }
   } catch (e) {
-    console.warn("Web Audio API not supported", e);
+    console.warn('Web Audio API not supported', e);
   }
 };
 
 const POINTS_PER_LEVEL = 5;
 
 export function useExerciseSession({
-  db, activeTab, language,
-  userDifficulty, setUserDifficulty,
-  inclusiveOptions, t, speak, theme, isGamified,
-  points, setPoints, setCoins, setRewards,
-  dailyQuests, updateQuests, setDailyProgress,
-  setPendingFeedback, setShowSuccess, setShowFeedback, setEarnedCoinsAnim,
-  setErrorTimestamps
+  db,
+  activeTab,
+  language,
+  userDifficulty,
+  setUserDifficulty,
+  inclusiveOptions,
+  t,
+  speak,
+  theme,
+  isGamified,
+  points,
+  setPoints,
+  setCoins,
+  setRewards,
+  dailyQuests,
+  updateQuests,
+  setDailyProgress,
+  setPendingFeedback,
+  setShowSuccess,
+  setShowFeedback,
+  setEarnedCoinsAnim,
+  setErrorTimestamps,
 }) {
-  const [currentIndex, setCurrentIndex] = useState(() => Number(localStorage.getItem('idx')) || 0);
+  const [currentIndex, setCurrentIndex] = useState(
+    () => Number(localStorage.getItem('idx')) || 0,
+  );
   const [cycle, setCycle] = useState(0);
   const [currentStreak, setCurrentStreak] = useState(0);
   const [errorCounter, setErrorCounter] = useState(0);
@@ -87,7 +106,7 @@ export function useExerciseSession({
     const timer = setTimeout(() => setIsTransitioning(false), 300);
     return () => clearTimeout(timer);
   }, [currentIndex, activeTab, theme]);
-  
+
   useEffect(() => {
     localStorage.setItem('idx', String(currentIndex));
   }, [currentIndex]);
@@ -97,46 +116,86 @@ export function useExerciseSession({
     if (activeTab === 'Garden') return [];
     let rawTasks = [];
     switch (activeTab) {
-      case 'Literacy':  rawTasks = [...(db.phonemes || []), ...(db.syllables || []), ...(db.graphemes || []), ...(db.scrabble || []), ...(db.lcwc || []), ...(db.context || []), ...(db.dictation || []), ...(db.readAloud || []), ...(db.diagnostic?.filter(d => d.pillar === 'Literacy') || [])]; break;
-      case 'Visual':    rawTasks = [...(db.clock || []), ...(db.tracking || []), ...(db.diagnostic?.filter(d => d.pillar === 'Visual') || [])]; break;
-      case 'Cognitive': rawTasks = [...(db.categorization || []), ...(db.sequences || []), ...(db.diagnostic?.filter(d => d.pillar === 'Cognitive') || [])]; break;
-      default:          rawTasks = [];
+      case 'Literacy':
+        rawTasks = [
+          ...(db.phonemes || []),
+          ...(db.syllables || []),
+          ...(db.graphemes || []),
+          ...(db.scrabble || []),
+          ...(db.lcwc || []),
+          ...(db.context || []),
+          ...(db.dictation || []),
+          ...(db.readAloud || []),
+          ...(db.diagnostic?.filter((d) => d.pillar === 'Literacy') || []),
+        ];
+        break;
+      case 'Visual':
+        rawTasks = [
+          ...(db.clock || []),
+          ...(db.tracking || []),
+          ...(db.diagnostic?.filter((d) => d.pillar === 'Visual') || []),
+        ];
+        break;
+      case 'Cognitive':
+        rawTasks = [
+          ...(db.categorization || []),
+          ...(db.sequences || []),
+          ...(db.diagnostic?.filter((d) => d.pillar === 'Cognitive') || []),
+        ];
+        break;
+      default:
+        rawTasks = [];
     }
 
     let tasks = rawTasks;
     let filteredTasks = tasks;
     if (inclusiveOptions.adaptiveDifficulty) {
-      filteredTasks = tasks.filter(task => {
+      filteredTasks = tasks.filter((task) => {
         const diff = task.difficulty || 1;
         return diff === userDifficulty || diff === userDifficulty - 1;
       });
     } else {
-      filteredTasks = tasks.filter(task => (task.difficulty || 1) === userDifficulty);
+      filteredTasks = tasks.filter(
+        (task) => (task.difficulty || 1) === userDifficulty,
+      );
     }
 
     if (filteredTasks.length === 0) {
-      filteredTasks = tasks.filter(task => (task.difficulty || 1) <= userDifficulty);
+      filteredTasks = tasks.filter(
+        (task) => (task.difficulty || 1) <= userDifficulty,
+      );
     }
     if (filteredTasks.length === 0) {
       filteredTasks = tasks;
     }
 
-    const seed = activeTab.split('').reduce((a, b) => a + b.charCodeAt(0), 0) + (language === 'pl' ? 1 : 2) + cycle;
+    const seed =
+      activeTab.split('').reduce((a, b) => a + b.charCodeAt(0), 0) +
+      (language === 'pl' ? 1 : 2) +
+      cycle;
     return seededShuffle([...filteredTasks], seed);
-  }, [activeTab, db, language, inclusiveOptions.adaptiveDifficulty, userDifficulty, cycle]);
+  }, [
+    activeTab,
+    db,
+    language,
+    inclusiveOptions.adaptiveDifficulty,
+    userDifficulty,
+    cycle,
+  ]);
 
   const safeIndex = currentIndex % (activePillarTasks.length || 1);
-  const currentTask = activePillarTasks.length > 0 ? activePillarTasks[safeIndex] : null;
+  const currentTask =
+    activePillarTasks.length > 0 ? activePillarTasks[safeIndex] : null;
 
   const goNext = useCallback(() => {
     setFeedback(null);
     if (activePillarTasks.length === 0) return;
     const length = activePillarTasks.length;
-    setCurrentIndex(prevIdx => {
+    setCurrentIndex((prevIdx) => {
       const currentSafe = prevIdx % length;
       const nextIdx = currentSafe + 1;
       if (nextIdx >= length) {
-        setCycle(c => c + 1);
+        setCycle((c) => c + 1);
         return 0;
       }
       return nextIdx;
@@ -147,7 +206,7 @@ export function useExerciseSession({
     setFeedback(null);
     if (activePillarTasks.length === 0) return;
     const length = activePillarTasks.length;
-    setCurrentIndex(prevIdx => {
+    setCurrentIndex((prevIdx) => {
       const currentSafe = prevIdx % length;
       const prevIdxCalc = currentSafe - 1;
       return prevIdxCalc < 0 ? length - 1 : prevIdxCalc;
@@ -157,46 +216,162 @@ export function useExerciseSession({
   const handleSuccess = useCallback(() => {
     const newStreak = currentStreak + 1;
     setCurrentStreak(newStreak);
-    if (inclusiveOptions.adaptiveDifficulty && newStreak > 0 && newStreak % 5 === 0 && userDifficulty < 4) setUserDifficulty(prev => Math.min(prev + 1, 4));
+    if (
+      inclusiveOptions.adaptiveDifficulty &&
+      newStreak > 0 &&
+      newStreak % 5 === 0 &&
+      userDifficulty < 4
+    )
+      setUserDifficulty((prev) => Math.min(prev + 1, 4));
     setErrorCounter(0);
-    if (inclusiveOptions.audioRewards && !inclusiveOptions.muteNotifications) playThemeSound(theme);
+    if (inclusiveOptions.audioRewards && !inclusiveOptions.muteNotifications)
+      playThemeSound(theme);
     let earnedCoins = 1;
-    if (isGamified) dailyQuests.tasks.forEach(task => { if (!task.completed && (task.type === activeTab || task.type === 'Any')) if (task.current + 1 >= task.target) earnedCoins += task.reward; });
+    if (isGamified)
+      dailyQuests.tasks.forEach((task) => {
+        if (!task.completed && (task.type === activeTab || task.type === 'Any'))
+          if (task.current + 1 >= task.target) earnedCoins += task.reward;
+      });
     updateQuests(activeTab);
-    const baseSuccessMsg = Array.isArray(t.successMsg) ? t.successMsg[Math.floor(Math.random() * t.successMsg.length)] : t.successMsg;
+    const successMsgs = t('successMsg', { returnObjects: true });
+    const baseSuccessMsg = Array.isArray(successMsgs)
+      ? successMsgs[Math.floor(Math.random() * successMsgs.length)]
+      : successMsgs;
     let msg = baseSuccessMsg;
-    if (newStreak >= 3 && t.streakMsg) msg = Array.isArray(t.streakMsg) ? t.streakMsg[Math.floor(Math.random() * t.streakMsg.length)].replace(/{count}/g, newStreak) : (typeof t.streakMsg === 'function' ? t.streakMsg(newStreak) : t.streakMsg);
+    if (newStreak >= 3) {
+      const streakMsgs = t('streakMsg', { returnObjects: true });
+      const template = Array.isArray(streakMsgs)
+        ? streakMsgs[Math.floor(Math.random() * streakMsgs.length)]
+        : streakMsgs;
+      // i18next's `returnObjects` bypasses its own interpolator (it only
+      // post-processes string results, not values pulled out of an array),
+      // so the {{count}} placeholder is filled in by hand after picking the
+      // random variant.
+      if (template) msg = template.replace(/{{count}}/g, newStreak);
+    }
     setFeedback({ type: 'success', msg });
-    let voiceSuccessMsg = Array.isArray(t.voice?.success) ? t.voice.success[Math.floor(Math.random() * t.voice.success.length)] : (t.voice?.success || '');
-    if (newStreak >= 3 && t.voice?.streak) voiceSuccessMsg = Array.isArray(t.voice.streak) ? t.voice.streak[Math.floor(Math.random() * t.voice.streak.length)].replace(/{count}/g, newStreak) : t.voice.streak;
+    const voiceSuccess = t('voice.success', { returnObjects: true });
+    let voiceSuccessMsg = Array.isArray(voiceSuccess)
+      ? voiceSuccess[Math.floor(Math.random() * voiceSuccess.length)]
+      : voiceSuccess || '';
+    if (newStreak >= 3) {
+      const voiceStreak = t('voice.streak', { returnObjects: true });
+      const template = Array.isArray(voiceStreak)
+        ? voiceStreak[Math.floor(Math.random() * voiceStreak.length)]
+        : voiceStreak;
+      if (template) voiceSuccessMsg = template.replace(/{{count}}/g, newStreak);
+    }
     if (!inclusiveOptions.muteNotifications) speak(voiceSuccessMsg);
     const newPoints = points + 1;
     setPoints(newPoints);
     if (isGamified) {
-      setCoins(prev => prev + 1);
+      setCoins((prev) => prev + 1);
       const todayStr = new Date().toDateString();
-      setDailyProgress(prev => { const todayPoints = prev[todayStr]?.points || 0; return { ...prev, [todayStr]: { points: todayPoints + 1 } }; });
+      setDailyProgress((prev) => {
+        const todayPoints = prev[todayStr]?.points || 0;
+        return { ...prev, [todayStr]: { points: todayPoints + 1 } };
+      });
       setEarnedCoinsAnim(earnedCoins);
       setSafeTimeout(() => setEarnedCoinsAnim(null), 1500);
-      const pool = t.rewardItems?.[theme] || t.rewardItems?.Natur || ['⭐'];
-      setRewards(prev => [...prev, pool[Math.floor(Math.random() * pool.length)]]);
-      if (newPoints % POINTS_PER_LEVEL === 0) { if (newPoints > 0 && newPoints % 10 === 0) setPendingFeedback(true); setSafeTimeout(() => setShowSuccess(true), 1000); } else setSafeTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
+      const rewardItems = t('rewardItems', { returnObjects: true });
+      const pool = rewardItems?.[theme] || rewardItems?.Natur || ['⭐'];
+      setRewards((prev) => [
+        ...prev,
+        pool[Math.floor(Math.random() * pool.length)],
+      ]);
+      if (newPoints % POINTS_PER_LEVEL === 0) {
+        if (newPoints > 0 && newPoints % 10 === 0) setPendingFeedback(true);
+        setSafeTimeout(() => setShowSuccess(true), 1000);
+      } else
+        setSafeTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
     } else {
-      if (newPoints > 0 && newPoints % 10 === 0) setSafeTimeout(() => setShowFeedback(true), inclusiveOptions.extendedTime ? 3000 : 1500); else setSafeTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
+      if (newPoints > 0 && newPoints % 10 === 0)
+        setSafeTimeout(
+          () => setShowFeedback(true),
+          inclusiveOptions.extendedTime ? 3000 : 1500,
+        );
+      else setSafeTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
     }
-    saveLog('exercise_history', { date: new Date().toISOString(), type: activeTab, correct: true }).catch(console.error);
-  }, [currentStreak, isGamified, dailyQuests, activeTab, updateQuests, t, speak, points, theme, setRewards, inclusiveOptions, setDailyProgress, userDifficulty, goNext, setCoins, setEarnedCoinsAnim, setPoints, setPendingFeedback, setShowSuccess, setShowFeedback, setUserDifficulty, setSafeTimeout]);
+    saveLog('exercise_history', {
+      date: new Date().toISOString(),
+      type: activeTab,
+      correct: true,
+    }).catch(console.error);
+  }, [
+    currentStreak,
+    isGamified,
+    dailyQuests,
+    activeTab,
+    updateQuests,
+    t,
+    speak,
+    points,
+    theme,
+    setRewards,
+    inclusiveOptions,
+    setDailyProgress,
+    userDifficulty,
+    goNext,
+    setCoins,
+    setEarnedCoinsAnim,
+    setPoints,
+    setPendingFeedback,
+    setShowSuccess,
+    setShowFeedback,
+    setUserDifficulty,
+    setSafeTimeout,
+  ]);
 
   const handleError = useCallback(() => {
-    setErrorTimestamps(prev => [...prev, Date.now()]);
+    setErrorTimestamps((prev) => [...prev, Date.now()]);
     const newErrorCounter = errorCounter + 1;
     setErrorCounter(newErrorCounter);
-    if (inclusiveOptions.adaptiveDifficulty && newErrorCounter >= 2 && userDifficulty > 1) { setUserDifficulty(prev => Math.max(prev - 1, 1)); setErrorCounter(0); }
-    const errorMsg = Array.isArray(t.voice?.error) ? t.voice.error[Math.floor(Math.random() * t.voice.error.length)] : (t.voice?.error || "Let's look closer at this one together.");
+    if (
+      inclusiveOptions.adaptiveDifficulty &&
+      newErrorCounter >= 2 &&
+      userDifficulty > 1
+    ) {
+      setUserDifficulty((prev) => Math.max(prev - 1, 1));
+      setErrorCounter(0);
+    }
+    const voiceError = t('voice.error', { returnObjects: true });
+    const errorMsg = Array.isArray(voiceError)
+      ? voiceError[Math.floor(Math.random() * voiceError.length)]
+      : voiceError || "Let's look closer at this one together.";
     setFeedback({ type: 'error', msg: errorMsg });
     if (!inclusiveOptions.muteNotifications) speak(errorMsg);
-    saveLog('exercise_history', { date: new Date().toISOString(), type: activeTab, correct: false }).catch(console.error);
-  }, [t, speak, errorCounter, inclusiveOptions, userDifficulty, activeTab, setErrorTimestamps, setUserDifficulty]);
+    saveLog('exercise_history', {
+      date: new Date().toISOString(),
+      type: activeTab,
+      correct: false,
+    }).catch(console.error);
+  }, [
+    t,
+    speak,
+    errorCounter,
+    inclusiveOptions,
+    userDifficulty,
+    activeTab,
+    setErrorTimestamps,
+    setUserDifficulty,
+  ]);
 
-  return { currentIndex, setCurrentIndex, cycle, setCycle, currentStreak, setCurrentStreak, feedback, setFeedback, isTransitioning, activePillarTasks, currentTask, safeIndex, goNext, goPrev, handleSuccess, handleError };
+  return {
+    currentIndex,
+    setCurrentIndex,
+    cycle,
+    setCycle,
+    currentStreak,
+    setCurrentStreak,
+    feedback,
+    setFeedback,
+    isTransitioning,
+    activePillarTasks,
+    currentTask,
+    safeIndex,
+    goNext,
+    goPrev,
+    handleSuccess,
+    handleError,
+  };
 }

@@ -31,12 +31,12 @@ export function useExerciseVoice(language, t, options = {}) {
       const result = event.results[0][0].transcript.toLowerCase().trim();
       setTranscript(result);
       const undoRegex = new RegExp(
-        t?.commands?.undo?.join('|') ||
+        t?.('commands.undo', { returnObjects: true })?.join('|') ||
           'undo|cofnij|zurück|delete|usuń|löschen',
         'i',
       );
       const checkRegex = new RegExp(
-        t?.commands?.check?.join('|') ||
+        t?.('commands.check', { returnObjects: true })?.join('|') ||
           'check|sprawdź|prüfen|gotowe|done|fertig',
         'i',
       );

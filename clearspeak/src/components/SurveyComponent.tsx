@@ -201,7 +201,10 @@ export const SurveyComponent: React.FC = () => {
       className="mx-auto flex w-full max-w-5xl flex-col gap-8 rounded-3xl border border-slate-100 bg-white p-6 shadow-lg md:p-8"
     >
       <header className="text-center">
-        <h1 className="text-3xl font-black tracking-tight text-slate-800">
+        <h1
+          id="survey-title"
+          className="text-3xl font-black tracking-tight text-slate-800"
+        >
           {t('feedback.title')}
         </h1>
         <p className="mt-2 text-sm font-medium text-slate-500">

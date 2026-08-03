@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import BionicText from '../common/BionicText';
+
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
 
 function DictationExercise({
@@ -19,7 +20,12 @@ function DictationExercise({
 }) {
   const [userInput, setUserInput] = useState('');
   const inputRef = useRef(null);
-  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+  const {
+    setSafeTimeout,
+    clearAllTimeouts,
+    pauseAllTimeouts,
+    resumeAllTimeouts,
+  } = useSafeTimeouts();
 
   useEffect(() => {
     return () => {
@@ -35,9 +41,15 @@ function DictationExercise({
   }, [data.audioPrompt, extendedTime, speak, clearAllTimeouts]);
 
   const handleCheck = () => {
-    const cleanInput = userInput.trim().toLowerCase().replace(/[.,!?;:]/g, '');
-    const cleanCorrect = data.correct.trim().toLowerCase().replace(/[.,!?;:]/g, '');
-    
+    const cleanInput = userInput
+      .trim()
+      .toLowerCase()
+      .replace(/[.,!?;:]/g, '');
+    const cleanCorrect = data.correct
+      .trim()
+      .toLowerCase()
+      .replace(/[.,!?;:]/g, '');
+
     if (cleanInput === cleanCorrect) {
       onSuccess();
     } else {
@@ -46,36 +58,50 @@ function DictationExercise({
   };
 
   return (
-    <div className={`flex h-full min-h-0 flex-col items-center justify-center w-full overflow-hidden px-2 py-2 ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}>
+    <div
+      className={`flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}
+    >
       {!zenMode && (
-        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 sm:mb-4 shrink-0" aria-live="polite">
-          <BionicText text={t.categories?.Dictation || 'Dictation'} enabled={bionicReading} />
+        <h3
+          className="mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4"
+          aria-live="polite"
+        >
+          <BionicText
+            text={t('categories.Dictation') || 'Dictation'}
+            enabled={bionicReading}
+          />
         </h3>
       )}
 
-      <div className="mb-4 sm:mb-6 shrink-0">
+      <div className="mb-4 shrink-0 sm:mb-6">
         <TTSController
           onReadAloud={handleReplay}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
           t={t}
-        controlBtnSize={bigTargets ? 'w-16 h-16 sm:w-24 sm:h-24 text-3xl sm:text-4xl' : 'w-14 h-14 sm:w-20 sm:h-20 text-2xl sm:text-3xl'}
+          controlBtnSize={
+            bigTargets
+              ? 'w-16 h-16 sm:w-24 sm:h-24 text-3xl sm:text-4xl'
+              : 'w-14 h-14 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
+          }
         />
       </div>
-      
+
       <input
         ref={inputRef}
         type="text"
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && userInput.trim().length > 0 && handleCheck()}
-        className={`w-full max-w-md text-center text-lg sm:text-xl md:text-2xl font-bold p-4 sm:p-5 rounded-2xl sm:rounded-3xl mb-4 sm:mb-6 focus:outline-none focus:ring-4 transition-shadow shrink ${
-          isHighContrast 
-            ? 'bg-black border-4 border-white text-white focus:ring-white/50' 
-            : 'bg-white border-2 border-slate-200 text-slate-800 focus:border-indigo-400 focus:ring-indigo-100 shadow-inner'
+        onKeyDown={(e) =>
+          e.key === 'Enter' && userInput.trim().length > 0 && handleCheck()
+        }
+        className={`mb-4 w-full max-w-md shrink rounded-2xl p-4 text-center text-lg font-bold transition-shadow focus:ring-4 focus:outline-none sm:mb-6 sm:rounded-3xl sm:p-5 sm:text-xl md:text-2xl ${
+          isHighContrast
+            ? 'border-4 border-white bg-black text-white focus:ring-white/50'
+            : 'border-2 border-slate-200 bg-white text-slate-800 shadow-inner focus:border-indigo-400 focus:ring-indigo-100'
         }`}
-        placeholder={t.typeHere || "..."}
-        aria-label={t.typeWhatYouHear || "Type what you heard"}
+        placeholder={t('typeHere') || '...'}
+        aria-label={t('typeWhatYouHear') || 'Type what you heard'}
         autoComplete="off"
         spellCheck="false"
       />
@@ -83,13 +109,15 @@ function DictationExercise({
       <button
         onClick={handleCheck}
         disabled={userInput.trim().length === 0}
-        className={`w-full max-w-xs shrink-0 mt-auto pt-2 ${bigTargets ? 'py-3 sm:py-5 text-sm sm:text-base' : 'py-2.5 sm:py-4 text-xs sm:text-sm'} rounded-full font-black uppercase tracking-widest transition-all active:scale-95 focus-visible:ring-4 focus:outline-none ${
+        className={`mt-auto w-full max-w-xs shrink-0 pt-2 ${bigTargets ? 'py-3 text-sm sm:py-5 sm:text-base' : 'py-2.5 text-xs sm:py-4 sm:text-sm'} rounded-full font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 ${
           userInput.trim().length === 0
-            ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-            : (isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} text-white shadow-xl md:shadow-md hover:brightness-110`)
+            ? 'cursor-not-allowed bg-slate-200 text-slate-600'
+            : isHighContrast
+              ? 'bg-white text-black hover:bg-slate-200'
+              : `${themeStyles.button} text-white shadow-xl hover:brightness-110 md:shadow-md`
         }`}
       >
-        <BionicText text={t.check || 'Check'} enabled={bionicReading} />
+        <BionicText text={t('check') || 'Check'} enabled={bionicReading} />
       </button>
     </div>
   );

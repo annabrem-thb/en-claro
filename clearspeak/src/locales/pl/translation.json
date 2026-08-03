@@ -61,10 +61,10 @@
     "Prawie dobrze, spójrz jeszcze raz."
   ],
   "streakMsg": [
-    "{count} z rzędu! 🔥",
-    "Seria {count} trafień! 🚀",
-    "Masz już {count}! 🌟",
-    "{count}x bezbłędnie! 💪"
+    "{{count}} z rzędu! 🔥",
+    "Seria {{count}} trafień! 🚀",
+    "Masz już {{count}}! 🌟",
+    "{{count}}x bezbłędnie! 💪"
   ],
   "levelUp": "Nowy Poziom!",
   "levelUpTitle": "Twój ogród rośnie!",
@@ -78,10 +78,10 @@
       "Prawie dobrze, spójrz jeszcze raz"
     ],
     "streak": [
-      "{count} z rzędu! Idziesz jak burza!",
-      "Niesamowite! To już {count} poprawnych odpowiedzi!",
+      "{{count}} z rzędu! Idziesz jak burza!",
+      "Niesamowite! To już {{count}} poprawnych odpowiedzi!",
       "Wspaniała seria! Tak trzymaj!",
-      "Rewelacja! {count} trafień bez błędu!"
+      "Rewelacja! {{count}} trafień bez błędu!"
     ]
   },
   "voiceOptions": "Głos lektora",
@@ -165,7 +165,7 @@
   "inclusive": {
     "adaptiveDifficulty": {
       "name": "Adaptacyjny poziom",
-      "desc": "Gra dopasowuje tempo do gracza"
+      "desc": "Ćwiczenia stają się nieco trudniejsze po 5 poprawnych odpowiedziach z rzędu i łatwiejsze po 2 błędach z rzędu"
     },
     "bigTargets": {
       "name": "Duże cele dotykowe",
@@ -208,6 +208,7 @@
       "desc": "Aplikacja zasugeruje odpoczynek po serii błędów"
     }
   },
+  "bionicExplanation": "Bionic Reading® to metoda typograficzna wspierająca płynność czytania.",
   "profiles": {
     "standard": {
       "name": "Standard",
@@ -326,7 +327,7 @@
   "srRewardsCount": "codziennych nagród.",
   "dailyGoalProgress": "Postęp Celu Dziennego",
   "srVisitor": "Przyjazny gość dołączył do Ciebie dzięki Twojej regularnej praktyce.",
-  "srTrophies": "Dzięki wytrwałości w ogrodzie pojawiły się {count} unikalne obiekty.",
+  "srTrophies": "Dzięki wytrwałości w ogrodzie pojawiły się {{count}} unikalne obiekty.",
   "rewardItems": {
     "Natur": ["💎", "🏆", "💡", "📈", "🎯"],
     "Musik": ["💎", "🏆", "💡", "📈", "🎯"],
@@ -340,9 +341,9 @@
   "goal15": "15 min — Głębokie skupienie",
   "goal20": "20 min — Intensywny trening",
   "dailySummary": "Dzisiejsza aktywność",
-  "exercisesCount_one": "{{count}} ćwiczenie",
-  "exercisesCount_few": "{{count}} ćwiczenia",
-  "exercisesCount_many": "{{count}} ćwiczeń",
+  "exercisesCount_one": "{{{count}}} ćwiczenie",
+  "exercisesCount_few": "{{{count}}} ćwiczenia",
+  "exercisesCount_many": "{{{count}}} ćwiczeń",
   "totalEffort": "Suma",
   "longestStreak": "Najdłuższy ciąg dni",
   "daysCount": "dni",
@@ -393,11 +394,23 @@
   },
   "difficulty": "Poziom trudności",
   "diffLevels": ["Łatwy", "Średni", "Trudny"],
-  "questLabel": "Wyzwanie",
+  "questLabel": "Wyzwanie ({{target}}): {{typeLabel}}",
+  "questAny": "Dowolne",
+  "removeCut": "Usuń cięcie w pozycji {{position}}",
+  "addCut": "Dodaj cięcie w pozycji {{position}}",
   "trackAndMatch": "Podążaj za podświetleniem i wskaż kierunek",
   "chooseCorrectSpelling": "Wybierz poprawną pisownię:",
-  "optionPrefix": "Opcja",
-  "wordPrefix": "Słowo",
+  "spellingHint": "{{word}}, pisane przez {{hint}}",
+  "optionPrefix": "Opcja {{number}}:",
+  "wordPrefix": "Słowo {{number}}:",
+  "heard": "Usłyszano",
+  "voiceInput": "Wprowadzanie głosowe",
+  "speakOptionNumber": "Powiedz numer opcji",
+  "speakTileNumber": "Powiedz numer kafelka",
+  "speakGapNumber": "Powiedz numer luki do przecięcia",
+  "tapAndPronounce": "Dotknij i wymów słowo",
+  "skipPronunciation": "Pomiń sprawdzanie wymowy",
+  "readSentenceAndOptions": "Przeczytaj zdanie i opcje",
   "orderCorrectly": "Ułóż w odpowiedniej kolejności",
   "undo": "Cofnij",
   "tempoLabel": "Typ czytania",

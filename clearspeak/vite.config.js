@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react';
+import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import { defaultExclude } from 'vitest/config';
@@ -6,6 +7,16 @@ import { defaultExclude } from 'vitest/config';
 export default defineConfig({
   plugins: [
     react(),
+    // Bundle-composition treemap, written to dist/stats.html. Only enabled
+    // via `npm run build:analyze` (ANALYZE=true) — it's a one-off inspection
+    // tool, not something every CI build should pay to generate.
+    globalThis.process?.env?.ANALYZE &&
+      visualizer({
+        filename: 'dist/stats.html',
+        gzipSize: true,
+        brotliSize: true,
+        template: 'treemap',
+      }),
     VitePWA({
       registerType: 'prompt',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', '**/*.json'],
@@ -36,7 +47,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: [
-          '**/*.{js,css,html,ico,png,svg,json,woff,woff2,otf,ttf,mp3,wav,ogg,m4a}',
+          '**/*.{js,css,html,ico,png,svg,json,woff,woff2,mp3,wav,ogg,m4a}',
         ],
         runtimeCaching: [
           {

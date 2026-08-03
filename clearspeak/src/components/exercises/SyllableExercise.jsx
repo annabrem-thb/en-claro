@@ -1,27 +1,26 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import BionicText from '../common/BionicText';
-import { useExerciseVoice } from '../../hooks/useExerciseVoice';
-import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
-import TTSController from '../common/TTSController';
-import { getTTSException } from '../../hooks/useGlobalTTS';
 
-function SyllableExercise(
-  {
-    data,
-    themeStyles,
-    onSuccess,
-    onError,
-    language = 'en',
-    t,
-    speak,
-    noFlash = false,
-    bigTargets = false,
-    extendedTime = false,
-    bionicReading = false,
-    zenMode = false,
-    voiceAssistant = false,
-  }
-) {
+import { useExerciseVoice } from '../../hooks/useExerciseVoice';
+import { getTTSException } from '../../hooks/useGlobalTTS';
+import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import BionicText from '../common/BionicText';
+import TTSController from '../common/TTSController';
+
+function SyllableExercise({
+  data,
+  themeStyles,
+  onSuccess,
+  onError,
+  language = 'en',
+  t,
+  speak,
+  noFlash = false,
+  bigTargets = false,
+  extendedTime = false,
+  bionicReading = false,
+  zenMode = false,
+  voiceAssistant = false,
+}) {
   const [cuts, setCuts] = useState([]);
   const [isResolved, setIsResolved] = useState(false);
 
@@ -31,7 +30,12 @@ function SyllableExercise(
   );
 
   const [activeHighlight, setActiveHighlight] = useState(null);
-  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+  const {
+    setSafeTimeout,
+    clearAllTimeouts,
+    pauseAllTimeouts,
+    resumeAllTimeouts,
+  } = useSafeTimeouts();
 
   const clearAudioTimeouts = useCallback(() => {
     clearAllTimeouts();
@@ -86,9 +90,12 @@ function SyllableExercise(
     } else {
       onError();
       setCuts([]);
-      setSafeTimeout(() => {
-        playSyllables();
-      }, extendedTime ? 3500 : 2500);
+      setSafeTimeout(
+        () => {
+          playSyllables();
+        },
+        extendedTime ? 3500 : 2500,
+      );
     }
   };
 
@@ -106,9 +113,12 @@ function SyllableExercise(
         setActiveHighlight(i);
         speak(syl.toLowerCase());
       }, delayAcc);
-      setSafeTimeout(() => {
-        setActiveHighlight((prev) => (prev === i ? null : prev));
-      }, delayAcc + stepDuration - 100);
+      setSafeTimeout(
+        () => {
+          setActiveHighlight((prev) => (prev === i ? null : prev));
+        },
+        delayAcc + stepDuration - 100,
+      );
       delayAcc += stepDuration;
     });
   };
@@ -135,13 +145,29 @@ function SyllableExercise(
   const isLong = wordLen > 12;
   const isVeryLong = wordLen > 18;
 
-  const charSize = bigTargets 
-    ? (isVeryLong ? 'text-2xl sm:text-4xl' : isLong ? 'text-3xl sm:text-5xl' : 'text-5xl sm:text-7xl') 
-    : (isVeryLong ? 'text-lg sm:text-3xl' : isLong ? 'text-xl sm:text-4xl' : 'text-4xl sm:text-6xl');
+  const charSize = bigTargets
+    ? isVeryLong
+      ? 'text-2xl sm:text-4xl'
+      : isLong
+        ? 'text-3xl sm:text-5xl'
+        : 'text-5xl sm:text-7xl'
+    : isVeryLong
+      ? 'text-lg sm:text-3xl'
+      : isLong
+        ? 'text-xl sm:text-4xl'
+        : 'text-4xl sm:text-6xl';
   const btnPadding = bigTargets ? 'py-5 sm:py-6' : 'py-4 sm:py-5';
-  const cutHitbox = bigTargets 
-    ? (isVeryLong ? 'w-6 h-10 sm:w-8 sm:h-12 mx-0' : isLong ? 'w-8 h-12 sm:w-10 sm:h-14 mx-0.5' : 'w-10 h-16 sm:w-14 sm:h-20 mx-1') 
-    : (isVeryLong ? 'w-3 h-6 sm:w-6 sm:h-10 mx-0' : isLong ? 'w-5 h-8 sm:w-8 sm:h-12 mx-px' : 'w-8 h-12 sm:w-10 sm:h-16 mx-1');
+  const cutHitbox = bigTargets
+    ? isVeryLong
+      ? 'w-6 h-10 sm:w-8 sm:h-12 mx-0'
+      : isLong
+        ? 'w-8 h-12 sm:w-10 sm:h-14 mx-0.5'
+        : 'w-10 h-16 sm:w-14 sm:h-20 mx-1'
+    : isVeryLong
+      ? 'w-3 h-6 sm:w-6 sm:h-10 mx-0'
+      : isLong
+        ? 'w-5 h-8 sm:w-8 sm:h-12 mx-px'
+        : 'w-8 h-12 sm:w-10 sm:h-16 mx-1';
   const pulseClass = noFlash
     ? 'bg-red-500'
     : 'bg-red-500 animate-pulse ring-8 ring-red-100';
@@ -150,11 +176,17 @@ function SyllableExercise(
     : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
 
   return (
-    <div className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}>
+    <div
+      className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}
+    >
       {}
       {voiceAssistant && (
-        <div className="mb-2 sm:mb-4 flex gap-4 sm:gap-6 shrink-0">
-          <div className={isResolved ? 'pointer-events-none opacity-50 grayscale' : ''}>
+        <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
+          <div
+            className={
+              isResolved ? 'pointer-events-none opacity-50 grayscale' : ''
+            }
+          >
             <TTSController
               onReadAloud={playSyllables}
               pauseAllTimeouts={pauseAllTimeouts}
@@ -174,7 +206,7 @@ function SyllableExercise(
                   ? pulseClass + ' text-white'
                   : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
             }`}
-            aria-label={isListening ? t.listening : t.speakGapNumber}
+            aria-label={isListening ? t('listening') : t('speakGapNumber')}
           >
             {isListening ? '🛑' : '🎤'}
           </button>
@@ -182,44 +214,46 @@ function SyllableExercise(
       )}
 
       {transcript && (
-        <p className="mb-1 sm:mb-2 text-center text-[10px] sm:text-xs font-black tracking-widest text-slate-400 uppercase shrink-0">
-          {t.heard}: <span className="text-slate-600">{transcript}</span>
+        <p className="mb-1 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-2 sm:text-xs">
+          {t('heard')}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
 
       {}
       {!zenMode && (
-        <div className="mb-2 sm:mb-4 text-4xl sm:text-6xl shrink-0" aria-hidden="true">
+        <div
+          className="mb-2 shrink-0 text-4xl sm:mb-4 sm:text-6xl"
+          aria-hidden="true"
+        >
           {data.icon || '✂️'}
         </div>
       )}
 
       {}
-      <div className="h-6 sm:h-8 mb-1 sm:mb-2 flex items-center justify-center w-full shrink-0">
-        {activeHighlight !== null && (
+      <div className="mb-1 flex h-6 w-full shrink-0 items-center justify-center sm:mb-2 sm:h-8">
+        {activeHighlight !== null &&
           (() => {
             const syl = data.segments[activeHighlight];
             const phonetic = getTTSException(syl, language);
             if (phonetic && phonetic.toLowerCase() !== syl.toLowerCase()) {
               return (
-                <span className="animate-in fade-in slide-in-from-bottom-2 px-5 py-1.5 rounded-full text-xs font-black tracking-widest shadow-md bg-slate-800 text-white uppercase">
+                <span className="animate-in fade-in slide-in-from-bottom-2 rounded-full bg-slate-800 px-5 py-1.5 text-xs font-black tracking-widest text-white uppercase shadow-md">
                   / {phonetic} /
                 </span>
               );
             }
             return null;
-          })()
-        )}
+          })()}
       </div>
 
       {}
-      <div className="mb-2 sm:mb-4 flex flex-wrap items-center justify-center gap-y-1 sm:gap-y-4 shrink min-h-0 max-h-full overflow-y-auto no-scrollbar w-full max-w-full">
+      <div className="no-scrollbar mb-2 flex max-h-full min-h-0 w-full max-w-full shrink flex-wrap items-center justify-center gap-y-1 overflow-y-auto sm:mb-4 sm:gap-y-4">
         {wordChars.map((char, index) => (
           <React.Fragment key={index}>
             <span
-              className={`${charSize} font-black tracking-tighter transition-all duration-200 inline-block ${
+              className={`${charSize} inline-block font-black tracking-tighter transition-all duration-200 ${
                 activeHighlight === charToSyl[index]
-                  ? 'text-yellow-500 scale-110 drop-shadow-md z-10'
+                  ? 'z-10 scale-110 text-yellow-500 drop-shadow-md'
                   : themeStyles.accent
               }`}
             >
@@ -229,12 +263,12 @@ function SyllableExercise(
             {index < wordChars.length - 1 && (
               <button
                 onClick={() => toggleCut(index + 1)}
-              className={`group relative ${cutHitbox} flex items-center justify-center transition-all shrink-0`}
+                className={`group relative ${cutHitbox} flex shrink-0 items-center justify-center transition-all`}
                 disabled={isResolved || isListening}
                 aria-label={
                   cuts.includes(index + 1)
-                    ? t.removeCut(index + 1)
-                    : t.addCut(index + 1)
+                    ? t('removeCut', { position: index + 1 })
+                    : t('addCut', { position: index + 1 })
                 }
                 aria-pressed={cuts.includes(index + 1)}
               >
@@ -268,7 +302,7 @@ function SyllableExercise(
       </div>
 
       {}
-      <div className="mt-auto pt-2 sm:pt-4 w-full max-w-xs space-y-2 sm:space-y-3 px-4 shrink-0">
+      <div className="mt-auto w-full max-w-xs shrink-0 space-y-2 px-4 pt-2 sm:space-y-3 sm:pt-4">
         <button
           onClick={checkAnswer}
           disabled={isResolved || cuts.length === 0 || isListening}
@@ -278,7 +312,7 @@ function SyllableExercise(
               : 'cursor-not-allowed bg-slate-100 text-slate-300'
           }`}
         >
-          <BionicText text={t.check || 'Check'} enabled={bionicReading} />
+          <BionicText text={t('check') || 'Check'} enabled={bionicReading} />
         </button>
 
         <button
@@ -286,11 +320,11 @@ function SyllableExercise(
           disabled={isResolved || cuts.length === 0 || isListening}
           className={`w-full py-2 text-[10px] font-black tracking-widest uppercase transition-colors ${
             cuts.length > 0 && !isListening
-              ? 'text-slate-400 hover:text-red-400'
+              ? 'text-slate-600 hover:text-red-400'
               : 'text-transparent'
           }`}
         >
-          <BionicText text={t.delete || 'Delete'} enabled={bionicReading} />
+          <BionicText text={t('delete') || 'Delete'} enabled={bionicReading} />
         </button>
       </div>
     </div>

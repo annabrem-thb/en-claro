@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useTranslation } from '../i18n/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { useGamification } from './GamificationContext';
 import { useUserSettingsContext } from './UserSettingsContext';
@@ -8,14 +8,13 @@ import { useUserSettingsContext } from './UserSettingsContext';
 export default function MetacognitiveReflection({ onReflectionComplete }) {
   const { completeDailyTask } = useGamification();
   const { settings } = useUserSettingsContext();
-  const { language } = settings;
-  const t = useTranslation(language);
+  const { t } = useTranslation();
   const isHighContrast = settings.contrast;
   const noFlash = !!(settings.noFlash || settings.motion);
   const bigTargets = !!(settings.bigTargets || settings.motorik);
 
   const [selectedRating, setSelectedRating] = useState(null);
-  const refl = t.reflection || {};
+  const refl = t('reflection', { returnObjects: true }) || {};
 
   const RATING_OPTIONS = [
     {
@@ -106,7 +105,7 @@ export default function MetacognitiveReflection({ onReflectionComplete }) {
                 {option.label}
               </span>
               <span
-                className={`text-center ${bigTargets ? 'text-xs' : 'text-[10px]'} ${isSelected ? (isHighContrast ? 'text-black/70' : 'text-indigo-600/70') : isHighContrast ? 'text-white/50' : 'text-slate-400'}`}
+                className={`text-center ${bigTargets ? 'text-xs' : 'text-[10px]'} ${isSelected ? (isHighContrast ? 'text-black/70' : 'text-indigo-600/70') : isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
               >
                 {option.desc}
               </span>
@@ -122,7 +121,7 @@ export default function MetacognitiveReflection({ onReflectionComplete }) {
           disabled={!selectedRating}
           className={`w-full ${bigTargets ? 'py-4 text-sm sm:py-6 sm:text-base' : 'py-3.5 text-xs sm:py-5 sm:text-sm'} rounded-full font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 ${
             !selectedRating
-              ? 'cursor-not-allowed bg-slate-200 text-slate-400 opacity-60'
+              ? 'cursor-not-allowed bg-slate-200 text-slate-600 opacity-60'
               : isHighContrast
                 ? 'bg-white text-black shadow-lg hover:bg-slate-200'
                 : 'bg-indigo-600 text-white shadow-xl hover:bg-indigo-500'

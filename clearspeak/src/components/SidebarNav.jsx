@@ -24,7 +24,6 @@ const SidebarNav = memo(function SidebarNav({
   t,
   coins,
   loadLevel,
-  s,
   speak,
   noFlash,
 }) {
@@ -87,7 +86,7 @@ const SidebarNav = memo(function SidebarNav({
           🧠
         </span>
         <AccessibleTTS
-          text={s.appTitle}
+          text={t('appTitle')}
           speak={speak}
           language={language}
           className="hidden lg:flex"
@@ -95,30 +94,30 @@ const SidebarNav = memo(function SidebarNav({
           <h1
             className={`text-base font-black tracking-tighter ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
           >
-            {s.appTitle}
+            {t('appTitle')}
           </h1>
         </AccessibleTTS>
       </div>
 
       <nav
         className="no-scrollbar flex min-h-0 flex-1 flex-row justify-between gap-1 overflow-x-auto px-2 py-2 lg:flex-col lg:justify-start lg:gap-1.5 lg:overflow-y-auto lg:px-3 lg:py-3"
-        aria-label={s.navAria}
+        aria-label={t('navAria')}
       >
         {pillars.map((p, index) => {
           const isSelected = activeTab === p;
           const questForPillar = dailyQuests.tasks.find((q) => q.type === p);
-          const label = t.pillars?.[p] || p;
+          const label = t('pillars', { returnObjects: true })?.[p] || p;
           return (
             <Tooltip
               key={p}
-              content={`${t.shortcut || 'Shortcut'}: Ctrl + ${index + 1}`}
+              content={`${label} — ${t('shortcut') || 'Shortcut'}: Ctrl + ${index + 1}`}
               placement="top"
               isHighContrast={isHighContrast}
               wrapperClass="flex-1 lg:flex-none flex"
             >
               <button
                 onClick={() => onTabChange(p)}
-                className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5' z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-400 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+                className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5' z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
                 aria-current={isSelected ? 'page' : undefined}
                 aria-label={label}
               >
@@ -135,13 +134,14 @@ const SidebarNav = memo(function SidebarNav({
                       speak={speak}
                       language={language}
                       className="flex min-w-0 lg:flex"
+                      interactive={false}
                     >
                       <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                        {label.split(' ')[0]}
+                        {label}
                       </span>
                     </AccessibleTTS>
                     <span
-                      className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter transition-opacity lg:block ${isSelected ? 'opacity-50' : 'opacity-0 group-hover:opacity-40'}`}
+                      className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter transition-opacity lg:block ${isSelected ? '' : 'opacity-0 group-hover:opacity-100'}`}
                       aria-hidden="true"
                     >
                       ^ {index + 1}
@@ -170,37 +170,38 @@ const SidebarNav = memo(function SidebarNav({
 
         {isGamified && (
           <Tooltip
-            content={`${t.shortcut || 'Shortcut'}: Ctrl + 4`}
+            content={`${t('shortcut') || 'Shortcut'}: Ctrl + 4`}
             placement="top"
             isHighContrast={isHighContrast}
             wrapperClass="flex-1 lg:flex-none flex"
           >
             <button
               onClick={onGardenClick}
-              className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${activeTab === 'Garden' ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5' z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-400 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+              className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${activeTab === 'Garden' ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5' z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
               aria-current={activeTab === 'Garden' ? 'page' : undefined}
-              aria-label={t.garden || 'Garden'}
+              aria-label={t('garden') || 'Garden'}
             >
               <span
                 className={hideNavLabel ? 'text-2xl' : 'text-xl lg:text-xl'}
                 aria-hidden="true"
               >
-                {t?.levelIcons?.[theme]?.[0] || '🌱'}
+                {t('levelIcons', { returnObjects: true })?.[theme]?.[0] || '🌱'}
               </span>
               {!hideNavLabel && (
                 <>
                   <AccessibleTTS
-                    text={t.garden || 'Garden'}
+                    text={t('garden') || 'Garden'}
                     speak={speak}
                     language={language}
                     className="flex min-w-0 lg:flex"
+                    interactive={false}
                   >
                     <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                      {t.garden || 'Garden'}
+                      {t('garden') || 'Garden'}
                     </span>
                   </AccessibleTTS>
                   <span
-                    className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter transition-opacity lg:block ${activeTab === 'Garden' ? 'opacity-50' : 'opacity-0 group-hover:opacity-40'}`}
+                    className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter transition-opacity lg:block ${activeTab === 'Garden' ? '' : 'opacity-0 group-hover:opacity-100'}`}
                     aria-hidden="true"
                   >
                     ^ 4
@@ -217,9 +218,9 @@ const SidebarNav = memo(function SidebarNav({
           >
             <div className="flex items-center justify-between px-2 pt-2">
               <span
-                className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}
+                className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
               >
-                {t.coins || 'Coins'}
+                {t('coins') || 'Coins'}
               </span>
               <div
                 className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-black shadow-inner ${isHighContrast ? 'bg-white text-black' : 'bg-amber-100 text-amber-600'}`}
@@ -229,9 +230,9 @@ const SidebarNav = memo(function SidebarNav({
             </div>
             <div className="flex items-center justify-between px-2">
               <span
-                className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}
+                className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
               >
-                {t.energyTitle || 'Energy'}
+                {t('energyTitle') || 'Energy'}
               </span>
               <CognitiveEnergyIndicator
                 loadLevel={loadLevel}
@@ -247,7 +248,7 @@ const SidebarNav = memo(function SidebarNav({
 
         {!isInstalled && installPrompt && (
           <Tooltip
-            content={t.installApp || 'Install App'}
+            content={t('installApp') || 'Install App'}
             placement="top"
             isHighContrast={isHighContrast}
             wrapperClass={`flex-1 lg:flex-none flex ${isGamified ? 'mt-2 lg:mt-0' : 'lg:mt-auto'}`}
@@ -255,7 +256,7 @@ const SidebarNav = memo(function SidebarNav({
             <button
               onClick={handleInstallClick}
               className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-500 text-white shadow-md hover:bg-indigo-400'}`}
-              aria-label={t.installApp || 'Install App'}
+              aria-label={t('installApp') || 'Install App'}
             >
               <span
                 className={hideNavLabel ? 'text-2xl' : 'text-xl lg:text-xl'}
@@ -265,13 +266,14 @@ const SidebarNav = memo(function SidebarNav({
               </span>
               {!hideNavLabel && (
                 <AccessibleTTS
-                  text={t.installApp || 'Install App'}
+                  text={t('installApp') || 'Install App'}
                   speak={speak}
                   language={language}
                   className={`flex min-w-0 lg:flex ${isHighContrast ? 'text-black' : 'text-white'}`}
+                  interactive={false}
                 >
                   <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                    {t.installApp || 'Install App'}
+                    {t('installApp') || 'Install App'}
                   </span>
                 </AccessibleTTS>
               )}
@@ -280,15 +282,15 @@ const SidebarNav = memo(function SidebarNav({
         )}
 
         <Tooltip
-          content={`${t.shortcut || 'Shortcut'}: Ctrl + P`}
+          content={`${t('shortcut') || 'Shortcut'}: Ctrl + P`}
           placement="top"
           isHighContrast={isHighContrast}
           wrapperClass={`flex-1 lg:flex-none flex ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 lg:mt-0' : 'lg:mt-auto'}`}
         >
           <button
             onClick={() => setProfileOpen(true)}
-            className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-400 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
-            aria-label={t.profile || 'Profile'}
+            className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+            aria-label={t('profile') || 'Profile'}
           >
             <span
               className={hideNavLabel ? 'text-2xl' : 'text-xl lg:text-xl'}
@@ -299,17 +301,18 @@ const SidebarNav = memo(function SidebarNav({
             {!hideNavLabel && (
               <>
                 <AccessibleTTS
-                  text={t.profile || 'Profile'}
+                  text={t('profile') || 'Profile'}
                   speak={speak}
                   language={language}
                   className="flex min-w-0 lg:flex"
+                  interactive={false}
                 >
                   <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                    {t.profile || 'Profile'}
+                    {t('profile') || 'Profile'}
                   </span>
                 </AccessibleTTS>
                 <span
-                  className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter opacity-0 transition-opacity group-hover:opacity-40 lg:block`}
+                  className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter opacity-0 transition-opacity group-hover:opacity-100 lg:block`}
                   aria-hidden="true"
                 >
                   ^ P
@@ -320,15 +323,15 @@ const SidebarNav = memo(function SidebarNav({
         </Tooltip>
 
         <Tooltip
-          content={`${t.shortcut || 'Shortcut'}: Ctrl + ,`}
+          content={`${t('shortcut') || 'Shortcut'}: Ctrl + ,`}
           placement="top"
           isHighContrast={isHighContrast}
           wrapperClass="flex-1 lg:flex-none flex"
         >
           <button
             onClick={() => setSettingsOpen(true)}
-            className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-400 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
-            aria-label={s.settingsAria}
+            className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+            aria-label={t('settingsAria')}
           >
             <span
               className={hideNavLabel ? 'text-2xl' : 'text-xl lg:text-xl'}
@@ -339,17 +342,18 @@ const SidebarNav = memo(function SidebarNav({
             {!hideNavLabel && (
               <>
                 <AccessibleTTS
-                  text={s.settingsAria}
+                  text={t('settingsAria')}
                   speak={speak}
                   language={language}
                   className="flex min-w-0 lg:flex"
+                  interactive={false}
                 >
                   <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                    {s.settingsAria.split(' ')[0]}
+                    {t('settingsAria')}
                   </span>
                 </AccessibleTTS>
                 <span
-                  className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter opacity-0 transition-opacity group-hover:opacity-40 lg:block`}
+                  className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter opacity-0 transition-opacity group-hover:opacity-100 lg:block`}
                   aria-hidden="true"
                 >
                   ^ ,

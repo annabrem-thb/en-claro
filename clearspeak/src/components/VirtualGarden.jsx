@@ -53,12 +53,15 @@ function VirtualGarden({
       },
     };
 
+    const levelIcons = t('levelIcons', { returnObjects: true });
+    const progressStages = t('progressStages', { returnObjects: true });
+
     const themeIcons =
       activeCategory && themeCategoryVisuals[theme]?.[activeCategory]
         ? themeCategoryVisuals[theme][activeCategory]
-        : t?.levelIcons?.[theme] || t.levelIcons.Natur;
+        : levelIcons?.[theme] || levelIcons.Natur;
 
-    const themeStages = t?.progressStages?.[theme] || t.progressStages.Natur;
+    const themeStages = progressStages?.[theme] || progressStages.Natur;
 
     const stageIndex = Math.min(growthLevel, themeIcons.length - 1);
     const plantVisual = themeIcons[stageIndex];
@@ -230,10 +233,10 @@ function VirtualGarden({
     return monuments.filter((m) => effectiveStreak >= m.req);
   }, [maxStreak, streak, theme]);
 
-  const srText = `${t.srPlantFeature} ${ecosystemState.plantName}. 
-    ${ecosystemState.completedModules > 0 ? `${t.srDailyRewards} ${ecosystemState.completedModules} ${t.srRewardsCount}` : ''} 
-    ${ecosystemState.hasVisitor ? t.srVisitor : ''}
-    ${earnedTrophies.length > 0 && t.srTrophies ? t.srTrophies.replace('{count}', earnedTrophies.length) : ''}`;
+  const srText = `${t('srPlantFeature')} ${ecosystemState.plantName}.
+    ${ecosystemState.completedModules > 0 ? `${t('srDailyRewards')} ${ecosystemState.completedModules} ${t('srRewardsCount')}` : ''}
+    ${ecosystemState.hasVisitor ? t('srVisitor') : ''}
+    ${earnedTrophies.length > 0 ? t('srTrophies', { count: earnedTrophies.length }) : ''}`;
 
   const containerClasses = isFullScreen
     ? `relative flex flex-col items-center justify-center gap-4 sm:gap-8 w-full h-full p-4 sm:p-10 rounded-3xl sm:rounded-4xl transition-all duration-1000 ${isHighContrast ? 'bg-black border-2 border-white' : `bg-white border-2 border-slate-100 shadow-sm`}`
@@ -256,7 +259,7 @@ function VirtualGarden({
     <div
       className={containerClasses}
       role="region"
-      aria-label={t.garden || 'Virtual Garden Progress'}
+      aria-label={t('garden') || 'Virtual Garden Progress'}
     >
       <div className="sr-only" aria-live="polite">
         {srText}
@@ -359,8 +362,8 @@ function VirtualGarden({
           >
             <BionicText>
               {ecosystemState.completedModules > 0
-                ? `${t.gardenBlooming} ${ecosystemState.completedModules}`
-                : t.gardenEmpty}
+                ? `${t('gardenBlooming')} ${ecosystemState.completedModules}`
+                : t('gardenEmpty')}
             </BionicText>
           </p>
           <WeeklyCalendar
@@ -377,8 +380,8 @@ function VirtualGarden({
             <div
               className={`mt-4 w-full max-w-[280px] rounded-2xl border-2 p-3 transition-all sm:mt-6 sm:max-w-xs sm:rounded-3xl sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 delay-700 duration-700'} ${isHighContrast ? 'border-white/30 bg-black text-white' : 'border-slate-100 bg-white text-slate-700 shadow-sm'}`}
             >
-              <h3 className="mb-3 text-center text-[10px] font-black tracking-widest break-words text-slate-400 uppercase sm:mb-4 sm:text-xs">
-                {t.dailySummary}
+              <h3 className="mb-3 text-center text-[10px] font-black tracking-widest break-words text-slate-600 uppercase sm:mb-4 sm:text-xs">
+                {t('dailySummary')}
               </h3>
               <div className="flex flex-col gap-2 sm:gap-3">
                 {Object.entries(todayStats.byType).map(([type, count]) => (
@@ -389,12 +392,14 @@ function VirtualGarden({
                     <span
                       className={`min-w-0 flex-1 truncate font-bold ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
                     >
-                      {t.categories?.[type] || t.pillars?.[type] || type}
+                      {t('categories', { returnObjects: true })?.[type] ||
+                        t('pillars', { returnObjects: true })?.[type] ||
+                        type}
                     </span>
                     <span
                       className={`font-black whitespace-nowrap ${isHighContrast ? 'text-white' : themeStyles?.accent || ''}`}
                     >
-                      {count} {t.exercisesCount}
+                      {t('exercisesCount', { count })}
                     </span>
                   </div>
                 ))}
@@ -403,9 +408,9 @@ function VirtualGarden({
                 />
                 <div className="flex items-center justify-between gap-2 text-xs sm:text-sm">
                   <span
-                    className={`text-[9px] font-black tracking-widest uppercase sm:text-xs ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}
+                    className={`text-[9px] font-black tracking-widest uppercase sm:text-xs ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
                   >
-                    {t.totalEffort}
+                    {t('totalEffort')}
                   </span>
                   <span
                     className={`text-sm font-black sm:text-lg ${isHighContrast ? 'text-white' : themeStyles?.accent || ''}`}

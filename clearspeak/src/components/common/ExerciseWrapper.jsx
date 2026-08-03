@@ -1,6 +1,8 @@
 import React from 'react';
+
+import { useTranslation } from 'react-i18next';
+
 import BionicText from './BionicText';
-import { useTranslation } from '../../i18n/i18n.js';
 
 const ExerciseWrapper = ({
   children,
@@ -8,10 +10,9 @@ const ExerciseWrapper = ({
   transcript,
   zenMode,
   bionicReading,
-  language,
   animationClass = 'animate-in fade-in zoom-in duration-500',
 }) => {
-  const t = useTranslation(language);
+  const { t } = useTranslation();
 
   return (
     <div
@@ -19,7 +20,7 @@ const ExerciseWrapper = ({
     >
       {}
       {!zenMode && instruction && (
-        <h3 className="mb-6 px-4 text-center text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
+        <h3 className="mb-6 px-4 text-center text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase">
           <BionicText text={instruction} enabled={bionicReading} />
         </h3>
       )}
@@ -31,9 +32,8 @@ const ExerciseWrapper = ({
 
       {}
       {transcript && (
-        <p className="mt-4 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-400 uppercase sm:text-xs">
-          {t.heard || (language === 'pl' ? 'Usłyszano' : language === 'de' ? 'Gehört' : 'Heard')}:{' '}
-          <span className="text-slate-600">{transcript}</span>
+        <p className="mt-4 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:text-xs">
+          {t('heard')}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
     </div>

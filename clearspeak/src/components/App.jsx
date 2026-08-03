@@ -1,17 +1,25 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  lazy,
+  Suspense,
+} from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
 import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotifications.js';
 import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
 import { useExerciseSession } from '../hooks/useExerciseSession.js';
 import { useGlobalTTS } from '../hooks/useGlobalTTS.js';
+import { getInitialRouteState, useHashRoute } from '../hooks/useHashRoute.js';
 import { useIndexedDB } from '../hooks/useIndexedDB.js';
 import { useReadingRuler } from '../hooks/useReadingRuler.js';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation.js';
 import { useVocabularyLoader } from '../hooks/useVocabularyLoader.js';
-import '../i18n/config.ts';
-import { useTranslation } from '../i18n/i18n.js';
+import i18n from '../i18n/config.ts';
 import { saveLog } from '../utils/indexedDB.js';
 
 import { CognitiveEnergyIndicator } from './CognitiveEnergyIndicator.jsx';
@@ -23,28 +31,40 @@ import {
 } from './GamificationContext.jsx';
 import IntroScreen from './IntroScreen.jsx';
 import OfflineIndicator from './OfflineIndicator.jsx';
-import ProfileModal from './ProfileModal.jsx';
 import { ProgressPill } from './ProgressPill.jsx';
-import SettingsModal from './SettingsModal.jsx';
 import SidebarNav from './SidebarNav.jsx';
-import { SurveyComponent } from './SurveyComponent';
 import {
   UserSettingsProvider,
   useUserSettingsContext,
 } from './UserSettingsContext.jsx';
-import VirtualGarden from './VirtualGarden.jsx';
 import BionicText from './common/BionicText.jsx';
+import Dialog from './common/Dialog.jsx';
 import SkeletonLoader from './common/SkeletonLoader.jsx';
+
+// Lazy-loaded: each of these pulls in a library only it needs (recharts for
+// ProfileModal's radar chart, lottie-react for VirtualGarden) that would
+// otherwise inflate the initial bundle for every user, even ones who never
+// open Settings/Profile/Survey/Garden. See docs/bundle-size.md.
+const SettingsModal = lazy(() => import('./SettingsModal.jsx'));
+const ProfileModal = lazy(() => import('./ProfileModal.jsx'));
+const VirtualGarden = lazy(() => import('./VirtualGarden.jsx'));
+const SurveyComponent = lazy(() =>
+  import('./SurveyComponent').then((m) => ({ default: m.SurveyComponent })),
+);
 
 const POINTS_PER_LEVEL = 5;
 const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
 
+// `buttonText` is pure black across every theme: none of these five button
+// background colors reach 4.5:1 against their original light/cream text
+// (2.59–3.94:1, an axe-core color-contrast finding) — black gives a
+// comfortable 5.3–7.3:1 against all of them without changing the palette.
 const THEMES = {
   Natur: {
     accent: 'text-[#4A5D54]',
     bg: 'bg-[#F4F1EA]',
     button: 'bg-[#8A9A86]',
-    buttonText: 'text-[#F4F1EA]',
+    buttonText: 'text-black',
     border: 'border-[#D0D6CE]',
     hex: '#8A9A86',
     price: 0,
@@ -53,7 +73,7 @@ const THEMES = {
     accent: 'text-[#6B5B7B]',
     bg: 'bg-[#F3F0F5]',
     button: 'bg-[#8F7D9E]',
-    buttonText: 'text-[#F3F0F5]',
+    buttonText: 'text-black',
     border: 'border-[#D1C8D6]',
     hex: '#8F7D9E',
     price: 3,
@@ -62,7 +82,7 @@ const THEMES = {
     accent: 'text-[#8A6A4B]',
     bg: 'bg-[#F7F4F0]',
     button: 'bg-[#B08E6D]',
-    buttonText: 'text-[#F7F4F0]',
+    buttonText: 'text-black',
     border: 'border-[#DED4CA]',
     hex: '#B08E6D',
     price: 5,
@@ -71,7 +91,7 @@ const THEMES = {
     accent: 'text-[#4B5E6B]',
     bg: 'bg-[#F0F3F5]',
     button: 'bg-[#6D8394]',
-    buttonText: 'text-[#F0F3F5]',
+    buttonText: 'text-black',
     border: 'border-[#CAD4DE]',
     hex: '#6D8394',
     price: 8,
@@ -80,7 +100,7 @@ const THEMES = {
     accent: 'text-[#437A7A]',
     bg: 'bg-[#EFF5F5]',
     button: 'bg-[#67A3A3]',
-    buttonText: 'text-[#EFF5F5]',
+    buttonText: 'text-black',
     border: 'border-[#C4DBDB]',
     hex: '#67A3A3',
     price: 10,
@@ -110,11 +130,9 @@ function AppContent() {
   const db = useVocabularyLoader(language);
 
   useEffect(() => {
-    import('i18next').then((i18next) => {
-      if (i18next.default.language !== language) {
-        i18next.default.changeLanguage(language);
-      }
-    });
+    if (i18n.language !== language) {
+      i18n.changeLanguage(language);
+    }
   }, [language]);
 
   const {
@@ -127,11 +145,14 @@ function AppContent() {
     setVoicePitch,
   } = useGlobalTTS(language, settings.extendedTime);
 
-  const [activeTab, setActiveTab] = useState('Literacy');
+  const [initialRoute] = useState(getInitialRouteState);
+  const [activeTab, setActiveTab] = useState(
+    initialRoute.activeTab || 'Literacy',
+  );
   const [lastPillar, setLastPillar] = useState('Literacy');
-  const [showIntro, setShowIntro] = useState(true);
-  const [settingsOpen, setSettingsOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
+  const [showIntro, setShowIntro] = useState(initialRoute.showIntro);
+  const [settingsOpen, setSettingsOpen] = useState(initialRoute.settingsOpen);
+  const [profileOpen, setProfileOpen] = useState(initialRoute.profileOpen);
   const [showSuccess, setShowSuccess] = useState(false);
   const [earnedCoinsAnim, setEarnedCoinsAnim] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -197,8 +218,7 @@ function AppContent() {
     }
   }, [isGamified, activeTab]);
 
-  const t = useTranslation(language);
-  const s = t;
+  const { t } = useTranslation();
 
   const themeStyles = THEMES[theme] || THEMES.Natur;
   const noFlash = settings.noFlash || settings.motion;
@@ -313,6 +333,33 @@ function AppContent() {
     setActiveTab('Garden');
     setFeedback(null);
   }, []);
+
+  const handleNavigateTab = useCallback(
+    (tab) => {
+      if (tab === 'Garden') {
+        handleGardenClick();
+      } else {
+        handleTabChange(tab);
+      }
+    },
+    [handleGardenClick, handleTabChange],
+  );
+
+  // Keeps window.location.hash in sync with the current screen (#/literacy,
+  // #/visual, #/cognitive, #/garden, #/settings, #/profile) so the browser
+  // back/forward buttons work predictably and a specific pillar can be
+  // linked to directly — useful for a study coordinator sending a
+  // participant straight to a given exercise during an evaluation session.
+  useHashRoute({
+    showIntro,
+    activeTab,
+    settingsOpen,
+    profileOpen,
+    setShowIntro,
+    setSettingsOpen,
+    setProfileOpen,
+    onNavigateTab: handleNavigateTab,
+  });
 
   const handleSwipeTab = useCallback(
     (direction) => {
@@ -477,11 +524,19 @@ function AppContent() {
   }
 
   if (settingsOpen) {
-    return <SettingsModal open={true} onClose={() => setSettingsOpen(false)} />;
+    return (
+      <Suspense fallback={<SkeletonLoader isHighContrast={isHighContrast} />}>
+        <SettingsModal open={true} onClose={() => setSettingsOpen(false)} />
+      </Suspense>
+    );
   }
 
   if (profileOpen) {
-    return <ProfileModal open={true} onClose={() => setProfileOpen(false)} />;
+    return (
+      <Suspense fallback={<SkeletonLoader isHighContrast={isHighContrast} />}>
+        <ProfileModal open={true} onClose={() => setProfileOpen(false)} />
+      </Suspense>
+    );
   }
 
   return (
@@ -510,7 +565,6 @@ function AppContent() {
           t={t}
           coins={coins}
           loadLevel={loadLevel}
-          s={s}
           speak={speak}
           noFlash={noFlash}
         />
@@ -537,21 +591,25 @@ function AppContent() {
               id="garden-container"
               className={`h-full w-full flex-1 py-2 ${noFlash ? '' : 'animate-in fade-in slide-in-from-bottom-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
             >
-              <VirtualGarden
-                points={points}
-                streak={currentStreak}
-                dailyQuests={dailyQuests}
-                isHighContrast={isHighContrast}
-                theme={theme}
-                themeStyles={themeStyles}
-                t={t}
-                activeCategory={lastPillar}
-                isFullScreen={true}
-                noFlash={noFlash}
-                dailyProgress={dailyProgress}
-                dailyGoal={dailyGoal}
-                minimalistMode={!!settings.minimalistMode}
-              />
+              <Suspense
+                fallback={<SkeletonLoader isHighContrast={isHighContrast} />}
+              >
+                <VirtualGarden
+                  points={points}
+                  streak={currentStreak}
+                  dailyQuests={dailyQuests}
+                  isHighContrast={isHighContrast}
+                  theme={theme}
+                  themeStyles={themeStyles}
+                  t={t}
+                  activeCategory={lastPillar}
+                  isFullScreen={true}
+                  noFlash={noFlash}
+                  dailyProgress={dailyProgress}
+                  dailyGoal={dailyGoal}
+                  minimalistMode={!!settings.minimalistMode}
+                />
+              </Suspense>
             </div>
           ) : (
             <>
@@ -564,7 +622,7 @@ function AppContent() {
                     <div
                       className={`absolute -top-4 left-4 z-20 flex items-center gap-1.5 rounded-full border-2 px-3 py-1 text-xs font-black tracking-widest uppercase shadow-lg ${isHighContrast ? 'border-white bg-black text-white' : `bg-[#FCFBF9] ${themeStyles.border} text-[#4A5D54]`} ${noFlash ? '' : 'animate-in zoom-in duration-300'}`}
                     >
-                      <span>{t.collectedLabel || s.collectedLabel}:</span>
+                      <span>{t('collectedLabel')}:</span>
                       <span className="text-xs">
                         {rewards[rewards.length - 1]}
                       </span>
@@ -618,7 +676,7 @@ function AppContent() {
                       bigTargets={bigTargets}
                     />
                     <div
-                      className={`text-xs font-black tracking-widest uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}
+                      className={`text-xs font-black tracking-widest uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
                     >
                       {!isGamified &&
                         `${safeIndex + 1} / ${activePillarTasks.length}`}
@@ -631,7 +689,7 @@ function AppContent() {
               <section
                 ref={cardRef}
                 className={`relative flex min-h-0 w-full flex-1 flex-col items-center rounded-4xl px-2 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-12 ${isHighContrast ? 'border border-white/30 bg-black shadow-lg shadow-white/10 md:shadow-sm' : `border bg-[#FCFBF9] ${themeStyles.border} shadow-xl shadow-slate-200/30 md:shadow-md`}`}
-                aria-label={s.exerciseAria}
+                aria-label={t('exerciseAria')}
               >
                 {}
                 {hasRuler && rulerPos.visible && (
@@ -667,9 +725,9 @@ function AppContent() {
 
               {settings.bionicReading && !settings.zenMode && (
                 <p
-                  className={`mt-2 shrink-0 text-center text-[9px] font-bold opacity-50 sm:text-[10px] md:mt-3 ${isHighContrast ? 'text-white' : 'text-slate-500'}`}
+                  className={`mt-2 shrink-0 text-center text-[9px] font-bold sm:text-[10px] md:mt-3 ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
                 >
-                  {t.bionicExplanation ||
+                  {t('bionicExplanation') ||
                     'Bionic Reading® is a typographic method that supports the reading flow.'}
                 </p>
               )}
@@ -680,18 +738,20 @@ function AppContent() {
                     onClick={goNext}
                     className={`${bigTargets ? 'px-14 py-5 text-lg md:py-6' : 'px-12 py-3.5 text-sm md:py-4'} rounded-full font-black tracking-widest uppercase shadow-xl transition-all active:scale-95 ${noFlash ? '' : 'animate-bounce'} break-words hyphens-auto ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} ${themeStyles.buttonText} opacity-90 hover:opacity-100`}`}
                   >
-                    {t.next || 'Next'}
+                    {t('next') || 'Next'}
                   </button>
-                  <p className="mt-3 hidden text-[10px] font-bold text-slate-400 opacity-60 md:block">
-                    💡 {t.pressKey || 'Press'}{' '}
+                  <p
+                    className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+                  >
+                    💡 {t('pressKey') || 'Press'}{' '}
                     <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-500">
                       Enter
                     </kbd>{' '}
-                    {t.or || 'or'}{' '}
+                    {t('or') || 'or'}{' '}
                     <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-500">
                       →
                     </kbd>{' '}
-                    {t.toContinue || 'to continue'}
+                    {t('toContinue') || 'to continue'}
                   </p>
                 </div>
               ) : (
@@ -700,16 +760,18 @@ function AppContent() {
                   <div className="mt-2 flex shrink-0 flex-col items-center justify-center pb-1 md:mt-3 md:pb-2">
                     <button
                       onClick={goNext}
-                      className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} rounded-full border-2 bg-transparent font-black tracking-widest uppercase transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-400 hover:bg-slate-100'}`}
+                      className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} rounded-full border-2 bg-transparent font-black tracking-widest uppercase transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}
                     >
-                      {t.skip || 'Skip'}
+                      {t('skip') || 'Skip'}
                     </button>
-                    <p className="mt-3 hidden text-[10px] font-bold text-slate-400 opacity-60 md:block">
-                      💡 {t.pressKey || 'Press'}{' '}
+                    <p
+                      className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+                    >
+                      💡 {t('pressKey') || 'Press'}{' '}
                       <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-500">
                         →
                       </kbd>{' '}
-                      {t.toSkip || 'to skip'}
+                      {t('toSkip') || 'to skip'}
                     </p>
                   </div>
                 )
@@ -733,12 +795,13 @@ function AppContent() {
             portrait keep this bottom bar instead of a cramped desktop sidebar. */}
         <nav
           className={`z-40 flex shrink-0 items-center justify-around border-t px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] transition-colors lg:hidden ${isHighContrast ? 'border-white/20 bg-black' : 'border-slate-100 bg-white'}`}
-          aria-label={t.navAria || 'Main Navigation'}
+          aria-label={t('navAria') || 'Main Navigation'}
         >
           {PILLARS.map((pillar) => {
             const isActive = activeTab === pillar;
             const quest = dailyQuests.tasks.find((tsk) => tsk.type === pillar);
-            const label = t.pillars?.[pillar] || pillar;
+            const label =
+              t('pillars', { returnObjects: true })?.[pillar] || pillar;
             const icon = { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' }[
               pillar
             ];
@@ -754,7 +817,7 @@ function AppContent() {
                     navigator.vibrate(15);
                   handleTabChange(pillar);
                 }}
-                className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl p-2 transition-all duration-300 active:scale-95 ${isActive ? (isHighContrast ? 'bg-white/20 font-black text-white shadow-sm' : `bg-slate-50 ${themeStyles.accent} font-black shadow-sm ring-1 ring-slate-900/5`) : isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-400 hover:bg-slate-50/50 hover:text-slate-600'}`}
+                className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl p-2 transition-all duration-300 active:scale-95 ${isActive ? (isHighContrast ? 'bg-white/20 font-black text-white shadow-sm' : `bg-slate-50 ${themeStyles.accent} font-black shadow-sm ring-1 ring-slate-900/5`) : isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-600 hover:bg-slate-50/50 hover:text-slate-600'}`}
                 aria-current={isActive ? 'page' : undefined}
                 aria-label={label}
               >
@@ -790,19 +853,19 @@ function AppContent() {
                   navigator.vibrate(15);
                 handleGardenClick();
               }}
-              className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl p-2 transition-all duration-300 active:scale-95 ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white/20 font-black text-white shadow-sm' : `bg-slate-50 ${themeStyles.accent} font-black shadow-sm ring-1 ring-slate-900/5`) : isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-400 hover:bg-slate-50/50 hover:text-slate-600'}`}
+              className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl p-2 transition-all duration-300 active:scale-95 ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white/20 font-black text-white shadow-sm' : `bg-slate-50 ${themeStyles.accent} font-black shadow-sm ring-1 ring-slate-900/5`) : isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-600 hover:bg-slate-50/50 hover:text-slate-600'}`}
               aria-current={activeTab === 'Garden' ? 'page' : undefined}
-              aria-label={t.garden || 'Garden'}
+              aria-label={t('garden') || 'Garden'}
             >
               <div
                 className={`mb-1 text-2xl ${activeTab === 'Garden' && !noFlash ? 'animate-bounce' : ''}`}
                 aria-hidden="true"
               >
-                {t?.levelIcons?.[theme]?.[0] || '🌱'}
+                {t('levelIcons', { returnObjects: true })?.[theme]?.[0] || '🌱'}
               </div>
               {!hideNavLabel && (
                 <span className="max-w-full truncate text-center text-[10px] leading-none">
-                  {t.garden || 'Garden'}
+                  {t('garden') || 'Garden'}
                 </span>
               )}
             </button>
@@ -818,15 +881,15 @@ function AppContent() {
                 navigator.vibrate(15);
               setProfileOpen(true);
             }}
-            className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl p-2 transition-all duration-300 active:scale-95 ${isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-400 hover:bg-slate-50/50 hover:text-slate-600'}`}
-            aria-label={t.profile || 'Profile'}
+            className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl p-2 transition-all duration-300 active:scale-95 ${isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-600 hover:bg-slate-50/50 hover:text-slate-600'}`}
+            aria-label={t('profile') || 'Profile'}
           >
             <div className="mb-1 text-2xl" aria-hidden="true">
               👤
             </div>
             {!hideNavLabel && (
               <span className="max-w-full truncate text-center text-[10px] leading-none">
-                {t.profile || 'Profile'}
+                {t('profile') || 'Profile'}
               </span>
             )}
           </button>
@@ -841,15 +904,15 @@ function AppContent() {
                 navigator.vibrate(15);
               setSettingsOpen(true);
             }}
-            className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl p-2 transition-all duration-300 active:scale-95 ${isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-400 hover:bg-slate-50/50 hover:text-slate-600'}`}
-            aria-label={t.settingsAria || 'Settings'}
+            className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl p-2 transition-all duration-300 active:scale-95 ${isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-600 hover:bg-slate-50/50 hover:text-slate-600'}`}
+            aria-label={t('settingsAria') || 'Settings'}
           >
             <div className="mb-1 text-2xl" aria-hidden="true">
               ⚙️
             </div>
             {!hideNavLabel && (
               <span className="max-w-full truncate text-center text-[10px] leading-none">
-                {t.settings || 'Settings'}
+                {t('settings') || 'Settings'}
               </span>
             )}
           </button>
@@ -870,12 +933,12 @@ function AppContent() {
             </span>
             <div className="min-w-0 flex-1">
               <h4 className="mb-1 text-xs font-black tracking-widest uppercase sm:text-sm">
-                {t.realWorldImpact?.newTreeTitle || 'New Tree! 🎉'}
+                {t('realWorldImpact.newTreeTitle') || 'New Tree! 🎉'}
               </h4>
               <p
                 className={`text-[10px] leading-tight font-medium break-words hyphens-auto sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-emerald-50'}`}
               >
-                {t.realWorldImpact?.newTreeMsg ||
+                {t('realWorldImpact.newTreeMsg') ||
                   'Amazing! Your consistent learning helped us virtually plant another tree.'}
               </p>
             </div>
@@ -904,12 +967,13 @@ function AppContent() {
               id="level-up-title"
               className={`mb-4 text-2xl font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
             >
-              {t.levelUpTitle || 'Your garden is growing!'}
+              {t('levelUpTitle') || 'Your garden is growing!'}
             </h2>
             <p
               className={`mb-8 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
             >
-              {t.levelUpDesc || 'Another goal has been successfully achieved.'}
+              {t('levelUpDesc') ||
+                'Another goal has been successfully achieved.'}
             </p>
             <button
               onClick={() => {
@@ -923,37 +987,38 @@ function AppContent() {
               }}
               className={`w-full ${bigTargets ? 'py-7 text-xl' : 'py-4 text-lg'} rounded-3xl font-bold transition-all active:scale-95 ${isHighContrast ? 'bg-white text-black' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
             >
-              {t.next || 'Next'}
+              {t('next') || 'Next'}
             </button>
           </div>
         </div>
       )}
 
       {}
-      {showFeedback && (
-        <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm sm:p-6"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="survey-title"
+      <Dialog
+        open={showFeedback}
+        onClose={() => {
+          setShowFeedback(false);
+          goNext();
+        }}
+        labelledBy="survey-title"
+        overlayClassName="z-[60] flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm sm:p-6"
+        className="no-scrollbar animate-in zoom-in relative max-h-[95vh] w-full max-w-5xl overflow-y-auto rounded-3xl bg-white shadow-2xl duration-300"
+      >
+        {}
+        <button
+          onClick={() => {
+            setShowFeedback(false);
+            goNext();
+          }}
+          className="scale-size-10 absolute top-4 right-4 z-10 flex items-center justify-center rounded-full bg-slate-100 font-bold text-slate-500 transition-colors hover:bg-slate-200"
         >
-          {}
-          <div className="no-scrollbar animate-in zoom-in relative max-h-[95vh] w-full max-w-5xl overflow-y-auto rounded-3xl bg-white shadow-2xl duration-300">
-            {}
-            <button
-              onClick={() => {
-                setShowFeedback(false);
-                goNext();
-              }}
-              className="scale-size-10 absolute top-4 right-4 z-10 flex items-center justify-center rounded-full bg-slate-100 font-bold text-slate-500 transition-colors hover:bg-slate-200"
-            >
-              ✕
-            </button>
+          ✕
+        </button>
 
-            <SurveyComponent />
-          </div>
-        </div>
-      )}
+        <Suspense fallback={<SkeletonLoader isHighContrast={false} />}>
+          <SurveyComponent />
+        </Suspense>
+      </Dialog>
 
       {}
       {affirmation && (
@@ -980,12 +1045,12 @@ function AppContent() {
         >
           <h4 className="mb-1 flex items-center gap-2 text-sm font-black">
             <span aria-hidden="true">🌱</span>{' '}
-            {t.pwaNewVersion || 'New version'}
+            {t('pwaNewVersion') || 'New version'}
           </h4>
           <p
             className={`mb-4 text-xs leading-relaxed font-medium ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
           >
-            {t.pwaDescription ||
+            {t('pwaDescription') ||
               'New content is available. Please update the app to get the latest offline changes.'}
           </p>
           <div className="flex gap-2">
@@ -993,13 +1058,13 @@ function AppContent() {
               onClick={() => updateServiceWorker(true)}
               className={`flex-1 rounded-xl py-3 text-[10px] font-black tracking-widest uppercase shadow-md transition-all active:scale-95 sm:text-xs ${themeStyles.button} ${themeStyles.buttonText}`}
             >
-              {t.pwaUpdate || 'Update'}
+              {t('pwaUpdate') || 'Update'}
             </button>
             <button
               onClick={() => setNeedRefresh(false)}
               className={`flex-1 rounded-xl py-3 text-[10px] font-black tracking-widest uppercase transition-all sm:text-xs ${isHighContrast ? 'bg-white/10 hover:bg-white/20' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
             >
-              {t.pwaLater || 'Later'}
+              {t('pwaLater') || 'Later'}
             </button>
           </div>
         </div>

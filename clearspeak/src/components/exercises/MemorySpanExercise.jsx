@@ -1,26 +1,25 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import BionicText from '../common/BionicText';
+
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
 
-function MemorySpanExercise(
-  {
-    data,
-    themeStyles,
-    onSuccess,
-    onError,
-    t,
-    language = 'en',
-    speak,
-    noFlash = false,
-    bigTargets = false,
-    extendedTime = false,
-    bionicReading = false,
-    zenMode = false,
-    voiceAssistant = false,
-  }
-) {
+function MemorySpanExercise({
+  data,
+  themeStyles,
+  onSuccess,
+  onError,
+  t,
+  language = 'en',
+  speak,
+  noFlash = false,
+  bigTargets = false,
+  extendedTime = false,
+  bionicReading = false,
+  zenMode = false,
+  voiceAssistant = false,
+}) {
   const [isMemorizing, setIsMemorizing] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const [isChecking, setIsChecking] = useState(false);
@@ -31,7 +30,12 @@ function MemorySpanExercise(
   );
 
   const [activeHighlight, setActiveHighlight] = useState(null);
-  const { setSafeTimeout, clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
+  const {
+    setSafeTimeout,
+    clearAllTimeouts,
+    pauseAllTimeouts,
+    resumeAllTimeouts,
+  } = useSafeTimeouts();
 
   useEffect(() => {
     return () => {
@@ -47,16 +51,20 @@ function MemorySpanExercise(
     let delayAcc = 800;
     data.displayItems.forEach((item, index) => {
       const textToSpeak = String(item);
-      const stepDuration = textToSpeak.length * (extendedTime ? 100 : 75) + 1500;
+      const stepDuration =
+        textToSpeak.length * (extendedTime ? 100 : 75) + 1500;
 
       setSafeTimeout(() => {
         setActiveHighlight(`mem-${index}`);
         speak(textToSpeak);
       }, delayAcc);
 
-      setSafeTimeout(() => {
-        setActiveHighlight(null);
-      }, delayAcc + stepDuration - 200);
+      setSafeTimeout(
+        () => {
+          setActiveHighlight(null);
+        },
+        delayAcc + stepDuration - 200,
+      );
 
       delayAcc += stepDuration;
     });
@@ -65,7 +73,13 @@ function MemorySpanExercise(
       setIsMemorizing(false);
       setActiveHighlight(null);
     }, delayAcc + 500);
-  }, [data.displayItems, extendedTime, speak, setSafeTimeout, clearAllTimeouts]);
+  }, [
+    data.displayItems,
+    extendedTime,
+    speak,
+    setSafeTimeout,
+    clearAllTimeouts,
+  ]);
 
   useEffect(() => {
     if (isMemorizing) {
@@ -130,21 +144,25 @@ function MemorySpanExercise(
 
     stableScrambled.forEach((item, index) => {
       if (!selectedItems.includes(item)) {
-        const optionPrefix = t.optionPrefix ? t.optionPrefix(index + 1) : `Option ${index + 1}: `;
+        const optionPrefix = t('optionPrefix', { number: index + 1 });
 
         const spokenPrefix = optionPrefix.replace(':', '.');
         const fullSpokenText = `${spokenPrefix} ${item}`;
 
-        const stepDuration = fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
+        const stepDuration =
+          fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
 
         setSafeTimeout(() => {
           setActiveHighlight(index);
           speak(fullSpokenText);
         }, delayAcc);
 
-        setSafeTimeout(() => {
-          setActiveHighlight((prev) => (prev === index ? null : prev));
-        }, delayAcc + stepDuration - 200);
+        setSafeTimeout(
+          () => {
+            setActiveHighlight((prev) => (prev === index ? null : prev));
+          },
+          delayAcc + stepDuration - 200,
+        );
 
         delayAcc += stepDuration;
       }
@@ -154,26 +172,36 @@ function MemorySpanExercise(
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
   const popAnim = noFlash ? '' : 'animate-in pop-in';
   const pulseClass = noFlash ? '' : 'animate-pulse';
-  
+
   const itemCount = data.displayItems?.length || data.correct?.length || 0;
   const isMany = itemCount > 4;
 
-  const tileSize = bigTargets 
-    ? (isMany ? 'w-14 h-16 sm:w-20 sm:h-24 text-2xl sm:text-4xl' : 'w-20 h-24 sm:w-24 sm:h-28 text-4xl sm:text-5xl') 
-    : (isMany ? 'w-10 h-12 sm:w-16 sm:h-20 text-xl sm:text-3xl' : 'w-16 h-20 sm:w-20 sm:h-24 text-3xl sm:text-4xl');
+  const tileSize = bigTargets
+    ? isMany
+      ? 'w-14 h-16 sm:w-20 sm:h-24 text-2xl sm:text-4xl'
+      : 'w-20 h-24 sm:w-24 sm:h-28 text-4xl sm:text-5xl'
+    : isMany
+      ? 'w-10 h-12 sm:w-16 sm:h-20 text-xl sm:text-3xl'
+      : 'w-16 h-20 sm:w-20 sm:h-24 text-3xl sm:text-4xl';
   const letterBtn = bigTargets
-    ? (isMany ? 'w-12 h-12 sm:w-16 sm:h-16 text-lg sm:text-xl rounded-xl' : 'w-16 h-16 sm:w-20 sm:h-20 text-xl sm:text-2xl rounded-3xl')
-    : (isMany ? 'w-9 h-9 sm:w-14 sm:h-14 text-base sm:text-lg rounded-lg' : 'w-14 h-14 sm:w-16 sm:h-16 text-lg sm:text-2xl rounded-2xl');
+    ? isMany
+      ? 'w-12 h-12 sm:w-16 sm:h-16 text-lg sm:text-xl rounded-xl'
+      : 'w-16 h-16 sm:w-20 sm:h-20 text-xl sm:text-2xl rounded-3xl'
+    : isMany
+      ? 'w-9 h-9 sm:w-14 sm:h-14 text-base sm:text-lg rounded-lg'
+      : 'w-14 h-14 sm:w-16 sm:h-16 text-lg sm:text-2xl rounded-2xl';
   const hintPadding = bigTargets ? 'px-8 py-4' : 'px-6 py-3';
   const controlBtnSize = bigTargets
     ? 'w-20 h-20 text-3xl'
     : 'w-16 h-16 text-2xl';
 
   return (
-    <div className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center py-2 px-2 overflow-hidden`}>
-      <div className="w-full text-center shrink-0">
-        <h3 className="mb-2 sm:mb-4 px-4 text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
-          {isMemorizing ? t.memorize || 'Memorize!' : data.instruction}
+    <div
+      className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}
+    >
+      <div className="w-full shrink-0 text-center">
+        <h3 className="mx-auto mb-2 max-w-[65ch] px-4 text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4">
+          {isMemorizing ? t('memorize') || 'Memorize!' : data.instruction}
         </h3>
 
         {}
@@ -195,9 +223,9 @@ function MemorySpanExercise(
               {data.displayItems?.map((item, i) => (
                 <div
                   key={i}
-                  className={`${tileSize} rounded-2xl sm:rounded-3xl border-4 bg-white transition-all duration-300 flex items-center justify-center font-bold shadow-sm md:shadow-none ${
+                  className={`${tileSize} flex items-center justify-center rounded-2xl border-4 bg-white font-bold shadow-sm transition-all duration-300 sm:rounded-3xl md:shadow-none ${
                     activeHighlight === `mem-${i}`
-                      ? 'scale-110 ring-4 ring-yellow-400 bg-yellow-50 shadow-xl border-yellow-400 z-10'
+                      ? 'z-10 scale-110 border-yellow-400 bg-yellow-50 shadow-xl ring-4 ring-yellow-400'
                       : themeStyles.border
                   }`}
                 >
@@ -208,7 +236,10 @@ function MemorySpanExercise(
           </div>
         ) : (
           !zenMode && (
-            <div className="mb-4 sm:mb-8 text-4xl sm:text-6xl shrink-0" aria-hidden="true">
+            <div
+              className="mb-4 shrink-0 text-4xl sm:mb-8 sm:text-6xl"
+              aria-hidden="true"
+            >
               ❓
             </div>
           )
@@ -218,11 +249,11 @@ function MemorySpanExercise(
       {}
       {!isMemorizing && (
         <div
-          className={`flex w-full min-h-0 flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in duration-500'}`}
+          className={`flex min-h-0 w-full flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in duration-500'}`}
         >
           {}
           {voiceAssistant && (
-            <div className="mb-2 sm:mb-4 flex gap-4 sm:gap-6 shrink-0">
+            <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
               <TTSController
                 onReadAloud={readAvailableItems}
                 pauseAllTimeouts={pauseAllTimeouts}
@@ -238,7 +269,9 @@ function MemorySpanExercise(
                     ? 'animate-pulse bg-red-500 text-white ring-8 ring-red-100'
                     : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
                 }`}
-                aria-label={isListening ? t.listening : t.speakOptionNumber}
+                aria-label={
+                  isListening ? t('listening') : t('speakOptionNumber')
+                }
                 aria-pressed={isListening}
               >
                 {isListening ? '🛑' : '🎤'}
@@ -247,13 +280,13 @@ function MemorySpanExercise(
           )}
 
           {transcript && (
-            <p className="mb-1 sm:mb-2 text-center text-[10px] sm:text-xs font-black tracking-widest text-slate-400 uppercase shrink-0">
-              {t.heard}: <span className="text-slate-600">{transcript}</span>
+            <p className="mb-1 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-2 sm:text-xs">
+              {t('heard')}: <span className="text-slate-600">{transcript}</span>
             </p>
           )}
 
           {}
-          <div className="mb-2 sm:mb-4 flex min-h-[3rem] sm:min-h-16 w-full flex-wrap justify-center gap-2 rounded-3xl border-2 border-dashed border-slate-200 bg-slate-50 p-3 sm:p-4 shrink min-h-0 overflow-y-auto">
+          <div className="mb-2 flex min-h-0 min-h-[3rem] w-full shrink flex-wrap justify-center gap-2 overflow-y-auto rounded-3xl border-2 border-dashed border-slate-200 bg-slate-50 p-3 sm:mb-4 sm:min-h-16 sm:p-4">
             {selectedItems.map((item, index) => (
               <div
                 key={index}
@@ -265,7 +298,7 @@ function MemorySpanExercise(
           </div>
 
           {}
-          <div className="mb-2 sm:mb-4 flex w-full max-w-sm flex-wrap justify-center gap-2 sm:gap-3 shrink min-h-0 overflow-y-auto">
+          <div className="mb-2 flex min-h-0 w-full max-w-sm shrink flex-wrap justify-center gap-2 overflow-y-auto sm:mb-4 sm:gap-3">
             {stableScrambled.map((item, index) => {
               const isSelected = selectedItems.includes(item);
               return (
@@ -273,13 +306,13 @@ function MemorySpanExercise(
                   key={index}
                   onClick={() => handleSelectItem(item)}
                   disabled={isSelected || isListening}
-                className={`relative ${letterBtn} border-2 font-bold transition-all active:scale-90 ${
-                  isSelected || isListening 
-                    ? 'cursor-default border-slate-200 bg-slate-100 text-slate-400 opacity-30' 
-                    : activeHighlight === index
-                      ? 'scale-105 ring-4 ring-yellow-400 bg-yellow-50 shadow-xl z-10 border-yellow-400 text-slate-900'
-                      : `bg-white shadow-sm md:shadow-none ${themeStyles.border} ${themeStyles.accent} hover:bg-slate-50`
-                }`}
+                  className={`relative ${letterBtn} border-2 font-bold transition-all active:scale-90 ${
+                    isSelected || isListening
+                      ? 'cursor-default border-slate-200 bg-slate-100 text-slate-600 opacity-30'
+                      : activeHighlight === index
+                        ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
+                        : `bg-white shadow-sm md:shadow-none ${themeStyles.border} ${themeStyles.accent} hover:bg-slate-50`
+                  }`}
                   aria-pressed={isSelected}
                 >
                   {!isSelected && (
@@ -302,7 +335,7 @@ function MemorySpanExercise(
               onClick={handleHint}
               className={`flex items-center gap-2 ${hintPadding} rounded-full bg-slate-100 text-xs font-bold tracking-widest text-slate-500 uppercase transition-all hover:bg-slate-200 active:scale-95`}
             >
-              💡 {t.hint || 'Hint'}
+              💡 {t('hint') || 'Hint'}
             </button>
           )}
         </div>

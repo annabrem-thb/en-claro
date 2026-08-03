@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useUserSettingsContext } from './UserSettingsContext';
+import Dialog from './common/Dialog.jsx';
 
 export default function FocusExerciseLayout({
   children,
@@ -20,11 +21,12 @@ export default function FocusExerciseLayout({
   }, []);
 
   return (
-    <div
-      className={`fixed inset-0 z-[100] flex min-h-0 flex-col overflow-hidden ${isHighContrast ? 'bg-black text-white' : 'bg-[#fdfaf6] text-slate-800'}`}
-      role="dialog"
-      aria-modal="true"
-      aria-label={t?.activeExerciseView || 'Active Exercise View'}
+    <Dialog
+      open={true}
+      onClose={onExit}
+      label={t('activeExerciseView', 'Active Exercise View')}
+      overlayClassName="z-[100]"
+      className={`flex min-h-full flex-col overflow-hidden outline-none ${isHighContrast ? 'bg-black text-white' : 'bg-[#fdfaf6] text-slate-800'}`}
     >
       {}
       <header
@@ -37,9 +39,10 @@ export default function FocusExerciseLayout({
               ? 'bg-white text-black hover:bg-slate-200'
               : 'bg-white text-slate-600 shadow-sm hover:bg-slate-50'
           }`}
-          aria-label={
-            t?.exitExercise || 'Exit Exercise and Return to Dashboard'
-          }
+          aria-label={t(
+            'exitExercise',
+            'Exit Exercise and Return to Dashboard',
+          )}
         >
           <span
             className={`${bigTargets ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg'} leading-none`}
@@ -59,7 +62,7 @@ export default function FocusExerciseLayout({
           <span
             className={`${bigTargets ? 'text-sm' : 'text-xs'} font-black tracking-widest uppercase opacity-70`}
           >
-            {t?.task || 'Task'} {currentTaskNumber} {t?.of || 'of'} {totalTasks}
+            {t('task', 'Task')} {currentTaskNumber} {t('of', 'of')} {totalTasks}
           </span>
           <div
             className={`${bigTargets ? 'h-3.5 w-24 sm:w-48' : 'h-2.5 w-20 sm:w-40'} overflow-hidden rounded-full bg-slate-200/50 shadow-inner`}
@@ -81,6 +84,6 @@ export default function FocusExerciseLayout({
           {children}
         </div>
       </div>
-    </div>
+    </Dialog>
   );
 }

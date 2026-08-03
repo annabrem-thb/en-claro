@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 
-import { useTranslation } from '../i18n/i18n';
+import { useTranslation } from 'react-i18next';
 
 export function useAffirmativeNotifications(points, language = 'pl') {
   const [affirmation, setAffirmation] = useState(null);
-  const t = useTranslation(language);
+  const { t } = useTranslation();
   const lastRewardedPoints = useRef(0);
   useEffect(() => {
     if (
@@ -12,12 +12,14 @@ export function useAffirmativeNotifications(points, language = 'pl') {
       points % 15 === 0 &&
       points !== lastRewardedPoints.current
     ) {
-      const pool = t.affirmations || ['Great effort!'];
+      const pool = t('affirmations', { returnObjects: true }) || [
+        'Great effort!',
+      ];
       const randomMsg = pool[Math.floor(Math.random() * pool.length)];
       setAffirmation(randomMsg);
       lastRewardedPoints.current = points;
     }
-  }, [points, t.affirmations]);
+  }, [points, language, t]);
   useEffect(() => {
     if (affirmation) {
       const timer = setTimeout(() => setAffirmation(null), 6e3);
