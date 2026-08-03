@@ -1,0 +1,5 @@
+{
+  "network": "Network connection failed. Please try again.",
+  "unauthorized": "You are not authorized to view this page.",
+  "timeout": "The request timed out."
+}

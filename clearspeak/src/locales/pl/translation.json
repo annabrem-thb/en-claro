@@ -44,7 +44,6 @@
   "loading": "Wczytywanie...",
   "noData": "Brak zadań w tej sekcji.",
   "formatNotRecognized": "Błąd formatu zadania.",
-  "profile": "Profil",
   "level": "Poziom",
   "quests": "Zadania Dnia",
   "shop": "Sklep Motywów",
@@ -54,12 +53,7 @@
   "coinsAria": "Monety",
   "exerciseAria": "Ćwiczenie",
   "readAloudTitle": "Czytaj na głos",
-  "successMsg": [
-    "Świetnie!",
-    "Doskonale!",
-    "Wspaniale!",
-    "Super!"
-  ],
+  "successMsg": ["Świetnie!", "Doskonale!", "Wspaniale!", "Super!"],
   "errorMsg": [
     "Przeanalizujmy to razem.",
     "Spróbujmy jeszcze raz.",
@@ -76,12 +70,7 @@
   "levelUpDesc": "Kolejny cel został pomyślnie zrealizowany.",
   "hint": "Podpowiedź",
   "voice": {
-    "success": [
-      "Doskonale",
-      "Świetnie",
-      "Wspaniale",
-      "Znakomicie"
-    ],
+    "success": ["Doskonale", "Świetnie", "Wspaniale", "Znakomicie"],
     "error": [
       "Przeanalizujmy to razem",
       "Spróbujmy jeszcze raz",
@@ -315,78 +304,18 @@
     "Ocean": "Ocean"
   },
   "levelIcons": {
-    "Natur": [
-      "🌿",
-      "☘️",
-      "🌳",
-      "🌲",
-      "🏔️"
-    ],
-    "Musik": [
-      "🎵",
-      "🎶",
-      "🎸",
-      "🎹",
-      "🎼"
-    ],
-    "Kunst": [
-      "💡",
-      "🎨",
-      "🖌️",
-      "🖼️",
-      "💎"
-    ],
-    "Space": [
-      "✨",
-      "⭐",
-      "🛰️",
-      "🚀",
-      "🪐"
-    ],
-    "Ocean": [
-      "💧",
-      "🌊",
-      "🧭",
-      "⚓",
-      "🚢"
-    ]
+    "Natur": ["🌿", "☘️", "🌳", "🌲", "🏔️"],
+    "Musik": ["🎵", "🎶", "🎸", "🎹", "🎼"],
+    "Kunst": ["💡", "🎨", "🖌️", "🖼️", "💎"],
+    "Space": ["✨", "⭐", "🛰️", "🚀", "🪐"],
+    "Ocean": ["💧", "🌊", "🧭", "⚓", "🚢"]
   },
   "progressStages": {
-    "Natur": [
-      "Ziarenko",
-      "Łodyga",
-      "Pąk",
-      "Rozkwit",
-      "Kwiat"
-    ],
-    "Musik": [
-      "Szesnastka",
-      "Ósemka",
-      "Ćwierćnuta",
-      "Półnuta",
-      "Instrument"
-    ],
-    "Kunst": [
-      "Pędzel",
-      "Paleta",
-      "Szkic",
-      "Farby",
-      "Arcydzieło"
-    ],
-    "Space": [
-      "Gwiazda",
-      "Kometa",
-      "Księżyc",
-      "Planeta",
-      "Rakieta"
-    ],
-    "Ocean": [
-      "Kropla",
-      "Ryba",
-      "Koralowiec",
-      "Delfin",
-      "Wieloryb"
-    ]
+    "Natur": ["Ziarenko", "Łodyga", "Pąk", "Rozkwit", "Kwiat"],
+    "Musik": ["Szesnastka", "Ósemka", "Ćwierćnuta", "Półnuta", "Instrument"],
+    "Kunst": ["Pędzel", "Paleta", "Szkic", "Farby", "Arcydzieło"],
+    "Space": ["Gwiazda", "Kometa", "Księżyc", "Planeta", "Rakieta"],
+    "Ocean": ["Kropla", "Ryba", "Koralowiec", "Delfin", "Wieloryb"]
   },
   "garden": "Ogród",
   "gardenBlooming": "Ogród rozkwita! Zrealizowane cele:",
@@ -398,41 +327,11 @@
   "srVisitor": "Przyjazny gość dołączył do Ciebie dzięki Twojej regularnej praktyce.",
   "srTrophies": "Dzięki wytrwałości w ogrodzie pojawiły się {count} unikalne obiekty.",
   "rewardItems": {
-    "Natur": [
-      "💎",
-      "🏆",
-      "💡",
-      "📈",
-      "🎯"
-    ],
-    "Musik": [
-      "💎",
-      "🏆",
-      "💡",
-      "📈",
-      "🎯"
-    ],
-    "Kunst": [
-      "💎",
-      "🏆",
-      "💡",
-      "📈",
-      "🎯"
-    ],
-    "Space": [
-      "💎",
-      "🏆",
-      "💡",
-      "📈",
-      "🎯"
-    ],
-    "Ocean": [
-      "💎",
-      "🏆",
-      "💡",
-      "📈",
-      "🎯"
-    ]
+    "Natur": ["💎", "🏆", "💡", "📈", "🎯"],
+    "Musik": ["💎", "🏆", "💡", "📈", "🎯"],
+    "Kunst": ["💎", "🏆", "💡", "📈", "🎯"],
+    "Space": ["💎", "🏆", "💡", "📈", "🎯"],
+    "Ocean": ["💎", "🏆", "💡", "📈", "🎯"]
   },
   "dailyGoal": "Cel dzienny",
   "goal5": "5 min — Szybka powtórka",
@@ -453,48 +352,6 @@
   "noDataToExport": "Brak danych do wyeksportowania",
   "shortcut": "Skrót",
   "memorize": "Zapamiętaj!",
-  "feedback": {
-    "title": "Chwila na refleksję",
-    "desc": "Jak oceniasz dzisiejszą sesję? Twoja opinia pomaga nam dostosować aplikację do Ciebie.",
-    "nasaTitle": "Obciążenie (NASA-TLX)",
-    "low": "Niski",
-    "high": "Wysoki",
-    "nasa": {
-      "mental": "Wysiłek umysłowy",
-      "mentalDesc": "Jak dużo aktywności umysłowej wymagało zadanie?",
-      "physical": "Wysiłek fizyczny",
-      "physicalDesc": "Jak dużo aktywności fizycznej wymagało zadanie?",
-      "temporal": "Wymagania czasowe",
-      "temporalDesc": "Jak bardzo odczuwalna była presja czasu?",
-      "performance": "Wydajność",
-      "performanceDesc": "Jak udane było według Ciebie wykonanie tego zadania?",
-      "effort": "Wysiłek ogólny",
-      "effortDesc": "Jak ciężko trzeba było pracować, aby osiągnąć ten poziom wydajności?",
-      "frustration": "Poziom frustracji",
-      "frustrationDesc": "Jak bardzo byłeś irytowany, zestresowany lub zniechęcony?"
-    },
-    "ueqTitle": "Twoje wrażenia (UEQ-Short)",
-    "ueq": {
-      "obstructive": "Utrudniający",
-      "supportive": "Wspierający",
-      "complicated": "Skomplikowany",
-      "easy": "Łatwy",
-      "inefficient": "Nieefektywny",
-      "efficient": "Efektywny",
-      "confusing": "Niezrozumiały",
-      "clear": "Jasny",
-      "boring": "Nudny",
-      "exciting": "Ekscytujący",
-      "notInteresting": "Nieciekawy",
-      "interesting": "Ciekawy",
-      "conventional": "Konwencjonalny",
-      "inventive": "Odkrywczy",
-      "usual": "Zwyczajny",
-      "leadingEdge": "Nowatorski"
-    },
-    "submit": "Zapisz i kontynuuj",
-    "skip": "Pomiń tym razem"
-  },
   "mapTitle": "Mapa Wyzwań",
   "choosePath": "Wybierz swoją ścieżkę",
   "nextLevel": "Następny etap",
@@ -534,11 +391,7 @@
     "Sequence": "Logika: Sekwencje"
   },
   "difficulty": "Poziom trudności",
-  "diffLevels": [
-    "Łatwy",
-    "Średni",
-    "Trudny"
-  ],
+  "diffLevels": ["Łatwy", "Średni", "Trudny"],
   "questLabel": "Wyzwanie",
   "trackAndMatch": "Podążaj za podświetleniem i wskaż kierunek",
   "chooseCorrectSpelling": "Wybierz poprawną pisownię:",
@@ -617,30 +470,11 @@
   "prevPage": "← Poprzednia",
   "nextPage": "Następna →",
   "commands": {
-    "next": [
-      "dalej",
-      "następne",
-      "kontynuuj",
-      "gotowe"
-    ],
-    "check": [
-      "sprawdź",
-      "zatwierdź"
-    ],
-    "undo": [
-      "cofnij",
-      "wróć",
-      "usuń"
-    ],
-    "skip": [
-      "pomiń",
-      "nie wiem"
-    ],
-    "hint": [
-      "podpowiedź",
-      "pomóż mi",
-      "pomoc"
-    ]
+    "next": ["dalej", "następne", "kontynuuj", "gotowe"],
+    "check": ["sprawdź", "zatwierdź"],
+    "undo": ["cofnij", "wróć", "usuń"],
+    "skip": ["pomiń", "nie wiem"],
+    "hint": ["podpowiedź", "pomóż mi", "pomoc"]
   },
   "affirmations": [
     "Twój ogród rośnie pięknie dzięki Twojej dzisiejszej pracy.",
@@ -686,38 +520,6 @@
         "label": "Łatwe",
         "desc": "Czuję się pewnie"
       }
-    }
-  },
-  "common": {
-    "save": "Zapisz",
-    "cancel": "Anuluj",
-    "loading": "Ładowanie...",
-    "success": "Sukces!",
-    "error": "Wystąpił błąd.",
-    "close": "Zamknij"
-  },
-  "errors": {
-    "network": "Błąd połączenia sieciowego. Spróbuj ponownie.",
-    "unauthorized": "Nie masz uprawnień do przeglądania tej strony.",
-    "timeout": "Upłynął limit czasu żądania."
-  },
-  "survey": {
-    "susTitle": "Skala Użyteczności Systemu (SUS)",
-    "susAnchors": {
-      "stronglyDisagree": "Zdecydowanie się nie zgadzam",
-      "stronglyAgree": "Zdecydowanie się zgadzam"
-    },
-    "sus": {
-      "q01": "Myślę, że chciał(a)bym często korzystać z tego systemu.",
-      "q02": "Uważam, że system ten jest niepotrzebnie skomplikowany.",
-      "q03": "Uważam, że system ten jest łatwy w obsłudze.",
-      "q04": "Myślę, że potrzebował(a)bym pomocy osoby o wiedzy technicznej, aby móc korzystać z tego systemu.",
-      "q05": "Uważam, że różne funkcje w tym systemie są dobrze zintegrowane.",
-      "q06": "Uważam, że w systemie jest zbyt wiele niespójności.",
-      "q07": "Wyobrażam sobie, że większość ludzi bardzo szybko nauczyłaby się obsługi tego systemu.",
-      "q08": "Uważam, że system jest bardzo uciążliwy i niewygodny w użyciu.",
-      "q09": "Czułem(am) się bardzo pewnie podczas korzystania z systemu.",
-      "q10": "Musiałem(am) się wiele nauczyć, zanim zacząłem/zaczęłam swobodnie korzystać z tego systemu."
     }
   },
   "realWorldImpact": {

@@ -45,7 +45,6 @@
   "loading": "Loading...",
   "noData": "No tasks in this section.",
   "formatNotRecognized": "Task format error.",
-  "profile": "Profile",
   "level": "Level",
   "quests": "Daily Quests",
   "shop": "Theme Shop",
@@ -55,12 +54,7 @@
   "coinsAria": "Coins",
   "exerciseAria": "Exercise",
   "readAloudTitle": "Read aloud",
-  "successMsg": [
-    "Great!",
-    "Excellent!",
-    "Wonderful!",
-    "Super!"
-  ],
+  "successMsg": ["Great!", "Excellent!", "Wonderful!", "Super!"],
   "errorMsg": [
     "Let's analyze this together.",
     "Let's try again.",
@@ -77,12 +71,7 @@
   "levelUpDesc": "Another goal has been successfully achieved.",
   "hint": "Hint",
   "voice": {
-    "success": [
-      "Excellent",
-      "Great",
-      "Wonderful",
-      "Outstanding"
-    ],
+    "success": ["Excellent", "Great", "Wonderful", "Outstanding"],
     "error": [
       "Let's analyze this together",
       "Let's try again",
@@ -317,78 +306,18 @@
     "Ocean": "Ocean"
   },
   "levelIcons": {
-    "Natur": [
-      "🌿",
-      "☘️",
-      "🌳",
-      "🌲",
-      "🏔️"
-    ],
-    "Musik": [
-      "🎵",
-      "🎶",
-      "🎸",
-      "🎹",
-      "🎼"
-    ],
-    "Kunst": [
-      "💡",
-      "🎨",
-      "🖌️",
-      "🖼️",
-      "💎"
-    ],
-    "Space": [
-      "✨",
-      "⭐",
-      "🛰️",
-      "🚀",
-      "🪐"
-    ],
-    "Ocean": [
-      "💧",
-      "🌊",
-      "🧭",
-      "⚓",
-      "🚢"
-    ]
+    "Natur": ["🌿", "☘️", "🌳", "🌲", "🏔️"],
+    "Musik": ["🎵", "🎶", "🎸", "🎹", "🎼"],
+    "Kunst": ["💡", "🎨", "🖌️", "🖼️", "💎"],
+    "Space": ["✨", "⭐", "🛰️", "🚀", "🪐"],
+    "Ocean": ["💧", "🌊", "🧭", "⚓", "🚢"]
   },
   "progressStages": {
-    "Natur": [
-      "Seed",
-      "Stem",
-      "Bud",
-      "Bloom",
-      "Flower"
-    ],
-    "Musik": [
-      "Sixteenth",
-      "Eighth",
-      "Quarter",
-      "Half",
-      "Instrument"
-    ],
-    "Kunst": [
-      "Brush",
-      "Palette",
-      "Sketch",
-      "Paint",
-      "Masterpiece"
-    ],
-    "Space": [
-      "Star",
-      "Comet",
-      "Moon",
-      "Planet",
-      "Rocket"
-    ],
-    "Ocean": [
-      "Drop",
-      "Fish",
-      "Coral",
-      "Dolphin",
-      "Whale"
-    ]
+    "Natur": ["Seed", "Stem", "Bud", "Bloom", "Flower"],
+    "Musik": ["Sixteenth", "Eighth", "Quarter", "Half", "Instrument"],
+    "Kunst": ["Brush", "Palette", "Sketch", "Paint", "Masterpiece"],
+    "Space": ["Star", "Comet", "Moon", "Planet", "Rocket"],
+    "Ocean": ["Drop", "Fish", "Coral", "Dolphin", "Whale"]
   },
   "garden": "Garden",
   "gardenBlooming": "The garden is blooming! Goals achieved:",
@@ -400,41 +329,11 @@
   "srVisitor": "A friendly visitor has joined you thanks to your regular practice.",
   "srTrophies": "Through perseverance, {count} unique objects appeared in the garden.",
   "rewardItems": {
-    "Natur": [
-      "💎",
-      "🏆",
-      "💡",
-      "📈",
-      "🎯"
-    ],
-    "Musik": [
-      "💎",
-      "🏆",
-      "💡",
-      "📈",
-      "🎯"
-    ],
-    "Kunst": [
-      "💎",
-      "🏆",
-      "💡",
-      "📈",
-      "🎯"
-    ],
-    "Space": [
-      "💎",
-      "🏆",
-      "💡",
-      "📈",
-      "🎯"
-    ],
-    "Ocean": [
-      "💎",
-      "🏆",
-      "💡",
-      "📈",
-      "🎯"
-    ]
+    "Natur": ["💎", "🏆", "💡", "📈", "🎯"],
+    "Musik": ["💎", "🏆", "💡", "📈", "🎯"],
+    "Kunst": ["💎", "🏆", "💡", "📈", "🎯"],
+    "Space": ["💎", "🏆", "💡", "📈", "🎯"],
+    "Ocean": ["💎", "🏆", "💡", "📈", "🎯"]
   },
   "dailyGoal": "Daily goal",
   "goal5": "5 min — Quick review",
@@ -454,29 +353,6 @@
   "noDataToExport": "No data to export",
   "shortcut": "Shortcut",
   "memorize": "Memorize!",
-  "feedback": {
-    "title": "A moment of reflection",
-    "desc": "How do you evaluate today's session? Your feedback helps us adapt the app to you.",
-    "nasaTitle": "Workload (NASA-TLX)",
-    "low": "Low",
-    "high": "High",
-    "nasa": {
-      "mental": "Mental Demand",
-      "mentalDesc": "How much mental and perceptual activity was required?",
-      "physical": "Physical Demand",
-      "physicalDesc": "How much physical activity was required?",
-      "temporal": "Temporal Demand",
-      "temporalDesc": "How hurried or rushed was the pace of the task?",
-      "performance": "Performance",
-      "performanceDesc": "How successful were you in accomplishing what you were asked to do?",
-      "effort": "Effort",
-      "effortDesc": "How hard did you have to work to accomplish your level of performance?",
-      "frustration": "Frustration",
-      "frustrationDesc": "How insecure, discouraged, irritated, stressed, and annoyed were you?"
-    },
-    "submit": "Save and continue",
-    "skip": "Skip this time"
-  },
   "mapTitle": "Challenge Map",
   "choosePath": "Choose your path",
   "nextLevel": "Next stage",
@@ -512,11 +388,7 @@
     "Sequence": "Logic: Sequences"
   },
   "difficulty": "Difficulty level",
-  "diffLevels": [
-    "Easy",
-    "Medium",
-    "Hard"
-  ],
+  "diffLevels": ["Easy", "Medium", "Hard"],
   "trackAndMatch": "Follow the highlight and indicate direction",
   "orderCorrectly": "Arrange in the correct order",
   "undo": "Undo",
@@ -566,19 +438,9 @@
   "rtPredict": "Predict",
   "rtPredictDesc": "What do you think will happen next or what is the logical conclusion?",
   "questLabel": "Challenge",
-  "trackAndMatch": "Follow the highlight and indicate direction",
   "chooseCorrectSpelling": "Choose the correct spelling:",
   "optionPrefix": "Option",
   "wordPrefix": "Word",
-  "orderCorrectly": "Arrange in the correct order",
-  "undo": "Undo",
-  "tempoLabel": "Reading type",
-  "normalMode": "Normal",
-  "slowMode": "Slow",
-  "spellMode": "Spelling",
-  "readAloud": "Read aloud",
-  "syllablesListen": "Listen to syllables",
-  "check": "Check",
   "heard": "Heard",
   "voiceInput": "Voice input",
   "speakOptionNumber": "Speak option number",
@@ -608,34 +470,11 @@
   "prevPage": "← Previous",
   "nextPage": "Next →",
   "commands": {
-    "next": [
-      "next",
-      "continue",
-      "done",
-      "forward"
-    ],
-    "check": [
-      "check",
-      "confirm",
-      "submit"
-    ],
-    "undo": [
-      "undo",
-      "back",
-      "delete",
-      "remove",
-      "revert"
-    ],
-    "skip": [
-      "skip",
-      "pass",
-      "i don't know"
-    ],
-    "hint": [
-      "hint",
-      "help me",
-      "help"
-    ]
+    "next": ["next", "continue", "done", "forward"],
+    "check": ["check", "confirm", "submit"],
+    "undo": ["undo", "back", "delete", "remove", "revert"],
+    "skip": ["skip", "pass", "i don't know"],
+    "hint": ["hint", "help me", "help"]
   },
   "affirmations": [
     "Your garden is growing beautifully thanks to your work today.",
@@ -681,38 +520,6 @@
         "label": "Easy",
         "desc": "I feel confident"
       }
-    }
-  },
-  "common": {
-    "save": "Save",
-    "cancel": "Cancel",
-    "loading": "Loading...",
-    "success": "Success!",
-    "error": "An error occurred.",
-    "close": "Close"
-  },
-  "errors": {
-    "network": "Network connection failed. Please try again.",
-    "unauthorized": "You are not authorized to view this page.",
-    "timeout": "The request timed out."
-  },
-  "survey": {
-    "susTitle": "System Usability Scale (SUS)",
-    "susAnchors": {
-      "stronglyDisagree": "Strongly Disagree",
-      "stronglyAgree": "Strongly Agree"
-    },
-    "sus": {
-      "q01": "I think that I would like to use this system frequently.",
-      "q02": "I found the system unnecessarily complex.",
-      "q03": "I thought the system was easy to use.",
-      "q04": "I think that I would need the support of a technical person to be able to use this system.",
-      "q05": "I found the various functions in this system were well integrated.",
-      "q06": "I thought there was too much inconsistency in this system.",
-      "q07": "I would imagine that most people would learn to use this system very quickly.",
-      "q08": "I found the system very cumbersome to use.",
-      "q09": "I felt very confident using the system.",
-      "q10": "I needed to learn a lot of things before I could get going with this system."
     }
   },
   "realWorldImpact": {

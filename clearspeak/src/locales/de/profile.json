@@ -1,0 +1,17 @@
+{
+  "0": "P",
+  "1": "r",
+  "2": "o",
+  "3": "f",
+  "4": "i",
+  "5": "l",
+  "title": "Benutzerprofil",
+  "welcome": "Willkommen zurück, {{name}}!",
+  "lastLogin": "Letzter Login:",
+  "balance": "Aktueller Kontostand:",
+  "itemsCount_zero": "Du hast keine Gegenstände im Inventar.",
+  "itemsCount_one": "Du hast genau einen Gegenstand im Inventar.",
+  "itemsCount_other": "Du hast {{count}} Gegenstände im Inventar.",
+  "updateAvatar": "Avatar aktualisieren",
+  "membershipLevel": "Mitgliedslevel: {{level}}"
+}

@@ -1,0 +1,5 @@
+{
+  "network": "Błąd połączenia sieciowego. Spróbuj ponownie.",
+  "unauthorized": "Nie masz uprawnień do przeglądania tej strony.",
+  "timeout": "Upłynął limit czasu żądania."
+}

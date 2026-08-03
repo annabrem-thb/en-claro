@@ -2,6 +2,9 @@
 # Local Netlify folder
 .netlify
 
+# Backup/export archives (should never be committed)
+*.tar.gz
+
 # Playwright
 node_modules/
 /test-results/

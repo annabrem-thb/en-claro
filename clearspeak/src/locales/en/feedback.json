@@ -1,0 +1,24 @@
+{
+  "title": "A moment of reflection",
+  "desc": "How do you evaluate today's session? Your feedback helps us adapt the app to you.",
+  "nasaTitle": "Workload (NASA-TLX)",
+  "low": "Low",
+  "high": "High",
+  "nasa": {
+    "mental": "Mental Demand",
+    "mentalDesc": "How much mental and perceptual activity was required?",
+    "physical": "Physical Demand",
+    "physicalDesc": "How much physical activity was required?",
+    "temporal": "Temporal Demand",
+    "temporalDesc": "How hurried or rushed was the pace of the task?",
+    "performance": "Performance",
+    "performanceDesc": "How successful were you in accomplishing what you were asked to do?",
+    "effort": "Effort",
+    "effortDesc": "How hard did you have to work to accomplish your level of performance?",
+    "frustration": "Frustration",
+    "frustrationDesc": "How insecure, discouraged, irritated, stressed, and annoyed were you?"
+  },
+  "submit": "Save and continue",
+  "skip": "Skip this time",
+  "thankYou": "Thank you for your feedback!"
+}

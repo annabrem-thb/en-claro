@@ -1,1 +1,80 @@
-import{useState,useEffect,useCallback}from"react";const DEFAULT_SETTINGS={lrs:false,contrast:false,motorik:false,vision:false,color:false,motion:false,spacing:false,desaturation:false,minimalist:false,ruler:false,adaptiveDifficulty:true,bigTargets:false,noFlash:false,audioRewards:false,extendedTime:false,zenMode:false,bionicReading:true,muteNotifications:false,voiceAssistant:false,textScale:100,language:"pl",theme:"Natur",dailyGoal:5,userDifficulty:2,appMode:"gamified"};export function useUserSettings(){const[settings,setSettings]=useState(DEFAULT_SETTINGS);const[deferredPrompt,setDeferredPrompt]=useState(null);const[isPwaInstalled,setIsPwaInstalled]=useState(false);useEffect(()=>{const html=document.documentElement;Object.keys(settings).forEach(key=>{if(typeof settings[key]==="boolean"){html.setAttribute(`data-a11y-${key}`,settings[key].toString())}});html.style.setProperty("--user-text-scale",settings.textScale/100)},[settings]);useEffect(()=>{const handleBeforeInstall=e=>{e.preventDefault();setDeferredPrompt(e)};const handleAppInstalled=()=>{setIsPwaInstalled(true);setDeferredPrompt(null)};window.addEventListener("beforeinstallprompt",handleBeforeInstall);window.addEventListener("appinstalled",handleAppInstalled);if(window.matchMedia("(display-mode: standalone)").matches){setIsPwaInstalled(true)}return()=>{window.removeEventListener("beforeinstallprompt",handleBeforeInstall);window.removeEventListener("appinstalled",handleAppInstalled)}},[]);const updateSetting=useCallback((key,value)=>{setSettings(prev=>({...prev,[key]:value}))},[]);const installPwa=useCallback(async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();const{outcome:outcome}=await deferredPrompt.userChoice;if(outcome==="accepted"){setDeferredPrompt(null)}},[deferredPrompt]);return{settings:settings,updateSetting:updateSetting,canInstallPwa:!!deferredPrompt&&!isPwaInstalled,isPwaInstalled:isPwaInstalled,installPwa:installPwa}}
+import { useState, useEffect, useCallback } from 'react';
+
+const DEFAULT_SETTINGS = {
+  lrs: false,
+  contrast: false,
+  motorik: false,
+  vision: false,
+  color: false,
+  motion: false,
+  spacing: false,
+  desaturation: false,
+  minimalist: false,
+  ruler: false,
+  adaptiveDifficulty: true,
+  bigTargets: false,
+  noFlash: false,
+  audioRewards: false,
+  extendedTime: false,
+  zenMode: false,
+  bionicReading: true,
+  muteNotifications: false,
+  voiceAssistant: false,
+  textScale: 100,
+  language: 'pl',
+  theme: 'Natur',
+  dailyGoal: 5,
+  userDifficulty: 2,
+  appMode: 'gamified',
+};
+export function useUserSettings() {
+  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [isPwaInstalled, setIsPwaInstalled] = useState(false);
+  useEffect(() => {
+    const html = document.documentElement;
+    Object.keys(settings).forEach((key) => {
+      if (typeof settings[key] === 'boolean') {
+        html.setAttribute(`data-a11y-${key}`, settings[key].toString());
+      }
+    });
+    html.style.setProperty('--user-text-scale', settings.textScale / 100);
+  }, [settings]);
+  useEffect(() => {
+    const handleBeforeInstall = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+    const handleAppInstalled = () => {
+      setIsPwaInstalled(true);
+      setDeferredPrompt(null);
+    };
+    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+    window.addEventListener('appinstalled', handleAppInstalled);
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsPwaInstalled(true);
+    }
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
+  const updateSetting = useCallback((key, value) => {
+    setSettings((prev) => ({ ...prev, [key]: value }));
+  }, []);
+  const installPwa = useCallback(async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome: outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null);
+    }
+  }, [deferredPrompt]);
+  return {
+    settings: settings,
+    updateSetting: updateSetting,
+    canInstallPwa: !!deferredPrompt && !isPwaInstalled,
+    isPwaInstalled: isPwaInstalled,
+    installPwa: installPwa,
+  };
+}

@@ -1,0 +1,17 @@
+{
+  "0": "P",
+  "1": "r",
+  "2": "o",
+  "3": "f",
+  "4": "i",
+  "5": "l",
+  "title": "Profil Użytkownika",
+  "welcome": "Witaj ponownie, {{name}}!",
+  "lastLogin": "Ostatnie logowanie:",
+  "balance": "Obecne saldo:",
+  "itemsCount_zero": "Nie masz żadnych przedmiotów w ekwipunku.",
+  "itemsCount_one": "Masz dokładnie jeden przedmiot w ekwipunku.",
+  "itemsCount_other": "Masz {{count}} przedmiotów w ekwipunku.",
+  "updateAvatar": "Zaktualizuj Awatar",
+  "membershipLevel": "Poziom Członkostwa: {{level}}"
+}

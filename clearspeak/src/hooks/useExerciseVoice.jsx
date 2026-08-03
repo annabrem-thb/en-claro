@@ -1,1 +1,68 @@
-import{useState,useCallback,useEffect}from"react";export function useExerciseVoice(language,t,options={}){const[isListening,setIsListening]=useState(false);const[transcript,setTranscript]=useState("");const stopSpeaking=useCallback(()=>{if(window.speechSynthesis){window.speechSynthesis.cancel()}},[]);useEffect(()=>()=>{if(window.speechSynthesis){window.speechSynthesis.cancel()}},[]);const startListening=(onNumberMatch,onCommandMatch)=>{const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SpeechRecognition)return;stopSpeaking();const recognition=new SpeechRecognition;recognition.lang={de:"de-DE",pl:"pl-PL",en:"en-US"}[language];recognition.interimResults=false;recognition.onstart=()=>setIsListening(true);recognition.onend=()=>setIsListening(false);recognition.onerror=()=>setIsListening(false);recognition.onresult=event=>{const result=event.results[0][0].transcript.toLowerCase().trim();setTranscript(result);const undoRegex=new RegExp(t?.commands?.undo?.join("|")||"undo|cofnij|zurück|delete|usuń|löschen","i");const checkRegex=new RegExp(t?.commands?.check?.join("|")||"check|sprawdź|prüfen|gotowe|done|fertig","i");const commands={undo:undoRegex,check:checkRegex};if(commands.undo.test(result))onCommandMatch?.("undo");else if(commands.check.test(result))onCommandMatch?.("check");const numbers={1:/1|jeden|one|first|eins/i,2:/2|dwa|two|second|zwei/i,3:/3|trzy|three|third|drei/i,4:/4|cztery|four|fourth|vier/i,5:/5|pięć|five|fifth|fünf/i};for(const[num,regex]of Object.entries(numbers)){if(regex.test(result)){onNumberMatch?.(parseInt(num));return}}};recognition.start()};return{isListening:isListening,transcript:transcript,stopSpeaking:stopSpeaking,startListening:startListening}}
+import { useState, useCallback, useEffect } from 'react';
+
+export function useExerciseVoice(language, t, options = {}) {
+  const [isListening, setIsListening] = useState(false);
+  const [transcript, setTranscript] = useState('');
+  const stopSpeaking = useCallback(() => {
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+  }, []);
+  useEffect(
+    () => () => {
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    },
+    [],
+  );
+  const startListening = (onNumberMatch, onCommandMatch) => {
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return;
+    stopSpeaking();
+    const recognition = new SpeechRecognition();
+    recognition.lang = { de: 'de-DE', pl: 'pl-PL', en: 'en-US' }[language];
+    recognition.interimResults = false;
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = () => setIsListening(false);
+    recognition.onresult = (event) => {
+      const result = event.results[0][0].transcript.toLowerCase().trim();
+      setTranscript(result);
+      const undoRegex = new RegExp(
+        t?.commands?.undo?.join('|') ||
+          'undo|cofnij|zurück|delete|usuń|löschen',
+        'i',
+      );
+      const checkRegex = new RegExp(
+        t?.commands?.check?.join('|') ||
+          'check|sprawdź|prüfen|gotowe|done|fertig',
+        'i',
+      );
+      const commands = { undo: undoRegex, check: checkRegex };
+      if (commands.undo.test(result)) onCommandMatch?.('undo');
+      else if (commands.check.test(result)) onCommandMatch?.('check');
+      const numbers = {
+        1: /1|jeden|one|first|eins/i,
+        2: /2|dwa|two|second|zwei/i,
+        3: /3|trzy|three|third|drei/i,
+        4: /4|cztery|four|fourth|vier/i,
+        5: /5|pięć|five|fifth|fünf/i,
+      };
+      for (const [num, regex] of Object.entries(numbers)) {
+        if (regex.test(result)) {
+          onNumberMatch?.(parseInt(num));
+          return;
+        }
+      }
+    };
+    recognition.start();
+  };
+  return {
+    isListening: isListening,
+    transcript: transcript,
+    stopSpeaking: stopSpeaking,
+    startListening: startListening,
+  };
+}
