@@ -7,7 +7,9 @@ test.describe('Dyslexia PWA - Pierwsze uruchomienie i ćwiczenie', () => {
     await page.evaluate(() => window.localStorage.clear());
   });
 
-  test('ładuje aplikację, przechodzi przez ekran powitalny i próbuje rozwiązać pierwsze ćwiczenie', async ({ page }) => {
+  test('ładuje aplikację, przechodzi przez ekran powitalny i próbuje rozwiązać pierwsze ćwiczenie', async ({
+    page,
+  }) => {
     await page.goto('/');
 
     // Przejście przez ekran powitalny
@@ -20,10 +22,14 @@ test.describe('Dyslexia PWA - Pierwsze uruchomienie i ćwiczenie', () => {
     await expect(page.locator('section')).toBeVisible();
 
     await expect(page.locator('text=/Brak zadań|No tasks/i')).not.toBeVisible();
-    await expect(page.locator('text=/Błąd formatu|Task format/i')).not.toBeVisible();
+    await expect(
+      page.locator('text=/Błąd formatu|Task format/i'),
+    ).not.toBeVisible();
 
     // Interakcja z ostatnim przyciskiem odpowiedzi w kontenerze section, unikając ikon sterowania
-    const buttons = page.locator('section button:not(:has-text("🎤")):not(:has-text("🛑")):not(:has-text("🔊"))');
+    const buttons = page.locator(
+      'section button:not(:has-text("🎤")):not(:has-text("🛑")):not(:has-text("🔊"))',
+    );
     await buttons.last().click({ force: true });
 
     // Weryfikacja stabilności - brak błędu renderowania
