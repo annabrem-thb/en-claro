@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
+import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
@@ -100,8 +101,14 @@ function ScrabbleExercise({
   const readWordAndLetters = () => {
     clearAudioTimeouts();
 
-    speak(data.word, extendedTime);
+    const instruction =
+      t('scrabbleInstruction') || 'Arrange the letters to spell the word';
+    speak(instruction, extendedTime);
+    const delay = instruction.length * (extendedTime ? 90 : 65) + 1200;
+    setSafeTimeout(() => speak(data.word, extendedTime), delay);
   };
+
+  useAutoReadAloud(voiceAssistant, readWordAndLetters);
 
   useEffect(() => {
     if (data.word && userScrabble.length === data.word.length) {
@@ -151,6 +158,17 @@ function ScrabbleExercise({
     >
       {}
       <div className="mb-2 flex w-full shrink-0 flex-col items-center justify-center sm:mb-4">
+        {!zenMode && (
+          <h3 className="mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4">
+            <BionicText
+              text={
+                t('scrabbleInstruction') ||
+                'Arrange the letters to spell the word'
+              }
+              enabled={bionicReading}
+            />
+          </h3>
+        )}
         {!zenMode && (
           <div
             className="mb-1 shrink-0 text-4xl drop-shadow-sm sm:mb-2 sm:text-6xl"

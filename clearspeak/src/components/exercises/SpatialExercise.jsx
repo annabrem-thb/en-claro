@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
@@ -154,6 +155,8 @@ function SpatialExercise({
       delayAcc += stepDuration;
     });
   };
+
+  useAutoReadAloud(voiceAssistant, readInstructionAndOptions);
 
   const btnPadding = bigTargets ? 'py-6 sm:py-8' : 'py-4 sm:py-6';
   const cardSize = bigTargets

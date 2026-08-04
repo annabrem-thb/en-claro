@@ -108,7 +108,8 @@ html[data-a11y-motion='true'] *::after {
 html[data-a11y-motion='true'] .animate-bounce,
 html[data-a11y-motion='true'] .animate-pulse,
 html[data-a11y-motion='true'] .animate-spin,
-html[data-a11y-motion='true'] .animate-in {
+html[data-a11y-motion='true'] .animate-in,
+html[data-a11y-motion='true'] .animate-pip-pulse {
   animation: none !important;
   opacity: 1 !important;
 }
@@ -133,13 +134,14 @@ html[data-a11y-spacing='true'] em {
   word-spacing: inherit !important;
 }
 
-/* --- Soft colors (Desaturation) --- */
-html[data-a11y-desaturation='true'] body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 99998;
-  pointer-events: none;
+/* --- Soft colors (Desaturation) ---
+   Previously an empty ::after overlay with no color/filter of its own — it
+   was rendered but had no visual effect, so toggling this setting did
+   nothing. A `filter` on the root desaturates everything painted beneath it
+   in one pass, which is what "soften the whole app's colors" needs, rather
+   than trying to layer a translucent grayscale sheet over every element. */
+html[data-a11y-desaturation='true'] {
+  filter: saturate(0.45);
 }
 
 /* --- Minimalist appearance --- */

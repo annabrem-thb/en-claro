@@ -2,6 +2,7 @@ import React, {
   useState,
   useEffect,
   useCallback,
+  useMemo,
   useRef,
   lazy,
   Suspense,
@@ -14,24 +15,30 @@ import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotification
 import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
 import { useExerciseSession } from '../hooks/useExerciseSession.js';
 import { useGlobalTTS } from '../hooks/useGlobalTTS.js';
+import { useHapticFeedback } from '../hooks/useHapticFeedback.js';
 import { getInitialRouteState, useHashRoute } from '../hooks/useHashRoute.js';
 import { useIndexedDB } from '../hooks/useIndexedDB.js';
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts.js';
 import { useReadingRuler } from '../hooks/useReadingRuler.js';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation.js';
+import { useThemeCSSVariables } from '../hooks/useThemeCSSVariables.js';
 import { useVocabularyLoader } from '../hooks/useVocabularyLoader.js';
 import i18n from '../i18n/config.ts';
-import { saveLog } from '../utils/indexedDB.js';
 
+import AffirmationToast from './AffirmationToast.jsx';
+import BottomNav from './BottomNav.jsx';
 import { CognitiveEnergyIndicator } from './CognitiveEnergyIndicator.jsx';
 import ExerciseContainer from './ExerciseContainer.jsx';
-import { FeedbackCollector } from './FeedbackCollector.jsx';
 import {
   GamificationProvider,
   useGamification,
 } from './GamificationContext.jsx';
 import IntroScreen from './IntroScreen.jsx';
+import LevelUpModal from './LevelUpModal.jsx';
+import NewTreeToast from './NewTreeToast.jsx';
 import OfflineIndicator from './OfflineIndicator.jsx';
 import { ProgressPill } from './ProgressPill.jsx';
+import PwaUpdateBanner from './PwaUpdateBanner.jsx';
 import SidebarNav from './SidebarNav.jsx';
 import {
   UserSettingsProvider,
@@ -41,12 +48,11 @@ import BionicText from './common/BionicText.jsx';
 import Dialog from './common/Dialog.jsx';
 import SkeletonLoader from './common/SkeletonLoader.jsx';
 
-// Lazy-loaded: each of these pulls in a library only it needs (recharts for
-// ProfileModal's radar chart, lottie-react for VirtualGarden) that would
-// otherwise inflate the initial bundle for every user, even ones who never
-// open Settings/Profile/Survey/Garden. See docs/bundle-size.md.
+// Lazy-loaded: each of these pulls in a library only it needs (lottie-react
+// for VirtualGarden) that would otherwise inflate the initial bundle for
+// every user, even ones who never open Settings/Survey/Garden. See
+// docs/bundle-size.md.
 const SettingsModal = lazy(() => import('./SettingsModal.jsx'));
-const ProfileModal = lazy(() => import('./ProfileModal.jsx'));
 const VirtualGarden = lazy(() => import('./VirtualGarden.jsx'));
 const SurveyComponent = lazy(() =>
   import('./SurveyComponent').then((m) => ({ default: m.SurveyComponent })),
@@ -54,11 +60,17 @@ const SurveyComponent = lazy(() =>
 
 const POINTS_PER_LEVEL = 5;
 const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
+const TREE_NOTIFICATION_MS = 5000;
+const APP_READY_DELAY_MS = 1500;
 
 // `buttonText` is pure black across every theme: none of these five button
 // background colors reach 4.5:1 against their original light/cream text
 // (2.59–3.94:1, an axe-core color-contrast finding) — black gives a
 // comfortable 5.3–7.3:1 against all of them without changing the palette.
+// `ring` mirrors each theme's `hex`/`button` hue as a literal `ring-[#...]`
+// Tailwind class — used by WeeklyCalendar.jsx's "today" indicator so the
+// Garden's own chrome (and not just its growth icons) actually tracks the
+// selected theme instead of a fixed indigo regardless of theme.
 const THEMES = {
   Natur: {
     accent: 'text-[#4A5D54]',
@@ -66,6 +78,7 @@ const THEMES = {
     button: 'bg-[#8A9A86]',
     buttonText: 'text-black',
     border: 'border-[#D0D6CE]',
+    ring: 'ring-[#8A9A86]',
     hex: '#8A9A86',
     price: 0,
   },
@@ -75,6 +88,7 @@ const THEMES = {
     button: 'bg-[#8F7D9E]',
     buttonText: 'text-black',
     border: 'border-[#D1C8D6]',
+    ring: 'ring-[#8F7D9E]',
     hex: '#8F7D9E',
     price: 3,
   },
@@ -84,6 +98,7 @@ const THEMES = {
     button: 'bg-[#B08E6D]',
     buttonText: 'text-black',
     border: 'border-[#DED4CA]',
+    ring: 'ring-[#B08E6D]',
     hex: '#B08E6D',
     price: 5,
   },
@@ -93,6 +108,7 @@ const THEMES = {
     button: 'bg-[#6D8394]',
     buttonText: 'text-black',
     border: 'border-[#CAD4DE]',
+    ring: 'ring-[#6D8394]',
     hex: '#6D8394',
     price: 8,
   },
@@ -102,6 +118,7 @@ const THEMES = {
     button: 'bg-[#67A3A3]',
     buttonText: 'text-black',
     border: 'border-[#C4DBDB]',
+    ring: 'ring-[#67A3A3]',
     hex: '#67A3A3',
     price: 10,
   },
@@ -126,6 +143,11 @@ function AppContent() {
 
   const { settings, updateSetting } = useUserSettingsContext();
   const { language, theme, dailyGoal, userDifficulty } = settings;
+
+  // Single source of truth for the "buzz the phone" side effect — every
+  // handler below calls this instead of repeating the
+  // `navigator.vibrate`-exists-and-Zen-Mode-is-off guard inline.
+  const vibrate = useHapticFeedback(settings.zenMode);
 
   const db = useVocabularyLoader(language);
 
@@ -152,7 +174,6 @@ function AppContent() {
   const [lastPillar, setLastPillar] = useState('Literacy');
   const [showIntro, setShowIntro] = useState(initialRoute.showIntro);
   const [settingsOpen, setSettingsOpen] = useState(initialRoute.settingsOpen);
-  const [profileOpen, setProfileOpen] = useState(initialRoute.profileOpen);
   const [showSuccess, setShowSuccess] = useState(false);
   const [earnedCoinsAnim, setEarnedCoinsAnim] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -190,7 +211,7 @@ function AppContent() {
   const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsAppReady(true), 1500);
+    const timer = setTimeout(() => setIsAppReady(true), APP_READY_DELAY_MS);
     return () => clearTimeout(timer);
   }, []);
 
@@ -200,17 +221,15 @@ function AppContent() {
 
     if (isAppReady && currentTrees > prevTrees && currentTrees > 0) {
       setNewTreeNotification(true);
-      if (
-        typeof navigator !== 'undefined' &&
-        navigator.vibrate &&
-        !settings.zenMode
-      )
-        navigator.vibrate([50, 50, 50]);
-      const timer = setTimeout(() => setNewTreeNotification(false), 5000);
+      vibrate([50, 50, 50]);
+      const timer = setTimeout(
+        () => setNewTreeNotification(false),
+        TREE_NOTIFICATION_MS,
+      );
       return () => clearTimeout(timer);
     }
     prevPointsRef.current = points;
-  }, [points, isAppReady, settings.zenMode]);
+  }, [points, isAppReady, vibrate]);
 
   useEffect(() => {
     if (!isGamified && activeTab === 'Garden') {
@@ -230,31 +249,12 @@ function AppContent() {
 
   const { cardRef, rulerPos } = useReadingRuler(hasRuler);
 
-  useEffect(() => {
-    const root = document.documentElement;
-
-    const safeAccent = isColorblind
-      ? '#0072B2'
-      : THEMES[theme]?.hex || '#10b981';
-    root.style.setProperty('--theme-accent', safeAccent);
-    root.style.setProperty(
-      '--color-success',
-      isColorblind ? '#0072B2' : '#10b981',
-    );
-    root.style.setProperty(
-      '--color-error',
-      isColorblind ? '#D55E00' : '#ef4444',
-    );
-    root.style.setProperty(
-      '--color-warning',
-      isColorblind ? '#F0E442' : '#f59e0b',
-    );
-
-    const bgHex = THEMES[theme]?.bg?.match(/\[(.*?)\]/)?.[1] || '#FDFBF7';
-    root.style.setProperty('--theme-bg', isHighContrast ? '#000000' : bgHex);
-
-    root.lang = language;
-  }, [theme, isHighContrast, language]);
+  useThemeCSSVariables({
+    themeStyles,
+    isHighContrast,
+    isColorblind,
+    language,
+  });
 
   const {
     currentIndex,
@@ -297,26 +297,6 @@ function AppContent() {
     setErrorTimestamps,
   });
 
-  const handleFeedbackSubmit = useCallback(
-    async (surveyData) => {
-      const logEntry = {
-        timestamp: new Date().toISOString(),
-        pointsAtTime: points,
-        metrics: surveyData,
-      };
-
-      try {
-        await saveLog('ux_logs', logEntry);
-      } catch (error) {
-        console.error('Failed to save UX logs to IndexedDB:', error);
-      }
-
-      setShowFeedback(false);
-      goNext();
-    },
-    [points, goNext],
-  );
-
   const handleTabChange = useCallback(
     (pillar) => {
       setActiveTab(pillar);
@@ -332,7 +312,7 @@ function AppContent() {
   const handleGardenClick = useCallback(() => {
     setActiveTab('Garden');
     setFeedback(null);
-  }, []);
+  }, [setFeedback]);
 
   const handleNavigateTab = useCallback(
     (tab) => {
@@ -346,7 +326,7 @@ function AppContent() {
   );
 
   // Keeps window.location.hash in sync with the current screen (#/literacy,
-  // #/visual, #/cognitive, #/garden, #/settings, #/profile) so the browser
+  // #/visual, #/cognitive, #/garden, #/settings) so the browser
   // back/forward buttons work predictably and a specific pillar can be
   // linked to directly — useful for a study coordinator sending a
   // participant straight to a given exercise during an evaluation session.
@@ -354,12 +334,12 @@ function AppContent() {
     showIntro,
     activeTab,
     settingsOpen,
-    profileOpen,
     setShowIntro,
     setSettingsOpen,
-    setProfileOpen,
     onNavigateTab: handleNavigateTab,
   });
+
+  const openSettings = useCallback(() => setSettingsOpen(true), []);
 
   const handleSwipeTab = useCallback(
     (direction) => {
@@ -375,12 +355,7 @@ function AppContent() {
       }
 
       if (newIdx !== currentIdx) {
-        if (
-          typeof navigator !== 'undefined' &&
-          navigator.vibrate &&
-          !settings.zenMode
-        )
-          navigator.vibrate(15);
+        vibrate(15);
         const nextTab = availableTabs[newIdx];
         if (nextTab === 'Garden') {
           handleGardenClick();
@@ -389,7 +364,7 @@ function AppContent() {
         }
       }
     },
-    [activeTab, isGamified, handleTabChange, handleGardenClick],
+    [activeTab, isGamified, handleTabChange, handleGardenClick, vibrate],
   );
 
   const swipeHandlers = useSwipeNavigation({
@@ -397,110 +372,37 @@ function AppContent() {
     onSwipeRight: () => handleSwipeTab('right'),
   });
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')
-        return;
-
-      if (!e.ctrlKey && !e.metaKey && !e.altKey) {
-        if (e.key === 'ArrowRight' || e.key === 'Enter') {
-          e.preventDefault();
-          goNext();
-          return;
-        }
-        if (e.key === 'ArrowLeft') {
-          e.preventDefault();
-          goPrev();
-          return;
-        }
-      }
-
-      if (!(e.ctrlKey || e.metaKey || e.altKey)) return;
-
-      const availableTabs = isGamified ? [...PILLARS, 'Garden'] : PILLARS;
-      let targetTab = null;
-
-      switch (e.key) {
-        case '1':
-          if (availableTabs.length >= 1) targetTab = availableTabs[0];
-          break;
-        case '2':
-          if (availableTabs.length >= 2) targetTab = availableTabs[1];
-          break;
-        case '3':
-          if (availableTabs.length >= 3) targetTab = availableTabs[2];
-          break;
-        case '4':
-          if (availableTabs.length >= 4) targetTab = availableTabs[3];
-          break;
-        case 'p':
-        case 'P':
-          e.preventDefault();
-          if (
-            typeof navigator !== 'undefined' &&
-            navigator.vibrate &&
-            !settings.zenMode
-          )
-            navigator.vibrate(15);
-          setProfileOpen(true);
-          return;
-        case ',':
-          e.preventDefault();
-          if (
-            typeof navigator !== 'undefined' &&
-            navigator.vibrate &&
-            !settings.zenMode
-          )
-            navigator.vibrate(15);
-          setSettingsOpen(true);
-          return;
-        default:
-          return;
-      }
-
-      if (targetTab) {
-        e.preventDefault();
-        if (
-          typeof navigator !== 'undefined' &&
-          navigator.vibrate &&
-          !settings.zenMode
-        )
-          navigator.vibrate(15);
-
-        targetTab === 'Garden'
-          ? handleGardenClick()
-          : handleTabChange(targetTab);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [
+  useKeyboardShortcuts({
     isGamified,
-    handleTabChange,
-    handleGardenClick,
+    pillars: PILLARS,
     goNext,
     goPrev,
-    settings.zenMode,
-    setSettingsOpen,
-  ]);
+    onTabChange: handleTabChange,
+    onGardenClick: handleGardenClick,
+    onOpenSettings: openSettings,
+    vibrate,
+    // While any focus-trapped dialog is open, it owns the keyboard —
+    // otherwise ArrowRight/Enter meant for a control inside e.g. the
+    // feedback survey would also be read as "advance to the next exercise"
+    // by this app-wide listener.
+    enabled: !settingsOpen && !showFeedback && !showSuccess && !showBreakModal,
+  });
 
-  const renderCurrentExercise = () => {
-    if (isTransitioning) {
-      return <SkeletonLoader isHighContrast={isHighContrast} />;
-    }
+  const isVoiceException = !!(
+    currentTask?.dictation ||
+    currentTask?.lcwc ||
+    currentTask?.phonetic ||
+    currentTask?.scrambled ||
+    currentTask?.readAloud
+  );
+  const voiceAssistantActive = !!settings.voiceAssistant || isVoiceException;
 
-    const isVoiceException = !!(
-      currentTask?.dictation ||
-      currentTask?.lcwc ||
-      currentTask?.phonetic ||
-      currentTask?.scrambled ||
-      currentTask?.readAloud
-    );
-
-    const voiceAssistantActive = !!settings.voiceAssistant || isVoiceException;
-
-    const commonProps = {
+  // Memoized so a re-render triggered by unrelated state (e.g. the tree
+  // notification timer) doesn't hand ExerciseContainer a brand-new props
+  // object when nothing it actually reads has changed — a prerequisite for
+  // wrapping ExerciseContainer itself in React.memo down the line.
+  const exerciseCommonProps = useMemo(
+    () => ({
       themeStyles,
       speak,
       t,
@@ -514,10 +416,52 @@ function AppContent() {
       zenMode: !!settings.zenMode,
       isHighContrast,
       voiceAssistant: voiceAssistantActive,
-    };
+    }),
+    [
+      themeStyles,
+      speak,
+      t,
+      language,
+      handleSuccess,
+      handleError,
+      bigTargets,
+      settings.extendedTime,
+      noFlash,
+      settings.bionicReading,
+      settings.zenMode,
+      isHighContrast,
+      voiceAssistantActive,
+    ],
+  );
 
-    return <ExerciseContainer currentTask={currentTask} {...commonProps} />;
+  const renderCurrentExercise = () => {
+    if (isTransitioning) {
+      return <SkeletonLoader isHighContrast={isHighContrast} />;
+    }
+
+    return (
+      <ExerciseContainer currentTask={currentTask} {...exerciseCommonProps} />
+    );
   };
+
+  const handleLevelUpNext = useCallback(() => {
+    setShowSuccess(false);
+    if (pendingFeedback) {
+      setShowFeedback(true);
+      setPendingFeedback(false);
+    } else {
+      goNext();
+    }
+  }, [pendingFeedback, goNext]);
+
+  const dismissPwaUpdate = useCallback(
+    () => setNeedRefresh(false),
+    [setNeedRefresh],
+  );
+  const applyPwaUpdate = useCallback(
+    () => updateServiceWorker(true),
+    [updateServiceWorker],
+  );
 
   if (showIntro) {
     return <IntroScreen onStart={() => setShowIntro(false)} speak={speak} />;
@@ -526,15 +470,11 @@ function AppContent() {
   if (settingsOpen) {
     return (
       <Suspense fallback={<SkeletonLoader isHighContrast={isHighContrast} />}>
-        <SettingsModal open={true} onClose={() => setSettingsOpen(false)} />
-      </Suspense>
-    );
-  }
-
-  if (profileOpen) {
-    return (
-      <Suspense fallback={<SkeletonLoader isHighContrast={isHighContrast} />}>
-        <ProfileModal open={true} onClose={() => setProfileOpen(false)} />
+        <SettingsModal
+          open={true}
+          onClose={() => setSettingsOpen(false)}
+          speak={speak}
+        />
       </Suspense>
     );
   }
@@ -543,6 +483,27 @@ function AppContent() {
     <div
       className={`fixed inset-0 flex w-full flex-col overflow-hidden lg:flex-row ${isHighContrast ? 'bg-black text-white' : `${themeStyles.bg} text-[#2D3732]`}`}
     >
+      {}
+      {/* Only reachable by keyboard (sr-only until focused): lets a Tab-only
+          user jump past the sidebar/bottom nav straight to the exercise
+          instead of tabbing through every nav item on every page load.
+          Focus is moved manually rather than left to the browser's default
+          hash-navigation, because this app already overloads
+          `location.hash` for routing (#/literacy, #/settings, ...) —
+          letting the browser set it to "#main-content" would fire the
+          router's hashchange listener, which doesn't recognize that
+          segment and would reset the whole app back to the intro screen. */}
+      <a
+        href="#main-content"
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById('main-content')?.focus();
+        }}
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200] focus:rounded-xl focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-slate-800 focus:shadow-lg"
+      >
+        {t('skipToContent') || 'Skip to main content'}
+      </a>
+
       {}
       {/* lg: matches SidebarNav's own breakpoint, so tablets in portrait keep
           the bottom bar below instead of switching to a squeezed sidebar. */}
@@ -561,7 +522,6 @@ function AppContent() {
           bigTargets={bigTargets}
           hideNavLabel={hideNavLabel}
           setSettingsOpen={setSettingsOpen}
-          setProfileOpen={setProfileOpen}
           t={t}
           coins={coins}
           loadLevel={loadLevel}
@@ -583,6 +543,8 @@ function AppContent() {
         />
 
         <main
+          id="main-content"
+          tabIndex={-1}
           className={`no-scrollbar mx-auto flex min-h-0 w-full max-w-5xl flex-1 touch-pan-y flex-col overflow-y-auto overscroll-none px-3 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))] md:px-6 md:pt-5 xl:px-8 ${isHighContrast ? 'text-white' : 'text-[#2D3732]'}`}
           {...swipeHandlers}
         >
@@ -793,205 +755,39 @@ function AppContent() {
         {}
         {/* lg: matches the sidebar wrapper's breakpoint above, so tablets in
             portrait keep this bottom bar instead of a cramped desktop sidebar. */}
-        <nav
-          className={`z-40 flex shrink-0 items-center justify-around border-t px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] transition-colors lg:hidden ${isHighContrast ? 'border-white/20 bg-black' : 'border-slate-100 bg-white'}`}
-          aria-label={t('navAria') || 'Main Navigation'}
-        >
-          {PILLARS.map((pillar) => {
-            const isActive = activeTab === pillar;
-            const quest = dailyQuests.tasks.find((tsk) => tsk.type === pillar);
-            const label =
-              t('pillars', { returnObjects: true })?.[pillar] || pillar;
-            const icon = { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' }[
-              pillar
-            ];
-            return (
-              <button
-                key={pillar}
-                onClick={() => {
-                  if (
-                    typeof navigator !== 'undefined' &&
-                    navigator.vibrate &&
-                    !settings.zenMode
-                  )
-                    navigator.vibrate(15);
-                  handleTabChange(pillar);
-                }}
-                className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl p-2 transition-all duration-300 active:scale-95 ${isActive ? (isHighContrast ? 'bg-white/20 font-black text-white shadow-sm' : `bg-slate-50 ${themeStyles.accent} font-black shadow-sm ring-1 ring-slate-900/5`) : isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-600 hover:bg-slate-50/50 hover:text-slate-600'}`}
-                aria-current={isActive ? 'page' : undefined}
-                aria-label={label}
-              >
-                <div
-                  className={`mb-1 text-2xl ${isActive && !noFlash ? 'animate-bounce' : ''} ${isActive && isHighContrast ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]' : ''}`}
-                  aria-hidden="true"
-                >
-                  {icon}
-                </div>
-                {!hideNavLabel && (
-                  <span className="max-w-full truncate text-center text-[10px] leading-none">
-                    {label.split(' ')[0]}
-                  </span>
-                )}
-                {quest && !quest.completed && quest.current > 0 && (
-                  <span
-                    className={`absolute ${hideNavLabel ? 'top-2 right-3' : 'top-1 right-2'} h-2.5 w-2.5 border-2 bg-blue-500 ${isHighContrast ? 'border-black' : 'border-white'} rounded-full`}
-                    aria-hidden="true"
-                  />
-                )}
-              </button>
-            );
-          })}
-
-          {isGamified && (
-            <button
-              onClick={() => {
-                if (
-                  typeof navigator !== 'undefined' &&
-                  navigator.vibrate &&
-                  !settings.zenMode
-                )
-                  navigator.vibrate(15);
-                handleGardenClick();
-              }}
-              className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl p-2 transition-all duration-300 active:scale-95 ${activeTab === 'Garden' ? (isHighContrast ? 'bg-white/20 font-black text-white shadow-sm' : `bg-slate-50 ${themeStyles.accent} font-black shadow-sm ring-1 ring-slate-900/5`) : isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-600 hover:bg-slate-50/50 hover:text-slate-600'}`}
-              aria-current={activeTab === 'Garden' ? 'page' : undefined}
-              aria-label={t('garden') || 'Garden'}
-            >
-              <div
-                className={`mb-1 text-2xl ${activeTab === 'Garden' && !noFlash ? 'animate-bounce' : ''}`}
-                aria-hidden="true"
-              >
-                {t('levelIcons', { returnObjects: true })?.[theme]?.[0] || '🌱'}
-              </div>
-              {!hideNavLabel && (
-                <span className="max-w-full truncate text-center text-[10px] leading-none">
-                  {t('garden') || 'Garden'}
-                </span>
-              )}
-            </button>
-          )}
-
-          <button
-            onClick={() => {
-              if (
-                typeof navigator !== 'undefined' &&
-                navigator.vibrate &&
-                !settings.zenMode
-              )
-                navigator.vibrate(15);
-              setProfileOpen(true);
-            }}
-            className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl p-2 transition-all duration-300 active:scale-95 ${isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-600 hover:bg-slate-50/50 hover:text-slate-600'}`}
-            aria-label={t('profile') || 'Profile'}
-          >
-            <div className="mb-1 text-2xl" aria-hidden="true">
-              👤
-            </div>
-            {!hideNavLabel && (
-              <span className="max-w-full truncate text-center text-[10px] leading-none">
-                {t('profile') || 'Profile'}
-              </span>
-            )}
-          </button>
-
-          <button
-            onClick={() => {
-              if (
-                typeof navigator !== 'undefined' &&
-                navigator.vibrate &&
-                !settings.zenMode
-              )
-                navigator.vibrate(15);
-              setSettingsOpen(true);
-            }}
-            className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl p-2 transition-all duration-300 active:scale-95 ${isHighContrast ? 'text-white/50 hover:text-white/80' : 'text-slate-600 hover:bg-slate-50/50 hover:text-slate-600'}`}
-            aria-label={t('settingsAria') || 'Settings'}
-          >
-            <div className="mb-1 text-2xl" aria-hidden="true">
-              ⚙️
-            </div>
-            {!hideNavLabel && (
-              <span className="max-w-full truncate text-center text-[10px] leading-none">
-                {t('settings') || 'Settings'}
-              </span>
-            )}
-          </button>
-        </nav>
+        <BottomNav
+          pillars={PILLARS}
+          activeTab={activeTab}
+          dailyQuests={dailyQuests}
+          isGamified={isGamified}
+          theme={theme}
+          themeStyles={themeStyles}
+          isHighContrast={isHighContrast}
+          hideNavLabel={hideNavLabel}
+          noFlash={noFlash}
+          t={t}
+          onTabChange={handleTabChange}
+          onGardenClick={handleGardenClick}
+          onOpenSettings={openSettings}
+          vibrate={vibrate}
+        />
       </div>
 
-      {}
-      {newTreeNotification && (
-        <div className="pointer-events-none fixed top-16 left-1/2 z-[110] w-full max-w-sm -translate-x-1/2 px-4 sm:top-20">
-          <div
-            className={`flex items-center gap-3 rounded-3xl border-2 p-4 shadow-2xl sm:gap-4 sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-top-8 fade-in duration-500'} ${isHighContrast ? 'border-white bg-black text-white' : 'border-emerald-400 bg-emerald-600 text-white'}`}
-          >
-            <span
-              className="text-4xl drop-shadow-md sm:text-5xl"
-              aria-hidden="true"
-            >
-              🌳
-            </span>
-            <div className="min-w-0 flex-1">
-              <h4 className="mb-1 text-xs font-black tracking-widest uppercase sm:text-sm">
-                {t('realWorldImpact.newTreeTitle') || 'New Tree! 🎉'}
-              </h4>
-              <p
-                className={`text-[10px] leading-tight font-medium break-words hyphens-auto sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-emerald-50'}`}
-              >
-                {t('realWorldImpact.newTreeMsg') ||
-                  'Amazing! Your consistent learning helped us virtually plant another tree.'}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+      <NewTreeToast
+        show={newTreeNotification}
+        noFlash={noFlash}
+        isHighContrast={isHighContrast}
+        t={t}
+      />
 
-      {}
-      {showSuccess && (
-        <div
-          className={`fixed inset-0 z-50 flex items-center justify-center p-6 text-center ${isHighContrast ? 'bg-black/90 backdrop-blur-sm' : 'bg-slate-50/90 backdrop-blur-md'}`}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="level-up-title"
-        >
-          <div
-            className={`flex w-full max-w-sm flex-col items-center rounded-4xl border p-6 shadow-lg sm:p-10 ${noFlash ? '' : 'animate-in fade-in zoom-in duration-700'} ${isHighContrast ? 'border-white bg-black' : 'border-slate-200 bg-white'}`}
-          >
-            <div
-              className={`mb-4 text-5xl opacity-80 drop-shadow-md ${noFlash ? '' : 'animate-bounce'}`}
-              aria-hidden="true"
-            >
-              🌱
-            </div>
-            <h2
-              id="level-up-title"
-              className={`mb-4 text-2xl font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
-            >
-              {t('levelUpTitle') || 'Your garden is growing!'}
-            </h2>
-            <p
-              className={`mb-8 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
-            >
-              {t('levelUpDesc') ||
-                'Another goal has been successfully achieved.'}
-            </p>
-            <button
-              onClick={() => {
-                setShowSuccess(false);
-                if (pendingFeedback) {
-                  setShowFeedback(true);
-                  setPendingFeedback(false);
-                } else {
-                  goNext();
-                }
-              }}
-              className={`w-full ${bigTargets ? 'py-7 text-xl' : 'py-4 text-lg'} rounded-3xl font-bold transition-all active:scale-95 ${isHighContrast ? 'bg-white text-black' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
-            >
-              {t('next') || 'Next'}
-            </button>
-          </div>
-        </div>
-      )}
+      <LevelUpModal
+        open={showSuccess}
+        isHighContrast={isHighContrast}
+        noFlash={noFlash}
+        bigTargets={bigTargets}
+        t={t}
+        onNext={handleLevelUpNext}
+      />
 
       {}
       <Dialog
@@ -1020,55 +816,24 @@ function AppContent() {
         </Suspense>
       </Dialog>
 
-      {}
-      {affirmation && (
-        <div className="pointer-events-none fixed bottom-6 left-1/2 z-[100] w-full max-w-sm -translate-x-1/2 px-4">
-          <div
-            className={`rounded-2xl border p-4 shadow-lg ${noFlash ? '' : 'animate-in slide-in-from-bottom-8 fade-in duration-700'} ${isHighContrast ? 'border-white bg-black text-white' : 'border-slate-100 bg-white text-slate-700'}`}
-          >
-            <p className="text-center text-sm leading-relaxed font-medium">
-              {affirmation}
-            </p>
-          </div>
-        </div>
-      )}
+      <AffirmationToast
+        message={affirmation}
+        isHighContrast={isHighContrast}
+        noFlash={noFlash}
+      />
 
       {}
       <OfflineIndicator />
 
-      {}
-      {needRefresh && (
-        <div
-          className={`fixed right-4 bottom-20 left-4 z-50 w-auto rounded-3xl border-2 p-4 shadow-2xl sm:right-4 sm:bottom-24 sm:left-auto sm:w-full sm:max-w-xs sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-bottom sm:slide-in-from-right duration-500'} ${isHighContrast ? 'border-white bg-black text-white' : 'border-slate-100 bg-white text-slate-800'}`}
-          role="alert"
-          aria-live="assertive"
-        >
-          <h4 className="mb-1 flex items-center gap-2 text-sm font-black">
-            <span aria-hidden="true">🌱</span>{' '}
-            {t('pwaNewVersion') || 'New version'}
-          </h4>
-          <p
-            className={`mb-4 text-xs leading-relaxed font-medium ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
-          >
-            {t('pwaDescription') ||
-              'New content is available. Please update the app to get the latest offline changes.'}
-          </p>
-          <div className="flex gap-2">
-            <button
-              onClick={() => updateServiceWorker(true)}
-              className={`flex-1 rounded-xl py-3 text-[10px] font-black tracking-widest uppercase shadow-md transition-all active:scale-95 sm:text-xs ${themeStyles.button} ${themeStyles.buttonText}`}
-            >
-              {t('pwaUpdate') || 'Update'}
-            </button>
-            <button
-              onClick={() => setNeedRefresh(false)}
-              className={`flex-1 rounded-xl py-3 text-[10px] font-black tracking-widest uppercase transition-all sm:text-xs ${isHighContrast ? 'bg-white/10 hover:bg-white/20' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
-            >
-              {t('pwaLater') || 'Later'}
-            </button>
-          </div>
-        </div>
-      )}
+      <PwaUpdateBanner
+        show={needRefresh}
+        isHighContrast={isHighContrast}
+        noFlash={noFlash}
+        themeStyles={themeStyles}
+        t={t}
+        onUpdate={applyPwaUpdate}
+        onDismiss={dismissPwaUpdate}
+      />
     </div>
   );
 }

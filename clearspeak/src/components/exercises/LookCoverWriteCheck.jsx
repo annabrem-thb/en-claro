@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
+import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { useUserSettingsContext } from '../UserSettingsContext.jsx';
 import BionicText from '../common/BionicText';
@@ -40,6 +41,8 @@ function LookCoverWriteCheck({
     clearAllTimeouts();
     if (speak) speak(activeWord, extendedTime);
   }, [speak, activeWord, extendedTime, clearAllTimeouts]);
+
+  useAutoReadAloud(voiceAssistant && phase === 'look', handleReadWord);
 
   useEffect(() => {
     if (phase === 'write' && inputRef.current) {

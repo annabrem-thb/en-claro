@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
+import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
@@ -118,10 +119,18 @@ function ClockExercise({
   const readTimeAndOptions = () => {
     clearAudioTimeouts();
 
-    speak(data.timeAnalog, extendedTime);
+    const instruction = t('clockInstruction') || 'Select the matching time';
+    speak(instruction, extendedTime);
+    const instructionDelay =
+      instruction.length * (extendedTime ? 90 : 65) + 1200;
+    setSafeTimeout(
+      () => speak(data.timeAnalog, extendedTime),
+      instructionDelay,
+    );
 
     const charCount = (data.timeAnalog || '').length;
-    let delayAcc = charCount * (extendedTime ? 90 : 65) + 1500;
+    let delayAcc =
+      instructionDelay + charCount * (extendedTime ? 90 : 65) + 1500;
 
     shuffledOptions.forEach((opt, index) => {
       const prefix = t('optionPrefix', { number: index + 1 });
@@ -148,6 +157,8 @@ function ClockExercise({
       delayAcc += stepDuration;
     });
   };
+
+  useAutoReadAloud(voiceAssistant, readTimeAndOptions);
 
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
   const bounceClass = noFlash ? '' : 'animate-bounce duration-[3s]';
@@ -205,6 +216,11 @@ function ClockExercise({
 
       {}
       <div className="mb-2 flex shrink-0 flex-col items-center sm:mb-4">
+        {!zenMode && (
+          <h3 className="mb-2 text-center text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4">
+            {t('clockInstruction') || 'Select the matching time'}
+          </h3>
+        )}
         <div className={`mb-1 text-4xl ${bounceClass}`} aria-hidden="true">
           {data.isNight ? '🌙' : '☀️'}
         </div>

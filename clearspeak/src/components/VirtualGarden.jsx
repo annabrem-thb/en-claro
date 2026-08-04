@@ -238,9 +238,14 @@ function VirtualGarden({
     ${ecosystemState.hasVisitor ? t('srVisitor') : ''}
     ${earnedTrophies.length > 0 ? t('srTrophies', { count: earnedTrophies.length }) : ''}`;
 
+  // Card fill stays the same warm off-white the rest of the app uses for
+  // "content on top of the themed page background" (see App.jsx's own
+  // bg-[#FCFBF9] cards) — only the border picks up themeStyles.border, so
+  // the Garden's own chrome (not just its growth icons) actually tracks the
+  // selected theme instead of a fixed slate/white regardless of theme.
   const containerClasses = isFullScreen
-    ? `relative flex flex-col items-center justify-center gap-4 sm:gap-8 w-full h-full p-4 sm:p-10 rounded-3xl sm:rounded-4xl transition-all duration-1000 ${isHighContrast ? 'bg-black border-2 border-white' : `bg-white border-2 border-slate-100 shadow-sm`}`
-    : `relative flex items-center justify-start gap-3 flex-1 h-12 px-3 rounded-2xl border transition-all duration-700 ${isHighContrast ? 'bg-transparent border-white/30' : `bg-slate-50 border-slate-200`}`;
+    ? `relative flex flex-col items-center justify-center gap-4 sm:gap-8 w-full h-full p-4 sm:p-10 rounded-3xl sm:rounded-4xl transition-all duration-1000 ${isHighContrast ? 'bg-black border-2 border-white' : `bg-[#FCFBF9] border-2 ${themeStyles?.border || 'border-slate-100'} shadow-sm`}`
+    : `relative flex items-center justify-start gap-3 flex-1 h-12 px-3 rounded-2xl border transition-all duration-700 ${isHighContrast ? 'bg-transparent border-white/30' : `bg-[#FCFBF9] ${themeStyles?.border || 'border-slate-200'}`}`;
 
   const plantTextSize = isFullScreen
     ? 'text-[64px] sm:text-[120px] md:text-[160px]'
@@ -378,7 +383,7 @@ function VirtualGarden({
 
           {todayStats && todayStats.total > 0 && (
             <div
-              className={`mt-4 w-full max-w-[280px] rounded-2xl border-2 p-3 transition-all sm:mt-6 sm:max-w-xs sm:rounded-3xl sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 delay-700 duration-700'} ${isHighContrast ? 'border-white/30 bg-black text-white' : 'border-slate-100 bg-white text-slate-700 shadow-sm'}`}
+              className={`mt-4 w-full max-w-[280px] rounded-2xl border-2 p-3 transition-all sm:mt-6 sm:max-w-xs sm:rounded-3xl sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 delay-700 duration-700'} ${isHighContrast ? 'border-white/30 bg-black text-white' : `${themeStyles?.border || 'border-slate-100'} bg-[#FCFBF9] text-slate-700 shadow-sm`}`}
             >
               <h3 className="mb-3 text-center text-[10px] font-black tracking-widest break-words text-slate-600 uppercase sm:mb-4 sm:text-xs">
                 {t('dailySummary')}

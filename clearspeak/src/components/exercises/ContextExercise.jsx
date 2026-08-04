@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
+import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { getSmartSpellingHint } from '../../utils/spellingHints';
@@ -169,6 +170,8 @@ function ContextExercise({
       delayAcc += stepDuration;
     });
   };
+
+  useAutoReadAloud(voiceAssistant, readContextAndOptions);
 
   const animClass = noFlash
     ? ''

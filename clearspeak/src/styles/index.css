@@ -1,4 +1,13 @@
 @import 'tailwindcss';
+/* Provides the `animate-in`/`fade-in`/`zoom-in`/`slide-in-from-*` utilities
+   used throughout the app (App.jsx, VirtualGarden, every exercise
+   component). These are NOT built into Tailwind v4 core — they come from
+   this plugin alone (the shadcn/ui-style v4 successor to
+   tailwindcss-animate). Without it, every one of those class names matches
+   no CSS rule at all: elements were mounting instantly with zero entrance
+   animation everywhere `noFlash` allowed one, silently, since nothing
+   errors when a class name doesn't correspond to a utility. */
+@import 'tw-animate-css';
 @import './fonts.css';
 @import './a11y.css';
 
@@ -126,5 +135,23 @@
   }
   .text-\[10px\] {
     font-size: calc(0.625rem * var(--responsive-scale));
+  }
+
+  /* One-shot "just gained" pulse for a newly-filled ProgressPill segment:
+     pop to 125% with a ring, settle back to normal. Runs once per mount
+     (ProgressPill re-keys the element on each new point) — no JS timer
+     needed to revert it afterward. */
+  @keyframes pip-pulse {
+    0% {
+      transform: scale(1.25);
+      box-shadow: 0 0 0 2px currentColor;
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+  .animate-pip-pulse {
+    animation: pip-pulse 900ms ease-out;
   }
 }

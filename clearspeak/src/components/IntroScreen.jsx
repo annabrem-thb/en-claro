@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { useTranslation } from 'react-i18next';
+
+import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
+import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 
 import { useGamification } from './GamificationContext.jsx';
 import { useUserSettingsContext } from './UserSettingsContext.jsx';
@@ -72,6 +75,39 @@ function IntroScreen({ onStart, speak }) {
   const hasBionic = !!settings.bionicReading;
   const hasVoice = !!settings.voiceAssistant;
   const hasZen = !!settings.zenMode;
+
+  const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
+
+  useEffect(() => {
+    return () => {
+      clearAllTimeouts();
+      window.speechSynthesis?.cancel();
+    };
+  }, [clearAllTimeouts]);
+
+  // "What this app is" — read automatically once the voice assistant is
+  // active, same as Settings and the exercises (useAutoReadAloud), instead
+  // of only ever confirming individual toggle clicks like the rest of this
+  // screen already did.
+  const readWelcome = useCallback(() => {
+    if (!speak) return;
+    clearAllTimeouts();
+    const segments = [
+      t('appTitle', 'EnClaro'),
+      t('intro.subtitle', 'Your safe space to grow! Choose mode and tools:'),
+      t(
+        'intro.browserWarning',
+        'For the best Voice Assistant quality, we recommend using Google Chrome.',
+      ),
+    ].filter(Boolean);
+    let delayAcc = 0;
+    segments.forEach((segment) => {
+      setSafeTimeout(() => speak(segment), delayAcc);
+      delayAcc += segment.length * 70 + 900;
+    });
+  }, [speak, t, setSafeTimeout, clearAllTimeouts]);
+
+  useAutoReadAloud(hasVoice, readWelcome);
 
   const A11yBtn = ({ active, onClick, icon, label }) => (
     <button

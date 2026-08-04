@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
+
+import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
+import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 
 import { useGamification } from './GamificationContext.jsx';
 import { useUserSettingsContext } from './UserSettingsContext.jsx';
@@ -62,10 +65,42 @@ const SettingToggle = ({
   </div>
 );
 
-const GeneralTab = () => {
+const GeneralTab = ({ speak }) => {
   const { t } = useTranslation();
   const { settings, updateSetting } = useUserSettingsContext();
   const { isGamified, setIsGamified } = useGamification();
+  const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
+
+  useEffect(() => {
+    return () => {
+      clearAllTimeouts();
+      window.speechSynthesis?.cancel();
+    };
+  }, [clearAllTimeouts]);
+
+  // Leads with the tab name so switching into Settings (or into this tab)
+  // orients the listener before diving into its content — same "read what's
+  // on screen when the voice assistant is active" behavior as the exercises
+  // (useAutoReadAloud), just applied to Settings/the start screen per user
+  // request.
+  const readGeneralTab = useCallback(() => {
+    if (!speak) return;
+    clearAllTimeouts();
+    const segments = [
+      t('tabGeneral'),
+      t('languageLabel'),
+      t('appMode'),
+      `${t('v1Label')}. ${t('v1Desc')}`,
+      `${t('v2Label')}. ${t('v2Desc')}`,
+    ].filter(Boolean);
+    let delayAcc = 0;
+    segments.forEach((segment) => {
+      setSafeTimeout(() => speak(segment), delayAcc);
+      delayAcc += segment.length * 70 + 900;
+    });
+  }, [speak, t, setSafeTimeout, clearAllTimeouts]);
+
+  useAutoReadAloud(!!settings.voiceAssistant, readGeneralTab);
 
   return (
     <div className="space-y-4">
@@ -102,7 +137,7 @@ const GeneralTab = () => {
   );
 };
 
-const A11yTab = () => {
+const A11yTab = ({ speak }) => {
   const { t } = useTranslation();
   const { settings, updateSetting } = useUserSettingsContext();
   const {
@@ -119,38 +154,84 @@ const A11yTab = () => {
     voiceAssistant,
     zenMode,
   } = settings;
+  const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
 
-  const a11yOptions = [
-    { key: 'lrs', ...t('a11y.lrs', { returnObjects: true }) },
-    { key: 'contrast', ...t('a11y.contrast', { returnObjects: true }) },
-    { key: 'vision', ...t('a11y.vision', { returnObjects: true }) },
-    { key: 'motorik', ...t('a11y.motor', { returnObjects: true }) },
-    { key: 'spacing', ...t('a11y.spacing', { returnObjects: true }) },
-    { key: 'ruler', ...t('a11y.ruler', { returnObjects: true }) },
-    { key: 'color', ...t('a11y.colors', { returnObjects: true }) },
-    { key: 'motion', ...t('a11y.motion', { returnObjects: true }) },
-    { key: 'desaturation', ...t('a11y.desaturation', { returnObjects: true }) },
-  ];
+  useEffect(() => {
+    return () => {
+      clearAllTimeouts();
+      window.speechSynthesis?.cancel();
+    };
+  }, [clearAllTimeouts]);
 
-  const inclusiveOptions = [
-    {
-      key: 'bionicReading',
-      ...t('inclusive.bionicReading', { returnObjects: true }),
-    },
-    {
-      key: 'voiceAssistant',
-      ...t('inclusive.voiceAssistant', { returnObjects: true }),
-    },
-    { key: 'zenMode', ...t('inclusive.zenMode', { returnObjects: true }) },
-    {
-      key: 'cognitiveBreaks',
-      ...t('inclusive.cognitiveBreaks', { returnObjects: true }),
-    },
-    {
-      key: 'adaptiveDifficulty',
-      ...t('inclusive.adaptiveDifficulty', { returnObjects: true }),
-    },
-  ];
+  const a11yOptions = useMemo(
+    () => [
+      { key: 'lrs', ...t('a11y.lrs', { returnObjects: true }) },
+      { key: 'contrast', ...t('a11y.contrast', { returnObjects: true }) },
+      { key: 'vision', ...t('a11y.vision', { returnObjects: true }) },
+      { key: 'motorik', ...t('a11y.motor', { returnObjects: true }) },
+      { key: 'spacing', ...t('a11y.spacing', { returnObjects: true }) },
+      { key: 'ruler', ...t('a11y.ruler', { returnObjects: true }) },
+      { key: 'color', ...t('a11y.colors', { returnObjects: true }) },
+      { key: 'motion', ...t('a11y.motion', { returnObjects: true }) },
+      {
+        key: 'desaturation',
+        ...t('a11y.desaturation', { returnObjects: true }),
+      },
+    ],
+    [t],
+  );
+
+  const inclusiveOptions = useMemo(
+    () => [
+      {
+        key: 'bionicReading',
+        ...t('inclusive.bionicReading', { returnObjects: true }),
+      },
+      {
+        key: 'voiceAssistant',
+        ...t('inclusive.voiceAssistant', { returnObjects: true }),
+      },
+      { key: 'zenMode', ...t('inclusive.zenMode', { returnObjects: true }) },
+      {
+        key: 'cognitiveBreaks',
+        ...t('inclusive.cognitiveBreaks', { returnObjects: true }),
+      },
+      {
+        key: 'adaptiveDifficulty',
+        ...t('inclusive.adaptiveDifficulty', { returnObjects: true }),
+      },
+    ],
+    [t],
+  );
+
+  // Only the option *names* (not the longer descriptions) are read out —
+  // between the two groups that's already 14 items, reading every
+  // description too would make this take over a minute.
+  const readA11yTab = useCallback(() => {
+    if (!speak) return;
+    clearAllTimeouts();
+    const segments = [
+      t('tabA11y'),
+      t('a11yAddons'),
+      ...a11yOptions.map((opt) => opt.name).filter(Boolean),
+      t('gamificationTitle'),
+      ...inclusiveOptions.map((opt) => opt.name).filter(Boolean),
+    ].filter(Boolean);
+    let delayAcc = 0;
+    segments.forEach((segment) => {
+      setSafeTimeout(() => speak(segment), delayAcc);
+      delayAcc += segment.length * 70 + 700;
+    });
+  }, [
+    speak,
+    t,
+    a11yOptions,
+    inclusiveOptions,
+    setSafeTimeout,
+    clearAllTimeouts,
+  ]);
+
+  useAutoReadAloud(!!voiceAssistant, readA11yTab);
 
   return (
     <div className="space-y-6">
@@ -194,11 +275,19 @@ const A11yTab = () => {
   );
 };
 
-const ShopTab = () => {
+const ShopTab = ({ speak }) => {
   const { t } = useTranslation();
   const { settings, updateSetting } = useUserSettingsContext();
   const { coins, setCoins, unlockedThemes, setUnlockedThemes } =
     useGamification();
+  const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
+
+  useEffect(() => {
+    return () => {
+      clearAllTimeouts();
+      window.speechSynthesis?.cancel();
+    };
+  }, [clearAllTimeouts]);
 
   const handleBuyTheme = (themeKey, price) => {
     if (coins >= price && !unlockedThemes.includes(themeKey)) {
@@ -207,6 +296,22 @@ const ShopTab = () => {
       updateSetting('theme', themeKey);
     }
   };
+
+  const readShopTab = useCallback(() => {
+    if (!speak) return;
+    clearAllTimeouts();
+    const themeNames = Object.entries(THEMES).map(([key, theme]) =>
+      t(`themes.${key}.name`, theme.name),
+    );
+    const segments = [t('tabShop'), `${t('coins')}: ${coins}`, ...themeNames];
+    let delayAcc = 0;
+    segments.forEach((segment) => {
+      setSafeTimeout(() => speak(segment), delayAcc);
+      delayAcc += segment.length * 70 + 700;
+    });
+  }, [speak, t, coins, setSafeTimeout, clearAllTimeouts]);
+
+  useAutoReadAloud(!!settings.voiceAssistant, readShopTab);
 
   return (
     <div className="space-y-4">
@@ -261,7 +366,7 @@ const ShopTab = () => {
   );
 };
 
-export default function SettingsModal({ open, onClose }) {
+export default function SettingsModal({ open, onClose, speak }) {
   const { t } = useTranslation();
   const { settings } = useUserSettingsContext();
   const { isGamified } = useGamification();
@@ -282,13 +387,13 @@ export default function SettingsModal({ open, onClose }) {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'general':
-        return <GeneralTab />;
+        return <GeneralTab speak={speak} />;
       case 'a11y':
-        return <A11yTab />;
+        return <A11yTab speak={speak} />;
       case 'shop':
-        return <ShopTab />;
+        return <ShopTab speak={speak} />;
       default:
-        return <GeneralTab />;
+        return <GeneralTab speak={speak} />;
     }
   };
 

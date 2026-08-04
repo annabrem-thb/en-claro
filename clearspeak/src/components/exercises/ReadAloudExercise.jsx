@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 
+import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
@@ -62,6 +63,8 @@ function ReadAloudExercise({
   const handleReadAloud = useCallback(() => {
     speak(data.text, extendedTime);
   }, [speak, data.text, extendedTime]);
+
+  useAutoReadAloud(voiceAssistant, handleReadAloud);
 
   return (
     <div

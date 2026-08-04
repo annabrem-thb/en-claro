@@ -1,0 +1,22 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+# `netlify dev` (not `npm run dev`/vite directly) is required for
+# /.netlify/functions/* to resolve locally: plain `vite` on :5173 has no
+# route for it at all, which is why SurveyComponent.tsx's fetch to
+# /.netlify/functions/submit-survey 404s under `npm run dev`. This [dev]
+# block tells Netlify Dev to run Vite itself (`command`) on its normal port
+# and proxy everything through its own port (default 8888), serving the
+# functions locally instead of leaving them unhandled.
+[dev]
+  command = "npm run dev"
+  targetPort = 5173
+  port = 8888
+  publish = "dist"
+  functions = "netlify/functions"
+  autoLaunch = false
+
+[functions]
+  node_bundler = "esbuild"

@@ -20,6 +20,12 @@ export function useIndexedDB(
         const db = await initDB();
         const tx = db.transaction(storeName, 'readonly');
         const req = tx.objectStore(storeName).getAll();
+        req.onerror = () => {
+          console.error(
+            `Failed to read ${storeName} from IndexedDB:`,
+            req.error,
+          );
+        };
         req.onsuccess = () => {
           const dict = {};
           req.result.forEach((row) => {

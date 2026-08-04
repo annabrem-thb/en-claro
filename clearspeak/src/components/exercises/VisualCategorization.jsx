@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
@@ -93,6 +94,8 @@ function VisualCategorization({
     clearAudioTimeouts,
     t,
   ]);
+
+  useAutoReadAloud(voiceAssistant, readCategorization);
 
   const handleItemClick = (item) => {
     if (isShowingCorrection) return;

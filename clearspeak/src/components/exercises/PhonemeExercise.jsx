@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
@@ -46,7 +47,10 @@ function PhonemeExercise({
   const readWordAndHint = () => {
     clearAudioTimeouts();
 
-    let delayAcc = 0;
+    const instruction =
+      t('phonemeInstruction') || 'Listen to the word, then say it aloud';
+    speak(instruction, extendedTime);
+    let delayAcc = instruction.length * (extendedTime ? 90 : 65) + 1200;
     const chars = Array.from(targetWord);
 
     chars.forEach((char, i) => {
@@ -81,6 +85,8 @@ function PhonemeExercise({
     }
   };
 
+  useAutoReadAloud(voiceAssistant, readWordAndHint);
+
   const animClass = noFlash ? '' : 'animate-in zoom-in duration-500';
   const controlBtnSize = bigTargets
     ? 'w-16 h-16 sm:w-24 sm:h-24 text-3xl sm:text-4xl'
@@ -95,7 +101,7 @@ function PhonemeExercise({
         <h3
           className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
         >
-          {t('categories.Phonem') || 'Phonemes'}
+          {t('phonemeInstruction') || 'Listen to the word, then say it aloud'}
         </h3>
       )}
 

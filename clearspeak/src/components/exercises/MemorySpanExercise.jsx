@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
+import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
@@ -168,6 +169,11 @@ function MemorySpanExercise({
       }
     });
   };
+
+  // Only once the recall phase actually starts — auto-reading the item list
+  // during `isMemorizing` would read out the answer before the memorization
+  // challenge even begins.
+  useAutoReadAloud(voiceAssistant && !isMemorizing, readAvailableItems);
 
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
   const popAnim = noFlash ? '' : 'animate-in pop-in';

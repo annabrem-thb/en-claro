@@ -32,6 +32,7 @@
   "pause": "Pause",
   "resume": "Fortsetzen",
   "skip": "Überspringen",
+  "skipToContent": "Zum Hauptinhalt springen",
   "close": "Schließen",
   "on": "EIN",
   "off": "AUS",
@@ -45,7 +46,6 @@
   "loading": "Laden...",
   "noData": "Keine Aufgaben in diesem Abschnitt.",
   "formatNotRecognized": "Aufgabenformatfehler.",
-  "profile": "Profil",
   "level": "Level",
   "quests": "Tagesaufgaben",
   "shop": "Themen-Shop",
@@ -68,7 +68,7 @@
     "{{count}}x fehlerfrei! 💪"
   ],
   "levelUp": "Level Up!",
-  "levelUpTitle": "Dein Garten wächst!",
+  "levelUpTitle": "Ihr Garten wächst!",
   "levelUpDesc": "Ein weiteres Ziel wurde erfolgreich erreicht.",
   "hint": "Hinweis",
   "voice": {
@@ -79,7 +79,7 @@
       "Fast richtig, schauen Sie noch einmal hin"
     ],
     "streak": [
-      "{{count}} in Folge! Du bist nicht zu stoppen!",
+      "{{count}} in Folge! Sie sind nicht zu stoppen!",
       "Unglaublich! Das sind {{count}} richtige Antworten!",
       "Tolle Serie! Weiter so!",
       "Fantastisch! {{count}} Treffer ohne Fehler!"
@@ -342,20 +342,17 @@
   "goal15": "15 Min – Tiefer Fokus",
   "goal20": "20 Min – Intensives Training",
   "dailySummary": "Heutige Aktivität",
-  "exercisesCount_one": "{{{count}}} Übung",
-  "exercisesCount_other": "{{{count}}} Übungen",
+  "exercisesCount_one": "{{count}} Übung",
+  "exercisesCount_other": "{{count}} Übungen",
   "totalEffort": "Gesamt",
   "longestStreak": "Längste Tages-Serie",
   "daysCount": "Tage",
   "errorAnalysis": "Fehleranalyse",
   "errorAnalysisSub": "Anzahl der Fehler pro Tag",
-  "exportLogs": "Daten exportieren (CSV)",
-  "exportDesc": "NASA-TLX- und UEQ-Umfrageergebnisse herunterladen",
-  "noDataToExport": "Keine Daten zum Exportieren",
   "shortcut": "Abkürzung",
   "memorize": "Auswendig lernen!",
   "mapTitle": "Heraforderungskarte",
-  "choosePath": "Wähle deinen Weg",
+  "choosePath": "Wählen Sie Ihren Weg",
   "nextLevel": "Nächste Stufe",
   "lockedNode": "Gesperrt",
   "completedNode": "Abgeschlossen",
@@ -417,6 +414,10 @@
   "collectedLabel": "Gesammelt",
   "selectCorrect": "Wählen Sie das richtige Wort:",
   "tapToBuild": "Wählen Sie die Wörter in der richtigen Reihenfolge aus",
+  "scrabbleInstruction": "Ordne die Buchstaben zum Wort",
+  "clockInstruction": "Wähle die passende Uhrzeit",
+  "syllableInstruction": "Teile das Wort in Silben",
+  "phonemeInstruction": "Höre dir das Wort an und sprich es nach",
   "listenCarefully": "Hören Sie sich das Wort aufmerksam an.",
   "readyToSegment": "Ich bin bereit, es zu zerlegen",
   "tapBoxesInstruction": "Tippen Sie beim Aussprechen jedes Lautes auf die Kästchen.",
@@ -491,15 +492,15 @@
     "hint": ["Hinweis", "Hilf mir", "Hilfe"]
   },
   "affirmations": [
-    "Dein Garten wächst dank deiner heutigen Arbeit wunderschön.",
+    "Ihr Garten wächst dank Ihrer heutigen Arbeit wunderschön.",
     "Jeder Schritt ist ein Fortschritt. Wunderbare Anstrengung!",
     "Ein ruhiges Tempo ist der beste Weg zum Lernen.",
-    "Du machst stetige Fortschritte. Mach in deinem eigenen Tempo weiter.",
-    "Danke, dass du heute hier bist. Dein Engagement zählt."
+    "Sie machen stetige Fortschritte. Machen Sie in Ihrem eigenen Tempo weiter.",
+    "Danke, dass Sie heute hier sind. Ihr Engagement zählt."
   ],
   "dailyTaskComplete": {
     "title": "Wunderbare Anstrengung!",
-    "desc": "Du hast die heutige Übung abgeschlossen. Deine Beständigkeit schafft eine starke Grundlage.",
+    "desc": "Sie haben die heutige Übung abgeschlossen. Ihre Beständigkeit schafft eine starke Grundlage.",
     "chooseReward": "Wähle eine Belohnung, die im Garten wachsen wird",
     "plantSeed": "Pflanzen und fortfahren",
     "options": {
@@ -509,7 +510,7 @@
       },
       "rose": {
         "name": "Rosenstrauch",
-        "desc": "Eine schöne Belohnung für deine Konzentration."
+        "desc": "Eine schöne Belohnung für Ihre Konzentration."
       },
       "bonsai": {
         "name": "Bonsai",
@@ -519,7 +520,7 @@
   },
   "reflection": {
     "title": "Ein Moment der Reflexion",
-    "desc": "Hier gibt es keine Noten. Wie sicher hast du dich bei dieser Übung gefühlt?",
+    "desc": "Hier gibt es keine Noten. Wie sicher haben Sie sich bei dieser Übung gefühlt?",
     "save": "Speichern und Pflanze gießen",
     "options": {
       "difficult": {

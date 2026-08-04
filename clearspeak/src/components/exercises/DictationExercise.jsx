@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
+import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
@@ -17,6 +18,12 @@ function DictationExercise({
   bionicReading = false,
   isHighContrast = false,
   zenMode = false,
+  // Default true, same as the other "voice exception" exercises (Phoneme,
+  // Scrabble, ReadAloud, LookCoverWriteCheck) — App.jsx's isVoiceException
+  // also already forces this true for every dictation task regardless of
+  // the user's voiceAssistant setting, since the audio *is* the question
+  // here, not an optional accessibility read-aloud of already-visible text.
+  voiceAssistant = true,
 }) {
   const [userInput, setUserInput] = useState('');
   const inputRef = useRef(null);
@@ -39,6 +46,21 @@ function DictationExercise({
     speak(data.audioPrompt, extendedTime);
     if (inputRef.current) inputRef.current.focus();
   }, [data.audioPrompt, extendedTime, speak, clearAllTimeouts]);
+
+  // Only the automatic first read leads with the task instruction — replay
+  // is a normal, expected repeated action here (re-listen as many times as
+  // needed), so handleReplay itself (used by the manual TTSController
+  // button) stays instruction-free to avoid repeating "listen carefully..."
+  // before the actual word on every single tap.
+  const readInstructionThenPrompt = useCallback(() => {
+    clearAllTimeouts();
+    const instruction = t('listenCarefully') || 'Listen carefully to the word.';
+    speak(instruction, extendedTime);
+    const delay = instruction.length * (extendedTime ? 90 : 65) + 1200;
+    setSafeTimeout(() => handleReplay(), delay);
+  }, [speak, extendedTime, t, setSafeTimeout, clearAllTimeouts, handleReplay]);
+
+  useAutoReadAloud(voiceAssistant, readInstructionThenPrompt);
 
   const handleCheck = () => {
     const cleanInput = userInput
@@ -67,7 +89,7 @@ function DictationExercise({
           aria-live="polite"
         >
           <BionicText
-            text={t('categories.Dictation') || 'Dictation'}
+            text={t('listenCarefully') || 'Listen carefully to the word.'}
             enabled={bionicReading}
           />
         </h3>

@@ -48,6 +48,17 @@ function formatViolations(results) {
 
 test.describe('Accessibility (axe-core)', () => {
   test.beforeEach(async ({ page }) => {
+    // Entrance transitions (animate-in/fade-in/zoom-in/slide-in-from-*) are
+    // real CSS animations, not just presence toggles — scanning immediately
+    // after an element becomes visible can catch it mid-transition, where an
+    // interpolated color transiently reads as lower-contrast than its
+    // resting state. WCAG's contrast criteria describe the settled
+    // presentation, not a transitional frame, so audits should run the same
+    // way most real accessibility tooling does: with reduced motion, which
+    // this app already wires up to skip its entrance animations entirely
+    // (see a11y.css's `data-a11y-motion` rules) via the same
+    // prefers-reduced-motion seed used for the "Calm screen" setting.
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');
     await page.evaluate(() => window.localStorage.clear());
   });

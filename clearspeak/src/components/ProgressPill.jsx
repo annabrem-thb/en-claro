@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-
 const STAGE_ICONS = {
   Natur: ['🌱', '🌿', '🌿', '🌷', '🌸'],
-  Musik: ['𝅘𝅥𝅰', '𝅘𝅥𝅯', '♩', '𝅗𝅥', '🎻'],
+  Musik: ['𝅘𝅥𝅰', '𝅘𝅥𝅯', '♩', '𝅗𝅥', '🎻'],
   Kunst: ['🖌️', '🎨', '🖼️', '🖼️', '✨'],
   Space: ['🌠', '☄️', '🌙', '🪐', '🚀'],
   Ocean: ['💧', '🐟', '🪸', '🐬', '🐳'],
@@ -23,16 +21,6 @@ export function ProgressPill({
       />
     );
   }
-
-  const [justGained, setJustGained] = useState(null);
-
-  useEffect(() => {
-    if (points > 0) {
-      setJustGained(points - 1);
-      const timer = setTimeout(() => setJustGained(null), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [points]);
 
   const progressStages = t('progressStages', { returnObjects: true });
   const stages = progressStages[theme] || progressStages.Natur;
@@ -72,24 +60,29 @@ export function ProgressPill({
         </span>
       </div>
       <div className="mt-1 flex h-2 w-full gap-1">
-        {[...Array(max)].map((_, i) => (
-          <div
-            key={i}
-            className={`flex-1 rounded-full transition-all duration-500 ease-out ${
-              i < points
-                ? isHighContrast
-                  ? 'bg-white'
-                  : 'bg-slate-400'
-                : isHighContrast
-                  ? 'bg-white/20'
-                  : 'bg-slate-200'
-            } ${
-              i === justGained
-                ? 'z-10 scale-125 ring-2 ring-current drop-shadow-md'
-                : 'scale-100'
-            }`}
-          />
-        ))}
+        {[...Array(max)].map((_, i) => {
+          // The pip that was just filled gets a one-shot CSS pulse (pop to
+          // 125% with a ring, settle back over ~900ms) driven entirely by a
+          // keyframe animation, not JS state — `key` ties it to `points` so
+          // remounting retriggers the animation each time a new point comes
+          // in, with no setState/setTimeout pair (and the extra render
+          // cycle that pairing cost) needed to "un-flash" it afterward.
+          const isJustFilled = i === points - 1;
+          return (
+            <div
+              key={isJustFilled ? `filled-${points}` : i}
+              className={`flex-1 rounded-full transition-all duration-500 ease-out ${
+                i < points
+                  ? isHighContrast
+                    ? 'bg-white'
+                    : 'bg-slate-400'
+                  : isHighContrast
+                    ? 'bg-white/20'
+                    : 'bg-slate-200'
+              } ${isJustFilled ? 'animate-pip-pulse z-10' : ''}`}
+            />
+          );
+        })}
       </div>
     </div>
   );

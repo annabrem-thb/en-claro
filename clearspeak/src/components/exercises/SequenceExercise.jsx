@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
+import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { seededShuffle } from '../../utils/shuffleUtils.js';
@@ -229,6 +230,8 @@ function SequenceExercise({
       delayAcc += stepDuration;
     });
   };
+
+  useAutoReadAloud(voiceAssistant, readAvailableWords);
 
   const animClass = noFlash
     ? ''

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
+import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { getTTSException } from '../../hooks/useGlobalTTS';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
@@ -123,6 +124,22 @@ function SyllableExercise({
     });
   };
 
+  // Wraps playSyllables (used as-is for the post-answer replay in
+  // checkAnswer, where re-announcing the instruction every time would get
+  // repetitive) with the task instruction, for the initial "what am I
+  // supposed to do here" listen — both the manual TTSController button and
+  // the automatic voiceAssistant read use this, not the bare playSyllables.
+  const readInstructionAndSyllables = () => {
+    clearAudioTimeouts();
+    const instruction =
+      t('syllableInstruction') || 'Divide the word into syllables';
+    speak(instruction, extendedTime);
+    const delay = instruction.length * (extendedTime ? 90 : 65) + 1200;
+    setSafeTimeout(() => playSyllables(), delay);
+  };
+
+  useAutoReadAloud(voiceAssistant, readInstructionAndSyllables);
+
   const handleVoiceMatch = (num) => {
     if (num >= 1 && num < data.word.length) {
       toggleCut(num);
@@ -180,6 +197,13 @@ function SyllableExercise({
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}
     >
       {}
+      {!zenMode && (
+        <h3 className="mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4">
+          {t('syllableInstruction') || 'Divide the word into syllables'}
+        </h3>
+      )}
+
+      {}
       {voiceAssistant && (
         <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
           <div
@@ -188,7 +212,7 @@ function SyllableExercise({
             }
           >
             <TTSController
-              onReadAloud={playSyllables}
+              onReadAloud={readInstructionAndSyllables}
               pauseAllTimeouts={pauseAllTimeouts}
               resumeAllTimeouts={resumeAllTimeouts}
               t={t}

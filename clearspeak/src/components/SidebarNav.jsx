@@ -20,7 +20,6 @@ const SidebarNav = memo(function SidebarNav({
   bigTargets,
   hideNavLabel,
   setSettingsOpen,
-  setProfileOpen,
   t,
   coins,
   loadLevel,
@@ -282,51 +281,10 @@ const SidebarNav = memo(function SidebarNav({
         )}
 
         <Tooltip
-          content={`${t('shortcut') || 'Shortcut'}: Ctrl + P`}
-          placement="top"
-          isHighContrast={isHighContrast}
-          wrapperClass={`flex-1 lg:flex-none flex ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 lg:mt-0' : 'lg:mt-auto'}`}
-        >
-          <button
-            onClick={() => setProfileOpen(true)}
-            className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
-            aria-label={t('profile') || 'Profile'}
-          >
-            <span
-              className={hideNavLabel ? 'text-2xl' : 'text-xl lg:text-xl'}
-              aria-hidden="true"
-            >
-              👤
-            </span>
-            {!hideNavLabel && (
-              <>
-                <AccessibleTTS
-                  text={t('profile') || 'Profile'}
-                  speak={speak}
-                  language={language}
-                  className="flex min-w-0 lg:flex"
-                  interactive={false}
-                >
-                  <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                    {t('profile') || 'Profile'}
-                  </span>
-                </AccessibleTTS>
-                <span
-                  className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter opacity-0 transition-opacity group-hover:opacity-100 lg:block`}
-                  aria-hidden="true"
-                >
-                  ^ P
-                </span>
-              </>
-            )}
-          </button>
-        </Tooltip>
-
-        <Tooltip
           content={`${t('shortcut') || 'Shortcut'}: Ctrl + ,`}
           placement="top"
           isHighContrast={isHighContrast}
-          wrapperClass="flex-1 lg:flex-none flex"
+          wrapperClass={`flex-1 lg:flex-none flex ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 lg:mt-0' : 'lg:mt-auto'}`}
         >
           <button
             onClick={() => setSettingsOpen(true)}

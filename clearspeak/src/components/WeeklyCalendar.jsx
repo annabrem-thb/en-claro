@@ -18,7 +18,7 @@ const Day = ({
 }) => {
   const baseClasses = `${bigTargets ? 'w-10 h-10 sm:w-12 sm:h-12 text-xs sm:text-sm' : 'w-8 h-8 sm:w-10 sm:h-10 text-[10px] sm:text-xs'} rounded-full flex items-center justify-center font-black transition-all duration-300`;
   const todayClasses = isToday
-    ? `ring-2 ring-offset-2 ${isHighContrast ? 'ring-white ring-offset-black' : 'ring-indigo-400 ring-offset-white'}`
+    ? `ring-2 ring-offset-2 ${isHighContrast ? 'ring-white ring-offset-black' : `${themeStyles?.ring || 'ring-indigo-400'} ring-offset-white`}`
     : '';
   const statusClasses = isGoalMet
     ? isHighContrast
@@ -78,7 +78,7 @@ export function WeeklyCalendar({
 
   return (
     <div
-      className={`w-full ${bigTargets ? 'p-4 sm:p-6' : 'p-3 sm:p-4'} mt-4 rounded-2xl sm:mt-8 sm:rounded-3xl ${noFlash ? '' : 'animate-in fade-in delay-700 duration-500'} ${isHighContrast ? 'border border-white/20 bg-black' : 'border border-slate-100 bg-white shadow-sm'}`}
+      className={`w-full ${bigTargets ? 'p-4 sm:p-6' : 'p-3 sm:p-4'} mt-4 rounded-2xl sm:mt-8 sm:rounded-3xl ${noFlash ? '' : 'animate-in fade-in delay-700 duration-500'} ${isHighContrast ? 'border border-white/20 bg-black' : `border ${themeStyles?.border || 'border-slate-100'} bg-[#FCFBF9] shadow-sm`}`}
       role="list"
       aria-label={t?.('dailyGoalProgress') || 'Daily Goal Progress'}
     >

@@ -35,6 +35,15 @@ CREATE TABLE IF NOT EXISTS public.ab_study_submissions (
     sus_q09 SMALLINT, sus_q10 SMALLINT
 );
 
+-- Optional cleanup for a database that already picked up study_group/
+-- study_phase from a since-reverted study-mode feature (useStudyMode.js —
+-- removed again; the app never writes these columns anymore). Not run
+-- automatically here — uncomment and run by hand only if you want them
+-- gone; leaving them in place is harmless (just permanently NULL).
+-- ALTER TABLE public.ab_study_submissions
+--     DROP COLUMN IF EXISTS study_group,
+--     DROP COLUMN IF EXISTS study_phase;
+
 -- Enable RLS: Restrict frontend access, leaving access only to the service_role key.
 ALTER TABLE public.ab_study_submissions ENABLE ROW LEVEL SECURITY;
 

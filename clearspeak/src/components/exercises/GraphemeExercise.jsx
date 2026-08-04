@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
+import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { getSmartSpellingHint } from '../../utils/spellingHints';
@@ -128,6 +129,8 @@ function GraphemeExercise({
       delayAcc += stepDuration;
     });
   };
+
+  useAutoReadAloud(voiceAssistant, readQuestionAndOptions);
 
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
   const pulseClass = noFlash
