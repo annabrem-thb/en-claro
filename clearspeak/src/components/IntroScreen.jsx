@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -14,6 +14,36 @@ const LANGUAGES = [
   { code: 'pl', flag: '🇵🇱', label: 'Polski' },
   { code: 'en', flag: '🇺🇸', label: 'English' },
 ];
+
+const A11yBtn = ({
+  active,
+  onClick,
+  icon,
+  label,
+  bigTargets,
+  isHighContrast,
+  hasBionic,
+}) => (
+  <button
+    onClick={onClick}
+    aria-pressed={active}
+    className={`relative ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2'} flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border-2 px-1 text-xs leading-tight font-bold transition-all active:scale-95 sm:text-sm ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm') : isHighContrast ? 'border-white/30 text-white/50 hover:border-white/50' : 'border-slate-100 text-slate-500 hover:border-slate-300'}`}
+  >
+    {active && (
+      <div
+        className={`absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-bl-lg ${isHighContrast ? 'bg-white text-black' : 'bg-amber-500 text-white'}`}
+      >
+        <span className="text-[8px] font-black">✓</span>
+      </div>
+    )}
+    <span aria-hidden="true" className="mb-0.5 text-lg sm:text-xl">
+      {icon}
+    </span>
+    <span className="w-full px-1 text-center break-words hyphens-auto">
+      <BionicText text={label} enabled={hasBionic} />
+    </span>
+  </button>
+);
 
 function IntroScreen({ onStart, speak }) {
   const { t } = useTranslation();
@@ -108,28 +138,6 @@ function IntroScreen({ onStart, speak }) {
   }, [speak, t, setSafeTimeout, clearAllTimeouts]);
 
   useAutoReadAloud(hasVoice, readWelcome);
-
-  const A11yBtn = ({ active, onClick, icon, label }) => (
-    <button
-      onClick={onClick}
-      aria-pressed={active}
-      className={`relative ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2'} flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border-2 px-1 text-xs leading-tight font-bold transition-all active:scale-95 sm:text-sm ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm') : isHighContrast ? 'border-white/30 text-white/50 hover:border-white/50' : 'border-slate-100 text-slate-500 hover:border-slate-300'}`}
-    >
-      {active && (
-        <div
-          className={`absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-bl-lg ${isHighContrast ? 'bg-white text-black' : 'bg-amber-500 text-white'}`}
-        >
-          <span className="text-[8px] font-black">✓</span>
-        </div>
-      )}
-      <span aria-hidden="true" className="mb-0.5 text-lg sm:text-xl">
-        {icon}
-      </span>
-      <span className="w-full px-1 text-center break-words hyphens-auto">
-        <BionicText text={label} enabled={hasBionic} />
-      </span>
-    </button>
-  );
 
   return (
     <div
@@ -366,6 +374,9 @@ function IntroScreen({ onStart, speak }) {
               }
               icon="🅰️"
               label={t('intro.lrs', 'Friendly Font')}
+              bigTargets={bigTargets}
+              isHighContrast={isHighContrast}
+              hasBionic={hasBionic}
             />
             <A11yBtn
               active={hasSpacing}
@@ -374,6 +385,9 @@ function IntroScreen({ onStart, speak }) {
               }
               icon="🔠"
               label={t('intro.spacing', 'More Spacing')}
+              bigTargets={bigTargets}
+              isHighContrast={isHighContrast}
+              hasBionic={hasBionic}
             />
             <A11yBtn
               active={hasVision}
@@ -382,6 +396,9 @@ function IntroScreen({ onStart, speak }) {
               }
               icon="🔍"
               label={t('intro.vision', 'Bigger Text')}
+              bigTargets={bigTargets}
+              isHighContrast={isHighContrast}
+              hasBionic={hasBionic}
             />
 
             <A11yBtn
@@ -391,6 +408,9 @@ function IntroScreen({ onStart, speak }) {
               }
               icon="👁️"
               label={t('intro.bionic', 'Bionic')}
+              bigTargets={bigTargets}
+              isHighContrast={isHighContrast}
+              hasBionic={hasBionic}
             />
             <A11yBtn
               active={hasRuler}
@@ -399,6 +419,9 @@ function IntroScreen({ onStart, speak }) {
               }
               icon="📏"
               label={t('intro.ruler', 'Reading Ruler')}
+              bigTargets={bigTargets}
+              isHighContrast={isHighContrast}
+              hasBionic={hasBionic}
             />
             <A11yBtn
               active={hasVoice}
@@ -407,6 +430,9 @@ function IntroScreen({ onStart, speak }) {
               }
               icon="🗣️"
               label={t('intro.voice', 'Assistant')}
+              bigTargets={bigTargets}
+              isHighContrast={isHighContrast}
+              hasBionic={hasBionic}
             />
 
             <A11yBtn
@@ -416,6 +442,9 @@ function IntroScreen({ onStart, speak }) {
               }
               icon="🌗"
               label={t('intro.contrast', 'Kontrast')}
+              bigTargets={bigTargets}
+              isHighContrast={isHighContrast}
+              hasBionic={hasBionic}
             />
             <A11yBtn
               active={hasColor}
@@ -424,6 +453,9 @@ function IntroScreen({ onStart, speak }) {
               }
               icon="🎨"
               label={t('intro.color', 'Safe Colors')}
+              bigTargets={bigTargets}
+              isHighContrast={isHighContrast}
+              hasBionic={hasBionic}
             />
             <A11yBtn
               active={hasDesaturation}
@@ -435,6 +467,9 @@ function IntroScreen({ onStart, speak }) {
               }
               icon="🌫️"
               label={t('intro.desaturation', 'Soft Colors')}
+              bigTargets={bigTargets}
+              isHighContrast={isHighContrast}
+              hasBionic={hasBionic}
             />
 
             <A11yBtn
@@ -444,6 +479,9 @@ function IntroScreen({ onStart, speak }) {
               }
               icon="🖐️"
               label={t('intro.big', 'Wygodne przyciski')}
+              bigTargets={bigTargets}
+              isHighContrast={isHighContrast}
+              hasBionic={hasBionic}
             />
             <A11yBtn
               active={hasMotion}
@@ -452,6 +490,9 @@ function IntroScreen({ onStart, speak }) {
               }
               icon="⏸️"
               label={t('intro.motion', 'Reduced Motion')}
+              bigTargets={bigTargets}
+              isHighContrast={isHighContrast}
+              hasBionic={hasBionic}
             />
             <A11yBtn
               active={hasZen}
@@ -460,6 +501,9 @@ function IntroScreen({ onStart, speak }) {
               }
               icon="🧘"
               label={t('intro.zen', 'Zen Mode')}
+              bigTargets={bigTargets}
+              isHighContrast={isHighContrast}
+              hasBionic={hasBionic}
             />
           </fieldset>
 
