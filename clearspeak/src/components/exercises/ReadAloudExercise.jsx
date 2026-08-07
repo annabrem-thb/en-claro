@@ -5,6 +5,7 @@ import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
+import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 function ReadAloudExercise({
   data,
@@ -22,7 +23,7 @@ function ReadAloudExercise({
   voiceAssistant,
   isHighContrast = false,
 }) {
-  const { isListening, transcript, startListening } = useExerciseVoice(
+  const { isListening, transcript, startListening, error } = useExerciseVoice(
     language,
     t,
   );
@@ -57,10 +58,6 @@ function ReadAloudExercise({
   const controlBtnSize = bigTargets
     ? 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
     : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
-  const pulseClass = noFlash
-    ? 'bg-red-500'
-    : 'bg-red-500 animate-pulse ring-8 ring-red-100';
-
   const handleReadAloud = useCallback(() => {
     speak(data.text, extendedTime);
   }, [speak, data.text, extendedTime]);
@@ -99,17 +96,16 @@ function ReadAloudExercise({
           />
         )}
 
-        <button
-          onClick={() => startListening()}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
-            isListening
-              ? pulseClass + ' text-white'
-              : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
-          }`}
-          aria-label={t('voiceInput')}
-        >
-          {isListening ? '🛑' : '🎤'}
-        </button>
+        <VoiceAnswerButton
+          isListening={isListening}
+          onStart={() => startListening()}
+          error={error}
+          t={t}
+          themeStyles={themeStyles}
+          noFlash={noFlash}
+          bigTargets={bigTargets}
+          controlBtnSize={controlBtnSize}
+        />
       </div>
 
       {transcript && (

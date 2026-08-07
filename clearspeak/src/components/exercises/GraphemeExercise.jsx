@@ -6,6 +6,7 @@ import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { getSmartSpellingHint } from '../../utils/spellingHints';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
+import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 const formatTimeForTTS = (text, lang) => {
   if (!text) return '';
@@ -39,7 +40,7 @@ function GraphemeExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
-  const { isListening, transcript, startListening } = useExerciseVoice(
+  const { isListening, transcript, startListening, error } = useExerciseVoice(
     language,
     t,
   );
@@ -134,9 +135,6 @@ function GraphemeExercise({
   useAutoReadAloud(voiceAssistant, readQuestionAndOptions);
 
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
-  const pulseClass = noFlash
-    ? 'bg-red-500'
-    : 'bg-red-500 animate-pulse ring-8 ring-red-100';
   const btnPadding = bigTargets
     ? 'py-5 px-4 sm:py-8 sm:px-6'
     : 'py-4 px-3 sm:py-6 sm:px-4';
@@ -159,18 +157,16 @@ function GraphemeExercise({
             controlBtnSize={controlBtnSize}
           />
 
-          <button
-            onClick={() => startListening(handleVoiceMatch)}
-            className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
-              isListening
-                ? pulseClass + ' text-white'
-                : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
-            }`}
-            aria-label={isListening ? t('listening') : t('speakOptionNumber')}
-            aria-pressed={isListening}
-          >
-            {isListening ? '🛑' : '🎤'}
-          </button>
+          <VoiceAnswerButton
+            isListening={isListening}
+            onStart={() => startListening(handleVoiceMatch)}
+            error={error}
+            t={t}
+            themeStyles={themeStyles}
+            noFlash={noFlash}
+            bigTargets={bigTargets}
+            controlBtnSize={controlBtnSize}
+          />
         </div>
       )}
 

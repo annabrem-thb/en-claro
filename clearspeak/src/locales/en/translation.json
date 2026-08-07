@@ -473,6 +473,8 @@
   "wordPrefix": "Word {{number}}:",
   "heard": "Heard",
   "voiceInput": "Voice input",
+  "micUnsupported": "Voice input isn't supported in this browser — try Chrome or Edge.",
+  "micPermissionDenied": "Microphone access was denied. Check your browser's site settings to allow it.",
   "speakOptionNumber": "Speak option number",
   "speakTileNumber": "Speak tile number",
   "speakGapNumber": "Speak gap number to cut",

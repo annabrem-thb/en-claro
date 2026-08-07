@@ -91,6 +91,60 @@ export function getTTSException(text, language) {
   const normalized = text.trim().toLowerCase();
   return TTS_EXCEPTIONS[language]?.[normalized] || text;
 }
+// Ranks a language-matching voice by how likely it is to sound natural
+// rather than robotic. Cloud/"online" voices (Google, Microsoft's Online
+// Natural voices, Apple's "Enhanced"/"Premium" tiers) are markedly better
+// than each OS's bundled compact/offline voices, but the Web Speech API
+// exposes no quality metadata directly — the voice's own `name` string is
+// the only signal available, so this matches the vendor/quality keywords
+// those voices are conventionally labeled with. Used only as a fallback
+// once no specific curated name (see NAMED_VOICE_PREFERENCES below) and no
+// explicit user selection apply, so it never overrides a deliberate choice.
+const QUALITY_HINTS = [
+  'online',
+  'natural',
+  'neural',
+  'enhanced',
+  'premium',
+  'google',
+];
+const LOW_QUALITY_HINTS = ['compact', 'espeak', 'festival'];
+
+function scoreVoiceQuality(voice) {
+  const name = voice.name.toLowerCase();
+  if (LOW_QUALITY_HINTS.some((hint) => name.includes(hint))) return -1;
+  return QUALITY_HINTS.some((hint) => name.includes(hint)) ? 1 : 0;
+}
+
+// Curated first choices per language — kept ahead of the generic quality
+// heuristic below because a specific known-good voice is a stronger signal
+// than a keyword match.
+const NAMED_VOICE_PREFERENCES = {
+  pl: ['Zofia', 'Paulina'],
+  en: ['Emma'],
+  de: ['Amala'],
+};
+
+function pickBestVoice(allVoices, language) {
+  const isLang = (v, code) =>
+    v.lang.toLowerCase().replace('_', '-').startsWith(code);
+  const langVoices = allVoices.filter((v) => isLang(v, language));
+  if (langVoices.length === 0) return null;
+
+  for (const name of NAMED_VOICE_PREFERENCES[language] || []) {
+    const match = langVoices.find((v) => v.name.includes(name));
+    if (match) return match;
+  }
+
+  // No curated name matched (different OS/browser voice roster) — fall back
+  // to whichever remaining voice scores highest on the quality heuristic,
+  // preserving the browser's own ordering (its default is usually already
+  // its best pick) as the final tiebreaker.
+  return [...langVoices].sort(
+    (a, b) => scoreVoiceQuality(b) - scoreVoiceQuality(a),
+  )[0];
+}
+
 export function useGlobalTTS(language, extendedTime = false) {
   const [voices, setVoices] = useState([]);
   const [selectedVoiceURIs, setSelectedVoiceURIs] = useState(() => {
@@ -103,11 +157,17 @@ export function useGlobalTTS(language, extendedTime = false) {
       de: oldSv || 'default',
     };
   });
+  // 0.9 rather than 1.0: a touch slower than natural conversational speed
+  // reads more clearly for a dyslexia-focused audience without sounding
+  // unnaturally slow.
   const [voiceSpeed, setVoiceSpeed] = useState(
-    () => Number(localStorage.getItem('cfg_voice_speed')) || 1,
+    () => Number(localStorage.getItem('cfg_voice_speed')) || 0.9,
   );
   const [voicePitch, setVoicePitch] = useState(
     () => Number(localStorage.getItem('cfg_voice_pitch')) || 1,
+  );
+  const [voiceVolume, setVoiceVolume] = useState(
+    () => Number(localStorage.getItem('cfg_voice_volume')) || 1,
   );
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -136,7 +196,31 @@ export function useGlobalTTS(language, extendedTime = false) {
     localStorage.setItem('cfg_voice_uris', JSON.stringify(selectedVoiceURIs));
     localStorage.setItem('cfg_voice_speed', String(voiceSpeed));
     localStorage.setItem('cfg_voice_pitch', String(voicePitch));
-  }, [selectedVoiceURIs, voiceSpeed, voicePitch]);
+    localStorage.setItem('cfg_voice_volume', String(voiceVolume));
+  }, [selectedVoiceURIs, voiceSpeed, voicePitch, voiceVolume]);
+  // Safari (both macOS and iOS) can leave speechSynthesis in a "stuck"
+  // state after the tab is backgrounded mid-utterance — the engine pauses
+  // but never reports back, so any later `speak()` call silently does
+  // nothing. Cancelling on hide and nudging the engine with a near-silent
+  // utterance on return is the standard workaround (WebKit bug 195763);
+  // folded in here instead of a separate hook so every consumer of this
+  // hook gets it automatically rather than needing to remember to wire up
+  // a second one.
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!window.speechSynthesis) return;
+      if (document.visibilityState === 'hidden') {
+        window.speechSynthesis.cancel();
+      } else {
+        const wake = new SpeechSynthesisUtterance(' ');
+        wake.volume = 0;
+        window.speechSynthesis.speak(wake);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () =>
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, []);
   const speak = useCallback(
     (text, slow = false) => {
       window.speechSynthesis?.cancel();
@@ -147,6 +231,7 @@ export function useGlobalTTS(language, extendedTime = false) {
       msg.lang = { de: 'de-DE', pl: 'pl-PL', en: 'en-US' }[language] || 'de-DE';
       msg.rate = finalSpeed;
       msg.pitch = voicePitch;
+      msg.volume = voiceVolume;
       const allVoices =
         voices.length > 0
           ? voices
@@ -155,22 +240,14 @@ export function useGlobalTTS(language, extendedTime = false) {
       const currentVoiceURI = selectedVoiceURIs[language];
       if (currentVoiceURI && currentVoiceURI !== 'default') {
         selectedVoice = allVoices.find((v) => v.voiceURI === currentVoiceURI);
-      } else {
-        const isLang = (v, code) =>
-          v.lang.toLowerCase().replace('_', '-').startsWith(code);
-        if (language === 'pl')
-          selectedVoice =
-            allVoices.find((v) => v.name.includes('Zofia')) ||
-            allVoices.find((v) => v.name.includes('Paulina')) ||
-            allVoices.find((v) => isLang(v, 'pl'));
-        else if (language === 'en')
-          selectedVoice =
-            allVoices.find((v) => v.name.includes('Emma')) ||
-            allVoices.find((v) => isLang(v, 'en'));
-        else if (language === 'de')
-          selectedVoice =
-            allVoices.find((v) => v.name.includes('Amala')) ||
-            allVoices.find((v) => isLang(v, 'de'));
+      }
+      // Falls through here both when the user hasn't picked a specific
+      // voice and when a previously-saved voiceURI no longer exists (a
+      // browser update or OS voice-pack change can remove one) — either
+      // way, better to pick the best available match than silently fall
+      // back to whatever the engine's own untuned default happens to be.
+      if (!selectedVoice) {
+        selectedVoice = pickBestVoice(allVoices, language);
       }
       if (selectedVoice) {
         msg.voice = selectedVoice;
@@ -190,7 +267,15 @@ export function useGlobalTTS(language, extendedTime = false) {
       msg.onerror = () => setActiveBoundary(null);
       window.speechSynthesis.speak(msg);
     },
-    [language, extendedTime, selectedVoiceURIs, voiceSpeed, voicePitch, voices],
+    [
+      language,
+      extendedTime,
+      selectedVoiceURIs,
+      voiceSpeed,
+      voicePitch,
+      voiceVolume,
+      voices,
+    ],
   );
   const cancelTTS = useCallback(() => {
     if (window.speechSynthesis) {
@@ -222,5 +307,7 @@ export function useGlobalTTS(language, extendedTime = false) {
     setVoiceSpeed: setVoiceSpeed,
     voicePitch: voicePitch,
     setVoicePitch: setVoicePitch,
+    voiceVolume: voiceVolume,
+    setVoiceVolume: setVoiceVolume,
   };
 }

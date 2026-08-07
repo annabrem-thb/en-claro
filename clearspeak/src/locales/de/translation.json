@@ -473,6 +473,8 @@
   "rtPredictDesc": "Was, glauben Sie, passiert als Nächstes, oder was ist die logische Schlussfolgerung?",
   "heard": "Gehört",
   "voiceInput": "Spracheingabe",
+  "micUnsupported": "Spracheingabe wird in diesem Browser nicht unterstützt — versuche Chrome oder Edge.",
+  "micPermissionDenied": "Der Mikrofonzugriff wurde verweigert. Überprüfe die Website-Einstellungen deines Browsers, um ihn zu erlauben.",
   "speakOptionNumber": "Optionsnummer sprechen",
   "speakTileNumber": "Kachelnummer sprechen",
   "speakGapNumber": "Lückennummer zum Schneiden sprechen",

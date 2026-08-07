@@ -423,6 +423,8 @@
   "wordPrefix": "Słowo {{number}}:",
   "heard": "Usłyszano",
   "voiceInput": "Wprowadzanie głosowe",
+  "micUnsupported": "Wprowadzanie głosowe nie jest obsługiwane w tej przeglądarce — spróbuj Chrome lub Edge.",
+  "micPermissionDenied": "Odmówiono dostępu do mikrofonu. Sprawdź ustawienia witryny w przeglądarce, aby go zezwolić.",
   "speakOptionNumber": "Powiedz numer opcji",
   "speakTileNumber": "Powiedz numer kafelka",
   "speakGapNumber": "Powiedz numer luki do przecięcia",

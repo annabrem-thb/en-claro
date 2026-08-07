@@ -5,6 +5,7 @@ import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
+import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 function SpatialExercise({
   data,
@@ -25,7 +26,7 @@ function SpatialExercise({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animation, setAnimation] = useState('');
 
-  const { isListening, transcript, startListening } = useExerciseVoice(
+  const { isListening, transcript, startListening, error } = useExerciseVoice(
     language,
     t,
   );
@@ -163,9 +164,6 @@ function SpatialExercise({
   const cardSize = bigTargets
     ? 'w-40 h-48 sm:w-48 sm:h-60 text-7xl sm:text-8xl'
     : 'w-32 h-40 sm:w-40 sm:h-52 text-6xl sm:text-7xl';
-  const pulseClass = noFlash
-    ? 'bg-red-500'
-    : 'bg-red-500 animate-pulse ring-4 ring-red-100';
   const controlBtnSize = bigTargets
     ? 'w-16 h-16 text-2xl'
     : 'w-12 h-12 text-xl';
@@ -185,18 +183,16 @@ function SpatialExercise({
             controlBtnSize={controlBtnSize}
           />
 
-          <button
-            onClick={() => startListening(handleVoiceMatch)}
-            className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-md transition-all active:scale-95 ${
-              isListening
-                ? pulseClass + ' text-white'
-                : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
-            }`}
-            aria-label={isListening ? t('listening') : t('speakOptionNumber')}
-            aria-pressed={isListening}
-          >
-            {isListening ? '🛑' : '🎤'}
-          </button>
+          <VoiceAnswerButton
+            isListening={isListening}
+            onStart={() => startListening(handleVoiceMatch)}
+            error={error}
+            t={t}
+            themeStyles={themeStyles}
+            noFlash={noFlash}
+            bigTargets={bigTargets}
+            controlBtnSize={controlBtnSize}
+          />
         </div>
       )}
 

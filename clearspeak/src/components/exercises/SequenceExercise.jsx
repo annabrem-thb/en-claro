@@ -6,6 +6,7 @@ import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { seededShuffle } from '../../utils/shuffleUtils.js';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
+import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 function SequenceExercise({
   data,
@@ -80,7 +81,7 @@ function SequenceExercise({
     };
   }, [clearAllTimeouts]);
 
-  const { isListening, transcript, startListening } = useExerciseVoice(
+  const { isListening, transcript, startListening, error } = useExerciseVoice(
     language,
     t,
   );
@@ -237,9 +238,6 @@ function SequenceExercise({
   const animClass = noFlash
     ? ''
     : 'animate-in slide-in-from-bottom duration-500';
-  const pulseClass = noFlash
-    ? 'bg-red-500'
-    : 'bg-red-500 animate-pulse ring-8 ring-red-100';
   const btnPadding = bigTargets
     ? 'py-3 px-4 sm:py-4 sm:px-6 text-lg sm:text-xl'
     : 'py-2 px-3 sm:py-3 sm:px-5 text-base sm:text-lg';
@@ -276,18 +274,17 @@ function SequenceExercise({
             controlBtnSize={controlBtnSize}
           />
 
-          <button
-            onClick={() => startListening(handleVoiceMatch, handleCommandMatch)}
+          <VoiceAnswerButton
+            isListening={isListening}
+            onStart={() => startListening(handleVoiceMatch, handleCommandMatch)}
             disabled={isShowingCorrection}
-            className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:grayscale ${
-              isListening
-                ? pulseClass + ' text-white'
-                : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
-            }`}
-            aria-label={isListening ? t('listening') : t('voiceInput')}
-          >
-            {isListening ? '🛑' : '🎤'}
-          </button>
+            error={error}
+            t={t}
+            themeStyles={themeStyles}
+            noFlash={noFlash}
+            bigTargets={bigTargets}
+            controlBtnSize={controlBtnSize}
+          />
         </div>
       )}
 

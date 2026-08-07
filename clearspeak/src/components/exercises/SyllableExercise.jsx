@@ -6,6 +6,7 @@ import { getTTSException } from '../../hooks/useGlobalTTS';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
+import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 function SyllableExercise({
   data,
@@ -26,7 +27,7 @@ function SyllableExercise({
   const [cuts, setCuts] = useState([]);
   const [isResolved, setIsResolved] = useState(false);
 
-  const { isListening, transcript, startListening } = useExerciseVoice(
+  const { isListening, transcript, startListening, error } = useExerciseVoice(
     language,
     t,
   );
@@ -186,9 +187,6 @@ function SyllableExercise({
       : isLong
         ? 'w-5 h-8 sm:w-8 sm:h-12 mx-px'
         : 'w-8 h-12 sm:w-10 sm:h-16 mx-1';
-  const pulseClass = noFlash
-    ? 'bg-red-500'
-    : 'bg-red-500 animate-pulse ring-8 ring-red-100';
   const controlBtnSize = bigTargets
     ? 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
     : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
@@ -223,20 +221,18 @@ function SyllableExercise({
             />
           </div>
 
-          <button
-            onClick={() => startListening(handleVoiceMatch, handleCommandMatch)}
+          <VoiceAnswerButton
+            isListening={isListening}
+            onStart={() => startListening(handleVoiceMatch, handleCommandMatch)}
             disabled={isResolved}
-            className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
-              isResolved
-                ? 'cursor-not-allowed bg-slate-300 opacity-50 grayscale'
-                : isListening
-                  ? pulseClass + ' text-white'
-                  : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
-            }`}
-            aria-label={isListening ? t('listening') : t('speakGapNumber')}
-          >
-            {isListening ? '🛑' : '🎤'}
-          </button>
+            error={error}
+            t={t}
+            themeStyles={themeStyles}
+            noFlash={noFlash}
+            bigTargets={bigTargets}
+            controlBtnSize={controlBtnSize}
+            idleLabel={t('speakGapNumber')}
+          />
         </div>
       )}
 

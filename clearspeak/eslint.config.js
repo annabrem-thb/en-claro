@@ -1,5 +1,6 @@
 import js from '@eslint/js';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import { defineConfig, globalIgnores } from 'eslint/config';
@@ -25,6 +26,20 @@ export default defineConfig([
       // they ever reach the axe-core runtime/E2E layers.
       jsxA11y.flatConfigs.strict,
     ],
+    // Narrow, surgical addition (not `react.configs.flat.recommended`,
+    // which would pull in a couple dozen unrelated opinionated rules):
+    // core `no-unused-vars` under ESLint 9.x stopped recognizing
+    // `<SomeComponent />` JSX usage as a "read" of the imported
+    // `SomeComponent` identifier — verified by A/B testing this exact repo
+    // against ESLint 10.x with a matching @eslint/js, where the same files
+    // lint clean. `react/jsx-uses-vars` is the standard, minimal fix: it
+    // reports nothing itself, it only marks JSX-tag-referenced imports as
+    // used so `no-unused-vars` stops flagging every component actually
+    // used exclusively via JSX (which, in this codebase, is most of them).
+    plugins: { react },
+    rules: {
+      'react/jsx-uses-vars': 'error',
+    },
     languageOptions: {
       globals: globals.browser,
       parserOptions: { ecmaFeatures: { jsx: true } },
