@@ -6,7 +6,13 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  // `.netlify` is Netlify CLI's local dev build/serve cache (already
+  // git-ignored, see .gitignore) — generated output, not source, same as
+  // `dist`. ESLint 10 apparently auto-ignored dot-directories by default;
+  // ESLint 9 does not, so this needs to be explicit or `netlify dev`'s
+  // transpiled function bundles get linted as if they were real source
+  // files.
+  globalIgnores(['dist', '.netlify']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [
