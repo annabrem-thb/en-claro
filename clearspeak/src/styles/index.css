@@ -128,6 +128,39 @@
   }
 }
 
+/* Windows High Contrast Mode / OS-level "forced colors" (well supported in
+   Firefox, and in Chromium-based browsers including Opera): the browser
+   replaces author-specified background/text/border colors with a small
+   fixed system palette, EXCEPT it generally leaves native form controls
+   with their own auto-drawn border. This app's buttons are custom-styled
+   flat rectangles with no `border` in their own Tailwind classes (relying
+   entirely on `background-color` for shape/definition) — under forced
+   colors, that background gets flattened, and with no border to fall back
+   on, a button and its own label text can end up rendered in the same or
+   a near-identical system color, disappearing entirely (reported: buttons
+   not visible, task text not visible, in Firefox/Opera).
+   Fix is a single global safety net rather than patching every button's
+   classes individually: give every button-like element a real border in
+   forced-colors mode, using CSS system-color keywords (`ButtonText`,
+   `GrayText`) so the browser maps them to whatever palette the user
+   actually chose, instead of a hardcoded color that would defeat the
+   point of the accessibility feature. */
+@media (forced-colors: active) {
+  button,
+  [role='button'],
+  [role='switch'],
+  [role='tab'],
+  input,
+  textarea {
+    border: 1px solid ButtonText;
+  }
+  button:disabled,
+  [aria-disabled='true'] {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}
+
 @layer utilities {
   /* Dynamic arbitrary font sizes utilizing our CSS variable */
   .text-\[9px\] {
