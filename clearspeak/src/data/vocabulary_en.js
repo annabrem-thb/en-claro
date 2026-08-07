@@ -1836,22 +1836,22 @@ export const wordDatabaseEN = {
       id: 4,
       type: 'spatial',
       difficulty: 1,
-      instruction: 'Read the word and point to that direction',
+      instruction: 'Point to the direction the hand is pointing',
       items: [
         {
-          symbol: 'RIGHT',
+          symbol: '👉',
           target: 'right',
         },
         {
-          symbol: 'LEFT',
+          symbol: '👈',
           target: 'left',
         },
         {
-          symbol: 'RIGHT',
+          symbol: '👉',
           target: 'right',
         },
         {
-          symbol: 'LEFT',
+          symbol: '👈',
           target: 'left',
         },
       ],

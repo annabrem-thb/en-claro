@@ -2497,26 +2497,26 @@ export const wordDatabasePL = {
       id: 4,
       type: 'spatial',
       difficulty: 1,
-      instruction: 'Przeczytaj słowo i wskaż odpowiedni kierunek',
+      instruction: 'Wskaż kierunek, w który pokazuje dłoń',
       items: [
         {
-          symbol: 'PRAWA',
+          symbol: '👉',
           target: 'right',
         },
         {
-          symbol: 'LEWA',
+          symbol: '👈',
           target: 'left',
         },
         {
-          symbol: 'LEWA',
+          symbol: '👈',
           target: 'left',
         },
         {
-          symbol: 'PRAWA',
+          symbol: '👉',
           target: 'right',
         },
         {
-          symbol: 'LEWA',
+          symbol: '👈',
           target: 'left',
         },
       ],

@@ -261,7 +261,7 @@ function SpatialExercise({
           >
             {}
             <span
-              className="absolute top-3 left-4 text-xs font-black text-white/50"
+              className={`absolute top-3 left-4 text-xs font-black ${isListening ? 'text-white' : themeStyles.buttonText}`}
               aria-hidden="true"
             >
               {i + 1}

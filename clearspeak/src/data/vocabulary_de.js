@@ -2005,26 +2005,26 @@ export const wordDatabaseDE = {
       id: 5,
       type: 'spatial',
       difficulty: 1,
-      instruction: 'Lies das Wort und drücke die richtige Richtung',
+      instruction: 'Zeige die Richtung, in die die Hand zeigt',
       items: [
         {
-          symbol: 'RECHTS',
+          symbol: '👉',
           target: 'right',
         },
         {
-          symbol: 'LINKS',
+          symbol: '👈',
           target: 'left',
         },
         {
-          symbol: 'LINKS',
+          symbol: '👈',
           target: 'left',
         },
         {
-          symbol: 'RECHTS',
+          symbol: '👉',
           target: 'right',
         },
         {
-          symbol: 'LINKS',
+          symbol: '👈',
           target: 'left',
         },
       ],
