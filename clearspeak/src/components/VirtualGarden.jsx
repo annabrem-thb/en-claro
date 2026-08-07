@@ -26,6 +26,8 @@ function VirtualGarden({
   dailyProgress,
   minimalistMode = false,
   dailyGoal,
+  userDifficulty,
+  onDifficultyChange,
 }) {
   const ecosystemState = useMemo(() => {
     const growthLevel = Math.floor(points / 5);
@@ -239,6 +241,60 @@ function VirtualGarden({
     }
   };
 
+  const todayKey = new Date().toDateString();
+  const [checkInDone, setCheckInDone] = useState(
+    () => localStorage.getItem('cfg_workload_checkin_date') === todayKey,
+  );
+  const [checkInDemand, setCheckInDemand] = useState(null);
+  const [checkInFocus, setCheckInFocus] = useState(null);
+  const [difficultyNote, setDifficultyNote] = useState(null);
+
+  const submitWorkloadCheckIn = (demand, focus) => {
+    let history = [];
+    try {
+      history = JSON.parse(
+        localStorage.getItem('cfg_workload_history') || '[]',
+      );
+    } catch {
+      history = [];
+    }
+    history.push({ date: todayKey, demand, focus });
+    localStorage.setItem(
+      'cfg_workload_history',
+      JSON.stringify(history.slice(-14)),
+    );
+    localStorage.setItem('cfg_workload_checkin_date', todayKey);
+    setCheckInDone(true);
+
+    // Adaptive throttle: only look at the two most recent check-ins so one
+    // rough day doesn't permanently recalibrate difficulty. Transparent by
+    // design (Heumader et al.) — we always tell the user what changed and
+    // that it's reversible in Settings, never adjust silently.
+    const lastTwo = history.slice(-2);
+    if (
+      lastTwo.length === 2 &&
+      lastTwo.every((entry) => entry.demand >= 4) &&
+      userDifficulty > 1 &&
+      onDifficultyChange
+    ) {
+      onDifficultyChange(userDifficulty - 1);
+      setDifficultyNote('eased');
+    } else if (
+      lastTwo.length === 2 &&
+      lastTwo.every((entry) => entry.demand <= 2) &&
+      userDifficulty < 4 &&
+      onDifficultyChange
+    ) {
+      onDifficultyChange(userDifficulty + 1);
+      setDifficultyNote('raised');
+    }
+  };
+
+  const skipWorkloadCheckIn = () => {
+    localStorage.setItem('cfg_workload_checkin_date', todayKey);
+    setCheckInDone(true);
+  };
+
   const earnedTrophies = useMemo(() => {
     const themeMonuments = {
       Natur: [
@@ -439,6 +495,129 @@ function VirtualGarden({
               className={`mt-1 text-[10px] font-bold sm:text-xs ${isHighContrast ? 'text-white' : 'text-emerald-600'}`}
             >
               {t('shareCopied')}
+            </p>
+          )}
+
+          {todayStats && todayStats.total > 0 && !checkInDone && (
+            <div
+              className={`mt-4 w-full max-w-[280px] rounded-2xl border-2 p-3 transition-all sm:mt-6 sm:max-w-xs sm:rounded-3xl sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 delay-700 duration-700'} ${isHighContrast ? 'border-white/30 bg-black text-white' : `${themeStyles?.border || 'border-slate-100'} bg-[#FCFBF9] text-slate-700 shadow-sm`}`}
+            >
+              <h3 className="mb-3 text-center text-[10px] font-black tracking-widest break-words text-slate-600 uppercase sm:mb-4 sm:text-xs">
+                {t('workloadCheckInTitle')}
+              </h3>
+
+              <div className="mb-3 sm:mb-4">
+                <p
+                  className={`mb-2 text-center text-xs font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+                >
+                  {t('workloadDemandQuestion')}
+                </p>
+                <div
+                  className="flex items-center justify-center gap-1.5 sm:gap-2"
+                  role="radiogroup"
+                  aria-label={t('workloadDemandQuestion')}
+                >
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      role="radio"
+                      aria-checked={checkInDemand === n}
+                      onClick={() => setCheckInDemand(n)}
+                      className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-black transition-all active:scale-95 sm:h-10 sm:w-10 sm:text-sm ${
+                        checkInDemand === n
+                          ? isHighContrast
+                            ? 'border-white bg-white text-black'
+                            : `border-amber-500 bg-amber-500 text-white`
+                          : isHighContrast
+                            ? 'border-white/30 text-white/60'
+                            : 'border-slate-200 text-slate-500'
+                      }`}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+                <div
+                  className={`mt-1 flex justify-between text-[9px] font-bold uppercase sm:text-[10px] ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}
+                >
+                  <span>{t('workloadLow')}</span>
+                  <span>{t('workloadHigh')}</span>
+                </div>
+              </div>
+
+              <div className="mb-3 sm:mb-4">
+                <p
+                  className={`mb-2 text-center text-xs font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+                >
+                  {t('workloadFocusQuestion')}
+                </p>
+                <div
+                  className="flex items-center justify-center gap-1.5 sm:gap-2"
+                  role="radiogroup"
+                  aria-label={t('workloadFocusQuestion')}
+                >
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      role="radio"
+                      aria-checked={checkInFocus === n}
+                      onClick={() => setCheckInFocus(n)}
+                      className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-black transition-all active:scale-95 sm:h-10 sm:w-10 sm:text-sm ${
+                        checkInFocus === n
+                          ? isHighContrast
+                            ? 'border-white bg-white text-black'
+                            : `border-emerald-500 bg-emerald-500 text-white`
+                          : isHighContrast
+                            ? 'border-white/30 text-white/60'
+                            : 'border-slate-200 text-slate-500'
+                      }`}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+                <div
+                  className={`mt-1 flex justify-between text-[9px] font-bold uppercase sm:text-[10px] ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}
+                >
+                  <span>{t('workloadFocusLow')}</span>
+                  <span>{t('workloadFocusHigh')}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={skipWorkloadCheckIn}
+                  className={`text-[10px] font-bold uppercase underline sm:text-xs ${isHighContrast ? 'text-white/60' : 'text-slate-400'}`}
+                >
+                  {t('skip')}
+                </button>
+                <button
+                  type="button"
+                  disabled={checkInDemand === null || checkInFocus === null}
+                  onClick={() =>
+                    submitWorkloadCheckIn(checkInDemand, checkInFocus)
+                  }
+                  className={`rounded-full px-4 py-1.5 text-[10px] font-black tracking-widest uppercase transition-all active:scale-95 disabled:opacity-40 sm:px-6 sm:py-2 sm:text-xs ${isHighContrast ? 'border border-white bg-black text-white' : `${themeStyles?.button || 'bg-indigo-500'} ${themeStyles?.buttonText || 'text-white'}`}`}
+                >
+                  {t('workloadSubmit')}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {checkInDone && difficultyNote && (
+            <p
+              role="status"
+              className={`mt-4 max-w-xs px-2 text-center text-[10px] font-bold sm:text-xs ${isHighContrast ? 'text-white' : 'text-indigo-600'}`}
+            >
+              {t(
+                difficultyNote === 'eased'
+                  ? 'workloadEasedNote'
+                  : 'workloadRaisedNote',
+              )}
             </p>
           )}
 

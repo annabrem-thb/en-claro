@@ -591,6 +591,10 @@ function AppContent() {
                   dailyProgress={dailyProgress}
                   dailyGoal={dailyGoal}
                   minimalistMode={!!settings.minimalistMode}
+                  userDifficulty={userDifficulty}
+                  onDifficultyChange={(val) =>
+                    updateSetting('userDifficulty', val)
+                  }
                 />
               </Suspense>
             </div>
