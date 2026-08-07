@@ -7,6 +7,11 @@ import { getAllLogs } from '../utils/indexedDB.js';
 import { WeeklyCalendar } from './WeeklyCalendar.jsx';
 import BionicText from './common/BionicText.jsx';
 
+// Matches App.jsx/useExerciseSession.js — kept local rather than shared
+// since this is the only other place that needs to turn raw points into a
+// level number (for the share summary).
+const POINTS_PER_LEVEL = 5;
+
 function VirtualGarden({
   points,
   streak,
@@ -195,6 +200,45 @@ function VirtualGarden({
     };
   }, [isFullScreen, points]);
 
+  const [justCopied, setJustCopied] = useState(false);
+
+  const handleShare = async () => {
+    const level = Math.floor(points / POINTS_PER_LEVEL) + 1;
+
+    const today = new Date();
+    let goalDaysThisWeek = 0;
+    for (let i = 0; i < 7; i++) {
+      const date = new Date();
+      date.setDate(today.getDate() - i);
+      if ((dailyProgress[date.toDateString()]?.points || 0) >= dailyGoal) {
+        goalDaysThisWeek += 1;
+      }
+    }
+
+    const text = [
+      t('sharePoints', { count: points }),
+      t('shareLevel', { count: level }),
+      t('shareStreak', { count: maxStreak }),
+      t('shareGoalDays', { count: goalDaysThisWeek }),
+    ].join('\n');
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: t('shareTitle'), text });
+      } catch (err) {
+        // AbortError just means the user closed the native share sheet —
+        // not a failure worth surfacing.
+        if (err.name !== 'AbortError') {
+          console.warn('Failed to share progress', err);
+        }
+      }
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(text);
+      setJustCopied(true);
+      setTimeout(() => setJustCopied(false), 2500);
+    }
+  };
+
   const earnedTrophies = useMemo(() => {
     const themeMonuments = {
       Natur: [
@@ -380,6 +424,23 @@ function VirtualGarden({
             theme={theme}
             noFlash={noFlash}
           />
+
+          <button
+            type="button"
+            onClick={handleShare}
+            className={`mt-3 flex shrink-0 items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-black tracking-widest uppercase transition-all active:scale-95 sm:mt-4 sm:px-6 sm:py-2.5 sm:text-sm ${isHighContrast ? 'border border-white bg-black text-white' : `${themeStyles?.button || 'bg-indigo-500'} ${themeStyles?.buttonText || 'text-white'} shadow-md hover:brightness-110`}`}
+          >
+            <span aria-hidden="true">📤</span>
+            {t('shareProgress')}
+          </button>
+          {justCopied && (
+            <p
+              role="status"
+              className={`mt-1 text-[10px] font-bold sm:text-xs ${isHighContrast ? 'text-white' : 'text-emerald-600'}`}
+            >
+              {t('shareCopied')}
+            </p>
+          )}
 
           {todayStats && todayStats.total > 0 && (
             <div
