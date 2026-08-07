@@ -13,6 +13,7 @@ import { useRegisterSW } from 'virtual:pwa-register/react';
 
 import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotifications.js';
 import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
+import { useDocumentTitle } from '../hooks/useDocumentTitle.js';
 import { useExerciseSession } from '../hooks/useExerciseSession.js';
 import { useGlobalTTS } from '../hooks/useGlobalTTS.js';
 import { useHapticFeedback } from '../hooks/useHapticFeedback.js';
@@ -239,6 +240,15 @@ function AppContent() {
 
   const { t } = useTranslation();
 
+  const documentTitleSegment = showIntro
+    ? null
+    : settingsOpen
+      ? t('settings') || 'Settings'
+      : activeTab === 'Garden'
+        ? t('garden') || 'Garden'
+        : t('pillars', { returnObjects: true })?.[activeTab] || activeTab;
+  useDocumentTitle(documentTitleSegment);
+
   const themeStyles = THEMES[theme] || THEMES.Natur;
   const noFlash = settings.noFlash || settings.motion;
   const bigTargets = settings.bigTargets || settings.motorik;
@@ -436,7 +446,9 @@ function AppContent() {
 
   const renderCurrentExercise = () => {
     if (isTransitioning) {
-      return <SkeletonLoader isHighContrast={isHighContrast} />;
+      return (
+        <SkeletonLoader isHighContrast={isHighContrast} noFlash={noFlash} />
+      );
     }
 
     return (
@@ -469,7 +481,11 @@ function AppContent() {
 
   if (settingsOpen) {
     return (
-      <Suspense fallback={<SkeletonLoader isHighContrast={isHighContrast} />}>
+      <Suspense
+        fallback={
+          <SkeletonLoader isHighContrast={isHighContrast} noFlash={noFlash} />
+        }
+      >
         <SettingsModal
           open={true}
           onClose={() => setSettingsOpen(false)}
@@ -554,7 +570,12 @@ function AppContent() {
               className={`h-full w-full flex-1 py-2 ${noFlash ? '' : 'animate-in fade-in slide-in-from-bottom-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
             >
               <Suspense
-                fallback={<SkeletonLoader isHighContrast={isHighContrast} />}
+                fallback={
+                  <SkeletonLoader
+                    isHighContrast={isHighContrast}
+                    noFlash={noFlash}
+                  />
+                }
               >
                 <VirtualGarden
                   points={points}
@@ -807,12 +828,15 @@ function AppContent() {
             setShowFeedback(false);
             goNext();
           }}
+          aria-label={t('close') || 'Close'}
           className="scale-size-10 absolute top-4 right-4 z-10 flex items-center justify-center rounded-full bg-slate-100 font-bold text-slate-500 transition-colors hover:bg-slate-200"
         >
           ✕
         </button>
 
-        <Suspense fallback={<SkeletonLoader isHighContrast={false} />}>
+        <Suspense
+          fallback={<SkeletonLoader isHighContrast={false} noFlash={noFlash} />}
+        >
           <SurveyComponent />
         </Suspense>
       </Dialog>

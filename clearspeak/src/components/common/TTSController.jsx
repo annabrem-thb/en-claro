@@ -13,9 +13,13 @@ export default function TTSController({
   const { t } = useTranslation();
 
   useEffect(() => {
+    // Optional-chained like every other `window.speechSynthesis` access in
+    // this codebase (see useGlobalTTS.js, useExerciseVoice.jsx, etc.) — a
+    // browser/context without the Web Speech API would otherwise throw here
+    // every 200ms for as long as this button stays mounted.
     const interval = setInterval(() => {
-      setIsSpeaking(window.speechSynthesis.speaking);
-      setIsPaused(window.speechSynthesis.paused);
+      setIsSpeaking(window.speechSynthesis?.speaking || false);
+      setIsPaused(window.speechSynthesis?.paused || false);
     }, 200);
     return () => clearInterval(interval);
   }, []);

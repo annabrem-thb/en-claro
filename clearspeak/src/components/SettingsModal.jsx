@@ -384,6 +384,28 @@ export default function SettingsModal({ open, onClose, speak }) {
     TABS.push({ id: 'shop', label: t('tabShop') });
   }
 
+  // WAI-ARIA APG "Tabs" keyboard pattern: the roving tabIndex below (only
+  // the active tab is in the Tab order) means Left/Right/Home/End are the
+  // *only* way to reach the other tab buttons — without this handler, Tab
+  // skips straight from the active tab button into the panel content and
+  // the inactive tabs (including the Accessibility tab itself) become
+  // completely unreachable by keyboard.
+  const handleTabKeyDown = (e) => {
+    const currentIndex = TABS.findIndex((tab) => tab.id === activeTab);
+    let nextIndex;
+    if (e.key === 'ArrowRight') nextIndex = (currentIndex + 1) % TABS.length;
+    else if (e.key === 'ArrowLeft')
+      nextIndex = (currentIndex - 1 + TABS.length) % TABS.length;
+    else if (e.key === 'Home') nextIndex = 0;
+    else if (e.key === 'End') nextIndex = TABS.length - 1;
+    else return;
+
+    e.preventDefault();
+    const nextTab = TABS[nextIndex];
+    setActiveTab(nextTab.id);
+    document.getElementById(`settings-tab-${nextTab.id}`)?.focus();
+  };
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 'general':
@@ -430,6 +452,7 @@ export default function SettingsModal({ open, onClose, speak }) {
         <nav
           role="tablist"
           aria-label={t('settingsTitle')}
+          onKeyDown={handleTabKeyDown}
           className={`flex shrink-0 flex-row space-x-1 overflow-x-auto border-b p-2 md:flex-col md:space-y-1 md:space-x-0 md:overflow-y-auto md:border-r md:border-b-0 ${settings.contrast ? 'border-white/20' : 'border-slate-200'}`}
         >
           {TABS.map((tab) => (
