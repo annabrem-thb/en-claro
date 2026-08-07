@@ -101,6 +101,7 @@ const GeneralTab = ({ speak }) => {
       t('appMode'),
       `${t('v1Label')}. ${t('v1Desc')}`,
       `${t('v2Label')}. ${t('v2Desc')}`,
+      t('dailyGoal'),
     ].filter(Boolean);
     let delayAcc = 0;
     segments.forEach((segment) => {
@@ -140,6 +141,27 @@ const GeneralTab = ({ speak }) => {
             <p className="font-bold text-slate-800">{t('v2Label')}</p>
             <p className="text-xs text-slate-500">{t('v2Desc')}</p>
           </button>
+        </div>
+      </div>
+      <div>
+        <h3 className="mb-2 px-3 text-sm font-bold text-slate-500">
+          {t('dailyGoal')}
+        </h3>
+        <div className="grid grid-cols-2 gap-2">
+          {[5, 10, 15, 20].map((minutes) => (
+            <button
+              key={minutes}
+              onClick={() => {
+                updateSetting('dailyGoal', minutes);
+                if (settings.voiceAssistant && speak)
+                  speak(t(`goal${minutes}`));
+              }}
+              aria-pressed={settings.dailyGoal === minutes}
+              className={`rounded-xl border-2 p-4 text-left ${settings.dailyGoal === minutes ? 'border-amber-500 bg-amber-50' : 'bg-white hover:border-slate-300'}`}
+            >
+              <p className="font-bold text-slate-800">{t(`goal${minutes}`)}</p>
+            </button>
+          ))}
         </div>
       </div>
     </div>
