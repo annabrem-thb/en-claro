@@ -37,6 +37,7 @@ function GraphemeExercise({
   bionicReading = false,
   zenMode = false,
   voiceAssistant = false,
+  isHighContrast = false,
 }) {
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
@@ -163,7 +164,7 @@ function GraphemeExercise({
             className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
               isListening
                 ? pulseClass + ' text-white'
-                : `${themeStyles.button} text-white hover:brightness-110`
+                : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
             }`}
             aria-label={isListening ? t('listening') : t('speakOptionNumber')}
             aria-pressed={isListening}
@@ -174,13 +175,17 @@ function GraphemeExercise({
       )}
 
       {transcript && (
-        <p className="mb-2 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-3 sm:text-xs">
+        <p
+          className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-3 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        >
           {t('heard')}: <span className="text-slate-600">{transcript}</span>
         </p>
       )}
 
       {!zenMode && (
-        <h3 className="mx-auto mb-3 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.15em] text-slate-500 uppercase sm:mb-6 sm:text-[11px]">
+        <h3
+          className={`mx-auto mb-3 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.15em] uppercase sm:mb-6 sm:text-[11px] ${isHighContrast ? 'text-white/50' : 'text-slate-500'}`}
+        >
           <BionicText text={questionText} enabled={bionicReading} />
         </h3>
       )}
@@ -199,11 +204,18 @@ function GraphemeExercise({
                 ? 'text-white opacity-50 grayscale'
                 : activeHighlight === i
                   ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
-                  : `${themeStyles.button} text-white hover:brightness-105`
+                  : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-105`
             }`}
           >
             <span
-              className="absolute top-3 left-4 text-xs font-black text-white/50 sm:top-4 sm:left-5 sm:text-sm"
+              // `text-white/50` used to sit unconditionally on this badge
+              // regardless of button state — against the theme's own button
+              // color (the default, non-highlighted state) that blended out
+              // to 1.76–2.15:1 on every theme, nowhere near 4.5:1.
+              // `themeStyles.buttonText` is already proven safe (5.32–7.34:1)
+              // against that same background for the option text right next
+              // to it, and reads fine against the yellow highlight state too.
+              className={`absolute top-3 left-4 text-xs font-black sm:top-4 sm:left-5 sm:text-sm ${isListening ? 'text-white' : themeStyles.buttonText}`}
               aria-hidden="true"
             >
               {i + 1}

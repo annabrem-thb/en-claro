@@ -109,6 +109,7 @@
   "settingsFooter": "Ihre Einstellungen werden automatisch gespeichert.",
   "tabGeneral": "Allgemein",
   "tabA11y": "Komfort",
+  "tabExercises": "Übungen",
   "tabVoice": "Stimme",
   "tabShop": "Shop",
   "tabGame": "Spiel",
@@ -207,6 +208,26 @@
     "cognitiveBreaks": {
       "name": "Pausenerinnerungen",
       "desc": "Die App schlägt nach einer Reihe von Fehlern eine Pause vor"
+    }
+  },
+  "exerciseManager": {
+    "intro": "Schalte Übungstypen aus, die du als überflüssig empfindest oder bereits beherrschst — sie werden in dieser Säule nicht mehr ausgewählt.",
+    "selectAll": "Alle auswählen",
+    "deselectAll": "Alle abwählen",
+    "lastActiveWarning": "In jeder Säule muss mindestens eine Übung aktiv bleiben.",
+    "types": {
+      "phonemes": "Phonembewusstsein",
+      "syllables": "Silbensegmentierung",
+      "graphemes": "Graphemregeln",
+      "scrabble": "Wortsynthese",
+      "lcwc": "Schau-Verdecke-Schreib-Prüf",
+      "context": "Lückentext",
+      "dictation": "Diktat",
+      "readAloud": "Lautes Vorlesen",
+      "clock": "Uhrzeit lesen",
+      "tracking": "Räumliche Zuordnung",
+      "categorization": "Tippe-zur-Kategorie",
+      "sequences": "Sequenzierung"
     }
   },
   "bionicExplanation": "Bionic Reading® ist eine typografische Methode, die den Lesefluss unterstützt.",

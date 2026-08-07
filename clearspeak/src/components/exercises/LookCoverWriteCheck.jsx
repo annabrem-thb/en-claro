@@ -59,7 +59,7 @@ function LookCoverWriteCheck({
       <div className="animate-in fade-in flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 duration-500">
         {!zenMode && (
           <h2
-            className="mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4 sm:text-xs"
+            className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
             aria-live="polite"
           >
             {t('lookAndListen') || 'Step 1: Study the word'}
@@ -106,7 +106,7 @@ function LookCoverWriteCheck({
       <div className="animate-in slide-in-from-right-4 fade-in flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 duration-500">
         {!zenMode && (
           <h2
-            className="mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4 sm:text-xs"
+            className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
             aria-live="polite"
           >
             {t('typeFromMemory') || 'Step 2: Type from memory'}
@@ -154,7 +154,7 @@ function LookCoverWriteCheck({
       <div className="animate-in slide-in-from-bottom-4 fade-in flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 duration-500">
         {!zenMode && (
           <h2
-            className="mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4 sm:text-xs"
+            className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
             aria-live="polite"
           >
             {t('compareSpelling') || 'Step 3: Comparison'}

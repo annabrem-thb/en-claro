@@ -212,7 +212,7 @@ function VisualCategorization({
     >
       {!zenMode && (
         <h2
-          className="mx-auto max-w-[65ch] shrink-0 px-4 text-center text-xs font-black tracking-[0.15em] text-slate-600 uppercase sm:text-sm"
+          className={`mx-auto max-w-[65ch] shrink-0 px-4 text-center text-xs font-black tracking-[0.15em] uppercase sm:text-sm ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
           aria-live="polite"
         >
           <BionicText

@@ -63,6 +63,16 @@ test.describe('Accessibility (axe-core)', () => {
     await page.evaluate(() => window.localStorage.clear());
   });
 
+  // The bare `/` intro screen — every other test below navigates past it via
+  // skipIntro(), so without this it was the one route never scanned on its
+  // own despite being the very first thing every real visitor sees.
+  test('Intro screen has no WCAG 2.1 A/AA violations', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('main')).toBeVisible();
+    const results = await runAxe(page);
+    expect(results.violations, formatViolations(results)).toEqual([]);
+  });
+
   // Each pillar draws from a different set of exercise components (Literacy:
   // phoneme/grapheme/syllable/scrabble/context/dictation/readAloud/lcwc,
   // Visual: clock/spatial, Cognitive: categorization/sequence) with their own

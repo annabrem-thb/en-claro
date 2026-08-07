@@ -2,9 +2,11 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
+import { EXERCISE_PILLARS } from '../data/exerciseTypes.js';
 import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 
+import ExerciseToggleManager from './ExerciseToggleManager.jsx';
 import { useGamification } from './GamificationContext.jsx';
 import { useUserSettingsContext } from './UserSettingsContext.jsx';
 import BionicText from './common/BionicText.jsx';
@@ -55,6 +57,13 @@ const SettingToggle = ({
     <button
       role="switch"
       aria-checked={checked}
+      // The visible label/description above are separate sibling <p>
+      // elements, not children of this button, so without an explicit
+      // accessible name a screen reader announces every one of these
+      // switches identically as just "switch, not checked" — indistinguishable
+      // from each other. (Caught by an axe-core sweep: `button-name`,
+      // critical impact, all 14 switches on this tab.)
+      aria-label={label}
       onClick={onChange}
       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${checked ? 'bg-emerald-500' : isHighContrast ? 'bg-white/30' : 'bg-slate-200'}`}
     >
@@ -366,6 +375,46 @@ const ShopTab = ({ speak }) => {
   );
 };
 
+const ExercisesTab = ({ speak }) => {
+  const { t } = useTranslation();
+  const { settings } = useUserSettingsContext();
+  const bigTargets = !!(settings.bigTargets || settings.motorik);
+  const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
+
+  useEffect(() => {
+    return () => {
+      clearAllTimeouts();
+      window.speechSynthesis?.cancel();
+    };
+  }, [clearAllTimeouts]);
+
+  // Same "lead with the tab name, then read the group labels" pattern as
+  // the other tabs — individual exercise-type names aren't read here (there
+  // are 12 of them; unlike A11yTab's shorter list, reading all of them on
+  // every tab visit would make voice assistant users wait a long time for a
+  // list most will never need read aloud, since each switch already has its
+  // own accessible name for on-demand screen-reader review).
+  const readExercisesTab = useCallback(() => {
+    if (!speak) return;
+    clearAllTimeouts();
+    const segments = [
+      t('tabExercises'),
+      ...Object.keys(EXERCISE_PILLARS).map((pillarKey) =>
+        t(`pillars.${pillarKey}`, pillarKey),
+      ),
+    ];
+    let delayAcc = 0;
+    segments.forEach((segment) => {
+      setSafeTimeout(() => speak(segment), delayAcc);
+      delayAcc += segment.length * 70 + 700;
+    });
+  }, [speak, t, setSafeTimeout, clearAllTimeouts]);
+
+  useAutoReadAloud(!!settings.voiceAssistant, readExercisesTab);
+
+  return <ExerciseToggleManager t={t} bigTargets={bigTargets} />;
+};
+
 export default function SettingsModal({ open, onClose, speak }) {
   const { t } = useTranslation();
   const { settings } = useUserSettingsContext();
@@ -378,6 +427,7 @@ export default function SettingsModal({ open, onClose, speak }) {
       id: 'a11y',
       label: t('tabA11y'),
     },
+    { id: 'exercises', label: t('tabExercises') },
   ];
 
   if (isGamified) {
@@ -412,6 +462,8 @@ export default function SettingsModal({ open, onClose, speak }) {
         return <GeneralTab speak={speak} />;
       case 'a11y':
         return <A11yTab speak={speak} />;
+      case 'exercises':
+        return <ExercisesTab speak={speak} />;
       case 'shop':
         return <ShopTab speak={speak} />;
       default:
@@ -449,7 +501,15 @@ export default function SettingsModal({ open, onClose, speak }) {
       {}
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden md:flex-row">
         {}
+        {/* jsx-a11y's non-interactive-to-interactive-role check doesn't
+            recognize `role="tablist"` as a valid pairing for <nav> — but
+            this is the standard WAI-ARIA APG Tabs pattern (a <nav> landmark
+            containing the tablist is explicitly permitted), and this exact
+            markup has already been verified against real axe-core scans
+            with 0 violations. Restructuring to a plain <div> to satisfy the
+            linter would lose the landmark for no accessibility gain. */}
         <nav
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
           role="tablist"
           aria-label={t('settingsTitle')}
           onKeyDown={handleTabKeyDown}
@@ -480,11 +540,17 @@ export default function SettingsModal({ open, onClose, speak }) {
         </nav>
 
         {}
+        {/* Likewise, `tabIndex={0}` on a `role="tabpanel"` container is the
+            WAI-ARIA APG-recommended pattern (lets a screen reader/keyboard
+            user land directly on the panel after switching tabs, rather
+            than skipping straight past it to whatever's focusable inside),
+            not an accidental non-interactive-element tabIndex. */}
         <div
           className="flex-1 overflow-y-auto p-4"
           role="tabpanel"
           id={`settings-panel-${activeTab}`}
           aria-labelledby={`settings-tab-${activeTab}`}
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
         >
           {renderTabContent()}

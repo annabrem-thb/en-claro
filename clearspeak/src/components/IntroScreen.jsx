@@ -113,7 +113,7 @@ function IntroScreen({ onStart, speak }) {
     <button
       onClick={onClick}
       aria-pressed={active}
-      className={`relative ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2'} flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border-2 px-1 text-[10px] leading-tight font-bold transition-all active:scale-95 sm:text-[11px] ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm') : isHighContrast ? 'border-white/30 text-white/50 hover:border-white/50' : 'border-slate-100 text-slate-500 hover:border-slate-300'}`}
+      className={`relative ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2'} flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border-2 px-1 text-xs leading-tight font-bold transition-all active:scale-95 sm:text-sm ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm') : isHighContrast ? 'border-white/30 text-white/50 hover:border-white/50' : 'border-slate-100 text-slate-500 hover:border-slate-300'}`}
     >
       {active && (
         <div
@@ -141,7 +141,14 @@ function IntroScreen({ onStart, speak }) {
       />
 
       {}
-      <div
+      {/* This is the very first screen most visitors (and any automated
+          landmark scanner) hit — App.jsx returns straight to IntroScreen
+          while `showIntro` is true, before the <main>/<nav> shell further
+          down in App.jsx ever mounts. Without its own landmark here, a
+          region-based audit (WAVE, axe "Regions") correctly reports zero
+          landmarks on this screen even though the rest of the app has them. */}
+      <main
+        id="main-content"
         className={`no-scrollbar relative z-10 flex max-h-[98vh] min-h-0 w-full max-w-lg shrink flex-col items-center overflow-y-auto rounded-[2rem] px-3 py-3 text-center shadow-2xl transition-all sm:px-6 sm:py-5 ${
           isHighContrast
             ? 'border-2 border-white bg-black'
@@ -165,7 +172,7 @@ function IntroScreen({ onStart, speak }) {
           </h1>
 
           <p
-            className={`mb-2 max-w-sm shrink-0 text-[10px] leading-snug font-bold sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}
+            className={`mb-2 max-w-sm shrink-0 text-xs leading-snug font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}
           >
             <BionicText
               text={t(
@@ -178,11 +185,25 @@ function IntroScreen({ onStart, speak }) {
 
           {}
           <fieldset className="m-0 mb-2 grid w-full shrink-0 grid-cols-3 gap-1 border-none p-0 sm:gap-1.5">
-            <legend className="mb-1 w-full p-0 text-left text-[10px] font-black tracking-widest text-slate-600 uppercase sm:text-center sm:text-xs">
-              <BionicText
-                text={t('intro.chooseLanguage', 'Language')}
-                enabled={hasBionic}
-              />
+            {/* HTML's content model for <legend> explicitly permits a single
+                heading element (h1-h6) as its entire content, alongside
+                plain phrasing content — so this <h2> gives the group a real,
+                axe-valid heading (reachable via screen-reader heading
+                navigation, the "H" key in NVDA/JAWS) while the <legend>
+                still supplies the <fieldset>'s accessible name from that
+                same text, same as before. (A `role="heading"` attribute
+                directly on <legend> looked equivalent but fails axe's
+                aria-allowed-role check — legend isn't in the allowed-role
+                list for that role.) */}
+            <legend className="mb-1 w-full p-0 text-left sm:text-center">
+              <h2
+                className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
+              >
+                <BionicText
+                  text={t('intro.chooseLanguage', 'Language')}
+                  enabled={hasBionic}
+                />
+              </h2>
             </legend>
             {LANGUAGES.map(({ code, flag, label }) => (
               <button
@@ -191,7 +212,7 @@ function IntroScreen({ onStart, speak }) {
                   updateSetting('language', code);
                   if (settings.voiceAssistant && speak) speak(label);
                 }}
-                className={`flex flex-row items-center justify-center gap-1 rounded-xl border-2 text-[10px] font-bold transition-all active:scale-95 sm:gap-1.5 sm:text-xs ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2.5'} ${
+                className={`flex flex-row items-center justify-center gap-1 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:gap-1.5 sm:text-sm ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2.5'} ${
                   language === code
                     ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-md shadow-indigo-500/10'}`
                     : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300'}`
@@ -213,11 +234,25 @@ function IntroScreen({ onStart, speak }) {
           </fieldset>
 
           <fieldset className="m-0 mb-2 grid w-full shrink-0 grid-cols-2 gap-1 border-none p-0 sm:gap-1.5">
-            <legend className="mb-1 w-full p-0 text-left text-[10px] font-black tracking-widest text-slate-600 uppercase sm:text-center sm:text-xs">
-              <BionicText
-                text={t('intro.appMode', 'Mode')}
-                enabled={hasBionic}
-              />
+            {/* HTML's content model for <legend> explicitly permits a single
+                heading element (h1-h6) as its entire content, alongside
+                plain phrasing content — so this <h2> gives the group a real,
+                axe-valid heading (reachable via screen-reader heading
+                navigation, the "H" key in NVDA/JAWS) while the <legend>
+                still supplies the <fieldset>'s accessible name from that
+                same text, same as before. (A `role="heading"` attribute
+                directly on <legend> looked equivalent but fails axe's
+                aria-allowed-role check — legend isn't in the allowed-role
+                list for that role.) */}
+            <legend className="mb-1 w-full p-0 text-left sm:text-center">
+              <h2
+                className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
+              >
+                <BionicText
+                  text={t('intro.appMode', 'Mode')}
+                  enabled={hasBionic}
+                />
+              </h2>
             </legend>
             <button
               onClick={() => {
@@ -225,7 +260,7 @@ function IntroScreen({ onStart, speak }) {
                 if (settings.voiceAssistant && speak)
                   speak(t('intro.modeClassic', 'Learning Only'));
               }}
-              className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-[10px] font-bold transition-all active:scale-95 sm:text-xs ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
+              className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
                 !isGamified
                   ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-md'}`
                   : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300'}`
@@ -251,7 +286,7 @@ function IntroScreen({ onStart, speak }) {
                 if (settings.voiceAssistant && speak)
                   speak(t('intro.modeGamified', 'Gamified'));
               }}
-              className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-[10px] font-bold transition-all active:scale-95 sm:text-xs ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
+              className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
                 isGamified
                   ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md'}`
                   : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-emerald-300'}`
@@ -274,11 +309,25 @@ function IntroScreen({ onStart, speak }) {
           </fieldset>
 
           <fieldset className="m-0 mb-2 grid w-full shrink-0 grid-cols-2 gap-1 border-none p-0 sm:mb-3 sm:grid-cols-3 sm:gap-1.5">
-            <legend className="mb-1 w-full p-0 text-left text-[10px] font-black tracking-widest text-slate-600 uppercase sm:text-center sm:text-xs">
-              <BionicText
-                text={t('intro.a11y', 'Comfort Tools')}
-                enabled={hasBionic}
-              />
+            {/* HTML's content model for <legend> explicitly permits a single
+                heading element (h1-h6) as its entire content, alongside
+                plain phrasing content — so this <h2> gives the group a real,
+                axe-valid heading (reachable via screen-reader heading
+                navigation, the "H" key in NVDA/JAWS) while the <legend>
+                still supplies the <fieldset>'s accessible name from that
+                same text, same as before. (A `role="heading"` attribute
+                directly on <legend> looked equivalent but fails axe's
+                aria-allowed-role check — legend isn't in the allowed-role
+                list for that role.) */}
+            <legend className="mb-1 w-full p-0 text-left sm:text-center">
+              <h2
+                className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
+              >
+                <BionicText
+                  text={t('intro.a11y', 'Comfort Tools')}
+                  enabled={hasBionic}
+                />
+              </h2>
             </legend>
             <A11yBtn
               active={hasLRS}
@@ -419,7 +468,7 @@ function IntroScreen({ onStart, speak }) {
             <BionicText text={t('start', 'Start')} enabled={hasBionic} />
           </button>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

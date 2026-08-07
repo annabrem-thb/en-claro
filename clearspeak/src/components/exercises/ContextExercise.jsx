@@ -37,6 +37,7 @@ function ContextExercise({
   bionicReading = false,
   zenMode = false,
   voiceAssistant = false,
+  isHighContrast = false,
 }) {
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
@@ -189,7 +190,9 @@ function ContextExercise({
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-start overflow-hidden px-2 pt-6 pb-2 sm:pt-10`}
     >
       {!zenMode && (
-        <h3 className="mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4">
+        <h3
+          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        >
           {t('selectCorrect') || 'Select the correct word'}
         </h3>
       )}
@@ -197,7 +200,7 @@ function ContextExercise({
       <div className="mx-auto mb-3 min-h-0 max-w-[65ch] shrink px-2 text-center text-base leading-relaxed font-bold text-slate-700 sm:mb-4 sm:text-xl md:text-2xl">
         <BionicText text={data.sentence_part1} enabled={bionicReading} />
         <span
-          className={`mx-1 border-b-4 px-3 sm:mx-2 sm:px-4 ${themeStyles.border} rounded-lg bg-slate-50 text-slate-300`}
+          className={`mx-1 border-b-4 px-3 sm:mx-2 sm:px-4 ${themeStyles.border} rounded-lg bg-slate-50 text-slate-600`}
         >
           ____
         </span>
@@ -219,7 +222,7 @@ function ContextExercise({
             className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
               isListening
                 ? pulseClass + ' text-white'
-                : `${themeStyles.button} text-white hover:brightness-110`
+                : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
             }`}
             aria-label={t('voiceInput')}
           >
@@ -252,7 +255,7 @@ function ContextExercise({
             }`}
           >
             <span
-              className="absolute top-4 left-5 text-sm font-black text-slate-300"
+              className={`absolute top-4 left-5 text-sm font-black ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
               aria-hidden="true"
             >
               {i + 1}

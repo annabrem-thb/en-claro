@@ -85,7 +85,7 @@ function DictationExercise({
     >
       {!zenMode && (
         <h3
-          className="mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4"
+          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
           aria-live="polite"
         >
           <BionicText
@@ -136,7 +136,7 @@ function DictationExercise({
             ? 'cursor-not-allowed bg-slate-200 text-slate-600'
             : isHighContrast
               ? 'bg-white text-black hover:bg-slate-200'
-              : `${themeStyles.button} text-white shadow-xl hover:brightness-110 md:shadow-md`
+              : `${themeStyles.button} ${themeStyles.buttonText} shadow-xl hover:brightness-110 md:shadow-md`
         }`}
       >
         <BionicText text={t('check') || 'Check'} enabled={bionicReading} />

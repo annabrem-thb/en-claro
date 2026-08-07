@@ -21,6 +21,7 @@ function SyllableExercise({
   bionicReading = false,
   zenMode = false,
   voiceAssistant = false,
+  isHighContrast = false,
 }) {
   const [cuts, setCuts] = useState([]);
   const [isResolved, setIsResolved] = useState(false);
@@ -198,7 +199,9 @@ function SyllableExercise({
     >
       {}
       {!zenMode && (
-        <h3 className="mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4">
+        <h3
+          className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        >
           {t('syllableInstruction') || 'Divide the word into syllables'}
         </h3>
       )}
@@ -315,7 +318,9 @@ function SyllableExercise({
 
                 {}
                 {!isResolved && (
-                  <span className="absolute -bottom-6 text-[10px] font-black text-slate-300">
+                  <span
+                    className={`absolute -bottom-6 text-[10px] font-black ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+                  >
                     {index + 1}
                   </span>
                 )}

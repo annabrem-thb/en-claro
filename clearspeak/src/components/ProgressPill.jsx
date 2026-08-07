@@ -55,7 +55,9 @@ export function ProgressPill({
             {stageName}
           </span>
         </div>
-        <span className="text-[9px] font-black text-slate-300">
+        <span
+          className={`text-[9px] font-black ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+        >
           {points} / {max}
         </span>
       </div>

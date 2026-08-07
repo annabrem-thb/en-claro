@@ -20,6 +20,7 @@ function SpatialExercise({
   bionicReading = false,
   zenMode = false,
   voiceAssistant = false,
+  isHighContrast = false,
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animation, setAnimation] = useState('');
@@ -208,7 +209,9 @@ function SpatialExercise({
       {}
       <div className="mb-2 w-full shrink-0 text-center sm:mb-4">
         {!zenMode && (
-          <h3 className="mx-auto mb-2 max-w-[65ch] text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4">
+          <h3
+            className={`mx-auto mb-2 max-w-[65ch] text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+          >
             <BionicText text={data.instruction} enabled={bionicReading} />
           </h3>
         )}

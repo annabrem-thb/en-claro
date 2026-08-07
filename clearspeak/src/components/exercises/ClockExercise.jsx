@@ -36,6 +36,7 @@ function ClockExercise({
   bionicReading = false,
   zenMode = false,
   voiceAssistant = false,
+  isHighContrast = false,
 }) {
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
@@ -197,7 +198,7 @@ function ClockExercise({
             className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-md transition-all active:scale-95 ${
               isListening
                 ? pulseClass + ' text-white'
-                : `${themeStyles.button} text-white hover:brightness-110`
+                : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
             }`}
             aria-label={isListening ? t('listening') : t('speakOptionNumber')}
             aria-pressed={isListening}
@@ -217,7 +218,9 @@ function ClockExercise({
       {}
       <div className="mb-2 flex shrink-0 flex-col items-center sm:mb-4">
         {!zenMode && (
-          <h3 className="mb-2 text-center text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4">
+          <h3
+            className={`mb-2 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+          >
             {t('clockInstruction') || 'Select the matching time'}
           </h3>
         )}
@@ -225,7 +228,9 @@ function ClockExercise({
           {data.isNight ? '🌙' : '☀️'}
         </div>
         {!zenMode && (
-          <p className="max-w-[65ch] text-xs font-medium tracking-wide text-slate-600 italic">
+          <p
+            className={`max-w-[65ch] text-xs font-medium tracking-wide italic ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+          >
             <BionicText text={data.timeAnalog} enabled={bionicReading} />
           </p>
         )}
@@ -312,7 +317,7 @@ function ClockExercise({
             }`}
           >
             <span
-              className="absolute top-2 left-3 text-xs font-black text-slate-300"
+              className={`absolute top-2 left-3 text-xs font-black ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
               aria-hidden="true"
             >
               {i + 1}

@@ -114,32 +114,43 @@ export function useExerciseSession({
   const activePillarTasks = useMemo(() => {
     if (!db) return [];
     if (activeTab === 'Garden') return [];
+
+    // Exercise Manager (Settings > Exercises): `activeExercises[dbKey] ===
+    // false` opts a specific exercise type out of its pillar's task pool.
+    // Missing/undefined keys default to active — this matters both for the
+    // "all active by default" contract and so an older saved settings blob
+    // (from before this feature existed, or missing a key added in a later
+    // release) never silently drops a whole exercise type.
+    const activeExercises = inclusiveOptions.activeExercises || {};
+    const includeIfActive = (dbKey) =>
+      activeExercises[dbKey] !== false ? db[dbKey] || [] : [];
+
     let rawTasks = [];
     switch (activeTab) {
       case 'Literacy':
         rawTasks = [
-          ...(db.phonemes || []),
-          ...(db.syllables || []),
-          ...(db.graphemes || []),
-          ...(db.scrabble || []),
-          ...(db.lcwc || []),
-          ...(db.context || []),
-          ...(db.dictation || []),
-          ...(db.readAloud || []),
+          ...includeIfActive('phonemes'),
+          ...includeIfActive('syllables'),
+          ...includeIfActive('graphemes'),
+          ...includeIfActive('scrabble'),
+          ...includeIfActive('lcwc'),
+          ...includeIfActive('context'),
+          ...includeIfActive('dictation'),
+          ...includeIfActive('readAloud'),
           ...(db.diagnostic?.filter((d) => d.pillar === 'Literacy') || []),
         ];
         break;
       case 'Visual':
         rawTasks = [
-          ...(db.clock || []),
-          ...(db.tracking || []),
+          ...includeIfActive('clock'),
+          ...includeIfActive('tracking'),
           ...(db.diagnostic?.filter((d) => d.pillar === 'Visual') || []),
         ];
         break;
       case 'Cognitive':
         rawTasks = [
-          ...(db.categorization || []),
-          ...(db.sequences || []),
+          ...includeIfActive('categorization'),
+          ...includeIfActive('sequences'),
           ...(db.diagnostic?.filter((d) => d.pillar === 'Cognitive') || []),
         ];
         break;
@@ -179,6 +190,7 @@ export function useExerciseSession({
     db,
     language,
     inclusiveOptions.adaptiveDifficulty,
+    inclusiveOptions.activeExercises,
     userDifficulty,
     cycle,
   ]);

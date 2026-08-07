@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
+import { getDefaultActiveExercises } from '../data/exerciseTypes.js';
+
 const DEFAULT_SETTINGS = {
   lrs: false,
   contrast: false,
@@ -30,6 +32,10 @@ const DEFAULT_SETTINGS = {
   dailyGoal: 5,
   userDifficulty: 2,
   appMode: 'gamified',
+  // Per-exercise-type opt-out (Exercise Manager, Settings > Exercises). All
+  // exercise types are active by default; disabling one removes it from
+  // that pillar's task pool (see activePillarTasks in useExerciseSession.js).
+  activeExercises: getDefaultActiveExercises(),
 };
 const SETTINGS_STORAGE_KEY = 'cfg_settings';
 

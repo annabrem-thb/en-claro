@@ -21,6 +21,7 @@ function SequenceExercise({
   bionicReading = false,
   zenMode = false,
   voiceAssistant = false,
+  isHighContrast = false,
 }) {
   const [prevId, setPrevId] = useState(data.id || data.correct);
 
@@ -251,7 +252,9 @@ function SequenceExercise({
       className={`${animClass} flex h-full min-h-0 w-full max-w-2xl flex-col items-center justify-start overflow-hidden px-2 pt-6 pb-2 sm:pt-10`}
     >
       {!zenMode && (
-        <h3 className="mx-auto mb-2 max-w-[65ch] shrink-0 text-center text-[10px] font-black tracking-widest break-words text-slate-600 uppercase sm:mb-4 sm:text-xs md:text-sm">
+        <h3
+          className={`mx-auto mb-2 max-w-[65ch] shrink-0 text-center text-[10px] font-black tracking-widest break-words uppercase sm:mb-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        >
           <BionicText
             text={data.instruction || t('orderCorrectly')}
             enabled={bionicReading}
@@ -279,7 +282,7 @@ function SequenceExercise({
             className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:grayscale ${
               isListening
                 ? pulseClass + ' text-white'
-                : `${themeStyles.button} text-white hover:brightness-110`
+                : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
             }`}
             aria-label={isListening ? t('listening') : t('voiceInput')}
           >
@@ -289,14 +292,19 @@ function SequenceExercise({
       )}
 
       {transcript && (
-        <p className="mb-1 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-2 sm:text-xs">
-          {t('heard')}: <span className="text-slate-600">{transcript}</span>
+        <p
+          className={`mb-1 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-2 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        >
+          {t('heard')}:{' '}
+          <span className={isHighContrast ? 'text-white' : 'text-slate-600'}>
+            {transcript}
+          </span>
         </p>
       )}
 
       <div className="no-scrollbar mb-2 flex max-h-[35vh] min-h-0 min-h-[60px] w-full shrink flex-wrap content-start gap-2 overflow-y-auto rounded-2xl border-4 border-dashed border-slate-200 bg-slate-50 p-2.5 sm:mb-4 sm:min-h-[100px] sm:gap-3 sm:rounded-3xl sm:p-4">
         {selectedWords.length === 0 && (
-          <div className="flex h-full w-full items-center justify-center px-2 text-center text-xs font-black tracking-widest text-slate-300 uppercase sm:px-4 sm:text-sm">
+          <div className="flex h-full w-full items-center justify-center px-2 text-center text-xs font-black tracking-widest text-slate-600 uppercase sm:px-4 sm:text-sm">
             <BionicText
               text={t('tapToBuild') || 'Tap words to build'}
               enabled={bionicReading}
@@ -350,7 +358,7 @@ function SequenceExercise({
         <button
           onClick={handleCheck}
           disabled={isListening || isShowingCorrection}
-          className={`px-8 py-3 sm:px-12 sm:py-4 ${themeStyles.button} mt-auto shrink-0 rounded-full text-lg font-black text-white shadow-xl transition-all active:scale-95 sm:mt-0 sm:text-xl ${noFlash ? '' : 'animate-bounce'} ${isListening || isShowingCorrection ? 'cursor-not-allowed opacity-50 grayscale' : ''}`}
+          className={`px-8 py-3 sm:px-12 sm:py-4 ${themeStyles.button} ${themeStyles.buttonText} mt-auto shrink-0 rounded-full text-lg font-black shadow-xl transition-all active:scale-95 sm:mt-0 sm:text-xl ${noFlash ? '' : 'animate-bounce'} ${isListening || isShowingCorrection ? 'cursor-not-allowed opacity-50 grayscale' : ''}`}
         >
           <BionicText text={t('check') || 'Check'} enabled={bionicReading} />
         </button>

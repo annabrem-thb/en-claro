@@ -20,6 +20,7 @@ function ReadAloudExercise({
   bionicReading,
   zenMode,
   voiceAssistant,
+  isHighContrast = false,
 }) {
   const { isListening, transcript, startListening } = useExerciseVoice(
     language,
@@ -71,7 +72,9 @@ function ReadAloudExercise({
       className={`flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}
     >
       {!zenMode && (
-        <h3 className="mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4">
+        <h3
+          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        >
           <BionicText
             text={t('readAloudTitle') || 'Read aloud'}
             enabled={bionicReading}
@@ -101,7 +104,7 @@ function ReadAloudExercise({
           className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
             isListening
               ? pulseClass + ' text-white'
-              : `${themeStyles.button} text-white hover:brightness-110`
+              : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
           }`}
           aria-label={t('voiceInput')}
         >
@@ -116,7 +119,7 @@ function ReadAloudExercise({
           </p>
           <button
             onClick={handleCheck}
-            className={`w-full rounded-full py-4 font-black tracking-widest uppercase transition-all active:scale-95 ${themeStyles.button} text-white shadow-xl hover:brightness-110`}
+            className={`w-full rounded-full py-4 font-black tracking-widest uppercase transition-all active:scale-95 ${themeStyles.button} ${themeStyles.buttonText} shadow-xl hover:brightness-110`}
           >
             <BionicText text={t('check') || 'Check'} enabled={bionicReading} />
           </button>

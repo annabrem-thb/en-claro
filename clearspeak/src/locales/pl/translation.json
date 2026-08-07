@@ -108,6 +108,7 @@
   "settingsFooter": "Twoje ustawienia są zapisywane automatycznie.",
   "tabGeneral": "Ogólne",
   "tabA11y": "Komfort",
+  "tabExercises": "Ćwiczenia",
   "tabVoice": "Głos",
   "tabShop": "Sklep",
   "tabGame": "Gra",
@@ -206,6 +207,26 @@
     "cognitiveBreaks": {
       "name": "Przypomnienia o przerwach",
       "desc": "Aplikacja zasugeruje odpoczynek po serii błędów"
+    }
+  },
+  "exerciseManager": {
+    "intro": "Wyłącz typy ćwiczeń, które uważasz za zbędne lub już opanowane — nie będą już losowane w tym filarze.",
+    "selectAll": "Zaznacz wszystkie",
+    "deselectAll": "Odznacz wszystkie",
+    "lastActiveWarning": "W każdym filarze musi pozostać aktywne co najmniej jedno ćwiczenie.",
+    "types": {
+      "phonemes": "Świadomość fonemowa",
+      "syllables": "Podział na sylaby",
+      "graphemes": "Zasady grafemów",
+      "scrabble": "Synteza słów",
+      "lcwc": "Spójrz-Zasłoń-Napisz-Sprawdź",
+      "context": "Uzupełnianie luk",
+      "dictation": "Dyktando",
+      "readAloud": "Czytanie na głos",
+      "clock": "Odczytywanie zegara",
+      "tracking": "Mapowanie przestrzenne",
+      "categorization": "Dotknij kategorię",
+      "sequences": "Sekwencjonowanie"
     }
   },
   "bionicExplanation": "Bionic Reading® to metoda typograficzna wspierająca płynność czytania.",

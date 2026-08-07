@@ -19,6 +19,7 @@ function ScrabbleExercise({
   bionicReading = false,
   zenMode = false,
   voiceAssistant = true,
+  isHighContrast = false,
 }) {
   const [userScrabble, setUserScrabble] = useState([]);
   const [activeHighlight, setActiveHighlight] = useState(null);
@@ -159,7 +160,9 @@ function ScrabbleExercise({
       {}
       <div className="mb-2 flex w-full shrink-0 flex-col items-center justify-center sm:mb-4">
         {!zenMode && (
-          <h3 className="mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4">
+          <h3
+            className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+          >
             <BionicText
               text={
                 t('scrabbleInstruction') ||

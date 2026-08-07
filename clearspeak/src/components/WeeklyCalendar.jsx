@@ -79,15 +79,23 @@ export function WeeklyCalendar({
   return (
     <div
       className={`w-full ${bigTargets ? 'p-4 sm:p-6' : 'p-3 sm:p-4'} mt-4 rounded-2xl sm:mt-8 sm:rounded-3xl ${noFlash ? '' : 'animate-in fade-in delay-700 duration-500'} ${isHighContrast ? 'border border-white/20 bg-black' : `border ${themeStyles?.border || 'border-slate-100'} bg-[#FCFBF9] shadow-sm`}`}
-      role="list"
-      aria-label={t?.('dailyGoalProgress') || 'Daily Goal Progress'}
     >
       <h3
         className={`${bigTargets ? 'mb-3 text-xs sm:mb-6 sm:text-sm' : 'mb-2 text-[10px] sm:mb-4 sm:text-xs'} text-center font-black tracking-widest break-words text-slate-600 uppercase`}
       >
         {t?.('dailyGoalProgress') || 'Daily Goal Progress'}
       </h3>
-      <div className="flex items-start justify-around gap-1 sm:gap-2">
+      {/* `role="list"` belongs here, not on the outer wrapper above: ARIA
+          requires a list's *direct* children to be listitems, but the
+          outer div's direct children were this heading and this div, with
+          the actual `role="listitem"` <Day>s two levels down — axe's
+          `aria-required-children` (critical) correctly flagged that
+          structure as invalid. */}
+      <div
+        className="flex items-start justify-around gap-1 sm:gap-2"
+        role="list"
+        aria-label={t?.('dailyGoalProgress') || 'Daily Goal Progress'}
+      >
         {weekDays.map((date, index) => {
           const isGoalMet =
             (dailyProgress[date.toDateString()]?.points || 0) >= dailyGoal;
