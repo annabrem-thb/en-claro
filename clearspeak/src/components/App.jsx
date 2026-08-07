@@ -765,6 +765,7 @@ function AppContent() {
           isHighContrast={isHighContrast}
           hideNavLabel={hideNavLabel}
           noFlash={noFlash}
+          bigTargets={bigTargets}
           t={t}
           onTabChange={handleTabChange}
           onGardenClick={handleGardenClick}

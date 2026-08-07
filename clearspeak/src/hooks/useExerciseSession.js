@@ -261,7 +261,13 @@ export function useExerciseSession({
         : voiceStreak;
       if (template) voiceSuccessMsg = template.replace(/{{count}}/g, newStreak);
     }
-    if (!inclusiveOptions.muteNotifications) speak(voiceSuccessMsg);
+    // Bug fix: this used to check only `muteNotifications`, so success/error
+    // speech ignored the global `voiceAssistant` toggle entirely — a user who
+    // turned Voice Assistant off would still hear these lines on every
+    // answer. Both flags must allow speech: the master toggle first, then
+    // the narrower "mute notifications" sub-preference.
+    if (inclusiveOptions.voiceAssistant && !inclusiveOptions.muteNotifications)
+      speak(voiceSuccessMsg);
     const newPoints = points + 1;
     setPoints(newPoints);
     if (isGamified) {
@@ -339,7 +345,10 @@ export function useExerciseSession({
       ? voiceError[Math.floor(Math.random() * voiceError.length)]
       : voiceError || "Let's look closer at this one together.";
     setFeedback({ type: 'error', msg: errorMsg });
-    if (!inclusiveOptions.muteNotifications) speak(errorMsg);
+    // Same fix as handleSuccess above: respect the global voiceAssistant
+    // toggle, not just muteNotifications.
+    if (inclusiveOptions.voiceAssistant && !inclusiveOptions.muteNotifications)
+      speak(errorMsg);
     saveLog('exercise_history', {
       date: new Date().toISOString(),
       type: activeTab,

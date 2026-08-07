@@ -15,6 +15,7 @@ function NavButton({
   themeStyles,
   hideNavLabel,
   noFlash,
+  bigTargets = false,
   activeGlow = false,
   icon,
   label,
@@ -24,7 +25,12 @@ function NavButton({
   return (
     <button
       onClick={onClick}
-      className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl p-2 transition-all duration-300 active:scale-95 ${
+      // `min-h-14` (56px) mirrors SidebarNav/the exercise Skip button's own
+      // bigTargets sizing (WCAG 2.5.5/2.5.8 target size) — without it, this
+      // bar's per-button width is only whatever `flex-1` divides the
+      // viewport into, which happily satisfies 56px on a typical phone but
+      // isn't guaranteed to (narrow devices, 5 items when Garden is shown).
+      className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl transition-all duration-300 active:scale-95 ${bigTargets ? 'min-h-14 p-3' : 'p-2'} ${
         isActive
           ? isHighContrast
             ? 'bg-white/20 font-black text-white shadow-sm'
@@ -78,6 +84,7 @@ function BottomNavComponent({
   isHighContrast,
   hideNavLabel,
   noFlash,
+  bigTargets = false,
   t,
   onTabChange,
   onGardenClick,
@@ -107,6 +114,7 @@ function BottomNavComponent({
             themeStyles={themeStyles}
             hideNavLabel={hideNavLabel}
             noFlash={noFlash}
+            bigTargets={bigTargets}
             activeGlow
             icon={PILLAR_ICONS[pillar]}
             label={label}
@@ -126,6 +134,7 @@ function BottomNavComponent({
           themeStyles={themeStyles}
           hideNavLabel={hideNavLabel}
           noFlash={noFlash}
+          bigTargets={bigTargets}
           icon={gardenIcon}
           label={t('garden') || 'Garden'}
         />
@@ -139,6 +148,7 @@ function BottomNavComponent({
         isHighContrast={isHighContrast}
         themeStyles={themeStyles}
         hideNavLabel={hideNavLabel}
+        bigTargets={bigTargets}
         icon="⚙️"
         label={t('settings') || 'Settings'}
         ariaLabel={t('settingsAria') || 'Settings'}
