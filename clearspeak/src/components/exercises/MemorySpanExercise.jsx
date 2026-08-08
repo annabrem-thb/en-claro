@@ -182,20 +182,27 @@ function MemorySpanExercise({
   const itemCount = data.displayItems?.length || data.correct?.length || 0;
   const isMany = itemCount > 4;
 
+  // `min-w`/`min-h` (not fixed `w`/`h`) so a tile grows for longer content —
+  // this component was originally exercised with single short words/digits;
+  // once real vocabulary items were wired in (multi-syllable business terms
+  // like "Zaangażowanie"), fixed-size tiles at these font sizes overflowed
+  // and overlapped neighboring tiles on every viewport. Font sizes are also
+  // a step down from the original scale so a long word wraps to 2 lines
+  // inside the tile instead of spilling past its edges.
   const tileSize = bigTargets
     ? isMany
-      ? 'w-14 h-16 sm:w-20 sm:h-24 text-2xl sm:text-4xl'
-      : 'w-20 h-24 sm:w-24 sm:h-28 text-4xl sm:text-5xl'
+      ? 'min-w-14 min-h-16 sm:min-w-20 sm:min-h-24 px-1.5 text-base sm:text-2xl'
+      : 'min-w-20 min-h-24 sm:min-w-24 sm:min-h-28 px-2 text-xl sm:text-3xl'
     : isMany
-      ? 'w-10 h-12 sm:w-16 sm:h-20 text-xl sm:text-3xl'
-      : 'w-16 h-20 sm:w-20 sm:h-24 text-3xl sm:text-4xl';
+      ? 'min-w-10 min-h-12 sm:min-w-16 sm:min-h-20 px-1 text-sm sm:text-lg'
+      : 'min-w-16 min-h-20 sm:min-w-20 sm:min-h-24 px-1.5 text-lg sm:text-2xl';
   const letterBtn = bigTargets
     ? isMany
-      ? 'w-12 h-12 sm:w-16 sm:h-16 text-lg sm:text-xl rounded-xl'
-      : 'w-16 h-16 sm:w-20 sm:h-20 text-xl sm:text-2xl rounded-3xl'
+      ? 'min-w-12 min-h-12 sm:min-w-16 sm:min-h-16 px-1 text-sm sm:text-lg rounded-xl'
+      : 'min-w-16 min-h-16 sm:min-w-20 sm:min-h-20 px-1.5 text-base sm:text-xl rounded-3xl'
     : isMany
-      ? 'w-9 h-9 sm:w-14 sm:h-14 text-base sm:text-lg rounded-lg'
-      : 'w-14 h-14 sm:w-16 sm:h-16 text-lg sm:text-2xl rounded-2xl';
+      ? 'min-w-9 min-h-9 sm:min-w-14 sm:min-h-14 px-1 text-xs sm:text-base rounded-lg'
+      : 'min-w-14 min-h-14 sm:min-w-16 sm:min-h-16 px-1 text-sm sm:text-lg rounded-2xl';
   const hintPadding = bigTargets ? 'px-8 py-4' : 'px-6 py-3';
   const controlBtnSize = bigTargets
     ? 'w-20 h-20 text-3xl'
@@ -229,7 +236,7 @@ function MemorySpanExercise({
               {data.displayItems?.map((item, i) => (
                 <div
                   key={i}
-                  className={`${tileSize} flex items-center justify-center rounded-2xl border-4 bg-white font-bold shadow-sm transition-all duration-300 sm:rounded-3xl md:shadow-none ${
+                  className={`${tileSize} flex items-center justify-center rounded-2xl border-4 bg-white text-center leading-tight font-bold wrap-break-word shadow-sm transition-all duration-300 sm:rounded-3xl md:shadow-none ${
                     activeHighlight === `mem-${i}`
                       ? 'z-10 scale-110 border-yellow-400 bg-yellow-50 shadow-xl ring-4 ring-yellow-400'
                       : themeStyles.border
@@ -312,7 +319,7 @@ function MemorySpanExercise({
                   key={index}
                   onClick={() => handleSelectItem(item)}
                   disabled={isSelected || isListening}
-                  className={`relative ${letterBtn} border-2 font-bold transition-all active:scale-90 ${
+                  className={`relative ${letterBtn} flex items-center justify-center border-2 text-center leading-tight font-bold wrap-break-word transition-all active:scale-90 ${
                     isSelected || isListening
                       ? 'cursor-default border-slate-200 bg-slate-100 text-slate-600 opacity-30'
                       : activeHighlight === index

@@ -754,6 +754,8 @@ export const wordDatabaseDE = {
         },
       ],
     },
+  ],
+  auditory: [
     {
       id: 19,
       type: 'grapheme',
@@ -907,6 +909,8 @@ export const wordDatabaseDE = {
         { text: 'Löhre', isCorrect: false, icon: '❌' },
       ],
     },
+  ],
+  vocabulary: [
     {
       id: 28,
       type: 'grapheme',
@@ -1058,180 +1062,6 @@ export const wordDatabaseDE = {
         { text: 'Bericht', isCorrect: false, icon: '❌' },
         { text: 'Vertrag', isCorrect: false, icon: '❌' },
         { text: 'Meinung', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
-      id: 37,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'deduktives Schlussfolgern — einfache Prämissen',
-      question: {
-        de: 'Prämisse 1: "Jedes Projekt, das das Budget überschreitet, benötigt die Zustimmung der Geschäftsführung." Prämisse 2: "Projekt X hat das Budget überschritten." Was folgt daraus?',
-        pl: 'Przesłanka 1: "Każdy projekt przekraczający budżet wymaga zgody zarządu." Przesłanka 2: "Projekt X przekroczył budżet." Co z tego wynika?',
-        en: 'Premise 1: "Any project exceeding budget requires executive approval." Premise 2: "Project X exceeded budget." What follows?',
-      },
-      options: [
-        {
-          text: 'Es benötigt die Zustimmung der Geschäftsführung',
-          isCorrect: true,
-          icon: '✅',
-        },
-        { text: 'Das Projekt wird abgebrochen', isCorrect: false, icon: '❌' },
-        { text: 'Das Team wird gerügt', isCorrect: false, icon: '❌' },
-        {
-          text: 'Es kann nichts geschlossen werden',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 38,
-      type: 'grapheme',
-      difficulty: 3,
-      focus: 'deduktives Schlussfolgern — Prämissenkette',
-      question: {
-        de: 'Prämisse 1: "Transaktionen über 50.000 € erfordern eine Prüfung." Prämisse 2: "Diese Transaktion beträgt 75.000 €." Prämisse 3: "Eine Prüfung dauert mindestens 5 Werktage." Was können wir schließen?',
-        pl: 'Przesłanka 1: "Transakcje powyżej 50 000 zł wymagają audytu." Przesłanka 2: "Ta transakcja wynosi 75 000 zł." Przesłanka 3: "Audyt trwa co najmniej 5 dni roboczych." Co możemy stwierdzić?',
-        en: 'Premise 1: "Transactions over $50,000 require an audit." Premise 2: "This transaction is $75,000." Premise 3: "An audit takes at least 5 business days." What can we conclude?',
-      },
-      options: [
-        {
-          text: 'Die Transaktion erfordert eine mindestens 5-tägige Prüfung',
-          isCorrect: true,
-          icon: '📋',
-        },
-        {
-          text: 'Die Transaktion wird abgelehnt',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Es ist keine Prüfung erforderlich',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Die Zustimmung des Managers allein genügt',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 39,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'induktives Schlussfolgern — Mustergeneralisierung',
-      question: {
-        de: 'Firma A: Investition in Automatisierung, Produktivität +20 %. Firma B: dasselbe, +18 %. Firma C: dasselbe, +22 %. Welches Muster legen diese Beispiele nahe?',
-        pl: 'Firma A: inwestycja w automatyzację, produktywność +20%. Firma B: to samo, +18%. Firma C: to samo, +22%. Jaki wzorzec sugerują te przykłady?',
-        en: 'Company A: invested in automation, productivity +20%. Company B: same, +18%. Company C: same, +22%. What pattern do these examples suggest?',
-      },
-      options: [
-        {
-          text: 'Automatisierung erhöht die Produktivität meist um etwa 18–22 %',
-          isCorrect: true,
-          icon: '📈',
-        },
-        {
-          text: 'Automatisierung hat keinen Effekt auf die Produktivität',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Automatisierung erhöht die Produktivität immer um genau 20 %',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Aus diesen Daten lässt sich nichts ableiten',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 40,
-      type: 'grapheme',
-      difficulty: 3,
-      focus: 'induktives Schlussfolgern — Muster mit Ausnahme',
-      question: {
-        de: 'Marktwachstum: Jahr 1: +12 %, Jahr 2: +15 %, Jahr 3: -3 % (Rezession), Jahr 4: +10 %, Jahr 5: +14 %. Was ist die richtige Schlussfolgerung zum Trend?',
-        pl: 'Wzrost rynku: Rok 1: +12%, Rok 2: +15%, Rok 3: -3% (recesja), Rok 4: +10%, Rok 5: +14%. Jaki jest właściwy wniosek o trendzie?',
-        en: 'Market growth: Year 1: +12%, Year 2: +15%, Year 3: -3% (recession), Year 4: +10%, Year 5: +14%. What is the correct conclusion about the trend?',
-      },
-      options: [
-        {
-          text: 'Wachstum von etwa 12–15 % jährlich, mit Ausnahme des Rezessionsjahres',
-          isCorrect: true,
-          icon: '📊',
-        },
-        {
-          text: 'Der Markt schrumpft kontinuierlich',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Der Trend ist völlig unvorhersehbar',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Jahr 3 sollte als Datenfehler ignoriert werden',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 41,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'bedingte Logik — Wenn-Dann-Regel',
-      question: {
-        de: 'Regel: "Wenn Fieber > 38,5 °C UND Halsschmerzen vorliegen, DANN Streptokokken-Infektion vermuten." Der Patient hat 39,2 °C Fieber und Halsschmerzen. Was sollte in Betracht gezogen werden?',
-        pl: 'Zasada: "Jeśli gorączka > 38,5°C ORAZ ból gardła, TO podejrzewaj infekcję paciorkowcową." Pacjent ma gorączkę 39,2°C i ból gardła. Co należy rozważyć?',
-        en: 'Rule: "If fever > 38.5°C AND sore throat present, THEN suspect strep infection." The patient has a fever of 39.2°C and a sore throat. What should be considered?',
-      },
-      options: [
-        {
-          text: 'Eine Streptokokken-Infektion ist wahrscheinlich — Rachenabstrich empfehlen',
-          isCorrect: true,
-          icon: '🩺',
-        },
-        { text: 'Es ist sicher eine Erkältung', isCorrect: false, icon: '❌' },
-        { text: 'Es ist nichts zu unternehmen', isCorrect: false, icon: '❌' },
-        {
-          text: 'Sofort Antibiotika ohne Test verabreichen',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 42,
-      type: 'grapheme',
-      difficulty: 3,
-      focus: 'bedingte Logik — verschachtelte Regeln',
-      question: {
-        de: 'Regeln: (1) Wenn Ausgabe < 5.000 € — Zustimmung des Managers. (2) Wenn 5.000–50.000 € — Zustimmung des Direktors. (3) Wenn der Lieferant nicht auf der Freigabeliste steht — Beschaffungsprüfung erforderlich (+5 Tage). Szenario: 30.000 € Ausgabe, neuer Lieferant. Was ist erforderlich?',
-        pl: 'Zasady: (1) Jeśli wydatek < 5000 zł — zgoda kierownika. (2) Jeśli 5000–50000 zł — zgoda dyrektora. (3) Jeśli dostawca spoza listy zatwierdzonych — wymagany przegląd zakupowy (+5 dni). Scenariusz: wydatek 30 000 zł, nowy dostawca. Co jest wymagane?',
-        en: 'Rules: (1) If expense < $5K — manager approval. (2) If $5K–$50K — director approval. (3) If vendor is not on the approved list — procurement review required (+5 days). Scenario: $30K expense, new vendor. What is required?',
-      },
-      options: [
-        {
-          text: 'Zustimmung des Direktors UND Beschaffungsprüfung (+5 Tage)',
-          isCorrect: true,
-          icon: '✅',
-        },
-        { text: 'Nur Zustimmung des Managers', isCorrect: false, icon: '❌' },
-        { text: 'Keine Zustimmung erforderlich', isCorrect: false, icon: '❌' },
-        {
-          text: 'Nur Beschaffungsprüfung, keine Zustimmung',
-          isCorrect: false,
-          icon: '❌',
-        },
       ],
     },
   ],
@@ -2647,6 +2477,182 @@ export const wordDatabaseDE = {
         'Bericht',
         'Analyse',
         'Budget',
+      ],
+    },
+  ],
+  logicalReasoning: [
+    {
+      id: 37,
+      type: 'grapheme',
+      difficulty: 2,
+      focus: 'deduktives Schlussfolgern — einfache Prämissen',
+      question: {
+        de: 'Prämisse 1: "Jedes Projekt, das das Budget überschreitet, benötigt die Zustimmung der Geschäftsführung." Prämisse 2: "Projekt X hat das Budget überschritten." Was folgt daraus?',
+        pl: 'Przesłanka 1: "Każdy projekt przekraczający budżet wymaga zgody zarządu." Przesłanka 2: "Projekt X przekroczył budżet." Co z tego wynika?',
+        en: 'Premise 1: "Any project exceeding budget requires executive approval." Premise 2: "Project X exceeded budget." What follows?',
+      },
+      options: [
+        {
+          text: 'Es benötigt die Zustimmung der Geschäftsführung',
+          isCorrect: true,
+          icon: '✅',
+        },
+        { text: 'Das Projekt wird abgebrochen', isCorrect: false, icon: '❌' },
+        { text: 'Das Team wird gerügt', isCorrect: false, icon: '❌' },
+        {
+          text: 'Es kann nichts geschlossen werden',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 38,
+      type: 'grapheme',
+      difficulty: 3,
+      focus: 'deduktives Schlussfolgern — Prämissenkette',
+      question: {
+        de: 'Prämisse 1: "Transaktionen über 50.000 € erfordern eine Prüfung." Prämisse 2: "Diese Transaktion beträgt 75.000 €." Prämisse 3: "Eine Prüfung dauert mindestens 5 Werktage." Was können wir schließen?',
+        pl: 'Przesłanka 1: "Transakcje powyżej 50 000 zł wymagają audytu." Przesłanka 2: "Ta transakcja wynosi 75 000 zł." Przesłanka 3: "Audyt trwa co najmniej 5 dni roboczych." Co możemy stwierdzić?',
+        en: 'Premise 1: "Transactions over $50,000 require an audit." Premise 2: "This transaction is $75,000." Premise 3: "An audit takes at least 5 business days." What can we conclude?',
+      },
+      options: [
+        {
+          text: 'Die Transaktion erfordert eine mindestens 5-tägige Prüfung',
+          isCorrect: true,
+          icon: '📋',
+        },
+        {
+          text: 'Die Transaktion wird abgelehnt',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Es ist keine Prüfung erforderlich',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Die Zustimmung des Managers allein genügt',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 39,
+      type: 'grapheme',
+      difficulty: 2,
+      focus: 'induktives Schlussfolgern — Mustergeneralisierung',
+      question: {
+        de: 'Firma A: Investition in Automatisierung, Produktivität +20 %. Firma B: dasselbe, +18 %. Firma C: dasselbe, +22 %. Welches Muster legen diese Beispiele nahe?',
+        pl: 'Firma A: inwestycja w automatyzację, produktywność +20%. Firma B: to samo, +18%. Firma C: to samo, +22%. Jaki wzorzec sugerują te przykłady?',
+        en: 'Company A: invested in automation, productivity +20%. Company B: same, +18%. Company C: same, +22%. What pattern do these examples suggest?',
+      },
+      options: [
+        {
+          text: 'Automatisierung erhöht die Produktivität meist um etwa 18–22 %',
+          isCorrect: true,
+          icon: '📈',
+        },
+        {
+          text: 'Automatisierung hat keinen Effekt auf die Produktivität',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Automatisierung erhöht die Produktivität immer um genau 20 %',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Aus diesen Daten lässt sich nichts ableiten',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 40,
+      type: 'grapheme',
+      difficulty: 3,
+      focus: 'induktives Schlussfolgern — Muster mit Ausnahme',
+      question: {
+        de: 'Marktwachstum: Jahr 1: +12 %, Jahr 2: +15 %, Jahr 3: -3 % (Rezession), Jahr 4: +10 %, Jahr 5: +14 %. Was ist die richtige Schlussfolgerung zum Trend?',
+        pl: 'Wzrost rynku: Rok 1: +12%, Rok 2: +15%, Rok 3: -3% (recesja), Rok 4: +10%, Rok 5: +14%. Jaki jest właściwy wniosek o trendzie?',
+        en: 'Market growth: Year 1: +12%, Year 2: +15%, Year 3: -3% (recession), Year 4: +10%, Year 5: +14%. What is the correct conclusion about the trend?',
+      },
+      options: [
+        {
+          text: 'Wachstum von etwa 12–15 % jährlich, mit Ausnahme des Rezessionsjahres',
+          isCorrect: true,
+          icon: '📊',
+        },
+        {
+          text: 'Der Markt schrumpft kontinuierlich',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Der Trend ist völlig unvorhersehbar',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Jahr 3 sollte als Datenfehler ignoriert werden',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 41,
+      type: 'grapheme',
+      difficulty: 2,
+      focus: 'bedingte Logik — Wenn-Dann-Regel',
+      question: {
+        de: 'Regel: "Wenn Fieber > 38,5 °C UND Halsschmerzen vorliegen, DANN Streptokokken-Infektion vermuten." Der Patient hat 39,2 °C Fieber und Halsschmerzen. Was sollte in Betracht gezogen werden?',
+        pl: 'Zasada: "Jeśli gorączka > 38,5°C ORAZ ból gardła, TO podejrzewaj infekcję paciorkowcową." Pacjent ma gorączkę 39,2°C i ból gardła. Co należy rozważyć?',
+        en: 'Rule: "If fever > 38.5°C AND sore throat present, THEN suspect strep infection." The patient has a fever of 39.2°C and a sore throat. What should be considered?',
+      },
+      options: [
+        {
+          text: 'Eine Streptokokken-Infektion ist wahrscheinlich — Rachenabstrich empfehlen',
+          isCorrect: true,
+          icon: '🩺',
+        },
+        { text: 'Es ist sicher eine Erkältung', isCorrect: false, icon: '❌' },
+        { text: 'Es ist nichts zu unternehmen', isCorrect: false, icon: '❌' },
+        {
+          text: 'Sofort Antibiotika ohne Test verabreichen',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 42,
+      type: 'grapheme',
+      difficulty: 3,
+      focus: 'bedingte Logik — verschachtelte Regeln',
+      question: {
+        de: 'Regeln: (1) Wenn Ausgabe < 5.000 € — Zustimmung des Managers. (2) Wenn 5.000–50.000 € — Zustimmung des Direktors. (3) Wenn der Lieferant nicht auf der Freigabeliste steht — Beschaffungsprüfung erforderlich (+5 Tage). Szenario: 30.000 € Ausgabe, neuer Lieferant. Was ist erforderlich?',
+        pl: 'Zasady: (1) Jeśli wydatek < 5000 zł — zgoda kierownika. (2) Jeśli 5000–50000 zł — zgoda dyrektora. (3) Jeśli dostawca spoza listy zatwierdzonych — wymagany przegląd zakupowy (+5 dni). Scenariusz: wydatek 30 000 zł, nowy dostawca. Co jest wymagane?',
+        en: 'Rules: (1) If expense < $5K — manager approval. (2) If $5K–$50K — director approval. (3) If vendor is not on the approved list — procurement review required (+5 days). Scenario: $30K expense, new vendor. What is required?',
+      },
+      options: [
+        {
+          text: 'Zustimmung des Direktors UND Beschaffungsprüfung (+5 Tage)',
+          isCorrect: true,
+          icon: '✅',
+        },
+        { text: 'Nur Zustimmung des Managers', isCorrect: false, icon: '❌' },
+        { text: 'Keine Zustimmung erforderlich', isCorrect: false, icon: '❌' },
+        {
+          text: 'Nur Beschaffungsprüfung, keine Zustimmung',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
   ],

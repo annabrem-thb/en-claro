@@ -228,6 +228,8 @@
       "phonemes": "Phoneme Awareness",
       "syllables": "Syllable Segmentation",
       "graphemes": "Grapheme Rules",
+      "auditory": "Auditory Analysis",
+      "vocabulary": "Professional Vocabulary",
       "scrabble": "Word Synthesis",
       "lcwc": "Look-Cover-Write-Check",
       "context": "Gap-fill",
@@ -237,7 +239,8 @@
       "tracking": "Spatial Mapping",
       "categorization": "Tap-to-Category",
       "sequences": "Sequencing",
-      "memorySpan": "Memory Span"
+      "memorySpan": "Memory Span",
+      "logicalReasoning": "Logical Reasoning"
     }
   },
   "bionicExplanation": "Bionic Reading® is a typographic method that supports the reading flow.",

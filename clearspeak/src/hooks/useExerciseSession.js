@@ -143,6 +143,8 @@ export function useExerciseSession({
           ...includeIfActive('phonemes'),
           ...includeIfActive('syllables'),
           ...includeIfActive('graphemes'),
+          ...includeIfActive('auditory'),
+          ...includeIfActive('vocabulary'),
           ...includeIfActive('scrabble'),
           ...includeIfActive('lcwc'),
           ...includeIfActive('context'),
@@ -163,6 +165,7 @@ export function useExerciseSession({
           ...includeIfActive('categorization'),
           ...includeIfActive('sequences'),
           ...includeIfActive('memorySpan'),
+          ...includeIfActive('logicalReasoning'),
           ...tagDiagnostic('Cognitive'),
         ];
         break;

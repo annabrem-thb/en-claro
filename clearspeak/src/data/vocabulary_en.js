@@ -171,6 +171,206 @@ export const wordDatabaseEN = {
   ],
   graphemes: [
     {
+      id: 13,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'silent "k" before "n"',
+      question: {
+        en: 'The "k" is silent here — you only hear the "n" sound. Which spelling is correct?',
+        pl: '"k" jest tu nieme — słychać tylko głoskę "n". Które słowo jest poprawne?',
+        de: 'Das "k" ist hier stumm — man hört nur den "n"-Laut. Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Knee',
+          isCorrect: true,
+          icon: '🦵',
+        },
+        {
+          text: 'Nee',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Kne',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Neee',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 14,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'silent "g" before "n"',
+      question: {
+        en: 'The "g" is silent here too — a common mix-up with silent "k". Which spelling is correct?',
+        pl: '"g" jest tu również nieme — częsta pomyłka z niemym "k". Które słowo jest poprawne?',
+        de: 'Das "g" ist hier ebenfalls stumm — eine häufige Verwechslung mit dem stummen "k". Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Gnome',
+          isCorrect: true,
+          icon: '🧙',
+        },
+        {
+          text: 'Nome',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Knome',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Gknome',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 15,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: '"ough" — one spelling, many sounds',
+      question: {
+        en: 'This is one of the trickiest patterns in English spelling. Which spelling means "believed" (past tense of think)?',
+        pl: 'To jeden z najtrudniejszych wzorców w angielskiej pisowni. Które słowo znaczy "pomyślał" (czas przeszły od think)?',
+        de: 'Dies ist eines der schwierigsten Muster der englischen Rechtschreibung. Welche Schreibweise bedeutet "dachte" (Vergangenheitsform von think)?',
+      },
+      options: [
+        {
+          text: 'Thought',
+          isCorrect: true,
+          icon: '💭',
+        },
+        {
+          text: 'Thawt',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Thort',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Thourght',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 16,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'silent "b" after "m"',
+      question: {
+        en: 'The "b" is silent after "m" at the end of this word. Which spelling is correct?',
+        pl: '"b" jest nieme po "m" na końcu tego słowa. Które słowo jest poprawne?',
+        de: 'Das "b" ist nach "m" am Wortende stumm. Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Comb',
+          isCorrect: true,
+          icon: '🪮',
+        },
+        {
+          text: 'Com',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Coumb',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Comm',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 17,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'silent "w" before "r"',
+      question: {
+        en: 'The "w" is silent before "r" here. Which spelling is correct?',
+        pl: '"w" jest nieme przed "r". Które słowo jest poprawne?',
+        de: 'Das "w" ist hier vor "r" stumm. Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Wrist',
+          isCorrect: true,
+          icon: '✋',
+        },
+        {
+          text: 'Rist',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Wriist',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Rrist',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 18,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'doubling the consonant before "-ing"',
+      question: {
+        en: 'Which spelling correctly doubles the consonant before adding "-ing"?',
+        pl: 'Które słowo poprawnie podwaja spółgłoskę przed dodaniem "-ing"?',
+        de: 'Welche Schreibweise verdoppelt den Konsonanten vor "-ing" richtig?',
+      },
+      options: [
+        {
+          text: 'Running',
+          isCorrect: true,
+          icon: '🏃',
+        },
+        {
+          text: 'Runing',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Runnning',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Runeing',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+  ],
+  auditory: [
+    {
       id: 1,
       type: 'grapheme',
       difficulty: 3,
@@ -567,204 +767,6 @@ export const wordDatabaseEN = {
       ],
     },
     {
-      id: 13,
-      type: 'grapheme',
-      difficulty: 4,
-      focus: 'silent "k" before "n"',
-      question: {
-        en: 'The "k" is silent here — you only hear the "n" sound. Which spelling is correct?',
-        pl: '"k" jest tu nieme — słychać tylko głoskę "n". Które słowo jest poprawne?',
-        de: 'Das "k" ist hier stumm — man hört nur den "n"-Laut. Welche Schreibweise ist richtig?',
-      },
-      options: [
-        {
-          text: 'Knee',
-          isCorrect: true,
-          icon: '🦵',
-        },
-        {
-          text: 'Nee',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Kne',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Neee',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 14,
-      type: 'grapheme',
-      difficulty: 4,
-      focus: 'silent "g" before "n"',
-      question: {
-        en: 'The "g" is silent here too — a common mix-up with silent "k". Which spelling is correct?',
-        pl: '"g" jest tu również nieme — częsta pomyłka z niemym "k". Które słowo jest poprawne?',
-        de: 'Das "g" ist hier ebenfalls stumm — eine häufige Verwechslung mit dem stummen "k". Welche Schreibweise ist richtig?',
-      },
-      options: [
-        {
-          text: 'Gnome',
-          isCorrect: true,
-          icon: '🧙',
-        },
-        {
-          text: 'Nome',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Knome',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Gknome',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 15,
-      type: 'grapheme',
-      difficulty: 4,
-      focus: '"ough" — one spelling, many sounds',
-      question: {
-        en: 'This is one of the trickiest patterns in English spelling. Which spelling means "believed" (past tense of think)?',
-        pl: 'To jeden z najtrudniejszych wzorców w angielskiej pisowni. Które słowo znaczy "pomyślał" (czas przeszły od think)?',
-        de: 'Dies ist eines der schwierigsten Muster der englischen Rechtschreibung. Welche Schreibweise bedeutet "dachte" (Vergangenheitsform von think)?',
-      },
-      options: [
-        {
-          text: 'Thought',
-          isCorrect: true,
-          icon: '💭',
-        },
-        {
-          text: 'Thawt',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Thort',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Thourght',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 16,
-      type: 'grapheme',
-      difficulty: 4,
-      focus: 'silent "b" after "m"',
-      question: {
-        en: 'The "b" is silent after "m" at the end of this word. Which spelling is correct?',
-        pl: '"b" jest nieme po "m" na końcu tego słowa. Które słowo jest poprawne?',
-        de: 'Das "b" ist nach "m" am Wortende stumm. Welche Schreibweise ist richtig?',
-      },
-      options: [
-        {
-          text: 'Comb',
-          isCorrect: true,
-          icon: '🪮',
-        },
-        {
-          text: 'Com',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Coumb',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Comm',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 17,
-      type: 'grapheme',
-      difficulty: 4,
-      focus: 'silent "w" before "r"',
-      question: {
-        en: 'The "w" is silent before "r" here. Which spelling is correct?',
-        pl: '"w" jest nieme przed "r". Które słowo jest poprawne?',
-        de: 'Das "w" ist hier vor "r" stumm. Welche Schreibweise ist richtig?',
-      },
-      options: [
-        {
-          text: 'Wrist',
-          isCorrect: true,
-          icon: '✋',
-        },
-        {
-          text: 'Rist',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Wriist',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Rrist',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 18,
-      type: 'grapheme',
-      difficulty: 4,
-      focus: 'doubling the consonant before "-ing"',
-      question: {
-        en: 'Which spelling correctly doubles the consonant before adding "-ing"?',
-        pl: 'Które słowo poprawnie podwaja spółgłoskę przed dodaniem "-ing"?',
-        de: 'Welche Schreibweise verdoppelt den Konsonanten vor "-ing" richtig?',
-      },
-      options: [
-        {
-          text: 'Running',
-          isCorrect: true,
-          icon: '🏃',
-        },
-        {
-          text: 'Runing',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Runnning',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Runeing',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
       id: 19,
       type: 'grapheme',
       focus: 'rhyme recognition',
@@ -866,6 +868,8 @@ export const wordDatabaseEN = {
         { text: 'Link', isCorrect: false, icon: '❌' },
       ],
     },
+  ],
+  vocabulary: [
     {
       id: 25,
       type: 'grapheme',
@@ -1017,172 +1021,6 @@ export const wordDatabaseEN = {
         { text: 'Cardinal', isCorrect: false, icon: '❌' },
         { text: 'Vacation', isCorrect: false, icon: '❌' },
         { text: 'Cascade', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
-      id: 34,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'deductive reasoning — basic premises',
-      question: {
-        en: 'Premise 1: "Any project exceeding budget requires executive approval." Premise 2: "Project X exceeded budget." What follows?',
-        pl: 'Przesłanka 1: "Każdy projekt przekraczający budżet wymaga zgody zarządu." Przesłanka 2: "Projekt X przekroczył budżet." Co z tego wynika?',
-        de: 'Prämisse 1: "Jedes Projekt, das das Budget überschreitet, benötigt die Zustimmung der Geschäftsführung." Prämisse 2: "Projekt X hat das Budget überschritten." Was folgt daraus?',
-      },
-      options: [
-        { text: 'It requires executive approval', isCorrect: true, icon: '✅' },
-        { text: 'The project will be cancelled', isCorrect: false, icon: '❌' },
-        { text: 'The team will be reprimanded', isCorrect: false, icon: '❌' },
-        { text: 'Nothing can be concluded', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
-      id: 35,
-      type: 'grapheme',
-      difficulty: 3,
-      focus: 'deductive reasoning — premise chain',
-      question: {
-        en: 'Premise 1: "Transactions over $50,000 require an audit." Premise 2: "This transaction is $75,000." Premise 3: "An audit takes at least 5 business days." What can we conclude?',
-        pl: 'Przesłanka 1: "Transakcje powyżej 50 000 zł wymagają audytu." Przesłanka 2: "Ta transakcja wynosi 75 000 zł." Przesłanka 3: "Audyt trwa co najmniej 5 dni roboczych." Co możemy stwierdzić?',
-        de: 'Prämisse 1: "Transaktionen über 50.000 € erfordern eine Prüfung." Prämisse 2: "Diese Transaktion beträgt 75.000 €." Prämisse 3: "Eine Prüfung dauert mindestens 5 Werktage." Was können wir schließen?',
-      },
-      options: [
-        {
-          text: 'The transaction requires an audit taking at least 5 business days',
-          isCorrect: true,
-          icon: '📋',
-        },
-        {
-          text: 'The transaction will be rejected',
-          isCorrect: false,
-          icon: '❌',
-        },
-        { text: 'No audit is required', isCorrect: false, icon: '❌' },
-        {
-          text: 'Manager approval alone is sufficient',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 36,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'inductive reasoning — pattern generalization',
-      question: {
-        en: 'Company A: invested in automation, productivity +20%. Company B: same, +18%. Company C: same, +22%. What pattern do these examples suggest?',
-        pl: 'Firma A: inwestycja w automatyzację, produktywność +20%. Firma B: to samo, +18%. Firma C: to samo, +22%. Jaki wzorzec sugerują te przykłady?',
-        de: 'Firma A: Investition in Automatisierung, Produktivität +20 %. Firma B: dasselbe, +18 %. Firma C: dasselbe, +22 %. Welches Muster legen diese Beispiele nahe?',
-      },
-      options: [
-        {
-          text: 'Automation generally increases productivity by about 18–22%',
-          isCorrect: true,
-          icon: '📈',
-        },
-        {
-          text: 'Automation has no effect on productivity',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Automation always increases productivity by exactly 20%',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Nothing can be inferred from this data',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 37,
-      type: 'grapheme',
-      difficulty: 3,
-      focus: 'inductive reasoning — pattern with exception',
-      question: {
-        en: 'Market growth: Year 1: +12%, Year 2: +15%, Year 3: -3% (recession), Year 4: +10%, Year 5: +14%. What is the correct conclusion about the trend?',
-        pl: 'Wzrost rynku: Rok 1: +12%, Rok 2: +15%, Rok 3: -3% (recesja), Rok 4: +10%, Rok 5: +14%. Jaki jest właściwy wniosek o trendzie?',
-        de: 'Marktwachstum: Jahr 1: +12 %, Jahr 2: +15 %, Jahr 3: -3 % (Rezession), Jahr 4: +10 %, Jahr 5: +14 %. Was ist die richtige Schlussfolgerung zum Trend?',
-      },
-      options: [
-        {
-          text: 'Growth of about 12–15% annually, with an exception during the recession year',
-          isCorrect: true,
-          icon: '📊',
-        },
-        {
-          text: 'The market is continuously shrinking',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'The trend is completely unpredictable',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Year 3 should be ignored as a data error',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 38,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'conditional logic — if-then rule',
-      question: {
-        en: 'Rule: "If fever > 38.5°C AND sore throat present, THEN suspect strep infection." The patient has a fever of 39.2°C and a sore throat. What should be considered?',
-        pl: 'Zasada: "Jeśli gorączka > 38,5°C ORAZ ból gardła, TO podejrzewaj infekcję paciorkowcową." Pacjent ma gorączkę 39,2°C i ból gardła. Co należy rozważyć?',
-        de: 'Regel: "Wenn Fieber > 38,5 °C UND Halsschmerzen vorliegen, DANN Streptokokken-Infektion vermuten." Der Patient hat 39,2 °C Fieber und Halsschmerzen. Was sollte in Betracht gezogen werden?',
-      },
-      options: [
-        {
-          text: 'Strep infection is likely — recommend a throat culture',
-          isCorrect: true,
-          icon: '🩺',
-        },
-        {
-          text: 'It is definitely a common cold',
-          isCorrect: false,
-          icon: '❌',
-        },
-        { text: 'No action is needed', isCorrect: false, icon: '❌' },
-        {
-          text: 'Antibiotics should be given immediately without testing',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 39,
-      type: 'grapheme',
-      difficulty: 3,
-      focus: 'conditional logic — nested rules',
-      question: {
-        en: 'Rules: (1) If expense < $5K — manager approval. (2) If $5K–$50K — director approval. (3) If vendor is not on the approved list — procurement review required (+5 days). Scenario: $30K expense, new vendor. What is required?',
-        pl: 'Zasady: (1) Jeśli wydatek < 5000 zł — zgoda kierownika. (2) Jeśli 5000–50000 zł — zgoda dyrektora. (3) Jeśli dostawca spoza listy zatwierdzonych — wymagany przegląd zakupowy (+5 dni). Scenariusz: wydatek 30 000 zł, nowy dostawca. Co jest wymagane?',
-        de: 'Regeln: (1) Wenn Ausgabe < 5.000 € — Zustimmung des Managers. (2) Wenn 5.000–50.000 € — Zustimmung des Direktors. (3) Wenn der Lieferant nicht auf der Freigabeliste steht — Beschaffungsprüfung erforderlich (+5 Tage). Szenario: 30.000 € Ausgabe, neuer Lieferant. Was ist erforderlich?',
-      },
-      options: [
-        {
-          text: 'Director approval AND procurement review (+5 days)',
-          isCorrect: true,
-          icon: '✅',
-        },
-        { text: 'Manager approval only', isCorrect: false, icon: '❌' },
-        { text: 'No approval is required', isCorrect: false, icon: '❌' },
-        {
-          text: 'Procurement review only, no approval',
-          isCorrect: false,
-          icon: '❌',
-        },
       ],
     },
   ],
@@ -2469,6 +2307,174 @@ export const wordDatabaseEN = {
         'Report',
         'Analysis',
         'Budget',
+      ],
+    },
+  ],
+  logicalReasoning: [
+    {
+      id: 34,
+      type: 'grapheme',
+      difficulty: 2,
+      focus: 'deductive reasoning — basic premises',
+      question: {
+        en: 'Premise 1: "Any project exceeding budget requires executive approval." Premise 2: "Project X exceeded budget." What follows?',
+        pl: 'Przesłanka 1: "Każdy projekt przekraczający budżet wymaga zgody zarządu." Przesłanka 2: "Projekt X przekroczył budżet." Co z tego wynika?',
+        de: 'Prämisse 1: "Jedes Projekt, das das Budget überschreitet, benötigt die Zustimmung der Geschäftsführung." Prämisse 2: "Projekt X hat das Budget überschritten." Was folgt daraus?',
+      },
+      options: [
+        { text: 'It requires executive approval', isCorrect: true, icon: '✅' },
+        { text: 'The project will be cancelled', isCorrect: false, icon: '❌' },
+        { text: 'The team will be reprimanded', isCorrect: false, icon: '❌' },
+        { text: 'Nothing can be concluded', isCorrect: false, icon: '❌' },
+      ],
+    },
+    {
+      id: 35,
+      type: 'grapheme',
+      difficulty: 3,
+      focus: 'deductive reasoning — premise chain',
+      question: {
+        en: 'Premise 1: "Transactions over $50,000 require an audit." Premise 2: "This transaction is $75,000." Premise 3: "An audit takes at least 5 business days." What can we conclude?',
+        pl: 'Przesłanka 1: "Transakcje powyżej 50 000 zł wymagają audytu." Przesłanka 2: "Ta transakcja wynosi 75 000 zł." Przesłanka 3: "Audyt trwa co najmniej 5 dni roboczych." Co możemy stwierdzić?',
+        de: 'Prämisse 1: "Transaktionen über 50.000 € erfordern eine Prüfung." Prämisse 2: "Diese Transaktion beträgt 75.000 €." Prämisse 3: "Eine Prüfung dauert mindestens 5 Werktage." Was können wir schließen?',
+      },
+      options: [
+        {
+          text: 'The transaction requires an audit taking at least 5 business days',
+          isCorrect: true,
+          icon: '📋',
+        },
+        {
+          text: 'The transaction will be rejected',
+          isCorrect: false,
+          icon: '❌',
+        },
+        { text: 'No audit is required', isCorrect: false, icon: '❌' },
+        {
+          text: 'Manager approval alone is sufficient',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 36,
+      type: 'grapheme',
+      difficulty: 2,
+      focus: 'inductive reasoning — pattern generalization',
+      question: {
+        en: 'Company A: invested in automation, productivity +20%. Company B: same, +18%. Company C: same, +22%. What pattern do these examples suggest?',
+        pl: 'Firma A: inwestycja w automatyzację, produktywność +20%. Firma B: to samo, +18%. Firma C: to samo, +22%. Jaki wzorzec sugerują te przykłady?',
+        de: 'Firma A: Investition in Automatisierung, Produktivität +20 %. Firma B: dasselbe, +18 %. Firma C: dasselbe, +22 %. Welches Muster legen diese Beispiele nahe?',
+      },
+      options: [
+        {
+          text: 'Automation generally increases productivity by about 18–22%',
+          isCorrect: true,
+          icon: '📈',
+        },
+        {
+          text: 'Automation has no effect on productivity',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Automation always increases productivity by exactly 20%',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Nothing can be inferred from this data',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 37,
+      type: 'grapheme',
+      difficulty: 3,
+      focus: 'inductive reasoning — pattern with exception',
+      question: {
+        en: 'Market growth: Year 1: +12%, Year 2: +15%, Year 3: -3% (recession), Year 4: +10%, Year 5: +14%. What is the correct conclusion about the trend?',
+        pl: 'Wzrost rynku: Rok 1: +12%, Rok 2: +15%, Rok 3: -3% (recesja), Rok 4: +10%, Rok 5: +14%. Jaki jest właściwy wniosek o trendzie?',
+        de: 'Marktwachstum: Jahr 1: +12 %, Jahr 2: +15 %, Jahr 3: -3 % (Rezession), Jahr 4: +10 %, Jahr 5: +14 %. Was ist die richtige Schlussfolgerung zum Trend?',
+      },
+      options: [
+        {
+          text: 'Growth of about 12–15% annually, with an exception during the recession year',
+          isCorrect: true,
+          icon: '📊',
+        },
+        {
+          text: 'The market is continuously shrinking',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'The trend is completely unpredictable',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Year 3 should be ignored as a data error',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 38,
+      type: 'grapheme',
+      difficulty: 2,
+      focus: 'conditional logic — if-then rule',
+      question: {
+        en: 'Rule: "If fever > 38.5°C AND sore throat present, THEN suspect strep infection." The patient has a fever of 39.2°C and a sore throat. What should be considered?',
+        pl: 'Zasada: "Jeśli gorączka > 38,5°C ORAZ ból gardła, TO podejrzewaj infekcję paciorkowcową." Pacjent ma gorączkę 39,2°C i ból gardła. Co należy rozważyć?',
+        de: 'Regel: "Wenn Fieber > 38,5 °C UND Halsschmerzen vorliegen, DANN Streptokokken-Infektion vermuten." Der Patient hat 39,2 °C Fieber und Halsschmerzen. Was sollte in Betracht gezogen werden?',
+      },
+      options: [
+        {
+          text: 'Strep infection is likely — recommend a throat culture',
+          isCorrect: true,
+          icon: '🩺',
+        },
+        {
+          text: 'It is definitely a common cold',
+          isCorrect: false,
+          icon: '❌',
+        },
+        { text: 'No action is needed', isCorrect: false, icon: '❌' },
+        {
+          text: 'Antibiotics should be given immediately without testing',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 39,
+      type: 'grapheme',
+      difficulty: 3,
+      focus: 'conditional logic — nested rules',
+      question: {
+        en: 'Rules: (1) If expense < $5K — manager approval. (2) If $5K–$50K — director approval. (3) If vendor is not on the approved list — procurement review required (+5 days). Scenario: $30K expense, new vendor. What is required?',
+        pl: 'Zasady: (1) Jeśli wydatek < 5000 zł — zgoda kierownika. (2) Jeśli 5000–50000 zł — zgoda dyrektora. (3) Jeśli dostawca spoza listy zatwierdzonych — wymagany przegląd zakupowy (+5 dni). Scenariusz: wydatek 30 000 zł, nowy dostawca. Co jest wymagane?',
+        de: 'Regeln: (1) Wenn Ausgabe < 5.000 € — Zustimmung des Managers. (2) Wenn 5.000–50.000 € — Zustimmung des Direktors. (3) Wenn der Lieferant nicht auf der Freigabeliste steht — Beschaffungsprüfung erforderlich (+5 Tage). Szenario: 30.000 € Ausgabe, neuer Lieferant. Was ist erforderlich?',
+      },
+      options: [
+        {
+          text: 'Director approval AND procurement review (+5 days)',
+          isCorrect: true,
+          icon: '✅',
+        },
+        { text: 'Manager approval only', isCorrect: false, icon: '❌' },
+        { text: 'No approval is required', isCorrect: false, icon: '❌' },
+        {
+          text: 'Procurement review only, no approval',
+          isCorrect: false,
+          icon: '❌',
+        },
       ],
     },
   ],

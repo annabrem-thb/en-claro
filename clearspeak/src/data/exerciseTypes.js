@@ -20,6 +20,8 @@ export const EXERCISE_PILLARS = {
     'phonemes',
     'syllables',
     'graphemes',
+    'auditory',
+    'vocabulary',
     'scrabble',
     'lcwc',
     'context',
@@ -27,7 +29,7 @@ export const EXERCISE_PILLARS = {
     'readAloud',
   ],
   Visual: ['clock', 'tracking'],
-  Cognitive: ['categorization', 'sequences', 'memorySpan'],
+  Cognitive: ['categorization', 'sequences', 'memorySpan', 'logicalReasoning'],
 };
 
 // Flat list of every toggleable key, in the same order they appear above —

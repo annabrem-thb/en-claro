@@ -227,6 +227,8 @@
       "phonemes": "Świadomość fonemowa",
       "syllables": "Podział na sylaby",
       "graphemes": "Zasady grafemów",
+      "auditory": "Analiza słuchowa",
+      "vocabulary": "Słownictwo zawodowe",
       "scrabble": "Synteza słów",
       "lcwc": "Spójrz-Zasłoń-Napisz-Sprawdź",
       "context": "Uzupełnianie luk",
@@ -236,7 +238,8 @@
       "tracking": "Mapowanie przestrzenne",
       "categorization": "Dotknij kategorię",
       "sequences": "Sekwencjonowanie",
-      "memorySpan": "Pamięć robocza"
+      "memorySpan": "Pamięć robocza",
+      "logicalReasoning": "Rozumowanie logiczne"
     }
   },
   "bionicExplanation": "Bionic Reading® to metoda typograficzna wspierająca płynność czytania.",
