@@ -178,13 +178,24 @@ function LookCoverWriteCheck({
 
           {}
           <div
-            className={`flex flex-col items-center gap-1.5 rounded-2xl border-2 p-4 sm:gap-2 sm:p-5 ${isHighContrast ? 'border-white/50 bg-black' : isCorrect ? 'border-emerald-200 bg-emerald-50 shadow-sm' : 'border-red-200 bg-red-50 shadow-sm'}`}
+            className={`flex flex-col items-center gap-1.5 rounded-2xl border-2 p-4 sm:gap-2 sm:p-5 ${
+              isHighContrast
+                ? 'border-white/50 bg-black'
+                : isCorrect
+                  ? 'border-[var(--color-success)]/40 bg-[var(--color-success)]/10 shadow-sm'
+                  : 'border-[var(--color-error)]/40 bg-[var(--color-error)]/10 shadow-sm'
+            }`}
           >
-            <span className="text-[10px] font-bold tracking-widest text-slate-600 uppercase sm:text-xs">
+            {/* Correctness is never color-only: the checkmark/cross carries
+                the same meaning as the color for colorblind users and (since
+                high-contrast mode drops the tint entirely) for high-contrast
+                mode too — matching WCAG 1.4.1 (use of color). */}
+            <span className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest text-slate-600 uppercase sm:text-xs">
               {t('yourSpelling') || 'Your Spelling'}
+              <span aria-hidden="true">{isCorrect ? '✅' : '❌'}</span>
             </span>
             <span
-              className={`text-xl font-bold tracking-widest break-all sm:text-2xl ${isHighContrast ? 'text-white' : isCorrect ? 'text-emerald-600' : 'text-red-500'}`}
+              className={`text-xl font-bold tracking-widest break-all sm:text-2xl ${isHighContrast ? 'text-white' : isCorrect ? 'text-[var(--color-success)]' : 'text-[var(--color-error)]'}`}
             >
               {userInput}
             </span>
