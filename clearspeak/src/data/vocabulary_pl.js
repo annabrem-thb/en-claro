@@ -6078,6 +6078,191 @@ export const wordDatabasePL = {
       text: 'Prezentacja wyników kwartalnych odbędzie się w przyszłym tygodniu.',
     },
   ],
+  comprehension: [
+    {
+      id: 1,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['finance'],
+      passage: {
+        pl: 'Twój wyciąg z konta pokazuje: saldo początkowe 5000 zł, wydatki 3200 zł, wpływy 4100 zł. Aby obliczyć saldo końcowe, musisz dodać wpływy do salda początkowego i odjąć wydatki.',
+      },
+      question: {
+        pl: 'Jakie jest saldo końcowe na koncie?',
+      },
+      options: [
+        { text: '5900 zł', isCorrect: true },
+        { text: '3200 zł', isCorrect: false },
+        { text: '4100 zł', isCorrect: false },
+        { text: '12300 zł', isCorrect: false },
+      ],
+    },
+    {
+      id: 2,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['finance'],
+      passage: {
+        pl: 'Firma rozważa refinansowanie kredytu hipotecznego na nieruchomość komercyjną. Obecny kredyt ma oprocentowanie 6% i pozostało 10 lat spłaty. Nowa oferta banku proponuje oprocentowanie 4,5% przy okresie spłaty wydłużonym do 15 lat. Niższe oprocentowanie zmniejszy miesięczną ratę, ale dłuższy okres spłaty może zwiększyć całkowity koszt odsetek.',
+      },
+      question: {
+        pl: 'Co może się stać z całkowitym kosztem odsetek mimo niższego oprocentowania?',
+      },
+      options: [
+        {
+          text: 'Może wzrosnąć z powodu dłuższego okresu spłaty',
+          isCorrect: true,
+        },
+        { text: 'Zawsze zmaleje', isCorrect: false },
+        { text: 'Pozostanie bez zmian', isCorrect: false },
+        { text: 'Nie da się tego ustalić', isCorrect: false },
+      ],
+    },
+    {
+      id: 3,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['business'],
+      passage: {
+        pl: 'W wiadomości od dyrektora czytamy: "Jako nowy dyrektor muszę zapewnić odpowiedzialność w całym dziale. Deleguję nadzór nad projektami kierownikom zespołów, zachowując przejrzystą komunikację z wszystkimi interesariuszami."',
+      },
+      question: {
+        pl: 'Kto teraz odpowiada za nadzór nad projektami?',
+      },
+      options: [
+        { text: 'Kierownicy zespołów', isCorrect: true },
+        { text: 'Sam dyrektor', isCorrect: false },
+        { text: 'Interesariusze', isCorrect: false },
+        { text: 'Dział HR', isCorrect: false },
+      ],
+    },
+    {
+      id: 4,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['business'],
+      passage: {
+        pl: 'Notatka strategiczna: Wdrożenie nowej hierarchii organizacyjnej wymaga kompleksowych inicjatyw dotyczących przejrzystości wobec interesariuszy oraz jednoznacznego delegowania odpowiedzialności do kadry średniego szczebla, przy zachowaniu nadzoru zarządu. Kierownicy działów muszą zapewnić, że zespoły funkcjonalne rozumieją swoje delegowane obowiązki.',
+      },
+      question: {
+        pl: 'Kto sprawuje nadzór najwyższego szczebla w tej nowej strukturze?',
+      },
+      options: [
+        { text: 'Zarząd', isCorrect: true },
+        { text: 'Kierownicy działów', isCorrect: false },
+        { text: 'Zespoły funkcjonalne', isCorrect: false },
+        { text: 'Interesariusze', isCorrect: false },
+      ],
+    },
+    {
+      id: 5,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['technology'],
+      passage: {
+        pl: 'Konfiguracja systemu wymaga właściwych protokołów uwierzytelniania. Uwierzytelnianie to proces sprawdzania tożsamości użytkownika i jego uprawnień przed przyznaniem dostępu do systemu.',
+      },
+      question: {
+        pl: 'Co sprawdza proces uwierzytelniania?',
+      },
+      options: [
+        { text: 'Tożsamość użytkownika i uprawnienia', isCorrect: true },
+        { text: 'Prędkość internetu', isCorrect: false },
+        { text: 'Rozmiar pliku', isCorrect: false },
+        { text: 'Wersję systemu', isCorrect: false },
+      ],
+    },
+    {
+      id: 6,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['technology'],
+      passage: {
+        pl: 'Wdrożenie infrastruktury cyberbezpieczeństwa wymaga kompleksowej oceny szyfrowania baz danych oraz architektury uwierzytelniania, aby zapobiec nieautoryzowanemu dostępowi. Skalowalność systemu musi być brana pod uwagę już na etapie projektowania, ponieważ późniejsza optymalizacja infrastruktury jest znacznie kosztowniejsza.',
+      },
+      question: {
+        pl: 'Dlaczego skalowalność powinna być uwzględniona już na początku?',
+      },
+      options: [
+        { text: 'Bo późniejsza optymalizacja jest droższa', isCorrect: true },
+        { text: 'Bo szyfrowanie tego wymaga', isCorrect: false },
+        { text: 'Bo użytkownicy tego nie zauważą', isCorrect: false },
+        { text: 'Bo to nie ma znaczenia', isCorrect: false },
+      ],
+    },
+    {
+      id: 7,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['legal'],
+      passage: {
+        pl: 'Warunki umowy określają zobowiązania i odpowiedzialność obu stron. Zobowiązanie oznacza obowiązek wykonania określonego działania, natomiast odpowiedzialność dotyczy skutków niewykonania tego obowiązku.',
+      },
+      question: {
+        pl: 'Co określają warunki umowy?',
+      },
+      options: [
+        { text: 'Zobowiązania i odpowiedzialność stron', isCorrect: true },
+        { text: 'Tylko cenę usługi', isCorrect: false },
+        { text: 'Wyłącznie termin realizacji', isCorrect: false },
+        { text: 'Dane kontaktowe stron', isCorrect: false },
+      ],
+    },
+    {
+      id: 8,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['legal'],
+      passage: {
+        pl: 'Zgodność z ustawodawstwem danej jurysdykcji wymaga szczegółowej dokumentacji dotyczącej odpowiedzialności oraz zobowiązań pracowniczych, zgodnie z ustalonym precedensem prawnym. Organizacja musi wykazać, że wdrożone procedury odpowiadają obowiązującym regulacjom.',
+      },
+      question: {
+        pl: 'Na czym musi opierać się dokumentacja dotycząca zobowiązań pracowniczych?',
+      },
+      options: [
+        { text: 'Na ustalonym precedensie prawnym', isCorrect: true },
+        { text: 'Na opinii pracowników', isCorrect: false },
+        { text: 'Na życzeniu zarządu', isCorrect: false },
+        { text: 'Na przeczuciu prawnika', isCorrect: false },
+      ],
+    },
+    {
+      id: 9,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['healthcare-admin'],
+      passage: {
+        pl: 'Rejestracja pacjenta wymaga wprowadzenia danych ubezpieczenia zdrowotnego oraz numeru identyfikacyjnego. System automatycznie sprawdza ważność polisy przed potwierdzeniem wizyty.',
+      },
+      question: {
+        pl: 'Co system sprawdza przed potwierdzeniem wizyty?',
+      },
+      options: [
+        { text: 'Ważność polisy ubezpieczeniowej', isCorrect: true },
+        { text: 'Wynik badania krwi', isCorrect: false },
+        { text: 'Historię chorób', isCorrect: false },
+        { text: 'Wiek pacjenta', isCorrect: false },
+      ],
+    },
+    {
+      id: 10,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['healthcare-admin'],
+      passage: {
+        pl: 'Zgodność placówki medycznej z przepisami wymaga prowadzenia kompleksowej dokumentacji administracyjnej, w tym harmonogramów wizyt, rozliczeń z ubezpieczycielami oraz zgód pacjentów na przetwarzanie danych. Personel administracyjny musi zapewnić poufność wszystkich przechowywanych informacji.',
+      },
+      question: {
+        pl: 'Za co odpowiada personel administracyjny według tego fragmentu?',
+      },
+      options: [
+        { text: 'Za poufność przechowywanych informacji', isCorrect: true },
+        { text: 'Za stawianie diagnoz', isCorrect: false },
+        { text: 'Za przepisywanie leków', isCorrect: false },
+        { text: 'Za wykonywanie zabiegów', isCorrect: false },
+      ],
+    },
+  ],
   diagnostic: [
     {
       id: 'pl_diag_1',

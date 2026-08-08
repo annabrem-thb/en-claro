@@ -5958,6 +5958,194 @@ export const wordDatabaseDE = {
       text: 'Die Präsentation der Quartalsergebnisse findet nächste Woche statt.',
     },
   ],
+  comprehension: [
+    {
+      id: 1,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['finance'],
+      passage: {
+        de: 'Ihr Kontoauszug zeigt: Anfangssaldo 5.000 €, Ausgaben 3.200 €, Einnahmen 4.100 €. Um den Endsaldo zu berechnen, addieren Sie die Einnahmen zum Anfangssaldo und ziehen die Ausgaben ab.',
+      },
+      question: {
+        de: 'Wie hoch ist der Endsaldo auf dem Konto?',
+      },
+      options: [
+        { text: '5.900 €', isCorrect: true },
+        { text: '3.200 €', isCorrect: false },
+        { text: '4.100 €', isCorrect: false },
+        { text: '12.300 €', isCorrect: false },
+      ],
+    },
+    {
+      id: 2,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['finance'],
+      passage: {
+        de: 'Das Unternehmen erwägt die Umschuldung einer Hypothek für eine Gewerbeimmobilie. Der aktuelle Kredit hat einen Zinssatz von 6 % bei 10 verbleibenden Jahren. Das neue Bankangebot schlägt einen Zinssatz von 4,5 % bei einer auf 15 Jahre verlängerten Laufzeit vor. Der niedrigere Zinssatz senkt die monatliche Rate, aber die längere Laufzeit kann die gesamten Zinskosten erhöhen.',
+      },
+      question: {
+        de: 'Was könnte trotz des niedrigeren Zinssatzes mit den gesamten Zinskosten passieren?',
+      },
+      options: [
+        {
+          text: 'Sie könnten wegen der längeren Laufzeit steigen',
+          isCorrect: true,
+        },
+        { text: 'Sie sinken immer', isCorrect: false },
+        { text: 'Sie bleiben gleich', isCorrect: false },
+        { text: 'Das lässt sich nicht bestimmen', isCorrect: false },
+      ],
+    },
+    {
+      id: 3,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['business'],
+      passage: {
+        de: 'E-Mail des Direktors: "Als neuer Direktor muss ich Verantwortlichkeit in der gesamten Abteilung sicherstellen. Ich delegiere die Projektaufsicht an die Teamleiter und pflege dabei eine transparente Kommunikation mit allen Stakeholdern."',
+      },
+      question: {
+        de: 'Wer ist jetzt für die Projektaufsicht verantwortlich?',
+      },
+      options: [
+        { text: 'Die Teamleiter', isCorrect: true },
+        { text: 'Der Direktor persönlich', isCorrect: false },
+        { text: 'Die Stakeholder', isCorrect: false },
+        { text: 'Die Personalabteilung', isCorrect: false },
+      ],
+    },
+    {
+      id: 4,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['business'],
+      passage: {
+        de: 'Strategisches Memo: Die Einführung der neuen Organisationshierarchie erfordert umfassende Transparenzinitiativen gegenüber den Stakeholdern und eine klare Delegation der Verantwortlichkeit an das mittlere Management, bei gleichzeitiger Aufsicht durch den Vorstand. Abteilungsleiter müssen sicherstellen, dass die Fachteams ihre delegierten Aufgaben verstehen.',
+      },
+      question: {
+        de: 'Wer hat die höchste Aufsichtsebene in dieser neuen Struktur?',
+      },
+      options: [
+        { text: 'Der Vorstand', isCorrect: true },
+        { text: 'Die Abteilungsleiter', isCorrect: false },
+        { text: 'Die Fachteams', isCorrect: false },
+        { text: 'Die Stakeholder', isCorrect: false },
+      ],
+    },
+    {
+      id: 5,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['technology'],
+      passage: {
+        de: 'Die Systemkonfiguration erfordert geeignete Authentifizierungsprotokolle. Authentifizierung ist der Prozess der Überprüfung der Identität und der Berechtigungen eines Nutzers, bevor Zugriff auf das System gewährt wird.',
+      },
+      question: {
+        de: 'Was überprüft der Authentifizierungsprozess?',
+      },
+      options: [
+        { text: 'Identität und Berechtigungen des Nutzers', isCorrect: true },
+        { text: 'Die Internetgeschwindigkeit', isCorrect: false },
+        { text: 'Die Dateigröße', isCorrect: false },
+        { text: 'Die Systemversion', isCorrect: false },
+      ],
+    },
+    {
+      id: 6,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['technology'],
+      passage: {
+        de: 'Die Implementierung einer Cybersicherheitsinfrastruktur erfordert eine umfassende Bewertung der Datenbankverschlüsselung und der Authentifizierungsarchitektur, um unbefugten Zugriff zu verhindern. Die Skalierbarkeit muss bereits in der Entwurfsphase berücksichtigt werden, da eine spätere Optimierung der Infrastruktur deutlich teurer ist.',
+      },
+      question: {
+        de: 'Warum sollte Skalierbarkeit frühzeitig berücksichtigt werden?',
+      },
+      options: [
+        { text: 'Weil eine spätere Optimierung teurer ist', isCorrect: true },
+        { text: 'Weil die Verschlüsselung es erfordert', isCorrect: false },
+        { text: 'Weil Nutzer es nicht bemerken', isCorrect: false },
+        { text: 'Weil es keine Rolle spielt', isCorrect: false },
+      ],
+    },
+    {
+      id: 7,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['legal'],
+      passage: {
+        de: 'Vertragsbedingungen legen die Verpflichtungen und die Haftung beider Parteien fest. Eine Verpflichtung ist die Pflicht, eine bestimmte Handlung auszuführen, während sich die Haftung auf die Folgen der Nichterfüllung dieser Pflicht bezieht.',
+      },
+      question: {
+        de: 'Was legen die Vertragsbedingungen fest?',
+      },
+      options: [
+        { text: 'Verpflichtungen und Haftung der Parteien', isCorrect: true },
+        { text: 'Nur den Preis der Leistung', isCorrect: false },
+        { text: 'Nur die Lieferfrist', isCorrect: false },
+        { text: 'Die Kontaktdaten der Parteien', isCorrect: false },
+      ],
+    },
+    {
+      id: 8,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['legal'],
+      passage: {
+        de: 'Die Einhaltung der Gesetzgebung einer bestimmten Jurisdiktion erfordert eine detaillierte Dokumentation der Verpflichtungen und der Haftung von Mitarbeitern, im Einklang mit dem etablierten Rechtspräzedenzfall. Die Organisation muss nachweisen, dass ihre umgesetzten Verfahren den geltenden Vorschriften entsprechen.',
+      },
+      question: {
+        de: 'Worauf muss sich die Dokumentation der Mitarbeiterverpflichtungen stützen?',
+      },
+      options: [
+        { text: 'Auf den etablierten Rechtspräzedenzfall', isCorrect: true },
+        { text: 'Auf die Meinung der Mitarbeiter', isCorrect: false },
+        { text: 'Auf die Vorliebe des Vorstands', isCorrect: false },
+        { text: 'Auf das Bauchgefühl eines Anwalts', isCorrect: false },
+      ],
+    },
+    {
+      id: 9,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['healthcare-admin'],
+      passage: {
+        de: 'Die Patientenregistrierung erfordert die Eingabe der Krankenversicherungsdaten und einer Identifikationsnummer. Das System prüft automatisch die Gültigkeit der Police, bevor der Termin bestätigt wird.',
+      },
+      question: {
+        de: 'Was prüft das System, bevor der Termin bestätigt wird?',
+      },
+      options: [
+        { text: 'Die Gültigkeit der Versicherungspolice', isCorrect: true },
+        { text: 'Ein Blutbildergebnis', isCorrect: false },
+        { text: 'Die Krankengeschichte', isCorrect: false },
+        { text: 'Das Alter des Patienten', isCorrect: false },
+      ],
+    },
+    {
+      id: 10,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['healthcare-admin'],
+      passage: {
+        de: 'Die Einhaltung der Vorschriften einer medizinischen Einrichtung erfordert eine umfassende administrative Dokumentation, einschließlich Terminplänen, Abrechnungen mit Versicherern und Einwilligungen der Patienten zur Datenverarbeitung. Das Verwaltungspersonal muss die Vertraulichkeit aller gespeicherten Informationen sicherstellen.',
+      },
+      question: {
+        de: 'Wofür ist das Verwaltungspersonal laut diesem Text verantwortlich?',
+      },
+      options: [
+        {
+          text: 'Für die Vertraulichkeit gespeicherter Informationen',
+          isCorrect: true,
+        },
+        { text: 'Für das Stellen von Diagnosen', isCorrect: false },
+        { text: 'Für das Verschreiben von Medikamenten', isCorrect: false },
+        { text: 'Für die Durchführung von Eingriffen', isCorrect: false },
+      ],
+    },
+  ],
   diagnostic: [
     {
       id: 'de_diag_1',

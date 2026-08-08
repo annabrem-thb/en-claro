@@ -150,6 +150,7 @@ export function useExerciseSession({
           ...includeIfActive('context'),
           ...includeIfActive('dictation'),
           ...includeIfActive('readAloud'),
+          ...includeIfActive('comprehension'),
           ...tagDiagnostic('Literacy'),
         ];
         break;

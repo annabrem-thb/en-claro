@@ -235,6 +235,7 @@
       "context": "Gap-fill",
       "dictation": "Dictation",
       "readAloud": "Oral Reading",
+      "comprehension": "Reading Comprehension",
       "clock": "Clock Reading",
       "tracking": "Spatial Mapping",
       "categorization": "Tap-to-Category",

@@ -5726,6 +5726,191 @@ export const wordDatabaseEN = {
       text: 'The presentation of quarterly results will take place next week.',
     },
   ],
+  comprehension: [
+    {
+      id: 1,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['finance'],
+      passage: {
+        en: 'Your bank statement shows: starting balance $5,000, expenses $3,200, income $4,100. To calculate the ending balance, you add the income to the starting balance and subtract the expenses.',
+      },
+      question: {
+        en: 'What is the ending balance on the account?',
+      },
+      options: [
+        { text: '$5,900', isCorrect: true },
+        { text: '$3,200', isCorrect: false },
+        { text: '$4,100', isCorrect: false },
+        { text: '$12,300', isCorrect: false },
+      ],
+    },
+    {
+      id: 2,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['finance'],
+      passage: {
+        en: 'The company is considering refinancing a mortgage on a commercial property. The current loan has a 6% interest rate with 10 years remaining. The bank’s new offer proposes a 4.5% interest rate with the repayment period extended to 15 years. The lower interest rate will reduce the monthly payment, but the longer repayment period may increase the total interest cost.',
+      },
+      question: {
+        en: 'What might happen to the total interest cost despite the lower rate?',
+      },
+      options: [
+        {
+          text: 'It may increase because of the longer repayment period',
+          isCorrect: true,
+        },
+        { text: 'It will always decrease', isCorrect: false },
+        { text: 'It will stay the same', isCorrect: false },
+        { text: 'It cannot be determined', isCorrect: false },
+      ],
+    },
+    {
+      id: 3,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['business'],
+      passage: {
+        en: 'Email from the director: "As the new director, I need to ensure accountability throughout the department. I am delegating project oversight to team leaders while maintaining transparent communication with all stakeholders."',
+      },
+      question: {
+        en: 'Who is now responsible for project oversight?',
+      },
+      options: [
+        { text: 'Team leaders', isCorrect: true },
+        { text: 'The director personally', isCorrect: false },
+        { text: 'The stakeholders', isCorrect: false },
+        { text: 'The HR department', isCorrect: false },
+      ],
+    },
+    {
+      id: 4,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['business'],
+      passage: {
+        en: 'Strategic memo: Implementing the new organizational hierarchy requires comprehensive stakeholder transparency initiatives and explicit delegation of accountability to middle management, while maintaining board-level oversight. Department heads must ensure functional teams understand their delegated responsibilities.',
+      },
+      question: {
+        en: 'Who holds the highest level of oversight in this new structure?',
+      },
+      options: [
+        { text: 'The board', isCorrect: true },
+        { text: 'Department heads', isCorrect: false },
+        { text: 'Functional teams', isCorrect: false },
+        { text: 'Stakeholders', isCorrect: false },
+      ],
+    },
+    {
+      id: 5,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['technology'],
+      passage: {
+        en: 'System configuration requires proper authentication protocols. Authentication is the process of verifying a user’s identity and permissions before granting access to the system.',
+      },
+      question: {
+        en: 'What does the authentication process verify?',
+      },
+      options: [
+        { text: 'User identity and permissions', isCorrect: true },
+        { text: 'Internet speed', isCorrect: false },
+        { text: 'File size', isCorrect: false },
+        { text: 'System version', isCorrect: false },
+      ],
+    },
+    {
+      id: 6,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['technology'],
+      passage: {
+        en: 'Implementing cybersecurity infrastructure requires a comprehensive evaluation of database encryption and authentication architecture to prevent unauthorized access. Scalability must be considered at the design stage, since optimizing infrastructure later is far more costly.',
+      },
+      question: {
+        en: 'Why should scalability be considered early?',
+      },
+      options: [
+        { text: 'Because optimizing later is more expensive', isCorrect: true },
+        { text: 'Because encryption requires it', isCorrect: false },
+        { text: 'Because users will not notice', isCorrect: false },
+        { text: 'Because it does not matter', isCorrect: false },
+      ],
+    },
+    {
+      id: 7,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['legal'],
+      passage: {
+        en: 'Contract terms define the obligations and liabilities of both parties. An obligation is a duty to perform a specified action, while liability concerns the consequences of failing to perform that duty.',
+      },
+      question: {
+        en: 'What do the contract terms define?',
+      },
+      options: [
+        { text: "The parties' obligations and liabilities", isCorrect: true },
+        { text: 'Only the price of the service', isCorrect: false },
+        { text: 'Only the delivery deadline', isCorrect: false },
+        { text: "The parties' contact details", isCorrect: false },
+      ],
+    },
+    {
+      id: 8,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['legal'],
+      passage: {
+        en: 'Compliance with the legislation of a given jurisdiction requires detailed documentation of employee liabilities and obligations, consistent with established legal precedent. The organization must demonstrate that its implemented procedures meet applicable regulations.',
+      },
+      question: {
+        en: 'What must documentation of employee obligations be based on?',
+      },
+      options: [
+        { text: 'Established legal precedent', isCorrect: true },
+        { text: "Employees' opinions", isCorrect: false },
+        { text: "The board's preference", isCorrect: false },
+        { text: "A lawyer's hunch", isCorrect: false },
+      ],
+    },
+    {
+      id: 9,
+      type: 'comprehension',
+      difficulty: 2,
+      tags: ['healthcare-admin'],
+      passage: {
+        en: 'Patient registration requires entering health insurance details and an identification number. The system automatically checks the policy’s validity before confirming the appointment.',
+      },
+      question: {
+        en: 'What does the system check before confirming the appointment?',
+      },
+      options: [
+        { text: "The insurance policy's validity", isCorrect: true },
+        { text: 'A blood test result', isCorrect: false },
+        { text: 'Medical history', isCorrect: false },
+        { text: "The patient's age", isCorrect: false },
+      ],
+    },
+    {
+      id: 10,
+      type: 'comprehension',
+      difficulty: 3,
+      tags: ['healthcare-admin'],
+      passage: {
+        en: 'Regulatory compliance for a medical facility requires maintaining comprehensive administrative documentation, including appointment schedules, insurer billing, and patient data-processing consent. Administrative staff must ensure the confidentiality of all stored information.',
+      },
+      question: {
+        en: 'What are administrative staff responsible for, according to this passage?',
+      },
+      options: [
+        { text: 'The confidentiality of stored information', isCorrect: true },
+        { text: 'Making diagnoses', isCorrect: false },
+        { text: 'Prescribing medication', isCorrect: false },
+        { text: 'Performing procedures', isCorrect: false },
+      ],
+    },
+  ],
   diagnostic: [
     {
       id: 'en_diag_1',

@@ -27,6 +27,7 @@ export const EXERCISE_PILLARS = {
     'context',
     'dictation',
     'readAloud',
+    'comprehension',
   ],
   Visual: ['clock', 'tracking'],
   Cognitive: ['categorization', 'sequences', 'memorySpan', 'logicalReasoning'],
