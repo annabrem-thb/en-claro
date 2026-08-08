@@ -122,8 +122,19 @@ export function useExerciseSession({
     // (from before this feature existed, or missing a key added in a later
     // release) never silently drops a whole exercise type.
     const activeExercises = inclusiveOptions.activeExercises || {};
+    // Tag every task with the exercise-type key it came from — `type` alone
+    // isn't reliable for this (several dbKeys route through the same
+    // component, e.g. `graphemes` and `diagnostic` both carry `type:
+    // 'grapheme'`/`'diagnostic'`) — so the interleaving step below can group
+    // strictly by *category*, not by rendering component.
     const includeIfActive = (dbKey) =>
-      activeExercises[dbKey] !== false ? db[dbKey] || [] : [];
+      activeExercises[dbKey] !== false
+        ? (db[dbKey] || []).map((task) => ({ ...task, __exerciseType: dbKey }))
+        : [];
+    const tagDiagnostic = (pillar) =>
+      (db.diagnostic || [])
+        .filter((d) => d.pillar === pillar)
+        .map((task) => ({ ...task, __exerciseType: 'diagnostic' }));
 
     let rawTasks = [];
     switch (activeTab) {
@@ -137,14 +148,14 @@ export function useExerciseSession({
           ...includeIfActive('context'),
           ...includeIfActive('dictation'),
           ...includeIfActive('readAloud'),
-          ...(db.diagnostic?.filter((d) => d.pillar === 'Literacy') || []),
+          ...tagDiagnostic('Literacy'),
         ];
         break;
       case 'Visual':
         rawTasks = [
           ...includeIfActive('clock'),
           ...includeIfActive('tracking'),
-          ...(db.diagnostic?.filter((d) => d.pillar === 'Visual') || []),
+          ...tagDiagnostic('Visual'),
         ];
         break;
       case 'Cognitive':
@@ -152,7 +163,7 @@ export function useExerciseSession({
           ...includeIfActive('categorization'),
           ...includeIfActive('sequences'),
           ...includeIfActive('memorySpan'),
-          ...(db.diagnostic?.filter((d) => d.pillar === 'Cognitive') || []),
+          ...tagDiagnostic('Cognitive'),
         ];
         break;
       default:
@@ -185,7 +196,36 @@ export function useExerciseSession({
       activeTab.split('').reduce((a, b) => a + b.charCodeAt(0), 0) +
       (language === 'pl' ? 1 : 2) +
       cycle;
-    return seededShuffle([...filteredTasks], seed);
+
+    // Group by exercise type so every active category gets an equal,
+    // alternating share of the session — a flat shuffle would let a
+    // content-rich type (e.g. 48 grapheme items) drown out a smaller one
+    // (e.g. 3 memory-span items), so long runs of one category and near-total
+    // absence of another both happen by chance. Each type is shuffled on its
+    // own, trimmed to the smallest active type's count, then merged
+    // round-robin; a richer type's *other* items aren't lost — they rotate in
+    // on the next `cycle` reshuffle instead of all surfacing in one sitting.
+    const groups = new Map();
+    filteredTasks.forEach((task) => {
+      const key = task.__exerciseType || 'unknown';
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(task);
+    });
+    if (groups.size === 0) return [];
+
+    const hashKey = (key) =>
+      key.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
+    const typeOrder = seededShuffle([...groups.keys()], seed + 7);
+    const shuffledGroups = typeOrder.map((key) =>
+      seededShuffle(groups.get(key), seed + hashKey(key)),
+    );
+    const perTypeCount = Math.min(...shuffledGroups.map((g) => g.length));
+
+    const interleaved = [];
+    for (let i = 0; i < perTypeCount; i++) {
+      shuffledGroups.forEach((group) => interleaved.push(group[i]));
+    }
+    return interleaved;
   }, [
     activeTab,
     db,
