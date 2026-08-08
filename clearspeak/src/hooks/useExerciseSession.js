@@ -151,6 +151,7 @@ export function useExerciseSession({
         rawTasks = [
           ...includeIfActive('categorization'),
           ...includeIfActive('sequences'),
+          ...includeIfActive('memorySpan'),
           ...(db.diagnostic?.filter((d) => d.pillar === 'Cognitive') || []),
         ];
         break;

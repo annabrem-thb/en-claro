@@ -236,7 +236,8 @@
       "clock": "Clock Reading",
       "tracking": "Spatial Mapping",
       "categorization": "Tap-to-Category",
-      "sequences": "Sequencing"
+      "sequences": "Sequencing",
+      "memorySpan": "Memory Span"
     }
   },
   "bionicExplanation": "Bionic Reading® is a typographic method that supports the reading flow.",

@@ -27,7 +27,7 @@ export const EXERCISE_PILLARS = {
     'readAloud',
   ],
   Visual: ['clock', 'tracking'],
-  Cognitive: ['categorization', 'sequences'],
+  Cognitive: ['categorization', 'sequences', 'memorySpan'],
 };
 
 // Flat list of every toggleable key, in the same order they appear above —

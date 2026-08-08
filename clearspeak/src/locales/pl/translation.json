@@ -235,7 +235,8 @@
       "clock": "Odczytywanie zegara",
       "tracking": "Mapowanie przestrzenne",
       "categorization": "Dotknij kategorię",
-      "sequences": "Sekwencjonowanie"
+      "sequences": "Sekwencjonowanie",
+      "memorySpan": "Pamięć robocza"
     }
   },
   "bionicExplanation": "Bionic Reading® to metoda typograficzna wspierająca płynność czytania.",

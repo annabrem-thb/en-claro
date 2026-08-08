@@ -236,7 +236,8 @@
       "clock": "Uhrzeit lesen",
       "tracking": "Räumliche Zuordnung",
       "categorization": "Tippe-zur-Kategorie",
-      "sequences": "Sequenzierung"
+      "sequences": "Sequenzierung",
+      "memorySpan": "Gedächtnisspanne"
     }
   },
   "bionicExplanation": "Bionic Reading® ist eine typografische Methode, die den Lesefluss unterstützt.",

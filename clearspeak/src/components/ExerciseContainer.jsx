@@ -5,6 +5,7 @@ import ContextExercise from './exercises/ContextExercise';
 import DictationExercise from './exercises/DictationExercise.jsx';
 import GraphemeExercise from './exercises/GraphemeExercise';
 import LookCoverWriteCheck from './exercises/LookCoverWriteCheck.jsx';
+import MemorySpanExercise from './exercises/MemorySpanExercise.jsx';
 import PhonemeExercise from './exercises/PhonemeExercise';
 import ReadAloudExercise from './exercises/ReadAloudExercise.jsx';
 import ScrabbleExercise from './exercises/ScrabbleExercise';
@@ -31,6 +32,7 @@ const EXERCISE_COMPONENTS = {
   sequence: SequenceExercise,
   spatial: SpatialExercise,
   categorization: VisualCategorization,
+  memorySpan: MemorySpanExercise,
   dictation: DictationExercise,
   readAloud: ReadAloudExercise,
   // `lookCoverWriteCheck` is handled separately below — it needs an
