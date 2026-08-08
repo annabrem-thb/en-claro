@@ -1,5 +1,6 @@
 import React from 'react';
 
+import BionicText from './common/BionicText.jsx';
 import Dialog from './common/Dialog.jsx';
 
 export function CognitiveEnergyIndicator({
@@ -12,6 +13,7 @@ export function CognitiveEnergyIndicator({
   isHighContrast,
   noFlash,
   bigTargets,
+  bionicReading = false,
 }) {
   const renderDot = (color, isActive) => {
     let classes = 'bg-slate-300 opacity-30';
@@ -95,13 +97,21 @@ export function CognitiveEnergyIndicator({
             id="break-title"
             className={`mb-2 text-lg font-black sm:text-xl md:text-2xl ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
           >
-            {t('breakTitle') || 'Time for a break?'}
+            <BionicText
+              text={t('breakTitle') || 'Time for a break?'}
+              enabled={bionicReading}
+            />
           </h2>
           <p
             className={`mb-6 text-xs leading-relaxed font-medium sm:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
           >
-            {t('breakDesc') ||
-              'We noticed you are working intensely. Take a rest in the garden to recharge.'}
+            <BionicText
+              text={
+                t('breakDesc') ||
+                'We noticed you are working intensely. Take a rest in the garden to recharge.'
+              }
+              enabled={bionicReading}
+            />
           </p>
         </div>
 
@@ -111,13 +121,19 @@ export function CognitiveEnergyIndicator({
             onClick={onTakeBreak}
             className={`w-full ${bigTargets ? 'py-5 text-base' : 'py-3 text-sm sm:py-4'} rounded-full font-black tracking-widest uppercase shadow-lg transition-all active:scale-95 ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}
           >
-            {t('takeBreakBtn') || 'Take a break (+2 💰)'}
+            <BionicText
+              text={t('takeBreakBtn') || 'Take a break (+2 💰)'}
+              enabled={bionicReading}
+            />
           </button>
           <button
             onClick={onDismiss}
             className={`w-full ${bigTargets ? 'py-5 text-sm' : 'py-3 text-xs'} rounded-full font-black tracking-widest uppercase transition-all ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-600 hover:bg-slate-50'}`}
           >
-            {t('continueBtn') || 'Keep going'}
+            <BionicText
+              text={t('continueBtn') || 'Keep going'}
+              enabled={bionicReading}
+            />
           </button>
         </div>
       </Dialog>

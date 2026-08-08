@@ -2,6 +2,7 @@ import React, { memo, useState, useEffect } from 'react';
 
 import { CognitiveEnergyIndicator } from './CognitiveEnergyIndicator.jsx';
 import AccessibleTTS from './common/AccessibleTTS.jsx';
+import BionicText from './common/BionicText.jsx';
 import Tooltip from './common/Tooltip.jsx';
 
 const PILLAR_ICONS = { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' };
@@ -25,6 +26,7 @@ const SidebarNav = memo(function SidebarNav({
   loadLevel,
   speak,
   noFlash,
+  bionicReading = false,
 }) {
   const animClass = noFlash
     ? ''
@@ -93,7 +95,7 @@ const SidebarNav = memo(function SidebarNav({
           <h1
             className={`text-base font-black tracking-tighter ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
           >
-            {t('appTitle')}
+            <BionicText text={t('appTitle')} enabled={bionicReading} />
           </h1>
         </AccessibleTTS>
       </div>
@@ -136,7 +138,7 @@ const SidebarNav = memo(function SidebarNav({
                       interactive={false}
                     >
                       <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                        {label}
+                        <BionicText text={label} enabled={bionicReading} />
                       </span>
                     </AccessibleTTS>
                     <span
@@ -196,7 +198,10 @@ const SidebarNav = memo(function SidebarNav({
                     interactive={false}
                   >
                     <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                      {t('garden') || 'Garden'}
+                      <BionicText
+                        text={t('garden') || 'Garden'}
+                        enabled={bionicReading}
+                      />
                     </span>
                   </AccessibleTTS>
                   <span
@@ -219,7 +224,10 @@ const SidebarNav = memo(function SidebarNav({
               <span
                 className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
               >
-                {t('coins') || 'Coins'}
+                <BionicText
+                  text={t('coins') || 'Coins'}
+                  enabled={bionicReading}
+                />
               </span>
               <div
                 className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-black shadow-inner ${isHighContrast ? 'bg-white text-black' : 'bg-amber-100 text-amber-600'}`}
@@ -231,7 +239,10 @@ const SidebarNav = memo(function SidebarNav({
               <span
                 className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
               >
-                {t('energyTitle') || 'Energy'}
+                <BionicText
+                  text={t('energyTitle') || 'Energy'}
+                  enabled={bionicReading}
+                />
               </span>
               <CognitiveEnergyIndicator
                 loadLevel={loadLevel}
@@ -240,6 +251,7 @@ const SidebarNav = memo(function SidebarNav({
                 isHighContrast={isHighContrast}
                 noFlash={noFlash}
                 bigTargets={bigTargets}
+                bionicReading={bionicReading}
               />
             </div>
           </div>
@@ -272,7 +284,10 @@ const SidebarNav = memo(function SidebarNav({
                   interactive={false}
                 >
                   <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                    {t('installApp') || 'Install App'}
+                    <BionicText
+                      text={t('installApp') || 'Install App'}
+                      enabled={bionicReading}
+                    />
                   </span>
                 </AccessibleTTS>
               )}
@@ -307,7 +322,10 @@ const SidebarNav = memo(function SidebarNav({
                   interactive={false}
                 >
                   <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                    {t('settingsAria')}
+                    <BionicText
+                      text={t('settingsAria')}
+                      enabled={bionicReading}
+                    />
                   </span>
                 </AccessibleTTS>
                 <span

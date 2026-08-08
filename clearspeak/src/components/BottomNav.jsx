@@ -1,5 +1,7 @@
 import { memo } from 'react';
 
+import BionicText from './common/BionicText.jsx';
+
 const PILLAR_ICONS = { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' };
 
 // One button shape shared by every entry (pillars, Garden, Settings)
@@ -21,6 +23,7 @@ function NavButton({
   label,
   ariaLabel = label,
   badge = false,
+  bionicReading = false,
 }) {
   return (
     <button
@@ -55,7 +58,7 @@ function NavButton({
         // silently losing every word after the first, while aria-label
         // above always carries the full, untruncated text to screen readers.
         <span className="max-w-full truncate text-center text-[10px] leading-none">
-          {label}
+          <BionicText text={label} enabled={bionicReading} />
         </span>
       )}
       {badge && (
@@ -85,6 +88,7 @@ function BottomNavComponent({
   hideNavLabel,
   noFlash,
   bigTargets = false,
+  bionicReading = false,
   t,
   onTabChange,
   onGardenClick,
@@ -115,6 +119,7 @@ function BottomNavComponent({
             hideNavLabel={hideNavLabel}
             noFlash={noFlash}
             bigTargets={bigTargets}
+            bionicReading={bionicReading}
             activeGlow
             icon={PILLAR_ICONS[pillar]}
             label={label}
@@ -135,6 +140,7 @@ function BottomNavComponent({
           hideNavLabel={hideNavLabel}
           noFlash={noFlash}
           bigTargets={bigTargets}
+          bionicReading={bionicReading}
           icon={gardenIcon}
           label={t('garden') || 'Garden'}
         />
@@ -149,6 +155,7 @@ function BottomNavComponent({
         themeStyles={themeStyles}
         hideNavLabel={hideNavLabel}
         bigTargets={bigTargets}
+        bionicReading={bionicReading}
         icon="⚙️"
         label={t('settings') || 'Settings'}
         ariaLabel={t('settingsAria') || 'Settings'}

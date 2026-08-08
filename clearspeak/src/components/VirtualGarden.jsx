@@ -28,6 +28,7 @@ function VirtualGarden({
   dailyGoal,
   userDifficulty,
   onDifficultyChange,
+  bionicReading = false,
 }) {
   const ecosystemState = useMemo(() => {
     const growthLevel = Math.floor(points / 5);
@@ -377,7 +378,10 @@ function VirtualGarden({
           <span
             className={`text-center font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : themeStyles?.accent}`}
           >
-            {ecosystemState.plantName}
+            <BionicText
+              text={ecosystemState.plantName}
+              enabled={bionicReading}
+            />
           </span>
           {ecosystemState.completedModules > 0 && (
             <span
@@ -460,7 +464,10 @@ function VirtualGarden({
           <h2
             className={`text-center text-lg font-bold tracking-widest uppercase sm:text-xl md:text-2xl ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
           >
-            {ecosystemState.plantName}
+            <BionicText
+              text={ecosystemState.plantName}
+              enabled={bionicReading}
+            />
           </h2>
           <p
             className={`max-w-xs px-2 text-center text-xs leading-relaxed font-medium break-words sm:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
@@ -487,14 +494,14 @@ function VirtualGarden({
             className={`mt-3 flex shrink-0 items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-black tracking-widest uppercase transition-all active:scale-95 sm:mt-4 sm:px-6 sm:py-2.5 sm:text-sm ${isHighContrast ? 'border border-white bg-black text-white' : `${themeStyles?.button || 'bg-indigo-500'} ${themeStyles?.buttonText || 'text-white'} shadow-md hover:brightness-110`}`}
           >
             <span aria-hidden="true">📤</span>
-            {t('shareProgress')}
+            <BionicText text={t('shareProgress')} enabled={bionicReading} />
           </button>
           {justCopied && (
             <p
               role="status"
               className={`mt-1 text-[10px] font-bold sm:text-xs ${isHighContrast ? 'text-white' : 'text-emerald-600'}`}
             >
-              {t('shareCopied')}
+              <BionicText text={t('shareCopied')} enabled={bionicReading} />
             </p>
           )}
 
@@ -503,14 +510,20 @@ function VirtualGarden({
               className={`mt-4 w-full max-w-[280px] rounded-2xl border-2 p-3 transition-all sm:mt-6 sm:max-w-xs sm:rounded-3xl sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 delay-700 duration-700'} ${isHighContrast ? 'border-white/30 bg-black text-white' : `${themeStyles?.border || 'border-slate-100'} bg-[#FCFBF9] text-slate-700 shadow-sm`}`}
             >
               <h3 className="mb-3 text-center text-[10px] font-black tracking-widest break-words text-slate-600 uppercase sm:mb-4 sm:text-xs">
-                {t('workloadCheckInTitle')}
+                <BionicText
+                  text={t('workloadCheckInTitle')}
+                  enabled={bionicReading}
+                />
               </h3>
 
               <div className="mb-3 sm:mb-4">
                 <p
                   className={`mb-2 text-center text-xs font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
                 >
-                  {t('workloadDemandQuestion')}
+                  <BionicText
+                    text={t('workloadDemandQuestion')}
+                    enabled={bionicReading}
+                  />
                 </p>
                 <div
                   className="flex items-center justify-center gap-1.5 sm:gap-2"
@@ -541,8 +554,18 @@ function VirtualGarden({
                 <div
                   className={`mt-1 flex justify-between text-[9px] font-bold uppercase sm:text-[10px] ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}
                 >
-                  <span>{t('workloadLow')}</span>
-                  <span>{t('workloadHigh')}</span>
+                  <span>
+                    <BionicText
+                      text={t('workloadLow')}
+                      enabled={bionicReading}
+                    />
+                  </span>
+                  <span>
+                    <BionicText
+                      text={t('workloadHigh')}
+                      enabled={bionicReading}
+                    />
+                  </span>
                 </div>
               </div>
 
@@ -550,7 +573,10 @@ function VirtualGarden({
                 <p
                   className={`mb-2 text-center text-xs font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
                 >
-                  {t('workloadFocusQuestion')}
+                  <BionicText
+                    text={t('workloadFocusQuestion')}
+                    enabled={bionicReading}
+                  />
                 </p>
                 <div
                   className="flex items-center justify-center gap-1.5 sm:gap-2"
@@ -581,8 +607,18 @@ function VirtualGarden({
                 <div
                   className={`mt-1 flex justify-between text-[9px] font-bold uppercase sm:text-[10px] ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}
                 >
-                  <span>{t('workloadFocusLow')}</span>
-                  <span>{t('workloadFocusHigh')}</span>
+                  <span>
+                    <BionicText
+                      text={t('workloadFocusLow')}
+                      enabled={bionicReading}
+                    />
+                  </span>
+                  <span>
+                    <BionicText
+                      text={t('workloadFocusHigh')}
+                      enabled={bionicReading}
+                    />
+                  </span>
                 </div>
               </div>
 
@@ -592,7 +628,7 @@ function VirtualGarden({
                   onClick={skipWorkloadCheckIn}
                   className={`text-[10px] font-bold uppercase underline sm:text-xs ${isHighContrast ? 'text-white/60' : 'text-slate-400'}`}
                 >
-                  {t('skip')}
+                  <BionicText text={t('skip')} enabled={bionicReading} />
                 </button>
                 <button
                   type="button"
@@ -602,7 +638,10 @@ function VirtualGarden({
                   }
                   className={`rounded-full px-4 py-1.5 text-[10px] font-black tracking-widest uppercase transition-all active:scale-95 disabled:opacity-40 sm:px-6 sm:py-2 sm:text-xs ${isHighContrast ? 'border border-white bg-black text-white' : `${themeStyles?.button || 'bg-indigo-500'} ${themeStyles?.buttonText || 'text-white'}`}`}
                 >
-                  {t('workloadSubmit')}
+                  <BionicText
+                    text={t('workloadSubmit')}
+                    enabled={bionicReading}
+                  />
                 </button>
               </div>
             </div>
@@ -613,11 +652,14 @@ function VirtualGarden({
               role="status"
               className={`mt-4 max-w-xs px-2 text-center text-[10px] font-bold sm:text-xs ${isHighContrast ? 'text-white' : 'text-indigo-600'}`}
             >
-              {t(
-                difficultyNote === 'eased'
-                  ? 'workloadEasedNote'
-                  : 'workloadRaisedNote',
-              )}
+              <BionicText
+                text={t(
+                  difficultyNote === 'eased'
+                    ? 'workloadEasedNote'
+                    : 'workloadRaisedNote',
+                )}
+                enabled={bionicReading}
+              />
             </p>
           )}
 
@@ -626,7 +668,7 @@ function VirtualGarden({
               className={`mt-4 w-full max-w-[280px] rounded-2xl border-2 p-3 transition-all sm:mt-6 sm:max-w-xs sm:rounded-3xl sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 delay-700 duration-700'} ${isHighContrast ? 'border-white/30 bg-black text-white' : `${themeStyles?.border || 'border-slate-100'} bg-[#FCFBF9] text-slate-700 shadow-sm`}`}
             >
               <h3 className="mb-3 text-center text-[10px] font-black tracking-widest break-words text-slate-600 uppercase sm:mb-4 sm:text-xs">
-                {t('dailySummary')}
+                <BionicText text={t('dailySummary')} enabled={bionicReading} />
               </h3>
               <div className="flex flex-col gap-2 sm:gap-3">
                 {Object.entries(todayStats.byType).map(([type, count]) => (
@@ -637,14 +679,22 @@ function VirtualGarden({
                     <span
                       className={`min-w-0 flex-1 truncate font-bold ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
                     >
-                      {t('categories', { returnObjects: true })?.[type] ||
-                        t('pillars', { returnObjects: true })?.[type] ||
-                        type}
+                      <BionicText
+                        text={
+                          t('categories', { returnObjects: true })?.[type] ||
+                          t('pillars', { returnObjects: true })?.[type] ||
+                          type
+                        }
+                        enabled={bionicReading}
+                      />
                     </span>
                     <span
                       className={`font-black whitespace-nowrap ${isHighContrast ? 'text-white' : themeStyles?.accent || ''}`}
                     >
-                      {t('exercisesCount', { count })}
+                      <BionicText
+                        text={t('exercisesCount', { count })}
+                        enabled={bionicReading}
+                      />
                     </span>
                   </div>
                 ))}
@@ -655,7 +705,10 @@ function VirtualGarden({
                   <span
                     className={`text-[9px] font-black tracking-widest uppercase sm:text-xs ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
                   >
-                    {t('totalEffort')}
+                    <BionicText
+                      text={t('totalEffort')}
+                      enabled={bionicReading}
+                    />
                   </span>
                   <span
                     className={`text-sm font-black sm:text-lg ${isHighContrast ? 'text-white' : themeStyles?.accent || ''}`}

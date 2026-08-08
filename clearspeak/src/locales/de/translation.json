@@ -6,20 +6,20 @@
   "installed": "Installiert",
   "offlineMessage": "Sie sind derzeit offline. Einige Funktionen sind möglicherweise nicht verfügbar.",
   "intro": {
-    "subtitle": "Ihr sicherer Raum zum Wachsen! Wählen Sie Modus und Werkzeuge:",
+    "subtitle": "Sicherer Lernraum. Wählen Sie Modus und Werkzeuge:",
     "chooseLanguage": "Sprache",
     "appMode": "Modus",
     "modeClassic": "Nur Lernen",
     "modeGamified": "Spiel (Belohnungen)",
     "a11y": "Komfort-Werkzeuge",
-    "lrs": "Freundliche Schriftart",
+    "lrs": "Schriftart",
     "contrast": "Kontrast",
     "vision": "Größerer Text",
     "big": "Bequeme Tasten",
-    "spacing": "Größerer Abstand",
+    "spacing": "Abstand",
     "ruler": "Fokuslineal",
     "color": "Sichere Farben",
-    "motion": "Ruhiger Bildschirm",
+    "motion": "Bildschirm",
     "desaturation": "Sanfte Farben",
     "bionic": "Bionic",
     "voice": "Sprachassistent",
@@ -128,7 +128,7 @@
   "textSizeDesc": "Passen Sie die Schriftgröße an Ihre Lesepräferenzen an",
   "a11y": {
     "lrs": {
-      "name": "Freundliche Schriftart",
+      "name": "Schriftart",
       "desc": "Schriftart, die das Lesen erleichtert (OpenDyslexic)"
     },
     "contrast": {
@@ -166,7 +166,7 @@
   },
   "inclusive": {
     "adaptiveDifficulty": {
-      "name": "Adaptiver Schwierigkeitsgrad",
+      "name": "Anpassung",
       "desc": "Übungen werden nach 5 richtigen Antworten in Folge etwas schwerer und nach 2 Fehlern in Folge wieder leichter"
     },
     "bigTargets": {
@@ -358,10 +358,10 @@
     "Ocean": ["💎", "🏆", "💡", "📈", "🎯"]
   },
   "dailyGoal": "Tagesziel",
-  "goal5": "5 Min – Schnelle Wiederholung",
-  "goal10": "10 Min – Gute Gewohnheit",
-  "goal15": "15 Min – Tiefer Fokus",
-  "goal20": "20 Min – Intensives Training",
+  "goal5": "5 Min – Schnell",
+  "goal10": "10 Min – Übung",
+  "goal15": "15 Min – Fokus",
+  "goal20": "20 Min – Extra",
   "dailySummary": "Heutige Aktivität",
   "exercisesCount_one": "{{count}} Übung",
   "exercisesCount_other": "{{count}} Übungen",

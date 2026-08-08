@@ -517,7 +517,10 @@ function AppContent() {
         }}
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200] focus:rounded-xl focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-slate-800 focus:shadow-lg"
       >
-        {t('skipToContent') || 'Skip to main content'}
+        <BionicText
+          text={t('skipToContent') || 'Skip to main content'}
+          enabled={!!settings.bionicReading}
+        />
       </a>
 
       {}
@@ -543,6 +546,7 @@ function AppContent() {
           loadLevel={loadLevel}
           speak={speak}
           noFlash={noFlash}
+          bionicReading={!!settings.bionicReading}
         />
       </div>
 
@@ -595,6 +599,7 @@ function AppContent() {
                   onDifficultyChange={(val) =>
                     updateSetting('userDifficulty', val)
                   }
+                  bionicReading={!!settings.bionicReading}
                 />
               </Suspense>
             </div>
@@ -609,7 +614,13 @@ function AppContent() {
                     <div
                       className={`absolute -top-4 left-4 z-20 flex items-center gap-1.5 rounded-full border-2 px-3 py-1 text-xs font-black tracking-widest uppercase shadow-lg ${isHighContrast ? 'border-white bg-black text-white' : `bg-[#FCFBF9] ${themeStyles.border} text-[#4A5D54]`} ${noFlash ? '' : 'animate-in zoom-in duration-300'}`}
                     >
-                      <span>{t('collectedLabel')}:</span>
+                      <span>
+                        <BionicText
+                          text={t('collectedLabel')}
+                          enabled={!!settings.bionicReading}
+                        />
+                        :
+                      </span>
                       <span className="text-xs">
                         {rewards[rewards.length - 1]}
                       </span>
@@ -661,6 +672,7 @@ function AppContent() {
                       isHighContrast={isHighContrast}
                       noFlash={noFlash}
                       bigTargets={bigTargets}
+                      bionicReading={!!settings.bionicReading}
                     />
                     <div
                       className={`text-xs font-black tracking-widest uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
@@ -714,8 +726,13 @@ function AppContent() {
                 <p
                   className={`mt-2 shrink-0 text-center text-[9px] font-bold sm:text-[10px] md:mt-3 ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
                 >
-                  {t('bionicExplanation') ||
-                    'Bionic Reading® is a typographic method that supports the reading flow.'}
+                  <BionicText
+                    text={
+                      t('bionicExplanation') ||
+                      'Bionic Reading® is a typographic method that supports the reading flow.'
+                    }
+                    enabled={!!settings.bionicReading}
+                  />
                 </p>
               )}
 
@@ -725,20 +742,33 @@ function AppContent() {
                     onClick={goNext}
                     className={`${bigTargets ? 'px-14 py-5 text-lg md:py-6' : 'px-12 py-3.5 text-sm md:py-4'} rounded-full font-black tracking-widest uppercase shadow-xl transition-all active:scale-95 ${noFlash ? '' : 'animate-bounce'} break-words hyphens-auto ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} ${themeStyles.buttonText} opacity-90 hover:opacity-100`}`}
                   >
-                    {t('next') || 'Next'}
+                    <BionicText
+                      text={t('next') || 'Next'}
+                      enabled={!!settings.bionicReading}
+                    />
                   </button>
                   <p
                     className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
                   >
-                    💡 {t('pressKey') || 'Press'}{' '}
+                    💡{' '}
+                    <BionicText
+                      text={t('pressKey') || 'Press'}
+                      enabled={!!settings.bionicReading}
+                    />{' '}
                     <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-500">
                       Enter
                     </kbd>{' '}
-                    {t('or') || 'or'}{' '}
+                    <BionicText
+                      text={t('or') || 'or'}
+                      enabled={!!settings.bionicReading}
+                    />{' '}
                     <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-500">
                       →
                     </kbd>{' '}
-                    {t('toContinue') || 'to continue'}
+                    <BionicText
+                      text={t('toContinue') || 'to continue'}
+                      enabled={!!settings.bionicReading}
+                    />
                   </p>
                 </div>
               ) : (
@@ -749,16 +779,26 @@ function AppContent() {
                       onClick={goNext}
                       className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} rounded-full border-2 bg-transparent font-black tracking-widest uppercase transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}
                     >
-                      {t('skip') || 'Skip'}
+                      <BionicText
+                        text={t('skip') || 'Skip'}
+                        enabled={!!settings.bionicReading}
+                      />
                     </button>
                     <p
                       className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
                     >
-                      💡 {t('pressKey') || 'Press'}{' '}
+                      💡{' '}
+                      <BionicText
+                        text={t('pressKey') || 'Press'}
+                        enabled={!!settings.bionicReading}
+                      />{' '}
                       <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-500">
                         →
                       </kbd>{' '}
-                      {t('toSkip') || 'to skip'}
+                      <BionicText
+                        text={t('toSkip') || 'to skip'}
+                        enabled={!!settings.bionicReading}
+                      />
                     </p>
                   </div>
                 )
@@ -791,6 +831,7 @@ function AppContent() {
           hideNavLabel={hideNavLabel}
           noFlash={noFlash}
           bigTargets={bigTargets}
+          bionicReading={!!settings.bionicReading}
           t={t}
           onTabChange={handleTabChange}
           onGardenClick={handleGardenClick}
@@ -813,6 +854,7 @@ function AppContent() {
         bigTargets={bigTargets}
         t={t}
         onNext={handleLevelUpNext}
+        bionicReading={!!settings.bionicReading}
       />
 
       {}
@@ -862,6 +904,7 @@ function AppContent() {
         t={t}
         onUpdate={applyPwaUpdate}
         onDismiss={dismissPwaUpdate}
+        bionicReading={!!settings.bionicReading}
       />
     </div>
   );

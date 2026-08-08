@@ -44,7 +44,10 @@ export default function DailyChecklist({ quests, t }) {
       <h2
         className={`px-1 text-xl font-black ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
       >
-        {t('quests') || 'Daily Checklist'}
+        <BionicText
+          text={t('quests') || 'Daily Checklist'}
+          enabled={bionicReading}
+        />
       </h2>
 
       <div className="flex flex-col gap-3" role="list">
@@ -115,7 +118,11 @@ export default function DailyChecklist({ quests, t }) {
                 <span
                   className={`mt-1 text-xs font-black tracking-widest uppercase ${labelColorClass}`}
                 >
-                  {task.current} / {task.target} {t('done') || 'Done'}
+                  {task.current} / {task.target}{' '}
+                  <BionicText
+                    text={t('done') || 'Done'}
+                    enabled={bionicReading}
+                  />
                 </span>
               </div>
             </div>

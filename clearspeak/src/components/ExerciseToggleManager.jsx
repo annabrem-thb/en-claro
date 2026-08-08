@@ -137,10 +137,13 @@ export default function ExerciseToggleManager({ t, bigTargets = false }) {
       <p
         className={`px-1 text-xs ${isHighContrast ? 'text-white/60' : 'text-slate-500'}`}
       >
-        {t(
-          'exerciseManager.intro',
-          'Turn off exercise types you find redundant or have already mastered — they will no longer be selected for this pillar.',
-        )}
+        <BionicText
+          text={t(
+            'exerciseManager.intro',
+            'Turn off exercise types you find redundant or have already mastered — they will no longer be selected for this pillar.',
+          )}
+          enabled={bionicReading}
+        />
       </p>
 
       {Object.entries(EXERCISE_PILLARS).map(([pillarKey, exerciseKeys]) => (
@@ -150,20 +153,29 @@ export default function ExerciseToggleManager({ t, bigTargets = false }) {
               id={`exmgr-pillar-${pillarKey}`}
               className={`text-sm font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
             >
-              {t(`pillars.${pillarKey}`, pillarKey)}
+              <BionicText
+                text={t(`pillars.${pillarKey}`, pillarKey)}
+                enabled={bionicReading}
+              />
             </h3>
             <div className="flex shrink-0 gap-1">
               <button
                 onClick={() => setAll(exerciseKeys, true)}
                 className={`rounded-full px-3 py-1 text-xs font-bold transition-colors ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-indigo-600 hover:bg-indigo-50'}`}
               >
-                {t('exerciseManager.selectAll', 'Select all')}
+                <BionicText
+                  text={t('exerciseManager.selectAll', 'Select all')}
+                  enabled={bionicReading}
+                />
               </button>
               <button
                 onClick={() => setAll(exerciseKeys, false)}
                 className={`rounded-full px-3 py-1 text-xs font-bold transition-colors ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-500 hover:bg-slate-100'}`}
               >
-                {t('exerciseManager.deselectAll', 'Deselect all')}
+                <BionicText
+                  text={t('exerciseManager.deselectAll', 'Deselect all')}
+                  enabled={bionicReading}
+                />
               </button>
             </div>
           </div>

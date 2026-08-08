@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useUserSettingsContext } from './UserSettingsContext';
+import BionicText from './common/BionicText.jsx';
 import Dialog from './common/Dialog.jsx';
 
 export default function FocusExerciseLayout({
@@ -15,6 +16,7 @@ export default function FocusExerciseLayout({
   const isHighContrast = settings.contrast;
   const noFlash = !!(settings.noFlash || settings.motion);
   const bigTargets = !!(settings.bigTargets || settings.motorik);
+  const bionicReading = !!settings.bionicReading;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -50,7 +52,9 @@ export default function FocusExerciseLayout({
           >
             ✕
           </span>
-          <span className="hidden sm:inline">{t('close')}</span>
+          <span className="hidden sm:inline">
+            <BionicText text={t('close')} enabled={bionicReading} />
+          </span>
         </button>
 
         {}
@@ -62,7 +66,10 @@ export default function FocusExerciseLayout({
           <span
             className={`${bigTargets ? 'text-sm' : 'text-xs'} font-black tracking-widest uppercase opacity-70`}
           >
-            {t('task', 'Task')} {currentTaskNumber} {t('of', 'of')} {totalTasks}
+            <BionicText text={t('task', 'Task')} enabled={bionicReading} />{' '}
+            {currentTaskNumber}{' '}
+            <BionicText text={t('of', 'of')} enabled={bionicReading} />{' '}
+            {totalTasks}
           </span>
           <div
             className={`${bigTargets ? 'h-3.5 w-24 sm:w-48' : 'h-2.5 w-20 sm:w-40'} overflow-hidden rounded-full bg-slate-200/50 shadow-inner`}

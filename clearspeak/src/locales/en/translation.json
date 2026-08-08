@@ -136,7 +136,7 @@
       "desc": "Black and white WCAG AAA colors"
     },
     "motor": {
-      "name": "Comfortable buttons",
+      "name": "Comfort buttons",
       "desc": "Enlarged buttons and calm animations"
     },
     "vision": {
@@ -358,10 +358,10 @@
     "Ocean": ["💎", "🏆", "💡", "📈", "🎯"]
   },
   "dailyGoal": "Daily goal",
-  "goal5": "5 min — Quick review",
-  "goal10": "10 min — Good habit",
-  "goal15": "15 min — Deep focus",
-  "goal20": "20 min — Intensive training",
+  "goal5": "5 min — Quick",
+  "goal10": "10 min — Habit",
+  "goal15": "15 min — Focus",
+  "goal20": "20 min — Deep",
   "dailySummary": "Today's activity",
   "exercisesCount_one": "{{count}} exercise",
   "exercisesCount_other": "{{count}} exercises",

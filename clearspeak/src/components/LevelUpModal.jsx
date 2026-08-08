@@ -1,5 +1,6 @@
 import { memo } from 'react';
 
+import BionicText from './common/BionicText.jsx';
 import Dialog from './common/Dialog.jsx';
 
 // The "another daily goal reached" celebration dialog. It only knows how to
@@ -23,6 +24,7 @@ function LevelUpModalComponent({
   bigTargets,
   t,
   onNext,
+  bionicReading = false,
 }) {
   return (
     <Dialog
@@ -42,18 +44,26 @@ function LevelUpModalComponent({
         id="level-up-title"
         className={`mb-4 text-2xl font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
       >
-        {t('levelUpTitle') || 'Your garden is growing!'}
+        <BionicText
+          text={t('levelUpTitle') || 'Your garden is growing!'}
+          enabled={bionicReading}
+        />
       </h2>
       <p
         className={`mb-8 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
       >
-        {t('levelUpDesc') || 'Another goal has been successfully achieved.'}
+        <BionicText
+          text={
+            t('levelUpDesc') || 'Another goal has been successfully achieved.'
+          }
+          enabled={bionicReading}
+        />
       </p>
       <button
         onClick={onNext}
         className={`w-full ${bigTargets ? 'py-7 text-xl' : 'py-4 text-lg'} rounded-3xl font-bold transition-all active:scale-95 ${isHighContrast ? 'bg-white text-black' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
       >
-        {t('next') || 'Next'}
+        <BionicText text={t('next') || 'Next'} enabled={bionicReading} />
       </button>
     </Dialog>
   );
