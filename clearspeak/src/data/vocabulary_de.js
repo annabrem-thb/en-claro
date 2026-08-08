@@ -556,6 +556,204 @@ export const wordDatabaseDE = {
         },
       ],
     },
+    {
+      id: 13,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'eu / äu — gleicher Laut, andere Schreibung je nach Wortstamm',
+      question: {
+        de: '"äu" schreibt man, wenn ein verwandtes Wort mit "au" existiert (Haus → Häuser). Welche Schreibweise ist richtig?',
+        pl: '"äu" piszemy, gdy istnieje pokrewne słowo z "au" (Haus → Häuser). Które słowo jest poprawne?',
+        en: 'You write "äu" when a related word with "au" exists (Haus → Häuser). Which spelling is correct?',
+      },
+      options: [
+        {
+          text: 'Häuser',
+          isCorrect: true,
+          icon: '🏘️',
+        },
+        {
+          text: 'Heuser',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Häuzer',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Heusser',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 14,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'sp am Wortanfang — gesprochen "schp", geschrieben "sp"',
+      question: {
+        de: 'Am Wortanfang spricht man "schp", schreibt aber "sp". Welche Schreibweise ist richtig?',
+        pl: 'Na początku wyrazu wymawiamy "szp", ale piszemy "sp". Które słowo jest poprawne?',
+        en: 'At the start of a word you say "schp" but write "sp". Which spelling is correct?',
+      },
+      options: [
+        {
+          text: 'Spinne',
+          isCorrect: true,
+          icon: '🕷️',
+        },
+        {
+          text: 'Schpinne',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Spienne',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Schbinne',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 15,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'st am Wortanfang — gesprochen "scht", geschrieben "st"',
+      question: {
+        de: 'Am Wortanfang spricht man "scht", schreibt aber "st". Welche Schreibweise ist richtig?',
+        pl: 'Na początku wyrazu wymawiamy "szt", ale piszemy "st". Które słowo jest poprawne?',
+        en: 'At the start of a word you say "scht" but write "st". Which spelling is correct?',
+      },
+      options: [
+        {
+          text: 'Straße',
+          isCorrect: true,
+          icon: '🛣️',
+        },
+        {
+          text: 'Schtraße',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Straase',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Schtrase',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 16,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'ä statt e — wenn ein verwandtes Wort mit a existiert',
+      question: {
+        de: 'Man schreibt "ä", wenn ein verwandtes Wort mit "a" existiert (Wort → Wörter). Welche Schreibweise ist richtig?',
+        pl: 'Piszemy "ä", gdy istnieje pokrewne słowo z "a" (Wort → Wörter). Które słowo jest poprawne?',
+        en: 'You write "ä" when a related word with "a" exists (Wort → Wörter). Which spelling is correct?',
+      },
+      options: [
+        {
+          text: 'Wörter',
+          isCorrect: true,
+          icon: '📖',
+        },
+        {
+          text: 'Werter',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Wörtar',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Woerter',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 17,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'zusammengesetzte Wörter — Komposita immer zusammenschreiben',
+      question: {
+        de: 'Zusammengesetzte Wörter schreibt man im Deutschen immer zusammen, nie getrennt. Welche Schreibweise ist richtig?',
+        pl: 'Wyrazy złożone piszemy w niemieckim zawsze razem, nigdy osobno. Które słowo jest poprawne?',
+        en: 'Compound words in German are always written as one word, never separately. Which spelling is correct?',
+      },
+      options: [
+        {
+          text: 'Handschuh',
+          isCorrect: true,
+          icon: '🧤',
+        },
+        {
+          text: 'Hand Schuh',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Handt schuh',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Hantschuh',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 18,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'ai statt ei — seltenes Muster in Fremdwörtern',
+      question: {
+        de: 'In manchen Wörtern schreibt man "ai" statt des häufigeren "ei". Welche Schreibweise ist richtig?',
+        pl: 'W niektórych słowach piszemy "ai" zamiast częstszego "ei". Które słowo jest poprawne?',
+        en: 'In some words you write "ai" instead of the more common "ei". Which spelling is correct?',
+      },
+      options: [
+        {
+          text: 'Mais',
+          isCorrect: true,
+          icon: '🌽',
+        },
+        {
+          text: 'Meis',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Maiss',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Meiss',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
   ],
   syllables: [
     {

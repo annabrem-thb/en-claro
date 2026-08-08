@@ -861,6 +861,204 @@ export const wordDatabasePL = {
         },
       ],
     },
+    {
+      id: 19,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'si — miękkość przed samogłoską',
+      question: {
+        pl: 'Miękkość "s" przed samogłoską zapisujemy przez "si", nie przez "ś" ani "sj". Które słowo jest poprawne?',
+        en: 'Softness of "s" before a vowel is written as "si", not "ś" or "sj". Which spelling is correct?',
+        de: 'Die Weichheit von "s" vor einem Vokal schreibt man als "si", nicht als "ś" oder "sj". Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Siano',
+          isCorrect: true,
+          icon: '🌾',
+        },
+        {
+          text: 'Śiano',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Sjano',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Syano',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 20,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'ci — miękkość przed samogłoską',
+      question: {
+        pl: 'Miękkość "c" przed samogłoską zapisujemy przez "ci", nie przez "ć" ani "cj". Które słowo jest poprawne?',
+        en: 'Softness of "c" before a vowel is written as "ci", not "ć" or "cj". Which spelling is correct?',
+        de: 'Die Weichheit von "c" vor einem Vokal schreibt man als "ci", nicht als "ć" oder "cj". Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Ciasto',
+          isCorrect: true,
+          icon: '🎂',
+        },
+        {
+          text: 'Ćiasto',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Cjasto',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Tiasto',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 21,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'źdź — rzadkie, trudne połączenie głosek miękkich',
+      question: {
+        pl: 'To połączenie głosek jest jednym z najtrudniejszych w polskiej pisowni. Które słowo jest poprawne?',
+        en: 'This consonant cluster is one of the hardest in Polish spelling. Which spelling is correct?',
+        de: 'Diese Konsonantenverbindung gehört zu den schwierigsten der polnischen Rechtschreibung. Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Gwóźdź',
+          isCorrect: true,
+          icon: '🔩',
+        },
+        {
+          text: 'Gwuźdź',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Gwóźć',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Gwoźdź',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 22,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'grupy spółgłoskowe trz/krz/wrz — zawsze z rz',
+      question: {
+        pl: 'W grupach spółgłoskowych "trz", "krz", "wrz" zawsze piszemy "rz" (nigdy "ż"). Które słowo jest poprawne?',
+        en: 'In the consonant clusters "trz", "krz", "wrz" we always write "rz" (never "ż"). Which spelling is correct?',
+        de: 'In den Konsonantengruppen "trz", "krz", "wrz" schreibt man immer "rz" (nie "ż"). Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Trzynaście',
+          isCorrect: true,
+          icon: '🔢',
+        },
+        {
+          text: 'Tszynaście',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Czrzynaście',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Trzynaśćie',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 23,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'ż niewymienne na początku wyrazu — wyjątki',
+      question: {
+        pl: 'W tych słowach "ż" na początku nie wymienia się na "g" ani "z" — trzeba je zapamiętać. Które słowo jest poprawne?',
+        en: 'In these words the initial "ż" does not alternate with "g" or "z" — it must simply be memorized. Which spelling is correct?',
+        de: 'In diesen Wörtern wechselt das anfängliche "ż" nicht zu "g" oder "z" — man muss es sich einfach merken. Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Żagiel',
+          isCorrect: true,
+          icon: '⛵',
+        },
+        {
+          text: 'Rzagiel',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Zagiel',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Żagieł',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 24,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'dż — rzadki dwuznak w zapożyczeniach',
+      question: {
+        pl: 'Dwuznak "dż" pojawia się rzadko, głównie w zapożyczeniach. Które słowo jest poprawne?',
+        en: 'The digraph "dż" is rare, appearing mainly in loanwords. Which spelling is correct?',
+        de: 'Der Digraph "dż" ist selten und kommt vor allem in Lehnwörtern vor. Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Dżungla',
+          isCorrect: true,
+          icon: '🌴',
+        },
+        {
+          text: 'Drzungla',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Żungla',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Dzungla',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
   ],
   syllables: [
     {

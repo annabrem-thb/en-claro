@@ -566,6 +566,204 @@ export const wordDatabaseEN = {
         },
       ],
     },
+    {
+      id: 13,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'silent "k" before "n"',
+      question: {
+        en: 'The "k" is silent here — you only hear the "n" sound. Which spelling is correct?',
+        pl: '"k" jest tu nieme — słychać tylko głoskę "n". Które słowo jest poprawne?',
+        de: 'Das "k" ist hier stumm — man hört nur den "n"-Laut. Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Knee',
+          isCorrect: true,
+          icon: '🦵',
+        },
+        {
+          text: 'Nee',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Kne',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Neee',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 14,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'silent "g" before "n"',
+      question: {
+        en: 'The "g" is silent here too — a common mix-up with silent "k". Which spelling is correct?',
+        pl: '"g" jest tu również nieme — częsta pomyłka z niemym "k". Które słowo jest poprawne?',
+        de: 'Das "g" ist hier ebenfalls stumm — eine häufige Verwechslung mit dem stummen "k". Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Gnome',
+          isCorrect: true,
+          icon: '🧙',
+        },
+        {
+          text: 'Nome',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Knome',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Gknome',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 15,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: '"ough" — one spelling, many sounds',
+      question: {
+        en: 'This is one of the trickiest patterns in English spelling. Which spelling means "believed" (past tense of think)?',
+        pl: 'To jeden z najtrudniejszych wzorców w angielskiej pisowni. Które słowo znaczy "pomyślał" (czas przeszły od think)?',
+        de: 'Dies ist eines der schwierigsten Muster der englischen Rechtschreibung. Welche Schreibweise bedeutet "dachte" (Vergangenheitsform von think)?',
+      },
+      options: [
+        {
+          text: 'Thought',
+          isCorrect: true,
+          icon: '💭',
+        },
+        {
+          text: 'Thawt',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Thort',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Thourght',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 16,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'silent "b" after "m"',
+      question: {
+        en: 'The "b" is silent after "m" at the end of this word. Which spelling is correct?',
+        pl: '"b" jest nieme po "m" na końcu tego słowa. Które słowo jest poprawne?',
+        de: 'Das "b" ist nach "m" am Wortende stumm. Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Comb',
+          isCorrect: true,
+          icon: '🪮',
+        },
+        {
+          text: 'Com',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Coumb',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Comm',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 17,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'silent "w" before "r"',
+      question: {
+        en: 'The "w" is silent before "r" here. Which spelling is correct?',
+        pl: '"w" jest nieme przed "r". Które słowo jest poprawne?',
+        de: 'Das "w" ist hier vor "r" stumm. Welche Schreibweise ist richtig?',
+      },
+      options: [
+        {
+          text: 'Wrist',
+          isCorrect: true,
+          icon: '✋',
+        },
+        {
+          text: 'Rist',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Wriist',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Rrist',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
+    {
+      id: 18,
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'doubling the consonant before "-ing"',
+      question: {
+        en: 'Which spelling correctly doubles the consonant before adding "-ing"?',
+        pl: 'Które słowo poprawnie podwaja spółgłoskę przed dodaniem "-ing"?',
+        de: 'Welche Schreibweise verdoppelt den Konsonanten vor "-ing" richtig?',
+      },
+      options: [
+        {
+          text: 'Running',
+          isCorrect: true,
+          icon: '🏃',
+        },
+        {
+          text: 'Runing',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Runnning',
+          isCorrect: false,
+          icon: '❌',
+        },
+        {
+          text: 'Runeing',
+          isCorrect: false,
+          icon: '❌',
+        },
+      ],
+    },
   ],
   syllables: [
     {
