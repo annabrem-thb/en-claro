@@ -21,7 +21,13 @@ async function skipIntro(page) {
     await studyOnly.click();
     await page.locator('text=/Rozpocznij|Start/i').click();
   }
-  await expect(page.locator('aside')).toBeVisible();
+  // SidebarNav (<aside>) only renders above the `lg:` breakpoint — on the
+  // Tablet/Mobile projects it's genuinely hidden and BottomNav (<nav
+  // class="...justify-around...">) takes over, so hardcoding `aside` here
+  // made every caller of this helper fail on those two projects specifically.
+  await expect(
+    page.locator('aside:visible, nav.justify-around:visible').first(),
+  ).toBeVisible();
 }
 
 async function runAxe(page, disableRules = []) {
@@ -98,7 +104,16 @@ test.describe('Accessibility (axe-core)', () => {
     expect(results.violations, formatViolations(results)).toEqual([]);
   });
 
-  test('Profile dialog has no WCAG 2.1 A/AA violations', async ({ page }) => {
+  // Skipped, not deleted: there is no '/#/profile' route or Profile dialog
+  // in the app today — useHashRoute.js only recognizes literacy/visual/
+  // cognitive/garden/settings, and the component this test targeted
+  // (UserProfileDashboard.tsx) has been removed from src/ entirely (only
+  // unused i18n scaffold content — profileDashboard.json — still exists per
+  // src/locales/index.js's own comment). Re-enable this once that feature
+  // actually ships with a real route and a `role="dialog"` surface.
+  test.skip('Profile dialog has no WCAG 2.1 A/AA violations', async ({
+    page,
+  }) => {
     await skipIntro(page);
     await page.goto('/#/profile');
     await expect(page.locator('[role="dialog"]')).toBeVisible();
@@ -132,7 +147,9 @@ test.describe('Accessibility (axe-core)', () => {
       await studyOnly.click();
       await page.locator('text=/Rozpocznij|Start/i').click();
     }
-    await expect(page.locator('aside')).toBeVisible();
+    await expect(
+      page.locator('aside:visible, nav.justify-around:visible').first(),
+    ).toBeVisible();
 
     const getPoints = () =>
       page.evaluate(() => Number(window.localStorage.getItem('pts')) || 0);

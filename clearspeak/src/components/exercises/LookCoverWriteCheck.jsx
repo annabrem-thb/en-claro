@@ -137,7 +137,7 @@ function LookCoverWriteCheck({
               ? 'cursor-not-allowed bg-slate-200 text-slate-600'
               : isHighContrast
                 ? 'bg-white text-black hover:bg-slate-200'
-                : 'bg-emerald-500 text-white shadow-xl hover:bg-emerald-400'
+                : 'bg-emerald-700 text-white shadow-xl hover:bg-emerald-600'
           }`}
         >
           {t('checkSpelling') || 'Check My Answer'}

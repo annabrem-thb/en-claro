@@ -472,11 +472,14 @@ function VirtualGarden({
           <p
             className={`max-w-xs px-2 text-center text-xs leading-relaxed font-medium break-words sm:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
           >
-            <BionicText>
-              {ecosystemState.completedModules > 0
-                ? `${t('gardenBlooming')} ${ecosystemState.completedModules}`
-                : t('gardenEmpty')}
-            </BionicText>
+            <BionicText
+              text={
+                ecosystemState.completedModules > 0
+                  ? `${t('gardenBlooming')} ${ecosystemState.completedModules}`
+                  : t('gardenEmpty')
+              }
+              enabled={bionicReading}
+            />
           </p>
           <WeeklyCalendar
             dailyProgress={dailyProgress}
@@ -594,7 +597,7 @@ function VirtualGarden({
                         checkInFocus === n
                           ? isHighContrast
                             ? 'border-white bg-white text-black'
-                            : `border-emerald-500 bg-emerald-500 text-white`
+                            : `border-emerald-700 bg-emerald-700 text-white`
                           : isHighContrast
                             ? 'border-white/30 text-white/60'
                             : 'border-slate-200 text-slate-500'

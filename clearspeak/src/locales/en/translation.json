@@ -55,21 +55,30 @@
   "coinsAria": "Coins",
   "exerciseAria": "Exercise",
   "readAloudTitle": "Read aloud",
-  "successMsg": ["Great!", "Excellent!", "Wonderful!", "Super!"],
+  "successMsg": [
+    "Great!",
+    "Excellent!",
+    "Wonderful!",
+    "Super!",
+    "You've got this!",
+    "That's real progress."
+  ],
   "errorMsg": [
     "Let's analyze this together.",
     "Let's try again.",
-    "Almost right, look again."
+    "Almost right, look again.",
+    "That's a normal part of learning."
   ],
   "streakMsg": [
     "{{count}} in a row! 🔥",
     "{{count}} hit streak! 🚀",
     "You have {{count}}! 🌟",
-    "{{count}}x flawless! 💪"
+    "{{count}}x flawless! 💪",
+    "{{count}} in a row — that's how a habit is built. 🌱"
   ],
   "levelUp": "Level Up!",
   "levelUpTitle": "Your garden is growing!",
-  "levelUpDesc": "Another goal has been successfully achieved.",
+  "levelUpDesc": "Another goal behind you — your consistency is paying off.",
   "hint": "Hint",
   "voice": {
     "success": ["Excellent", "Great", "Wonderful", "Outstanding"],
@@ -358,10 +367,10 @@
     "Ocean": ["💎", "🏆", "💡", "📈", "🎯"]
   },
   "dailyGoal": "Daily goal",
-  "goal5": "5 min — Quick",
+  "goal5": "5 min — Step",
   "goal10": "10 min — Habit",
   "goal15": "15 min — Focus",
-  "goal20": "20 min — Deep",
+  "goal20": "20 min — Master",
   "dailySummary": "Today's activity",
   "exercisesCount_one": "{{count}} exercise",
   "exercisesCount_other": "{{count}} exercises",

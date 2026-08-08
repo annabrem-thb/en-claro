@@ -340,7 +340,7 @@ function VisualCategorization({
       <button
         onClick={handleCheck}
         disabled={!isComplete || isShowingCorrection}
-        className={`mt-auto w-full max-w-sm shrink-0 rounded-full px-10 py-4 pt-2 text-sm font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:py-5 sm:pt-4 ${!isComplete || isShowingCorrection ? 'cursor-not-allowed border-2 border-transparent bg-slate-100 text-slate-300' : isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-emerald-500 text-white shadow-xl hover:bg-emerald-400'}`}
+        className={`mt-auto w-full max-w-sm shrink-0 rounded-full px-10 py-4 pt-2 text-sm font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:py-5 sm:pt-4 ${!isComplete || isShowingCorrection ? 'cursor-not-allowed border-2 border-transparent bg-slate-100 text-slate-300' : isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-emerald-700 text-white shadow-xl hover:bg-emerald-600'}`}
       >
         {t('checkAnswers') || t('check') || 'Check Answers'}
       </button>

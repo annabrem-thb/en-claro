@@ -13,12 +13,18 @@ test.describe('Dyslexia PWA - Testy Responsywności (RWD)', () => {
     await page.locator('text=/Tylko nauka|Study only/i').click();
     await page.locator('text=/Rozpocznij|Start/i').click();
     await expect(page.locator('main')).toBeVisible();
+    // SidebarNav and BottomNav both always render (one CSS-hidden per `lg:`
+    // breakpoint), so a bare `nav` locator matches two elements and any
+    // singular assertion on it throws a strict-mode error regardless of
+    // which one is actually visible. `nav.justify-around` is BottomNav's own
+    // distinguishing layout class (SidebarNav's nav uses justify-between),
+    // so it unambiguously targets just the mobile bar.
     if (isMobile) {
       await expect(page.locator('aside')).not.toBeVisible();
-      await expect(page.locator('nav')).toBeVisible();
+      await expect(page.locator('nav.justify-around')).toBeVisible();
     } else {
       await expect(page.locator('aside')).toBeVisible();
-      await expect(page.locator('nav')).not.toBeVisible();
+      await expect(page.locator('nav.justify-around')).not.toBeVisible();
     }
   });
   test('powinno umożliwiać nawigację między zakładkami na ekranie mobilnym', async ({
@@ -32,8 +38,8 @@ test.describe('Dyslexia PWA - Testy Responsywności (RWD)', () => {
     await page.goto('/');
     await page.locator('text=/Tylko nauka|Study only/i').click();
     await page.locator('text=/Rozpocznij|Start/i').click();
-    await expect(page.locator('nav')).toBeVisible();
-    const navButtons = page.locator('nav button');
+    await expect(page.locator('nav.justify-around')).toBeVisible();
+    const navButtons = page.locator('nav.justify-around button');
     await expect(navButtons.nth(0)).toHaveAttribute('aria-current', 'page');
     await navButtons.nth(1).click();
     await expect(navButtons.nth(1)).toHaveAttribute('aria-current', 'page');

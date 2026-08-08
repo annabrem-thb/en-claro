@@ -537,7 +537,7 @@ function IntroScreen({ onStart, speak }) {
               bigTargets
                 ? 'py-3 text-sm sm:py-4 sm:text-lg'
                 : 'py-2.5 text-sm sm:py-3'
-            } ${isHighContrast ? 'bg-emerald-400 text-black hover:bg-emerald-300' : 'bg-emerald-500 text-white shadow-xl shadow-emerald-900/60 hover:bg-emerald-400'}`}
+            } ${isHighContrast ? 'bg-emerald-400 text-black hover:bg-emerald-300' : 'bg-emerald-700 text-white shadow-xl shadow-emerald-900/60 hover:bg-emerald-600'}`}
           >
             <BionicText text={t('start', 'Start')} enabled={hasBionic} />
           </button>

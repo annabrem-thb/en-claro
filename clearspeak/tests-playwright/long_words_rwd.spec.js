@@ -17,9 +17,19 @@ test.describe('Dyslexia PWA - Ekstremalne Testy RWD (Długie Słowa)', () => {
     await page.locator('button[lang="de"]').click();
     await page.locator('text=/Nur lernen/i').click();
     await page.locator('text=/Start/i').click();
-    await page.locator('nav button[aria-label="Einstellungen"]').click();
-    await page.locator('button[role="tab"] >> text="Stimme"').click();
-    await expect(page.locator('text=Sprechgeschwindigkeit')).toBeVisible();
+    // SidebarNav and BottomNav both always exist in the DOM (one CSS-hidden
+    // per breakpoint via `lg:`), so a bare `nav button[...]` matches both —
+    // scope to whichever `<nav>` is actually visible for this viewport.
+    await page
+      .locator('nav:visible button[aria-label="Einstellungen"]')
+      .click();
+    await page
+      .locator('button[role="tab"]')
+      .filter({ hasText: 'Stimme' })
+      .click();
+    await expect(
+      page.getByText('Sprechgeschwindigkeit', { exact: true }),
+    ).toBeVisible();
     const hasHorizontalScroll = await page.evaluate(
       () =>
         document.documentElement.scrollWidth >

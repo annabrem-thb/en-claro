@@ -406,7 +406,7 @@ const ShopTab = ({ speak }) => {
                   <button
                     onClick={() => handleBuyTheme(key, theme.price)}
                     disabled={!canAfford}
-                    className={`rounded-full px-4 py-1 text-xs font-bold text-white ${canAfford ? 'bg-emerald-500 hover:bg-emerald-600' : 'cursor-not-allowed bg-slate-300'}`}
+                    className={`rounded-full px-4 py-1 text-xs font-bold text-white ${canAfford ? 'bg-emerald-700 hover:bg-emerald-600' : 'cursor-not-allowed bg-slate-300'}`}
                   >
                     <BionicText text={t('buy')} enabled={bionicReading} /> (
                     {theme.price}💰)

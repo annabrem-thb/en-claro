@@ -55,21 +55,30 @@
   "coinsAria": "Münzen",
   "exerciseAria": "Übung",
   "readAloudTitle": "Laut vorlesen",
-  "successMsg": ["Großartig!", "Ausgezeichnet!", "Wunderbar!", "Super!"],
+  "successMsg": [
+    "Großartig!",
+    "Ausgezeichnet!",
+    "Wunderbar!",
+    "Super!",
+    "Das schaffen Sie!",
+    "Das zeigt Wirkung."
+  ],
   "errorMsg": [
     "Lassen Sie uns das gemeinsam analysieren.",
     "Versuchen wir es noch einmal.",
-    "Fast richtig, schauen Sie noch einmal hin."
+    "Fast richtig, schauen Sie noch einmal hin.",
+    "Das gehört zum Lernen dazu."
   ],
   "streakMsg": [
     "{{count}} in Folge! 🔥",
     "{{count}} Treffer-Serie! 🚀",
     "Sie haben {{count}}! 🌟",
-    "{{count}}x fehlerfrei! 💪"
+    "{{count}}x fehlerfrei! 💪",
+    "{{count}} in Folge — so entsteht ein Ritual. 🌱"
   ],
   "levelUp": "Level Up!",
   "levelUpTitle": "Ihr Garten wächst!",
-  "levelUpDesc": "Ein weiteres Ziel wurde erfolgreich erreicht.",
+  "levelUpDesc": "Ein weiteres Ziel geschafft — Ihre Beständigkeit zahlt sich aus.",
   "hint": "Hinweis",
   "voice": {
     "success": ["Ausgezeichnet", "Großartig", "Wunderbar", "Hervorragend"],
@@ -358,10 +367,10 @@
     "Ocean": ["💎", "🏆", "💡", "📈", "🎯"]
   },
   "dailyGoal": "Tagesziel",
-  "goal5": "5 Min – Schnell",
-  "goal10": "10 Min – Übung",
+  "goal5": "5 Min – Schritt",
+  "goal10": "10 Min – Ritual",
   "goal15": "15 Min – Fokus",
-  "goal20": "20 Min – Extra",
+  "goal20": "20 Min – Meister",
   "dailySummary": "Heutige Aktivität",
   "exercisesCount_one": "{{count}} Übung",
   "exercisesCount_other": "{{count}} Übungen",

@@ -52,27 +52,50 @@ function DictationExercise({
   // needed), so handleReplay itself (used by the manual TTSController
   // button) stays instruction-free to avoid repeating "listen carefully..."
   // before the actual word on every single tap.
+  // Most dictation tasks are literal transcription ("listen, type what you
+  // heard"), but the phoneme-manipulation tasks (substitution, deletion,
+  // reversal, acrostics, counting) are puzzles spoken in full via
+  // audioPrompt itself — showing the generic "listen carefully to the word"
+  // header on those would misdescribe the task. `data.instruction` lets a
+  // task override that header; plain dictation items simply omit it.
+  const headerText =
+    data.instruction || t('listenCarefully') || 'Listen carefully to the word.';
+
   const readInstructionThenPrompt = useCallback(() => {
     clearAllTimeouts();
-    const instruction = t('listenCarefully') || 'Listen carefully to the word.';
-    speak(instruction, extendedTime);
-    const delay = instruction.length * (extendedTime ? 90 : 65) + 1200;
+    speak(headerText, extendedTime);
+    const delay = headerText.length * (extendedTime ? 90 : 65) + 1200;
     setSafeTimeout(() => handleReplay(), delay);
-  }, [speak, extendedTime, t, setSafeTimeout, clearAllTimeouts, handleReplay]);
+  }, [
+    speak,
+    extendedTime,
+    headerText,
+    setSafeTimeout,
+    clearAllTimeouts,
+    handleReplay,
+  ]);
 
   useAutoReadAloud(voiceAssistant, readInstructionThenPrompt);
 
-  const handleCheck = () => {
-    const cleanInput = userInput
-      .trim()
-      .toLowerCase()
-      .replace(/[.,!?;:]/g, '');
-    const cleanCorrect = data.correct
+  const clean = (str) =>
+    str
       .trim()
       .toLowerCase()
       .replace(/[.,!?;:]/g, '');
 
-    if (cleanInput === cleanCorrect) {
+  const handleCheck = () => {
+    const cleanInput = clean(userInput);
+    // Plain dictation and most phoneme puzzles have exactly one right
+    // answer (data.correct is a string). Open-ended tasks — word chains,
+    // "name a word starting with X" — genuinely have many valid answers,
+    // so those tasks set data.correct to an array of pre-vetted acceptable
+    // words instead; matching any one of them counts as correct rather than
+    // requiring a single "the" answer that doesn't actually exist for them.
+    const isMatch = Array.isArray(data.correct)
+      ? data.correct.some((c) => clean(c) === cleanInput)
+      : cleanInput === clean(data.correct);
+
+    if (isMatch) {
       onSuccess();
     } else {
       onError();
@@ -88,10 +111,7 @@ function DictationExercise({
           className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
           aria-live="polite"
         >
-          <BionicText
-            text={t('listenCarefully') || 'Listen carefully to the word.'}
-            enabled={bionicReading}
-          />
+          <BionicText text={headerText} enabled={bionicReading} />
         </h3>
       )}
 

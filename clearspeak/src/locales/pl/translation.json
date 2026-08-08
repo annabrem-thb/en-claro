@@ -54,21 +54,30 @@
   "coinsAria": "Monety",
   "exerciseAria": "Ćwiczenie",
   "readAloudTitle": "Czytaj na głos",
-  "successMsg": ["Świetnie!", "Doskonale!", "Wspaniale!", "Super!"],
+  "successMsg": [
+    "Świetnie!",
+    "Doskonale!",
+    "Wspaniale!",
+    "Super!",
+    "Masz to!",
+    "Widać efekty."
+  ],
   "errorMsg": [
     "Przeanalizujmy to razem.",
     "Spróbujmy jeszcze raz.",
-    "Prawie dobrze, spójrz jeszcze raz."
+    "Prawie dobrze, spójrz jeszcze raz.",
+    "To normalna część nauki."
   ],
   "streakMsg": [
     "{{count}} z rzędu! 🔥",
     "Seria {{count}} trafień! 🚀",
     "Masz już {{count}}! 🌟",
-    "{{count}}x bezbłędnie! 💪"
+    "{{count}}x bezbłędnie! 💪",
+    "{{count}} pod rząd — tak buduje się nawyk. 🌱"
   ],
   "levelUp": "Nowy Poziom!",
   "levelUpTitle": "Twój ogród rośnie!",
-  "levelUpDesc": "Kolejny cel został pomyślnie zrealizowany.",
+  "levelUpDesc": "Kolejny cel za Tobą — Twoja systematyczność się opłaca.",
   "hint": "Podpowiedź",
   "voice": {
     "success": ["Doskonale", "Świetnie", "Wspaniale", "Znakomicie"],
@@ -334,7 +343,7 @@
     "Ocean": ["💧", "🌊", "🧭", "⚓", "🚢"]
   },
   "progressStages": {
-    "Natur": ["Ziarenko", "Łodyga", "Pąk", "Rozkwit", "Kwiat"],
+    "Natur": ["Ziarno", "Łodyga", "Pąk", "Rozkwit", "Kwiat"],
     "Musik": ["Szesnastka", "Ósemka", "Ćwierćnuta", "Półnuta", "Instrument"],
     "Kunst": ["Pędzel", "Paleta", "Szkic", "Farby", "Arcydzieło"],
     "Space": ["Gwiazda", "Kometa", "Księżyc", "Planeta", "Rakieta"],
@@ -357,10 +366,10 @@
     "Ocean": ["💎", "🏆", "💡", "📈", "🎯"]
   },
   "dailyGoal": "Cel dzienny",
-  "goal5": "5 min — Szybko",
+  "goal5": "5 min — Krok",
   "goal10": "10 min — Nawyk",
-  "goal15": "15 min — Uwaga",
-  "goal20": "20 min — Mocno",
+  "goal15": "15 min — Fokus",
+  "goal20": "20 min — Mistrz",
   "dailySummary": "Dzisiejsza aktywność",
   "exercisesCount_one": "{{count}} ćwiczenie",
   "exercisesCount_few": "{{count}} ćwiczenia",

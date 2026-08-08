@@ -11,13 +11,33 @@ test.describe('Dyslexia PWA - Wirtualny Ogród', () => {
     await page.goto('/');
     await page.locator('text=/Gra|Game|Gamified/i').click();
     await page.locator('text=/Rozpocznij|Start/i').click();
-    await expect(page.locator('aside')).toBeVisible();
-    await page.locator('nav').locator('text=/Ogród|Garden/i').click();
+    // SidebarNav (<aside>, desktop) and BottomNav (<nav class="...
+    // justify-around...">, mobile/tablet) both always render — CSS-hidden
+    // per breakpoint, not conditionally mounted — so a bare 'aside'/'nav'
+    // locator either misses the viewport-appropriate one or (for nav)
+    // strict-mode-fails on matching both. Target whichever chrome is
+    // actually visible for this project instead of assuming desktop.
+    const navChrome = page
+      .locator('aside:visible, nav.justify-around:visible')
+      .first();
+    await expect(navChrome).toBeVisible();
+    await navChrome.getByText(/Ogród|Garden/i).click();
     await expect(page.locator('#garden-container')).toBeVisible();
-    await expect(page.locator('text=/Ziarenko|Seed/i')).toBeVisible();
+    // A generic text locator also matches the sr-only journey summary,
+    // which repeats the same stage name for screen readers — scope to the
+    // visible stage heading specifically to keep this a single-element match.
+    await expect(
+      page.locator('h2', { hasText: /Ziarno|Ziarenko|Seed/i }),
+    ).toBeVisible();
     await expect(
       page.locator('text=/Twój własny ekosystem|Your own ecosystem/i'),
     ).toBeVisible();
-    await expect(page.locator('text=/Cel dzienny|Daily goal/i')).toBeVisible();
+    // The Garden view's own heading is "Postęp Celu Dziennego" / "Daily Goal
+    // Progress" (WeeklyCalendar) — "Cel dzienny" / "Daily goal" verbatim is
+    // the goal-picker's label on the Intro/Settings screens, a different
+    // string that never appears here.
+    await expect(
+      page.locator('text=/Postęp Celu Dziennego|Daily Goal Progress/i'),
+    ).toBeVisible();
   });
 });
