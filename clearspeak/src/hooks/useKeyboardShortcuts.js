@@ -33,6 +33,25 @@ export function useKeyboardShortcuts({
         return;
 
       if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+        // A Tab-focused native/ARIA control (an exercise's answer button,
+        // the Settings/Garden nav buttons, a toggle switch…) already has
+        // its own meaning for Enter: activate it. Without this check, Enter
+        // was hijacked here — via preventDefault, before the browser could
+        // ever synthesize that control's click — for every button in the
+        // app, all the time, not just for the post-answer "Next" button
+        // this shortcut was written for (see the "Press Enter" hint under
+        // it in App.jsx). A keyboard user tabbing to an exercise's answer
+        // option and pressing Enter got silently bounced to the next
+        // exercise instead of selecting the option they'd focused.
+        const isFocusedControl =
+          e.key === 'Enter' &&
+          (e.target.tagName === 'BUTTON' ||
+            e.target.tagName === 'A' ||
+            e.target.closest?.(
+              '[role="button"], [role="switch"], [role="radio"], [role="tab"], [role="menuitem"], [role="checkbox"]',
+            ));
+        if (isFocusedControl) return;
+
         if (e.key === 'ArrowRight' || e.key === 'Enter') {
           e.preventDefault();
           goNext();

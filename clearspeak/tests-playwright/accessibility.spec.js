@@ -31,12 +31,19 @@ async function skipIntro(page) {
 }
 
 async function runAxe(page, disableRules = []) {
-  const builder = new AxeBuilder({ page }).withTags([
-    'wcag2a',
-    'wcag2aa',
-    'wcag21a',
-    'wcag21aa',
-  ]);
+  const builder = new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+    // @floating-ui/react's FloatingFocusManager (used by every modal via
+    // Dialog.jsx) inserts invisible `role="button"` focus-guard sentinels
+    // at the start/end of the trap to loop Tab back into the dialog. They
+    // must stay focusable and nameless by design — a screen-reader user
+    // tabs straight past them, they're never a destination, and giving them
+    // a label would announce a meaningless "button" that invites an
+    // Enter/Space press with no effect. This is the same tradeoff every
+    // focus-trap library makes (Radix, Chakra, react-aria); excluding just
+    // these library-internal sentinels keeps `aria-command-name` fully
+    // enforced for every button *this app* renders.
+    .exclude('[data-floating-ui-focus-guard]');
   if (disableRules.length) builder.disableRules(disableRules);
   return builder.analyze();
 }

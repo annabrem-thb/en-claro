@@ -19,37 +19,32 @@ export default function AccessibleTTS({
   // already-interactive element (e.g. a nav <button>) — a focusable,
   // role="button" element inside another button/link is invalid ARIA
   // (axe: "Element has focusable descendants"), so this branch drops the
-  // role/tabIndex/onKeyDown.
+  // role/tabIndex/onKeyDown *and* the local onClick: a click event on an
+  // ancestor <button> never bubbles *down* into a descendant's onClick, only
+  // up from a target through its ancestors, so a keyboard user who
+  // Tab+Enters the outer button would get its primary action but never this
+  // component's read-the-label-aloud side effect — while a mouse user who
+  // happened to click exactly on this label would double-fire it (once here
+  // via bubbling target, once via the ancestor's own handler). Nesting this
+  // way means the ancestor owns the read-aloud call entirely (see
+  // SidebarNav.jsx's 4 `interactive={false}` usages, each of which calls
+  // `speak()` itself in its button's onClick) so it fires exactly once for
+  // every input method instead of zero or two times depending on how you
+  // clicked.
   const interactiveProps = interactive
     ? {
         role: 'button',
         tabIndex: 0,
+        onClick: handleRead,
         onKeyDown: (e) => {
           if (e.key === 'Enter' || e.key === ' ') handleRead(e);
         },
       }
     : {};
 
-  // KNOWN GAP (surfaced by eslint-plugin-jsx-a11y, not yet fixed): the
-  // comment above used to claim "the outer element already provides
-  // keyboard activation" for the read-aloud behavior too, but that isn't
-  // actually true — a click event on an ancestor <button> never bubbles
-  // *down* into this descendant's onClick, only up from a target through
-  // its ancestors. So a keyboard user who Tab+Enters the outer nav button
-  // gets its navigation action, but never triggers this component's
-  // read-the-label-aloud side effect; only a direct mouse/touch tap on the
-  // 🔊 icon does. The primary action (navigation) is fully keyboard
-  // accessible either way — only this supplementary "preview the label via
-  // TTS" affordance is mouse/touch-only today. Fixing it properly means
-  // routing `handleRead` through each `interactive={false}` call site's own
-  // button `onClick` in SidebarNav.jsx (4 usages) rather than a local
-  // change here, so it's left as a flagged, deliberate follow-up rather
-  // than a rushed edit to shared navigation code.
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       className={`group relative inline-flex w-full cursor-pointer items-center gap-1 ${className}`}
-      onClick={handleRead}
       title={t('readAloudTitle')}
       {...interactiveProps}
     >

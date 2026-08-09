@@ -23,12 +23,17 @@ test.describe('Dyslexia PWA - Ekstremalne Testy RWD (Długie Słowa)', () => {
     await page
       .locator('nav:visible button[aria-label="Einstellungen"]')
       .click();
+    // There is no "Stimme" (Voice) tab anymore — voice/speech settings live
+    // under "Komfort" (a11y) alongside the rest of the accessibility
+    // toggles. "Pausenerinnerungen" (cognitiveBreaks) is a real, currently
+    // rendered long unbroken German compound word there, serving the same
+    // RWD purpose the removed "Sprechgeschwindigkeit" check had.
     await page
       .locator('button[role="tab"]')
-      .filter({ hasText: 'Stimme' })
+      .filter({ hasText: 'Komfort' })
       .click();
     await expect(
-      page.getByText('Sprechgeschwindigkeit', { exact: true }),
+      page.getByText('Pausenerinnerungen', { exact: true }),
     ).toBeVisible();
     const hasHorizontalScroll = await page.evaluate(
       () =>

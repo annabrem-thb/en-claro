@@ -162,7 +162,7 @@
     },
     "ruler": {
       "name": "Focus ruler",
-      "desc": "Highlights a horizontal line under the cursor"
+      "desc": "Highlights a horizontal line under the cursor, or move it with ↑↓ arrow keys (no mouse needed)"
     },
     "spacing": {
       "name": "Larger spacing",

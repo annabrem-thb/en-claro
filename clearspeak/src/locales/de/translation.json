@@ -162,7 +162,7 @@
     },
     "ruler": {
       "name": "Fokuslineal",
-      "desc": "Hebt eine horizontale Linie unter dem Cursor hervor"
+      "desc": "Hebt eine horizontale Linie unter dem Cursor hervor, oder mit ↑↓ verschieben (ohne Maus)"
     },
     "spacing": {
       "name": "Größerer Abstand",

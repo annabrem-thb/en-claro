@@ -117,7 +117,10 @@ const SidebarNav = memo(function SidebarNav({
               wrapperClass="flex-1 lg:flex-none flex"
             >
               <button
-                onClick={() => onTabChange(p)}
+                onClick={() => {
+                  if (!hideNavLabel) speak(label, true);
+                  onTabChange(p);
+                }}
                 className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5' z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
                 aria-current={isSelected ? 'page' : undefined}
                 aria-label={label}
@@ -177,7 +180,10 @@ const SidebarNav = memo(function SidebarNav({
             wrapperClass="flex-1 lg:flex-none flex"
           >
             <button
-              onClick={onGardenClick}
+              onClick={() => {
+                if (!hideNavLabel) speak(t('garden') || 'Garden', true);
+                onGardenClick();
+              }}
               className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${activeTab === 'Garden' ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5' z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
               aria-current={activeTab === 'Garden' ? 'page' : undefined}
               aria-label={t('garden') || 'Garden'}
@@ -265,7 +271,11 @@ const SidebarNav = memo(function SidebarNav({
             wrapperClass={`flex-1 lg:flex-none flex ${isGamified ? 'mt-2 lg:mt-0' : 'lg:mt-auto'}`}
           >
             <button
-              onClick={handleInstallClick}
+              onClick={() => {
+                if (!hideNavLabel)
+                  speak(t('installApp') || 'Install App', true);
+                handleInstallClick();
+              }}
               className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-500 text-white shadow-md hover:bg-indigo-400'}`}
               aria-label={t('installApp') || 'Install App'}
             >
@@ -302,7 +312,10 @@ const SidebarNav = memo(function SidebarNav({
           wrapperClass={`flex-1 lg:flex-none flex ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 lg:mt-0' : 'lg:mt-auto'}`}
         >
           <button
-            onClick={() => setSettingsOpen(true)}
+            onClick={() => {
+              if (!hideNavLabel) speak(t('settingsAria'), true);
+              setSettingsOpen(true);
+            }}
             className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
             aria-label={t('settingsAria')}
           >

@@ -161,7 +161,7 @@
     },
     "ruler": {
       "name": "Linijka skupienia",
-      "desc": "Podświetla poziomą linię pod kursorem"
+      "desc": "Podświetla poziomą linię pod kursorem lub strzałkami ↑↓ (bez myszy)"
     },
     "spacing": {
       "name": "Większe odstępy",

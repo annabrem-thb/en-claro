@@ -150,7 +150,14 @@ function AppContent() {
   // `navigator.vibrate`-exists-and-Zen-Mode-is-off guard inline.
   const vibrate = useHapticFeedback(settings.zenMode);
 
-  const db = useVocabularyLoader(language);
+  const [initialRoute] = useState(getInitialRouteState);
+  const [showIntro, setShowIntro] = useState(initialRoute.showIntro);
+
+  // Skipped while the intro screen is up — see useVocabularyLoader.js for
+  // why eagerly fetching the not-yet-confirmed default language here caused
+  // WebKit to fail the *next* dynamic import too, once the user picked a
+  // different language and abandoned this one mid-flight.
+  const db = useVocabularyLoader(language, showIntro);
 
   useEffect(() => {
     if (i18n.language !== language) {
@@ -168,12 +175,10 @@ function AppContent() {
     setVoicePitch,
   } = useGlobalTTS(language, settings.extendedTime);
 
-  const [initialRoute] = useState(getInitialRouteState);
   const [activeTab, setActiveTab] = useState(
     initialRoute.activeTab || 'Literacy',
   );
   const [lastPillar, setLastPillar] = useState('Literacy');
-  const [showIntro, setShowIntro] = useState(initialRoute.showIntro);
   const [settingsOpen, setSettingsOpen] = useState(initialRoute.settingsOpen);
   const [showSuccess, setShowSuccess] = useState(false);
   const [earnedCoinsAnim, setEarnedCoinsAnim] = useState(null);
@@ -693,8 +698,8 @@ function AppContent() {
                 {}
                 {hasRuler && rulerPos.visible && (
                   <div
-                    className={`pointer-events-none absolute right-0 left-0 z-[100] h-16 transition-transform duration-75 ${isHighContrast ? 'border-y border-white/30 bg-white/10' : 'border-y border-indigo-500/20 bg-indigo-500/10 backdrop-invert-[0.02]'}`}
-                    style={{ top: rulerPos.y - 32 }}
+                    className={`pointer-events-none absolute right-0 left-0 z-[100] ${bigTargets ? 'h-24' : 'h-16'} ${noFlash ? '' : 'transition-transform duration-75'} ${isHighContrast ? 'border-y-2 border-white/60 bg-white/10' : 'border-y border-indigo-500/20 bg-indigo-500/10 backdrop-invert-[0.02]'}`}
+                    style={{ top: rulerPos.y - (bigTargets ? 48 : 32) }}
                     aria-hidden="true"
                   />
                 )}
@@ -748,21 +753,21 @@ function AppContent() {
                     />
                   </button>
                   <p
-                    className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+                    className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
                   >
                     💡{' '}
                     <BionicText
                       text={t('pressKey') || 'Press'}
                       enabled={!!settings.bionicReading}
                     />{' '}
-                    <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-500">
+                    <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-600">
                       Enter
                     </kbd>{' '}
                     <BionicText
                       text={t('or') || 'or'}
                       enabled={!!settings.bionicReading}
                     />{' '}
-                    <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-500">
+                    <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-600">
                       →
                     </kbd>{' '}
                     <BionicText
@@ -785,14 +790,14 @@ function AppContent() {
                       />
                     </button>
                     <p
-                      className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+                      className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
                     >
                       💡{' '}
                       <BionicText
                         text={t('pressKey') || 'Press'}
                         enabled={!!settings.bionicReading}
                       />{' '}
-                      <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-500">
+                      <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-600">
                         →
                       </kbd>{' '}
                       <BionicText
