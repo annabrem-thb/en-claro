@@ -239,11 +239,15 @@
       "rhythm": "Syllable Rhythm",
       "clock": "Clock Reading",
       "tracking": "Spatial Mapping",
+      "patternCompletion": "Pattern Completion",
+      "mirrorImage": "Mirror Image",
+      "oddOneOut": "Odd One Out",
       "categorization": "Tap-to-Category",
       "sequences": "Sequencing",
       "memorySpan": "Memory Span",
       "logicalReasoning": "Logical Reasoning",
-      "rhythmMemory": "Rhythm Pattern Memory"
+      "rhythmMemory": "Rhythm Pattern Memory",
+      "melodyMemory": "Melody Memory"
     }
   },
   "bionicExplanation": "Bionic Reading® is a typographic method that supports the reading flow.",
@@ -474,6 +478,7 @@
   "rhythmTapCount_other": "{{count}} taps",
   "rhythmMemoryInstruction": "Listen to the beat pattern, then tap it back",
   "rhythmMemoryTapButton": "Tap here for each beat",
+  "melodyMemoryInstruction": "Listen to the melody, then play it back in the same order",
   "phonemeInstruction": "Listen to the word, then say it aloud",
   "listenCarefully": "Listen carefully to the word.",
   "readyToSegment": "I'm ready to segment",

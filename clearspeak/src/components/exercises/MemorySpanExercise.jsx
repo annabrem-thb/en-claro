@@ -20,6 +20,7 @@ function MemorySpanExercise({
   bionicReading = false,
   zenMode = false,
   voiceAssistant = false,
+  isHighContrast = false,
 }) {
   const [isMemorizing, setIsMemorizing] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -213,7 +214,9 @@ function MemorySpanExercise({
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}
     >
       <div className="w-full shrink-0 text-center">
-        <h3 className="mx-auto mb-2 max-w-[65ch] px-4 text-[10px] font-black tracking-[0.2em] text-slate-600 uppercase sm:mb-4">
+        <h3
+          className={`mx-auto mb-2 max-w-[65ch] px-4 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+        >
           {isMemorizing ? t('memorize') || 'Memorize!' : data.instruction}
         </h3>
 
@@ -236,10 +239,12 @@ function MemorySpanExercise({
               {data.displayItems?.map((item, i) => (
                 <div
                   key={i}
-                  className={`${tileSize} flex items-center justify-center rounded-2xl border-4 bg-white text-center leading-tight font-bold wrap-break-word shadow-sm transition-all duration-300 sm:rounded-3xl md:shadow-none ${
+                  className={`${tileSize} flex items-center justify-center rounded-2xl border-4 text-center leading-tight font-bold wrap-break-word shadow-sm transition-all duration-300 sm:rounded-3xl md:shadow-none ${
                     activeHighlight === `mem-${i}`
-                      ? 'z-10 scale-110 border-yellow-400 bg-yellow-50 shadow-xl ring-4 ring-yellow-400'
-                      : themeStyles.border
+                      ? 'z-10 scale-110 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
+                      : isHighContrast
+                        ? 'border-white bg-black text-white'
+                        : `bg-white ${themeStyles.border}`
                   }`}
                 >
                   <BionicText text={String(item)} enabled={bionicReading} />
@@ -293,13 +298,22 @@ function MemorySpanExercise({
           )}
 
           {transcript && (
-            <p className="mb-1 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-2 sm:text-xs">
-              {t('heard')}: <span className="text-slate-600">{transcript}</span>
+            <p
+              className={`mb-1 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-2 sm:text-xs ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+            >
+              {t('heard')}:{' '}
+              <span
+                className={isHighContrast ? 'text-white' : 'text-slate-600'}
+              >
+                {transcript}
+              </span>
             </p>
           )}
 
           {}
-          <div className="mb-2 flex min-h-0 min-h-[3rem] w-full shrink flex-wrap justify-center gap-2 overflow-y-auto rounded-3xl border-2 border-dashed border-slate-200 bg-slate-50 p-3 sm:mb-4 sm:min-h-16 sm:p-4">
+          <div
+            className={`mb-2 flex min-h-0 min-h-[3rem] w-full shrink flex-wrap justify-center gap-2 overflow-y-auto rounded-3xl border-2 border-dashed p-3 sm:mb-4 sm:min-h-16 sm:p-4 ${isHighContrast ? 'border-white/40 bg-black' : 'border-slate-200 bg-slate-50'}`}
+          >
             {selectedItems.map((item, index) => (
               <div
                 key={index}
@@ -321,10 +335,14 @@ function MemorySpanExercise({
                   disabled={isSelected || isListening}
                   className={`relative ${letterBtn} flex items-center justify-center border-2 text-center leading-tight font-bold wrap-break-word transition-all active:scale-90 ${
                     isSelected || isListening
-                      ? 'cursor-default border-slate-200 bg-slate-100 text-slate-600 opacity-30'
+                      ? isHighContrast
+                        ? 'cursor-default border-white/30 bg-black text-white/40'
+                        : 'cursor-default border-slate-200 bg-slate-100 text-slate-600 opacity-30'
                       : activeHighlight === index
                         ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
-                        : `bg-white shadow-sm md:shadow-none ${themeStyles.border} ${themeStyles.accent} hover:bg-slate-50`
+                        : isHighContrast
+                          ? `border-white bg-black text-white hover:bg-white/10`
+                          : `bg-white shadow-sm md:shadow-none ${themeStyles.border} ${themeStyles.accent} hover:bg-slate-50`
                   }`}
                   aria-pressed={isSelected}
                 >
@@ -346,7 +364,7 @@ function MemorySpanExercise({
           {!zenMode && (
             <button
               onClick={handleHint}
-              className={`flex items-center gap-2 ${hintPadding} rounded-full bg-slate-100 text-xs font-bold tracking-widest text-slate-500 uppercase transition-all hover:bg-slate-200 active:scale-95`}
+              className={`flex items-center gap-2 ${hintPadding} rounded-full text-xs font-bold tracking-widest uppercase transition-all active:scale-95 ${isHighContrast ? 'bg-black text-white/70 hover:bg-white/10' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
             >
               💡 {t('hint') || 'Hint'}
             </button>

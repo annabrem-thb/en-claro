@@ -239,11 +239,15 @@
       "rhythm": "Silbenrhythmus",
       "clock": "Uhrzeit lesen",
       "tracking": "Räumliche Zuordnung",
+      "patternCompletion": "Muster vervollständigen",
+      "mirrorImage": "Spiegelbild",
+      "oddOneOut": "Was passt nicht?",
       "categorization": "Tippe-zur-Kategorie",
       "sequences": "Sequenzierung",
       "memorySpan": "Gedächtnisspanne",
       "logicalReasoning": "Logisches Schlussfolgern",
-      "rhythmMemory": "Rhythmusmuster-Gedächtnis"
+      "rhythmMemory": "Rhythmusmuster-Gedächtnis",
+      "melodyMemory": "Melodie-Gedächtnis"
     }
   },
   "bionicExplanation": "Bionic Reading® ist eine typografische Methode, die den Lesefluss unterstützt.",
@@ -482,6 +486,7 @@
   "rhythmTapCount_other": "{{count}} Tipps",
   "rhythmMemoryInstruction": "Höre dir das Klopfmuster an und tippe es dann nach",
   "rhythmMemoryTapButton": "Hier für jeden Schlag tippen",
+  "melodyMemoryInstruction": "Höre dir die Melodie an und spiele sie dann in derselben Reihenfolge nach",
   "phonemeInstruction": "Höre dir das Wort an und sprich es nach",
   "listenCarefully": "Hören Sie sich das Wort aufmerksam an.",
   "readyToSegment": "Ich bin bereit, es zu zerlegen",

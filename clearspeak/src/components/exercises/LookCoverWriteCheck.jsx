@@ -17,6 +17,7 @@ function LookCoverWriteCheck({
   bigTargets,
   voiceAssistant = true,
   zenMode = false,
+  noFlash = false,
 }) {
   const activeWord = targetWord || word || '';
   const [phase, setPhase] = useState('look');
@@ -56,7 +57,9 @@ function LookCoverWriteCheck({
 
   if (phase === 'look') {
     return (
-      <div className="animate-in fade-in flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 duration-500">
+      <div
+        className={`flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 ${noFlash ? '' : 'animate-in fade-in duration-500'}`}
+      >
         {!zenMode && (
           <h2
             className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
@@ -103,7 +106,9 @@ function LookCoverWriteCheck({
 
   if (phase === 'write') {
     return (
-      <div className="animate-in slide-in-from-right-4 fade-in flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 duration-500">
+      <div
+        className={`flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 ${noFlash ? '' : 'animate-in slide-in-from-right-4 fade-in duration-500'}`}
+      >
         {!zenMode && (
           <h2
             className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
@@ -151,7 +156,9 @@ function LookCoverWriteCheck({
       userInput.trim().toLowerCase() === activeWord.trim().toLowerCase();
 
     return (
-      <div className="animate-in slide-in-from-bottom-4 fade-in flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 duration-500">
+      <div
+        className={`flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 fade-in duration-500'}`}
+      >
         {!zenMode && (
           <h2
             className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}

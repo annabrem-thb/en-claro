@@ -5,6 +5,7 @@ import ContextExercise from './exercises/ContextExercise';
 import DictationExercise from './exercises/DictationExercise.jsx';
 import GraphemeExercise from './exercises/GraphemeExercise';
 import LookCoverWriteCheck from './exercises/LookCoverWriteCheck.jsx';
+import MelodyMemoryExercise from './exercises/MelodyMemoryExercise.jsx';
 import MemorySpanExercise from './exercises/MemorySpanExercise.jsx';
 import PhonemeExercise from './exercises/PhonemeExercise';
 import ReadAloudExercise from './exercises/ReadAloudExercise.jsx';
@@ -41,6 +42,7 @@ const EXERCISE_COMPONENTS = {
   comprehension: ReadingComprehensionExercise,
   rhythmTap: RhythmTapExercise,
   rhythmMemory: RhythmMemoryExercise,
+  melodyMemory: MelodyMemoryExercise,
   // `lookCoverWriteCheck` is handled separately below — it needs an
   // onSelfEvaluate wrapper the other components don't.
 };

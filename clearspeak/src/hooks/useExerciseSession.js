@@ -159,6 +159,9 @@ export function useExerciseSession({
         rawTasks = [
           ...includeIfActive('clock'),
           ...includeIfActive('tracking'),
+          ...includeIfActive('patternCompletion'),
+          ...includeIfActive('mirrorImage'),
+          ...includeIfActive('oddOneOut'),
           ...tagDiagnostic('Visual'),
         ];
         break;
@@ -169,6 +172,7 @@ export function useExerciseSession({
           ...includeIfActive('memorySpan'),
           ...includeIfActive('logicalReasoning'),
           ...includeIfActive('rhythmMemory'),
+          ...includeIfActive('melodyMemory'),
           ...tagDiagnostic('Cognitive'),
         ];
         break;

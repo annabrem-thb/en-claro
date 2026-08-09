@@ -238,11 +238,15 @@
       "rhythm": "Rytm sylabowy",
       "clock": "Odczytywanie zegara",
       "tracking": "Mapowanie przestrzenne",
+      "patternCompletion": "Uzupełnianie wzoru",
+      "mirrorImage": "Lustrzane odbicie",
+      "oddOneOut": "Który się różni?",
       "categorization": "Dotknij kategorię",
       "sequences": "Sekwencjonowanie",
       "memorySpan": "Pamięć robocza",
       "logicalReasoning": "Rozumowanie logiczne",
-      "rhythmMemory": "Pamięć wzorców rytmicznych"
+      "rhythmMemory": "Pamięć wzorców rytmicznych",
+      "melodyMemory": "Pamięć melodii"
     }
   },
   "bionicExplanation": "Bionic Reading® to metoda typograficzna wspierająca płynność czytania.",
@@ -496,6 +500,7 @@
   "rhythmTapCount_many": "{{count}} stuknięć",
   "rhythmMemoryInstruction": "Posłuchaj wzorca uderzeń, a potem odtwórz go, stukając",
   "rhythmMemoryTapButton": "Stuknij tutaj za każde uderzenie",
+  "melodyMemoryInstruction": "Posłuchaj melodii, a potem zagraj ją w tej samej kolejności",
   "phonemeInstruction": "Posłuchaj słowa, a następnie powiedz je na głos",
   "listenCarefully": "Słuchaj uważnie słowa.",
   "readyToSegment": "Jestem gotowy/a na podział",
