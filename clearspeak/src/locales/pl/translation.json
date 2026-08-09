@@ -241,7 +241,8 @@
       "categorization": "Dotknij kategorię",
       "sequences": "Sekwencjonowanie",
       "memorySpan": "Pamięć robocza",
-      "logicalReasoning": "Rozumowanie logiczne"
+      "logicalReasoning": "Rozumowanie logiczne",
+      "rhythmMemory": "Pamięć wzorców rytmicznych"
     }
   },
   "bionicExplanation": "Bionic Reading® to metoda typograficzna wspierająca płynność czytania.",
@@ -493,6 +494,8 @@
   "rhythmTapCount_one": "{{count}} stuknięcie",
   "rhythmTapCount_few": "{{count}} stuknięcia",
   "rhythmTapCount_many": "{{count}} stuknięć",
+  "rhythmMemoryInstruction": "Posłuchaj wzorca uderzeń, a potem odtwórz go, stukając",
+  "rhythmMemoryTapButton": "Stuknij tutaj za każde uderzenie",
   "phonemeInstruction": "Posłuchaj słowa, a następnie powiedz je na głos",
   "listenCarefully": "Słuchaj uważnie słowa.",
   "readyToSegment": "Jestem gotowy/a na podział",

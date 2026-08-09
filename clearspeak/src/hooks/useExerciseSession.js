@@ -168,6 +168,7 @@ export function useExerciseSession({
           ...includeIfActive('sequences'),
           ...includeIfActive('memorySpan'),
           ...includeIfActive('logicalReasoning'),
+          ...includeIfActive('rhythmMemory'),
           ...tagDiagnostic('Cognitive'),
         ];
         break;

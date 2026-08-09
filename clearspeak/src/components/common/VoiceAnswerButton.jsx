@@ -60,7 +60,7 @@ export default function VoiceAnswerButton({
       {error === 'not-allowed' || error === 'service-not-allowed' ? (
         <p
           role="status"
-          className="max-w-[28ch] text-center text-xs font-medium text-red-600"
+          className="max-w-[28ch] text-center text-xs font-medium text-red-800"
         >
           {t('micPermissionDenied') ||
             "Microphone access was denied. Check your browser's site settings to allow it."}

@@ -6033,6 +6033,26 @@ export const wordDatabaseEN = {
       icon: '🤝',
     },
   ],
+  rhythmMemory: [
+    { id: 1, type: 'rhythmMemory', difficulty: 1, pattern: [1, 1, 1] },
+    { id: 2, type: 'rhythmMemory', difficulty: 1, pattern: [2, 1, 1] },
+    { id: 3, type: 'rhythmMemory', difficulty: 1, pattern: [1, 2, 1] },
+    { id: 4, type: 'rhythmMemory', difficulty: 2, pattern: [1, 1, 2, 1] },
+    { id: 5, type: 'rhythmMemory', difficulty: 2, pattern: [2, 1, 1, 2] },
+    { id: 6, type: 'rhythmMemory', difficulty: 2, pattern: [1, 2, 1, 1, 2] },
+    {
+      id: 7,
+      type: 'rhythmMemory',
+      difficulty: 3,
+      pattern: [1, 1, 2, 1, 1, 2],
+    },
+    {
+      id: 8,
+      type: 'rhythmMemory',
+      difficulty: 3,
+      pattern: [2, 1, 1, 2, 1, 1, 2],
+    },
+  ],
   diagnostic: [
     {
       id: 'en_diag_1',

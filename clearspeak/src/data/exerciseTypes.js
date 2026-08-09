@@ -31,7 +31,13 @@ export const EXERCISE_PILLARS = {
     'rhythm',
   ],
   Visual: ['clock', 'tracking'],
-  Cognitive: ['categorization', 'sequences', 'memorySpan', 'logicalReasoning'],
+  Cognitive: [
+    'categorization',
+    'sequences',
+    'memorySpan',
+    'logicalReasoning',
+    'rhythmMemory',
+  ],
 };
 
 // Flat list of every toggleable key, in the same order they appear above —

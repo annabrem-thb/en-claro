@@ -242,7 +242,8 @@
       "categorization": "Tippe-zur-Kategorie",
       "sequences": "Sequenzierung",
       "memorySpan": "Gedächtnisspanne",
-      "logicalReasoning": "Logisches Schlussfolgern"
+      "logicalReasoning": "Logisches Schlussfolgern",
+      "rhythmMemory": "Rhythmusmuster-Gedächtnis"
     }
   },
   "bionicExplanation": "Bionic Reading® ist eine typografische Methode, die den Lesefluss unterstützt.",
@@ -479,6 +480,8 @@
   "rhythmTapButton": "Hier für jede Silbe tippen",
   "rhythmTapCount_one": "{{count}} Tipp",
   "rhythmTapCount_other": "{{count}} Tipps",
+  "rhythmMemoryInstruction": "Höre dir das Klopfmuster an und tippe es dann nach",
+  "rhythmMemoryTapButton": "Hier für jeden Schlag tippen",
   "phonemeInstruction": "Höre dir das Wort an und sprich es nach",
   "listenCarefully": "Hören Sie sich das Wort aufmerksam an.",
   "readyToSegment": "Ich bin bereit, es zu zerlegen",
