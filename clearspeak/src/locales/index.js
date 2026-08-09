@@ -1,60 +1,19 @@
-import deCommon from './de/common.json';
-import deErrors from './de/errors.json';
-import deFeedback from './de/feedback.json';
-import deProfileDashboard from './de/profileDashboard.json';
-import deSurvey from './de/survey.json';
-import deTranslation from './de/translation.json';
-import enCommon from './en/common.json';
-import enErrors from './en/errors.json';
-import enFeedback from './en/feedback.json';
-import enProfileDashboard from './en/profileDashboard.json';
-import enSurvey from './en/survey.json';
-import enTranslation from './en/translation.json';
-import plCommon from './pl/common.json';
-import plErrors from './pl/errors.json';
-import plFeedback from './pl/feedback.json';
-import plProfileDashboard from './pl/profileDashboard.json';
-import plSurvey from './pl/survey.json';
-import plTranslation from './pl/translation.json';
+// Each language's dictionary now lives in its own module (pl.js/en.js/de.js)
+// instead of being merged here — see src/i18n/config.ts for why: only the
+// default language and the fallback language need to be in the app's
+// critical-path bundle at all, and only Vite-level `import()` on separate
+// modules (not a single file merging every language's JSON) gives the
+// bundler anything to split into a separate, lazily-fetched chunk.
+export const SUPPORTED_LANGUAGES = ['en', 'pl', 'de'];
 
-// NOTE: `profileDashboard` (from the old hooks/*.json fragments) is a distinct
-// namespace from the flat `profile` key inside translation.json. `profile` is
-// a plain string ("Profile"/"Profil") used as a nav-label by the app today;
-// `profileDashboard` is unused scaffold content for the dead UserProfileDashboard.tsx
-// component. Keep them under different keys — merging them under the same
-// name previously corrupted the string into a character-indexed object.
-const namespacesByLanguage = {
-  en: {
-    translation: enTranslation,
-    common: enCommon,
-    profileDashboard: enProfileDashboard,
-    errors: enErrors,
-    feedback: enFeedback,
-    survey: enSurvey,
-  },
-  de: {
-    translation: deTranslation,
-    common: deCommon,
-    profileDashboard: deProfileDashboard,
-    errors: deErrors,
-    feedback: deFeedback,
-    survey: deSurvey,
-  },
-  pl: {
-    translation: plTranslation,
-    common: plCommon,
-    profileDashboard: plProfileDashboard,
-    errors: plErrors,
-    feedback: plFeedback,
-    survey: plSurvey,
-  },
-};
-
-// Flattens a language's per-namespace files back into the single nested
-// dictionary shape the app expects (`{ ...flatKeys, common: {...}, profileDashboard: {...}, ... }`).
-export function buildTranslation(language) {
-  const { translation, ...namespaces } = namespacesByLanguage[language];
-  return { ...translation, ...namespaces };
+// Dynamically imports one language's dictionary — for whichever language(s)
+// config.ts doesn't need synchronously at boot (currently just German; 'pl'
+// and 'en' are imported statically there instead, so they're guaranteed
+// present before the first render with no async gap where `t()` would have
+// nothing to return — routing them through here too would just make Vite
+// bundle them into the same chunk twice, since a module that's both
+// statically and dynamically imported can't be split out).
+export function loadLanguageDictionary(language) {
+  if (language === 'de') return import('./de.js').then((m) => m.default());
+  return Promise.reject(new Error(`No lazy loader for language: ${language}`));
 }
-
-export const SUPPORTED_LANGUAGES = Object.keys(namespacesByLanguage);

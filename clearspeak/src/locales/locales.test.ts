@@ -1,10 +1,12 @@
 import { describe, it, expect } from 'vitest';
 
-import { buildTranslation } from './index.js';
+import buildTranslationDE from './de.js';
+import buildTranslationEN from './en.js';
+import buildTranslationPL from './pl.js';
 
-const enDictionary = buildTranslation('en');
-const plDictionary = buildTranslation('pl');
-const deDictionary = buildTranslation('de');
+const enDictionary = buildTranslationEN();
+const plDictionary = buildTranslationPL();
+const deDictionary = buildTranslationDE();
 
 function getNestedKeys(
   obj: Record<string, any>,
