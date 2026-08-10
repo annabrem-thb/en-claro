@@ -513,7 +513,7 @@ export default function SettingsModal({ open, onClose, speak }) {
       onClose={onClose}
       labelledBy="settings-title"
       overlayClassName="z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm"
-      className={`animate-in zoom-in relative flex max-h-[90vh] w-full max-w-2xl flex-col rounded-3xl shadow-2xl duration-300 outline-none ${settings.contrast ? 'border-2 border-white bg-black' : 'bg-slate-100'}`}
+      className={`animate-in zoom-in relative flex max-h-[90dvh] w-full max-w-2xl flex-col rounded-3xl shadow-2xl duration-300 outline-none ${settings.contrast ? 'border-2 border-white bg-black' : 'bg-slate-100'}`}
     >
       {}
       <header
