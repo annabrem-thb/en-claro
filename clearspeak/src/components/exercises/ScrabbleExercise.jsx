@@ -193,7 +193,7 @@ function ScrabbleExercise({
       </div>
 
       {}
-      <div className="no-scrollbar mb-2 flex max-h-[30vh] min-h-0 min-h-[3rem] w-full max-w-4xl shrink flex-wrap justify-center gap-1 overflow-y-auto border-b-4 border-dashed border-slate-100 px-1 pt-2 pb-2 sm:mb-4 sm:min-h-16 sm:gap-2 sm:px-2 sm:pb-4">
+      <div className="no-scrollbar mb-2 flex max-h-[30dvh] min-h-0 min-h-[3rem] w-full max-w-4xl shrink flex-wrap justify-center gap-1 overflow-y-auto border-b-4 border-dashed border-slate-100 px-1 pt-2 pb-2 sm:mb-4 sm:min-h-16 sm:gap-2 sm:px-2 sm:pb-4">
         {userScrabble.map((x, i) => (
           <div
             key={i}
@@ -205,7 +205,7 @@ function ScrabbleExercise({
       </div>
 
       {}
-      <div className="no-scrollbar flex max-h-[35vh] min-h-0 w-full max-w-4xl shrink flex-wrap justify-center gap-1.5 overflow-y-auto px-1 pt-2 pb-2 sm:gap-3 sm:pt-4 sm:pb-4">
+      <div className="no-scrollbar flex max-h-[35dvh] min-h-0 w-full max-w-4xl shrink flex-wrap justify-center gap-1.5 overflow-y-auto px-1 pt-2 pb-2 sm:gap-3 sm:pt-4 sm:pb-4">
         {shuffledLetters.map((l, i) => {
           const isUsed = userScrabble.some((x) => x.index === i);
           return (
