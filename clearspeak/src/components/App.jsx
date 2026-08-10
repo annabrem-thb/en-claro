@@ -866,7 +866,7 @@ function AppContent() {
         }}
         labelledBy="survey-title"
         overlayClassName="z-[60] flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm sm:p-6"
-        className="no-scrollbar animate-in zoom-in relative max-h-[95vh] w-full max-w-5xl overflow-y-auto rounded-3xl bg-white shadow-2xl duration-300"
+        className="no-scrollbar animate-in zoom-in relative max-h-[95dvh] w-full max-w-5xl overflow-y-auto rounded-3xl bg-white shadow-2xl duration-300"
       >
         {}
         <button

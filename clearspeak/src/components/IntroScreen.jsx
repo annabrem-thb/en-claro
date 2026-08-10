@@ -157,7 +157,7 @@ function IntroScreen({ onStart, speak }) {
           landmarks on this screen even though the rest of the app has them. */}
       <main
         id="main-content"
-        className={`no-scrollbar relative z-10 flex max-h-[98vh] min-h-0 w-full max-w-lg shrink flex-col items-center overflow-y-auto rounded-[2rem] px-3 py-3 text-center shadow-2xl transition-all sm:px-6 sm:py-5 ${
+        className={`no-scrollbar relative z-10 flex max-h-[98dvh] min-h-0 w-full max-w-lg shrink flex-col items-center overflow-y-auto rounded-[2rem] px-3 py-3 text-center shadow-2xl transition-all sm:px-6 sm:py-5 ${
           isHighContrast
             ? 'border-2 border-white bg-black'
             : 'border border-slate-200 bg-white/90 backdrop-blur-md'
