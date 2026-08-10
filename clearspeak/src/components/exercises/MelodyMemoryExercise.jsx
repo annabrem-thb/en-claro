@@ -75,6 +75,20 @@ function MelodyMemoryExercise({
 
   const sequence = useMemo(() => data.sequence || [], [data.sequence]);
 
+  // Shuffles which *position* each note button sits in (a fixed left-to-
+  // right do-mi-sol-do′ layout lets the learner just memorize "2nd button,
+  // 4th button" instead of actually listening for pitch) — seeded by the
+  // task id so it's stable for the duration of this item and re-shuffles on
+  // the next one. Each note keeps its own icon/frequency wherever it lands;
+  // only the screen position moves, never the icon-to-pitch mapping.
+  const noteOrder = useMemo(() => {
+    const seed = data.id || 0;
+    return NOTES.map((_, i) => i)
+      .map((i) => ({ i, sortKey: ((i + 1) * 2654435761 + seed) % 100000 }))
+      .sort((a, b) => a.sortKey - b.sortKey)
+      .map((x) => x.i);
+  }, [data.id]);
+
   // Render-time reset on a genuine task change — mirrors
   // RhythmMemoryExercise's approach (adjust state during render rather than
   // in a useEffect body, so no setState-in-effect warning).
@@ -186,7 +200,7 @@ function MelodyMemoryExercise({
         </h3>
       )}
 
-      {voiceAssistant && phase === 'tap' && (
+      {phase === 'tap' && (
         <div className="mb-2 flex shrink-0 gap-4 sm:mb-4">
           <TTSController
             onReadAloud={playListen}
@@ -225,21 +239,24 @@ function MelodyMemoryExercise({
           className="mb-4 flex shrink-0 gap-3 sm:mb-6 sm:gap-4"
           aria-hidden={phase === 'listen'}
         >
-          {NOTES.map((note, i) => (
-            <button
-              key={i}
-              onClick={() => handleNotePress(i)}
-              disabled={phase !== 'tap'}
-              className={`${noteBtnSize} flex items-center justify-center rounded-2xl border-b-4 shadow-lg transition-transform active:scale-90 active:border-b-0 disabled:opacity-40 ${
-                playingIndex === i
-                  ? 'scale-110 border-yellow-500 bg-yellow-300 text-slate-900'
-                  : `${themeStyles.button} ${themeStyles.buttonText}`
-              }`}
-              aria-label={note.label}
-            >
-              {note.icon}
-            </button>
-          ))}
+          {noteOrder.map((i) => {
+            const note = NOTES[i];
+            return (
+              <button
+                key={i}
+                onClick={() => handleNotePress(i)}
+                disabled={phase !== 'tap'}
+                className={`${noteBtnSize} flex items-center justify-center rounded-2xl border-b-4 shadow-lg transition-transform active:scale-90 active:border-b-0 disabled:opacity-40 ${
+                  playingIndex === i
+                    ? 'scale-110 border-yellow-500 bg-yellow-300 text-slate-900'
+                    : `${themeStyles.button} ${themeStyles.buttonText}`
+                }`}
+                aria-label={note.label}
+              >
+                {note.icon}
+              </button>
+            );
+          })}
         </div>
       )}
 
