@@ -334,6 +334,31 @@ function VisualCategorization({
         })}
       </div>
 
+      {data.incorrectExamples && data.incorrectExamples.length > 0 && (
+        <div
+          className={`w-full max-w-2xl shrink-0 rounded-2xl border-2 border-dashed p-3 sm:p-4 ${isHighContrast ? 'border-white/40 bg-black' : 'border-amber-200 bg-amber-50'}`}
+        >
+          <h4
+            className={`mb-2 text-center text-[10px] font-black tracking-widest uppercase sm:text-xs ${isHighContrast ? 'text-white' : 'text-amber-800'}`}
+          >
+            {t('incorrectSpellingsTitle') ||
+              'Watch out for these common mistakes'}
+          </h4>
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+            {data.incorrectExamples.map((ex, i) => (
+              <span
+                key={i}
+                className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold shadow-sm ${isHighContrast ? 'bg-white text-black' : 'bg-white text-slate-700'}`}
+              >
+                <span className="text-red-500 line-through">{ex.wrong}</span>
+                <span aria-hidden="true">→</span>
+                <span className="text-emerald-700">{ex.correct}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       {}
       <button
         onClick={handleCheck}
