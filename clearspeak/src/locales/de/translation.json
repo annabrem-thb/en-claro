@@ -375,11 +375,11 @@
   "srVisitor": "Ein freundlicher Besucher hat sich Ihnen dank Ihrer regelmäßigen Praxis angeschlossen.",
   "srTrophies": "Durch Ausdauer sind {{count}} einzigartige Objekte im Garten erschienen.",
   "rewardItems": {
-    "Natur": ["💎", "🏆", "💡", "📈", "🎯"],
-    "Musik": ["💎", "🏆", "💡", "📈", "🎯"],
-    "Kunst": ["💎", "🏆", "💡", "📈", "🎯"],
-    "Space": ["💎", "🏆", "💡", "📈", "🎯"],
-    "Ocean": ["💎", "🏆", "💡", "📈", "🎯"]
+    "Natur": ["🍀", "🌸", "🦋", "🐝", "🌈"],
+    "Musik": ["🎵", "🎶", "🎤", "🎸", "🎧"],
+    "Kunst": ["🎨", "🖌️", "🖼️", "💎", "✨"],
+    "Space": ["🚀", "🌟", "🛸", "🪐", "☄️"],
+    "Ocean": ["🐚", "🐠", "🌊", "⚓", "🐬"]
   },
   "dailyGoal": "Tagesziel",
   "goal5": "5 Min – Schritt",

@@ -374,11 +374,11 @@
   "srVisitor": "Przyjazny gość dołączył do Ciebie dzięki Twojej regularnej praktyce.",
   "srTrophies": "Dzięki wytrwałości w ogrodzie pojawiły się {{count}} unikalne obiekty.",
   "rewardItems": {
-    "Natur": ["💎", "🏆", "💡", "📈", "🎯"],
-    "Musik": ["💎", "🏆", "💡", "📈", "🎯"],
-    "Kunst": ["💎", "🏆", "💡", "📈", "🎯"],
-    "Space": ["💎", "🏆", "💡", "📈", "🎯"],
-    "Ocean": ["💎", "🏆", "💡", "📈", "🎯"]
+    "Natur": ["🍀", "🌸", "🦋", "🐝", "🌈"],
+    "Musik": ["🎵", "🎶", "🎤", "🎸", "🎧"],
+    "Kunst": ["🎨", "🖌️", "🖼️", "💎", "✨"],
+    "Space": ["🚀", "🌟", "🛸", "🪐", "☄️"],
+    "Ocean": ["🐚", "🐠", "🌊", "⚓", "🐬"]
   },
   "dailyGoal": "Cel dzienny",
   "goal5": "5 min — Krok",

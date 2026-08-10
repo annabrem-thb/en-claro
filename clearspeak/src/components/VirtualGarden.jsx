@@ -8,6 +8,7 @@ import { getAllLogs } from '../utils/indexedDB.js';
 
 import { WeeklyCalendar } from './WeeklyCalendar.jsx';
 import BionicText from './common/BionicText.jsx';
+import Dialog from './common/Dialog.jsx';
 
 // Matches App.jsx/useExerciseSession.js — kept local rather than shared
 // since this is the only other place that needs to turn raw points into a
@@ -83,11 +84,11 @@ function VirtualGarden({
       dailyQuests?.tasks?.filter((t) => t.completed).length || 0;
 
     const questIconsByTheme = {
-      Natur: '🏅',
-      Musik: '🏅',
+      Natur: '🌼',
+      Musik: '🎶',
       Kunst: '🏅',
-      Space: '🏅',
-      Ocean: '🏅',
+      Space: '🌠',
+      Ocean: '🐬',
     };
     const questIcon = questIconsByTheme[theme] || '🏅';
     const flowers = Array.from({ length: completedModules }).map(
@@ -564,147 +565,149 @@ function VirtualGarden({
             </p>
           )}
 
-          {todayStats && todayStats.total > 0 && !checkInDone && (
-            <div
-              className={`mt-4 w-full max-w-[280px] rounded-2xl border-2 p-3 transition-all sm:mt-6 sm:max-w-xs sm:rounded-3xl sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 delay-700 duration-700'} ${isHighContrast ? 'border-white/30 bg-black text-white' : `${themeStyles?.border || 'border-slate-100'} bg-[#FCFBF9] text-slate-700 shadow-sm`}`}
+          <Dialog
+            open={!!(todayStats && todayStats.total > 0 && !checkInDone)}
+            onClose={skipWorkloadCheckIn}
+            labelledBy="workload-checkin-title"
+            overlayClassName="z-[60] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm"
+            className={`w-full max-w-xs rounded-3xl p-4 shadow-2xl outline-none sm:p-5 ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'border-2 border-white bg-black text-white' : 'bg-[#FCFBF9] text-slate-700'}`}
+          >
+            <h3
+              id="workload-checkin-title"
+              className="mb-3 text-center text-[10px] font-black tracking-widest break-words text-slate-600 uppercase sm:mb-4 sm:text-xs"
             >
-              <h3 className="mb-3 text-center text-[10px] font-black tracking-widest break-words text-slate-600 uppercase sm:mb-4 sm:text-xs">
+              <BionicText
+                text={t('workloadCheckInTitle')}
+                enabled={bionicReading}
+              />
+            </h3>
+
+            <div className="mb-3 sm:mb-4">
+              <p
+                className={`mb-2 text-center text-xs font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+              >
                 <BionicText
-                  text={t('workloadCheckInTitle')}
+                  text={t('workloadDemandQuestion')}
                   enabled={bionicReading}
                 />
-              </h3>
-
-              <div className="mb-3 sm:mb-4">
-                <p
-                  className={`mb-2 text-center text-xs font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
-                >
-                  <BionicText
-                    text={t('workloadDemandQuestion')}
-                    enabled={bionicReading}
-                  />
-                </p>
-                <div
-                  className="flex items-center justify-center gap-1.5 sm:gap-2"
-                  role="radiogroup"
-                  aria-label={t('workloadDemandQuestion')}
-                >
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      role="radio"
-                      aria-checked={checkInDemand === n}
-                      onClick={() => setCheckInDemand(n)}
-                      className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-black transition-all active:scale-95 sm:h-10 sm:w-10 sm:text-sm ${
-                        checkInDemand === n
-                          ? isHighContrast
-                            ? 'border-white bg-white text-black'
-                            : `border-amber-500 bg-amber-500 text-white`
-                          : isHighContrast
-                            ? 'border-white/30 text-white/60'
-                            : 'border-slate-200 text-slate-500'
-                      }`}
-                    >
-                      {n}
-                    </button>
-                  ))}
-                </div>
-                <div
-                  className={`mt-1 flex justify-between text-[9px] font-bold uppercase sm:text-[10px] ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}
-                >
-                  <span>
-                    <BionicText
-                      text={t('workloadLow')}
-                      enabled={bionicReading}
-                    />
-                  </span>
-                  <span>
-                    <BionicText
-                      text={t('workloadHigh')}
-                      enabled={bionicReading}
-                    />
-                  </span>
-                </div>
+              </p>
+              <div
+                className="flex items-center justify-center gap-1.5 sm:gap-2"
+                role="radiogroup"
+                aria-label={t('workloadDemandQuestion')}
+              >
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    role="radio"
+                    aria-checked={checkInDemand === n}
+                    onClick={() => setCheckInDemand(n)}
+                    className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-black transition-all active:scale-95 sm:h-10 sm:w-10 sm:text-sm ${
+                      checkInDemand === n
+                        ? isHighContrast
+                          ? 'border-white bg-white text-black'
+                          : `border-amber-500 bg-amber-500 text-white`
+                        : isHighContrast
+                          ? 'border-white/30 text-white/60'
+                          : 'border-slate-200 text-slate-500'
+                    }`}
+                  >
+                    {n}
+                  </button>
+                ))}
               </div>
-
-              <div className="mb-3 sm:mb-4">
-                <p
-                  className={`mb-2 text-center text-xs font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
-                >
+              <div
+                className={`mt-1 flex justify-between text-[9px] font-bold uppercase sm:text-[10px] ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}
+              >
+                <span>
+                  <BionicText text={t('workloadLow')} enabled={bionicReading} />
+                </span>
+                <span>
                   <BionicText
-                    text={t('workloadFocusQuestion')}
+                    text={t('workloadHigh')}
                     enabled={bionicReading}
                   />
-                </p>
-                <div
-                  className="flex items-center justify-center gap-1.5 sm:gap-2"
-                  role="radiogroup"
-                  aria-label={t('workloadFocusQuestion')}
-                >
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      role="radio"
-                      aria-checked={checkInFocus === n}
-                      onClick={() => setCheckInFocus(n)}
-                      className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-black transition-all active:scale-95 sm:h-10 sm:w-10 sm:text-sm ${
-                        checkInFocus === n
-                          ? isHighContrast
-                            ? 'border-white bg-white text-black'
-                            : `border-emerald-700 bg-emerald-700 text-white`
-                          : isHighContrast
-                            ? 'border-white/30 text-white/60'
-                            : 'border-slate-200 text-slate-500'
-                      }`}
-                    >
-                      {n}
-                    </button>
-                  ))}
-                </div>
-                <div
-                  className={`mt-1 flex justify-between text-[9px] font-bold uppercase sm:text-[10px] ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}
-                >
-                  <span>
-                    <BionicText
-                      text={t('workloadFocusLow')}
-                      enabled={bionicReading}
-                    />
-                  </span>
-                  <span>
-                    <BionicText
-                      text={t('workloadFocusHigh')}
-                      enabled={bionicReading}
-                    />
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-center gap-3">
-                <button
-                  type="button"
-                  onClick={skipWorkloadCheckIn}
-                  className={`text-[10px] font-bold uppercase underline sm:text-xs ${isHighContrast ? 'text-white/60' : 'text-slate-400'}`}
-                >
-                  <BionicText text={t('skip')} enabled={bionicReading} />
-                </button>
-                <button
-                  type="button"
-                  disabled={checkInDemand === null || checkInFocus === null}
-                  onClick={() =>
-                    submitWorkloadCheckIn(checkInDemand, checkInFocus)
-                  }
-                  className={`rounded-full px-4 py-1.5 text-[10px] font-black tracking-widest uppercase transition-all active:scale-95 disabled:opacity-40 sm:px-6 sm:py-2 sm:text-xs ${isHighContrast ? 'border border-white bg-black text-white' : `${themeStyles?.button || 'bg-indigo-500'} ${themeStyles?.buttonText || 'text-white'}`}`}
-                >
-                  <BionicText
-                    text={t('workloadSubmit')}
-                    enabled={bionicReading}
-                  />
-                </button>
+                </span>
               </div>
             </div>
-          )}
+
+            <div className="mb-3 sm:mb-4">
+              <p
+                className={`mb-2 text-center text-xs font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+              >
+                <BionicText
+                  text={t('workloadFocusQuestion')}
+                  enabled={bionicReading}
+                />
+              </p>
+              <div
+                className="flex items-center justify-center gap-1.5 sm:gap-2"
+                role="radiogroup"
+                aria-label={t('workloadFocusQuestion')}
+              >
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    role="radio"
+                    aria-checked={checkInFocus === n}
+                    onClick={() => setCheckInFocus(n)}
+                    className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-black transition-all active:scale-95 sm:h-10 sm:w-10 sm:text-sm ${
+                      checkInFocus === n
+                        ? isHighContrast
+                          ? 'border-white bg-white text-black'
+                          : `border-emerald-700 bg-emerald-700 text-white`
+                        : isHighContrast
+                          ? 'border-white/30 text-white/60'
+                          : 'border-slate-200 text-slate-500'
+                    }`}
+                  >
+                    {n}
+                  </button>
+                ))}
+              </div>
+              <div
+                className={`mt-1 flex justify-between text-[9px] font-bold uppercase sm:text-[10px] ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}
+              >
+                <span>
+                  <BionicText
+                    text={t('workloadFocusLow')}
+                    enabled={bionicReading}
+                  />
+                </span>
+                <span>
+                  <BionicText
+                    text={t('workloadFocusHigh')}
+                    enabled={bionicReading}
+                  />
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={skipWorkloadCheckIn}
+                className={`text-[10px] font-bold uppercase underline sm:text-xs ${isHighContrast ? 'text-white/60' : 'text-slate-400'}`}
+              >
+                <BionicText text={t('skip')} enabled={bionicReading} />
+              </button>
+              <button
+                type="button"
+                disabled={checkInDemand === null || checkInFocus === null}
+                onClick={() =>
+                  submitWorkloadCheckIn(checkInDemand, checkInFocus)
+                }
+                className={`rounded-full px-4 py-1.5 text-[10px] font-black tracking-widest uppercase transition-all active:scale-95 disabled:opacity-40 sm:px-6 sm:py-2 sm:text-xs ${isHighContrast ? 'border border-white bg-black text-white' : `${themeStyles?.button || 'bg-indigo-500'} ${themeStyles?.buttonText || 'text-white'}`}`}
+              >
+                <BionicText
+                  text={t('workloadSubmit')}
+                  enabled={bionicReading}
+                />
+              </button>
+            </div>
+          </Dialog>
 
           {checkInDone && difficultyNote && (
             <p
