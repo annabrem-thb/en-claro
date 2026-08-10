@@ -605,6 +605,8 @@ function AppContent() {
                     updateSetting('userDifficulty', val)
                   }
                   bionicReading={!!settings.bionicReading}
+                  speak={speak}
+                  voiceAssistant={!!settings.voiceAssistant}
                 />
               </Suspense>
             </div>
