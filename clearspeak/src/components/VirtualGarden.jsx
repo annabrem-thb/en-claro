@@ -432,14 +432,6 @@ function VirtualGarden({
         <div
           className={`flex flex-wrap items-center justify-center gap-2 sm:gap-3 ${isFullScreen ? 'mt-4 px-2 text-center text-lg sm:text-2xl' : 'px-2 text-sm'}`}
         >
-          <span
-            className={`text-center font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : themeStyles?.accent}`}
-          >
-            <BionicText
-              text={ecosystemState.plantName}
-              enabled={bionicReading}
-            />
-          </span>
           {ecosystemState.completedModules > 0 && (
             <span
               className={`font-medium opacity-70 ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
@@ -504,14 +496,6 @@ function VirtualGarden({
 
       {isFullScreen && (
         <div className="animate-in fade-in mt-4 flex flex-col items-center gap-1 px-2 delay-500 duration-1000 sm:mt-8 sm:gap-2">
-          <h2
-            className={`text-center text-lg font-bold tracking-widest uppercase sm:text-xl md:text-2xl ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
-          >
-            <BionicText
-              text={ecosystemState.plantName}
-              enabled={bionicReading}
-            />
-          </h2>
           <p
             className={`max-w-xs px-2 text-center text-xs leading-relaxed font-medium break-words sm:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
           >
