@@ -135,6 +135,10 @@
   "a11yBaseDesc": "Friendly font (OpenDyslexic), increased spacing, mild cream background",
   "a11yAddons": "Comfort personalization options",
   "a11yAddonsDesc": "Choose any combination — customize the app to your needs",
+  "a11ySectionVision": "Vision",
+  "a11ySectionReading": "Reading & focus",
+  "a11ySectionMotor": "Motor & sensory",
+  "a11ySectionVoice": "Voice & learning pace",
   "a11y": {
     "lrs": {
       "name": "Friendly font",

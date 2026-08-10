@@ -134,6 +134,10 @@
   "a11yBaseDesc": "Przyjazna czcionka (OpenDyslexic), zwiększone odstępy, łagodne kremowe tło",
   "a11yAddons": "Opcje personalizacji komfortu",
   "a11yAddonsDesc": "Wybierz dowolne kombinacje — dostosuj aplikację do siebie",
+  "a11ySectionVision": "Wzrok",
+  "a11ySectionReading": "Czytanie i skupienie",
+  "a11ySectionMotor": "Ruch i zmysły",
+  "a11ySectionVoice": "Głos i tempo nauki",
   "a11y": {
     "lrs": {
       "name": "Przyjazna czcionka",
