@@ -182,23 +182,41 @@ const GeneralTab = ({ speak }) => {
   );
 };
 
+// Every toggle this tab can show, grouped by what kind of accommodation it
+// addresses rather than by which settings-object namespace it happens to
+// live in (`a11y.*` vs `inclusive.*` — an implementation detail the old
+// layout accidentally exposed as its only grouping: two flat lists that
+// mixed e.g. a colorblind-safe palette toggle with a daily-difficulty
+// toggle under the same unlabeled heading). Four sections instead: sight,
+// reading/focus, motor+sensory, and voice/pace — the same taxonomy most
+// OS-level accessibility panels use, so it should already feel familiar.
+const A11Y_SECTIONS = [
+  {
+    titleKey: 'a11ySectionVision',
+    icon: '👁️',
+    keys: ['contrast', 'vision', 'color', 'desaturation'],
+  },
+  {
+    titleKey: 'a11ySectionReading',
+    icon: '📖',
+    keys: ['lrs', 'spacing', 'ruler', 'bionicReading', 'zenMode'],
+  },
+  {
+    titleKey: 'a11ySectionMotor',
+    icon: '🤲',
+    keys: ['motorik', 'motion'],
+  },
+  {
+    titleKey: 'a11ySectionVoice',
+    icon: '🔊',
+    keys: ['voiceAssistant', 'cognitiveBreaks', 'adaptiveDifficulty'],
+  },
+];
+
 const A11yTab = ({ speak }) => {
   const { t } = useTranslation();
   const { settings, updateSetting } = useUserSettingsContext();
-  const {
-    bionicReading,
-    contrast,
-    lrs,
-    motorik,
-    vision,
-    spacing,
-    ruler,
-    color,
-    motion,
-    desaturation,
-    voiceAssistant,
-    zenMode,
-  } = settings;
+  const { bionicReading, contrast, voiceAssistant } = settings;
   const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
 
   useEffect(() => {
@@ -208,114 +226,86 @@ const A11yTab = ({ speak }) => {
     };
   }, [clearAllTimeouts]);
 
-  const a11yOptions = useMemo(
-    () => [
-      { key: 'lrs', ...t('a11y.lrs', { returnObjects: true }) },
-      { key: 'contrast', ...t('a11y.contrast', { returnObjects: true }) },
-      { key: 'vision', ...t('a11y.vision', { returnObjects: true }) },
-      { key: 'motorik', ...t('a11y.motor', { returnObjects: true }) },
-      { key: 'spacing', ...t('a11y.spacing', { returnObjects: true }) },
-      { key: 'ruler', ...t('a11y.ruler', { returnObjects: true }) },
-      { key: 'color', ...t('a11y.colors', { returnObjects: true }) },
-      { key: 'motion', ...t('a11y.motion', { returnObjects: true }) },
-      {
-        key: 'desaturation',
-        ...t('a11y.desaturation', { returnObjects: true }),
-      },
-    ],
-    [t],
-  );
-
-  const inclusiveOptions = useMemo(
-    () => [
-      {
-        key: 'bionicReading',
-        ...t('inclusive.bionicReading', { returnObjects: true }),
-      },
-      {
-        key: 'voiceAssistant',
-        ...t('inclusive.voiceAssistant', { returnObjects: true }),
-      },
-      { key: 'zenMode', ...t('inclusive.zenMode', { returnObjects: true }) },
-      {
-        key: 'cognitiveBreaks',
-        ...t('inclusive.cognitiveBreaks', { returnObjects: true }),
-      },
-      {
-        key: 'adaptiveDifficulty',
-        ...t('inclusive.adaptiveDifficulty', { returnObjects: true }),
-      },
-    ],
+  const optionsByKey = useMemo(
+    () => ({
+      contrast: t('a11y.contrast', { returnObjects: true }),
+      vision: t('a11y.vision', { returnObjects: true }),
+      color: t('a11y.colors', { returnObjects: true }),
+      desaturation: t('a11y.desaturation', { returnObjects: true }),
+      lrs: t('a11y.lrs', { returnObjects: true }),
+      spacing: t('a11y.spacing', { returnObjects: true }),
+      ruler: t('a11y.ruler', { returnObjects: true }),
+      bionicReading: t('inclusive.bionicReading', { returnObjects: true }),
+      zenMode: t('inclusive.zenMode', { returnObjects: true }),
+      motorik: t('a11y.motor', { returnObjects: true }),
+      motion: t('a11y.motion', { returnObjects: true }),
+      voiceAssistant: t('inclusive.voiceAssistant', { returnObjects: true }),
+      cognitiveBreaks: t('inclusive.cognitiveBreaks', {
+        returnObjects: true,
+      }),
+      adaptiveDifficulty: t('inclusive.adaptiveDifficulty', {
+        returnObjects: true,
+      }),
+    }),
     [t],
   );
 
   // Only the option *names* (not the longer descriptions) are read out —
-  // between the two groups that's already 14 items, reading every
+  // 14 items across four sections is already a lot; reading every
   // description too would make this take over a minute.
   const readA11yTab = useCallback(() => {
     if (!speak) return;
     clearAllTimeouts();
     const segments = [
       t('tabA11y'),
-      t('a11yAddons'),
-      ...a11yOptions.map((opt) => opt.name).filter(Boolean),
-      t('gamificationTitle'),
-      ...inclusiveOptions.map((opt) => opt.name).filter(Boolean),
+      ...A11Y_SECTIONS.flatMap((section) => [
+        t(section.titleKey),
+        ...section.keys.map((key) => optionsByKey[key]?.name).filter(Boolean),
+      ]),
     ].filter(Boolean);
     let delayAcc = 0;
     segments.forEach((segment) => {
       setSafeTimeout(() => speak(segment), delayAcc);
       delayAcc += segment.length * 70 + 700;
     });
-  }, [
-    speak,
-    t,
-    a11yOptions,
-    inclusiveOptions,
-    setSafeTimeout,
-    clearAllTimeouts,
-  ]);
+  }, [speak, t, optionsByKey, setSafeTimeout, clearAllTimeouts]);
 
   useAutoReadAloud(!!voiceAssistant, readA11yTab);
 
   return (
     <div className="space-y-6">
-      <div>
-        <h3 className="mb-2 px-3 text-sm font-bold text-slate-500">
-          <BionicText text={t('a11yAddons')} enabled={bionicReading} />
-        </h3>
-        <div className="space-y-1">
-          {a11yOptions.map((opt) => (
-            <SettingToggle
-              key={opt.key}
-              label={opt.name}
-              desc={opt.desc}
-              checked={!!settings[opt.key]}
-              onChange={() => updateSetting(opt.key, !settings[opt.key])}
-              bionic={bionicReading}
-              isHighContrast={contrast}
-            />
-          ))}
+      <p
+        className={`px-3 text-xs ${contrast ? 'text-white/60' : 'text-slate-500'}`}
+      >
+        <BionicText text={t('a11yAddonsDesc')} enabled={bionicReading} />
+      </p>
+      {A11Y_SECTIONS.map((section) => (
+        <div key={section.titleKey}>
+          <h3
+            className={`mb-2 flex items-center gap-2 px-3 text-sm font-bold ${contrast ? 'text-white' : 'text-slate-500'}`}
+          >
+            <span aria-hidden="true">{section.icon}</span>
+            <BionicText text={t(section.titleKey)} enabled={bionicReading} />
+          </h3>
+          <div className="space-y-1">
+            {section.keys.map((key) => {
+              const opt = optionsByKey[key];
+              if (!opt) return null;
+              return (
+                <SettingToggle
+                  key={key}
+                  label={opt.name}
+                  desc={opt.desc}
+                  checked={!!settings[key]}
+                  onChange={() => updateSetting(key, !settings[key])}
+                  bionic={bionicReading}
+                  isHighContrast={contrast}
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
-      <div>
-        <h3 className="mb-2 px-3 text-sm font-bold text-slate-500">
-          <BionicText text={t('gamificationTitle')} enabled={bionicReading} />
-        </h3>
-        <div className="space-y-1">
-          {inclusiveOptions.map((opt) => (
-            <SettingToggle
-              key={opt.key}
-              label={opt.name}
-              desc={opt.desc}
-              checked={!!settings[opt.key]}
-              onChange={() => updateSetting(opt.key, !settings[opt.key])}
-              bionic={bionicReading}
-              isHighContrast={contrast}
-            />
-          ))}
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

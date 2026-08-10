@@ -133,6 +133,10 @@
   "a11yBaseDesc": "Freundliche Schriftart (OpenDyslexic), vergrößerter Abstand, milder Cremeton-Hintergrund",
   "a11yAddons": "Komfort-Personalisierungsoptionen",
   "a11yAddonsDesc": "Wählen Sie eine beliebige Kombination – passen Sie die App an Ihre Bedürfnisse an",
+  "a11ySectionVision": "Sehen",
+  "a11ySectionReading": "Lesen & Fokus",
+  "a11ySectionMotor": "Motorik & Sinne",
+  "a11ySectionVoice": "Stimme & Lerntempo",
   "textSize": "Textgröße",
   "textSizeDesc": "Passen Sie die Schriftgröße an Ihre Lesepräferenzen an",
   "a11y": {
