@@ -173,28 +173,26 @@ function SpatialExercise({
   return (
     <div className="flex h-full min-h-0 w-full flex-col items-center justify-between overflow-hidden px-2 py-2">
       {}
-      {voiceAssistant && (
-        <div className="mb-2 flex shrink-0 gap-4">
-          <TTSController
-            onReadAloud={readInstructionAndOptions}
-            pauseAllTimeouts={pauseAllTimeouts}
-            resumeAllTimeouts={resumeAllTimeouts}
-            t={t}
-            controlBtnSize={controlBtnSize}
-          />
+      <div className="mb-2 flex shrink-0 gap-4">
+        <TTSController
+          onReadAloud={readInstructionAndOptions}
+          pauseAllTimeouts={pauseAllTimeouts}
+          resumeAllTimeouts={resumeAllTimeouts}
+          t={t}
+          controlBtnSize={controlBtnSize}
+        />
 
-          <VoiceAnswerButton
-            isListening={isListening}
-            onStart={() => startListening(handleVoiceMatch)}
-            error={error}
-            t={t}
-            themeStyles={themeStyles}
-            noFlash={noFlash}
-            bigTargets={bigTargets}
-            controlBtnSize={controlBtnSize}
-          />
-        </div>
-      )}
+        <VoiceAnswerButton
+          isListening={isListening}
+          onStart={() => startListening(handleVoiceMatch)}
+          error={error}
+          t={t}
+          themeStyles={themeStyles}
+          noFlash={noFlash}
+          bigTargets={bigTargets}
+          controlBtnSize={controlBtnSize}
+        />
+      </div>
 
       {transcript && (
         <p className="mb-2 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase">

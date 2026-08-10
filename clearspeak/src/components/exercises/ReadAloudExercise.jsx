@@ -86,15 +86,13 @@ function ReadAloudExercise({
       </div>
 
       <div className="mb-2 flex shrink-0 gap-4 sm:mb-4">
-        {voiceAssistant && (
-          <TTSController
-            onReadAloud={handleReadAloud}
-            pauseAllTimeouts={pauseAllTimeouts}
-            resumeAllTimeouts={resumeAllTimeouts}
-            t={t}
-            controlBtnSize={controlBtnSize}
-          />
-        )}
+        <TTSController
+          onReadAloud={handleReadAloud}
+          pauseAllTimeouts={pauseAllTimeouts}
+          resumeAllTimeouts={resumeAllTimeouts}
+          t={t}
+          controlBtnSize={controlBtnSize}
+        />
 
         <VoiceAnswerButton
           isListening={isListening}

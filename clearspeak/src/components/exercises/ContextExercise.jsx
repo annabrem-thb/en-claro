@@ -205,28 +205,26 @@ function ContextExercise({
         <BionicText text={data.sentence_part2} enabled={bionicReading} />
       </div>
 
-      {voiceAssistant && (
-        <div className="mb-3 flex shrink-0 gap-4 sm:mb-6 sm:gap-6">
-          <TTSController
-            onReadAloud={readContextAndOptions}
-            pauseAllTimeouts={pauseAllTimeouts}
-            resumeAllTimeouts={resumeAllTimeouts}
-            t={t}
-            controlBtnSize={controlBtnSize}
-          />
+      <div className="mb-3 flex shrink-0 gap-4 sm:mb-6 sm:gap-6">
+        <TTSController
+          onReadAloud={readContextAndOptions}
+          pauseAllTimeouts={pauseAllTimeouts}
+          resumeAllTimeouts={resumeAllTimeouts}
+          t={t}
+          controlBtnSize={controlBtnSize}
+        />
 
-          <VoiceAnswerButton
-            isListening={isListening}
-            onStart={() => startListening(handleVoiceMatch)}
-            error={error}
-            t={t}
-            themeStyles={themeStyles}
-            noFlash={noFlash}
-            bigTargets={bigTargets}
-            controlBtnSize={controlBtnSize}
-          />
-        </div>
-      )}
+        <VoiceAnswerButton
+          isListening={isListening}
+          onStart={() => startListening(handleVoiceMatch)}
+          error={error}
+          t={t}
+          themeStyles={themeStyles}
+          noFlash={noFlash}
+          bigTargets={bigTargets}
+          controlBtnSize={controlBtnSize}
+        />
+      </div>
 
       {transcript && (
         <p className="mb-2 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-3 sm:text-xs">

@@ -224,19 +224,17 @@ function VisualCategorization({
         </h2>
       )}
 
-      {voiceAssistant && (
-        <div className="flex w-full shrink-0 justify-center">
-          <TTSController
-            onReadAloud={readCategorization}
-            pauseAllTimeouts={pauseAllTimeouts}
-            resumeAllTimeouts={resumeAllTimeouts}
-            t={t}
-            controlBtnSize={
-              bigTargets ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'
-            }
-          />
-        </div>
-      )}
+      <div className="flex w-full shrink-0 justify-center">
+        <TTSController
+          onReadAloud={readCategorization}
+          pauseAllTimeouts={pauseAllTimeouts}
+          resumeAllTimeouts={resumeAllTimeouts}
+          t={t}
+          controlBtnSize={
+            bigTargets ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'
+          }
+        />
+      </div>
 
       {}
       <div
