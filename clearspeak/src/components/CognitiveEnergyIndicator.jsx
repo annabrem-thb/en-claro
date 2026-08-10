@@ -15,51 +15,46 @@ export function CognitiveEnergyIndicator({
   bigTargets,
   bionicReading = false,
 }) {
-  const renderDot = (color, isActive) => {
-    let classes = 'bg-slate-300 opacity-30';
-    let shapeIcon = null;
+  // A colorblind user can't tell the active dot from the other two by hue
+  // alone, so every dot always carries its own shape (✓ / − / ✕) — the
+  // *symbol*, not the color, is what distinguishes "fine" from "tired" from
+  // "needs a break". The active dot is simply the one drawn bold/full-size/
+  // full-opacity; the other two stay small and faded, exactly like an
+  // un-lit segment on a gauge.
+  const DOT_STYLES = {
+    green: {
+      active: 'bg-[var(--color-success)] shadow-sm',
+      symbol: '✓',
+      symbolColor: 'text-white',
+    },
+    yellow: {
+      active: 'bg-[var(--color-warning)] shadow-sm',
+      symbol: '−',
+      symbolColor: 'text-black',
+    },
+    red: {
+      active: `bg-[var(--color-error)] shadow-sm ${noFlash ? '' : 'animate-pulse'}`,
+      symbol: '✕',
+      symbolColor: 'text-white',
+    },
+  };
 
-    if (isActive) {
-      if (color === 'green') {
-        classes = 'bg-[var(--color-success)] shadow-sm';
-        shapeIcon = (
-          <span
-            className="absolute inset-0 flex items-center justify-center text-[8px] font-black text-white"
-            aria-hidden="true"
-          >
-            ✓
-          </span>
-        );
-      }
-      if (color === 'yellow') {
-        classes = 'bg-[var(--color-warning)] shadow-sm';
-        shapeIcon = (
-          <span
-            className="absolute inset-0 flex items-center justify-center text-[8px] font-black text-black"
-            aria-hidden="true"
-          >
-            -
-          </span>
-        );
-      }
-      if (color === 'red') {
-        classes = `bg-[var(--color-error)] shadow-sm ${noFlash ? '' : 'animate-pulse'}`;
-        shapeIcon = (
-          <span
-            className="absolute inset-0 flex items-center justify-center text-[8px] font-black text-white"
-            aria-hidden="true"
-          >
-            ✕
-          </span>
-        );
-      }
-    }
+  const renderDot = (color, isActive) => {
+    const { active, symbol, symbolColor } = DOT_STYLES[color];
     return (
       <div
-        className={`relative h-2.5 w-2.5 rounded-full transition-all duration-500 sm:h-3 sm:w-3 ${classes}`}
+        className={`relative flex items-center justify-center rounded-full transition-all duration-500 ${
+          isActive
+            ? `h-3.5 w-3.5 sm:h-4 sm:w-4 ${active}`
+            : 'h-2.5 w-2.5 bg-slate-300 opacity-40 sm:h-3 sm:w-3'
+        }`}
         aria-hidden="true"
       >
-        {shapeIcon}
+        <span
+          className={`font-black ${isActive ? `text-[9px] ${symbolColor}` : 'text-[7px] text-slate-500'}`}
+        >
+          {symbol}
+        </span>
       </div>
     );
   };

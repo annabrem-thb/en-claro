@@ -146,54 +146,64 @@ export default function ExerciseToggleManager({ t, bigTargets = false }) {
         />
       </p>
 
-      {Object.entries(EXERCISE_PILLARS).map(([pillarKey, exerciseKeys]) => (
-        <section key={pillarKey} aria-labelledby={`exmgr-pillar-${pillarKey}`}>
-          <div className="mb-2 flex items-center justify-between gap-2 px-1">
-            <h3
-              id={`exmgr-pillar-${pillarKey}`}
-              className={`text-sm font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
-            >
-              <BionicText
-                text={t(`pillars.${pillarKey}`, pillarKey)}
-                enabled={bionicReading}
-              />
-            </h3>
-            <div className="flex shrink-0 gap-1">
-              <button
-                onClick={() => setAll(exerciseKeys, true)}
-                className={`rounded-full px-3 py-1 text-xs font-bold transition-colors ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-indigo-600 hover:bg-indigo-50'}`}
+      {Object.entries(EXERCISE_PILLARS).map(
+        ([pillarKey, exerciseKeys], index) => (
+          <section
+            key={pillarKey}
+            aria-labelledby={`exmgr-pillar-${pillarKey}`}
+            className={
+              index > 0
+                ? `border-t pt-6 ${isHighContrast ? 'border-white/20' : 'border-slate-200'}`
+                : ''
+            }
+          >
+            <div className="mb-2 flex items-center justify-between gap-2 px-1">
+              <h3
+                id={`exmgr-pillar-${pillarKey}`}
+                className={`text-sm font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
               >
                 <BionicText
-                  text={t('exerciseManager.selectAll', 'Select all')}
+                  text={t(`pillars.${pillarKey}`, pillarKey)}
                   enabled={bionicReading}
                 />
-              </button>
-              <button
-                onClick={() => setAll(exerciseKeys, false)}
-                className={`rounded-full px-3 py-1 text-xs font-bold transition-colors ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-500 hover:bg-slate-100'}`}
-              >
-                <BionicText
-                  text={t('exerciseManager.deselectAll', 'Deselect all')}
-                  enabled={bionicReading}
-                />
-              </button>
+              </h3>
+              <div className="flex shrink-0 gap-1">
+                <button
+                  onClick={() => setAll(exerciseKeys, true)}
+                  className={`rounded-full px-3 py-1 text-xs font-bold transition-colors ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-indigo-600 hover:bg-indigo-50'}`}
+                >
+                  <BionicText
+                    text={t('exerciseManager.selectAll', 'Select all')}
+                    enabled={bionicReading}
+                  />
+                </button>
+                <button
+                  onClick={() => setAll(exerciseKeys, false)}
+                  className={`rounded-full px-3 py-1 text-xs font-bold transition-colors ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-500 hover:bg-slate-100'}`}
+                >
+                  <BionicText
+                    text={t('exerciseManager.deselectAll', 'Deselect all')}
+                    enabled={bionicReading}
+                  />
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="space-y-1">
-            {exerciseKeys.map((key) => (
-              <ExerciseSwitchRow
-                key={key}
-                label={t(`exerciseManager.types.${key}`, key)}
-                checked={isActive(key)}
-                onChange={() => toggleOne(exerciseKeys, key)}
-                bionic={bionicReading}
-                isHighContrast={isHighContrast}
-                bigTargets={bigTargets}
-              />
-            ))}
-          </div>
-        </section>
-      ))}
+            <div className="space-y-1">
+              {exerciseKeys.map((key) => (
+                <ExerciseSwitchRow
+                  key={key}
+                  label={t(`exerciseManager.types.${key}`, key)}
+                  checked={isActive(key)}
+                  onChange={() => toggleOne(exerciseKeys, key)}
+                  bionic={bionicReading}
+                  isHighContrast={isHighContrast}
+                  bigTargets={bigTargets}
+                />
+              ))}
+            </div>
+          </section>
+        ),
+      )}
 
       {warning && (
         <p

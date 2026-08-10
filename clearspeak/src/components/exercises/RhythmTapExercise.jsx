@@ -181,7 +181,7 @@ function RhythmTapExercise({
         </h3>
       )}
 
-      {voiceAssistant && phase === 'tap' && (
+      {phase === 'tap' && (
         <div className="mb-2 flex shrink-0 gap-4 sm:mb-4">
           <TTSController
             onReadAloud={playListen}
