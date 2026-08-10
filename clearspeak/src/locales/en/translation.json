@@ -375,11 +375,11 @@
   "srVisitor": "A friendly visitor has joined you thanks to your regular practice.",
   "srTrophies": "Through perseverance, {{count}} unique objects appeared in the garden.",
   "rewardItems": {
-    "Natur": ["💎", "🏆", "💡", "📈", "🎯"],
-    "Musik": ["💎", "🏆", "💡", "📈", "🎯"],
-    "Kunst": ["💎", "🏆", "💡", "📈", "🎯"],
-    "Space": ["💎", "🏆", "💡", "📈", "🎯"],
-    "Ocean": ["💎", "🏆", "💡", "📈", "🎯"]
+    "Natur": ["🍀", "🌸", "🦋", "🐝", "🌈"],
+    "Musik": ["🎵", "🎶", "🎤", "🎸", "🎧"],
+    "Kunst": ["🎨", "🖌️", "🖼️", "💎", "✨"],
+    "Space": ["🚀", "🌟", "🛸", "🪐", "☄️"],
+    "Ocean": ["🐚", "🐠", "🌊", "⚓", "🐬"]
   },
   "dailyGoal": "Daily goal",
   "goal5": "5 min — Step",
