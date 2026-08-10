@@ -31,7 +31,7 @@ export function useExerciseVoice(language, t) {
   );
 
   const startListening = useCallback(
-    (onNumberMatch, onCommandMatch, onLetterMatch) => {
+    (onNumberMatch, onCommandMatch, onLetterMatch, onWordMatch) => {
       const SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
@@ -75,6 +75,15 @@ export function useExerciseVoice(language, t) {
         // otherwise fail a strict regex match on the trailing mark alone.
         const result = rawResult.replace(/^[.,!?;:]+|[.,!?;:]+$/g, '');
         setTranscript(result);
+        // Fires unconditionally, independent of the command/number/letter
+        // routing below — free-text exercises (e.g. "say the word you
+        // heard") need the raw transcript itself, not a parsed selection,
+        // and calling this straight from the event handler (rather than
+        // relying on a `transcript` state-change effect downstream) means
+        // saying the same word twice in a row still triggers a fresh check
+        // instead of silently no-oping when React bails out of a same-value
+        // state update.
+        onWordMatch?.(result);
 
         const commandPatterns = {
           undo: t?.('commands.undo', { returnObjects: true }) || [

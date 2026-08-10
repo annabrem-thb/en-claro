@@ -249,8 +249,11 @@ const A11yTab = ({ speak }) => {
   );
 
   // Only the option *names* (not the longer descriptions) are read out —
-  // 14 items across four sections is already a lot; reading every
-  // description too would make this take over a minute.
+  // 14 items across four sections is already a lot — but each name is
+  // paired with its current on/off state, since a sighted-but-silent
+  // reading of just the label would leave a voice-assistant user with no
+  // way to know whether a given tool is actually active without also
+  // looking at the screen.
   const readA11yTab = useCallback(() => {
     if (!speak) return;
     clearAllTimeouts();
@@ -258,7 +261,12 @@ const A11yTab = ({ speak }) => {
       t('tabA11y'),
       ...A11Y_SECTIONS.flatMap((section) => [
         t(section.titleKey),
-        ...section.keys.map((key) => optionsByKey[key]?.name).filter(Boolean),
+        ...section.keys
+          .filter((key) => optionsByKey[key]?.name)
+          .map(
+            (key) =>
+              `${optionsByKey[key].name}: ${settings[key] ? t('on') : t('off')}`,
+          ),
       ]),
     ].filter(Boolean);
     let delayAcc = 0;
@@ -266,7 +274,7 @@ const A11yTab = ({ speak }) => {
       setSafeTimeout(() => speak(segment), delayAcc);
       delayAcc += segment.length * 70 + 700;
     });
-  }, [speak, t, optionsByKey, setSafeTimeout, clearAllTimeouts]);
+  }, [speak, t, optionsByKey, settings, setSafeTimeout, clearAllTimeouts]);
 
   useAutoReadAloud(!!voiceAssistant, readA11yTab);
 
@@ -277,8 +285,15 @@ const A11yTab = ({ speak }) => {
       >
         <BionicText text={t('a11yAddonsDesc')} enabled={bionicReading} />
       </p>
-      {A11Y_SECTIONS.map((section) => (
-        <div key={section.titleKey}>
+      {A11Y_SECTIONS.map((section, index) => (
+        <div
+          key={section.titleKey}
+          className={
+            index > 0
+              ? `border-t pt-6 ${contrast ? 'border-white/20' : 'border-slate-200'}`
+              : ''
+          }
+        >
           <h3
             className={`mb-2 flex items-center gap-2 px-3 text-sm font-bold ${contrast ? 'text-white' : 'text-slate-500'}`}
           >
@@ -396,19 +411,25 @@ const ExercisesTab = ({ speak }) => {
     };
   }, [clearAllTimeouts]);
 
-  // Same "lead with the tab name, then read the group labels" pattern as
-  // the other tabs — individual exercise-type names aren't read here (there
-  // are 12 of them; unlike A11yTab's shorter list, reading all of them on
-  // every tab visit would make voice assistant users wait a long time for a
-  // list most will never need read aloud, since each switch already has its
-  // own accessible name for on-demand screen-reader review).
+  // Leads with the tab name, then each pillar name followed by every
+  // exercise type in it and its current on/off state — longer than before
+  // (12 types total), but a voice-assistant user has no other way to learn
+  // which exercise types are active without also looking at the screen.
   const readExercisesTab = useCallback(() => {
     if (!speak) return;
     clearAllTimeouts();
+    const activeExercises = settings.activeExercises || {};
     const segments = [
       t('tabExercises'),
-      ...Object.keys(EXERCISE_PILLARS).map((pillarKey) =>
-        t(`pillars.${pillarKey}`, pillarKey),
+      ...Object.entries(EXERCISE_PILLARS).flatMap(
+        ([pillarKey, exerciseKeys]) => [
+          t(`pillars.${pillarKey}`, pillarKey),
+          ...exerciseKeys.map((key) => {
+            const label = t(`exerciseManager.types.${key}`, key);
+            const isActive = activeExercises[key] !== false;
+            return `${label}: ${isActive ? t('on') : t('off')}`;
+          }),
+        ],
       ),
     ];
     let delayAcc = 0;
@@ -416,7 +437,7 @@ const ExercisesTab = ({ speak }) => {
       setSafeTimeout(() => speak(segment), delayAcc);
       delayAcc += segment.length * 70 + 700;
     });
-  }, [speak, t, setSafeTimeout, clearAllTimeouts]);
+  }, [speak, t, settings.activeExercises, setSafeTimeout, clearAllTimeouts]);
 
   useAutoReadAloud(!!settings.voiceAssistant, readExercisesTab);
 

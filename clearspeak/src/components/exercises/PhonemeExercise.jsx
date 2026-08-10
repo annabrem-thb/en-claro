@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
+import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
+import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 function PhonemeExercise({
   data,
@@ -24,7 +26,13 @@ function PhonemeExercise({
   const targetWord = data.word || '';
   const hintText = data.hint?.[language] || data.hint?.en || '';
 
-  const [activeHighlight, setActiveHighlight] = useState(null);
+  const [userInput, setUserInput] = useState('');
+
+  const { isListening, transcript, startListening, error } = useExerciseVoice(
+    language,
+    t,
+  );
+
   const {
     setSafeTimeout,
     clearAllTimeouts,
@@ -32,66 +40,73 @@ function PhonemeExercise({
     resumeAllTimeouts,
   } = useSafeTimeouts();
 
-  const clearAudioTimeouts = useCallback(() => {
-    clearAllTimeouts();
-    setActiveHighlight(null);
-  }, [clearAllTimeouts]);
-
   useEffect(() => {
     return () => {
-      clearAudioTimeouts();
+      clearAllTimeouts();
       window.speechSynthesis?.cancel();
     };
-  }, [clearAudioTimeouts]);
+  }, [clearAllTimeouts]);
 
-  const readWordAndHint = () => {
-    clearAudioTimeouts();
-
-    const instruction =
-      t('phonemeInstruction') || 'Listen to the word, then say it aloud';
-    speak(instruction, extendedTime);
-    let delayAcc = instruction.length * (extendedTime ? 90 : 65) + 1200;
+  // First and last letter stay visible (so the learner still has an anchor
+  // to work from), everything between is masked with "_" — same idea as a
+  // hangman blank. Words of 2 letters or fewer have no room for a blank at
+  // all, so they're shown in full rather than producing an empty puzzle.
+  const maskedChars = useMemo(() => {
     const chars = Array.from(targetWord);
+    if (chars.length <= 2) return chars;
+    return chars.map((char, i) =>
+      i === 0 || i === chars.length - 1 ? char : '_',
+    );
+  }, [targetWord]);
 
-    chars.forEach((char, i) => {
-      const stepDuration = extendedTime ? 900 : 600;
-      setSafeTimeout(() => {
-        setActiveHighlight(`char-${i}`);
-        speak(char);
-      }, delayAcc);
-      setSafeTimeout(
-        () => {
-          setActiveHighlight((prev) => (prev === `char-${i}` ? null : prev));
-        },
-        delayAcc + stepDuration - 100,
-      );
-      delayAcc += stepDuration;
-    });
+  const clean = (str) =>
+    str
+      .trim()
+      .toLowerCase()
+      .replace(/[.,!?;:]/g, '');
 
-    delayAcc += 800;
+  const checkAnswer = useCallback(
+    (attempt) => {
+      clearAllTimeouts();
+      if (clean(attempt) === clean(targetWord)) {
+        onSuccess();
+      } else {
+        onError();
+      }
+    },
+    [targetWord, onSuccess, onError, clearAllTimeouts],
+  );
 
+  // The speaker reads the *definition*, not the word — the word itself is
+  // what the learner is meant to produce, so speaking it aloud automatically
+  // would give the answer away. Hearing the whole word out loud is instead
+  // an explicit, separate hint (see readWholeWord below).
+  const readDefinition = useCallback(() => {
+    clearAllTimeouts();
+    const instruction =
+      t('phonemeInstruction') ||
+      'Guess the missing letters from the definition';
+    speak(instruction, extendedTime);
     if (hintText) {
-      const hintDuration = hintText.length * (extendedTime ? 90 : 65) + 1000;
-      setSafeTimeout(() => {
-        setActiveHighlight('hint');
-        speak(hintText);
-      }, delayAcc);
-      setSafeTimeout(
-        () => {
-          setActiveHighlight((prev) => (prev === 'hint' ? null : prev));
-        },
-        delayAcc + hintDuration - 200,
-      );
+      const delay = instruction.length * (extendedTime ? 90 : 65) + 1200;
+      setSafeTimeout(() => speak(hintText, extendedTime), delay);
     }
-  };
+  }, [t, hintText, speak, extendedTime, setSafeTimeout, clearAllTimeouts]);
 
-  useAutoReadAloud(voiceAssistant, readWordAndHint);
+  useAutoReadAloud(voiceAssistant, readDefinition);
+
+  const readWholeWord = useCallback(() => {
+    clearAllTimeouts();
+    speak(targetWord, extendedTime);
+  }, [targetWord, speak, extendedTime, clearAllTimeouts]);
+
+  const handleVoiceMatch = (spoken) => checkAnswer(spoken);
 
   const animClass = noFlash ? '' : 'animate-in zoom-in duration-500';
   const controlBtnSize = bigTargets
     ? 'w-16 h-16 sm:w-24 sm:h-24 text-3xl sm:text-4xl'
     : 'w-12 h-12 sm:w-20 sm:h-20 text-2xl sm:text-3xl';
-  const wordSize = bigTargets ? 'text-5xl sm:text-7xl' : 'text-4xl sm:text-6xl';
+  const wordSize = bigTargets ? 'text-4xl sm:text-6xl' : 'text-3xl sm:text-5xl';
 
   return (
     <div
@@ -101,74 +116,113 @@ function PhonemeExercise({
         <h3
           className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
         >
-          {t('phonemeInstruction') || 'Listen to the word, then say it aloud'}
+          {t('phonemeInstruction') ||
+            'Guess the missing letters from the definition'}
         </h3>
       )}
 
       <div
-        className={`font-black ${wordSize} mb-2 flex min-h-0 w-full shrink flex-wrap justify-center px-2 text-center leading-tight tracking-tight break-words ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
+        className={`font-black ${wordSize} mb-2 flex min-h-0 w-full shrink flex-wrap justify-center gap-1 px-2 text-center leading-tight tracking-widest break-words sm:gap-2 ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
       >
-        {Array.from(targetWord).map((char, i) => {
-          const isBionicBold =
-            bionicReading && i < Math.ceil(targetWord.length / 2);
-          return (
-            <span
-              key={i}
-              className={`inline-block transition-all duration-200 ${
-                activeHighlight === `char-${i}`
-                  ? isHighContrast
-                    ? 'z-10 scale-110 rounded bg-white px-1 text-black'
-                    : 'z-10 scale-110 text-yellow-500 drop-shadow-md'
-                  : ''
-              } ${isBionicBold ? 'font-black' : bionicReading ? 'font-medium opacity-80' : 'font-black'}`}
-            >
-              {char}
-            </span>
-          );
-        })}
+        {maskedChars.map((char, i) => (
+          <span
+            key={i}
+            className={
+              char === '_'
+                ? isHighContrast
+                  ? 'text-white/30'
+                  : 'text-slate-300'
+                : ''
+            }
+          >
+            {char}
+          </span>
+        ))}
       </div>
 
-      {data.phonetic && (
+      {hintText && (
         <div
-          className={`mb-2 shrink-0 rounded-xl border px-3 py-1.5 font-mono text-base font-bold tracking-widest sm:mb-4 sm:px-4 sm:py-2 sm:text-lg md:text-xl ${isHighContrast ? 'border-white bg-black text-white' : 'border-slate-100 bg-slate-50 text-slate-600'}`}
-        >
-          {data.phonetic}
-        </div>
-      )}
-
-      {!zenMode && hintText && (
-        <div
-          className={`mx-auto mb-2 min-h-0 max-w-[65ch] shrink overflow-y-auto px-2 text-center text-[10px] leading-relaxed font-medium transition-all duration-300 sm:mb-4 sm:px-4 sm:text-xs md:text-sm ${
-            activeHighlight === 'hint'
-              ? isHighContrast
-                ? 'scale-105 text-white'
-                : 'scale-105 text-yellow-600 drop-shadow-sm'
-              : isHighContrast
-                ? 'text-white/70'
-                : 'text-slate-500'
-          }`}
+          className={`mx-auto mb-2 min-h-0 max-w-[65ch] shrink overflow-y-auto px-2 text-center text-[10px] leading-relaxed font-medium sm:mb-4 sm:px-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
         >
           💡 <BionicText text={hintText} enabled={bionicReading} />
         </div>
       )}
 
-      <div className="mb-2 flex shrink-0 justify-center sm:mb-4">
+      <div className="mb-2 flex shrink-0 items-center justify-center gap-4 sm:mb-4">
         <TTSController
-          onReadAloud={readWordAndHint}
+          onReadAloud={readDefinition}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
           t={t}
           controlBtnSize={controlBtnSize}
         />
+
+        <VoiceAnswerButton
+          isListening={isListening}
+          onStart={() =>
+            startListening(undefined, undefined, undefined, handleVoiceMatch)
+          }
+          error={error}
+          t={t}
+          themeStyles={themeStyles}
+          noFlash={noFlash}
+          bigTargets={bigTargets}
+          controlBtnSize={controlBtnSize}
+          idleLabel={t('speakTheWord')}
+        />
+
+        <button
+          type="button"
+          onClick={readWholeWord}
+          className={`${controlBtnSize} flex items-center justify-center rounded-full border-2 border-dashed transition-all active:scale-90 ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-300 text-slate-500 hover:bg-slate-50'}`}
+          aria-label={t('phonemeRevealHint')}
+          title={t('phonemeRevealHint')}
+        >
+          💡
+        </button>
       </div>
 
-      <div className="mt-2 flex shrink-0 justify-center">
-        <button
-          onClick={onSuccess}
-          className={`rounded-full border-2 bg-transparent px-5 py-2.5 text-[10px] font-black tracking-widest uppercase transition-colors sm:px-6 sm:py-3 sm:text-xs md:text-sm ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-600'}`}
-          aria-label={t('skipPronunciation')}
+      {transcript && (
+        <p
+          className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-3 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
         >
-          {t('done') || 'Done'}
+          {t('heard')}: <span className="text-slate-600">{transcript}</span>
+        </p>
+      )}
+
+      <div className="flex w-full max-w-xs shrink-0 items-center gap-2">
+        <input
+          type="text"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          onKeyDown={(e) =>
+            e.key === 'Enter' &&
+            userInput.trim().length > 0 &&
+            checkAnswer(userInput)
+          }
+          disabled={isListening}
+          className={`min-w-0 flex-1 rounded-2xl p-3 text-center text-base font-bold transition-shadow focus:ring-4 focus:outline-none disabled:opacity-50 sm:p-4 sm:text-lg ${
+            isHighContrast
+              ? 'border-4 border-white bg-black text-white focus:ring-white/50'
+              : 'border-2 border-slate-200 bg-white text-slate-800 shadow-inner focus:border-indigo-400 focus:ring-indigo-100'
+          }`}
+          placeholder={t('typeHere') || '...'}
+          aria-label={t('speakTheWord')}
+          autoComplete="off"
+          spellCheck="false"
+        />
+        <button
+          onClick={() => checkAnswer(userInput)}
+          disabled={userInput.trim().length === 0}
+          className={`shrink-0 rounded-full px-4 py-3 text-xs font-black tracking-widest uppercase transition-all active:scale-95 sm:px-6 sm:py-4 sm:text-sm ${
+            userInput.trim().length === 0
+              ? 'cursor-not-allowed bg-slate-200 text-slate-600'
+              : isHighContrast
+                ? 'bg-white text-black hover:bg-slate-200'
+                : `${themeStyles.button} ${themeStyles.buttonText} shadow-md hover:brightness-110`
+          }`}
+        >
+          <BionicText text={t('check') || 'Check'} enabled={bionicReading} />
         </button>
       </div>
     </div>
