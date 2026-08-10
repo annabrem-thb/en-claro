@@ -585,7 +585,7 @@ function VirtualGarden({
             onClose={skipWorkloadCheckIn}
             labelledBy="workload-checkin-title"
             overlayClassName="z-[60] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm"
-            className={`w-full max-w-xs rounded-3xl p-4 shadow-2xl outline-none sm:p-5 ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'border-2 border-white bg-black text-white' : 'bg-[#FCFBF9] text-slate-700'}`}
+            className={`no-scrollbar max-h-[90dvh] w-full max-w-xs overflow-y-auto rounded-3xl p-4 shadow-2xl outline-none sm:p-5 ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'border-2 border-white bg-black text-white' : 'bg-[#FCFBF9] text-slate-700'}`}
           >
             <h3
               id="workload-checkin-title"
