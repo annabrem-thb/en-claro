@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
+import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
+import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 function ReadingComprehensionExercise({
   data,
@@ -21,6 +23,11 @@ function ReadingComprehensionExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
+  const { isListening, transcript, startListening, error } = useExerciseVoice(
+    language,
+    t,
+  );
+
   const [activeHighlight, setActiveHighlight] = useState(null);
   const {
     setSafeTimeout,
@@ -51,6 +58,14 @@ function ReadingComprehensionExercise({
         ((b.text?.charCodeAt(0) || 0) + seed),
     );
   }, [data]);
+
+  const handleVoiceMatch = (num) => {
+    clearAudioTimeouts();
+    const selected = shuffledOptions[num - 1];
+    if (selected) {
+      selected.isCorrect ? onSuccess() : onError();
+    }
+  };
 
   const passageText = data.passage?.[language] || data.passage?.en || '';
   const questionText = data.question?.[language] || data.question?.en || '';
@@ -114,16 +129,33 @@ function ReadingComprehensionExercise({
     <div
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center overflow-hidden px-2 pt-4 pb-2 sm:pt-6`}
     >
-      {voiceAssistant && (
-        <div className="mb-2 flex shrink-0 gap-4 sm:mb-3">
-          <TTSController
-            onReadAloud={readAll}
-            pauseAllTimeouts={pauseAllTimeouts}
-            resumeAllTimeouts={resumeAllTimeouts}
-            t={t}
-            controlBtnSize={controlBtnSize}
-          />
-        </div>
+      <div className="mb-2 flex shrink-0 gap-4 sm:mb-3">
+        <TTSController
+          onReadAloud={readAll}
+          pauseAllTimeouts={pauseAllTimeouts}
+          resumeAllTimeouts={resumeAllTimeouts}
+          t={t}
+          controlBtnSize={controlBtnSize}
+        />
+
+        <VoiceAnswerButton
+          isListening={isListening}
+          onStart={() => startListening(handleVoiceMatch)}
+          error={error}
+          t={t}
+          themeStyles={themeStyles}
+          noFlash={noFlash}
+          bigTargets={bigTargets}
+          controlBtnSize={controlBtnSize}
+        />
+      </div>
+
+      {transcript && (
+        <p
+          className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-3 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        >
+          {t('heard')}: <span className="text-slate-600">{transcript}</span>
+        </p>
       )}
 
       <div
@@ -154,10 +186,13 @@ function ReadingComprehensionExercise({
               clearAudioTimeouts();
               opt.isCorrect ? onSuccess() : onError();
             }}
+            disabled={isListening}
             className={`relative min-w-32 flex-1 ${btnPadding} flex flex-col items-center justify-center gap-2 rounded-4xl border-b-8 shadow-lg transition-all active:translate-y-2 active:border-b-0 md:shadow-sm ${
-              activeHighlight === i
-                ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
-                : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-105`
+              isListening
+                ? 'opacity-50 grayscale'
+                : activeHighlight === i
+                  ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
+                  : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-105`
             }`}
           >
             <span

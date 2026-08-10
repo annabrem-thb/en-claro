@@ -181,28 +181,26 @@ function ClockExercise({
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}
     >
       {}
-      {voiceAssistant && (
-        <div className="mb-2 flex shrink-0 gap-4 sm:mb-4">
-          <TTSController
-            onReadAloud={readTimeAndOptions}
-            pauseAllTimeouts={pauseAllTimeouts}
-            resumeAllTimeouts={resumeAllTimeouts}
-            t={t}
-            controlBtnSize={controlBtnSize}
-          />
+      <div className="mb-2 flex shrink-0 gap-4 sm:mb-4">
+        <TTSController
+          onReadAloud={readTimeAndOptions}
+          pauseAllTimeouts={pauseAllTimeouts}
+          resumeAllTimeouts={resumeAllTimeouts}
+          t={t}
+          controlBtnSize={controlBtnSize}
+        />
 
-          <VoiceAnswerButton
-            isListening={isListening}
-            onStart={() => startListening(handleVoiceMatch)}
-            error={error}
-            t={t}
-            themeStyles={themeStyles}
-            noFlash={noFlash}
-            bigTargets={bigTargets}
-            controlBtnSize={controlBtnSize}
-          />
-        </div>
-      )}
+        <VoiceAnswerButton
+          isListening={isListening}
+          onStart={() => startListening(handleVoiceMatch)}
+          error={error}
+          t={t}
+          themeStyles={themeStyles}
+          noFlash={noFlash}
+          bigTargets={bigTargets}
+          controlBtnSize={controlBtnSize}
+        />
+      </div>
 
       {}
       {transcript && (

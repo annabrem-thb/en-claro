@@ -223,15 +223,13 @@ function MemorySpanExercise({
         {}
         {isMemorizing ? (
           <div className="flex flex-col items-center gap-4 sm:gap-6">
-            {voiceAssistant && (
-              <TTSController
-                onReadAloud={playMemorizationSequence}
-                pauseAllTimeouts={pauseAllTimeouts}
-                resumeAllTimeouts={resumeAllTimeouts}
-                t={t}
-                controlBtnSize={controlBtnSize}
-              />
-            )}
+            <TTSController
+              onReadAloud={playMemorizationSequence}
+              pauseAllTimeouts={pauseAllTimeouts}
+              resumeAllTimeouts={resumeAllTimeouts}
+              t={t}
+              controlBtnSize={controlBtnSize}
+            />
             <div
               className={`flex flex-wrap justify-center gap-4 ${pulseClass}`}
               aria-live="polite"
@@ -270,32 +268,28 @@ function MemorySpanExercise({
           className={`flex min-h-0 w-full flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in duration-500'}`}
         >
           {}
-          {voiceAssistant && (
-            <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
-              <TTSController
-                onReadAloud={readAvailableItems}
-                pauseAllTimeouts={pauseAllTimeouts}
-                resumeAllTimeouts={resumeAllTimeouts}
-                t={t}
-                controlBtnSize={controlBtnSize}
-              />
+          <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
+            <TTSController
+              onReadAloud={readAvailableItems}
+              pauseAllTimeouts={pauseAllTimeouts}
+              resumeAllTimeouts={resumeAllTimeouts}
+              t={t}
+              controlBtnSize={controlBtnSize}
+            />
 
-              <button
-                onClick={() => startListening(handleVoiceMatch)}
-                className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
-                  isListening
-                    ? `bg-red-500 text-white ring-8 ring-red-100 ${noFlash ? '' : 'animate-pulse'}`
-                    : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
-                }`}
-                aria-label={
-                  isListening ? t('listening') : t('speakOptionNumber')
-                }
-                aria-pressed={isListening}
-              >
-                {isListening ? '🛑' : '🎤'}
-              </button>
-            </div>
-          )}
+            <button
+              onClick={() => startListening(handleVoiceMatch)}
+              className={`${controlBtnSize} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 ${
+                isListening
+                  ? `bg-red-500 text-white ring-8 ring-red-100 ${noFlash ? '' : 'animate-pulse'}`
+                  : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
+              }`}
+              aria-label={isListening ? t('listening') : t('speakOptionNumber')}
+              aria-pressed={isListening}
+            >
+              {isListening ? '🛑' : '🎤'}
+            </button>
+          </div>
 
           {transcript && (
             <p
