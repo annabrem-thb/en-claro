@@ -205,36 +205,34 @@ function SyllableExercise({
       )}
 
       {}
-      {voiceAssistant && (
-        <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
-          <div
-            className={
-              isResolved ? 'pointer-events-none opacity-50 grayscale' : ''
-            }
-          >
-            <TTSController
-              onReadAloud={readInstructionAndSyllables}
-              pauseAllTimeouts={pauseAllTimeouts}
-              resumeAllTimeouts={resumeAllTimeouts}
-              t={t}
-              controlBtnSize={controlBtnSize}
-            />
-          </div>
-
-          <VoiceAnswerButton
-            isListening={isListening}
-            onStart={() => startListening(handleVoiceMatch, handleCommandMatch)}
-            disabled={isResolved}
-            error={error}
+      <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
+        <div
+          className={
+            isResolved ? 'pointer-events-none opacity-50 grayscale' : ''
+          }
+        >
+          <TTSController
+            onReadAloud={readInstructionAndSyllables}
+            pauseAllTimeouts={pauseAllTimeouts}
+            resumeAllTimeouts={resumeAllTimeouts}
             t={t}
-            themeStyles={themeStyles}
-            noFlash={noFlash}
-            bigTargets={bigTargets}
             controlBtnSize={controlBtnSize}
-            idleLabel={t('speakGapNumber')}
           />
         </div>
-      )}
+
+        <VoiceAnswerButton
+          isListening={isListening}
+          onStart={() => startListening(handleVoiceMatch, handleCommandMatch)}
+          disabled={isResolved}
+          error={error}
+          t={t}
+          themeStyles={themeStyles}
+          noFlash={noFlash}
+          bigTargets={bigTargets}
+          controlBtnSize={controlBtnSize}
+          idleLabel={t('speakGapNumber')}
+        />
+      </div>
 
       {transcript && (
         <p className="mb-1 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-2 sm:text-xs">

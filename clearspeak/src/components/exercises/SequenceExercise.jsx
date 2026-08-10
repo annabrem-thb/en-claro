@@ -260,33 +260,31 @@ function SequenceExercise({
         </h3>
       )}
 
-      {voiceAssistant && (
-        <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
-          <TTSController
-            onReadAloud={readAvailableWords}
-            pauseAllTimeouts={() => {
-              if (!isShowingCorrection) pauseAllTimeouts();
-            }}
-            resumeAllTimeouts={() => {
-              if (!isShowingCorrection) resumeAllTimeouts();
-            }}
-            t={t}
-            controlBtnSize={controlBtnSize}
-          />
+      <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
+        <TTSController
+          onReadAloud={readAvailableWords}
+          pauseAllTimeouts={() => {
+            if (!isShowingCorrection) pauseAllTimeouts();
+          }}
+          resumeAllTimeouts={() => {
+            if (!isShowingCorrection) resumeAllTimeouts();
+          }}
+          t={t}
+          controlBtnSize={controlBtnSize}
+        />
 
-          <VoiceAnswerButton
-            isListening={isListening}
-            onStart={() => startListening(handleVoiceMatch, handleCommandMatch)}
-            disabled={isShowingCorrection}
-            error={error}
-            t={t}
-            themeStyles={themeStyles}
-            noFlash={noFlash}
-            bigTargets={bigTargets}
-            controlBtnSize={controlBtnSize}
-          />
-        </div>
-      )}
+        <VoiceAnswerButton
+          isListening={isListening}
+          onStart={() => startListening(handleVoiceMatch, handleCommandMatch)}
+          disabled={isShowingCorrection}
+          error={error}
+          t={t}
+          themeStyles={themeStyles}
+          noFlash={noFlash}
+          bigTargets={bigTargets}
+          controlBtnSize={controlBtnSize}
+        />
+      </div>
 
       {transcript && (
         <p
