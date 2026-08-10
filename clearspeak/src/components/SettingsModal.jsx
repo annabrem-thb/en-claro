@@ -18,17 +18,15 @@ const THEMES = {
     name: 'Natura',
     icon: '🌿',
     desc: 'Zielone barwy, relaks',
-    price: 0,
   },
-  Musik: { name: 'Muzyka', icon: '🎵', desc: 'Fiolet, dynamika', price: 3 },
+  Musik: { name: 'Muzyka', icon: '🎵', desc: 'Fiolet, dynamika' },
   Kunst: {
     name: 'Sztuka',
     icon: '🎨',
     desc: 'Bursztyn, kreatywność',
-    price: 5,
   },
-  Space: { name: 'Kosmos', icon: '🚀', desc: 'Kosmiczna głębia', price: 8 },
-  Ocean: { name: 'Ocean', icon: '🐳', desc: 'Morski spokój', price: 10 },
+  Space: { name: 'Kosmos', icon: '🚀', desc: 'Kosmiczna głębia' },
+  Ocean: { name: 'Ocean', icon: '🐳', desc: 'Morski spokój' },
 };
 
 const SettingToggle = ({
@@ -314,8 +312,6 @@ const ShopTab = ({ speak }) => {
   const { t } = useTranslation();
   const { settings, updateSetting } = useUserSettingsContext();
   const bionicReading = !!settings.bionicReading;
-  const { coins, setCoins, unlockedThemes, setUnlockedThemes } =
-    useGamification();
   const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
 
   useEffect(() => {
@@ -325,43 +321,27 @@ const ShopTab = ({ speak }) => {
     };
   }, [clearAllTimeouts]);
 
-  const handleBuyTheme = (themeKey, price) => {
-    if (coins >= price && !unlockedThemes.includes(themeKey)) {
-      setCoins(coins - price);
-      setUnlockedThemes([...unlockedThemes, themeKey]);
-      updateSetting('theme', themeKey);
-    }
-  };
-
   const readShopTab = useCallback(() => {
     if (!speak) return;
     clearAllTimeouts();
     const themeNames = Object.entries(THEMES).map(([key, theme]) =>
       t(`themes.${key}.name`, theme.name),
     );
-    const segments = [t('tabShop'), `${t('coins')}: ${coins}`, ...themeNames];
+    const segments = [t('tabShop'), ...themeNames];
     let delayAcc = 0;
     segments.forEach((segment) => {
       setSafeTimeout(() => speak(segment), delayAcc);
       delayAcc += segment.length * 70 + 700;
     });
-  }, [speak, t, coins, setSafeTimeout, clearAllTimeouts]);
+  }, [speak, t, setSafeTimeout, clearAllTimeouts]);
 
   useAutoReadAloud(!!settings.voiceAssistant, readShopTab);
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl bg-slate-50 p-4 text-center">
-        <p className="font-bold text-slate-500">
-          <BionicText text={t('coins')} enabled={bionicReading} />
-        </p>
-        <p className="text-4xl font-black text-amber-500">💰 {coins}</p>
-      </div>
       <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
         {Object.entries(THEMES).map(([key, theme]) => {
-          const isUnlocked = unlockedThemes.includes(key);
           const isSelected = settings.theme === key;
-          const canAfford = coins >= theme.price;
 
           return (
             <div
@@ -384,24 +364,16 @@ const ShopTab = ({ speak }) => {
                     />
                   </p>
                 </div>
-                {isUnlocked ? (
-                  <button
-                    onClick={() => updateSetting('theme', key)}
-                    disabled={isSelected}
-                    className={`rounded-full px-4 py-1 text-xs font-bold ${isSelected ? 'bg-slate-200 text-slate-500' : 'bg-slate-100 hover:bg-slate-200'}`}
-                  >
-                    <BionicText text={t('equipped')} enabled={bionicReading} />
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => handleBuyTheme(key, theme.price)}
-                    disabled={!canAfford}
-                    className={`rounded-full px-4 py-1 text-xs font-bold text-white ${canAfford ? 'bg-emerald-700 hover:bg-emerald-600' : 'cursor-not-allowed bg-slate-300'}`}
-                  >
-                    <BionicText text={t('buy')} enabled={bionicReading} /> (
-                    {theme.price}💰)
-                  </button>
-                )}
+                <button
+                  onClick={() => updateSetting('theme', key)}
+                  disabled={isSelected}
+                  className={`rounded-full px-4 py-1 text-xs font-bold ${isSelected ? 'bg-slate-200 text-slate-500' : 'bg-emerald-700 text-white hover:bg-emerald-600'}`}
+                >
+                  <BionicText
+                    text={t(isSelected ? 'equipped' : 'select')}
+                    enabled={bionicReading}
+                  />
+                </button>
               </div>
             </div>
           );

@@ -33,10 +33,6 @@ export function useGamificationState() {
   const [rewards, setRewards] = useState(() =>
     JSON.parse(localStorage.getItem('rew') || '[]'),
   );
-  const [unlockedThemes, setUnlockedThemes] = useState(() => {
-    const sv = localStorage.getItem('cfg_unlocked_themes');
-    return sv ? JSON.parse(sv) : ['Natur'];
-  });
   const [dailyQuests, setDailyQuests] = useState(() => {
     const saved = localStorage.getItem('cfg_quests');
     const today = new Date().toDateString();
@@ -91,9 +87,8 @@ export function useGamificationState() {
     localStorage.setItem('pts', String(points));
     localStorage.setItem('rew', JSON.stringify(rewards));
     localStorage.setItem('cfg_coins', String(coins));
-    localStorage.setItem('cfg_unlocked_themes', JSON.stringify(unlockedThemes));
     localStorage.setItem('cfg_quests', JSON.stringify(dailyQuests));
-  }, [points, rewards, coins, unlockedThemes, dailyQuests]);
+  }, [points, rewards, coins, dailyQuests]);
 
   useEffect(() => {
     localStorage.setItem('cfg_gamified', JSON.stringify(isGamified));
@@ -106,8 +101,6 @@ export function useGamificationState() {
     setCoins: setCoins,
     rewards: rewards,
     setRewards: setRewards,
-    unlockedThemes: unlockedThemes,
-    setUnlockedThemes: setUnlockedThemes,
     dailyQuests: dailyQuests,
     setDailyQuests: setDailyQuests,
     updateQuests: updateQuests,
