@@ -1,7 +1,9 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 
 import Lottie from 'lottie-react';
 
+import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
+import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 import { getAllLogs } from '../utils/indexedDB.js';
 
 import { WeeklyCalendar } from './WeeklyCalendar.jsx';
@@ -29,6 +31,8 @@ function VirtualGarden({
   userDifficulty,
   onDifficultyChange,
   bionicReading = false,
+  speak,
+  voiceAssistant = false,
 }) {
   const ecosystemState = useMemo(() => {
     const growthLevel = Math.floor(points / 5);
@@ -338,6 +342,58 @@ function VirtualGarden({
     ${ecosystemState.completedModules > 0 ? `${t('srDailyRewards')} ${ecosystemState.completedModules} ${t('srRewardsCount')}` : ''}
     ${ecosystemState.hasVisitor ? t('srVisitor') : ''}
     ${earnedTrophies.length > 0 ? t('srTrophies', { count: earnedTrophies.length }) : ''}`;
+
+  const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
+
+  // Same facts as `srText` above (screen-reader-only live region), just
+  // built as clean, filtered segments instead of one string with blank
+  // lines where a condition was false — narrated speech needs each part to
+  // actually be a spoken sentence, not silently-empty template slots.
+  const readGardenState = useCallback(() => {
+    if (!speak) return;
+    clearAllTimeouts();
+    const segments = [
+      t('garden') || 'Garden',
+      `${t('srPlantFeature')} ${ecosystemState.plantName}.`,
+      ecosystemState.completedModules > 0
+        ? `${t('srDailyRewards')} ${ecosystemState.completedModules} ${t('srRewardsCount')}`
+        : null,
+      ecosystemState.hasVisitor ? t('srVisitor') : null,
+      earnedTrophies.length > 0
+        ? t('srTrophies', { count: earnedTrophies.length })
+        : null,
+      todayStats && todayStats.total > 0
+        ? `${t('dailySummary')}: ${t('exercisesCount', { count: todayStats.total })}`
+        : null,
+    ].filter(Boolean);
+    let delayAcc = 0;
+    segments.forEach((segment) => {
+      setSafeTimeout(() => speak(segment), delayAcc);
+      delayAcc += segment.length * 70 + 900;
+    });
+  }, [
+    speak,
+    t,
+    ecosystemState,
+    earnedTrophies,
+    todayStats,
+    setSafeTimeout,
+    clearAllTimeouts,
+  ]);
+
+  useAutoReadAloud(!!voiceAssistant, readGardenState);
+
+  // Leaving the Garden unmounts this component (App.jsx renders it only
+  // while `activeTab === 'Garden'`), so this cleanup is what makes
+  // switching away — back to an exercise, into Settings, anywhere —
+  // actually cut the narration off instead of letting it talk over
+  // whatever's read next.
+  useEffect(() => {
+    return () => {
+      clearAllTimeouts();
+      window.speechSynthesis?.cancel();
+    };
+  }, [clearAllTimeouts]);
 
   // Card fill stays the same warm off-white the rest of the app uses for
   // "content on top of the themed page background" (see App.jsx's own
