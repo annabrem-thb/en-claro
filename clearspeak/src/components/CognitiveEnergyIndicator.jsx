@@ -79,7 +79,7 @@ export function CognitiveEnergyIndicator({
         onClose={onDismiss}
         labelledBy="break-title"
         overlayClassName="z-[60] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm"
-        className={`w-full max-w-sm ${bigTargets ? 'p-8 sm:p-10' : 'p-4 sm:p-6 md:p-8'} flex flex-col gap-3 rounded-4xl shadow-2xl outline-none ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'border-2 border-white bg-black' : 'bg-white'}`}
+        className={`no-scrollbar max-h-[90dvh] w-full max-w-sm overflow-y-auto ${bigTargets ? 'p-8 sm:p-10' : 'p-4 sm:p-6 md:p-8'} flex flex-col gap-3 rounded-4xl shadow-2xl outline-none ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'border-2 border-white bg-black' : 'bg-white'}`}
       >
         <div className="text-center">
           <div

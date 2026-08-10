@@ -4,6 +4,9 @@ import { createRoot } from 'react-dom/client';
 
 import App from './components/App.jsx';
 import './styles/index.css';
+import { installAudioUnlock } from './utils/audioUnlock.js';
+
+installAudioUnlock();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

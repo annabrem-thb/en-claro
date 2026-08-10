@@ -155,6 +155,12 @@ function AppContent() {
   useEffect(() => {
     if (i18n.language !== language) {
       i18n.changeLanguage(language);
+      // Any narration already playing was reading the *previous* language —
+      // letting it finish would mean hearing e.g. Polish text spoken over
+      // (or after) a switch to German. Cutting it off here means the next
+      // speak() call, whenever it happens, is the first one in the new
+      // language rather than a leftover from the old one.
+      window.speechSynthesis?.cancel();
     }
   }, [language]);
 

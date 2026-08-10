@@ -2,10 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { getSharedAudioContext } from '../../utils/audioUnlock.js';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
-
-let sharedTapAudioCtx = null;
 
 // A short percussive click — deliberately not a spoken/synthesized sound, so
 // it reads as a "beat" rather than a repeat of the TTS voice. Mirrors the
@@ -13,11 +12,9 @@ let sharedTapAudioCtx = null;
 // in this codebase rather than pulling in an audio file dependency.
 const playTapClick = () => {
   try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    if (!sharedTapAudioCtx) sharedTapAudioCtx = new AudioContext();
-    if (sharedTapAudioCtx.state === 'suspended') sharedTapAudioCtx.resume();
-    const ctx = sharedTapAudioCtx;
+    const ctx = getSharedAudioContext();
+    if (!ctx) return;
+    if (ctx.state === 'suspended') ctx.resume();
     const now = ctx.currentTime;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();

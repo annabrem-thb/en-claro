@@ -2,22 +2,18 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { getSharedAudioContext } from '../../utils/audioUnlock.js';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
-
-let sharedRhythmAudioCtx = null;
 
 // Two distinct pitches — the higher "cue" tone marks the start of playback
 // (an audible "get ready"), the lower "beat" tone is the pattern itself, so
 // the two never get confused by ear alone.
 const playTone = (freq) => {
   try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    if (!sharedRhythmAudioCtx) sharedRhythmAudioCtx = new AudioContext();
-    if (sharedRhythmAudioCtx.state === 'suspended')
-      sharedRhythmAudioCtx.resume();
-    const ctx = sharedRhythmAudioCtx;
+    const ctx = getSharedAudioContext();
+    if (!ctx) return;
+    if (ctx.state === 'suspended') ctx.resume();
     const now = ctx.currentTime;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();

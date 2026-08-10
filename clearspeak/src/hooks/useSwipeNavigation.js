@@ -25,7 +25,15 @@ export function useSwipeNavigation({
     if (!touchStart || !touchEnd) return;
     const distanceX = touchStart.x - touchEnd.x;
     const distanceY = touchStart.y - touchEnd.y;
-    const isHorizontalSwipe = Math.abs(distanceX) > Math.abs(distanceY);
+    // A real vertical scroll on a touchscreen is rarely perfectly straight —
+    // fingers drift sideways too, and `abs(X) > abs(Y)` alone was firing a
+    // tab change mid-scroll whenever that drift happened to edge past the
+    // vertical movement. Requiring X to clearly dominate (2x) *and* capping
+    // how much vertical movement is allowed at all means an ordinary scroll
+    // — which moves well past 60px vertically — can never be mistaken for a
+    // swipe, no matter how much horizontal drift it has.
+    const isHorizontalSwipe =
+      Math.abs(distanceX) > Math.abs(distanceY) * 2 && Math.abs(distanceY) < 60;
     if (isHorizontalSwipe && Math.abs(distanceX) > swipeThreshold) {
       if (distanceX > 0) {
         if (onSwipeLeft) onSwipeLeft();

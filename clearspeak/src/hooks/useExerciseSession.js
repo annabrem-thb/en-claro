@@ -1,21 +1,16 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 
+import { getSharedAudioContext } from '../utils/audioUnlock.js';
 import { saveLog } from '../utils/indexedDB.js';
 import { seededShuffle } from '../utils/shuffleUtils.js';
 
 import { useSafeTimeouts } from './useSafeTimeouts.js';
 
-let sharedAudioCtx = null;
-
 const playThemeSound = (theme) => {
   try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    if (!sharedAudioCtx) {
-      sharedAudioCtx = new AudioContext();
-    }
-    if (sharedAudioCtx.state === 'suspended') sharedAudioCtx.resume();
-    const ctx = sharedAudioCtx;
+    const ctx = getSharedAudioContext();
+    if (!ctx) return;
+    if (ctx.state === 'suspended') ctx.resume();
     const now = ctx.currentTime;
 
     const playTone = (freq, type, startTime, duration, vol) => {
