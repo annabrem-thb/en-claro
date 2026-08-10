@@ -81,7 +81,6 @@ const THEMES = {
     border: 'border-[#D0D6CE]',
     ring: 'ring-[#8A9A86]',
     hex: '#8A9A86',
-    price: 0,
   },
   Musik: {
     accent: 'text-[#6B5B7B]',
@@ -91,7 +90,6 @@ const THEMES = {
     border: 'border-[#D1C8D6]',
     ring: 'ring-[#8F7D9E]',
     hex: '#8F7D9E',
-    price: 3,
   },
   Kunst: {
     accent: 'text-[#8A6A4B]',
@@ -101,7 +99,6 @@ const THEMES = {
     border: 'border-[#DED4CA]',
     ring: 'ring-[#B08E6D]',
     hex: '#B08E6D',
-    price: 5,
   },
   Space: {
     accent: 'text-[#4B5E6B]',
@@ -111,7 +108,6 @@ const THEMES = {
     border: 'border-[#CAD4DE]',
     ring: 'ring-[#6D8394]',
     hex: '#6D8394',
-    price: 8,
   },
   Ocean: {
     accent: 'text-[#437A7A]',
@@ -121,7 +117,6 @@ const THEMES = {
     border: 'border-[#C4DBDB]',
     ring: 'ring-[#67A3A3]',
     hex: '#67A3A3',
-    price: 10,
   },
 };
 
@@ -135,8 +130,6 @@ function AppContent() {
     setCoins,
     rewards,
     setRewards,
-    unlockedThemes,
-    setUnlockedThemes,
     dailyQuests,
     setDailyQuests,
     updateQuests,
