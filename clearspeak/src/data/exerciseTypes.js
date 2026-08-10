@@ -30,13 +30,7 @@ export const EXERCISE_PILLARS = {
     'comprehension',
     'rhythm',
   ],
-  Visual: [
-    'clock',
-    'tracking',
-    'patternCompletion',
-    'mirrorImage',
-    'oddOneOut',
-  ],
+  Visual: ['clock', 'tracking', 'mirrorImage', 'oddOneOut'],
   Cognitive: [
     'categorization',
     'sequences',
