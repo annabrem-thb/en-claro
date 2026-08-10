@@ -159,7 +159,6 @@ export function useExerciseSession({
         rawTasks = [
           ...includeIfActive('clock'),
           ...includeIfActive('tracking'),
-          ...includeIfActive('patternCompletion'),
           ...includeIfActive('mirrorImage'),
           ...includeIfActive('oddOneOut'),
           ...tagDiagnostic('Visual'),

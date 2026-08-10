@@ -102,27 +102,36 @@ function SyllableExercise({
     }
   };
 
+  // TTS engines routinely mispronounce syllable fragments spoken in
+  // isolation — "chrzą" heard on its own sounds nothing like the "chrzą" in
+  // "chrząszcz", and this holds across languages, not just Polish. Rather
+  // than speak (and mispronounce) each segment separately, the audio always
+  // plays the whole word once; the segment highlight still sweeps across
+  // the word in order, timed proportionally to each segment's share of the
+  // word's length, so the visual "here's where the cut happens" cue is
+  // preserved without the garbled audio.
   const playSyllables = () => {
-    if (!data.segments) {
+    if (!data.segments || !data.word) {
       speak(data.word, extendedTime);
       return;
     }
     clearAudioTimeouts();
+    speak(data.word, extendedTime);
 
-    let delayAcc = 0;
+    const totalChars = data.word.length || 1;
+    const totalDuration = totalChars * (extendedTime ? 90 : 65) + 600;
+    let elapsed = 0;
     data.segments.forEach((syl, i) => {
-      const stepDuration = syl.length * (extendedTime ? 90 : 65) + 600;
-      setSafeTimeout(() => {
-        setActiveHighlight(i);
-        speak(syl.toLowerCase());
-      }, delayAcc);
+      const share = syl.length / totalChars;
+      const stepDuration = Math.max(totalDuration * share, 150);
+      setSafeTimeout(() => setActiveHighlight(i), elapsed);
       setSafeTimeout(
         () => {
           setActiveHighlight((prev) => (prev === i ? null : prev));
         },
-        delayAcc + stepDuration - 100,
+        elapsed + stepDuration - 50,
       );
-      delayAcc += stepDuration;
+      elapsed += stepDuration;
     });
   };
 

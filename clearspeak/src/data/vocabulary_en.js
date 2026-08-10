@@ -714,39 +714,6 @@ export const wordDatabaseEN = {
       ],
     },
     {
-      id: 2,
-      type: 'grapheme',
-      difficulty: 3,
-      focus: 'principal vs principle',
-      question: {
-        en: 'Which word means "a fundamental truth or proposition"?',
-        pl: 'Które słowo oznacza "podstawową prawdę lub zasadę"?',
-        de: 'Welches Wort bedeutet "eine grundlegende Wahrheit oder ein Prinzip"?',
-      },
-      options: [
-        {
-          text: 'Principle',
-          isCorrect: true,
-          icon: '📜',
-        },
-        {
-          text: 'Principal',
-          isCorrect: false,
-          icon: '🏫',
-        },
-        {
-          text: 'Principell',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Prinicpal',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
       id: 3,
       type: 'grapheme',
       difficulty: 3,
@@ -813,138 +780,6 @@ export const wordDatabaseEN = {
       ],
     },
     {
-      id: 5,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: "its vs it's",
-      question: {
-        en: 'Which word means "it is"?',
-        pl: 'Które słowo jest skrótem od "it is" (to jest)?',
-        de: 'Welches Wort bedeutet "es ist"?',
-      },
-      options: [
-        {
-          text: "It's",
-          isCorrect: true,
-          icon: '✨',
-        },
-        {
-          text: 'Its',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: "Its'",
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Ites',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 6,
-      type: 'grapheme',
-      difficulty: 3,
-      focus: 'complement vs compliment',
-      question: {
-        en: 'Which word means to politely praise or admire someone?',
-        pl: 'Które słowo oznacza prawienie komplementów?',
-        de: 'Welches Wort bedeutet, jemandem ein Kompliment zu machen?',
-      },
-      options: [
-        {
-          text: 'Compliment',
-          isCorrect: true,
-          icon: '💬',
-        },
-        {
-          text: 'Complement',
-          isCorrect: false,
-          icon: '🧩',
-        },
-        {
-          text: 'Complimant',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Complemant',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 7,
-      type: 'grapheme',
-      difficulty: 1,
-      focus: 'lose vs loose',
-      question: {
-        en: 'Which word means to fail to win or to misplace something?',
-        pl: 'Które słowo oznacza zgubić coś lub przegrać?',
-        de: 'Welches Wort bedeutet, etwas zu verlieren?',
-      },
-      options: [
-        {
-          text: 'Lose',
-          isCorrect: true,
-          icon: '📉',
-        },
-        {
-          text: 'Loose',
-          isCorrect: false,
-          icon: '👕',
-        },
-        {
-          text: 'Looze',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Loos',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 8,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'accept vs except',
-      question: {
-        en: 'Which word means to consent to receive something?',
-        pl: 'Które słowo oznacza akceptację lub przyjęcie czegoś?',
-        de: 'Welches Wort bedeutet, etwas anzunehmen?',
-      },
-      options: [
-        {
-          text: 'Accept',
-          isCorrect: true,
-          icon: '✅',
-        },
-        {
-          text: 'Except',
-          isCorrect: false,
-          icon: '🚫',
-        },
-        {
-          text: 'Acept',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Exept',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
       id: 9,
       type: 'grapheme',
       difficulty: 2,
@@ -978,39 +813,6 @@ export const wordDatabaseEN = {
       ],
     },
     {
-      id: 10,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'ensure vs insure',
-      question: {
-        en: 'Which word means to make certain that something will happen?',
-        pl: 'Które słowo oznacza upewnienie się, że coś się wydarzy?',
-        de: 'Welches Wort bedeutet, sicherzustellen, dass etwas passiert?',
-      },
-      options: [
-        {
-          text: 'Ensure',
-          isCorrect: true,
-          icon: '🔒',
-        },
-        {
-          text: 'Insure',
-          isCorrect: false,
-          icon: '📄',
-        },
-        {
-          text: 'Enshure',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Inshure',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
       id: 11,
       type: 'grapheme',
       difficulty: 1,
@@ -1038,39 +840,6 @@ export const wordDatabaseEN = {
         },
         {
           text: 'Beare',
-          isCorrect: false,
-          icon: '❌',
-        },
-      ],
-    },
-    {
-      id: 12,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'break vs brake',
-      question: {
-        en: 'Which word means a device for slowing or stopping a moving vehicle?',
-        pl: 'Które słowo oznacza urządzenie do hamowania pojazdu?',
-        de: 'Welches Wort bedeutet eine Vorrichtung zum Verlangsamen oder Anhalten eines Fahrzeugs?',
-      },
-      options: [
-        {
-          text: 'Brake',
-          isCorrect: true,
-          icon: '🛑',
-        },
-        {
-          text: 'Break',
-          isCorrect: false,
-          icon: '💔',
-        },
-        {
-          text: 'Braik',
-          isCorrect: false,
-          icon: '❌',
-        },
-        {
-          text: 'Brak',
           isCorrect: false,
           icon: '❌',
         },
@@ -1266,57 +1035,6 @@ export const wordDatabaseEN = {
       ],
     },
     {
-      id: 28,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'professional term definitions — education',
-      question: {
-        en: 'Which word means a document confirming completion of a training course?',
-        pl: 'Które słowo oznacza dokument potwierdzający ukończenie szkolenia?',
-        de: 'Welches Wort bedeutet ein Dokument, das den Abschluss einer Schulung bestätigt?',
-      },
-      options: [
-        { text: 'Certificate', isCorrect: true, icon: '🎓' },
-        { text: 'Regulation', isCorrect: false, icon: '❌' },
-        { text: 'Protocol', isCorrect: false, icon: '❌' },
-        { text: 'Form', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
-      id: 29,
-      type: 'grapheme',
-      difficulty: 3,
-      focus: 'professional term definitions — legal',
-      question: {
-        en: 'Which word means the official authority to make legal decisions?',
-        pl: 'Które słowo oznacza zakres uprawnień sądu do rozstrzygania spraw?',
-        de: 'Welches Wort bedeutet die amtliche Befugnis, Rechtsentscheidungen zu treffen?',
-      },
-      options: [
-        { text: 'Jurisdiction', isCorrect: true, icon: '⚖️' },
-        { text: 'Legislation', isCorrect: false, icon: '❌' },
-        { text: 'Appeal', isCorrect: false, icon: '❌' },
-        { text: 'Clause', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
-      id: 30,
-      type: 'grapheme',
-      difficulty: 3,
-      focus: 'professional term definitions — financial',
-      question: {
-        en: "Which word means the gradual write-off of an asset's cost over time?",
-        pl: 'Które słowo oznacza stopniowe rozliczanie kosztu środka trwałego w czasie?',
-        de: 'Welches Wort bedeutet die schrittweise Verteilung der Kosten eines Vermögenswerts über die Zeit?',
-      },
-      options: [
-        { text: 'Amortization', isCorrect: true, icon: '📉' },
-        { text: 'Inflation', isCorrect: false, icon: '❌' },
-        { text: 'Commission', isCorrect: false, icon: '❌' },
-        { text: 'Margin', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
       id: 31,
       type: 'grapheme',
       difficulty: 2,
@@ -1433,74 +1151,6 @@ export const wordDatabaseEN = {
         { text: 'Growth', isCorrect: false, icon: '📈' },
         { text: 'Collaboration', isCorrect: false, icon: '🤝' },
         { text: 'Training', isCorrect: false, icon: '🎓' },
-      ],
-    },
-    {
-      id: 38,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'professional term definitions — IT',
-      question: {
-        en: 'Which word means a backup copy of data?',
-        pl: 'Które słowo oznacza kopię zapasową danych?',
-        de: 'Welches Wort bedeutet eine Sicherungskopie von Daten?',
-      },
-      options: [
-        { text: 'Backup', isCorrect: true, icon: '💾' },
-        { text: 'Virus', isCorrect: false, icon: '❌' },
-        { text: 'Program', isCorrect: false, icon: '❌' },
-        { text: 'Screen', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
-      id: 39,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'professional term definitions — finance',
-      question: {
-        en: 'Which word means the amount left after subtracting all costs?',
-        pl: 'Które słowo oznacza kwotę pozostałą po odjęciu wszystkich kosztów?',
-        de: 'Welches Wort bedeutet den Betrag, der nach Abzug aller Kosten übrig bleibt?',
-      },
-      options: [
-        { text: 'Profit', isCorrect: true, icon: '📊' },
-        { text: 'Revenue', isCorrect: false, icon: '❌' },
-        { text: 'Tax', isCorrect: false, icon: '❌' },
-        { text: 'Discount', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
-      id: 40,
-      type: 'grapheme',
-      difficulty: 3,
-      focus: 'professional term definitions — legal',
-      question: {
-        en: 'Which word means a written confirmation of transaction terms?',
-        pl: 'Które słowo oznacza pisemne potwierdzenie warunków transakcji?',
-        de: 'Welches Wort bedeutet eine schriftliche Bestätigung der Geschäftsbedingungen?',
-      },
-      options: [
-        { text: 'Contract', isCorrect: true, icon: '📝' },
-        { text: 'Invoice', isCorrect: false, icon: '❌' },
-        { text: 'Regulation', isCorrect: false, icon: '❌' },
-        { text: 'Minutes', isCorrect: false, icon: '❌' },
-      ],
-    },
-    {
-      id: 41,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'professional term definitions — HR',
-      question: {
-        en: 'Which word means the process of finding and selecting new employees?',
-        pl: 'Które słowo oznacza proces poszukiwania i wyboru nowych pracowników?',
-        de: 'Welches Wort bedeutet den Prozess der Suche und Auswahl neuer Mitarbeiter?',
-      },
-      options: [
-        { text: 'Recruitment', isCorrect: true, icon: '👥' },
-        { text: 'Promotion', isCorrect: false, icon: '❌' },
-        { text: 'Dismissal', isCorrect: false, icon: '❌' },
-        { text: 'Leave', isCorrect: false, icon: '❌' },
       ],
     },
     {
@@ -4467,144 +4117,6 @@ export const wordDatabaseEN = {
       ],
     },
   ],
-  patternCompletion: [
-    {
-      id: 1,
-      type: 'grapheme',
-      difficulty: 1,
-      focus: 'visual pattern completion',
-      question: {
-        pl: 'Jaki symbol pasuje w miejsce znaku zapytania? 🔺🔺🔻🔺🔺🔻🔺🔺❓',
-        en: 'Which symbol completes the pattern? 🔺🔺🔻🔺🔺🔻🔺🔺❓',
-        de: 'Welches Symbol vervollständigt das Muster? 🔺🔺🔻🔺🔺🔻🔺🔺❓',
-      },
-      options: [
-        { text: '🔷', isCorrect: false },
-        { text: '🔻', isCorrect: true },
-        { text: '⭐', isCorrect: false },
-        { text: '🔺', isCorrect: false },
-      ],
-    },
-    {
-      id: 2,
-      type: 'grapheme',
-      difficulty: 1,
-      focus: 'visual pattern completion',
-      question: {
-        pl: 'Jaki symbol pasuje w miejsce znaku zapytania? 🔴🔵🔴🔵🔴❓',
-        en: 'Which symbol completes the pattern? 🔴🔵🔴🔵🔴❓',
-        de: 'Welches Symbol vervollständigt das Muster? 🔴🔵🔴🔵🔴❓',
-      },
-      options: [
-        { text: '🟡', isCorrect: false },
-        { text: '🔵', isCorrect: true },
-        { text: '🟢', isCorrect: false },
-        { text: '🔴', isCorrect: false },
-      ],
-    },
-    {
-      id: 3,
-      type: 'grapheme',
-      difficulty: 1,
-      focus: 'visual pattern completion',
-      question: {
-        pl: 'Jaki symbol pasuje w miejsce znaku zapytania? 🔷🔶🔷🔶🔷🔶🔷❓',
-        en: 'Which symbol completes the pattern? 🔷🔶🔷🔶🔷🔶🔷❓',
-        de: 'Welches Symbol vervollständigt das Muster? 🔷🔶🔷🔶🔷🔶🔷❓',
-      },
-      options: [
-        { text: '🔺', isCorrect: false },
-        { text: '🟪', isCorrect: false },
-        { text: '🔶', isCorrect: true },
-        { text: '🔷', isCorrect: false },
-      ],
-    },
-    {
-      id: 4,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'visual pattern completion',
-      question: {
-        pl: 'Jaki symbol pasuje w miejsce znaku zapytania? ⭐⭐🌙⭐⭐🌙⭐⭐❓',
-        en: 'Which symbol completes the pattern? ⭐⭐🌙⭐⭐🌙⭐⭐❓',
-        de: 'Welches Symbol vervollständigt das Muster? ⭐⭐🌙⭐⭐🌙⭐⭐❓',
-      },
-      options: [
-        { text: '☀️', isCorrect: false },
-        { text: '☁️', isCorrect: false },
-        { text: '🌙', isCorrect: true },
-        { text: '⭐', isCorrect: false },
-      ],
-    },
-    {
-      id: 5,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'visual pattern completion',
-      question: {
-        pl: 'Jaki symbol pasuje w miejsce znaku zapytania? 🟩🟨🟥🟩🟨🟥🟩🟨❓',
-        en: 'Which symbol completes the pattern? 🟩🟨🟥🟩🟨🟥🟩🟨❓',
-        de: 'Welches Symbol vervollständigt das Muster? 🟩🟨🟥🟩🟨🟥🟩🟨❓',
-      },
-      options: [
-        { text: '🟥', isCorrect: true },
-        { text: '🟦', isCorrect: false },
-        { text: '🟨', isCorrect: false },
-        { text: '🟩', isCorrect: false },
-      ],
-    },
-    {
-      id: 6,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'visual pattern completion',
-      question: {
-        pl: 'Jaki symbol pasuje w miejsce znaku zapytania? ⬆️⬆️⬇️⬆️⬆️⬇️⬆️⬆️❓',
-        en: 'Which symbol completes the pattern? ⬆️⬆️⬇️⬆️⬆️⬇️⬆️⬆️❓',
-        de: 'Welches Symbol vervollständigt das Muster? ⬆️⬆️⬇️⬆️⬆️⬇️⬆️⬆️❓',
-      },
-      options: [
-        { text: '⬅️', isCorrect: false },
-        { text: '⬇️', isCorrect: true },
-        { text: '➡️', isCorrect: false },
-        { text: '⬆️', isCorrect: false },
-      ],
-    },
-    {
-      id: 7,
-      type: 'grapheme',
-      difficulty: 3,
-      focus: 'visual pattern completion',
-      question: {
-        pl: 'Jaki symbol pasuje w miejsce znaku zapytania? 🐝🐝🦋🐝🐝🦋🐝🐝❓',
-        en: 'Which symbol completes the pattern? 🐝🐝🦋🐝🐝🦋🐝🐝❓',
-        de: 'Welches Symbol vervollständigt das Muster? 🐝🐝🦋🐝🐝🦋🐝🐝❓',
-      },
-      options: [
-        { text: '🐞', isCorrect: false },
-        { text: '🦋', isCorrect: true },
-        { text: '🐛', isCorrect: false },
-        { text: '🐝', isCorrect: false },
-      ],
-    },
-    {
-      id: 8,
-      type: 'grapheme',
-      difficulty: 3,
-      focus: 'visual pattern completion',
-      question: {
-        pl: 'Jaki symbol pasuje w miejsce znaku zapytania? 🟢🟢🟡🟡🟢🟢🟡🟡🟢🟢❓',
-        en: 'Which symbol completes the pattern? 🟢🟢🟡🟡🟢🟢🟡🟡🟢🟢❓',
-        de: 'Welches Symbol vervollständigt das Muster? 🟢🟢🟡🟡🟢🟢🟡🟡🟢🟢❓',
-      },
-      options: [
-        { text: '🟡', isCorrect: true },
-        { text: '🟠', isCorrect: false },
-        { text: '🟢', isCorrect: false },
-        { text: '🔵', isCorrect: false },
-      ],
-    },
-  ],
   mirrorImage: [
     {
       id: 1,
@@ -4844,23 +4356,6 @@ export const wordDatabaseEN = {
         { text: '🦅', isCorrect: false },
         { text: '🦉', isCorrect: false },
         { text: '🐟', isCorrect: true },
-      ],
-    },
-    {
-      id: 7,
-      type: 'grapheme',
-      difficulty: 2,
-      focus: 'visual search',
-      question: {
-        pl: 'Który symbol nie pasuje do pozostałych?',
-        en: "Which symbol doesn't belong with the others?",
-        de: 'Welches Symbol passt nicht zu den anderen?',
-      },
-      options: [
-        { text: '🔴', isCorrect: false },
-        { text: '🟠', isCorrect: false },
-        { text: '🟡', isCorrect: false },
-        { text: '🔵', isCorrect: true },
       ],
     },
     {
@@ -6053,6 +5548,51 @@ export const wordDatabaseEN = {
         'Before you sign and fully commit, make sure you have the proper...',
       correct: 'permit',
     },
+    {
+      id: 42,
+      type: 'dictation',
+      dictation: true,
+      focus: 'homophoneConfusion',
+      difficulty: 2,
+      audioPrompt: "They're going to their house after the meeting.",
+      correct: "They're going to their house after the meeting.",
+    },
+    {
+      id: 43,
+      type: 'dictation',
+      dictation: true,
+      focus: 'homophoneConfusion',
+      difficulty: 2,
+      audioPrompt: "Its color faded, but it's still my favorite jacket.",
+      correct: "Its color faded, but it's still my favorite jacket.",
+    },
+    {
+      id: 44,
+      type: 'dictation',
+      dictation: true,
+      focus: 'homophoneConfusion',
+      difficulty: 2,
+      audioPrompt: "You're going to lose your keys if you're not careful.",
+      correct: "You're going to lose your keys if you're not careful.",
+    },
+    {
+      id: 45,
+      type: 'dictation',
+      dictation: true,
+      focus: 'commonMisspelling',
+      difficulty: 2,
+      audioPrompt: 'I would definitely like to try that again.',
+      correct: 'I would definitely like to try that again.',
+    },
+    {
+      id: 46,
+      type: 'dictation',
+      dictation: true,
+      focus: 'commonMisspelling',
+      difficulty: 1,
+      audioPrompt: 'There is a lot of work to do before the deadline.',
+      correct: 'There is a lot of work to do before the deadline.',
+    },
   ],
   readAloud: [
     {
@@ -6194,6 +5734,34 @@ export const wordDatabaseEN = {
       readAloud: true,
       difficulty: 2,
       text: 'The presentation of quarterly results will take place next week.',
+    },
+    {
+      id: 21,
+      type: 'readAloud',
+      readAloud: true,
+      difficulty: 4,
+      text: 'The meticulous quarterly financial analysis required extraordinary precision and hours of concentrated effort from the entire accounting team.',
+    },
+    {
+      id: 22,
+      type: 'readAloud',
+      readAloud: true,
+      difficulty: 4,
+      text: "Contrary to earlier predictions, unforeseen circumstances forced the company's leadership into an unexpectedly rapid restructuring of its marketing strategy.",
+    },
+    {
+      id: 23,
+      type: 'readAloud',
+      readAloud: true,
+      difficulty: 4,
+      text: 'The interdisciplinary collaboration among international research institutions contributed to an unprecedented acceleration in the development of emerging technologies.',
+    },
+    {
+      id: 24,
+      type: 'readAloud',
+      readAloud: true,
+      difficulty: 4,
+      text: 'Despite thorough preparation, the negotiations grew increasingly complicated once unexpected regulatory constraints were introduced.',
     },
   ],
   comprehension: [
