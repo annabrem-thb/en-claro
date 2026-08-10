@@ -138,7 +138,14 @@
   }
   .no-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox, Chrome 121+ */
+  }
+
+  /* Apply `scrollbar-width` only where supported to avoid runtime
+     warnings in browsers that don't recognize it (Chrome <121, Safari). */
+  @supports (scrollbar-width: none) {
+    .no-scrollbar {
+      scrollbar-width: none; /* Firefox, Chrome 121+ */
+    }
   }
 }
 
