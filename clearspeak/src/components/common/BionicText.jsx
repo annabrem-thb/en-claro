@@ -55,7 +55,17 @@ function BionicText({ text, enabled = false }) {
     });
   }, [text, enabled]);
 
-  return <>{processedText}</>;
+  // A bare Fragment here used to let every `<b>`/`<span>` pair "leak" out
+  // as a direct child of whatever rendered <BionicText>. That's invisible
+  // in normal block/inline flow, but inside any `flex ...  gap-*` container
+  // (the icon+label button pattern used all over this app), each pair
+  // becomes its own flex item — so the container's gap gets inserted
+  // *inside* every word, between its bold and regular halves, rendering as
+  // a visible split ("UDOST ĘPNIJ POS TĘP" instead of "UDOSTĘPNIJ POSTĘP").
+  // A single wrapping <span> makes this always render as one flex/inline
+  // item, with no effect on plain (non-flex) callers since an unstyled
+  // span is transparent to normal text flow.
+  return <span>{processedText}</span>;
 }
 
 export default React.memo(BionicText);
