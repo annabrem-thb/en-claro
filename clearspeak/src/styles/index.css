@@ -125,13 +125,18 @@
     outline-offset: 4px;
   }
 
-  /* Hide scrollbar for a cleaner, native PWA look */
+  /* Hide scrollbar for a cleaner, native PWA look. Two separate rules
+     because no single property covers every engine: the pseudo-element
+     below is what actually hides it in every WebKit/Blink browser (Safari,
+     Safari iOS, Samsung Internet, and Chrome before 121) — `scrollbar-width`
+     is unsupported there and only exists as this rule's Firefox/Chrome 121+
+     equivalent, not a fallback needed on its own. */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
   .no-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none; /* Firefox, Chrome 121+ */
   }
 }
 
