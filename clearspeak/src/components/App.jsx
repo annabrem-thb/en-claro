@@ -501,7 +501,7 @@ function AppContent() {
 
   return (
     <div
-      className={`fixed inset-0 flex w-full flex-col overflow-hidden lg:flex-row ${isHighContrast ? 'bg-black text-white' : `${themeStyles.bg} text-[#2D3732]`}`}
+      className={`fixed inset-0 flex w-full flex-col overflow-hidden pt-[env(safe-area-inset-top)] pr-[env(safe-area-inset-right)] pl-[env(safe-area-inset-left)] lg:flex-row ${isHighContrast ? 'bg-black text-white' : `${themeStyles.bg} text-[#2D3732]`}`}
     >
       {}
       {/* Only reachable by keyboard (sr-only until focused): lets a Tab-only

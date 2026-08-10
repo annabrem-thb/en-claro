@@ -141,7 +141,7 @@ function IntroScreen({ onStart, speak }) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center overflow-hidden p-2 sm:p-4 ${isHighContrast ? 'bg-black' : 'bg-[#fdfaf6]'}`}
+      className={`fixed inset-0 z-50 flex items-center justify-center overflow-hidden p-2 pt-[calc(0.5rem+env(safe-area-inset-top))] pr-[calc(0.5rem+env(safe-area-inset-right))] pb-[calc(0.5rem+env(safe-area-inset-bottom))] pl-[calc(0.5rem+env(safe-area-inset-left))] sm:p-4 ${isHighContrast ? 'bg-black' : 'bg-[#fdfaf6]'}`}
     >
       {}
       <div

@@ -80,6 +80,12 @@
     overscroll-behavior: none;
     /* Let native UI (scrollbars, form controls) follow the OS theme too */
     color-scheme: light dark;
+    /* Safety net: the app shell is a single `fixed inset-0` root that never
+       itself grows past the viewport, but iOS Safari's rubber-band overscroll
+       can still reveal a horizontal gap if any descendant ever overflows its
+       container by a few px — this guarantees that never becomes a visible
+       sideways scroll. */
+    overflow-x: hidden;
   }
 
   * {
@@ -104,6 +110,7 @@
     overscroll-behavior: none;
     /* Apply slider enlargement strictly to text */
     font-size: calc(1rem * var(--responsive-scale));
+    overflow-x: hidden;
   }
 
   em,
