@@ -2,19 +2,15 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { getSharedAudioContext } from '../../utils/audioUnlock.js';
 import BionicText from '../common/BionicText';
 import TTSController from '../common/TTSController';
 
-let sharedMelodyAudioCtx = null;
-
 const playNote = (freq, durationMs = 450) => {
   try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    if (!sharedMelodyAudioCtx) sharedMelodyAudioCtx = new AudioContext();
-    if (sharedMelodyAudioCtx.state === 'suspended')
-      sharedMelodyAudioCtx.resume();
-    const ctx = sharedMelodyAudioCtx;
+    const ctx = getSharedAudioContext();
+    if (!ctx) return;
+    if (ctx.state === 'suspended') ctx.resume();
     const now = ctx.currentTime;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
@@ -117,14 +113,19 @@ function MelodyMemoryExercise({
     let delayAcc = instruction.length * (extendedTime ? 90 : 65) + 1200;
     const noteGap = 550;
 
-    sequence.forEach((noteIdx, i) => {
+    sequence.forEach((noteIdx) => {
+      // Highlight by *note identity* (which button this is), not by the
+      // note's position within the sequence — those aren't the same number
+      // once a note repeats or the sequence isn't just 0,1,2,3 in order,
+      // and using the step index here was lighting up the wrong tile for
+      // whatever note was actually sounding.
       setSafeTimeout(() => {
-        setPlayingIndex(i);
+        setPlayingIndex(noteIdx);
         playNote(NOTES[noteIdx].freq);
       }, delayAcc);
       setSafeTimeout(
         () => {
-          setPlayingIndex((prev) => (prev === i ? null : prev));
+          setPlayingIndex((prev) => (prev === noteIdx ? null : prev));
         },
         delayAcc + noteGap - 100,
       );
