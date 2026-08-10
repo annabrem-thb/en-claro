@@ -18,7 +18,9 @@
    in tailwind.config.js were unused anywhere in src/ and were dropped rather
    than carried forward — the emerald/purple/amber colors it redefined were
    also identical to Tailwind's own defaults, so nothing changes visually.) */
-@theme {
+/* Define custom radius token in :root (browser CSS variable scope).
+   Replaces nonstandard @theme rule. */
+:root {
   --radius-4xl: 2rem;
 }
 
