@@ -8,7 +8,7 @@ import { describe, it, expect } from 'vitest';
 // issues — exercises exactly what Netlify's Lambda runtime does in
 // production.
 const require = createRequire(import.meta.url);
-const { buildDbData } = require('./index.js');
+const { buildDbData, validatePayload, handler } = require('./index.js');
 
 // Mirrors the exact shape SurveyComponent.tsx sends: NasaTlxPayload fields
 // spread directly (mentalDemand/physicalDemand/temporalDemand/performance/
@@ -142,5 +142,103 @@ describe('submit-survey buildDbData', () => {
     expect(dbData.local_timestamp).toBe('2026-08-04T12:00:00.000Z');
     expect(dbData.user_difficulty).toBe(2);
     expect(dbData.daily_goal).toBe(10);
+  });
+});
+
+describe('submit-survey validatePayload', () => {
+  it('accepts a well-formed client payload', () => {
+    expect(validatePayload(makeClientPayload())).toBeNull();
+  });
+
+  it('rejects a non-object payload', () => {
+    expect(validatePayload(null)).toMatch(/object/i);
+    expect(validatePayload([1, 2, 3])).toMatch(/object/i);
+    expect(validatePayload('hi')).toMatch(/object/i);
+  });
+
+  it('rejects a numeric field sent as the wrong type', () => {
+    const error = validatePayload(
+      makeClientPayload({ mentalDemand: 'seventy' }),
+    );
+    expect(error).toMatch(/mentalDemand/);
+  });
+
+  it('rejects a string field sent as the wrong type', () => {
+    const error = validatePayload(makeClientPayload({ participantId: 123 }));
+    expect(error).toMatch(/participantId/);
+  });
+
+  it('rejects a11yAddons that is not an array', () => {
+    const error = validatePayload(
+      makeClientPayload({ a11yAddons: 'LRS,Kontrast' }),
+    );
+    expect(error).toMatch(/a11yAddons/);
+  });
+
+  it('rejects inclusiveOptions that is not a plain object', () => {
+    const error = validatePayload(
+      makeClientPayload({ inclusiveOptions: ['zenMode'] }),
+    );
+    expect(error).toMatch(/inclusiveOptions/);
+  });
+});
+
+describe('submit-survey handler', () => {
+  const originalUrl = process.env.SUPABASE_URL;
+  const originalKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  function restoreEnv() {
+    process.env.SUPABASE_URL = originalUrl;
+    process.env.SUPABASE_SERVICE_ROLE_KEY = originalKey;
+  }
+
+  it('rejects non-POST requests with 405', async () => {
+    const response = await handler({ httpMethod: 'GET' }, {});
+    expect(response.statusCode).toBe(405);
+  });
+
+  it('rejects a malformed JSON body with 400 instead of a raw parse-error message', async () => {
+    const response = await handler(
+      { httpMethod: 'POST', body: '{not valid json' },
+      {},
+    );
+    expect(response.statusCode).toBe(400);
+    const body = JSON.parse(response.body);
+    expect(body.error).toBe('Invalid JSON body.');
+  });
+
+  it('rejects a payload that fails validation with 400', async () => {
+    const response = await handler(
+      {
+        httpMethod: 'POST',
+        body: JSON.stringify(makeClientPayload({ dailyGoal: 'lots' })),
+      },
+      {},
+    );
+    expect(response.statusCode).toBe(400);
+    const body = JSON.parse(response.body);
+    expect(body.error).toMatch(/dailyGoal/);
+  });
+
+  // Regression test for the leak: index.js used to return
+  // `{ error: 'Internal Server Error', details: error.message }`, exposing
+  // whatever the Supabase client (or, before validation existed, a raw
+  // JSON.parse crash) said internally. Unsetting the Supabase env vars
+  // deterministically triggers the same catch block without a network call.
+  it('never leaks internal error details in a 500 response', async () => {
+    delete process.env.SUPABASE_URL;
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    const response = await handler(
+      { httpMethod: 'POST', body: JSON.stringify(makeClientPayload()) },
+      {},
+    );
+
+    restoreEnv();
+
+    expect(response.statusCode).toBe(500);
+    const body = JSON.parse(response.body);
+    expect(body).toEqual({ error: 'Internal Server Error' });
+    expect(body.details).toBeUndefined();
   });
 });

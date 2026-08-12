@@ -100,11 +100,110 @@ function buildDbData(payload) {
 
 exports.buildDbData = buildDbData;
 
+const MAX_STRING_LENGTH = 500;
+
+function isFiniteNumber(value) {
+  return typeof value === 'number' && Number.isFinite(value);
+}
+
+function isPlainString(value) {
+  return typeof value === 'string' && value.length <= MAX_STRING_LENGTH;
+}
+
+// This endpoint is public and unauthenticated, so the body is untrusted
+// input, not just a shape buildDbData can assume. Rejecting malformed
+// payloads here with a 400 keeps garbage out of ab_study_submissions and
+// avoids routing bad input through to the Supabase call, where a failure
+// used to surface as a 500 with the raw error message below.
+function validatePayload(payload) {
+  if (
+    payload === null ||
+    typeof payload !== 'object' ||
+    Array.isArray(payload)
+  ) {
+    return 'Payload must be a JSON object.';
+  }
+
+  const numericFields = [
+    'mentalDemand',
+    'physicalDemand',
+    'temporalDemand',
+    'performance',
+    'effort',
+    'frustration',
+    'sus01',
+    'sus02',
+    'sus03',
+    'sus04',
+    'sus05',
+    'sus06',
+    'sus07',
+    'sus08',
+    'sus09',
+    'sus10',
+    'userDifficulty',
+    'dailyGoal',
+  ];
+  for (const field of numericFields) {
+    if (payload[field] !== undefined && !isFiniteNumber(payload[field])) {
+      return `${field} must be a number.`;
+    }
+  }
+
+  const stringFields = [
+    'participantId',
+    'appVersion',
+    'userLanguage',
+    'theme',
+    'localTimestamp',
+  ];
+  for (const field of stringFields) {
+    if (payload[field] !== undefined && !isPlainString(payload[field])) {
+      return `${field} must be a string.`;
+    }
+  }
+
+  if (payload.a11yAddons !== undefined && !Array.isArray(payload.a11yAddons)) {
+    return 'a11yAddons must be an array.';
+  }
+
+  if (
+    payload.inclusiveOptions !== undefined &&
+    (typeof payload.inclusiveOptions !== 'object' ||
+      payload.inclusiveOptions === null ||
+      Array.isArray(payload.inclusiveOptions))
+  ) {
+    return 'inclusiveOptions must be an object.';
+  }
+
+  return null;
+}
+
+exports.validatePayload = validatePayload;
+
 exports.handler = async (event, context) => {
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
       body: JSON.stringify({ error: 'Method Not Allowed' }),
+    };
+  }
+
+  let payload;
+  try {
+    payload = JSON.parse(event.body || '{}');
+  } catch {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: 'Invalid JSON body.' }),
+    };
+  }
+
+  const validationError = validatePayload(payload);
+  if (validationError) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: validationError }),
     };
   }
 
@@ -120,10 +219,9 @@ exports.handler = async (event, context) => {
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const payload = JSON.parse(event.body);
     const dbData = buildDbData(payload);
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('ab_study_submissions')
       .insert([dbData]);
 
@@ -139,10 +237,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 500,
-      body: JSON.stringify({
-        error: 'Internal Server Error',
-        details: error.message,
-      }),
+      body: JSON.stringify({ error: 'Internal Server Error' }),
     };
   }
 };
