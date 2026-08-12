@@ -100,4 +100,50 @@ describe('useExerciseVoice', () => {
     expect(result.current.error).toBe('unsupported');
     expect(FakeSpeechRecognition.instances.length).toBe(0);
   });
+
+  describe('spoken option numbers', () => {
+    function speakAndGetMatch(language, transcript) {
+      const onNumberMatch = vi.fn();
+      const { result } = renderHook(() => useExerciseVoice(language, null));
+      act(() => result.current.startListening(onNumberMatch));
+      act(() =>
+        FakeSpeechRecognition.instances.at(-1).onresult({
+          results: [[{ transcript }]],
+        }),
+      );
+      return onNumberMatch.mock.calls[0]?.[0];
+    }
+
+    // The reported bug: saying "opcja trzecia" (option three, the natural
+    // way to say it) matched nothing, because the pattern for 3 only
+    // covered the cardinal "trzy", not the ordinal "trzecia" a person
+    // actually says when picking "the third option".
+    it('matches "opcja trzecia" to option 3', () => {
+      expect(speakAndGetMatch('pl', 'opcja trzecia')).toBe(3);
+    });
+
+    it.each([
+      ['pierwsza', 1],
+      ['druga', 2],
+      ['trzecia', 3],
+      ['czwarta', 4],
+      ['piąta', 5],
+    ])('matches Polish ordinal "%s" to option %i', (word, expected) => {
+      expect(speakAndGetMatch('pl', word)).toBe(expected);
+    });
+
+    it.each([
+      ['erste', 1],
+      ['zweite', 2],
+      ['dritte', 3],
+      ['vierte', 4],
+      ['fünfte', 5],
+    ])('matches German ordinal "%s" to option %i', (word, expected) => {
+      expect(speakAndGetMatch('de', word)).toBe(expected);
+    });
+
+    it('still matches the Polish cardinal form ("trzy")', () => {
+      expect(speakAndGetMatch('pl', 'trzy')).toBe(3);
+    });
+  });
 });
