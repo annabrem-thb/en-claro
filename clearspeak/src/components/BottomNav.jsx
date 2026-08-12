@@ -93,6 +93,7 @@ function BottomNavComponent({
   onTabChange,
   onGardenClick,
   onOpenSettings,
+  onOpenSurvey,
   vibrate,
 }) {
   const gardenIcon =
@@ -145,6 +146,20 @@ function BottomNavComponent({
           label={t('garden') || 'Garden'}
         />
       )}
+
+      <NavButton
+        onClick={() => {
+          vibrate(15);
+          onOpenSurvey();
+        }}
+        isHighContrast={isHighContrast}
+        themeStyles={themeStyles}
+        hideNavLabel={hideNavLabel}
+        bigTargets={bigTargets}
+        bionicReading={bionicReading}
+        icon="📝"
+        label={t('surveyAria') || 'Survey'}
+      />
 
       <NavButton
         onClick={() => {
