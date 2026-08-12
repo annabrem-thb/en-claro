@@ -243,9 +243,19 @@ function SyllableExercise({
         />
       </div>
 
-      {transcript && (
+      {transcript ? (
         <p className="mb-1 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-2 sm:text-xs">
           {t('heard')}: <span className="text-slate-600">{transcript}</span>
+        </p>
+      ) : (
+        // Previously the only clue that this mic expects a spoken *gap
+        // number* — not the word itself read aloud with pauses, the more
+        // intuitive reading of "divide the word into syllables" — was
+        // idleLabel's aria-label on the button above, invisible to sighted
+        // users. Saying the whole word matched no number/command pattern
+        // and silently did nothing, which read as "the mic doesn't work."
+        <p className="mb-1 shrink-0 text-center text-[10px] font-medium text-slate-400 sm:mb-2 sm:text-xs">
+          {t('speakGapNumber')}
         </p>
       )}
 
