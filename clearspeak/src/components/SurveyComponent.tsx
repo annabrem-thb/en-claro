@@ -303,7 +303,10 @@ export const SurveyComponent: React.FC = () => {
                         checked={susScores[scale.id] === val}
                         onChange={() => handleSusChange(scale.id, val)}
                         className="h-6 w-6 appearance-none rounded-full border-2 border-slate-300 transition-all group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 md:h-7 md:w-7"
-                        aria-label={`Rate ${val} out of 5`}
+                        aria-label={t('feedback.rateAria', {
+                          value: val,
+                          defaultValue: `Rate ${val} out of 5`,
+                        })}
                       />
                     </label>
                   ))}

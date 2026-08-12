@@ -18,6 +18,7 @@
     "frustration": "Frustration",
     "frustrationDesc": "How insecure, discouraged, irritated, stressed, and annoyed were you?"
   },
+  "rateAria": "Rate {{value}} out of 5",
   "submit": "Save and continue",
   "skip": "Skip this time",
   "thankYou": "Thank you for your feedback!"

@@ -37,6 +37,7 @@
     "usual": "Zwyczajny",
     "leadingEdge": "Nowatorski"
   },
+  "rateAria": "Oceń {{value}} na 5",
   "submit": "Zapisz i kontynuuj",
   "skip": "Pomiń tym razem",
   "thankYou": "Dziękujemy za Twoją opinię!"
