@@ -36,6 +36,8 @@
   "close": "Close",
   "on": "ON",
   "off": "OFF",
+  "optionOn": "option enabled",
+  "optionOff": "option disabled",
   "active": "Active",
   "select": "Select",
   "equip": "Equip",
