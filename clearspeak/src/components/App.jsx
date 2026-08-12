@@ -173,6 +173,13 @@ function AppContent() {
   const [, setEarnedCoinsAnim] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [pendingFeedback, setPendingFeedback] = useState(false);
+  // Distinguishes the nav-triggered "open the survey any time" entry point
+  // from the automatic every-10-points trigger. The automatic path shows the
+  // survey *instead of* immediately calling goNext() (see
+  // handleLevelUpNext), so closing it must call goNext() to catch up on the
+  // advance it deferred. A manual open never deferred one, so closing it
+  // must not silently skip whatever exercise the user was looking at.
+  const [surveyOpenedManually, setSurveyOpenedManually] = useState(false);
 
   const { loadLevel, showBreakModal, setShowBreakModal, setErrorTimestamps } =
     useCognitiveLoad(activeTab, settings.zenMode);
@@ -342,6 +349,11 @@ function AppContent() {
   });
 
   const openSettings = useCallback(() => setSettingsOpen(true), []);
+
+  const openSurvey = useCallback(() => {
+    setSurveyOpenedManually(true);
+    setShowFeedback(true);
+  }, []);
 
   const handleSwipeTab = useCallback(
     (direction) => {
@@ -533,6 +545,7 @@ function AppContent() {
           bigTargets={bigTargets}
           hideNavLabel={hideNavLabel}
           setSettingsOpen={setSettingsOpen}
+          onOpenSurvey={openSurvey}
           t={t}
           coins={coins}
           loadLevel={loadLevel}
@@ -830,6 +843,7 @@ function AppContent() {
           onTabChange={handleTabChange}
           onGardenClick={handleGardenClick}
           onOpenSettings={openSettings}
+          onOpenSurvey={openSurvey}
           vibrate={vibrate}
         />
       </div>
@@ -856,7 +870,8 @@ function AppContent() {
         open={showFeedback}
         onClose={() => {
           setShowFeedback(false);
-          goNext();
+          if (!surveyOpenedManually) goNext();
+          setSurveyOpenedManually(false);
         }}
         labelledBy="survey-title"
         overlayClassName="z-60 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm sm:p-6"
@@ -866,7 +881,8 @@ function AppContent() {
         <button
           onClick={() => {
             setShowFeedback(false);
-            goNext();
+            if (!surveyOpenedManually) goNext();
+            setSurveyOpenedManually(false);
           }}
           aria-label={t('close') || 'Close'}
           className="absolute top-4 right-4 z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 font-bold text-slate-500 transition-colors hover:bg-slate-200"
