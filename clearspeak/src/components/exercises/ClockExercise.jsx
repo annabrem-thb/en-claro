@@ -204,9 +204,16 @@ function ClockExercise({
       </div>
 
       {}
-      {transcript && (
+      {/* Before this, the only clue that the mic expects a spoken *option
+          number* (not the time read aloud) was the button's aria-label —
+          invisible to sighted users, who had no way to know what to say. */}
+      {transcript ? (
         <p className="mb-1 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-2">
           {t('heard')}: <span className="text-slate-600">{transcript}</span>
+        </p>
+      ) : (
+        <p className="mb-1 shrink-0 text-center text-[10px] font-medium text-slate-400 sm:mb-2">
+          {t('speakOptionNumber')}
         </p>
       )}
 

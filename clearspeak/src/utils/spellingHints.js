@@ -35,6 +35,35 @@ const PRONUNCIATIONS = {
     stationery: 'stationery, with e for "envelopes"',
   },
 };
+const DASH_WORD = { pl: 'myślnik', en: 'hyphen', de: 'Bindestrich' };
+
+// Detects an option that differs from a sibling only by spacing/hyphenation
+// (e.g. "nie odwołalna" / "nie-odwołalna" vs the correct "nieodwołalna") —
+// exercises across grapheme/context items test exactly this joined-vs-
+// separate-vs-hyphenated distinction, in Polish ("nie"/"na" + word) and
+// German (compound nouns) alike. A bare space or hyphen often isn't read
+// with an audible-enough pause to actually tell the variants apart by ear,
+// which makes an otherwise-legitimate spelling exercise unsolvable through
+// the voice assistant alone. Forcing a comma pause at each word part, and
+// explicitly naming a hyphen when present, makes every variant sound
+// distinct. Only fires when a genuinely joined sibling exists in the same
+// option set — an ordinary multi-word answer with no such sibling is left
+// untouched rather than gaining an artificial pause.
+function getSpacingVariantHint(word, allOptions, lang) {
+  if (!/[\s-]/.test(word)) return null;
+  const stripped = word.replace(/[\s-]/g, '').toLowerCase();
+  const hasJoinedSibling = allOptions.some(
+    (other) =>
+      other !== word && other.replace(/[\s-]/g, '').toLowerCase() === stripped,
+  );
+  if (!hasJoinedSibling) return null;
+  const dashWord = DASH_WORD[lang] || DASH_WORD.en;
+  // Spaces first, then hyphens: the hyphen replacement's own inserted text
+  // (", myślnik, ") contains spaces of its own — running the space pass
+  // second would re-match and double up those just-inserted commas.
+  return word.replace(/ +/g, ', ').replace(/-/g, `, ${dashWord}, `);
+}
+
 function findDifferingSubstring(str1, str2) {
   let i = 0;
   while (i < str1.length && i < str2.length && str1[i] === str2[i]) {
@@ -56,6 +85,9 @@ function findDifferingSubstring(str1, str2) {
   return null;
 }
 export function getSmartSpellingHint(word, allOptions, lang, t) {
+  const spacingHint = getSpacingVariantHint(word, allOptions, lang);
+  if (spacingHint) return spacingHint;
+
   if (allOptions.length !== 2) return word;
   const otherWord = allOptions.find((opt) => opt !== word);
   if (!otherWord) return word;
