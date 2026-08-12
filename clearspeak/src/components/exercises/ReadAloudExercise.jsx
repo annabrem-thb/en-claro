@@ -44,11 +44,12 @@ function ReadAloudExercise({
     const cleanSpoken = normalizeText(transcript);
     const cleanTarget = normalizeText(data.text);
 
-    if (
-      cleanSpoken === cleanTarget ||
-      cleanSpoken.includes(cleanTarget) ||
-      cleanTarget.includes(cleanSpoken)
-    ) {
+    // Deliberately one-directional: the *target* must appear in full inside
+    // what was spoken (cleanSpoken.includes(cleanTarget) tolerates a stray
+    // recognized word/filler at either end), but the reverse used to also
+    // pass — meaning reading just one word of a multi-word sentence, or any
+    // other truncated fragment, was silently scored as a correct full read.
+    if (cleanSpoken === cleanTarget || cleanSpoken.includes(cleanTarget)) {
       onSuccess();
     } else {
       onError();
