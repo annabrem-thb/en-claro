@@ -310,7 +310,23 @@ const A11yTab = ({ speak }) => {
                   label={opt.name}
                   desc={opt.desc}
                   checked={!!settings[key]}
-                  onChange={() => updateSetting(key, !settings[key])}
+                  onChange={() => {
+                    const next = !settings[key];
+                    updateSetting(key, next);
+                    // Confirms the exact change just made, not just the tab's
+                    // full state on open — a voice-assistant user flipping
+                    // one switch among 14 needs to hear that specific result
+                    // without waiting for (or re-triggering) the whole-tab
+                    // readout. clearAllTimeouts() first: without it, a
+                    // still-catching-up auto-read-on-open segment (each
+                    // scheduled up to several seconds ahead) could fire right
+                    // after and overwrite this announcement with unrelated
+                    // queued text before the user finished hearing it.
+                    if (voiceAssistant && speak) {
+                      clearAllTimeouts();
+                      speak(`${opt.name}: ${next ? t('on') : t('off')}`);
+                    }
+                  }}
                   bionic={bionicReading}
                   isHighContrast={contrast}
                 />
@@ -441,9 +457,22 @@ const ExercisesTab = ({ speak }) => {
 
   useAutoReadAloud(!!settings.voiceAssistant, readExercisesTab);
 
+  // Cancels this tab's own auto-read-on-open queue before letting a single
+  // toggle's confirmation speak — otherwise a still-catching-up segment
+  // from that queue (each one scheduled up to several seconds ahead) can
+  // fire moments later and overwrite the confirmation with unrelated text.
+  const speakNow = useCallback(
+    (text) => {
+      clearAllTimeouts();
+      speak?.(text);
+    },
+    [speak, clearAllTimeouts],
+  );
+
   return (
     <ExerciseToggleManager
       t={t}
+      speak={speakNow}
       bigTargets={bigTargets}
       bionicReading={!!settings.bionicReading}
     />
