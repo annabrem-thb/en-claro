@@ -23,12 +23,9 @@ test.describe('Dyslexia PWA - Wirtualny Ogród', () => {
     await expect(navChrome).toBeVisible();
     await navChrome.getByText(/Ogród|Garden/i).click();
     await expect(page.locator('#garden-container')).toBeVisible();
-    // A generic text locator also matches the sr-only journey summary,
-    // which repeats the same stage name for screen readers — scope to the
-    // visible stage heading specifically to keep this a single-element match.
-    await expect(
-      page.locator('h2', { hasText: /Ziarno|Ziarenko|Seed/i }),
-    ).toBeVisible();
+    // The growth-stage name (e.g. "Ziarno") is no longer shown as a visible
+    // heading — it lives only in the sr-only aria-live journey summary now
+    // (see VirtualGarden.jsx). Assert on the visible description instead.
     await expect(
       page.locator('text=/Twój własny ekosystem|Your own ecosystem/i'),
     ).toBeVisible();
