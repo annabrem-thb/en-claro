@@ -219,7 +219,7 @@ function GraphemeExercise({
                 {opt.icon}
               </span>
             )}
-            <span className="w-full text-center text-lg font-bold wrap-break-word sm:text-xl">
+            <span className="w-full text-center text-lg font-bold break-all sm:text-xl">
               <BionicText text={opt.text} enabled={bionicReading} />
             </span>
           </button>

@@ -10,7 +10,6 @@ function ScrabbleExercise({
   themeStyles,
   onSuccess,
   onError,
-  language,
   t,
   speak,
   noFlash = false,
@@ -193,7 +192,7 @@ function ScrabbleExercise({
       </div>
 
       {}
-      <div className="no-scrollbar mb-2 flex max-h-[30dvh] min-h-0 min-h-12 w-full max-w-4xl shrink flex-wrap justify-center gap-1 overflow-y-auto border-b-4 border-dashed border-slate-100 px-1 pt-2 pb-2 sm:mb-4 sm:min-h-16 sm:gap-2 sm:px-2 sm:pb-4">
+      <div className="no-scrollbar mb-2 flex max-h-[30dvh] min-h-12 w-full max-w-4xl shrink flex-wrap justify-center gap-1 overflow-y-auto border-b-4 border-dashed border-slate-100 px-1 pt-2 pb-2 sm:mb-4 sm:min-h-16 sm:gap-2 sm:px-2 sm:pb-4">
         {userScrabble.map((x, i) => (
           <div
             key={i}

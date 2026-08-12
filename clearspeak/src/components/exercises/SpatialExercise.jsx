@@ -232,7 +232,7 @@ function SpatialExercise({
       {}
       <div className="my-2 flex min-h-0 w-full flex-1 items-center justify-center sm:my-4">
         <div
-          className={`${cardSize} ${isAlphaSymbol ? 'font-dyslexic' : 'font-sans'} flex items-center justify-center rounded-[50px] border-4 bg-white shadow-xl transition-all md:shadow-md ${themeStyles.border} ${themeStyles.accent} ${animation}`}
+          className={`${cardSize} ${isAlphaSymbol ? 'font-dyslexic' : 'font-sans'} flex items-center justify-center rounded-[50px] border-4 bg-white wrap-break-word shadow-xl transition-all md:shadow-md ${themeStyles.border} ${themeStyles.accent} ${animation}`}
         >
           {}
           <BionicText

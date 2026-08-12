@@ -10,7 +10,6 @@ function LookCoverWriteCheck({
   targetWord,
   word,
   onSelfEvaluate,
-  language: propLang,
   t: propT,
   speak,
   extendedTime,
@@ -24,19 +23,14 @@ function LookCoverWriteCheck({
   const [userInput, setUserInput] = useState('');
 
   const { settings } = useUserSettingsContext();
-  const language = propLang || settings.language || 'pl';
   const t = propT;
 
   const isHighContrast = settings.contrast;
   const bionicReading = settings.bionicReading;
 
   const inputRef = useRef(null);
-  const {
-    setSafeTimeout,
-    clearAllTimeouts,
-    pauseAllTimeouts,
-    resumeAllTimeouts,
-  } = useSafeTimeouts();
+  const { clearAllTimeouts, pauseAllTimeouts, resumeAllTimeouts } =
+    useSafeTimeouts();
 
   const handleReadWord = useCallback(() => {
     clearAllTimeouts();

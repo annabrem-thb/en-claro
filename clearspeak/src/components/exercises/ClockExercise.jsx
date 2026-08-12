@@ -106,6 +106,7 @@ function ClockExercise({
     data,
     speak,
     extendedTime,
+    language,
   ]);
 
   const handleVoiceMatch = (num) => {
