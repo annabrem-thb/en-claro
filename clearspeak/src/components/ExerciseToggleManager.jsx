@@ -59,7 +59,11 @@ function ExerciseSwitchRow({
   );
 }
 
-export default function ExerciseToggleManager({ t, bigTargets = false }) {
+export default function ExerciseToggleManager({
+  t,
+  speak,
+  bigTargets = false,
+}) {
   const { settings, updateSetting } = useUserSettingsContext();
   const {
     bionicReading,
@@ -99,13 +103,21 @@ export default function ExerciseToggleManager({ t, bigTargets = false }) {
           'At least one exercise must stay active in each pillar.',
         ),
       );
-      return;
+      return false;
     }
     updateSetting('activeExercises', merged);
+    return true;
   };
 
-  const toggleOne = (pillarKeys, key) => {
-    applyChange(pillarKeys, { [key]: !isActive(key) });
+  const toggleOne = (pillarKeys, key, label) => {
+    const next = !isActive(key);
+    const applied = applyChange(pillarKeys, { [key]: next });
+    // Only announce when the toggle actually took effect — not when the
+    // "last active exercise in this pillar" guard above blocked it, since
+    // the switch's on-screen/aria-checked state didn't actually change.
+    if (applied && settings.voiceAssistant && speak) {
+      speak(`${label}: ${next ? t('on') : t('off')}`);
+    }
   };
 
   const setAll = (pillarKeys, value) => {
@@ -189,17 +201,20 @@ export default function ExerciseToggleManager({ t, bigTargets = false }) {
               </div>
             </div>
             <div className="space-y-1">
-              {exerciseKeys.map((key) => (
-                <ExerciseSwitchRow
-                  key={key}
-                  label={t(`exerciseManager.types.${key}`, key)}
-                  checked={isActive(key)}
-                  onChange={() => toggleOne(exerciseKeys, key)}
-                  bionic={bionicReading}
-                  isHighContrast={isHighContrast}
-                  bigTargets={bigTargets}
-                />
-              ))}
+              {exerciseKeys.map((key) => {
+                const label = t(`exerciseManager.types.${key}`, key);
+                return (
+                  <ExerciseSwitchRow
+                    key={key}
+                    label={label}
+                    checked={isActive(key)}
+                    onChange={() => toggleOne(exerciseKeys, key, label)}
+                    bionic={bionicReading}
+                    isHighContrast={isHighContrast}
+                    bigTargets={bigTargets}
+                  />
+                );
+              })}
             </div>
           </section>
         ),
