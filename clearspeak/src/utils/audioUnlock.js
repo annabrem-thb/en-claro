@@ -26,6 +26,31 @@ export function getSharedAudioContext() {
 }
 
 let unlocked = false;
+const pendingCallbacks = new Set();
+
+export function isAudioUnlocked() {
+  return unlocked;
+}
+
+// Runs `callback` once audio has actually been unlocked by a real user
+// gesture — immediately if that's already happened, or the next time it
+// does. Lets a caller that wants to speak/play a tone right away (e.g. an
+// auto-read timer that fires before the user has tapped anything, most
+// likely on the very first screen the app shows) wait for the same gesture
+// this module unlocks on, instead of calling into an API that would just
+// silently drop the sound. Returns an unsubscribe function for callers that
+// stop caring before the gesture happens (component unmounted, condition
+// that wanted this changed).
+export function onAudioUnlocked(callback) {
+  if (unlocked) {
+    callback();
+    return () => {};
+  }
+  pendingCallbacks.add(callback);
+  return () => {
+    pendingCallbacks.delete(callback);
+  };
+}
 
 export function installAudioUnlock() {
   if (typeof document === 'undefined') return;
@@ -44,6 +69,9 @@ export function installAudioUnlock() {
       warmUp.volume = 0;
       window.speechSynthesis.speak(warmUp);
     }
+
+    pendingCallbacks.forEach((cb) => cb());
+    pendingCallbacks.clear();
 
     document.removeEventListener('pointerdown', unlock);
     document.removeEventListener('touchstart', unlock);

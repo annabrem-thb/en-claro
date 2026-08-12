@@ -1,15 +1,29 @@
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import * as audioUnlock from '../utils/audioUnlock.js';
+
 import { useAutoReadAloud } from './useAutoReadAloud.js';
 
 describe('useAutoReadAloud', () => {
   beforeEach(() => {
     vi.useFakeTimers();
+    // Most of these tests are about the *pacing* (delay/re-fire/cleanup)
+    // logic, not the audio-unlock gate — default to "already unlocked" (as
+    // if the user already tapped something earlier in the session) so they
+    // exercise that logic the same way they did before that gate existed.
+    // The gate itself has its own tests below with this mocked back to
+    // "not yet unlocked".
+    vi.spyOn(audioUnlock, 'isAudioUnlocked').mockReturnValue(true);
+    vi.spyOn(audioUnlock, 'onAudioUnlocked').mockImplementation((cb) => {
+      cb();
+      return () => {};
+    });
   });
 
   afterEach(() => {
     vi.useRealTimers();
+    vi.restoreAllMocks();
   });
 
   it('does not call readAloud when disabled', () => {
@@ -87,5 +101,51 @@ describe('useAutoReadAloud', () => {
     act(() => vi.advanceTimersByTime(2000));
 
     expect(readAloud).not.toHaveBeenCalled();
+  });
+
+  describe('when audio has not been unlocked by a user gesture yet', () => {
+    beforeEach(() => {
+      audioUnlock.isAudioUnlocked.mockReturnValue(false);
+      audioUnlock.onAudioUnlocked.mockImplementation(() => () => {});
+    });
+
+    it('does not call readAloud once the delay elapses, since it would be silently dropped', () => {
+      const readAloud = vi.fn();
+      renderHook(() => useAutoReadAloud(true, readAloud));
+
+      act(() => vi.advanceTimersByTime(500));
+
+      expect(readAloud).not.toHaveBeenCalled();
+      expect(audioUnlock.onAudioUnlocked).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls readAloud as soon as the gesture unlocks audio, with no further delay', () => {
+      const readAloud = vi.fn();
+      let deliverUnlock;
+      audioUnlock.onAudioUnlocked.mockImplementation((cb) => {
+        deliverUnlock = cb;
+        return () => {};
+      });
+
+      renderHook(() => useAutoReadAloud(true, readAloud));
+      act(() => vi.advanceTimersByTime(500));
+      expect(readAloud).not.toHaveBeenCalled();
+
+      act(() => deliverUnlock());
+      expect(readAloud).toHaveBeenCalledTimes(1);
+    });
+
+    it('unsubscribes from the unlock wait if unmounted before the gesture happens', () => {
+      const readAloud = vi.fn();
+      const unsubscribe = vi.fn();
+      audioUnlock.onAudioUnlocked.mockReturnValue(unsubscribe);
+
+      const { unmount } = renderHook(() => useAutoReadAloud(true, readAloud));
+      act(() => vi.advanceTimersByTime(500));
+
+      unmount();
+
+      expect(unsubscribe).toHaveBeenCalledTimes(1);
+    });
   });
 });

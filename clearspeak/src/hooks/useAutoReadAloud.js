@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 
+import { isAudioUnlocked, onAudioUnlocked } from '../utils/audioUnlock.js';
+
 // A small delay before auto-reading: long enough that narration doesn't
 // talk over the still-running success/streak announcement from the
 // previous answer (useExerciseSession.js already waits 1500-3000ms before
@@ -35,9 +37,23 @@ export function useAutoReadAloud(enabled, readAloud) {
 
   useEffect(() => {
     if (!enabled) return undefined;
+    let unsubscribe;
     const timer = setTimeout(() => {
-      latestReadAloud.current();
+      // speechSynthesis silently drops a call made before the very first
+      // user gesture on mobile browsers (see audioUnlock.js) — if that
+      // gesture hasn't happened yet by the time this timer fires (most
+      // likely on the very first screen the app shows, with voiceAssistant
+      // already on from a previous session), wait for it instead of
+      // speaking into a call that would just be dropped.
+      if (isAudioUnlocked()) {
+        latestReadAloud.current();
+      } else {
+        unsubscribe = onAudioUnlocked(() => latestReadAloud.current());
+      }
     }, AUTO_READ_DELAY_MS);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      unsubscribe?.();
+    };
   }, [enabled]);
 }
