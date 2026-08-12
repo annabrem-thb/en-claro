@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 // Single spoken Latin letters (plus PL/DE diacritics) map straight through
 // as a one-character transcript on every engine tested — recognized
@@ -15,19 +15,47 @@ export function useExerciseVoice(language, t) {
   // tried yet" from "the user said no" without needing the separate
   // Permissions API (which Safari doesn't support for the microphone).
   const [micPermissionGranted, setMicPermissionGranted] = useState(null);
+  const recognitionRef = useRef(null);
 
   const stopSpeaking = useCallback(() => {
     if (window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
   }, []);
+
+  // Cutting a still-listening session off with .abort() — not just letting
+  // it run — is what actually matters here. Every exercise using this hook
+  // gets remounted on question change (App.jsx's key={exercise-wrapper-...}),
+  // but nothing was ever stopping an in-flight SpeechRecognition when that
+  // happened: if the mic was tapped and the browser hadn't answered yet by
+  // the time the user skipped/answered/swiped away, the old recognition
+  // kept listening in the background, then fired onresult — with THIS
+  // question's onSuccess/onError baked into its closure — against whatever
+  // question is current by the time the browser gets around to it. .stop()
+  // would still let a pending result come through with those stale
+  // closures; .abort() cuts it off immediately without one. Nulling the
+  // handlers first is belt-and-suspenders in case an engine still fires
+  // something in response to abort() itself.
+  const abortListening = useCallback(() => {
+    const recognition = recognitionRef.current;
+    if (!recognition) return;
+    recognition.onresult = null;
+    recognition.onend = null;
+    recognition.onerror = null;
+    recognition.onstart = null;
+    recognition.abort();
+    recognitionRef.current = null;
+    setIsListening(false);
+  }, []);
+
   useEffect(
     () => () => {
       if (window.speechSynthesis) {
         window.speechSynthesis.cancel();
       }
+      abortListening();
     },
-    [],
+    [abortListening],
   );
 
   const startListening = useCallback(
@@ -42,17 +70,27 @@ export function useExerciseVoice(language, t) {
         setError('unsupported');
         return;
       }
+      // A second tap while still listening would otherwise leave the first
+      // session's recognition running unattended alongside a brand new one.
+      abortListening();
       setError(null);
       stopSpeaking();
       const recognition = new SpeechRecognition();
+      recognitionRef.current = recognition;
       recognition.lang = { de: 'de-DE', pl: 'pl-PL', en: 'en-US' }[language];
       recognition.interimResults = false;
       recognition.onstart = () => {
         setIsListening(true);
       };
-      recognition.onend = () => setIsListening(false);
+      recognition.onend = () => {
+        setIsListening(false);
+        if (recognitionRef.current === recognition)
+          recognitionRef.current = null;
+      };
       recognition.onerror = (event) => {
         setIsListening(false);
+        if (recognitionRef.current === recognition)
+          recognitionRef.current = null;
         // 'not-allowed' / 'service-not-allowed' are the spec's codes for a
         // denied or blocked microphone permission — every other error
         // (no-speech, audio-capture, network, aborted, ...) leaves
@@ -135,7 +173,7 @@ export function useExerciseVoice(language, t) {
       };
       recognition.start();
     },
-    [language, t, stopSpeaking],
+    [language, t, stopSpeaking, abortListening],
   );
 
   return {
@@ -145,5 +183,6 @@ export function useExerciseVoice(language, t) {
     micPermissionGranted: micPermissionGranted,
     stopSpeaking: stopSpeaking,
     startListening: startListening,
+    abortListening: abortListening,
   };
 }
