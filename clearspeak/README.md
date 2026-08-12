@@ -1,141 +1,211 @@
-# 🧠 En Claro (Dyslexia PWA)
+# 🧠 EnClaro
 
-> **Accessible Gamification and Voice Integration in a PWA supporting speech therapy exercises for individuals with dyslexia.**
-> Project developed as part of a Master's Thesis.
+> Accessible, gamified Progressive Web App supporting reading, writing, visual, and cognitive exercises for people with dyslexia. Built as part of a Master's thesis.
 
-En Claro is a fully responsive, accessible (WCAG compliant), and gamification-based Progressive Web App (PWA). It was designed to provide a safe space for developing linguistic, visual, and cognitive skills for individuals with dyslexia and other learning difficulties.
-
----
-
-## ✨ Key Features
-
-### 🛠️ Inclusivity and Accessibility (A11y)
-The app allows for deep personalization of the interface to meet specific perceptual and motor needs:
-- **Friendly Font (OpenDyslexic)** - default font supporting fluent reading.
-- **Bionic Reading** - bolding the beginnings of words to facilitate visual fixation.
-- **High Contrast (WCAG AAA)** and **Safe Colors** for individuals with color blindness.
-- **Comfort Buttons (Motorik)** - enlarged clickable areas for individuals with fine motor skill impairments.
-- **Zen Mode & Calm Screen** - disables animations, flashes, and unnecessary interface elements to reduce sensory overload.
-- **Focus Ruler** - a tool that assists in tracking text while reading.
-- **Advanced Screen Reader Support** - comprehensive semantic HTML, ARIA attributes (`aria-live`, `aria-current`, `role="dialog"`, `tablist`), and focus management (Focus Traps) ensuring a seamless experience for users with screen readers (NVDA, JAWS, VoiceOver).
-- **Keyboard Navigation** - fully operable via keyboard with dedicated shortcuts (e.g., Ctrl + 1-4) and visible focus indicators.
-
-### 🗣️ Voice Assistant (TTS & Speech Recognition)
-- Built-in Text-to-Speech (TTS) support that reads commands, options, and provides spelling hints.
-- Voice command support enabling hands-free task completion.
-- Dynamic adjustment of voice speed and pitch.
-
-### 🎮 Gamification Mechanics
-- **Virtual Garden** - a growing ecosystem rewarding user consistency.
-- **Non-punitive System** - rewards effort and progress, not just perfection. Mistakes trigger auxiliary mechanisms and hints.
-- **Theme Shop** - currency earned in exercises (Coins) can be exchanged for new, friendly visual environments (Nature, Music, Art, Space, Ocean).
-- **Cognitive Energy** - an intelligent system tracking user effort and suggesting breaks to rest (Cognitive Breaks).
-
-### 📱 PWA & Offline Mode
-- The application works without an internet connection (Service Worker).
-- **Custom Install Prompt** - seamless installation on mobile and desktop devices directly from the app settings.
-- **Offline Indicator** - unintrusive banner notifying the user when the internet connection is lost.
-- Automatic notifications about new content updates.
+**🇬🇧 [English](#-english)** · **🇩🇪 [Deutsch](#-deutsch)**
 
 ---
 
-## 🧩 Educational Pillars and Exercises
+## 🇬🇧 English
 
-The system divides training into three main pillars:
+EnClaro is a fully responsive, accessibility-first (WCAG 2.1 AA) Progressive Web App offering literacy, visual, and cognitive exercises for adults with dyslexia. It works offline, supports Polish, English, and German, and includes an optional gamified mode alongside a plain "learning only" mode.
 
-1. **📖 Literacy (Reading & Writing)**
-   - *Writing: Memory (Look-Cover-Write-Check)* - memorizing the visual form of a word.
-   - *Writing: Synthesis (Scrabble)* - forming words from scrambled letters.
-   - *Writing: Rules (Grapheme)* - spelling exercises (e.g., rz/ż, ó/u) with hints.
-   - *Writing: Dictation* - phonemic hearing training.
-   - *Text: Reading (Context)* - inserting words into the appropriate sentence context.
+### ✨ Key Features
 
-2. **👁️ Visual and Spatial (Visual)**
-   - *Visual: Tracking* - visual discrimination and directionality training (e.g., b/d, p/q).
-   - *Visual: Clock* - reading time from an analog clock.
+**Accessibility & personalization**
 
-3. **🧩 Logic and Memory (Cognitive)**
-   - *Logic: Categorization* - accessible drag & drop (tap-to-drop) module for mind mapping.
-   - *Logic: Sequences* - ordering processes and sentences.
-   - *Memory: Memory Span* - working memory training with audio support.
-   - *Word: Syllables* - segmentation and analysis of word structure.
-   - *Word: Phonemes* - phonetic reading.
+- OpenDyslexic-style friendly font, adjustable letter/word spacing, and larger text
+- Bionic Reading (bolded word-openings to aid visual fixation)
+- High-contrast theme, colorblind-safe palettes, and a desaturated/calm color mode
+- "Motorik" mode — enlarged touch targets (56×56px minimum) for motor-impairment support
+- Zen Mode / Reduced Motion — disables animation, flashing, and non-essential UI
+- Focus Ruler for tracking a line of text while reading
+- Full keyboard navigation (Ctrl+1–4 shortcuts) and screen-reader support (semantic HTML, ARIA live regions, focus traps in dialogs)
 
----
+**Voice assistant**
 
-## 🏗️ Architecture and Tech Stack
+- Text-to-speech reads instructions, options, and feedback aloud, with adjustable voice/speed/pitch
+- Speech-recognition voice input lets learners answer, skip, or check exercises hands-free
+- Automatically pauses and switches language mid-session when the UI language changes
 
-- **Frontend:** React, Vite
-- **Styling:** Tailwind CSS
-- **State Management:** React Context API, Redux (for selected subsystems)
-- **Internationalization (i18n):** `i18next` (available languages: PL, EN, DE)
-- **PWA:** `vite-plugin-pwa` (Workbox)
-- **Local Data:** IndexedDB (saving progress and UX survey telemetry logs)
-- **Testing:** 
-  - Unit: *Vitest* + *React Testing Library*
-  - End-to-End (E2E): *Cypress* (integrated with GitHub Actions CI/CD)
+**Gamification**
 
----
+- Virtual Garden — a growing ecosystem that reflects daily progress and streaks
+- Coins and a theme shop (Nature, Music, Art, Space, Ocean)
+- Cognitive-load tracking that gently suggests a break after a run of mistakes
+- A non-gamified "Learning Only" mode for users who prefer a plain interface
 
-## 📂 Directory Structure
+**PWA & offline**
+
+- Installable on desktop and mobile, works fully offline via a Service Worker
+- Custom install prompt and update banner
+- Unintrusive offline-status indicator
+
+### 🧩 Exercise Pillars
+
+- **📖 Literacy** — phonemes, syllables, graphemes/spelling rules, auditory discrimination, vocabulary, Scrabble-style word building, look-cover-write-check, sentence context, dictation, read-aloud, reading comprehension, rhythm
+- **👁️ Visual** — clock reading, visual tracking (b/d, p/q-style discrimination), mirror-image recognition, odd-one-out
+- **🧩 Cognitive** — categorization (drag-and-drop, tap-to-place), sequencing, memory span, logical reasoning, rhythm memory, melody memory
+
+An unconditional diagnostic pool is interleaved into each pillar for first-time assessment, independent of which exercise types a user has enabled in Settings.
+
+### 🔬 Research instrumentation
+
+For the accompanying thesis study, the app includes a NASA-TLX (cognitive load) and SUS (usability) survey, submitted via a Netlify serverless function to a Supabase (PostgreSQL) table with row-level security, service-role write access, and input validation on the backend.
+
+### 🏗️ Tech Stack
+
+- **Frontend:** React 19, Vite
+- **Styling:** Tailwind CSS 4
+- **State:** React Context (no Redux)
+- **i18n:** i18next — Polish, English, German
+- **PWA:** vite-plugin-pwa (Workbox)
+- **Local storage:** IndexedDB (progress, telemetry)
+- **Backend (survey):** Netlify Functions + Supabase
+- **Testing:** Vitest + React Testing Library (unit), Playwright + axe-core (E2E & accessibility)
+
+### 📂 Project Structure
 
 ```text
-src/
-├── assets/                 # Lottie animations, icons, graphics
-├── components/
-│   ├── common/             # Generic buttons, BionicText, TTSController
-│   ├── exercises/          # Main components for 11 exercise types
-│   ├── __tests__/          # Vitest unit tests
-│   ├── App.jsx             # Main router and layout management
-│   ├── VirtualGarden.jsx   # Virtual garden module (Gamification)
-│   └── SettingsModal.jsx   # Central accessibility personalization panel
-├── data/                   # Vocabulary databases for respective languages
-├── hooks/                  # Custom hooks (e.g., useSafeTimeouts, useExerciseVoice)
-├── i18n/                   # i18next translation configuration
-├── utils/                  # Helper functions (e.g., IndexedDB, spelling hints)
-└── ...
+clearspeak/
+├── netlify/functions/       # Serverless functions (survey submission → Supabase)
+├── src/
+│   ├── components/
+│   │   ├── common/          # Shared buttons, BionicText, TTSController, Dialog
+│   │   ├── exercises/       # One component per exercise type
+│   │   ├── App.jsx          # Layout, routing, and session orchestration
+│   │   ├── VirtualGarden.jsx
+│   │   └── SettingsModal.jsx
+│   ├── data/                # Per-language vocabulary/exercise databases
+│   ├── hooks/                # Custom hooks (voice, TTS, cognitive load, IndexedDB, ...)
+│   ├── i18n/                 # i18next configuration
+│   ├── locales/              # Translation JSON per language
+│   └── utils/
+└── tests-playwright/          # End-to-end and accessibility test suites
+```
+
+### 🚀 Getting Started
+
+**Requirements:** Node.js 18+
+
+```bash
+git clone <repository-url>
+cd clearspeak
+npm install
+npm run dev        # http://localhost:5173
+```
+
+For the survey/Supabase-backed function to resolve locally, run `npx netlify dev` instead of plain `npm run dev` (see `netlify.toml`).
+
+**Build & test**
+
+```bash
+npm run build       # production build
+npm run test:run    # unit tests (Vitest)
+npm run test:e2e     # end-to-end + accessibility tests (Playwright)
+npm run lint         # ESLint
+npm run typecheck    # TypeScript
 ```
 
 ---
 
-## 🚀 Running the Project Locally
+## 🇩🇪 Deutsch
 
-### Requirements
-- Node.js (version 18+)
-- npm / yarn
+EnClaro ist eine vollständig responsive, barrierefreie (WCAG 2.1 AA) Progressive Web App mit Lese-, Schreib-, visuellen und kognitiven Übungen für Erwachsene mit Legasthenie. Die App funktioniert offline, unterstützt Polnisch, Englisch und Deutsch und bietet neben einem spielerischen Modus auch einen schlichten "Nur Lernen"-Modus.
 
-### Installation
+### ✨ Hauptfunktionen
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd clearspeak
-   ```
+**Barrierefreiheit & Personalisierung**
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+- Legasthenie-freundliche Schriftart, einstellbarer Buchstaben-/Wortabstand und größerer Text
+- Bionic Reading (fett hervorgehobene Wortanfänge zur besseren visuellen Fixierung)
+- Hoher Kontrast, farbenblindsichere Paletten und ein entsättigter/beruhigter Farbmodus
+- "Motorik"-Modus — vergrößerte Tippflächen (mindestens 56×56px) für Menschen mit motorischen Einschränkungen
+- Zen-Modus / reduzierte Bewegung — deaktiviert Animationen, Blinken und nicht notwendige UI-Elemente
+- Lese-Lineal zur Zeilenverfolgung beim Lesen
+- Vollständige Tastaturnavigation (Strg+1–4) und Screenreader-Unterstützung (semantisches HTML, ARIA-Live-Regionen, Fokus-Fallen in Dialogen)
 
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-   The app will be available at: `http://localhost:5173`
+**Sprachassistent**
 
-### Building and Testing
-- **Production build (PWA):**
-  ```bash
-  npm run build
-  ```
-- **Running unit tests (Vitest):**
-  ```bash
-  npm run test
-  ```
-- **Running E2E tests (Cypress):**
-  ```bash
-  npx cypress open
-  ```
----
-## 📊 Analytics and UX Research
-The application is equipped with a non-intrusive logging module. Based on the **NASA-TLX** (cognitive load) and **SUS** surveys, data is securely stored in the browser’s storage (IndexedDB) and can be exported to a CSV file from the profile page to support scientific research.
+- Text-to-Speech liest Anweisungen, Antwortoptionen und Rückmeldungen vor, mit einstellbarer Stimme/Geschwindigkeit/Tonhöhe
+- Spracherkennung ermöglicht freihändiges Antworten, Überspringen oder Prüfen von Übungen
+- Pausiert automatisch und wechselt die Sprache, sobald die Oberflächensprache während der Sitzung geändert wird
+
+**Gamification**
+
+- Virtueller Garten — ein wachsendes Ökosystem, das täglichen Fortschritt und Serien widerspiegelt
+- Münzen und ein Themen-Shop (Natur, Musik, Kunst, Weltraum, Ozean)
+- Erfassung der kognitiven Belastung, die nach einer Reihe von Fehlern sanft eine Pause vorschlägt
+- Ein nicht-spielerischer "Nur Lernen"-Modus für Nutzer, die eine schlichte Oberfläche bevorzugen
+
+**PWA & Offline**
+
+- Installierbar auf Desktop und Mobilgeräten, funktioniert dank Service Worker vollständig offline
+- Eigene Installationsaufforderung und Update-Banner
+- Dezenter Offline-Status-Hinweis
+
+### 🧩 Übungsbereiche
+
+- **📖 Literacy (Lesen & Schreiben)** — Phoneme, Silben, Grapheme/Rechtschreibregeln, auditive Unterscheidung, Wortschatz, Scrabble-artiges Wörterbilden, Look-Cover-Write-Check, Satzkontext, Diktat, Lautlesen, Leseverständnis, Rhythmus
+- **👁️ Visuell** — Uhrzeit lesen, visuelle Verfolgung (b/d-, p/q-Unterscheidung), Spiegelbild-Erkennung, "Was passt nicht"
+- **🧩 Logik & Gedächtnis** — Kategorisierung (Drag-and-drop bzw. Tippen-zum-Platzieren), Sequenzierung, Merkspanne, logisches Schlussfolgern, Rhythmus-Gedächtnis, Melodie-Gedächtnis
+
+In jeden Bereich ist zusätzlich ein unbedingt aktiver Diagnosepool für die Ersteinschätzung eingebunden — unabhängig davon, welche Übungstypen in den Einstellungen aktiviert sind.
+
+### 🔬 Forschungsinstrumentierung
+
+Für die begleitende Masterarbeit enthält die App eine NASA-TLX-Umfrage (kognitive Belastung) sowie eine SUS-Umfrage (Usability). Die Einsendung erfolgt über eine Netlify-Serverless-Funktion in eine Supabase-Tabelle (PostgreSQL) mit Row-Level-Security, Schreibzugriff nur über den Service-Role-Key und serverseitiger Eingabevalidierung.
+
+### 🏗️ Technologie-Stack
+
+- **Frontend:** React 19, Vite
+- **Styling:** Tailwind CSS 4
+- **State:** React Context (kein Redux)
+- **i18n:** i18next — Polnisch, Englisch, Deutsch
+- **PWA:** vite-plugin-pwa (Workbox)
+- **Lokaler Speicher:** IndexedDB (Fortschritt, Telemetrie)
+- **Backend (Umfrage):** Netlify Functions + Supabase
+- **Tests:** Vitest + React Testing Library (Unit), Playwright + axe-core (E2E & Barrierefreiheit)
+
+### 📂 Projektstruktur
+
+```text
+clearspeak/
+├── netlify/functions/       # Serverless-Funktionen (Umfrageeinsendung → Supabase)
+├── src/
+│   ├── components/
+│   │   ├── common/          # Gemeinsame Buttons, BionicText, TTSController, Dialog
+│   │   ├── exercises/       # Eine Komponente pro Übungstyp
+│   │   ├── App.jsx          # Layout, Routing und Sitzungssteuerung
+│   │   ├── VirtualGarden.jsx
+│   │   └── SettingsModal.jsx
+│   ├── data/                # Wortschatz-/Übungsdatenbanken je Sprache
+│   ├── hooks/                # Eigene Hooks (Sprache, TTS, kognitive Last, IndexedDB, ...)
+│   ├── i18n/                 # i18next-Konfiguration
+│   ├── locales/              # Übersetzungs-JSON je Sprache
+│   └── utils/
+└── tests-playwright/          # End-to-End- und Barrierefreiheitstests
+```
+
+### 🚀 Lokale Ausführung
+
+**Voraussetzungen:** Node.js 18+
+
+```bash
+git clone <repository-url>
+cd clearspeak
+npm install
+npm run dev        # http://localhost:5173
+```
+
+Damit die umfrage-/Supabase-gestützte Funktion lokal erreichbar ist, `npx netlify dev` statt des einfachen `npm run dev` ausführen (siehe `netlify.toml`).
+
+**Build & Tests**
+
+```bash
+npm run build       # Produktions-Build
+npm run test:run    # Unit-Tests (Vitest)
+npm run test:e2e     # End-to-End- und Barrierefreiheitstests (Playwright)
+npm run lint         # ESLint
+npm run typecheck    # TypeScript
+```
