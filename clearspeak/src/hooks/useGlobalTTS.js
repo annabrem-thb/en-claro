@@ -225,11 +225,23 @@ export function useGlobalTTS(language, extendedTime = false) {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, []);
   const speak = useCallback(
-    (text, slow = false) => {
+    // `onEnd` is optional and additive — every existing call site that only
+    // passes (text) or (text, slow) is unaffected. It exists so a caller
+    // that needs to speak several things in strict sequence (e.g. a
+    // question followed by N options) can chain off the utterance's *real*
+    // completion instead of guessing a duration from character count, which
+    // silently drifts out of sync with actual speech (different voices,
+    // rates, and the extendedTime slowdown all change real duration in ways
+    // a fixed ms-per-char formula can't track) and cancels the next item's
+    // narration mid-sentence once the schedule runs ahead of the audio.
+    (text, slow = false, onEnd) => {
       window.speechSynthesis?.cancel();
       const textToSpeak = getTTSException(text, language);
       const finalSpeed = slow || extendedTime ? voiceSpeed * 0.65 : voiceSpeed;
-      if (!window.speechSynthesis) return;
+      if (!window.speechSynthesis) {
+        onEnd?.();
+        return;
+      }
       const msg = new SpeechSynthesisUtterance(textToSpeak);
       msg.lang = { de: 'de-DE', pl: 'pl-PL', en: 'en-US' }[language] || 'de-DE';
       msg.rate = finalSpeed;
@@ -266,8 +278,14 @@ export function useGlobalTTS(language, extendedTime = false) {
           });
         }
       };
-      msg.onend = () => setActiveBoundary(null);
-      msg.onerror = () => setActiveBoundary(null);
+      msg.onend = () => {
+        setActiveBoundary(null);
+        onEnd?.();
+      };
+      msg.onerror = () => {
+        setActiveBoundary(null);
+        onEnd?.();
+      };
       window.speechSynthesis.speak(msg);
     },
     [
