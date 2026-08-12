@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
+import { safeJSONParse } from '../utils/safeJSONParse.js';
+
 export const TTS_EXCEPTIONS = {
   pl: {
     pie: 'pje',
@@ -149,7 +151,8 @@ export function useGlobalTTS(language, extendedTime = false) {
   const [voices, setVoices] = useState([]);
   const [selectedVoiceURIs, setSelectedVoiceURIs] = useState(() => {
     const sv = localStorage.getItem('cfg_voice_uris');
-    if (sv) return JSON.parse(sv);
+    const parsed = safeJSONParse(sv, null);
+    if (parsed) return parsed;
     const oldSv = localStorage.getItem('cfg_voice_uri');
     return {
       pl: oldSv || 'default',

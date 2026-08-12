@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { initDB, saveLog } from '../utils/indexedDB.js';
+import { safeJSONParse } from '../utils/safeJSONParse.js';
 
 export function useIndexedDB(
   storeName,
@@ -9,8 +10,7 @@ export function useIndexedDB(
 ) {
   const [data, setData] = useState(() => {
     if (legacyStorageKey) {
-      const saved = localStorage.getItem(legacyStorageKey);
-      return saved ? JSON.parse(saved) : {};
+      return safeJSONParse(localStorage.getItem(legacyStorageKey), {});
     }
     return {};
   });
@@ -35,8 +35,8 @@ export function useIndexedDB(
             const merged = { ...prev, ...dict };
             if (legacyStorageKey) {
               const legacyDataStr = localStorage.getItem(legacyStorageKey);
-              if (legacyDataStr) {
-                const legacyData = JSON.parse(legacyDataStr);
+              const legacyData = safeJSONParse(legacyDataStr, null);
+              if (legacyData) {
                 Object.keys(legacyData).forEach((key) => {
                   if (!dict[key]) {
                     saveLog(storeName, {
