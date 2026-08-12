@@ -5,6 +5,7 @@ import Lottie from 'lottie-react';
 import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 import { getAllLogs } from '../utils/indexedDB.js';
+import { safeJSONParse } from '../utils/safeJSONParse.js';
 
 import { WeeklyCalendar } from './WeeklyCalendar.jsx';
 import BionicText from './common/BionicText.jsx';
@@ -256,14 +257,10 @@ function VirtualGarden({
   const [difficultyNote, setDifficultyNote] = useState(null);
 
   const submitWorkloadCheckIn = (demand, focus) => {
-    let history = [];
-    try {
-      history = JSON.parse(
-        localStorage.getItem('cfg_workload_history') || '[]',
-      );
-    } catch {
-      history = [];
-    }
+    const history = safeJSONParse(
+      localStorage.getItem('cfg_workload_history'),
+      [],
+    );
     history.push({ date: todayKey, demand, focus });
     localStorage.setItem(
       'cfg_workload_history',
