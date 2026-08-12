@@ -200,7 +200,7 @@ export const SurveyComponent: React.FC = () => {
       onSubmit={handleSubmit}
       className="mx-auto flex w-full max-w-5xl flex-col gap-8 rounded-3xl border border-slate-100 bg-white p-6 shadow-lg md:p-8"
     >
-      <header className="text-center">
+      <header className="px-10 text-center sm:px-12">
         <h1
           id="survey-title"
           className="text-3xl font-black tracking-tight text-slate-800"
@@ -212,8 +212,13 @@ export const SurveyComponent: React.FC = () => {
         </p>
       </header>
 
-      {}
-      <fieldset className="flex flex-col gap-5">
+      {/* min-w-0: <fieldset> has a browser-default min-width of min-content,
+          which silences flex/grid shrinking for every descendant (grid
+          cells, wrapped labels, the legend text) regardless of their own
+          classes — the actual source of several stubborn few-pixel overflows
+          that individually-targeted min-w-0/flex-wrap fixes downstream
+          couldn't resolve, since the constraint was coming from here. */}
+      <fieldset className="flex min-w-0 flex-col gap-5">
         <legend className="mb-4 w-full border-b pb-2 text-lg font-black tracking-widest text-slate-400 uppercase">
           {t('feedback.nasaTitle')}
         </legend>
@@ -262,7 +267,7 @@ export const SurveyComponent: React.FC = () => {
       </fieldset>
 
       {}
-      <fieldset className="flex flex-col gap-4">
+      <fieldset className="flex min-w-0 flex-col gap-4">
         <legend className="mb-4 w-full border-b pb-2 text-lg font-black tracking-widest text-slate-400 uppercase">
           {t('survey.susTitle')}
         </legend>
@@ -279,14 +284,25 @@ export const SurveyComponent: React.FC = () => {
                 {t(scale.label)}
               </label>
 
-              <div className="mt-2 flex items-center justify-between gap-2">
-                <span className="max-w-[80px] text-center text-[10px] leading-tight font-bold text-slate-400 sm:text-xs">
-                  {t('survey.susAnchors.stronglyDisagree', 'Strongly Disagree')}
-                </span>
-
-                {}
+              {}
+              {/* Radio row and its two anchor labels are stacked rather than
+                  forced onto one line: every size here (the 24-28px radio
+                  circles, their gaps) is Tailwind's rem-based spacing scale,
+                  which tracks the app's dynamic root font-size
+                  (--dyn-font-size) the same as body text does — a user with a
+                  much larger OS/browser text size ends up with
+                  proportionally much larger circles too. A single-line
+                  layout had nowhere left to give and silently clipped the
+                  "Strongly Agree" label and the last rating options past the
+                  card's edge once it no longer fit. Stacking the circles
+                  above the labels (with the circles free to wrap onto a
+                  second line, and each label capped to under half the card's
+                  width) keeps every option reachable at any text size
+                  (WCAG 1.4.10 Reflow) instead of relying on one line having
+                  enough room. */}
+              <div className="mt-2 flex flex-col items-center gap-3">
                 <div
-                  className="flex flex-1 items-center justify-center gap-2 md:gap-4"
+                  className="flex flex-wrap items-center justify-center gap-3 md:gap-4"
                   role="radiogroup"
                   aria-labelledby={`label-${scale.id}`}
                 >
@@ -312,9 +328,17 @@ export const SurveyComponent: React.FC = () => {
                   ))}
                 </div>
 
-                <span className="max-w-[80px] text-center text-[10px] leading-tight font-bold text-slate-400 sm:text-xs">
-                  {t('survey.susAnchors.stronglyAgree', 'Strongly Agree')}
-                </span>
+                <div className="flex w-full items-start justify-between gap-2">
+                  <span className="min-w-0 flex-1 text-center text-[10px] leading-tight font-bold text-slate-400 sm:text-xs">
+                    {t(
+                      'survey.susAnchors.stronglyDisagree',
+                      'Strongly Disagree',
+                    )}
+                  </span>
+                  <span className="min-w-0 flex-1 text-center text-[10px] leading-tight font-bold text-slate-400 sm:text-xs">
+                    {t('survey.susAnchors.stronglyAgree', 'Strongly Agree')}
+                  </span>
+                </div>
               </div>
             </div>
           ))}
