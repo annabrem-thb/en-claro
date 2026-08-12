@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { getDefaultActiveExercises } from '../data/exerciseTypes.js';
+import { safeJSONParse } from '../utils/safeJSONParse.js';
 
 const DEFAULT_SETTINGS = {
   lrs: false,
@@ -57,7 +58,7 @@ export function useUserSettings() {
   const [settings, setSettings] = useState(() => {
     const saved = localStorage.getItem(SETTINGS_STORAGE_KEY);
     return saved
-      ? { ...getDefaultSettings(), ...JSON.parse(saved) }
+      ? { ...getDefaultSettings(), ...safeJSONParse(saved, {}) }
       : getDefaultSettings();
   });
   const [deferredPrompt, setDeferredPrompt] = useState(null);

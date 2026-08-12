@@ -1,5 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 
+import { safeJSONParse } from '../utils/safeJSONParse.js';
+
 const makeDailyQuests = () => [
   {
     id: 1,
@@ -31,21 +33,20 @@ export function useGamificationState() {
     () => Number(localStorage.getItem('cfg_coins')) || 0,
   );
   const [rewards, setRewards] = useState(() =>
-    JSON.parse(localStorage.getItem('rew') || '[]'),
+    safeJSONParse(localStorage.getItem('rew'), []),
   );
   const [dailyQuests, setDailyQuests] = useState(() => {
     const saved = localStorage.getItem('cfg_quests');
     const today = new Date().toDateString();
-    const data = saved ? JSON.parse(saved) : null;
+    const data = safeJSONParse(saved, null);
     return data && data.date === today
       ? data
       : { date: today, tasks: makeDailyQuests() };
   });
 
-  const [isGamified, setIsGamified] = useState(() => {
-    const stored = localStorage.getItem('cfg_gamified');
-    return stored === null ? false : JSON.parse(stored);
-  });
+  const [isGamified, setIsGamified] = useState(() =>
+    safeJSONParse(localStorage.getItem('cfg_gamified'), false),
+  );
   const [selectedRewardId, setSelectedRewardId] = useState(null);
   const [competencePoints, setCompetencePoints] = useState(0);
   const [unlockedRewards, setUnlockedRewards] = useState([]);
