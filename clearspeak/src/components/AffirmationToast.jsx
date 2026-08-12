@@ -5,7 +5,7 @@ function AffirmationToastComponent({ message, isHighContrast, noFlash }) {
 
   return (
     <div
-      className="pointer-events-none fixed bottom-6 left-1/2 z-[100] w-full max-w-sm -translate-x-1/2 px-4"
+      className="pointer-events-none fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] left-1/2 z-[100] w-full max-w-sm -translate-x-1/2 px-4"
       role="status"
       aria-live="polite"
     >
