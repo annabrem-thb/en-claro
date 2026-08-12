@@ -251,7 +251,7 @@ function SequenceExercise({
     >
       {!zenMode && (
         <h3
-          className={`mx-auto mb-2 max-w-[65ch] shrink-0 text-center text-[10px] font-black tracking-widest break-words uppercase sm:mb-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+          className={`mx-auto mb-2 max-w-[65ch] shrink-0 text-center text-[10px] font-black tracking-widest wrap-break-word uppercase sm:mb-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
         >
           <BionicText
             text={data.instruction || t('orderCorrectly')}

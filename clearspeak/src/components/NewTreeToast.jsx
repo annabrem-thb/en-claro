@@ -10,7 +10,7 @@ function NewTreeToastComponent({ show, noFlash, isHighContrast, t }) {
 
   return (
     <div
-      className="pointer-events-none fixed top-16 left-1/2 z-[110] w-full max-w-sm -translate-x-1/2 px-4 sm:top-20"
+      className="pointer-events-none fixed top-16 left-1/2 z-110 w-full max-w-sm -translate-x-1/2 px-4 sm:top-20"
       role="status"
       aria-live="polite"
       aria-atomic="true"
@@ -29,7 +29,7 @@ function NewTreeToastComponent({ show, noFlash, isHighContrast, t }) {
             {t('realWorldImpact.newTreeTitle') || 'New Tree! 🎉'}
           </h4>
           <p
-            className={`text-[10px] leading-tight font-medium break-words hyphens-auto sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-emerald-50'}`}
+            className={`text-[10px] leading-tight font-medium wrap-break-word hyphens-auto sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-emerald-50'}`}
           >
             {t('realWorldImpact.newTreeMsg') ||
               'Amazing! Your consistent learning helped us virtually plant another tree.'}

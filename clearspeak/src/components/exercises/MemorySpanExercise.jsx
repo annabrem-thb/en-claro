@@ -306,7 +306,7 @@ function MemorySpanExercise({
 
           {}
           <div
-            className={`mb-2 flex min-h-0 min-h-[3rem] w-full shrink flex-wrap justify-center gap-2 overflow-y-auto rounded-3xl border-2 border-dashed p-3 sm:mb-4 sm:min-h-16 sm:p-4 ${isHighContrast ? 'border-white/40 bg-black' : 'border-slate-200 bg-slate-50'}`}
+            className={`mb-2 flex min-h-0 min-h-12 w-full shrink flex-wrap justify-center gap-2 overflow-y-auto rounded-3xl border-2 border-dashed p-3 sm:mb-4 sm:min-h-16 sm:p-4 ${isHighContrast ? 'border-white/40 bg-black' : 'border-slate-200 bg-slate-50'}`}
           >
             {selectedItems.map((item, index) => (
               <div

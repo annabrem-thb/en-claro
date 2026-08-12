@@ -39,7 +39,7 @@ const A11yBtn = ({
     <span aria-hidden="true" className="mb-0.5 text-lg sm:text-xl">
       {icon}
     </span>
-    <span className="w-full px-1 text-center break-words hyphens-auto">
+    <span className="w-full px-1 text-center wrap-break-word hyphens-auto">
       <BionicText text={label} enabled={hasBionic} />
     </span>
   </button>

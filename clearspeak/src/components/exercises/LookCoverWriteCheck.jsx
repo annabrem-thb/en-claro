@@ -189,8 +189,8 @@ function LookCoverWriteCheck({
               isHighContrast
                 ? 'border-white/50 bg-black'
                 : isCorrect
-                  ? 'border-[var(--color-success)]/40 bg-[var(--color-success)]/10 shadow-sm'
-                  : 'border-[var(--color-error)]/40 bg-[var(--color-error)]/10 shadow-sm'
+                  ? 'border-(--color-success)/40 bg-(--color-success)/10 shadow-sm'
+                  : 'border-(--color-error)/40 bg-(--color-error)/10 shadow-sm'
             }`}
           >
             {/* Correctness is never color-only: the checkmark/cross carries
@@ -202,7 +202,7 @@ function LookCoverWriteCheck({
               <span aria-hidden="true">{isCorrect ? '✅' : '❌'}</span>
             </span>
             <span
-              className={`text-xl font-bold tracking-widest break-all sm:text-2xl ${isHighContrast ? 'text-white' : isCorrect ? 'text-[var(--color-success)]' : 'text-[var(--color-error)]'}`}
+              className={`text-xl font-bold tracking-widest break-all sm:text-2xl ${isHighContrast ? 'text-white' : isCorrect ? 'text-(--color-success)' : 'text-(--color-error)'}`}
             >
               {userInput}
             </span>
