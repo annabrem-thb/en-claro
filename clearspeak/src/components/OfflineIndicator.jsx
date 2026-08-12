@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -6,7 +6,7 @@ import { useUserSettingsContext } from './UserSettingsContext';
 
 export default function OfflineIndicator() {
   const { settings } = useUserSettingsContext();
-  const { language, contrast: isHighContrast } = settings;
+  const { contrast: isHighContrast } = settings;
   const { t } = useTranslation();
 
   const [isOffline, setIsOffline] = useState(
