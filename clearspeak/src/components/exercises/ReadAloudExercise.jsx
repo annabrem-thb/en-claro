@@ -104,8 +104,21 @@ function ReadAloudExercise({
           noFlash={noFlash}
           bigTargets={bigTargets}
           controlBtnSize={controlBtnSize}
+          idleLabel={t('speakTextAloud')}
+          unsupportedHint={t('micUnsupportedReadAloud')}
         />
       </div>
+
+      {/* Before this, the only clue that the mic here expects the displayed
+          text read verbatim — not an option number, unlike every other
+          exercise's mic — was the button's aria-label, invisible to sighted
+          users. It also defaulted to the generic "speak option number"
+          wording, which was simply wrong for this exercise. */}
+      {!transcript && (
+        <p className="mb-2 shrink-0 text-center text-[10px] font-medium text-slate-400">
+          {t('speakTextAloud')}
+        </p>
+      )}
 
       {transcript && (
         <div className="flex w-full max-w-sm shrink-0 flex-col items-center gap-3 sm:gap-4">
