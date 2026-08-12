@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   useEffect,
   useCallback,
@@ -123,7 +123,6 @@ const THEMES = {
 function AppContent() {
   const {
     isGamified,
-    setIsGamified,
     points,
     setPoints,
     coins,
@@ -131,7 +130,6 @@ function AppContent() {
     rewards,
     setRewards,
     dailyQuests,
-    setDailyQuests,
     updateQuests,
   } = useGamification();
 
@@ -164,15 +162,7 @@ function AppContent() {
     }
   }, [language]);
 
-  const {
-    speak,
-    selectedVoiceURIs,
-    setSelectedVoiceURIs,
-    voiceSpeed,
-    setVoiceSpeed,
-    voicePitch,
-    setVoicePitch,
-  } = useGlobalTTS(language, settings.extendedTime);
+  const { speak } = useGlobalTTS(language, settings.extendedTime);
 
   const [activeTab, setActiveTab] = useState(
     initialRoute.activeTab || 'Literacy',
@@ -180,18 +170,12 @@ function AppContent() {
   const [lastPillar, setLastPillar] = useState('Literacy');
   const [settingsOpen, setSettingsOpen] = useState(initialRoute.settingsOpen);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [earnedCoinsAnim, setEarnedCoinsAnim] = useState(null);
+  const [, setEarnedCoinsAnim] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [pendingFeedback, setPendingFeedback] = useState(false);
 
-  const {
-    loadLevel,
-    showBreakModal,
-    setShowBreakModal,
-    setSessionStartTime,
-    setErrorTimestamps,
-    setLoadLevel,
-  } = useCognitiveLoad(activeTab, settings.zenMode);
+  const { loadLevel, showBreakModal, setShowBreakModal, setErrorTimestamps } =
+    useCognitiveLoad(activeTab, settings.zenMode);
 
   const {
     needRefresh: [needRefresh, setNeedRefresh],
@@ -206,14 +190,12 @@ function AppContent() {
     'cfg_daily_progress',
   );
 
-  const { affirmation, setAffirmation } = useAffirmativeNotifications(
-    points,
-    language,
-  );
+  const { affirmation } = useAffirmativeNotifications(points, language);
 
   const prevPointsRef = useRef(points);
   const [newTreeNotification, setNewTreeNotification] = useState(false);
   const [isAppReady, setIsAppReady] = useState(false);
+  const [prevIsGamified, setPrevIsGamified] = useState(isGamified);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsAppReady(true), APP_READY_DELAY_MS);
@@ -236,11 +218,17 @@ function AppContent() {
     prevPointsRef.current = points;
   }, [points, isAppReady, vibrate]);
 
-  useEffect(() => {
+  // Adjusted during render (React's recommended pattern for reacting to a
+  // state change with more state — see "You Might Not Need an Effect") so
+  // this doesn't cost an extra commit+effect cycle. isGamified only flips
+  // via the explicit toggle in SettingsModal, so mirroring it here and
+  // comparing is how we detect "it just changed" without an effect.
+  if (isGamified !== prevIsGamified) {
+    setPrevIsGamified(isGamified);
     if (!isGamified && activeTab === 'Garden') {
       setActiveTab('Literacy');
     }
-  }, [isGamified, activeTab]);
+  }
 
   const { t } = useTranslation();
 
