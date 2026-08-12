@@ -3,6 +3,27 @@ import { useState, useEffect, useCallback } from 'react';
 import { getDefaultActiveExercises } from '../data/exerciseTypes.js';
 import { safeJSONParse } from '../utils/safeJSONParse.js';
 
+const SUPPORTED_LANGUAGES = ['pl', 'en', 'de'];
+
+// First-run only: picks the closest supported language from the browser's
+// own reported language(s) instead of always starting in Polish, so a
+// visitor never has to find Settings just to read the app in a language
+// they understand. Falls back to 'en' (matching i18next's own fallbackLng)
+// when the browser reports something this app doesn't have a translation
+// for. Once a user has an explicit saved choice (LanguageSwitcher), that
+// always wins on later loads — this only seeds the very first run.
+function getDefaultLanguage() {
+  if (typeof navigator === 'undefined') return 'en';
+  const candidates = navigator.languages?.length
+    ? navigator.languages
+    : [navigator.language].filter(Boolean);
+  for (const candidate of candidates) {
+    const primary = candidate.split('-')[0].toLowerCase();
+    if (SUPPORTED_LANGUAGES.includes(primary)) return primary;
+  }
+  return 'en';
+}
+
 const DEFAULT_SETTINGS = {
   lrs: false,
   contrast: false,
@@ -14,21 +35,17 @@ const DEFAULT_SETTINGS = {
   desaturation: false,
   minimalist: false,
   ruler: false,
-  adaptiveDifficulty: true,
+  adaptiveDifficulty: false,
   bigTargets: false,
   noFlash: false,
   audioRewards: false,
   extendedTime: false,
   zenMode: false,
-  bionicReading: true,
+  bionicReading: false,
   muteNotifications: false,
   voiceAssistant: false,
-  // Default on: with no cap on the point/streak system, this is the only
-  // safety net against overlong sessions for users who never visit
-  // Settings. Kept easily reachable as an opt-out toggle (A11yTab).
-  cognitiveBreaks: true,
+  cognitiveBreaks: false,
   textScale: 100,
-  language: 'pl',
   theme: 'Natur',
   dailyGoal: 5,
   userDifficulty: 2,
@@ -49,9 +66,11 @@ function getDefaultSettings() {
     typeof window !== 'undefined' &&
     typeof window.matchMedia === 'function' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  return prefersReducedMotion
-    ? { ...DEFAULT_SETTINGS, motion: true }
-    : DEFAULT_SETTINGS;
+  return {
+    ...DEFAULT_SETTINGS,
+    language: getDefaultLanguage(),
+    motion: prefersReducedMotion,
+  };
 }
 
 export function useUserSettings() {
