@@ -65,6 +65,25 @@ export default function VoiceAnswerButton({
           {t('micPermissionDenied') ||
             "Microphone access was denied. Check your browser's site settings to allow it."}
         </p>
+      ) : error === 'no-speech' ? (
+        <p
+          role="status"
+          className="max-w-[28ch] text-center text-xs font-medium text-slate-500"
+        >
+          {t('micNoSpeech') || "Didn't catch that — try again."}
+        </p>
+      ) : error ? (
+        // Every other code (audio-capture, network, aborted, start-failed,
+        // unknown, ...) used to fall through with no message at all: the
+        // button just quietly went back to idle, which reads as "the
+        // microphone doesn't work" with no clue why or what to do about it.
+        <p
+          role="status"
+          className="max-w-[28ch] text-center text-xs font-medium text-red-800"
+        >
+          {t('micGenericError') ||
+            'Something went wrong with the microphone — try again.'}
+        </p>
       ) : null}
     </div>
   );

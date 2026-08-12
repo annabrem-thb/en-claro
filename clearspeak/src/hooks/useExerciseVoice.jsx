@@ -171,7 +171,24 @@ export function useExerciseVoice(language, t) {
           onLetterMatch(result);
         }
       };
-      recognition.start();
+      try {
+        recognition.start();
+      } catch {
+        // .start() throws synchronously (rather than firing onerror) when
+        // the browser considers the recognition already active — e.g. a
+        // same-tab double-tap that outraces the abortListening() call above,
+        // or another SpeechRecognition instance elsewhere on the page still
+        // holding the mic. Without this catch, onstart never fires, so
+        // isListening stays false forever and every symptom the user sees
+        // is "I press the mic and nothing happens" with no way to recover
+        // short of reloading — recognitionRef.current stayed pointed at
+        // this dead instance, so the *next* tap's abortListening() would
+        // call .abort() on an object that never started instead of setting
+        // up a fresh one.
+        recognitionRef.current = null;
+        setIsListening(false);
+        setError('start-failed');
+      }
     },
     [language, t, stopSpeaking, abortListening],
   );
