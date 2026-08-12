@@ -1,6 +1,6 @@
 {
-  "title": "UX Umfrage",
-  "desc": "Bitte teilen Sie uns Ihre Erfahrungen mit.",
+  "title": "Ein Moment zum Nachdenken",
+  "desc": "Wie bewerten Sie die heutige Sitzung? Ihr Feedback hilft uns, die App an Sie anzupassen.",
   "nasaTitle": "Arbeitsbelastung (NASA-TLX)",
   "low": "Niedrig",
   "high": "Hoch",
@@ -37,7 +37,8 @@
     "usual": "Gewöhnlich",
     "leadingEdge": "Führend"
   },
-  "submit": "Feedback Senden",
+  "rateAria": "{{value}} von 5 bewerten",
+  "submit": "Feedback senden",
   "skip": "Diesmal überspringen",
   "thankYou": "Vielen Dank für Ihr Feedback!"
 }
