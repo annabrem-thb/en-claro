@@ -92,6 +92,14 @@ function GraphemeExercise({
     }
   };
 
+  // Chained off each utterance's actual onend/onerror (via speak()'s
+  // optional third argument) rather than a guessed
+  // characters-times-ms-per-char duration — that estimate silently drifted
+  // out of sync with real speech (voice, rate, and especially the
+  // extendedTime slowdown all change actual duration) and, once behind,
+  // cancelled an option's narration mid-sentence the moment the next one's
+  // guessed delay elapsed. With more than a couple of options that
+  // compounded into some options never being heard at all.
   const readQuestionAndOptions = () => {
     clearAudioTimeouts();
 
@@ -99,36 +107,28 @@ function GraphemeExercise({
       questionText.replace(/_+/g, ''),
       language,
     );
-    speak(sanitizedQuestion, extendedTime);
-
-    const charCount = (sanitizedQuestion || '').length;
-    let delayAcc = charCount * (extendedTime ? 90 : 65) + 1500;
-
     const allOptionTexts = shuffledOptions.map((o) => o.text);
-    shuffledOptions.forEach((opt, index) => {
+
+    const readOption = (index) => {
+      if (index >= shuffledOptions.length) return;
+      const opt = shuffledOptions[index];
       const hint = getSmartSpellingHint(opt.text, allOptionTexts, language, t);
       const prefix = t('optionPrefix', { number: index + 1 });
-
       const spokenPrefix = prefix.replace(':', '.');
       const spokenHint = formatTimeForTTS(hint, language);
       const fullSpokenText = `${spokenPrefix} ${spokenHint}`;
 
-      const stepDuration =
-        fullSpokenText.length * (extendedTime ? 100 : 75) + 1500;
-
-      setSafeTimeout(() => {
-        setActiveHighlight(index);
-        speak(fullSpokenText);
-      }, delayAcc);
-
-      setSafeTimeout(
-        () => {
+      setActiveHighlight(index);
+      speak(fullSpokenText, extendedTime, () => {
+        setSafeTimeout(() => {
           setActiveHighlight((prev) => (prev === index ? null : prev));
-        },
-        delayAcc + stepDuration - 200,
-      );
+          readOption(index + 1);
+        }, 300);
+      });
+    };
 
-      delayAcc += stepDuration;
+    speak(sanitizedQuestion, extendedTime, () => {
+      setSafeTimeout(() => readOption(0), 500);
     });
   };
 
