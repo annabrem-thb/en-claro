@@ -494,7 +494,7 @@ function VirtualGarden({
       {isFullScreen && (
         <div className="animate-in fade-in mt-4 flex flex-col items-center gap-1 px-2 delay-500 duration-1000 sm:mt-8 sm:gap-2">
           <p
-            className={`max-w-xs px-2 text-center text-xs leading-relaxed font-medium break-words sm:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+            className={`max-w-xs px-2 text-center text-xs leading-relaxed font-medium wrap-break-word sm:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
           >
             <BionicText
               text={
@@ -537,7 +537,7 @@ function VirtualGarden({
               className={`mt-4 w-full max-w-[280px] rounded-2xl border-2 p-3 transition-all sm:mt-6 sm:max-w-xs sm:rounded-3xl sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 delay-700 duration-700'} ${isHighContrast ? 'border-white/30 bg-black text-white' : `${themeStyles?.border || 'border-slate-100'} bg-[#FCFBF9] text-slate-700 shadow-sm`}`}
             >
               <h3
-                className={`mb-3 text-center text-[10px] font-black tracking-widest break-words uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
+                className={`mb-3 text-center text-[10px] font-black tracking-widest wrap-break-word uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
               >
                 <BionicText
                   text={t('gardenCollectionTitle')}
@@ -565,12 +565,12 @@ function VirtualGarden({
             open={!!(todayStats && todayStats.total > 0 && !checkInDone)}
             onClose={skipWorkloadCheckIn}
             labelledBy="workload-checkin-title"
-            overlayClassName="z-[60] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm"
+            overlayClassName="z-60 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm"
             className={`no-scrollbar max-h-[90dvh] w-full max-w-xs overflow-y-auto rounded-3xl p-4 shadow-2xl outline-none sm:p-5 ${noFlash ? '' : 'animate-in zoom-in duration-300'} ${isHighContrast ? 'border-2 border-white bg-black text-white' : 'bg-[#FCFBF9] text-slate-700'}`}
           >
             <h3
               id="workload-checkin-title"
-              className="mb-3 text-center text-[10px] font-black tracking-widest break-words text-slate-600 uppercase sm:mb-4 sm:text-xs"
+              className="mb-3 text-center text-[10px] font-black tracking-widest wrap-break-word text-slate-600 uppercase sm:mb-4 sm:text-xs"
             >
               <BionicText
                 text={t('workloadCheckInTitle')}
@@ -725,7 +725,7 @@ function VirtualGarden({
             <div
               className={`mt-4 w-full max-w-[280px] rounded-2xl border-2 p-3 transition-all sm:mt-6 sm:max-w-xs sm:rounded-3xl sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 delay-700 duration-700'} ${isHighContrast ? 'border-white/30 bg-black text-white' : `${themeStyles?.border || 'border-slate-100'} bg-[#FCFBF9] text-slate-700 shadow-sm`}`}
             >
-              <h3 className="mb-3 text-center text-[10px] font-black tracking-widest break-words text-slate-600 uppercase sm:mb-4 sm:text-xs">
+              <h3 className="mb-3 text-center text-[10px] font-black tracking-widest wrap-break-word text-slate-600 uppercase sm:mb-4 sm:text-xs">
                 <BionicText text={t('dailySummary')} enabled={bionicReading} />
               </h3>
               <div className="flex flex-col gap-2 sm:gap-3">
