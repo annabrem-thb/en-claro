@@ -18,6 +18,11 @@ export default function VoiceAnswerButton({
   // that actually makes sense varies (e.g. Syllable's "speak gap number" —
   // there is no "option" here, just a position between letters).
   idleLabel,
+  // Overrides the "voice unsupported" message for exercises where the
+  // default's suggested fallback ("tap your answer above instead") isn't
+  // actually true — ReadAloudExercise has no tappable options, only the
+  // mic, so it needs to point at the universal Skip button instead.
+  unsupportedHint,
 }) {
   const size =
     controlBtnSize ||
@@ -31,8 +36,9 @@ export default function VoiceAnswerButton({
         role="status"
         className="max-w-[28ch] text-center text-xs font-medium text-slate-500"
       >
-        {t('micUnsupported') ||
-          "Voice input isn't supported in this browser — try Chrome or Edge."}
+        {unsupportedHint ||
+          t('micUnsupported') ||
+          "Voice input isn't supported in this browser. You can tap your answer above instead."}
       </p>
     );
   }

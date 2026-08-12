@@ -168,11 +168,20 @@ function GraphemeExercise({
         />
       </div>
 
-      {transcript && (
+      {/* Before this, the only clue that the mic expects a spoken *option
+          number* was the button's aria-label — invisible to sighted users,
+          who had no way to know what to say. */}
+      {transcript ? (
         <p
           className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-3 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
         >
           {t('heard')}: <span className="text-slate-600">{transcript}</span>
+        </p>
+      ) : (
+        <p
+          className={`mb-2 shrink-0 text-center text-[10px] font-medium sm:mb-3 sm:text-xs ${isHighContrast ? 'text-white/40' : 'text-slate-400'}`}
+        >
+          {t('speakOptionNumber')}
         </p>
       )}
 

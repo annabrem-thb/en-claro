@@ -286,7 +286,10 @@ function SequenceExercise({
         />
       </div>
 
-      {transcript && (
+      {/* Before this, the only clue that the mic expects a spoken *option
+          number* was the button's aria-label — invisible to sighted users,
+          who had no way to know what to say. */}
+      {transcript ? (
         <p
           className={`mb-1 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-2 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
         >
@@ -294,6 +297,12 @@ function SequenceExercise({
           <span className={isHighContrast ? 'text-white' : 'text-slate-600'}>
             {transcript}
           </span>
+        </p>
+      ) : (
+        <p
+          className={`mb-1 shrink-0 text-center text-[10px] font-medium sm:mb-2 sm:text-xs ${isHighContrast ? 'text-white/40' : 'text-slate-400'}`}
+        >
+          {t('speakOptionNumber')}
         </p>
       )}
 
