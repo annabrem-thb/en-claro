@@ -35,6 +35,8 @@
   "close": "Zamknij",
   "on": "WŁĄCZONA",
   "off": "WYŁĄCZONA",
+  "optionOn": "opcja włączona",
+  "optionOff": "opcja wyłączona",
   "active": "Aktywny",
   "select": "Wybierz",
   "equip": "Wybierz",

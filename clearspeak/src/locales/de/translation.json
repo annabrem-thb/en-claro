@@ -36,6 +36,8 @@
   "close": "Schließen",
   "on": "EIN",
   "off": "AUS",
+  "optionOn": "Option aktiviert",
+  "optionOff": "Option deaktiviert",
   "active": "Aktiv",
   "select": "Wählen",
   "equip": "Ausrüsten",

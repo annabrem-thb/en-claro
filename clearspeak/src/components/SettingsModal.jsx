@@ -265,7 +265,13 @@ const A11yTab = ({ speak }) => {
           .filter((key) => optionsByKey[key]?.name)
           .map(
             (key) =>
-              `${optionsByKey[key].name}: ${settings[key] ? t('on') : t('off')}`,
+              // "opcja włączona/wyłączona" rather than pairing the raw
+              // on/off word directly with each option's own name: many
+              // option names carry a different grammatical gender than
+              // "opcja" ("kontrast" is masculine, "opcja" is feminine), so
+              // the on/off adjective — inflected for feminine — only agrees
+              // grammatically once "opcja" is the explicit noun it modifies.
+              `${optionsByKey[key].name}, ${settings[key] ? t('optionOn') : t('optionOff')}`,
           ),
       ]),
     ].filter(Boolean);
@@ -324,7 +330,9 @@ const A11yTab = ({ speak }) => {
                     // queued text before the user finished hearing it.
                     if (voiceAssistant && speak) {
                       clearAllTimeouts();
-                      speak(`${opt.name}: ${next ? t('on') : t('off')}`);
+                      speak(
+                        `${opt.name}, ${next ? t('optionOn') : t('optionOff')}`,
+                      );
                     }
                   }}
                   bionic={bionicReading}
@@ -443,7 +451,7 @@ const ExercisesTab = ({ speak }) => {
           ...exerciseKeys.map((key) => {
             const label = t(`exerciseManager.types.${key}`, key);
             const isActive = activeExercises[key] !== false;
-            return `${label}: ${isActive ? t('on') : t('off')}`;
+            return `${label}, ${isActive ? t('optionOn') : t('optionOff')}`;
           }),
         ],
       ),

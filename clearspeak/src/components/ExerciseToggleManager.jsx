@@ -116,7 +116,7 @@ export default function ExerciseToggleManager({
     // "last active exercise in this pillar" guard above blocked it, since
     // the switch's on-screen/aria-checked state didn't actually change.
     if (applied && settings.voiceAssistant && speak) {
-      speak(`${label}: ${next ? t('on') : t('off')}`);
+      speak(`${label}, ${next ? t('optionOn') : t('optionOff')}`);
     }
   };
 
