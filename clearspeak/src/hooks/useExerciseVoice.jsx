@@ -153,12 +153,20 @@ export function useExerciseVoice(language, t) {
           }
         }
 
+        // Each entry covers the cardinal *and* ordinal form in every
+        // supported language — someone picking "option 3" naturally says
+        // an ordinal ("trzecia"/"dritte"), not the cardinal ("trzy"/
+        // "drei"), which the original pattern didn't recognize at all.
+        // Polish/German ordinals are matched by their gender-invariant
+        // stem (e.g. "czwart" covers both "czwarty" and "czwarta") rather
+        // than one full inflected form, since the masculine and feminine
+        // endings differ and neither is a substring of the other.
         const numbers = {
-          1: /1|jeden|one|first|eins/i,
-          2: /2|dwa|two|second|zwei/i,
-          3: /3|trzy|three|third|drei/i,
-          4: /4|cztery|four|fourth|vier/i,
-          5: /5|pięć|five|fifth|fünf/i,
+          1: /1|jeden|one|first|eins|pierwsz|erst/i,
+          2: /2|dwa|two|second|zwei|drug|zweit/i,
+          3: /3|trzy|three|third|drei|trzeci|dritt/i,
+          4: /4|cztery|four|fourth|vier|czwart|viert/i,
+          5: /5|pięć|five|fifth|fünf|piąt|fünft/i,
         };
         for (const [num, regex] of Object.entries(numbers)) {
           if (regex.test(result)) {
