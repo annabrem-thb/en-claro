@@ -21,6 +21,7 @@ const SidebarNav = memo(function SidebarNav({
   bigTargets,
   hideNavLabel,
   setSettingsOpen,
+  onOpenSurvey,
   t,
   coins,
   loadLevel,
@@ -305,11 +306,51 @@ const SidebarNav = memo(function SidebarNav({
           </Tooltip>
         )}
 
+        {}
+        {/* Lets a user open the feedback survey on their own terms rather
+            than only when it auto-appears every 10 points — placed directly
+            above Settings, the item it's most often reached for alongside. */}
+        <Tooltip
+          content={t('surveyAria')}
+          placement="top"
+          isHighContrast={isHighContrast}
+          wrapperClass={`flex-1 lg:flex-none flex ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 lg:mt-0' : 'lg:mt-auto'}`}
+        >
+          <button
+            onClick={() => {
+              if (!hideNavLabel) speak(t('surveyAria'), true);
+              onOpenSurvey();
+            }}
+            className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+            aria-label={t('surveyAria')}
+          >
+            <span
+              className={hideNavLabel ? 'text-2xl' : 'text-xl lg:text-xl'}
+              aria-hidden="true"
+            >
+              📝
+            </span>
+            {!hideNavLabel && (
+              <AccessibleTTS
+                text={t('surveyAria')}
+                speak={speak}
+                language={language}
+                className="flex min-w-0 lg:flex"
+                interactive={false}
+              >
+                <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
+                  <BionicText text={t('surveyAria')} enabled={bionicReading} />
+                </span>
+              </AccessibleTTS>
+            )}
+          </button>
+        </Tooltip>
+
         <Tooltip
           content={`${t('shortcut') || 'Shortcut'}: Ctrl + ,`}
           placement="top"
           isHighContrast={isHighContrast}
-          wrapperClass={`flex-1 lg:flex-none flex ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 lg:mt-0' : 'lg:mt-auto'}`}
+          wrapperClass="flex-1 lg:flex-none flex mt-2 lg:mt-0"
         >
           <button
             onClick={() => {
