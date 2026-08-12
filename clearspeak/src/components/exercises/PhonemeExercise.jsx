@@ -122,7 +122,7 @@ function PhonemeExercise({
       )}
 
       <div
-        className={`font-black ${wordSize} mb-2 flex min-h-0 w-full shrink flex-wrap justify-center gap-1 px-2 text-center leading-tight tracking-widest break-words sm:gap-2 ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
+        className={`font-black ${wordSize} mb-2 flex min-h-0 w-full shrink flex-wrap justify-center gap-1 px-2 text-center leading-tight tracking-widest wrap-break-word sm:gap-2 ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
       >
         {maskedChars.map((char, i) => (
           <span

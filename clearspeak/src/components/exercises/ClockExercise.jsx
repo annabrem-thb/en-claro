@@ -302,7 +302,7 @@ function ClockExercise({
               opt.isCorrect ? onSuccess() : handleMistake();
             }}
             disabled={isListening}
-            className={`relative ${btnPadding} flex min-h-[4rem] items-center justify-center overflow-hidden rounded-2xl border-2 text-center leading-tight font-black shadow-sm transition-all active:scale-95 sm:rounded-3xl md:shadow-none ${
+            className={`relative ${btnPadding} flex min-h-16 items-center justify-center overflow-hidden rounded-2xl border-2 text-center leading-tight font-black shadow-sm transition-all active:scale-95 sm:rounded-3xl md:shadow-none ${
               isListening
                 ? 'opacity-50 grayscale'
                 : activeHighlight === i
