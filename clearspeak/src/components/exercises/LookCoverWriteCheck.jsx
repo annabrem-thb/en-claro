@@ -204,16 +204,43 @@ function LookCoverWriteCheck({
         </div>
 
         {}
-        <div className="mt-auto flex w-full max-w-md shrink-0 pt-2">
+        {/* A wrong answer used to only offer "Next" — moving straight past
+            a mistake with no way to fix what was actually typed. Letting
+            the learner go back and correct their own attempt (keeping
+            userInput as-is, not clearing it) matches the app's
+            non-punitive design elsewhere: a mistake gets a chance to
+            self-correct before it's accepted, rather than being the only
+            option. */}
+        <div className="mt-auto flex w-full max-w-md shrink-0 flex-col gap-2 pt-2 sm:gap-3">
+          {!isCorrect && (
+            <button
+              onClick={() => setPhase('write')}
+              className={`w-full rounded-2xl border-2 py-4 text-xs font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:py-5 sm:text-sm ${
+                isHighContrast
+                  ? 'border-white bg-white text-black hover:bg-slate-200'
+                  : 'border-indigo-600 bg-indigo-600 text-white shadow-xl hover:bg-indigo-500'
+              }`}
+            >
+              {t('tryAgain') || 'Try again'}
+            </button>
+          )}
           <button
             onClick={() =>
               onSelfEvaluate({ correct: isCorrect, input: userInput })
             }
-            className={`w-full rounded-2xl border-2 py-4 text-xs font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:py-5 sm:text-sm ${
-              isHighContrast
-                ? 'border-white bg-white text-black hover:bg-slate-200'
-                : 'border-indigo-600 bg-indigo-600 text-white shadow-xl hover:bg-indigo-500'
-            }`}
+            className={
+              isCorrect
+                ? `w-full rounded-2xl border-2 py-4 text-xs font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:py-5 sm:text-sm ${
+                    isHighContrast
+                      ? 'border-white bg-white text-black hover:bg-slate-200'
+                      : 'border-indigo-600 bg-indigo-600 text-white shadow-xl hover:bg-indigo-500'
+                  }`
+                : `w-full py-2 text-[10px] font-black tracking-widest uppercase transition-colors ${
+                    isHighContrast
+                      ? 'text-white/60 hover:text-white'
+                      : 'text-slate-600 hover:text-slate-800'
+                  }`
+            }
           >
             {t('next') || t('done') || 'Next'}
           </button>
