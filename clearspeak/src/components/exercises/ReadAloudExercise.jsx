@@ -106,6 +106,7 @@ function ReadAloudExercise({
           controlBtnSize={controlBtnSize}
           idleLabel={t('speakTextAloud')}
           unsupportedHint={t('micUnsupportedReadAloud')}
+          fallbackHint={t('micFallbackHintReadAloud')}
         />
       </div>
 

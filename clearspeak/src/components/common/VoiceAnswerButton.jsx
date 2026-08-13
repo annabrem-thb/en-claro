@@ -23,6 +23,13 @@ export default function VoiceAnswerButton({
   // actually true — ReadAloudExercise has no tappable options, only the
   // mic, so it needs to point at the universal Skip button instead.
   unsupportedHint,
+  // Same idea as unsupportedHint but for the shorter line appended after a
+  // *different* specific error (permission denied, hardware/network
+  // failure, ...) — kept separate from unsupportedHint because that one
+  // opens with "voice input isn't supported here," which would be false
+  // when the real problem was e.g. a denied permission on a browser that
+  // does support it.
+  fallbackHint,
 }) {
   const size =
     controlBtnSize ||
@@ -42,6 +49,20 @@ export default function VoiceAnswerButton({
       </p>
     );
   }
+
+  // The concrete reason a *different* mic attempt fails varies a lot by
+  // device (denied permission, no network for the cloud recognizer many
+  // mobile browsers rely on, an in-app/WebView browser that blocks the API
+  // outright even though it reports as supported, ...) — too many distinct
+  // causes to reliably diagnose from here. What matters to the person stuck
+  // on it is the same regardless of which one it is: a way to answer
+  // anyway. So this same actionable line is shown alongside every failure
+  // state below — only "no-speech" skips it, since that one means the mic
+  // *is* working and simply asks for a retry.
+  const resolvedFallbackHint =
+    fallbackHint ||
+    t('micFallbackHint') ||
+    'You can tap your answer above instead.';
 
   return (
     <div className="flex flex-col items-center gap-2">
@@ -64,13 +85,18 @@ export default function VoiceAnswerButton({
         {isListening ? '🛑' : '🎤'}
       </button>
       {error === 'not-allowed' || error === 'service-not-allowed' ? (
-        <p
-          role="status"
-          className="max-w-[28ch] text-center text-xs font-medium text-red-800"
-        >
-          {t('micPermissionDenied') ||
-            "Microphone access was denied. Check your browser's site settings to allow it."}
-        </p>
+        <div className="flex flex-col items-center gap-1">
+          <p
+            role="status"
+            className="max-w-[28ch] text-center text-xs font-medium text-red-800"
+          >
+            {t('micPermissionDenied') ||
+              "Microphone access was denied. Check your browser's site settings to allow it."}
+          </p>
+          <p className="max-w-[28ch] text-center text-xs font-medium text-slate-500">
+            {resolvedFallbackHint}
+          </p>
+        </div>
       ) : error === 'no-speech' ? (
         <p
           role="status"
@@ -83,13 +109,18 @@ export default function VoiceAnswerButton({
         // unknown, ...) used to fall through with no message at all: the
         // button just quietly went back to idle, which reads as "the
         // microphone doesn't work" with no clue why or what to do about it.
-        <p
-          role="status"
-          className="max-w-[28ch] text-center text-xs font-medium text-red-800"
-        >
-          {t('micGenericError') ||
-            'Something went wrong with the microphone — try again.'}
-        </p>
+        <div className="flex flex-col items-center gap-1">
+          <p
+            role="status"
+            className="max-w-[28ch] text-center text-xs font-medium text-red-800"
+          >
+            {t('micGenericError') ||
+              'Something went wrong with the microphone — try again.'}
+          </p>
+          <p className="max-w-[28ch] text-center text-xs font-medium text-slate-500">
+            {resolvedFallbackHint}
+          </p>
+        </div>
       ) : null}
     </div>
   );
