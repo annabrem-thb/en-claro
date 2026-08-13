@@ -300,7 +300,7 @@ function SequenceExercise({
         </p>
       ) : (
         <p
-          className={`mb-1 shrink-0 text-center text-[10px] font-medium sm:mb-2 sm:text-xs ${isHighContrast ? 'text-white/40' : 'text-slate-400'}`}
+          className={`mb-1 shrink-0 text-center text-[10px] font-medium sm:mb-2 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
         >
           {t('speakOptionNumber')}
         </p>

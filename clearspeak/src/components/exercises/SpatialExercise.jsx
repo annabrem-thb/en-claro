@@ -202,7 +202,7 @@ function SpatialExercise({
           {t('heard')}: <span className="text-slate-600">{transcript}</span>
         </p>
       ) : (
-        <p className="mb-2 shrink-0 text-center text-[10px] font-medium text-slate-400">
+        <p className="mb-2 shrink-0 text-center text-[10px] font-medium text-slate-600">
           {t('speakOptionNumber')}
         </p>
       )}
