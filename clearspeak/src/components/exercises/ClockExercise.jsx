@@ -212,7 +212,7 @@ function ClockExercise({
           {t('heard')}: <span className="text-slate-600">{transcript}</span>
         </p>
       ) : (
-        <p className="mb-1 shrink-0 text-center text-[10px] font-medium text-slate-400 sm:mb-2">
+        <p className="mb-1 shrink-0 text-center text-[10px] font-medium text-slate-600 sm:mb-2">
           {t('speakOptionNumber')}
         </p>
       )}

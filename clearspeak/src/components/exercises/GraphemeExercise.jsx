@@ -179,7 +179,7 @@ function GraphemeExercise({
         </p>
       ) : (
         <p
-          className={`mb-2 shrink-0 text-center text-[10px] font-medium sm:mb-3 sm:text-xs ${isHighContrast ? 'text-white/40' : 'text-slate-400'}`}
+          className={`mb-2 shrink-0 text-center text-[10px] font-medium sm:mb-3 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
         >
           {t('speakOptionNumber')}
         </p>
