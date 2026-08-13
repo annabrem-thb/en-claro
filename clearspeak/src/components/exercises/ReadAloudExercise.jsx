@@ -116,7 +116,7 @@ function ReadAloudExercise({
           users. It also defaulted to the generic "speak option number"
           wording, which was simply wrong for this exercise. */}
       {!transcript && (
-        <p className="mb-2 shrink-0 text-center text-[10px] font-medium text-slate-400">
+        <p className="mb-2 shrink-0 text-center text-[10px] font-medium text-slate-600">
           {t('speakTextAloud')}
         </p>
       )}

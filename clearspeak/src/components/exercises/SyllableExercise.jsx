@@ -254,7 +254,7 @@ function SyllableExercise({
         // idleLabel's aria-label on the button above, invisible to sighted
         // users. Saying the whole word matched no number/command pattern
         // and silently did nothing, which read as "the mic doesn't work."
-        <p className="mb-1 shrink-0 text-center text-[10px] font-medium text-slate-400 sm:mb-2 sm:text-xs">
+        <p className="mb-1 shrink-0 text-center text-[10px] font-medium text-slate-600 sm:mb-2 sm:text-xs">
           {t('speakGapNumber')}
         </p>
       )}

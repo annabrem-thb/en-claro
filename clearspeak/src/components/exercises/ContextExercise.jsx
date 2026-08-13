@@ -234,7 +234,7 @@ function ContextExercise({
           {t('heard')}: <span className="text-slate-600">{transcript}</span>
         </p>
       ) : (
-        <p className="mb-2 shrink-0 text-center text-[10px] font-medium text-slate-400 sm:mb-3 sm:text-xs">
+        <p className="mb-2 shrink-0 text-center text-[10px] font-medium text-slate-600 sm:mb-3 sm:text-xs">
           {t('speakOptionNumber')}
         </p>
       )}

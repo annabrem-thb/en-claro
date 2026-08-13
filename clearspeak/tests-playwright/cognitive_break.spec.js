@@ -1,12 +1,29 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Dyslexia PWA - Przerwy Kognitywne', () => {
-  test.beforeEach(async ({ page: page }) => {
-    await page.goto('/');
-    await page.evaluate(() => window.localStorage.clear());
+  test.beforeEach(async ({ page }) => {
+    // addInitScript, not page.evaluate() after a goto: the app's own
+    // useUserSettings effect writes its current in-memory settings back to
+    // localStorage on mount (to persist other fields as the user changes
+    // them), which races with — and can silently overwrite — a
+    // page.evaluate() write made right after that mount already happened.
+    // addInitScript runs before any page script on every subsequent
+    // navigation, so the seed is always in place before useUserSettings'
+    // initializer ever reads it.
+    await page.addInitScript(() => {
+      window.localStorage.clear();
+      // cognitiveBreaks now defaults to off ("all options off by default" —
+      // useUserSettings.js DEFAULT_SETTINGS). This test specifically
+      // exercises that mechanism, so it has to opt in explicitly instead of
+      // relying on a default that's no longer true.
+      window.localStorage.setItem(
+        'cfg_settings',
+        JSON.stringify({ cognitiveBreaks: true }),
+      );
+    });
   });
   test('powinno wyświetlić powiadomienie "Czas na przerwę?" po wystąpieniu zmęczenia (serii błędów)', async ({
-    page: page,
+    page,
   }) => {
     test.setTimeout(90000);
     await page.goto('/');
@@ -54,6 +71,10 @@ test.describe('Dyslexia PWA - Przerwy Kognitywne', () => {
       }
     }
     await expect(breakPrompt).toBeVisible();
-    await page.locator('text=/Odpoczywam|Rest/i').click();
+    // A plain text locator is ambiguous in English specifically: the
+    // prompt's own body copy ("Rest in the...") also contains "Rest", so it
+    // matches both that sentence and the actual button. Scoping to the
+    // button role avoids depending on which language happened to load.
+    await page.getByRole('button', { name: /Odpoczywam|Rest/i }).click();
   });
 });
