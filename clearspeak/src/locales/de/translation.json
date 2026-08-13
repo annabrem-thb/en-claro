@@ -534,6 +534,8 @@
   "micUnsupported": "Spracheingabe wird in diesem Browser nicht unterstützt. Du kannst stattdessen oben auf deine Antwort tippen.",
   "speakTextAloud": "Lies den Text oben laut vor",
   "micUnsupportedReadAloud": "Spracheingabe wird in diesem Browser nicht unterstützt. Nutze die Schaltfläche „Überspringen” unten, um fortzufahren.",
+  "micFallbackHint": "Du kannst stattdessen oben auf deine Antwort tippen.",
+  "micFallbackHintReadAloud": "Nutze die Schaltfläche „Überspringen” unten, um fortzufahren.",
   "micPermissionDenied": "Der Mikrofonzugriff wurde verweigert. Überprüfe die Website-Einstellungen deines Browsers, um ihn zu erlauben.",
   "micNoSpeech": "Nichts gehört — versuche es noch einmal.",
   "micGenericError": "Beim Mikrofon ist etwas schiefgelaufen — versuche es noch einmal.",

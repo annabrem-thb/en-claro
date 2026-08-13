@@ -534,6 +534,8 @@
   "micUnsupported": "Voice input isn't supported in this browser. You can tap your answer above instead.",
   "speakTextAloud": "Read the text above aloud",
   "micUnsupportedReadAloud": "Voice input isn't supported in this browser. Use the Skip button below to move on.",
+  "micFallbackHint": "You can tap your answer above instead.",
+  "micFallbackHintReadAloud": "Use the Skip button below to move on.",
   "micPermissionDenied": "Microphone access was denied. Check your browser's site settings to allow it.",
   "micNoSpeech": "Didn't catch that — try again.",
   "micGenericError": "Something went wrong with the microphone — try again.",
