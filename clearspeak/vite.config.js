@@ -69,6 +69,17 @@ export default defineConfig({
       },
     }),
   ],
+  // The Whisper worker (src/workers/whisperWorker.js) imports
+  // @huggingface/transformers, which relies on dynamic ESM imports for its
+  // onnxruntime-web backend — incompatible with Vite's default IIFE worker
+  // output, and esbuild's dev-server pre-bundler chokes on those same
+  // dynamic imports unless the package is excluded from optimizeDeps.
+  worker: {
+    format: 'es',
+  },
+  optimizeDeps: {
+    exclude: ['@huggingface/transformers'],
+  },
   test: {
     environment: 'jsdom',
     globals: true,

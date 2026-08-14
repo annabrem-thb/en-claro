@@ -23,10 +23,16 @@ function ReadingComprehensionExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
-  const { isListening, transcript, startListening, error } = useExerciseVoice(
-    language,
-    t,
-  );
+  const {
+    isListening,
+    transcript,
+    startListening,
+    error,
+    voiceStatus,
+    modelDownloadProgress,
+    confirmModelDownload,
+    declineModelDownload,
+  } = useExerciseVoice(language, t);
 
   const [activeHighlight, setActiveHighlight] = useState(null);
   const {
@@ -148,6 +154,10 @@ function ReadingComprehensionExercise({
           bigTargets={bigTargets}
           isHighContrast={isHighContrast}
           bionicReading={bionicReading}
+          voiceStatus={voiceStatus}
+          modelDownloadProgress={modelDownloadProgress}
+          confirmModelDownload={confirmModelDownload}
+          declineModelDownload={declineModelDownload}
           controlBtnSize={controlBtnSize}
         />
       </div>

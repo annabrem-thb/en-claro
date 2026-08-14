@@ -81,10 +81,16 @@ function SequenceExercise({
     };
   }, [clearAllTimeouts]);
 
-  const { isListening, transcript, startListening, error } = useExerciseVoice(
-    language,
-    t,
-  );
+  const {
+    isListening,
+    transcript,
+    startListening,
+    error,
+    voiceStatus,
+    modelDownloadProgress,
+    confirmModelDownload,
+    declineModelDownload,
+  } = useExerciseVoice(language, t);
 
   const handleSelect = useCallback(
     (wordObj) => {
@@ -284,6 +290,10 @@ function SequenceExercise({
           bigTargets={bigTargets}
           isHighContrast={isHighContrast}
           bionicReading={bionicReading}
+          voiceStatus={voiceStatus}
+          modelDownloadProgress={modelDownloadProgress}
+          confirmModelDownload={confirmModelDownload}
+          declineModelDownload={declineModelDownload}
           controlBtnSize={controlBtnSize}
         />
       </div>

@@ -23,10 +23,16 @@ function ReadAloudExercise({
   voiceAssistant,
   isHighContrast = false,
 }) {
-  const { isListening, transcript, startListening, error } = useExerciseVoice(
-    language,
-    t,
-  );
+  const {
+    isListening,
+    transcript,
+    startListening,
+    error,
+    voiceStatus,
+    modelDownloadProgress,
+    confirmModelDownload,
+    declineModelDownload,
+  } = useExerciseVoice(language, t);
   const { pauseAllTimeouts, resumeAllTimeouts } = useSafeTimeouts();
 
   useEffect(() => {
@@ -105,6 +111,10 @@ function ReadAloudExercise({
           bigTargets={bigTargets}
           isHighContrast={isHighContrast}
           bionicReading={bionicReading}
+          voiceStatus={voiceStatus}
+          modelDownloadProgress={modelDownloadProgress}
+          confirmModelDownload={confirmModelDownload}
+          declineModelDownload={declineModelDownload}
           controlBtnSize={controlBtnSize}
           idleLabel={t('speakTextAloud')}
           unsupportedHint={t('micUnsupportedReadAloud')}

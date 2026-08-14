@@ -28,10 +28,16 @@ function PhonemeExercise({
 
   const [userInput, setUserInput] = useState('');
 
-  const { isListening, transcript, startListening, error } = useExerciseVoice(
-    language,
-    t,
-  );
+  const {
+    isListening,
+    transcript,
+    startListening,
+    error,
+    voiceStatus,
+    modelDownloadProgress,
+    confirmModelDownload,
+    declineModelDownload,
+  } = useExerciseVoice(language, t);
 
   const {
     setSafeTimeout,
@@ -169,6 +175,10 @@ function PhonemeExercise({
           bigTargets={bigTargets}
           isHighContrast={isHighContrast}
           bionicReading={bionicReading}
+          voiceStatus={voiceStatus}
+          modelDownloadProgress={modelDownloadProgress}
+          confirmModelDownload={confirmModelDownload}
+          declineModelDownload={declineModelDownload}
           controlBtnSize={controlBtnSize}
           idleLabel={t('speakTheWord')}
         />
