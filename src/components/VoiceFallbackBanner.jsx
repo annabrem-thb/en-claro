@@ -16,7 +16,7 @@ const DISMISS_STORAGE_KEY = 'voiceFallbackBannerDismissed';
 // Surfaces the "this browser needs a one-time download for voice input"
 // notice on the main screen, rather than only the moment someone taps a mic
 // button mid-exercise — Firefox/Safari users otherwise have no way to know
-// in advance that the first mic tap will kick off a ~75MB download instead
+// in advance that the first mic tap will kick off a ~150MB download instead
 // of just working, which reads as the app hanging on a slow connection.
 // Persisted via localStorage (unlike PwaUpdateBanner, which just resets on
 // next reload) since this is about a fixed browser capability, not a
@@ -66,7 +66,7 @@ function VoiceFallbackBannerComponent({
         <BionicText
           text={
             t('voiceFallbackBannerBody') ||
-            "This browser doesn't have built-in voice recognition. The microphone will still work — the first time you use it, you'll be asked to download a one-time offline voice model (~75MB)."
+            "This browser doesn't have built-in voice recognition. The microphone will still work — the first time you use it, you'll be asked to download a one-time offline voice model (~150MB)."
           }
           enabled={bionicReading}
         />
