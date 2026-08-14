@@ -27,10 +27,16 @@ function SyllableExercise({
   const [cuts, setCuts] = useState([]);
   const [isResolved, setIsResolved] = useState(false);
 
-  const { isListening, transcript, startListening, error } = useExerciseVoice(
-    language,
-    t,
-  );
+  const {
+    isListening,
+    transcript,
+    startListening,
+    error,
+    voiceStatus,
+    modelDownloadProgress,
+    confirmModelDownload,
+    declineModelDownload,
+  } = useExerciseVoice(language, t);
 
   const [activeHighlight, setActiveHighlight] = useState(null);
   const {
@@ -185,17 +191,25 @@ function SyllableExercise({
         ? 'text-xl sm:text-4xl'
         : 'text-4xl sm:text-6xl';
   const btnPadding = bigTargets ? 'py-5 sm:py-6' : 'py-4 sm:py-5';
+  // min-h, not h: the gap-number label used to sit outside this box
+  // entirely (position: absolute, offset below it), which is exactly what
+  // let it collide with letters/numbers on a wrapped line below it once a
+  // long word wrapped to multiple lines on a narrow phone screen — flex-wrap
+  // sizes each line from in-flow content only, so an absolutely positioned
+  // label contributes nothing to line spacing and simply overlaps whatever
+  // sits below. Rendering the number in-flow (below) needs the button to be
+  // allowed to grow past this minimum rather than clip it.
   const cutHitbox = bigTargets
     ? isVeryLong
-      ? 'w-6 h-10 sm:w-8 sm:h-12 mx-0'
+      ? 'w-6 min-h-10 sm:w-8 sm:min-h-12 mx-0'
       : isLong
-        ? 'w-8 h-12 sm:w-10 sm:h-14 mx-0.5'
-        : 'w-10 h-16 sm:w-14 sm:h-20 mx-1'
+        ? 'w-8 min-h-12 sm:w-10 sm:min-h-14 mx-0.5'
+        : 'w-10 min-h-16 sm:w-14 sm:min-h-20 mx-1'
     : isVeryLong
-      ? 'w-3 h-6 sm:w-6 sm:h-10 mx-0'
+      ? 'w-3 min-h-6 sm:w-6 sm:min-h-10 mx-0'
       : isLong
-        ? 'w-5 h-8 sm:w-8 sm:h-12 mx-px'
-        : 'w-8 h-12 sm:w-10 sm:h-16 mx-1';
+        ? 'w-5 min-h-8 sm:w-8 sm:min-h-12 mx-px'
+        : 'w-8 min-h-12 sm:w-10 sm:min-h-16 mx-1';
   const controlBtnSize = bigTargets
     ? 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
     : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl';
@@ -240,6 +254,10 @@ function SyllableExercise({
           bigTargets={bigTargets}
           isHighContrast={isHighContrast}
           bionicReading={bionicReading}
+          voiceStatus={voiceStatus}
+          modelDownloadProgress={modelDownloadProgress}
+          confirmModelDownload={confirmModelDownload}
+          declineModelDownload={declineModelDownload}
           controlBtnSize={controlBtnSize}
           idleLabel={t('speakGapNumber')}
         />
@@ -305,7 +323,7 @@ function SyllableExercise({
             {index < wordChars.length - 1 && (
               <button
                 onClick={() => toggleCut(index + 1)}
-                className={`group relative ${cutHitbox} flex shrink-0 items-center justify-center transition-all`}
+                className={`group relative ${cutHitbox} flex shrink-0 flex-col items-center justify-center transition-all`}
                 disabled={isResolved || isListening}
                 aria-label={
                   cuts.includes(index + 1)
@@ -331,10 +349,14 @@ function SyllableExercise({
                   </span>
                 )}
 
-                {}
+                {/* In normal flow (not absolutely positioned) so it
+                    contributes to this button's own height — and so, once a
+                    long word wraps to multiple lines on a narrow screen,
+                    correctly pushes wrapped lines apart instead of
+                    overlapping the line below. */}
                 {!isResolved && (
                   <span
-                    className={`absolute -bottom-6 text-[10px] font-black ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+                    className={`mt-1 shrink-0 text-[10px] leading-none font-black ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
                   >
                     {index + 1}
                   </span>

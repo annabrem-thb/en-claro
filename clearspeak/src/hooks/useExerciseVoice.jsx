@@ -1,10 +1,15 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 
-// Single spoken Latin letters (plus PL/DE diacritics) map straight through
-// as a one-character transcript on every engine tested — recognized
-// letter-by-letter dictation doesn't need a phonetic alphabet lookup table,
-// just normalization of what the browser already returns.
-const SINGLE_LETTER_PATTERN = /^[a-ząćęłńóśźżäöüß]$/i;
+import {
+  hasLocalFallbackSupport,
+  hasNativeSpeechRecognition,
+} from '../utils/voiceCapabilities.js';
+import {
+  matchVoiceTranscript,
+  normalizeTranscript,
+} from '../utils/voiceTranscriptMatcher.js';
+
+import { useLocalWhisper } from './useLocalWhisper.js';
 
 export function useExerciseVoice(language, t) {
   const [isListening, setIsListening] = useState(false);
@@ -16,6 +21,33 @@ export function useExerciseVoice(language, t) {
   // Permissions API (which Safari doesn't support for the microphone).
   const [micPermissionGranted, setMicPermissionGranted] = useState(null);
   const recognitionRef = useRef(null);
+
+  // Hooks can't be called conditionally, so this runs unconditionally even
+  // on browsers with native support — it stays inert there (nothing ever
+  // calls localWhisper.activate()), costing nothing beyond the initial
+  // state allocation.
+  const localWhisper = useLocalWhisper(language);
+  const { activate: activateLocalFallback } = localWhisper;
+  // Callbacks passed into the startListening() call that's currently in
+  // flight on the fallback path — captured here rather than in a closure
+  // like the native path's onresult, since the actual transcript arrives
+  // asynchronously from the worker, well after startListening() returns.
+  const pendingCallbacksRef = useRef({});
+  // Guards the match-triggering effect below against re-running on mount
+  // and against React's effect-dependency comparison silently no-oping a
+  // second identical transcript in a row (see resultSeq's own comment in
+  // useLocalWhisper.js).
+  const matchedResultSeqRef = useRef(0);
+
+  useEffect(() => {
+    if (localWhisper.resultSeq === matchedResultSeqRef.current) return;
+    matchedResultSeqRef.current = localWhisper.resultSeq;
+    matchVoiceTranscript(
+      localWhisper.transcript,
+      t,
+      pendingCallbacksRef.current,
+    );
+  }, [localWhisper.resultSeq, localWhisper.transcript, t]);
 
   const stopSpeaking = useCallback(() => {
     if (window.speechSynthesis) {
@@ -60,16 +92,26 @@ export function useExerciseVoice(language, t) {
 
   const startListening = useCallback(
     (onNumberMatch, onCommandMatch, onLetterMatch, onWordMatch) => {
-      const SpeechRecognition =
-        window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        // Previously a silent no-op: tapping the mic button did nothing at
-        // all, with no way for the UI to explain why. `unsupported` lets
-        // VoiceAnswerButton show a real message instead (e.g. "try Chrome
-        // or Edge") and disable itself rather than staying a dead control.
-        setError('unsupported');
+      if (!hasNativeSpeechRecognition()) {
+        if (!hasLocalFallbackSupport()) {
+          // Previously a silent no-op: tapping the mic button did nothing
+          // at all, with no way for the UI to explain why. `unsupported`
+          // lets VoiceAnswerButton show a real message instead and disable
+          // itself rather than staying a dead control.
+          setError('unsupported');
+          return;
+        }
+        pendingCallbacksRef.current = {
+          onNumberMatch,
+          onCommandMatch,
+          onLetterMatch,
+          onWordMatch,
+        };
+        activateLocalFallback();
         return;
       }
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
       // A second tap while still listening would otherwise leave the first
       // session's recognition running unattended alongside a brand new one.
       abortListening();
@@ -106,78 +148,14 @@ export function useExerciseVoice(language, t) {
       };
       recognition.onresult = (event) => {
         setMicPermissionGranted(true);
-        const rawResult = event.results[0][0].transcript.toLowerCase().trim();
-        // Strip trailing/leading punctuation some engines include (e.g.
-        // "sprawdź." or "check!") before command/number/letter matching —
-        // matters most for languages whose command words are short and can
-        // otherwise fail a strict regex match on the trailing mark alone.
-        const result = rawResult.replace(/^[.,!?;:]+|[.,!?;:]+$/g, '');
+        const result = normalizeTranscript(event.results[0][0].transcript);
         setTranscript(result);
-        // Fires unconditionally, independent of the command/number/letter
-        // routing below — free-text exercises (e.g. "say the word you
-        // heard") need the raw transcript itself, not a parsed selection,
-        // and calling this straight from the event handler (rather than
-        // relying on a `transcript` state-change effect downstream) means
-        // saying the same word twice in a row still triggers a fresh check
-        // instead of silently no-oping when React bails out of a same-value
-        // state update.
-        onWordMatch?.(result);
-
-        const commandPatterns = {
-          undo: t?.('commands.undo', { returnObjects: true }) || [
-            'undo',
-            'cofnij',
-            'zurück',
-          ],
-          check: t?.('commands.check', { returnObjects: true }) || [
-            'check',
-            'sprawdź',
-            'prüfen',
-          ],
-          skip: t?.('commands.skip', { returnObjects: true }) || [
-            'skip',
-            'pomiń',
-            'überspringen',
-          ],
-          next: t?.('commands.next', { returnObjects: true }) || [
-            'next',
-            'dalej',
-            'weiter',
-          ],
-        };
-        for (const [command, phrases] of Object.entries(commandPatterns)) {
-          const regex = new RegExp(phrases.join('|'), 'i');
-          if (regex.test(result)) {
-            onCommandMatch?.(command);
-            return;
-          }
-        }
-
-        // Each entry covers the cardinal *and* ordinal form in every
-        // supported language — someone picking "option 3" naturally says
-        // an ordinal ("trzecia"/"dritte"), not the cardinal ("trzy"/
-        // "drei"), which the original pattern didn't recognize at all.
-        // Polish/German ordinals are matched by their gender-invariant
-        // stem (e.g. "czwart" covers both "czwarty" and "czwarta") rather
-        // than one full inflected form, since the masculine and feminine
-        // endings differ and neither is a substring of the other.
-        const numbers = {
-          1: /1|jeden|one|first|eins|pierwsz|erst/i,
-          2: /2|dwa|two|second|zwei|drug|zweit/i,
-          3: /3|trzy|three|third|drei|trzeci|dritt/i,
-          4: /4|cztery|four|fourth|vier|czwart|viert/i,
-          5: /5|pięć|five|fifth|fünf|piąt|fünft/i,
-        };
-        for (const [num, regex] of Object.entries(numbers)) {
-          if (regex.test(result)) {
-            onNumberMatch?.(parseInt(num));
-            return;
-          }
-        }
-
-        if (onLetterMatch && SINGLE_LETTER_PATTERN.test(result)) {
-          onLetterMatch(result);
-        }
+        matchVoiceTranscript(result, t, {
+          onNumberMatch,
+          onCommandMatch,
+          onLetterMatch,
+          onWordMatch,
+        });
       };
       try {
         recognition.start();
@@ -198,16 +176,37 @@ export function useExerciseVoice(language, t) {
         setError('start-failed');
       }
     },
-    [language, t, stopSpeaking, abortListening],
+    [language, t, stopSpeaking, abortListening, activateLocalFallback],
   );
 
+  const usingLocalFallback =
+    !hasNativeSpeechRecognition() && hasLocalFallbackSupport();
+
   return {
-    isListening: isListening,
-    transcript: transcript,
-    error: error,
-    micPermissionGranted: micPermissionGranted,
+    isListening: usingLocalFallback
+      ? localWhisper.status === 'recording' ||
+        localWhisper.status === 'transcribing'
+      : isListening,
+    transcript: usingLocalFallback ? localWhisper.transcript : transcript,
+    error: usingLocalFallback ? localWhisper.error : error,
+    micPermissionGranted: usingLocalFallback
+      ? localWhisper.micPermissionGranted
+      : micPermissionGranted,
     stopSpeaking: stopSpeaking,
     startListening: startListening,
     abortListening: abortListening,
+    // Only meaningful on the fallback path — VoiceAnswerButton treats
+    // `undefined` as "nothing to show," so native-engine callers see no
+    // change at all.
+    voiceStatus: usingLocalFallback ? localWhisper.status : undefined,
+    modelDownloadProgress: usingLocalFallback
+      ? localWhisper.progress
+      : undefined,
+    confirmModelDownload: usingLocalFallback
+      ? localWhisper.confirmDownload
+      : undefined,
+    declineModelDownload: usingLocalFallback
+      ? localWhisper.declineDownload
+      : undefined,
   };
 }

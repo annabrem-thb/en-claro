@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import LocalVoiceConsentModal from './LocalVoiceConsentModal.jsx';
 import MicHelpModal from './MicHelpModal.jsx';
 
 // Accessible microphone toggle for hands-free exercise answering. Every
@@ -36,8 +37,17 @@ export default function VoiceAnswerButton({
   // when the real problem was e.g. a denied permission on a browser that
   // does support it.
   fallbackHint,
+  // The four fields below only exist on useExerciseVoice's local-Whisper
+  // fallback path (browsers with no native SpeechRecognition) — undefined
+  // on every native-engine caller, so nothing here changes for them.
+  voiceStatus,
+  modelDownloadProgress,
+  confirmModelDownload,
+  declineModelDownload,
 }) {
   const [showHelp, setShowHelp] = useState(false);
+  const awaitingLocalVoiceSetup =
+    voiceStatus === 'awaiting-consent' || voiceStatus === 'loading-model';
 
   const size =
     controlBtnSize ||
@@ -118,7 +128,20 @@ export default function VoiceAnswerButton({
       >
         {isListening ? '🛑' : '🎤'}
       </button>
-      {error === 'not-allowed' || error === 'service-not-allowed' ? (
+      {voiceStatus === 'transcribing' ? (
+        // Local-Whisper only: the mic already stopped capturing by this
+        // point (that's what triggered transcription), but `isListening`
+        // stays true through this state too so the button keeps its
+        // pulsing "stop" look rather than flicking back to idle for the
+        // second or two inference takes — this line is what tells the
+        // difference apart from "still listening."
+        <p
+          role="status"
+          className="max-w-[28ch] text-center text-xs font-medium text-slate-500"
+        >
+          {t('micLocalTranscribing') || 'Thinking…'}
+        </p>
+      ) : error === 'not-allowed' || error === 'service-not-allowed' ? (
         <div className="flex flex-col items-center gap-1">
           <p
             role="status"
@@ -139,6 +162,19 @@ export default function VoiceAnswerButton({
         >
           {t('micNoSpeech') || "Didn't catch that — try again."}
         </p>
+      ) : error === 'local-download-error' ? (
+        <div className="flex flex-col items-center gap-1">
+          <p
+            role="status"
+            className="max-w-[28ch] text-center text-xs font-medium text-red-800"
+          >
+            {t('micLocalDownloadError') ||
+              "The voice model couldn't be downloaded — check your connection and try again."}
+          </p>
+          <p className="max-w-[28ch] text-center text-xs font-medium text-slate-500">
+            {resolvedFallbackHint}
+          </p>
+        </div>
       ) : error ? (
         // Every other code (audio-capture, network, aborted, start-failed,
         // unknown, ...) used to fall through with no message at all: the
@@ -161,6 +197,17 @@ export default function VoiceAnswerButton({
       <MicHelpModal
         open={showHelp}
         onClose={() => setShowHelp(false)}
+        isHighContrast={isHighContrast}
+        noFlash={noFlash}
+        bionicReading={bionicReading}
+        t={t}
+      />
+      <LocalVoiceConsentModal
+        open={awaitingLocalVoiceSetup}
+        status={voiceStatus}
+        progress={modelDownloadProgress}
+        onConfirm={confirmModelDownload}
+        onDecline={declineModelDownload}
         isHighContrast={isHighContrast}
         noFlash={noFlash}
         bionicReading={bionicReading}

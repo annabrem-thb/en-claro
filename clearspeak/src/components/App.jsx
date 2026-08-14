@@ -45,6 +45,7 @@ import {
   UserSettingsProvider,
   useUserSettingsContext,
 } from './UserSettingsContext.jsx';
+import VoiceFallbackBanner from './VoiceFallbackBanner.jsx';
 import BionicText from './common/BionicText.jsx';
 import Dialog from './common/Dialog.jsx';
 import SkeletonLoader from './common/SkeletonLoader.jsx';
@@ -914,6 +915,14 @@ function AppContent() {
         t={t}
         onUpdate={applyPwaUpdate}
         onDismiss={dismissPwaUpdate}
+        bionicReading={!!settings.bionicReading}
+      />
+
+      <VoiceFallbackBanner
+        isHighContrast={isHighContrast}
+        noFlash={noFlash}
+        themeStyles={themeStyles}
+        t={t}
         bionicReading={!!settings.bionicReading}
       />
     </div>

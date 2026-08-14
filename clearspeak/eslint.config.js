@@ -45,4 +45,18 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+  // AudioWorkletProcessor globals (registerProcessor, sampleRate, ...)
+  // aren't part of the standard `browser` global set the block above uses —
+  // this file runs in the separate AudioWorkletGlobalScope, not the window.
+  {
+    files: ['src/workers/recorderWorklet.js'],
+    languageOptions: {
+      globals: {
+        ...globals.worker,
+        AudioWorkletProcessor: 'readonly',
+        registerProcessor: 'readonly',
+        sampleRate: 'readonly',
+      },
+    },
+  },
 ]);
