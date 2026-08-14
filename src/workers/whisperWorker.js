@@ -6,7 +6,7 @@
 // never fetch any of it.
 import { pipeline } from '@huggingface/transformers';
 
-// A module-level singleton, not per-message: the ~75MB model download and
+// A module-level singleton, not per-message: the ~150MB model download and
 // wasm session setup only need to happen once per worker lifetime, and this
 // worker itself lives for as long as the tab does (see useLocalWhisper.js,
 // which creates it lazily but never tears it down mid-session).
@@ -20,10 +20,16 @@ function loadTranscriber() {
       {
         // wasm, not webgpu: Firefox/Safari (the browsers this fallback
         // targets) have inconsistent WebGPU support, while wasm works
-        // everywhere. fp32 encoder + q8 decoder is the documented default
-        // pairing for Whisper on the wasm backend.
+        // everywhere. fp32 for both: the quantized decoder
+        // (decoder_model_merged_quantized.onnx, dtype 'q8') fails session
+        // creation in onnxruntime-web wasm with "TransposeDQWeightsForMatMulNBits
+        // Missing required scale" — a QDQ-graph incompatibility reproduced
+        // across both the transformers.js-pinned onnxruntime-web build and
+        // the latest stable 1.26.0, so it isn't an ORT-version fix. fp32
+        // trades a larger one-time download for a decoder graph with no
+        // DequantizeLinear nodes at all, sidestepping the bug entirely.
         device: 'wasm',
-        dtype: { encoder_model: 'fp32', decoder_model_merged: 'q8' },
+        dtype: { encoder_model: 'fp32', decoder_model_merged: 'fp32' },
         progress_callback: (event) => {
           // Transformers.js fires one raw event per file per chunk, plus a
           // synthesized 'progress_total' event aggregated across every file

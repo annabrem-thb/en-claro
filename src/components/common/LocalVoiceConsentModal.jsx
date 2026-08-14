@@ -5,7 +5,7 @@ import Dialog from './Dialog.jsx';
 
 // Shown by VoiceAnswerButton in browsers with no native SpeechRecognition
 // (Firefox, Safari, ...) before the local-Whisper fallback ever touches the
-// network — explains the one-time ~75MB model download and requires an
+// network — explains the one-time ~150MB model download and requires an
 // explicit tap before it starts, since that's real data on someone's phone
 // plan. Two views driven by `status`: the consent ask, then a progress bar
 // once the download is under way. Built on the shared Dialog wrapper (same
@@ -72,7 +72,7 @@ function LocalVoiceConsentModalComponent({
             <BionicText
               text={
                 t('micLocalConsentBody') ||
-                "This browser doesn't support built-in voice input, but you can still use the microphone by downloading a one-time offline voice model (~75MB). It runs entirely on this device — nothing is uploaded. Wi-Fi is recommended."
+                "This browser doesn't support built-in voice input, but you can still use the microphone by downloading a one-time offline voice model (~150MB). It runs entirely on this device — nothing is uploaded. Wi-Fi is recommended."
               }
               enabled={bionicReading}
             />
@@ -83,7 +83,7 @@ function LocalVoiceConsentModalComponent({
               className={`w-full rounded-3xl py-3 text-sm font-bold transition-all active:scale-95 ${isHighContrast ? 'bg-white text-black' : 'bg-slate-700 text-white hover:bg-slate-600'}`}
             >
               <BionicText
-                text={t('micLocalConsentAccept') || 'Download (~75MB)'}
+                text={t('micLocalConsentAccept') || 'Download (~150MB)'}
                 enabled={bionicReading}
               />
             </button>
