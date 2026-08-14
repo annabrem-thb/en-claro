@@ -543,6 +543,22 @@
   "micPermissionDenied": "Microphone access was denied. Check your browser's site settings to allow it.",
   "micNoSpeech": "Didn't catch that — try again.",
   "micGenericError": "Something went wrong with the microphone — try again.",
+  "micHelpLinkText": "See more information",
+  "micHelpTitle": "How to enable the microphone",
+  "micHelpGlobalTitle": "Global microphone switch",
+  "micHelpGlobalSteps": [
+    "Open Settings on your phone.",
+    "Go to Security & privacy > Privacy controls (or Additional privacy controls, or Privacy).",
+    "Turn on the Microphone access switch so apps can use the mic."
+  ],
+  "micHelpAppTitle": "App-specific permissions",
+  "micHelpAppSteps": [
+    "Open Settings and tap Apps.",
+    "Choose the app you want to change (like your browser).",
+    "Tap Permissions, then select Microphone.",
+    "Select Allow only while using the app or Allow."
+  ],
+  "micHelpChromeHint": "In Chrome, you can also tap the lock/info icon next to the address bar → Permissions → Microphone → Allow.",
   "speakOptionNumber": "Speak option number",
   "speakTileNumber": "Speak tile number",
   "speakGapNumber": "Speak gap number to cut",

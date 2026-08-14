@@ -1,3 +1,7 @@
+import { useState } from 'react';
+
+import MicHelpModal from './MicHelpModal.jsx';
+
 // Accessible microphone toggle for hands-free exercise answering. Every
 // exercise that supports voice input (Clock, Context, Grapheme, ReadAloud,
 // Sequence, Spatial, Syllable) used to duplicate this same button markup
@@ -13,6 +17,8 @@ export default function VoiceAnswerButton({
   themeStyles,
   noFlash = false,
   bigTargets = false,
+  isHighContrast = false,
+  bionicReading = false,
   controlBtnSize,
   // Most exercises ask for a spoken option/tile number, but the wording
   // that actually makes sense varies (e.g. Syllable's "speak gap number" —
@@ -31,22 +37,50 @@ export default function VoiceAnswerButton({
   // does support it.
   fallbackHint,
 }) {
+  const [showHelp, setShowHelp] = useState(false);
+
   const size =
     controlBtnSize ||
     (bigTargets
       ? 'w-16 h-16 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
       : 'w-12 h-12 sm:w-16 sm:h-16 text-xl sm:text-2xl');
 
+  // Shown alongside every error branch below except "no-speech" (the mic
+  // already works there, so pointing someone at their phone's permission
+  // settings would be a non-sequitur). Opens MicHelpModal rather than
+  // navigating anywhere, since the fix lives in the phone's own Settings
+  // app, not on a page this app could deep-link to.
+  const seeMoreInfoButton = (
+    <button
+      type="button"
+      onClick={() => setShowHelp(true)}
+      className="text-xs font-semibold text-blue-600 underline underline-offset-2 hover:text-blue-800"
+    >
+      {t('micHelpLinkText') || 'See more information'}
+    </button>
+  );
+
   if (error === 'unsupported') {
     return (
-      <p
-        role="status"
-        className="max-w-[28ch] text-center text-xs font-medium text-slate-500"
-      >
-        {unsupportedHint ||
-          t('micUnsupported') ||
-          "Voice input isn't supported in this browser. You can tap your answer above instead."}
-      </p>
+      <div className="flex flex-col items-center gap-1">
+        <p
+          role="status"
+          className="max-w-[28ch] text-center text-xs font-medium text-slate-500"
+        >
+          {unsupportedHint ||
+            t('micUnsupported') ||
+            "Voice input isn't supported in this browser. You can tap your answer above instead."}
+        </p>
+        {seeMoreInfoButton}
+        <MicHelpModal
+          open={showHelp}
+          onClose={() => setShowHelp(false)}
+          isHighContrast={isHighContrast}
+          noFlash={noFlash}
+          bionicReading={bionicReading}
+          t={t}
+        />
+      </div>
     );
   }
 
@@ -96,6 +130,7 @@ export default function VoiceAnswerButton({
           <p className="max-w-[28ch] text-center text-xs font-medium text-slate-500">
             {resolvedFallbackHint}
           </p>
+          {seeMoreInfoButton}
         </div>
       ) : error === 'no-speech' ? (
         <p
@@ -120,8 +155,17 @@ export default function VoiceAnswerButton({
           <p className="max-w-[28ch] text-center text-xs font-medium text-slate-500">
             {resolvedFallbackHint}
           </p>
+          {seeMoreInfoButton}
         </div>
       ) : null}
+      <MicHelpModal
+        open={showHelp}
+        onClose={() => setShowHelp(false)}
+        isHighContrast={isHighContrast}
+        noFlash={noFlash}
+        bionicReading={bionicReading}
+        t={t}
+      />
     </div>
   );
 }
