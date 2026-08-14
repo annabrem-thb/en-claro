@@ -48,3 +48,20 @@ dist-ssr
 
 # Local Netlify folder
 .netlify
+
+# Backup/export archives (should never be committed)
+*.tar.gz
+
+# Vite dependency pre-bundling cache — local, regenerated automatically
+.vite
+
+# Netlify CLI's local Deno lockfile for its Edge Functions bootstrap —
+# this project doesn't use Edge Functions; CLI regenerates it as needed
+deno.lock
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
