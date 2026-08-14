@@ -139,7 +139,8 @@ export default function VoiceAnswerButton({
           role="status"
           className="max-w-[28ch] text-center text-xs font-medium text-slate-500"
         >
-          {t('micLocalTranscribing') || 'Thinking…'}
+          {t('micLocalTranscribing') ||
+            'Thinking… this can take up to a minute on this device.'}
         </p>
       ) : error === 'not-allowed' || error === 'service-not-allowed' ? (
         <div className="flex flex-col items-center gap-1">
