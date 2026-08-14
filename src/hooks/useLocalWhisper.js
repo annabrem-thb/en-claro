@@ -6,7 +6,7 @@ import { normalizeTranscript } from '../utils/voiceTranscriptMatcher.js';
 // Only ever used by useExerciseVoice.jsx as a fallback when the browser has
 // no native SpeechRecognition (Firefox, Safari, ...). Runs OpenAI Whisper
 // entirely client-side via a Worker (whisperWorker.js) so no audio leaves
-// the device. Remembered once per browser so the ~75MB download is only
+// the device. Remembered once per browser so the ~150MB download is only
 // ever asked about once, not on every session.
 const CONSENT_STORAGE_KEY = 'localWhisperConsent';
 
@@ -141,6 +141,15 @@ export function useLocalWhisper(language) {
         setResultSeq((seq) => seq + 1);
         updateStatus('idle');
       } else if (type === 'error') {
+        // The UI only ever shows a generic code (see below) — this is the
+        // one place the underlying transformers.js/onnxruntime-web message
+        // is visible at all, which matters since failures here (wasm
+        // backend issues, a blocked/failed model fetch, ...) are otherwise
+        // silent beyond "something went wrong."
+        console.error(
+          `[useLocalWhisper] ${event.data.phase} failed:`,
+          event.data.message,
+        );
         updateStatus('error');
         setError(
           event.data.phase === 'load'
