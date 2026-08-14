@@ -103,6 +103,8 @@ function ReadAloudExercise({
           themeStyles={themeStyles}
           noFlash={noFlash}
           bigTargets={bigTargets}
+          isHighContrast={isHighContrast}
+          bionicReading={bionicReading}
           controlBtnSize={controlBtnSize}
           idleLabel={t('speakTextAloud')}
           unsupportedHint={t('micUnsupportedReadAloud')}

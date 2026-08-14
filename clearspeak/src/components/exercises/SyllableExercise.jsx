@@ -238,6 +238,8 @@ function SyllableExercise({
           themeStyles={themeStyles}
           noFlash={noFlash}
           bigTargets={bigTargets}
+          isHighContrast={isHighContrast}
+          bionicReading={bionicReading}
           controlBtnSize={controlBtnSize}
           idleLabel={t('speakGapNumber')}
         />

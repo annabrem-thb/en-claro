@@ -190,6 +190,8 @@ function SpatialExercise({
           themeStyles={themeStyles}
           noFlash={noFlash}
           bigTargets={bigTargets}
+          isHighContrast={isHighContrast}
+          bionicReading={bionicReading}
           controlBtnSize={controlBtnSize}
         />
       </div>

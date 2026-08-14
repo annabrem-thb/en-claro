@@ -539,6 +539,22 @@
   "micPermissionDenied": "Der Mikrofonzugriff wurde verweigert. Überprüfe die Website-Einstellungen deines Browsers, um ihn zu erlauben.",
   "micNoSpeech": "Nichts gehört — versuche es noch einmal.",
   "micGenericError": "Beim Mikrofon ist etwas schiefgelaufen — versuche es noch einmal.",
+  "micHelpLinkText": "Weitere Informationen anzeigen",
+  "micHelpTitle": "So aktivierst du das Mikrofon",
+  "micHelpGlobalTitle": "Globaler Mikrofon-Schalter",
+  "micHelpGlobalSteps": [
+    "Öffne die Einstellungen auf deinem Handy.",
+    "Gehe zu Sicherheit & Datenschutz > Datenschutzeinstellungen (oder Zusätzliche Datenschutzeinstellungen bzw. Datenschutz).",
+    "Aktiviere den Schalter für Mikrofonzugriff, damit Apps das Mikrofon nutzen können."
+  ],
+  "micHelpAppTitle": "App-spezifische Berechtigungen",
+  "micHelpAppSteps": [
+    "Öffne die Einstellungen und tippe auf Apps.",
+    "Wähle die App aus, die du ändern möchtest (z. B. deinen Browser).",
+    "Tippe auf Berechtigungen und dann auf Mikrofon.",
+    "Wähle Nur während der Nutzung der App zulassen oder Zulassen."
+  ],
+  "micHelpChromeHint": "In Chrome kannst du auch auf das Schloss-/Info-Symbol neben der Adressleiste tippen → Berechtigungen → Mikrofon → Zulassen.",
   "speakOptionNumber": "Optionsnummer sprechen",
   "speakTileNumber": "Kachelnummer sprechen",
   "speakGapNumber": "Lückennummer zum Schneiden sprechen",
