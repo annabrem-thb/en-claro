@@ -501,7 +501,7 @@
   "micLocalConsentAccept": "Pobierz (~150MB)",
   "micLocalConsentDecline": "Nie teraz",
   "micLocalDownloading": "Pobieranie modelu głosowego…",
-  "micLocalTranscribing": "Przetwarzanie…",
+  "micLocalTranscribing": "Przetwarzanie… może to potrwać do minuty na tym urządzeniu.",
   "micLocalDownloadError": "Nie udało się pobrać modelu głosowego — sprawdź połączenie i spróbuj ponownie.",
   "speakOptionNumber": "Powiedz numer opcji",
   "speakTileNumber": "Powiedz numer kafelka",

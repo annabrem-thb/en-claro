@@ -561,7 +561,7 @@
   "micLocalConsentAccept": "Herunterladen (~150MB)",
   "micLocalConsentDecline": "Nicht jetzt",
   "micLocalDownloading": "Sprachmodell wird heruntergeladen…",
-  "micLocalTranscribing": "Verarbeite…",
+  "micLocalTranscribing": "Verarbeite… das kann auf diesem Gerät bis zu einer Minute dauern.",
   "micLocalDownloadError": "Das Sprachmodell konnte nicht heruntergeladen werden — überprüfe deine Verbindung und versuche es erneut.",
   "speakOptionNumber": "Optionsnummer sprechen",
   "speakTileNumber": "Kachelnummer sprechen",

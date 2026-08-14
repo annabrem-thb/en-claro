@@ -565,7 +565,7 @@
   "micLocalConsentAccept": "Download (~150MB)",
   "micLocalConsentDecline": "Not now",
   "micLocalDownloading": "Downloading voice model…",
-  "micLocalTranscribing": "Thinking…",
+  "micLocalTranscribing": "Thinking… this can take up to a minute on this device.",
   "micLocalDownloadError": "The voice model couldn't be downloaded — check your connection and try again.",
   "speakOptionNumber": "Speak option number",
   "speakTileNumber": "Speak tile number",
