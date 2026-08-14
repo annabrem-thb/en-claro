@@ -2,7 +2,7 @@
 
 > Accessible, gamified Progressive Web App supporting reading, writing, visual, and cognitive exercises for people with dyslexia. Built as part of a Master's thesis.
 
-**🇬🇧 [English](#-english)** · **🇩🇪 [Deutsch](#-deutsch)**
+**🇬🇧 [English](#-english)** · **🇩🇪 [Deutsch](#-deutsch)** · **🇵🇱 [Polski](#-polski)**
 
 ---
 
@@ -228,6 +228,120 @@ Damit die umfrage-/Supabase-gestützte Funktion lokal erreichbar ist, `npx netli
 npm run build       # Produktions-Build
 npm run test:run    # Unit-Tests (Vitest)
 npm run test:e2e     # End-to-End- und Barrierefreiheitstests (Playwright)
+npm run lint         # ESLint
+npm run typecheck    # TypeScript
+```
+
+---
+
+## 🇵🇱 Polski
+
+EnClaro to w pełni responsywna, zaprojektowana z myślą o dostępności (WCAG 2.1 AA) progresywna aplikacja webowa (PWA) oferująca ćwiczenia czytania, pisania, wzrokowe i poznawcze dla dorosłych z dysleksją. Działa offline, obsługuje język polski, angielski i niemiecki, i zawiera opcjonalny tryb grywalizacji obok trybu "tylko nauka".
+
+### ✨ Kluczowe funkcje
+
+**Dostępność i personalizacja**
+
+- Czcionka przyjazna osobom z dysleksją (w stylu OpenDyslexic), regulowane odstępy między literami/słowami oraz większy tekst
+- Bionic Reading (pogrubione początki słów wspomagające fiksację wzroku)
+- Motyw wysokiego kontrastu, palety bezpieczne dla osób z zaburzeniami rozpoznawania barw oraz stonowany/spokojny tryb kolorystyczny
+- Tryb "Motoryka" — powiększone obszary dotykowe (min. 56×56px) dla osób z ograniczeniami motorycznymi
+- Tryb Zen / ograniczony ruch — wyłącza animacje, migotanie i zbędne elementy interfejsu
+- Linijka skupienia (Focus Ruler) do śledzenia linii tekstu podczas czytania
+- Pełna nawigacja klawiaturą (skróty Ctrl+1–4) i wsparcie czytników ekranu (semantyczny HTML, regiony ARIA live, pułapki fokusu w oknach dialogowych)
+
+**Asystent głosowy**
+
+- Synteza mowy (TTS) odczytuje instrukcje, opcje i informacje zwrotne na głos, z regulowanym głosem/tempem/wysokością
+- Rozpoznawanie mowy pozwala odpowiadać, pomijać lub sprawdzać ćwiczenia bez użycia rąk
+- W przeglądarkach opartych na Chromium wykorzystywane jest natywne Web Speech API; w przeglądarkach bez tego wsparcia (Firefox, Safari, ...) aplikacja oferuje jako rozwiązanie zastępcze lokalny model Whisper (przez Transformers.js) — pobierany jednorazowo, działający w pełni lokalnie, żadne dane audio nie opuszczają urządzenia
+- Automatycznie pauzuje i przełącza język w trakcie sesji, gdy zmienia się język interfejsu
+
+**Grywalizacja**
+
+- Wirtualny Ogród — rozwijający się ekosystem odzwierciedlający codzienne postępy i serie
+- Monety i sklep z motywami (Natura, Muzyka, Sztuka, Kosmos, Ocean)
+- Śledzenie obciążenia poznawczego, które delikatnie sugeruje przerwę po serii błędów
+- Niegrywalizowany tryb "Tylko nauka" dla użytkowników preferujących prosty interfejs
+
+**PWA i offline**
+
+- Możliwość instalacji na komputerze i urządzeniach mobilnych, pełne działanie offline dzięki Service Workerowi
+- Własny monit instalacyjny i baner aktualizacji
+- Dyskretny wskaźnik statusu offline
+
+### 🧩 Filary ćwiczeń
+
+- **📖 Umiejętność czytania i pisania** — fonemy, sylaby, grafemy/zasady ortografii, dyskryminacja słuchowa, słownictwo, budowanie słów w stylu Scrabble, look-cover-write-check, kontekst zdaniowy, dyktando, czytanie na głos, rozumienie tekstu, rytm
+- **👁️ Wzrokowe** — odczytywanie zegara, śledzenie wzrokowe (rozróżnianie typu b/d, p/q), rozpoznawanie odbicia lustrzanego, "co nie pasuje"
+- **🧩 Poznawcze** — kategoryzacja (przeciągnij i upuść, dotknij, aby umieścić), sekwencjonowanie, zakres pamięci, rozumowanie logiczne, pamięć rytmu, pamięć melodii
+
+Do każdego filaru dołączona jest bezwarunkowa pula diagnostyczna do wstępnej oceny, niezależnie od tego, które typy ćwiczeń użytkownik włączył w ustawieniach.
+
+### 🔬 Instrumentarium badawcze
+
+Na potrzeby towarzyszącego badania w ramach pracy magisterskiej aplikacja zawiera ankiety NASA-TLX (obciążenie poznawcze) i SUS (użyteczność), przesyłane za pomocą funkcji serverless Netlify do tabeli Supabase (PostgreSQL) z zabezpieczeniami na poziomie wierszy (row-level security), zapisem wyłącznie przez klucz service-role oraz walidacją danych po stronie serwera.
+
+### 🏗️ Stos technologiczny
+
+- **Frontend:** React 19, Vite
+- **Stylowanie:** Tailwind CSS 4
+- **Stan:** React Context (bez Reduxa)
+- **i18n:** i18next — polski, angielski, niemiecki
+- **PWA:** vite-plugin-pwa (Workbox)
+- **Pamięć lokalna:** IndexedDB (postępy, telemetria)
+- **Backend (ankieta):** Netlify Functions + Supabase
+- **Testy:** Vitest + React Testing Library (jednostkowe), Playwright + axe-core (E2E i dostępność)
+
+### 📂 Struktura projektu
+
+```text
+.
+├── netlify/functions/        # Funkcje serverless (przesyłanie ankiety → Supabase)
+├── supabase/                 # Schemat Supabase (PostgreSQL) dla tabeli ankiety
+├── scripts/                  # Skrypty dla opiekunów projektu (np. eksport danych ankiety do CSV)
+├── docs/                     # Notatki deweloperskie (rozmiar paczki, przewodnik po czytniku ekranu, ...)
+├── src/
+│   ├── components/
+│   │   ├── common/           # Wspólne przyciski, BionicText, TTSController, Dialog
+│   │   ├── exercises/        # Jeden komponent na typ ćwiczenia
+│   │   ├── App.jsx           # Układ, routing i orkiestracja sesji
+│   │   ├── VirtualGarden.jsx
+│   │   └── SettingsModal.jsx
+│   ├── data/                 # Bazy słownictwa/ćwiczeń dla każdego języka
+│   ├── hooks/                 # Własne hooki (głos, TTS, obciążenie poznawcze, IndexedDB, ...)
+│   ├── i18n/                  # Konfiguracja i18next
+│   ├── locales/                # Pliki JSON tłumaczeń dla każdego języka
+│   ├── workers/                # Web Workery (lokalne ASR Whisper, AudioWorklet mikrofonu)
+│   └── utils/
+└── tests-playwright/           # Zestawy testów end-to-end i dostępności
+```
+
+### 🚀 Pierwsze kroki
+
+**Wymagania:** Node.js 18+
+
+```bash
+git clone <repository-url>
+cd dyslexia-pwa
+npm install
+npm run dev        # http://localhost:5173
+```
+
+Opcjonalnie, ale zalecane: włączenie pre-commitowego hooka formatowania (Prettier przez lint-staged) jednorazowo dla każdego klona:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Aby funkcja ankiety oparta na Supabase działała lokalnie, uruchom `npx netlify dev` zamiast zwykłego `npm run dev` (patrz `netlify.toml`).
+
+**Build i testy**
+
+```bash
+npm run build       # build produkcyjny
+npm run test:run    # testy jednostkowe (Vitest)
+npm run test:e2e     # testy end-to-end i dostępności (Playwright)
 npm run lint         # ESLint
 npm run typecheck    # TypeScript
 ```
