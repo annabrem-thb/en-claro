@@ -194,15 +194,12 @@ function AppContent() {
 
   const {
     status: localTTSStatus,
-    progress: localTTSProgress,
     error: localTTSError,
     isSpeaking: localTTSIsSpeaking,
     isPaused: localTTSIsPaused,
     speak: localTTSSpeak,
     pause: localTTSPause,
     resume: localTTSResume,
-    confirmDownload: localTTSConfirmDownload,
-    declineDownload: localTTSDeclineDownload,
   } = useLocalTTS();
 
   // Same signature/behavior as useGlobalTTS's own `speak` from every
@@ -233,26 +230,20 @@ function AppContent() {
     () => ({
       active: noNativeVoices,
       status: localTTSStatus,
-      progress: localTTSProgress,
       error: localTTSError,
       isSpeaking: localTTSIsSpeaking,
       isPaused: localTTSIsPaused,
       pause: localTTSPause,
       resume: localTTSResume,
-      confirmDownload: localTTSConfirmDownload,
-      declineDownload: localTTSDeclineDownload,
     }),
     [
       noNativeVoices,
       localTTSStatus,
-      localTTSProgress,
       localTTSError,
       localTTSIsSpeaking,
       localTTSIsPaused,
       localTTSPause,
       localTTSResume,
-      localTTSConfirmDownload,
-      localTTSDeclineDownload,
     ],
   );
 
