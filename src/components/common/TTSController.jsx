@@ -2,23 +2,19 @@ import { useState, useEffect } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import LocalTTSConsentModal from './LocalTTSConsentModal.jsx';
-
 export default function TTSController({
   onReadAloud,
   pauseAllTimeouts,
   resumeAllTimeouts,
   controlBtnSize = 'w-16 h-16 text-2xl',
-  isHighContrast = false,
   noFlash = false,
-  bionicReading = false,
   // Undefined for every caller except when App.jsx has detected zero
   // installed system voices (see useLocalTTS.js) — every other call site is
   // unaffected, same pattern as VoiceAnswerButton's local-Whisper fields.
   // `speak()` itself already routes to the fallback engine transparently;
   // this is only what the button needs to show its own state (speaking/
-  // paused/downloading) and drive pause/resume, since those can't be read
-  // off `window.speechSynthesis` when nothing is actually using it.
+  // paused/preparing) and drive pause/resume, since those can't be read off
+  // `window.speechSynthesis` when nothing is actually using it.
   ttsFallback,
 }) {
   const [isPaused, setIsPaused] = useState(false);
@@ -71,22 +67,28 @@ export default function TTSController({
     }
   };
 
-  const awaitingLocalSetup =
+  // The local engine now loads/synthesizes in well under a second (see
+  // useLocalTTS.js), so this is just a brief pulse on the button itself
+  // rather than a blocking modal — there's no multi-second wait to explain
+  // to the user anymore.
+  const isPreparing =
     usingFallback &&
-    (ttsFallback.status === 'awaiting-consent' ||
-      ttsFallback.status === 'loading-model');
+    (ttsFallback.status === 'loading-model' ||
+      ttsFallback.status === 'synthesizing');
 
   return (
     <div className="flex flex-col items-center gap-2">
       <button
         onClick={handleToggle}
-        className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-600 shadow-sm transition-all hover:text-slate-600 active:scale-90`}
+        className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-600 shadow-sm transition-all hover:text-slate-600 active:scale-90 ${isPreparing && !noFlash ? 'animate-pulse' : ''}`}
         aria-label={
           displayIsPaused
             ? t('resume')
             : displayIsSpeaking
               ? t('pause')
-              : t('readAloudTitle')
+              : isPreparing
+                ? t('loading')
+                : t('readAloudTitle')
         }
       >
         {displayIsPaused ? '▶️' : displayIsSpeaking ? '⏸️' : '🔊'}
@@ -98,23 +100,10 @@ export default function TTSController({
         >
           {ttsFallback.error === 'local-download-error'
             ? t('ttsLocalDownloadError') ||
-              "The voice model couldn't be downloaded — check your connection and try again."
+              "Couldn't load the voice engine — check your connection and try again."
             : t('ttsLocalEngineError') ||
               'Something went wrong reading this aloud — try again.'}
         </p>
-      )}
-      {usingFallback && (
-        <LocalTTSConsentModal
-          open={awaitingLocalSetup}
-          status={ttsFallback.status}
-          progress={ttsFallback.progress}
-          onConfirm={ttsFallback.confirmDownload}
-          onDecline={ttsFallback.declineDownload}
-          isHighContrast={isHighContrast}
-          noFlash={noFlash}
-          bionicReading={bionicReading}
-          t={t}
-        />
       )}
     </div>
   );

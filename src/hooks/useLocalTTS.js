@@ -1,33 +1,36 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-// Local, in-browser neural TTS (MMS-TTS via transformers.js, see
-// ttsWorker.js) for browsers that report zero installed system voices —
-// mainly desktop Firefox, which unlike Chrome has no bundled network voices
-// of its own and depends entirely on OS-registered ones. Mirrors
-// useLocalWhisper.js's shape (worker, one-time consent, download-once) —
-// speech-out instead of speech-in. Only ever instantiated by App.jsx, which
-// decides whether the native engine has usable voices at all.
-const CONSENT_STORAGE_KEY = 'localTTSConsent';
-
+// Local, in-browser TTS (meSpeak/eSpeak formant synthesis, see ttsWorker.js)
+// for browsers that report zero installed system voices — mainly desktop
+// Firefox/Opera, which unlike Chrome have no bundled network voices of
+// their own and depend entirely on OS-registered ones. Only ever
+// instantiated by App.jsx, which decides whether the native engine has
+// usable voices at all.
+//
+// Previously ran a neural VITS model here, gated behind an explicit
+// download-consent modal (~110MB). That model was swapped for meSpeak — a
+// rule-based, classically "robotic"-sounding engine that trades voice
+// naturalism for synthesis that completes in well under a second (the
+// neural model took 25-90s *per read-aloud click*, not just once) and a
+// one-time engine download small enough not to need its own consent step.
 export function useLocalTTS() {
-  // idle | awaiting-consent | loading-model | synthesizing | error
+  // idle | loading-model | synthesizing | error
   const [status, setStatus] = useState('idle');
-  const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 
   const statusRef = useRef('idle');
   const workerRef = useRef(null);
-  // Which languages' pipelines the worker has already finished loading —
+  // Which languages' voices the worker has already finished loading —
   // mirrored here (not just inside the worker) so speak() knows whether to
   // go straight to 'synthesize' or send 'load' first, without a round trip.
   const loadedLanguagesRef = useRef(new Set());
   const audioCtxRef = useRef(null);
   const sourceNodeRef = useRef(null);
-  // The one request currently in flight (awaiting consent, loading, or
-  // synthesizing) — TTS only ever needs to say one thing at a time, so a new
-  // speak() call always supersedes whatever was pending, the same way
+  // The one request currently in flight (loading or synthesizing) — TTS
+  // only ever needs to say one thing at a time, so a new speak() call
+  // always supersedes whatever was pending, the same way
   // speechSynthesis.speak() implicitly cancels-then-speaks.
   const pendingRef = useRef(null);
   const cancelledRef = useRef(false);
@@ -40,17 +43,11 @@ export function useLocalTTS() {
   // call speak() several times in quick succession — one per sentence/
   // option — trusting that each new call cancels the last, exactly like
   // native speechSynthesis.speak() does. Without this guard, every one of
-  // those calls fired before the model finished loading once would each
-  // send its own 'load', and the single-threaded worker would process them
-  // one at a time — session setup, tens of seconds each — turning a handful
-  // of near-simultaneous calls into several minutes of silent, invisible
-  // backlog before anything was ever heard.
+  // those calls fired before a voice finished loading once would each send
+  // its own 'load'.
   const loadInFlightRef = useRef(new Set());
-  // True while the worker is actually running inference for some request.
-  // Mirrors loadInFlightRef's reasoning for the *already loaded* fast path:
-  // once a model is cached, every speak() call would otherwise fire its own
-  // 'synthesize' immediately, and the same one-at-a-time worker backlog
-  // would happen again, just with inference time instead of load time.
+  // True while the worker is actually synthesizing some request. Mirrors
+  // loadInFlightRef's reasoning for the *already loaded* fast path.
   const synthesizeInFlightRef = useRef(false);
   // startRequest is defined after ensureWorker but referenced from inside
   // it (to pick up a request that superseded one whose result just came
@@ -84,25 +81,26 @@ export function useLocalTTS() {
   }, [updateStatus]);
 
   const playAudio = useCallback(
-    (requestId, audioData, samplingRate) => {
+    (requestId, wavBytes) => {
       if (requestId !== requestIdRef.current || cancelledRef.current) return;
       const ctx = ensureAudioContext();
       const rate = pendingRef.current?.rate || 1;
-      const buffer = ctx.createBuffer(1, audioData.length, samplingRate);
-      buffer.copyToChannel(audioData, 0);
-      const source = ctx.createBufferSource();
-      source.buffer = buffer;
-      source.playbackRate.value = rate;
-      source.connect(ctx.destination);
-      source.onended = finishRequest;
-      sourceNodeRef.current = source;
-      setIsSpeaking(true);
-      setIsPaused(false);
-      if (ctx.state === 'suspended') {
-        ctx.resume().then(() => source.start());
-      } else {
-        source.start();
-      }
+      ctx.decodeAudioData(wavBytes.buffer, (buffer) => {
+        if (requestId !== requestIdRef.current || cancelledRef.current) return;
+        const source = ctx.createBufferSource();
+        source.buffer = buffer;
+        source.playbackRate.value = rate;
+        source.connect(ctx.destination);
+        source.onended = finishRequest;
+        sourceNodeRef.current = source;
+        setIsSpeaking(true);
+        setIsPaused(false);
+        if (ctx.state === 'suspended') {
+          ctx.resume().then(() => source.start());
+        } else {
+          source.start();
+        }
+      });
     },
     [ensureAudioContext, finishRequest],
   );
@@ -115,9 +113,7 @@ export function useLocalTTS() {
     );
     worker.onmessage = (event) => {
       const { type } = event.data;
-      if (type === 'progress') {
-        setProgress(event.data.progress);
-      } else if (type === 'ready') {
+      if (type === 'ready') {
         loadedLanguagesRef.current.add(event.data.language);
         loadInFlightRef.current.delete(event.data.language);
         const pending = pendingRef.current;
@@ -143,11 +139,8 @@ export function useLocalTTS() {
           return;
         }
         updateStatus('idle');
-        playAudio(event.data.requestId, event.data.audio, event.data.samplingRate);
+        playAudio(event.data.requestId, event.data.audio);
       } else if (type === 'error') {
-        // Mirrors useLocalWhisper.js's error logging — the UI only ever
-        // shows a generic code, so this is the one place the underlying
-        // transformers.js/onnxruntime-web message is visible at all.
         console.error(
           `[useLocalTTS] ${event.data.phase} failed:`,
           event.data.message,
@@ -201,7 +194,6 @@ export function useLocalTTS() {
           return;
         }
         loadInFlightRef.current.add(request.language);
-        setProgress(0);
         worker.postMessage({ type: 'load', language: request.language });
       }
     },
@@ -224,33 +216,10 @@ export function useLocalTTS() {
       setError(null);
       const requestId = ++requestIdRef.current;
       pendingRef.current = { text, language, rate, onEnd, requestId };
-
-      if (localStorage.getItem(CONSENT_STORAGE_KEY) !== 'granted') {
-        updateStatus('awaiting-consent');
-        return;
-      }
       startRequest(pendingRef.current);
     },
-    [startRequest, updateStatus],
+    [startRequest],
   );
-
-  const confirmDownload = useCallback(() => {
-    cancelledRef.current = false;
-    localStorage.setItem(CONSENT_STORAGE_KEY, 'granted');
-    if (!pendingRef.current) {
-      updateStatus('idle');
-      return;
-    }
-    startRequest(pendingRef.current);
-  }, [startRequest, updateStatus]);
-
-  const declineDownload = useCallback(() => {
-    cancelledRef.current = true;
-    const onEnd = pendingRef.current?.onEnd;
-    pendingRef.current = null;
-    updateStatus('idle');
-    onEnd?.();
-  }, [updateStatus]);
 
   const cancel = useCallback(() => {
     cancelledRef.current = true;
@@ -260,12 +229,7 @@ export function useLocalTTS() {
     pendingRef.current = null;
     setIsSpeaking(false);
     setIsPaused(false);
-    if (
-      statusRef.current !== 'awaiting-consent' &&
-      statusRef.current !== 'loading-model'
-    ) {
-      updateStatus('idle');
-    }
+    updateStatus('idle');
   }, [updateStatus]);
 
   const pause = useCallback(() => {
@@ -291,7 +255,6 @@ export function useLocalTTS() {
 
   return {
     status,
-    progress,
     error,
     isSpeaking,
     isPaused,
@@ -299,7 +262,5 @@ export function useLocalTTS() {
     cancel,
     pause,
     resume,
-    confirmDownload,
-    declineDownload,
   };
 }
