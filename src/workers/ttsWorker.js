@@ -36,12 +36,12 @@ const MODELS = {
 };
 
 // One singleton pipeline per language, not per-message — session setup only
-// needs to happen once per language per worker lifetime. fp32 (not a
-// quantized dtype): measured meaningfully *faster* inference than the q8
-// build for these VITS models (no optimized wasm kernel for the quantized
-// ops here), so there's no tradeoff to make the way there was for Whisper's
-// decoder — fp32 wins on both speed and (having been the one actually
-// exercised) confidence.
+// needs to happen once per language per worker lifetime. fp32: the only
+// dtype actually exercised so far. Single-threaded wasm session setup +
+// inference for this model is on the order of tens of seconds regardless
+// (see useLocalTTS.js's request-deduplication comment) — a smaller
+// quantized build might shave that down, but hasn't been verified not to
+// hit a graph-compatibility issue the way Whisper's quantized decoder did.
 const pipelines = new Map();
 
 function loadSynthesizer(language) {
@@ -80,6 +80,7 @@ self.onmessage = async (event) => {
       self.postMessage({
         type: 'error',
         phase: 'load',
+        language,
         message: error?.message || String(error),
       });
     }

@@ -35,6 +35,30 @@ export function useLocalTTS() {
   // that arrives after the request it answers was superseded be dropped
   // instead of speaking a stale answer or starting a stale synthesis.
   const requestIdRef = useRef(0);
+  // Languages with a 'load' message already sent but no 'ready'/'error' back
+  // yet. Several exercises (e.g. ContextExercise's readContextAndOptions)
+  // call speak() several times in quick succession — one per sentence/
+  // option — trusting that each new call cancels the last, exactly like
+  // native speechSynthesis.speak() does. Without this guard, every one of
+  // those calls fired before the model finished loading once would each
+  // send its own 'load', and the single-threaded worker would process them
+  // one at a time — session setup, tens of seconds each — turning a handful
+  // of near-simultaneous calls into several minutes of silent, invisible
+  // backlog before anything was ever heard.
+  const loadInFlightRef = useRef(new Set());
+  // True while the worker is actually running inference for some request.
+  // Mirrors loadInFlightRef's reasoning for the *already loaded* fast path:
+  // once a model is cached, every speak() call would otherwise fire its own
+  // 'synthesize' immediately, and the same one-at-a-time worker backlog
+  // would happen again, just with inference time instead of load time.
+  const synthesizeInFlightRef = useRef(false);
+  // startRequest is defined after ensureWorker but referenced from inside
+  // it (to pick up a request that superseded one whose result just came
+  // back) — routed through a ref, kept in sync every render below, so the
+  // worker's one-time onmessage closure always calls the current version
+  // rather than freezing on whatever startRequest was at worker-creation
+  // time.
+  const startRequestRef = useRef(null);
 
   const updateStatus = useCallback((next) => {
     statusRef.current = next;
@@ -95,23 +119,29 @@ export function useLocalTTS() {
         setProgress(event.data.progress);
       } else if (type === 'ready') {
         loadedLanguagesRef.current.add(event.data.language);
+        loadInFlightRef.current.delete(event.data.language);
         const pending = pendingRef.current;
-        if (
-          !cancelledRef.current &&
-          pending?.language === event.data.language &&
-          pending.requestId === requestIdRef.current
-        ) {
-          updateStatus('synthesizing');
-          worker.postMessage({
-            type: 'synthesize',
-            language: pending.language,
-            text: pending.text,
-            requestId: pending.requestId,
-          });
+        if (!cancelledRef.current && pending?.language === event.data.language) {
+          // Always the *latest* pending request, not necessarily the one
+          // whose speak() call originally triggered this load — any calls
+          // in between were absorbed by the loadInFlightRef guard in
+          // startRequest instead of queuing their own redundant loads.
+          startRequestRef.current(pending);
         } else {
           updateStatus('idle');
         }
       } else if (type === 'result') {
+        synthesizeInFlightRef.current = false;
+        if (
+          event.data.requestId !== requestIdRef.current ||
+          cancelledRef.current
+        ) {
+          // Superseded while this was synthesizing — a newer speak() call
+          // is now pending; run that instead of playing a stale answer.
+          if (pendingRef.current) startRequestRef.current(pendingRef.current);
+          else updateStatus('idle');
+          return;
+        }
         updateStatus('idle');
         playAudio(event.data.requestId, event.data.audio, event.data.samplingRate);
       } else if (type === 'error') {
@@ -122,6 +152,11 @@ export function useLocalTTS() {
           `[useLocalTTS] ${event.data.phase} failed:`,
           event.data.message,
         );
+        if (event.data.phase === 'load' && event.data.language) {
+          loadInFlightRef.current.delete(event.data.language);
+        } else {
+          synthesizeInFlightRef.current = false;
+        }
         updateStatus('error');
         setError(
           event.data.phase === 'load'
@@ -142,6 +177,15 @@ export function useLocalTTS() {
       const worker = ensureWorker();
       if (loadedLanguagesRef.current.has(request.language)) {
         updateStatus('synthesizing');
+        if (synthesizeInFlightRef.current) {
+          // The worker is already synthesizing an earlier (now superseded)
+          // request — pendingRef already holds this one, so the 'result'
+          // handler above will pick it up the moment the current inference
+          // finishes instead of this piling another 'synthesize' message
+          // in behind it.
+          return;
+        }
+        synthesizeInFlightRef.current = true;
         worker.postMessage({
           type: 'synthesize',
           language: request.language,
@@ -150,12 +194,23 @@ export function useLocalTTS() {
         });
       } else {
         updateStatus('loading-model');
+        if (loadInFlightRef.current.has(request.language)) {
+          // Same idea as the synthesize guard above, for the load phase —
+          // pendingRef holds this request; the 'ready' handler will start
+          // it once the one in-flight load finishes.
+          return;
+        }
+        loadInFlightRef.current.add(request.language);
         setProgress(0);
         worker.postMessage({ type: 'load', language: request.language });
       }
     },
     [ensureWorker, updateStatus],
   );
+
+  useEffect(() => {
+    startRequestRef.current = startRequest;
+  }, [startRequest]);
 
   const speak = useCallback(
     (text, language, rate, onEnd) => {
