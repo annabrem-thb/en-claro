@@ -15,6 +15,7 @@ function ReadAloudExercise({
   language,
   t,
   speak,
+  ttsFallback,
   noFlash,
   bigTargets,
   extendedTime,
@@ -99,6 +100,10 @@ function ReadAloudExercise({
           resumeAllTimeouts={resumeAllTimeouts}
           t={t}
           controlBtnSize={controlBtnSize}
+          isHighContrast={isHighContrast}
+          noFlash={noFlash}
+          bionicReading={bionicReading}
+          ttsFallback={ttsFallback}
         />
 
         <VoiceAnswerButton

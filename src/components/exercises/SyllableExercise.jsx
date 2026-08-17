@@ -16,6 +16,7 @@ function SyllableExercise({
   language = 'en',
   t,
   speak,
+  ttsFallback,
   noFlash = false,
   bigTargets = false,
   extendedTime = false,
@@ -240,6 +241,10 @@ function SyllableExercise({
             resumeAllTimeouts={resumeAllTimeouts}
             t={t}
             controlBtnSize={controlBtnSize}
+            isHighContrast={isHighContrast}
+            noFlash={noFlash}
+            bionicReading={bionicReading}
+            ttsFallback={ttsFallback}
           />
         </div>
 

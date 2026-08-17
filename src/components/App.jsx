@@ -21,6 +21,7 @@ import { useHapticFeedback } from '../hooks/useHapticFeedback.js';
 import { getInitialRouteState, useHashRoute } from '../hooks/useHashRoute.js';
 import { useIndexedDB } from '../hooks/useIndexedDB.js';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts.js';
+import { useLocalTTS } from '../hooks/useLocalTTS.js';
 import { useReadingRuler } from '../hooks/useReadingRuler.js';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation.js';
 import { useThemeCSSVariables } from '../hooks/useThemeCSSVariables.js';
@@ -159,7 +160,101 @@ function AppContent() {
     }
   }, [language]);
 
-  const { speak } = useGlobalTTS(language, settings.extendedTime);
+  const { speak: nativeSpeak } = useGlobalTTS(language, settings.extendedTime);
+
+  // Unlike native SpeechRecognition (see voiceCapabilities.js),
+  // speechSynthesis reports itself as supported even with zero installed
+  // voices — desktop Firefox has no bundled voices of its own (unlike
+  // Chrome, which ships network-backed voices independent of the OS), so
+  // read-aloud silently does nothing once the OS has none registered
+  // either. Detected once here, not per-TTSController instance, since it
+  // decides which engine speak() itself routes to below, not just what a
+  // button displays.
+  const [noNativeVoices, setNoNativeVoices] = useState(false);
+  useEffect(() => {
+    const checkVoices = () => {
+      setNoNativeVoices(
+        (window.speechSynthesis?.getVoices?.() || []).length === 0,
+      );
+    };
+    checkVoices();
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.addEventListener('voiceschanged', checkVoices);
+    // A browser with genuinely zero voices may never fire 'voiceschanged'
+    // at all (there's nothing to notify a change to) — this re-check is
+    // what catches that case instead of getting stuck on whatever the
+    // synchronous check above happened to see before voices had a chance
+    // to load.
+    const timeoutId = setTimeout(checkVoices, 1000);
+    return () => {
+      window.speechSynthesis.removeEventListener('voiceschanged', checkVoices);
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
+  const {
+    status: localTTSStatus,
+    progress: localTTSProgress,
+    error: localTTSError,
+    isSpeaking: localTTSIsSpeaking,
+    isPaused: localTTSIsPaused,
+    speak: localTTSSpeak,
+    pause: localTTSPause,
+    resume: localTTSResume,
+    confirmDownload: localTTSConfirmDownload,
+    declineDownload: localTTSDeclineDownload,
+  } = useLocalTTS();
+
+  // Same signature/behavior as useGlobalTTS's own `speak` from every
+  // caller's point of view — IntroScreen, VirtualGarden, every exercise —
+  // so nothing downstream needs to know which engine actually spoke.
+  const speak = useCallback(
+    (text, slow = false, onEnd) => {
+      if (noNativeVoices) {
+        const rate = slow || settings.extendedTime ? 0.65 : 1;
+        localTTSSpeak(text, language, rate, onEnd);
+        return;
+      }
+      nativeSpeak(text, slow, onEnd);
+    },
+    [
+      noNativeVoices,
+      localTTSSpeak,
+      nativeSpeak,
+      language,
+      settings.extendedTime,
+    ],
+  );
+
+  // Only what TTSController needs to show its own state (speaking/paused/
+  // downloading) and drive pause/resume — `speak` above already routes to
+  // the right engine transparently, so every other caller is unaffected.
+  const ttsFallback = useMemo(
+    () => ({
+      active: noNativeVoices,
+      status: localTTSStatus,
+      progress: localTTSProgress,
+      error: localTTSError,
+      isSpeaking: localTTSIsSpeaking,
+      isPaused: localTTSIsPaused,
+      pause: localTTSPause,
+      resume: localTTSResume,
+      confirmDownload: localTTSConfirmDownload,
+      declineDownload: localTTSDeclineDownload,
+    }),
+    [
+      noNativeVoices,
+      localTTSStatus,
+      localTTSProgress,
+      localTTSError,
+      localTTSIsSpeaking,
+      localTTSIsPaused,
+      localTTSPause,
+      localTTSResume,
+      localTTSConfirmDownload,
+      localTTSDeclineDownload,
+    ],
+  );
 
   const [activeTab, setActiveTab] = useState(
     initialRoute.activeTab || 'Literacy',
@@ -416,6 +511,7 @@ function AppContent() {
     () => ({
       themeStyles,
       speak,
+      ttsFallback,
       t,
       language,
       onSuccess: handleSuccess,
@@ -431,6 +527,7 @@ function AppContent() {
     [
       themeStyles,
       speak,
+      ttsFallback,
       t,
       language,
       handleSuccess,
