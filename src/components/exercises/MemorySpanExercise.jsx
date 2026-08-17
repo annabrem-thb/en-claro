@@ -14,6 +14,7 @@ function MemorySpanExercise({
   t,
   language = 'en',
   speak,
+  ttsFallback,
   noFlash = false,
   bigTargets = false,
   extendedTime = false,
@@ -229,6 +230,10 @@ function MemorySpanExercise({
               resumeAllTimeouts={resumeAllTimeouts}
               t={t}
               controlBtnSize={controlBtnSize}
+              isHighContrast={isHighContrast}
+              noFlash={noFlash}
+              bionicReading={bionicReading}
+              ttsFallback={ttsFallback}
             />
             <div
               className={`flex flex-wrap justify-center gap-4 ${pulseClass}`}
@@ -275,6 +280,10 @@ function MemorySpanExercise({
               resumeAllTimeouts={resumeAllTimeouts}
               t={t}
               controlBtnSize={controlBtnSize}
+              isHighContrast={isHighContrast}
+              noFlash={noFlash}
+              bionicReading={bionicReading}
+              ttsFallback={ttsFallback}
             />
 
             <button

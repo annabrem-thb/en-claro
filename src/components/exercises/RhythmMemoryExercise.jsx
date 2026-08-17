@@ -59,6 +59,7 @@ function RhythmMemoryExercise({
   onError,
   t,
   speak,
+  ttsFallback,
   noFlash = false,
   bigTargets = false,
   extendedTime = false,
@@ -199,6 +200,10 @@ function RhythmMemoryExercise({
             resumeAllTimeouts={resumeAllTimeouts}
             t={t}
             controlBtnSize={controlBtnSize}
+            isHighContrast={isHighContrast}
+            noFlash={noFlash}
+            bionicReading={bionicReading}
+            ttsFallback={ttsFallback}
           />
         </div>
       )}

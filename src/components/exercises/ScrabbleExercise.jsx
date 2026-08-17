@@ -12,6 +12,7 @@ function ScrabbleExercise({
   onError,
   t,
   speak,
+  ttsFallback,
   noFlash = false,
   bigTargets = false,
   extendedTime = false,
@@ -187,6 +188,10 @@ function ScrabbleExercise({
             resumeAllTimeouts={resumeAllTimeouts}
             t={t}
             controlBtnSize={controlBtnSize}
+            isHighContrast={isHighContrast}
+            noFlash={noFlash}
+            bionicReading={bionicReading}
+            ttsFallback={ttsFallback}
           />
         </div>
       </div>

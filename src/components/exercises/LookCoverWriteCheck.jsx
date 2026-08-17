@@ -12,6 +12,7 @@ function LookCoverWriteCheck({
   onSelfEvaluate,
   t: propT,
   speak,
+  ttsFallback,
   extendedTime,
   bigTargets,
   voiceAssistant = true,
@@ -72,6 +73,10 @@ function LookCoverWriteCheck({
             controlBtnSize={
               bigTargets ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'
             }
+            isHighContrast={isHighContrast}
+            noFlash={noFlash}
+            bionicReading={bionicReading}
+            ttsFallback={ttsFallback}
           />
         </div>
 
