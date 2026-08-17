@@ -49,7 +49,10 @@ function LocalTTSConsentModalComponent({
             className={`mb-4 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
           >
             <BionicText
-              text={t('ttsLocalDownloading') || 'Downloading voice model…'}
+              text={
+                t('ttsLocalDownloading') ||
+                'Downloading voice model… setup can take a few minutes the first time on this device.'
+              }
               enabled={bionicReading}
             />
           </p>

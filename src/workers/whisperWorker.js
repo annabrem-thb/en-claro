@@ -4,7 +4,17 @@
 // onnxruntime-web's wasm binaries live in this worker's own chunk, so
 // Chrome/Edge users (native SpeechRecognition, the overwhelming majority)
 // never fetch any of it.
-import { pipeline } from '@huggingface/transformers';
+import { pipeline, env } from '@huggingface/transformers';
+
+// transformers.js always points onnxruntime-web at its threaded/"asyncify"
+// wasm binary regardless of cross-origin isolation (this app deliberately
+// isn't isolated — see vite.config.js), so no SharedArrayBuffer is
+// available for it to actually use. Left at onnxruntime-web's own default
+// thread count, that mismatch can hang session creation/inference
+// indefinitely instead of falling back cleanly (reproduced in
+// ttsWorker.js's identical setup — see the comment there). Forcing 1 here
+// too, defensively, since both workers share the same library and backend.
+env.backends.onnx.wasm.numThreads = 1;
 
 // A module-level singleton, not per-message: the ~150MB model download and
 // wasm session setup only need to happen once per worker lifetime, and this

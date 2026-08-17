@@ -61,7 +61,7 @@
   "ttsLocalConsentBody": "This browser has no voices installed for reading aloud, but you can still hear exercises read out by downloading a one-time offline voice model (~110MB). It runs entirely on this device — nothing is uploaded. Wi-Fi is recommended.",
   "ttsLocalConsentAccept": "Download (~110MB)",
   "ttsLocalConsentDecline": "Not now",
-  "ttsLocalDownloading": "Downloading voice model…",
+  "ttsLocalDownloading": "Downloading voice model… setup can take a few minutes the first time on this device.",
   "ttsLocalDownloadError": "The voice model couldn't be downloaded — check your connection and try again.",
   "ttsLocalEngineError": "Something went wrong reading this aloud — try again.",
   "successMsg": [

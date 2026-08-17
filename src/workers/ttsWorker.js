@@ -5,7 +5,20 @@
 // one-time model download. @huggingface/transformers and onnxruntime-web's
 // wasm binaries live in this worker's own chunk, so browsers with usable
 // native voices never fetch any of it.
-import { pipeline } from '@huggingface/transformers';
+import { pipeline, env } from '@huggingface/transformers';
+
+// transformers.js always points onnxruntime-web at its threaded/"asyncify"
+// wasm binary (see its own backends/onnx.js), regardless of whether this
+// page is cross-origin-isolated — this app deliberately isn't (see
+// vite.config.js), so no SharedArrayBuffer is available for it to actually
+// use. With numThreads left at onnxruntime-web's own default (typically
+// navigator.hardwareConcurrency), the runtime can hang indefinitely inside
+// this worker instead of falling back cleanly — observed directly: session
+// creation and inference never resolved *or* rejected, even after 5+
+// minutes, with zero console output once fetches finished. Forcing 1 here
+// keeps everything on the synchronous/asyncify-only path the binary is
+// actually able to run without real threads.
+env.backends.onnx.wasm.numThreads = 1;
 
 // MMS-TTS (VITS) checkpoints, one per app language. Unlike Whisper, TTS
 // models aren't multilingual — each language is a separate ~114MB download,
