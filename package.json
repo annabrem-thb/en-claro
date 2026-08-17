@@ -29,7 +29,6 @@
   "dependencies": {
     "@floating-ui/react": "^0.27.20",
     "@huggingface/transformers": "^4.2.0",
-    "@supabase/supabase-js": "^2.106.1",
     "i18next": "^26.2.0",
     "lottie-react": "^2.4.1",
     "mespeak": "^2.0.2",
