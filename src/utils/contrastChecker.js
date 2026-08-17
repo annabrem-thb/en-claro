@@ -23,7 +23,7 @@ function normalizeHex(hex) {
   return h;
 }
 
-export function hexToRgb(hex) {
+function hexToRgb(hex) {
   const h = normalizeHex(hex);
   return {
     r: parseInt(h.slice(0, 2), 16),
@@ -33,7 +33,7 @@ export function hexToRgb(hex) {
 }
 
 // WCAG 2.1 relative luminance (https://www.w3.org/TR/WCAG21/#dfn-relative-luminance).
-export function getRelativeLuminance(hex) {
+function getRelativeLuminance(hex) {
   const { r, g, b } = hexToRgb(hex);
   const [rs, gs, bs] = [r, g, b].map((channel) => {
     const c = channel / 255;
@@ -44,7 +44,7 @@ export function getRelativeLuminance(hex) {
 
 // WCAG 2.1 contrast ratio (https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio).
 // Returns a value from 1 (identical colors) to 21 (pure black on white).
-export function getContrastRatio(hexA, hexB) {
+function getContrastRatio(hexA, hexB) {
   const lumA = getRelativeLuminance(hexA);
   const lumB = getRelativeLuminance(hexB);
   const lighter = Math.max(lumA, lumB);
@@ -52,13 +52,7 @@ export function getContrastRatio(hexA, hexB) {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
-// "Large text" per WCAG: >=18pt (24px), or >=14pt (18.66px) bold.
-export function isLargeText(fontSizePx, fontWeight = 400) {
-  const isBold = fontWeight >= 700 || fontWeight === 'bold';
-  return fontSizePx >= 24 || (isBold && fontSizePx >= 18.66);
-}
-
-export function checkContrast(
+function checkContrast(
   foreground,
   background,
   { largeText = false } = {},
@@ -77,7 +71,7 @@ export function checkContrast(
 // Dev-only console warning. `label` identifies the pairing in the warning
 // (e.g. "Start button (bg-emerald-500 / text-white)") so a failure is
 // actionable without having to reverse-engineer which UI element it was.
-export function warnIfInsufficientContrast(
+function warnIfInsufficientContrast(
   label,
   foreground,
   background,
