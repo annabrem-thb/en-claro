@@ -16,7 +16,7 @@ import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
 import { useDocumentTitle } from '../hooks/useDocumentTitle.js';
 import { useExerciseSession } from '../hooks/useExerciseSession.js';
 import { useGamification } from '../hooks/useGamification.js';
-import { useGlobalTTS } from '../hooks/useGlobalTTS.js';
+import { useGlobalTTS, hasVoiceForLanguage } from '../hooks/useGlobalTTS.js';
 import { useHapticFeedback } from '../hooks/useHapticFeedback.js';
 import { getInitialRouteState, useHashRoute } from '../hooks/useHashRoute.js';
 import { useIndexedDB } from '../hooks/useIndexedDB.js';
@@ -167,14 +167,20 @@ function AppContent() {
   // voices — desktop Firefox has no bundled voices of its own (unlike
   // Chrome, which ships network-backed voices independent of the OS), so
   // read-aloud silently does nothing once the OS has none registered
-  // either. Detected once here, not per-TTSController instance, since it
+  // either. The same fallback also has to cover the case where *some*
+  // voices exist but none for the language actually being read (e.g.
+  // Windows with only an English voice pack installed reading Polish) —
+  // otherwise pickBestVoice finds nothing, msg.voice is left unset, and the
+  // browser mumbles the text through its unrelated default-language voice
+  // instead. Detected once here, not per-TTSController instance, since it
   // decides which engine speak() itself routes to below, not just what a
   // button displays.
   const [noNativeVoices, setNoNativeVoices] = useState(false);
   useEffect(() => {
     const checkVoices = () => {
+      const allVoices = window.speechSynthesis?.getVoices?.() || [];
       setNoNativeVoices(
-        (window.speechSynthesis?.getVoices?.() || []).length === 0,
+        allVoices.length === 0 || !hasVoiceForLanguage(allVoices, language),
       );
     };
     checkVoices();
@@ -190,7 +196,7 @@ function AppContent() {
       window.speechSynthesis.removeEventListener('voiceschanged', checkVoices);
       clearTimeout(timeoutId);
     };
-  }, []);
+  }, [language]);
 
   const {
     status: localTTSStatus,
