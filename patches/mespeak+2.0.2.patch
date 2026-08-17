@@ -1,0 +1,50 @@
+diff --git a/node_modules/mespeak/src/ESpeak.js b/node_modules/mespeak/src/ESpeak.js
+index 9babfb1..93c52ff 100644
+--- a/node_modules/mespeak/src/ESpeak.js
++++ b/node_modules/mespeak/src/ESpeak.js
+@@ -3535,10 +3535,10 @@ var _llvm_dbg_declare; // stub for _llvm_dbg_declare
+       return (chr >= 48 && chr <= 57) ||       // 0 .. 9
+              (chr >= 97 && chr <= 122) ||      // a .. z
+              (chr >= 65 && chr <= 90) ||       // A .. Z
+-             (chr >= 0xC0 && chr <= 0xD6) ||   // À .. Ö
+-             (chr >= 0xDF && chr <= 0xF6) ||   // ß .. ö
+-             (chr >= 0xD8 && chr <= 0xDE) ||   // Ø .. Þ
+-             (chr >= 0xF8 && chr <= 0xFF);     // ø .. ÿ
++             (chr >= 0xC0 && chr <= 0xD6) ||   // Ã€ .. Ã–
++             (chr >= 0xDF && chr <= 0xF6) ||   // ÃŸ .. Ã¶
++             (chr >= 0xD8 && chr <= 0xDE) ||   // Ã˜ .. Ãž
++             (chr >= 0xF8 && chr <= 0xFF);     // Ã¸ .. Ã¿
+     }
+ // end of batch
+ 
+@@ -3619,22 +3619,22 @@ var _llvm_dbg_declare; // stub for _llvm_dbg_declare
+   function _isalpha(chr) {
+       return (chr >= 97 && chr <= 122) ||      // a .. z
+              (chr >= 65 && chr <= 90) ||       // A .. Z
+-             (chr >= 0xC0 && chr <= 0xD6) ||   // À .. Ö
+-             (chr >= 0xDF && chr <= 0xF6) ||   // ß .. ö
+-             (chr >= 0xD8 && chr <= 0xDE) ||   // Ø .. Þ
+-             (chr >= 0xF8 && chr <= 0xFF);     // ø .. ÿ
++             (chr >= 0xC0 && chr <= 0xD6) ||   // Ã€ .. Ã–
++             (chr >= 0xDF && chr <= 0xF6) ||   // ÃŸ .. Ã¶
++             (chr >= 0xD8 && chr <= 0xDE) ||   // Ã˜ .. Ãž
++             (chr >= 0xF8 && chr <= 0xFF);     // Ã¸ .. Ã¿
+     }
+ 
+   function _isupper(chr) {
+       return (chr >= 65 && chr <= 90) ||       // A .. Z
+-             (chr >= 0xC0 && chr <= 0xD6) ||   // À .. Ö
+-             (chr >= 0xD8 && chr <= 0xDE);     // Ø .. Þ
++             (chr >= 0xC0 && chr <= 0xD6) ||   // Ã€ .. Ã–
++             (chr >= 0xD8 && chr <= 0xDE);     // Ã˜ .. Ãž
+     }
+ 
+   function _islower(chr) {
+       return (chr >= 97 && chr <= 122) ||      // a .. z
+-             (chr >= 0xDF && chr <= 0xF6) ||   // ß .. ö
+-             (chr >= 0xF8 && chr <= 0xFF);     // ø .. ÿ
++             (chr >= 0xDF && chr <= 0xF6) ||   // ÃŸ .. Ã¶
++             (chr >= 0xF8 && chr <= 0xFF);     // Ã¸ .. Ã¿
+     }
+ 
+   function _ispunct(chr) {

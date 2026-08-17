@@ -1,72 +1,51 @@
 // Dedicated module worker for the local-TTS fallback (see useLocalTTS.js).
 // Only ever created once a browser reports zero installed system voices
-// (mainly desktop Firefox, which — unlike Chrome — has no bundled network
-// voices and depends entirely on the OS) and the user has consented to the
-// one-time model download. @huggingface/transformers and onnxruntime-web's
-// wasm binaries live in this worker's own chunk, so browsers with usable
-// native voices never fetch any of it.
-import { pipeline, env } from '@huggingface/transformers';
+// (mainly desktop Firefox/Opera, which — unlike Chrome — have no bundled
+// network voices and depend entirely on the OS).
+//
+// This used to run a neural VITS model (@huggingface/transformers) in wasm,
+// but single-threaded wasm inference took 25-90s *per read-aloud click*
+// (not just on first use) — unusable for a "read this exercise" button that
+// users expect to respond in ~1s. meSpeak (a JS port of eSpeak, rule-based
+// formant synthesis, not neural) trades voice naturalism — it sounds
+// classically robotic — for synthesis that completes in well under a
+// second, and a one-time engine download of ~4-5MB instead of ~110MB. GPL
+// licensed; used here only as a client-side, in-browser dependency (nothing
+// server-side links against it).
+import meSpeak from 'mespeak';
+import mespeakConfig from 'mespeak/src/mespeak_config.json';
 
-// transformers.js always points onnxruntime-web at its threaded/"asyncify"
-// wasm binary (see its own backends/onnx.js), regardless of whether this
-// page is cross-origin-isolated — this app deliberately isn't (see
-// vite.config.js), so no SharedArrayBuffer is available for it to actually
-// use. With numThreads left at onnxruntime-web's own default (typically
-// navigator.hardwareConcurrency), the runtime can hang indefinitely inside
-// this worker instead of falling back cleanly — observed directly: session
-// creation and inference never resolved *or* rejected, even after 5+
-// minutes, with zero console output once fetches finished. Forcing 1 here
-// keeps everything on the synchronous/asyncify-only path the binary is
-// actually able to run without real threads.
-env.backends.onnx.wasm.numThreads = 1;
+meSpeak.loadConfig(mespeakConfig);
 
-// MMS-TTS (VITS) checkpoints, one per app language. Unlike Whisper, TTS
-// models aren't multilingual — each language is a separate ~114MB download,
-// loaded lazily (see loadSynthesizer) so a session only ever fetches the
-// language actually being read aloud, not all three up front. There is no
-// official ONNX conversion of facebook/mms-tts-pol published by HuggingFace
-// or Xenova at the time this was written — payam1394's is the only
-// transformers.js-compatible conversion available; it's a community upload
-// (not officially maintained) and carries the same cc-by-nc-4.0 license as
-// every mms-tts-* checkpoint.
-const MODELS = {
-  en: 'Xenova/mms-tts-eng',
-  de: 'Xenova/mms-tts-deu',
-  pl: 'payam1394/traxlate-mms-tts-pol',
+// voice_id values baked into each voice JSON file (see node_modules/mespeak
+// voices/*.json's own "voice_id" field) — passed explicitly as the `voice`
+// option on every speak() call so a request for one language is never
+// accidentally spoken in whichever language happened to load last.
+const VOICES = {
+  en: { id: 'en/en-us', load: () => import('mespeak/voices/en/en-us.json') },
+  de: { id: 'de', load: () => import('mespeak/voices/de.json') },
+  pl: { id: 'pl', load: () => import('mespeak/voices/pl.json') },
 };
 
-// One singleton pipeline per language, not per-message — session setup only
-// needs to happen once per language per worker lifetime. fp32: the only
-// dtype actually exercised so far. Single-threaded wasm session setup +
-// inference for this model is on the order of tens of seconds regardless
-// (see useLocalTTS.js's request-deduplication comment) — a smaller
-// quantized build might shave that down, but hasn't been verified not to
-// hit a graph-compatibility issue the way Whisper's quantized decoder did.
-const pipelines = new Map();
+const loadedLanguages = new Set();
+const loadPromises = new Map();
 
-function loadSynthesizer(language) {
-  if (!pipelines.has(language)) {
-    const modelId = MODELS[language];
-    pipelines.set(
-      language,
-      pipeline('text-to-speech', modelId, {
-        device: 'wasm',
-        dtype: 'fp32',
-        progress_callback: (event) => {
-          if (event.status === 'progress_total') {
-            self.postMessage({ type: 'progress', progress: event.progress });
-          }
-        },
-        // A failed download/init must not poison the singleton forever —
-        // without this reset, a later retry would just return the same
-        // already-rejected promise instead of trying again.
-      }).catch((error) => {
-        pipelines.delete(language);
+function loadVoice(language) {
+  if (loadedLanguages.has(language)) return Promise.resolve();
+  if (!loadPromises.has(language)) {
+    const promise = VOICES[language]
+      .load()
+      .then((mod) => {
+        meSpeak.loadVoice(mod.default || mod);
+        loadedLanguages.add(language);
+      })
+      .catch((error) => {
+        loadPromises.delete(language);
         throw error;
-      }),
-    );
+      });
+    loadPromises.set(language, promise);
   }
-  return pipelines.get(language);
+  return loadPromises.get(language);
 }
 
 self.onmessage = async (event) => {
@@ -74,7 +53,7 @@ self.onmessage = async (event) => {
 
   if (type === 'load') {
     try {
-      await loadSynthesizer(language);
+      await loadVoice(language);
       self.postMessage({ type: 'ready', language });
     } catch (error) {
       self.postMessage({
@@ -90,18 +69,20 @@ self.onmessage = async (event) => {
   if (type === 'synthesize') {
     const { text, requestId } = event.data;
     try {
-      const synthesizer = await loadSynthesizer(language);
-      const output = await synthesizer(text);
-      const audio = Float32Array.from(output.audio);
-      self.postMessage(
-        {
-          type: 'result',
-          requestId,
-          audio,
-          samplingRate: output.sampling_rate,
-        },
-        [audio.buffer],
-      );
+      await loadVoice(language);
+      // rawdata: 'array' avoids meSpeak's browser-only playback path (it
+      // checks `typeof window`, which is undefined in a worker) — this
+      // returns the synthesized WAV file as a plain byte array instead,
+      // decoded on the main thread via AudioContext.decodeAudioData.
+      const bytes = meSpeak.speak(text, {
+        voice: VOICES[language].id,
+        rawdata: 'array',
+      });
+      if (!bytes) {
+        throw new Error('meSpeak returned no audio data');
+      }
+      const audio = Uint8Array.from(bytes);
+      self.postMessage({ type: 'result', requestId, audio }, [audio.buffer]);
     } catch (error) {
       self.postMessage({
         type: 'error',
