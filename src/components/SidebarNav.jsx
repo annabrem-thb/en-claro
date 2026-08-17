@@ -68,10 +68,12 @@ const SidebarNav = memo(function SidebarNav({
   const handleInstallClick = async () => {
     if (!installPrompt) return;
     installPrompt.prompt();
-    const { outcome } = await installPrompt.userChoice;
-    if (outcome === 'accepted') {
-      setInstallPrompt(null);
-    }
+    // A BeforeInstallPromptEvent can only be prompted once regardless of
+    // outcome — clearing only on 'accepted' left the button visible but
+    // dead after a 'dismissed' choice, since the stale event silently no-ops
+    // on a second click.
+    await installPrompt.userChoice;
+    setInstallPrompt(null);
   };
 
   return (
