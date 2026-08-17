@@ -15,6 +15,7 @@ function VisualCategorization({
   noFlash = false,
   zenMode = false,
   speak,
+  ttsFallback,
   extendedTime,
   t,
   voiceAssistant = false,
@@ -232,6 +233,10 @@ function VisualCategorization({
           controlBtnSize={
             bigTargets ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'
           }
+          isHighContrast={isHighContrast}
+          noFlash={noFlash}
+          bionicReading={bionicReading}
+          ttsFallback={ttsFallback}
         />
       </div>
 
