@@ -16,6 +16,7 @@ function SequenceExercise({
   language,
   t,
   speak,
+  ttsFallback,
   noFlash = false,
   bigTargets = false,
   extendedTime = false,
@@ -277,6 +278,10 @@ function SequenceExercise({
           }}
           t={t}
           controlBtnSize={controlBtnSize}
+          isHighContrast={isHighContrast}
+          noFlash={noFlash}
+          bionicReading={bionicReading}
+          ttsFallback={ttsFallback}
         />
 
         <VoiceAnswerButton
