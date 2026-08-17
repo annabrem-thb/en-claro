@@ -61,7 +61,7 @@
   "ttsLocalConsentBody": "Dieser Browser hat keine Stimmen für die Sprachausgabe installiert, aber du kannst Übungen trotzdem vorgelesen bekommen, indem du ein einmaliges Offline-Sprachmodell herunterlädst (~110MB). Es läuft vollständig auf diesem Gerät — nichts wird hochgeladen. WLAN wird empfohlen.",
   "ttsLocalConsentAccept": "Herunterladen (~110MB)",
   "ttsLocalConsentDecline": "Jetzt nicht",
-  "ttsLocalDownloading": "Sprachmodell wird heruntergeladen…",
+  "ttsLocalDownloading": "Sprachmodell wird heruntergeladen… die Einrichtung kann beim ersten Mal auf diesem Gerät einige Minuten dauern.",
   "ttsLocalDownloadError": "Das Sprachmodell konnte nicht heruntergeladen werden — überprüfe deine Verbindung und versuche es erneut.",
   "ttsLocalEngineError": "Beim Vorlesen ist etwas schiefgelaufen — versuche es erneut.",
   "successMsg": [
