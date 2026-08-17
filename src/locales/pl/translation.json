@@ -60,7 +60,7 @@
   "ttsLocalConsentBody": "Ta przeglądarka nie ma zainstalowanych głosów do czytania na głos, ale nadal możesz słyszeć czytane ćwiczenia, pobierając jednorazowo offline'owy model głosowy (~110MB). Działa on wyłącznie na tym urządzeniu — nic nie jest wysyłane. Zalecane Wi-Fi.",
   "ttsLocalConsentAccept": "Pobierz (~110MB)",
   "ttsLocalConsentDecline": "Nie teraz",
-  "ttsLocalDownloading": "Pobieranie modelu głosowego…",
+  "ttsLocalDownloading": "Pobieranie modelu głosowego… konfiguracja pierwszy raz na tym urządzeniu może potrwać kilka minut.",
   "ttsLocalDownloadError": "Nie udało się pobrać modelu głosowego — sprawdź połączenie i spróbuj ponownie.",
   "ttsLocalEngineError": "Coś poszło nie tak podczas czytania na głos — spróbuj ponownie.",
   "successMsg": [
