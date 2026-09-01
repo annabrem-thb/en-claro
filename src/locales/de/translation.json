@@ -107,6 +107,7 @@
   "settingsTheme": "Thema",
   "settingsAccessibility": "Komfortoptionen",
   "settingsFooter": "Ihre Einstellungen werden automatisch gespeichert.",
+  "studySetIndicator": "Inhaltsset: {{set}}",
   "tabGeneral": "Allgemein",
   "tabA11y": "Komfort",
   "tabExercises": "Übungen",

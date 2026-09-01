@@ -6,6 +6,7 @@ import { STUDY_EXERCISE_PILLARS } from '../data/exerciseTypes.js';
 import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useGamification } from '../hooks/useGamification.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
+import { useStudySet } from '../hooks/useStudySet.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
 
 import ExerciseToggleManager from './ExerciseToggleManager.jsx';
@@ -492,6 +493,7 @@ export default function SettingsModal({ open, onClose, speak }) {
   const { settings } = useUserSettingsContext();
   const bionicReading = !!settings.bionicReading;
   const { isGamified } = useGamification();
+  const { studySet } = useStudySet();
   const [activeTab, setActiveTab] = useState('general');
 
   const TABS = [
@@ -639,6 +641,13 @@ export default function SettingsModal({ open, onClose, speak }) {
         >
           <BionicText text={t('settingsFooter')} enabled={bionicReading} />
         </p>
+        {studySet && (
+          <p
+            className={`mt-1 text-xs ${settings.contrast ? 'text-white/30' : 'text-slate-400'}`}
+          >
+            {t('studySetIndicator', { set: studySet })}
+          </p>
+        )}
       </footer>
     </Dialog>
   );
