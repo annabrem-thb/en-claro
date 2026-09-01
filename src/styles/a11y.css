@@ -2,25 +2,12 @@
    ACCESSIBILITY OPTIONS (Accessibility Overrides)
    ========================================================================== */
 
-/* --- Dyslexia-friendly font (LRS) ---
-   Only the font swap lives here now — its spacing/size preset (line-height
-   1.75, word-spacing 0.2em, letter-spacing 0.08em, a smaller base size to
-   offset OpenDyslexic's extra width) is applied by useUserSettings.js
-   directly into the same --font-size-exercise/--font-size-ui/--line-height/
-   --letter-spacing/--word-spacing tokens the sliders use, since those are
-   set as inline styles (highest possible specificity) and a selector-based
-   rule here could never win against that. */
-html[data-a11y-lrs='true'] {
-  --dyn-font-family: 'OpenDyslexic', Helvetica, Arial, Verdana, sans-serif;
-}
-
-/* --- Dyslexia Bionic Reading Enhancement ---
-   Bolds in OpenDyslexic are hard to spot. We add a subtle color 
-   to make Bionic Reading (and regular bolds) pop out safely. */
-html[data-a11y-lrs='true'] b,
-html[data-a11y-lrs='true'] strong {
-  color: #4338ca;
-}
+/* `lrs`'s own reading-spacing preset (line-height 1.75, word-spacing 0.2em,
+   letter-spacing 0.08em) has no rule here — it's applied by
+   useUserSettings.js directly into the same --line-height/--letter-spacing/
+   --word-spacing tokens the sliders use, since those are set as inline
+   styles (highest possible specificity) and a selector-based rule here
+   could never win against that. */
 
 /* --- High contrast --- */
 html[data-a11y-contrast='true'] *:focus-visible {

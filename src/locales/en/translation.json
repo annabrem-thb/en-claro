@@ -12,7 +12,7 @@
     "modeClassic": "Study only",
     "modeGamified": "Game (rewards)",
     "a11y": "Comfort Tools",
-    "lrs": "Friendly font",
+    "lrs": "Extra reading spacing",
     "contrast": "Contrast",
     "vision": "Larger text",
     "big": "Comfort buttons",
@@ -133,8 +133,8 @@
   "a11ySectionVoice": "Voice & learning pace",
   "a11y": {
     "lrs": {
-      "name": "Friendly font",
-      "desc": "Font facilitating reading (OpenDyslexic)"
+      "name": "Extra reading spacing",
+      "desc": "Wider line height and letter/word spacing for easier reading"
     },
     "contrast": {
       "name": "High contrast",
