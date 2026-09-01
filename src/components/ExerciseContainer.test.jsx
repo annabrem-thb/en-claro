@@ -45,6 +45,7 @@ const themeStyles = {
 const CASES = [
   ['phoneme', wordDatabaseEN.phonemes[0]],
   ['grapheme', wordDatabaseEN.graphemes[0]],
+  ['graphemePhoneme', wordDatabaseEN.graphemePhoneme[0]],
   ['diagnostic', wordDatabaseEN.diagnostic[0]],
   ['syllable', wordDatabaseEN.syllables[0]],
   ['scrabble', wordDatabaseEN.scrabble[0]],
