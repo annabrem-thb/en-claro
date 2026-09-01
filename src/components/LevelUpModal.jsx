@@ -1,71 +1,62 @@
 import { memo } from 'react';
 
 import BionicText from './common/BionicText.jsx';
-import Dialog from './common/Dialog.jsx';
 
-// The "another daily goal reached" celebration dialog. It only knows how to
-// render itself and report "the user pressed Next" via onNext — deciding
-// whether that press should resume the exercise queue or open the pending
-// feedback survey is orchestration logic that belongs in App.jsx, not here.
-//
-// Built on the shared Dialog wrapper (the same one used for the feedback
-// survey) instead of a bare `role="dialog"` div: this modal appears
-// automatically whenever a daily goal is reached, without the user
-// deliberately clicking anything, so a keyboard or screen-reader user has no
-// other way to discover it. Dialog gives it a real focus trap, focus moving
-// onto it the moment it opens, focus returning to whatever was focused
-// before, and Escape-to-close — none of which a plain div can provide.
-// Escape maps to the same onNext handler as the button, since this dialog
-// has exactly one way to resolve (acknowledge and continue).
+// A brief, self-dismissing notice that the garden has grown one stage.
+// App.jsx shows it for a fixed duration and clears it automatically, the
+// same way NewTreeToast/AffirmationToast behave — it used to be a focus-
+// trapping modal that required an explicit "Next" click before the
+// exercise queue would advance, which meant the exercise flow paused on a
+// manual interaction whenever this appeared. Advancing must stay on a
+// consistent, predictable schedule regardless of the gamification setting,
+// so this component no longer drives navigation at all — advancing to the
+// next exercise is entirely useExerciseSession's own fixed-delay timer now,
+// independent of whether this is showing.
 function LevelUpModalComponent({
   open,
   isHighContrast,
   noFlash,
-  bigTargets,
   t,
-  onNext,
   bionicReading = false,
 }) {
+  if (!open) return null;
+
   return (
-    <Dialog
-      open={open}
-      onClose={onNext}
-      labelledBy="level-up-title"
-      overlayClassName={`fixed inset-0 z-50 flex items-center justify-center p-6 text-center ${isHighContrast ? 'bg-black/90 backdrop-blur-sm' : 'bg-slate-50/90 backdrop-blur-md'}`}
-      className={`no-scrollbar flex max-h-[90dvh] w-full max-w-sm flex-col items-center overflow-y-auto rounded-4xl border p-6 shadow-lg sm:p-10 ${noFlash ? '' : 'animate-in fade-in zoom-in duration-700'} ${isHighContrast ? 'border-white bg-black' : 'border-slate-200 bg-white'}`}
+    <div
+      className="pointer-events-none fixed top-16 left-1/2 z-110 w-full max-w-sm -translate-x-1/2 px-4 sm:top-20"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
     >
       <div
-        className={`mb-4 text-5xl opacity-80 drop-shadow-md ${noFlash ? '' : 'animate-bounce'}`}
-        aria-hidden="true"
+        className={`flex items-center gap-3 rounded-3xl border-2 p-4 shadow-2xl sm:gap-4 sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-top-8 fade-in duration-500'} ${isHighContrast ? 'border-white bg-black text-white' : 'border-slate-200 bg-white text-slate-700'}`}
       >
-        🌱
+        <span
+          className="text-4xl drop-shadow-md sm:text-5xl"
+          aria-hidden="true"
+        >
+          🌱
+        </span>
+        <div className="min-w-0 flex-1">
+          <h4 className="mb-1 text-sm font-bold">
+            <BionicText
+              text={t('levelUpTitle') || 'Your garden is growing.'}
+              enabled={bionicReading}
+            />
+          </h4>
+          <p
+            className={`text-xs leading-relaxed ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}
+          >
+            <BionicText
+              text={
+                t('levelUpDesc') || 'Another goal has been reached.'
+              }
+              enabled={bionicReading}
+            />
+          </p>
+        </div>
       </div>
-      <h2
-        id="level-up-title"
-        className={`mb-4 text-2xl font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
-      >
-        <BionicText
-          text={t('levelUpTitle') || 'Your garden is growing!'}
-          enabled={bionicReading}
-        />
-      </h2>
-      <p
-        className={`mb-8 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
-      >
-        <BionicText
-          text={
-            t('levelUpDesc') || 'Another goal has been successfully achieved.'
-          }
-          enabled={bionicReading}
-        />
-      </p>
-      <button
-        onClick={onNext}
-        className={`w-full ${bigTargets ? 'py-7 text-xl' : 'py-4 text-lg'} rounded-3xl font-bold transition-all active:scale-95 ${isHighContrast ? 'bg-white text-black' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
-      >
-        <BionicText text={t('next') || 'Next'} enabled={bionicReading} />
-      </button>
-    </Dialog>
+    </div>
   );
 }
 

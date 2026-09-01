@@ -59,8 +59,6 @@ const playThemeSound = (theme) => {
   }
 };
 
-const POINTS_PER_LEVEL = 5;
-
 export function useExerciseSession({
   db,
   activeTab,
@@ -71,18 +69,15 @@ export function useExerciseSession({
   t,
   speak,
   theme,
-  isGamified,
-  points,
-  setPoints,
-  setCoins,
-  setRewards,
-  dailyQuests,
-  updateQuests,
-  setDailyProgress,
-  setPendingFeedback,
-  setShowSuccess,
-  setShowFeedback,
-  setEarnedCoinsAnim,
+  growthValue,
+  setGrowthValue,
+  // Called once per completed unit, after growthValue/feedback are updated
+  // but before the fixed advance-to-next-task delay is scheduled below.
+  // This is the gamification module's only foothold into the session:
+  // whatever it does (or doesn't do — passing no callback is a no-op) never
+  // changes when the session pauses or what it waits for, only what appears
+  // on screen while it does.
+  onUnitCompleted,
   setErrorTimestamps,
 }) {
   const [currentIndex, setCurrentIndex] = useState(
@@ -291,13 +286,6 @@ export function useExerciseSession({
     setErrorCounter(0);
     if (inclusiveOptions.audioRewards && !inclusiveOptions.muteNotifications)
       playThemeSound(theme);
-    let earnedCoins = 1;
-    if (isGamified)
-      dailyQuests.tasks.forEach((task) => {
-        if (!task.completed && (task.type === activeTab || task.type === 'Any'))
-          if (task.current + 1 >= task.target) earnedCoins += task.reward;
-      });
-    updateQuests(activeTab);
     const successMsgs = t('successMsg', { returnObjects: true });
     const baseSuccessMsg = Array.isArray(successMsgs)
       ? successMsgs[Math.floor(Math.random() * successMsgs.length)]
@@ -333,36 +321,17 @@ export function useExerciseSession({
     // the narrower "mute notifications" sub-preference.
     if (inclusiveOptions.voiceAssistant && !inclusiveOptions.muteNotifications)
       speak(voiceSuccessMsg);
-    const newPoints = points + 1;
-    setPoints(newPoints);
-    if (isGamified) {
-      setCoins((prev) => prev + 1);
-      const todayStr = new Date().toDateString();
-      setDailyProgress((prev) => {
-        const todayPoints = prev[todayStr]?.points || 0;
-        return { ...prev, [todayStr]: { points: todayPoints + 1 } };
-      });
-      setEarnedCoinsAnim(earnedCoins);
-      setSafeTimeout(() => setEarnedCoinsAnim(null), 1500);
-      const rewardItems = t('rewardItems', { returnObjects: true });
-      const pool = rewardItems?.[theme] || rewardItems?.Natur || ['⭐'];
-      setRewards((prev) => [
-        ...prev,
-        pool[Math.floor(Math.random() * pool.length)],
-      ]);
-      if (newPoints % POINTS_PER_LEVEL === 0) {
-        if (newPoints > 0 && newPoints % 10 === 0) setPendingFeedback(true);
-        setSafeTimeout(() => setShowSuccess(true), 1000);
-      } else
-        setSafeTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
-    } else {
-      if (newPoints > 0 && newPoints % 10 === 0)
-        setSafeTimeout(
-          () => setShowFeedback(true),
-          inclusiveOptions.extendedTime ? 3000 : 1500,
-        );
-      else setSafeTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
-    }
+    const newGrowthValue = growthValue + 1;
+    setGrowthValue(newGrowthValue);
+    onUnitCompleted?.(newGrowthValue);
+    // Advance timing must be identical regardless of what onUnitCompleted
+    // does (or whether anything is wired to it at all) — it's a single
+    // shared schedule, not something the gamification setting should be
+    // able to change. The in-session feedback-survey popup this used to
+    // also schedule has been removed entirely: the survey is opened
+    // explicitly by the user now, not triggered inline by point count.
+    const advanceDelay = inclusiveOptions.extendedTime ? 3000 : 1500;
+    setSafeTimeout(goNext, advanceDelay);
     saveLog('exercise_history', {
       date: new Date().toISOString(),
       type: activeTab,
@@ -370,25 +339,16 @@ export function useExerciseSession({
     }).catch(console.error);
   }, [
     currentStreak,
-    isGamified,
-    dailyQuests,
     activeTab,
-    updateQuests,
     t,
     speak,
-    points,
+    growthValue,
     theme,
-    setRewards,
     inclusiveOptions,
-    setDailyProgress,
     userDifficulty,
     goNext,
-    setCoins,
-    setEarnedCoinsAnim,
-    setPoints,
-    setPendingFeedback,
-    setShowSuccess,
-    setShowFeedback,
+    setGrowthValue,
+    onUnitCompleted,
     setUserDifficulty,
     setSafeTimeout,
   ]);

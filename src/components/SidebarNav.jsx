@@ -12,7 +12,6 @@ const SidebarNav = memo(function SidebarNav({
   activeTab,
   onTabChange,
   onGardenClick,
-  dailyQuests,
   language,
   isGamified,
   theme,
@@ -23,7 +22,6 @@ const SidebarNav = memo(function SidebarNav({
   setSettingsOpen,
   onOpenSurvey,
   t,
-  coins,
   loadLevel,
   speak,
   noFlash,
@@ -109,7 +107,6 @@ const SidebarNav = memo(function SidebarNav({
       >
         {pillars.map((p, index) => {
           const isSelected = activeTab === p;
-          const questForPillar = dailyQuests.tasks.find((q) => q.type === p);
           const label = t('pillars', { returnObjects: true })?.[p] || p;
           return (
             <Tooltip
@@ -155,14 +152,6 @@ const SidebarNav = memo(function SidebarNav({
                     </span>
                   </>
                 )}
-                {questForPillar &&
-                  !questForPillar.completed &&
-                  questForPillar.current > 0 && (
-                    <span
-                      className="absolute top-1 right-1 h-2 w-2 rounded-full bg-blue-500 lg:top-1.5 lg:right-1.5"
-                      aria-hidden="true"
-                    />
-                  )}
               </button>
             </Tooltip>
           );
@@ -230,21 +219,6 @@ const SidebarNav = memo(function SidebarNav({
             className={`mt-auto hidden flex-col gap-2 border-t pt-3 lg:flex ${isHighContrast ? 'border-white/20' : themeStyles.border}`}
           >
             <div className="flex items-center justify-between px-2 pt-2">
-              <span
-                className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
-              >
-                <BionicText
-                  text={t('coins') || 'Coins'}
-                  enabled={bionicReading}
-                />
-              </span>
-              <div
-                className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-black shadow-inner ${isHighContrast ? 'bg-white text-black' : 'bg-amber-100 text-amber-600'}`}
-              >
-                <span className="text-sm">💰</span> {coins}
-              </div>
-            </div>
-            <div className="flex items-center justify-between px-2">
               <span
                 className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
               >
