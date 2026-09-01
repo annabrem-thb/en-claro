@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { EXERCISE_PILLARS } from '../data/exerciseTypes.js';
+import { STUDY_EXERCISE_PILLARS } from '../data/exerciseTypes.js';
 import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useGamification } from '../hooks/useGamification.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
@@ -445,7 +445,7 @@ const ExercisesTab = ({ speak }) => {
     const activeExercises = settings.activeExercises || {};
     const segments = [
       t('tabExercises'),
-      ...Object.entries(EXERCISE_PILLARS).flatMap(
+      ...Object.entries(STUDY_EXERCISE_PILLARS).flatMap(
         ([pillarKey, exerciseKeys]) => [
           t(`pillars.${pillarKey}`, pillarKey),
           ...exerciseKeys.map((key) => {
