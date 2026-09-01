@@ -29,6 +29,7 @@ export const EXERCISE_PILLARS = {
     'readAloud',
     'comprehension',
     'rhythm',
+    'graphemePhoneme',
   ],
   Visual: ['clock', 'tracking', 'mirrorImage', 'oddOneOut'],
   Cognitive: [
@@ -56,7 +57,12 @@ export function getDefaultActiveExercises() {
 // `rhythm`/`rhythmMemory`/`melodyMemory` to the sound-timing/melody-recall
 // ones; none exercise phoneme/grapheme decoding, the skill this pillar set
 // is meant to practice.
-const EXCLUDED_FROM_STUDY = ['tracking', 'rhythm', 'rhythmMemory', 'melodyMemory'];
+const EXCLUDED_FROM_STUDY = [
+  'tracking',
+  'rhythm',
+  'rhythmMemory',
+  'melodyMemory',
+];
 
 export const STUDY_EXERCISE_TYPES = new Set(
   ALL_EXERCISE_KEYS.filter((key) => !EXCLUDED_FROM_STUDY.includes(key)),
