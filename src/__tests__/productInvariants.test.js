@@ -80,9 +80,15 @@ describe('isGamified affects only rendering, never session flow', () => {
 });
 
 describe('no special-purpose typeface is bundled', () => {
-  it('fonts.css declares no OpenDyslexic @font-face', () => {
-    const source = read('styles/fonts.css');
-    expect(/OpenDyslexic/i.test(source)).toBe(false);
+  it('no stylesheet under src/styles declares an OpenDyslexic @font-face', () => {
+    const stylesDir = path.join(srcRoot, 'styles');
+    for (const file of fs.readdirSync(stylesDir)) {
+      if (!file.endsWith('.css')) continue;
+      const source = fs.readFileSync(path.join(stylesDir, file), 'utf8');
+      expect(/OpenDyslexic/i.test(source), `${file} mentions OpenDyslexic`).toBe(
+        false,
+      );
+    }
   });
 });
 
