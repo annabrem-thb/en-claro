@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { warnIfCssVarContrastInsufficient } from '../utils/contrastChecker.js';
+import { checkContrast } from '../utils/contrastChecker.js';
 
 const DEFAULT_ACCENT = '#10b981';
 const DEFAULT_BG = '#FDFBF7';
@@ -54,15 +54,29 @@ export function useThemeCSSVariables({
     const bgHex = themeStyles?.bg?.match(/\[(.*?)\]/)?.[1] || DEFAULT_BG;
     root.style.setProperty('--theme-bg', isHighContrast ? '#000000' : bgHex);
 
-    // Dev-only (see contrastChecker.js) — re-checked on every theme/mode
-    // switch since --theme-accent and --theme-bg both just changed above;
-    // catches a theme whose accent color reads fine in isolation but fails
-    // WCAG AA once actually paired with that theme's own background.
-    warnIfCssVarContrastInsufficient('Theme accent on theme background', {
-      foregroundVar: '--theme-accent',
-      backgroundVar: '--theme-bg',
-      element: root,
-    });
+    // Dev-only (see contrastChecker.js), gated to normal mode — components
+    // swap to explicit black/white classes under high contrast instead of
+    // rendering themeStyles.accent at all, so checking it there would warn
+    // about a color that's never actually painted. This checks the pairing
+    // that's genuinely rendered as text (themeStyles.accent on the theme's
+    // own background) — the previous version checked --theme-accent
+    // (themeStyles.hex, the *button* color) against --theme-bg, a pairing
+    // with no real on-screen consumer at all.
+    if (!isHighContrast && !import.meta.env?.PROD) {
+      const accentTextHex = themeStyles?.accent?.match(/\[(.*?)\]/)?.[1];
+      if (accentTextHex) {
+        const { ratio, passesAAA, requiredAAA } = checkContrast(
+          accentTextHex,
+          bgHex,
+        );
+        if (!passesAAA) {
+          console.warn(
+            `[contrastChecker] "Theme accent text on theme background": ` +
+              `${accentTextHex} on ${bgHex} is ${ratio}:1, below the required ${requiredAAA}:1 (normal text).`,
+          );
+        }
+      }
+    }
 
     root.lang = language;
   }, [themeStyles, isHighContrast, isColorblind, language]);
