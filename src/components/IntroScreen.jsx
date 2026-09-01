@@ -60,19 +60,41 @@ function IntroScreen({ onStart, speak }) {
   const A11Y_MAPPING = {
     LRS: 'lrs',
     Kontrast: 'contrast',
-    Niedowidzenie: 'vision',
     Motorik: 'motorik',
-    Spacing: 'spacing',
     Linijka: 'ruler',
     Daltonizm: 'color',
     Redukcja: 'motion',
     Desaturacja: 'desaturation',
   };
 
+  // 'Niedowidzenie' ("Bigger text") and 'Spacing' used to be single fixed
+  // booleans; now that the six design-token sliders can be anywhere in
+  // their range, a one-tap quick toggle here jumps them to a preset
+  // instead — same pattern as the `lrs` toggle in useUserSettings.js — and
+  // reverts to the plain baseline on a second tap rather than trying to
+  // remember whatever custom slider position was there before.
+  const BIGGER_TEXT_PRESET = { fontSizeUi: 20, fontSizeExercise: 20 };
+  const MORE_SPACING_PRESET = { lineHeight: 2, letterSpacing: 0.15, wordSpacing: 0.35 };
+  const BASELINE_TEXT = { fontSizeUi: 16, fontSizeExercise: 16 };
+  const BASELINE_SPACING = { lineHeight: 1.5, letterSpacing: 0, wordSpacing: 0 };
+
+  const applyPreset = (preset) => {
+    Object.entries(preset).forEach(([key, value]) => updateSetting(key, value));
+  };
+
   const toggleAddon = (addon, label) => {
-    const mappedKey = A11Y_MAPPING[addon];
-    const newState = !settings[mappedKey];
-    updateSetting(mappedKey, newState);
+    let newState;
+    if (addon === 'Niedowidzenie') {
+      newState = !hasVision;
+      applyPreset(newState ? BIGGER_TEXT_PRESET : BASELINE_TEXT);
+    } else if (addon === 'Spacing') {
+      newState = !hasSpacing;
+      applyPreset(newState ? MORE_SPACING_PRESET : BASELINE_SPACING);
+    } else {
+      const mappedKey = A11Y_MAPPING[addon];
+      newState = !settings[mappedKey];
+      updateSetting(mappedKey, newState);
+    }
 
     if (settings.voiceAssistant && speak) {
       speak(
@@ -94,9 +116,15 @@ function IntroScreen({ onStart, speak }) {
 
   const hasLRS = settings.lrs;
   const hasContrast = settings.contrast;
-  const hasVision = settings.vision;
+  // Approximated from the sliders now: "moved above its own default
+  // minimum" rather than a specific fixed position — see the matching
+  // definition in SurveyComponent.tsx's a11yAddons.
+  const hasVision = settings.fontSizeUi > 16 || settings.fontSizeExercise > 16;
   const hasMotorik = settings.motorik;
-  const hasSpacing = settings.spacing;
+  const hasSpacing =
+    settings.lineHeight > 1.5 ||
+    settings.letterSpacing > 0 ||
+    settings.wordSpacing > 0;
   const hasRuler = settings.ruler;
   const hasColor = settings.color;
   const hasMotion = settings.motion;
