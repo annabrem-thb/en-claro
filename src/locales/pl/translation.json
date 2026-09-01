@@ -72,13 +72,6 @@
     "Prawie dobrze, spójrz jeszcze raz.",
     "To normalna część nauki."
   ],
-  "streakMsg": [
-    "{{count}} z rzędu! 🔥",
-    "Seria {{count}} trafień! 🚀",
-    "Masz już {{count}}! 🌟",
-    "{{count}}x bezbłędnie! 💪",
-    "{{count}} pod rząd — tak buduje się nawyk. 🌱"
-  ],
   "levelUp": "Nowy Poziom!",
   "levelUpTitle": "Twój ogród rośnie!",
   "levelUpDesc": "Kolejny cel za Tobą — Twoja systematyczność się opłaca.",
@@ -89,12 +82,6 @@
       "Przeanalizujmy to razem",
       "Spróbujmy jeszcze raz",
       "Prawie dobrze, spójrz jeszcze raz"
-    ],
-    "streak": [
-      "{{count}} z rzędu! Idziesz jak burza!",
-      "Niesamowite! To już {{count}} poprawnych odpowiedzi!",
-      "Wspaniała seria! Tak trzymaj!",
-      "Rewelacja! {{count}} trafień bez błędu!"
     ]
   },
   "voiceOptions": "Głos lektora",
@@ -368,15 +355,9 @@
     "Ocean": ["Kropla", "Ryba", "Koralowiec", "Delfin", "Wieloryb"]
   },
   "garden": "Ogród",
-  "gardenBlooming": "Ogród rozkwita! Zrealizowane cele:",
   "gardenEmpty": "Twój własny ekosystem. Będzie rósł wraz z każdym Twoim postępem.",
-  "gardenCollectionTitle": "Twoja kolekcja",
   "srPlantFeature": "Twoja podróż obecnie zawiera",
-  "srDailyRewards": "Posiada",
-  "srRewardsCount": "codziennych nagród.",
   "dailyGoalProgress": "Postęp Celu Dziennego",
-  "srVisitor": "Przyjazny gość dołączył do Ciebie dzięki Twojej regularnej praktyce.",
-  "srTrophies": "Dzięki wytrwałości w ogrodzie pojawiły się {{count}} unikalne obiekty.",
   "rewardItems": {
     "Natur": ["🍀", "🌸", "🦋", "🐝", "🌈"],
     "Musik": ["🎵", "🎶", "🎤", "🎸", "🎧"],
@@ -403,9 +384,6 @@
   "sharePoints_few": "⭐ Zdobyto {{count}} punkty",
   "sharePoints_many": "⭐ Zdobyto {{count}} punktów",
   "shareLevel": "🌱 Poziom {{count}}",
-  "shareStreak_one": "🔥 {{count}} dzień z rzędu",
-  "shareStreak_few": "🔥 {{count}} dni z rzędu",
-  "shareStreak_many": "🔥 {{count}} dni z rzędu",
   "shareGoalDays": "✅ {{count}} z 7 dni w tym tygodniu z osiągniętym celem dziennym",
   "workloadCheckInTitle": "Jak Ci poszło?",
   "workloadDemandQuestion": "Ile wysiłku umysłowego wymagały te ćwiczenia?",

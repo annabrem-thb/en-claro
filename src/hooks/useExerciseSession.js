@@ -84,7 +84,10 @@ export function useExerciseSession({
     () => Number(localStorage.getItem('idx')) || 0,
   );
   const [cycle, setCycle] = useState(0);
-  const [currentStreak, setCurrentStreak] = useState(0);
+  // Never shown to the user and never feeds feedback copy — this exists
+  // solely to trigger the adaptive-difficulty bump below after 5 correct
+  // answers in a row.
+  const [consecutiveCorrect, setConsecutiveCorrect] = useState(0);
   const [errorCounter, setErrorCounter] = useState(0);
   const [feedback, setFeedback] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -274,12 +277,12 @@ export function useExerciseSession({
   }, [activePillarTasks.length]);
 
   const handleSuccess = useCallback(() => {
-    const newStreak = currentStreak + 1;
-    setCurrentStreak(newStreak);
+    const newConsecutiveCorrect = consecutiveCorrect + 1;
+    setConsecutiveCorrect(newConsecutiveCorrect);
     if (
       inclusiveOptions.adaptiveDifficulty &&
-      newStreak > 0 &&
-      newStreak % 5 === 0 &&
+      newConsecutiveCorrect > 0 &&
+      newConsecutiveCorrect % 5 === 0 &&
       userDifficulty < 4
     )
       setUserDifficulty((prev) => Math.min(prev + 1, 4));
@@ -287,33 +290,14 @@ export function useExerciseSession({
     if (inclusiveOptions.audioRewards && !inclusiveOptions.muteNotifications)
       playThemeSound(theme);
     const successMsgs = t('successMsg', { returnObjects: true });
-    const baseSuccessMsg = Array.isArray(successMsgs)
+    const msg = Array.isArray(successMsgs)
       ? successMsgs[Math.floor(Math.random() * successMsgs.length)]
       : successMsgs;
-    let msg = baseSuccessMsg;
-    if (newStreak >= 3) {
-      const streakMsgs = t('streakMsg', { returnObjects: true });
-      const template = Array.isArray(streakMsgs)
-        ? streakMsgs[Math.floor(Math.random() * streakMsgs.length)]
-        : streakMsgs;
-      // i18next's `returnObjects` bypasses its own interpolator (it only
-      // post-processes string results, not values pulled out of an array),
-      // so the {{count}} placeholder is filled in by hand after picking the
-      // random variant.
-      if (template) msg = template.replace(/{{count}}/g, newStreak);
-    }
     setFeedback({ type: 'success', msg });
     const voiceSuccess = t('voice.success', { returnObjects: true });
-    let voiceSuccessMsg = Array.isArray(voiceSuccess)
+    const voiceSuccessMsg = Array.isArray(voiceSuccess)
       ? voiceSuccess[Math.floor(Math.random() * voiceSuccess.length)]
       : voiceSuccess || '';
-    if (newStreak >= 3) {
-      const voiceStreak = t('voice.streak', { returnObjects: true });
-      const template = Array.isArray(voiceStreak)
-        ? voiceStreak[Math.floor(Math.random() * voiceStreak.length)]
-        : voiceStreak;
-      if (template) voiceSuccessMsg = template.replace(/{{count}}/g, newStreak);
-    }
     // Bug fix: this used to check only `muteNotifications`, so success/error
     // speech ignored the global `voiceAssistant` toggle entirely — a user who
     // turned Voice Assistant off would still hear these lines on every
@@ -338,7 +322,7 @@ export function useExerciseSession({
       correct: true,
     }).catch(console.error);
   }, [
-    currentStreak,
+    consecutiveCorrect,
     activeTab,
     t,
     speak,
@@ -395,8 +379,7 @@ export function useExerciseSession({
     setCurrentIndex,
     cycle,
     setCycle,
-    currentStreak,
-    setCurrentStreak,
+    setConsecutiveCorrect,
     feedback,
     setFeedback,
     isTransitioning,
