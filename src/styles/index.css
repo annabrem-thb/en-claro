@@ -8,7 +8,6 @@
    animation everywhere `noFlash` allowed one, silently, since nothing
    errors when a class name doesn't correspond to a utility. */
 @import 'tw-animate-css';
-@import './fonts.css';
 @import './a11y.css';
 
 /* Custom border radius for the "pill" look (rounded-4xl, used across cards/
@@ -25,8 +24,6 @@
 }
 
 :root {
-  --dyn-font-family: Helvetica, Arial, Verdana, sans-serif;
-
   /* The six adjustable design tokens, plus --measure (a fixed line-length
      cap, not user-adjustable — see .prose-text below). Each slider's
      minimum reproduces today's default look exactly; moving a slider only
@@ -127,7 +124,7 @@
   body {
     background-color: var(--page-bg);
     color: var(--page-text);
-    font-family: var(--dyn-font-family);
+    font-family: Helvetica, Arial, Verdana, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
