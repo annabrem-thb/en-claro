@@ -48,10 +48,8 @@ import BionicText from './common/BionicText.jsx';
 import Dialog from './common/Dialog.jsx';
 import SkeletonLoader from './common/SkeletonLoader.jsx';
 
-// Lazy-loaded: each of these pulls in a library only it needs (lottie-react
-// for VirtualGarden) that would otherwise inflate the initial bundle for
-// every user, even ones who never open Settings/Survey/Garden. See
-// docs/bundle-size.md.
+// Lazy-loaded so a user who never opens Settings/Survey/Garden never pays
+// for their code in the initial bundle. See docs/bundle-size.md.
 const SettingsModal = lazy(() => import('./SettingsModal.jsx'));
 const VirtualGarden = lazy(() => import('./VirtualGarden.jsx'));
 const SurveyComponent = lazy(() =>
@@ -371,8 +369,7 @@ function AppContent() {
     currentIndex,
     setCurrentIndex,
     setCycle,
-    currentStreak,
-    setCurrentStreak,
+    setConsecutiveCorrect,
     feedback,
     setFeedback,
     isTransitioning,
@@ -417,9 +414,9 @@ function AppContent() {
       setCurrentIndex(0);
       setCycle(0);
       setFeedback(null);
-      setCurrentStreak(0);
+      setConsecutiveCorrect(0);
     },
-    [setCurrentIndex, setCycle, setFeedback, setCurrentStreak],
+    [setCurrentIndex, setCycle, setFeedback, setConsecutiveCorrect],
   );
 
   const handleGardenClick = useCallback(() => {
@@ -692,7 +689,6 @@ function AppContent() {
               >
                 <VirtualGarden
                   growthValue={growthValue}
-                  streak={currentStreak}
                   isHighContrast={isHighContrast}
                   theme={theme}
                   themeStyles={themeStyles}
