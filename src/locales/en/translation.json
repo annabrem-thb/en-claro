@@ -144,10 +144,6 @@
       "name": "Comfort buttons",
       "desc": "Enlarged buttons and calm animations"
     },
-    "vision": {
-      "name": "Larger text",
-      "desc": "Enlarged font and icons"
-    },
     "colors": {
       "name": "Safe colors",
       "desc": "Optimized, readable color palette"
@@ -160,13 +156,36 @@
       "name": "Focus ruler",
       "desc": "Highlights a horizontal line under the cursor, or move it with ↑↓ arrow keys (no mouse needed)"
     },
-    "spacing": {
-      "name": "Larger spacing",
-      "desc": "Increases spacing between letters and words"
-    },
     "desaturation": {
       "name": "Soft colors",
       "desc": "Reduces the saturation of bright colors"
+    }
+  },
+  "designTokensSectionTitle": "Text & spacing",
+  "designTokens": {
+    "fontSizeExercise": {
+      "name": "Exercise text size",
+      "desc": "Size of the question/answer text inside exercises"
+    },
+    "fontSizeUi": {
+      "name": "Interface text size",
+      "desc": "Size of menus, buttons and labels outside exercises"
+    },
+    "lineHeight": {
+      "name": "Line height",
+      "desc": "Vertical space between lines of text"
+    },
+    "letterSpacing": {
+      "name": "Letter spacing",
+      "desc": "Space between individual letters"
+    },
+    "wordSpacing": {
+      "name": "Word spacing",
+      "desc": "Space between words"
+    },
+    "paragraphSpacing": {
+      "name": "Paragraph spacing",
+      "desc": "Space below a paragraph of reading text (e.g. a comprehension passage)"
     }
   },
   "inclusive": {

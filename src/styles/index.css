@@ -26,14 +26,38 @@
 
 :root {
   --dyn-font-family: Helvetica, Arial, Verdana, sans-serif;
-  --dyn-line-height: 1.5;
-  --dyn-word-spacing: normal;
-  --dyn-letter-spacing: normal;
-  --dyn-font-size: 16px; /* Standard readable size for phones */
 
-  /* Safe limit for small touch screens:
-     Maximum allowed zoom is 130% (1.3), protecting layout from breaking */
-  --responsive-scale: min(var(--user-text-scale, 1), 1.3);
+  /* The six adjustable design tokens, plus --measure (a fixed line-length
+     cap, not user-adjustable — see .prose-text below). Each slider's
+     minimum reproduces today's default look exactly; moving a slider only
+     ever adds headroom, it never shrinks anything below this baseline.
+     --font-size-exercise and --font-size-ui are genuinely independent:
+     Tailwind v4 generates every `text-*` utility (bare and every
+     responsive variant) as `font-size: var(--text-lg)` etc., so
+     re-defining those `--text-*` variables inside .exercise-scale below
+     retargets every exercise-component text size without touching a
+     single className, while everything outside that scope keeps reading
+     the root definitions here (driven by --font-size-ui via `html`'s own
+     font-size, since rem always resolves against the root element). */
+  --font-size-exercise: 16px;
+  --font-size-ui: 16px;
+  --line-height: 1.5;
+  --letter-spacing: normal;
+  --word-spacing: normal;
+  --paragraph-spacing: 0em;
+  --measure: 66ch;
+
+  /* Tailwind's own per-text-size utilities each bundle a companion
+     line-height (`.text-lg{line-height:var(--tw-leading, var(--text-lg--
+     line-height))}`), which has higher specificity than the universal
+     `line-height` rule below and would otherwise always win. Feeding
+     --line-height in as --tw-leading's *first* argument makes every text
+     size adopt the slider value by default, while an element with an
+     explicit `leading-*` utility (a deliberate design choice, e.g. the
+     uppercase micro-labels throughout the exercise components) still sets
+     its own --tw-leading locally and overrides this without any change
+     there. */
+  --tw-leading: var(--line-height);
 
   /* Base page colors, overridden below for prefers-color-scheme: dark.
      NOTE: this covers the shared <body> layer only. Most cards/modals set
@@ -56,17 +80,12 @@
   }
 }
 
-/* Increase base font on tablets and monitors (from 768px width) */
+/* Condense text in Garden so activity stats fit inside tiles — unrelated to
+   the design-token sliders above, this is a fixed desktop layout fix (the
+   Garden's tiles need this regardless of what the user's sliders are set
+   to), so it keeps its own media query rather than living inside a token
+   definition block. */
 @media (min-width: 768px) {
-  :root {
-    --dyn-font-size: 14px; /* Reduced to compact the UI and fit on landscape monitors without scrolling */
-
-    /* On large screens, the slider effect is reduced by 50% to prevent giant letters. 
-       For example, 150% on slider will only enlarge text to 125% on desktop. */
-    --responsive-scale: calc(1 + (var(--user-text-scale, 1) - 1) * 0.5);
-  }
-
-  /* Condense text in Garden so activity stats fit inside tiles */
   #garden-container * {
     letter-spacing: 0.02em !important;
     word-spacing: 0.05em !important;
@@ -76,8 +95,13 @@
 
 @layer base {
   html {
-    /* Fixed root (rem) - keeps margins, paddings, and windows from scaling with the slider */
-    font-size: var(--dyn-font-size);
+    /* The only place --font-size-ui actually gets applied: every rem-based
+       Tailwind utility everywhere outside .exercise-scale resolves against
+       this root size automatically, with no further wiring needed. Fixed
+       across all viewport widths — the old scheme silently dropped to 14px
+       and halved the slider's effect at >=768px, which is exactly the
+       compliance gap this replaces. */
+    font-size: var(--font-size-ui);
     /* Block bouncing (pull-to-refresh) on mobile devices */
     overscroll-behavior: none;
     /* Let native UI (scrollbars, form controls) follow the OS theme too */
@@ -92,9 +116,9 @@
 
   * {
     /* Moved to the universal selector so 'em' proportions calculate directly from the target element */
-    letter-spacing: var(--dyn-letter-spacing);
-    word-spacing: var(--dyn-word-spacing);
-    line-height: var(--dyn-line-height);
+    letter-spacing: var(--letter-spacing);
+    word-spacing: var(--word-spacing);
+    line-height: var(--line-height);
 
     /* Protect layout from breaking - forces long words to break into new lines */
     overflow-wrap: break-word;
@@ -110,8 +134,6 @@
     text-align: left !important;
     /* Block dragging empty background (iOS bounce) */
     overscroll-behavior: none;
-    /* Apply slider enlargement strictly to text */
-    font-size: calc(1rem * var(--responsive-scale));
     overflow-x: hidden;
   }
 
@@ -183,12 +205,72 @@
 }
 
 @layer utilities {
-  /* Dynamic arbitrary font sizes utilizing our CSS variable */
+  /* Tailwind's arbitrary-value utilities (text-[9px] etc.) compile to a
+     literal font-size with no theme variable behind them at all — unlike
+     text-lg/text-xl/etc. (see .exercise-scale below), so each one actually
+     used anywhere in the app needs its own override to track a slider.
+     These app-wide defaults track --font-size-ui; the three also used
+     inside exercise components (9/10/11px) get a second, more specific
+     rule below that tracks --font-size-exercise instead wherever they
+     appear inside .exercise-scale. text-[64/120/160px] (the Garden's plant
+     icon) is intentionally not included — that's decorative icon sizing,
+     not adjustable reading text. */
+  .text-\[7px\] {
+    font-size: calc(var(--font-size-ui) * 7 / 16);
+  }
+  .text-\[8px\] {
+    font-size: calc(var(--font-size-ui) * 8 / 16);
+  }
   .text-\[9px\] {
-    font-size: calc(0.5625rem * var(--responsive-scale));
+    font-size: calc(var(--font-size-ui) * 9 / 16);
   }
   .text-\[10px\] {
-    font-size: calc(0.625rem * var(--responsive-scale));
+    font-size: calc(var(--font-size-ui) * 10 / 16);
+  }
+  .text-\[11px\] {
+    font-size: calc(var(--font-size-ui) * 11 / 16);
+  }
+
+  /* Every named text-size utility Tailwind generates reads a --text-*
+     theme variable (`.text-lg{font-size:var(--text-lg)}`), including every
+     responsive variant (`sm:text-lg` reads the very same --text-lg) — so
+     re-defining those variables here, scoped to the exercise view, is all
+     that's needed for font-size-exercise to apply everywhere inside it,
+     with no exercise component's className touched. Limited to the sizes
+     actually used in src/components/exercises/*.jsx today; add a line here
+     if a future exercise introduces a new one. */
+  .exercise-scale {
+    --text-xs: calc(var(--font-size-exercise) * 0.75);
+    --text-sm: calc(var(--font-size-exercise) * 0.875);
+    --text-base: var(--font-size-exercise);
+    --text-lg: calc(var(--font-size-exercise) * 1.125);
+    --text-xl: calc(var(--font-size-exercise) * 1.25);
+    --text-2xl: calc(var(--font-size-exercise) * 1.5);
+    --text-3xl: calc(var(--font-size-exercise) * 1.875);
+    --text-4xl: calc(var(--font-size-exercise) * 2.25);
+    --text-5xl: calc(var(--font-size-exercise) * 3);
+    --text-6xl: calc(var(--font-size-exercise) * 3.75);
+    --text-7xl: calc(var(--font-size-exercise) * 4.5);
+    --text-8xl: calc(var(--font-size-exercise) * 6);
+  }
+  .exercise-scale .text-\[9px\] {
+    font-size: calc(var(--font-size-exercise) * 9 / 16);
+  }
+  .exercise-scale .text-\[10px\] {
+    font-size: calc(var(--font-size-exercise) * 10 / 16);
+  }
+  .exercise-scale .text-\[11px\] {
+    font-size: calc(var(--font-size-exercise) * 11 / 16);
+  }
+
+  /* For genuine long-form body text (currently just the reading passage in
+     ReadingComprehensionExercise) rather than every <p> in the app — most
+     of which are short one-line labels/hints where a 66ch cap would do
+     nothing but a paragraph-spacing margin of up to 3em would visibly
+     break tight layouts. */
+  .prose-text p {
+    margin-bottom: var(--paragraph-spacing);
+    max-width: var(--measure);
   }
 
   /* One-shot "just gained" pulse for a newly-filled ProgressPill segment:

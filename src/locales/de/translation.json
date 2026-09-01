@@ -144,10 +144,6 @@
       "name": "Bequeme Tasten",
       "desc": "Vergrößerte Tasten und ruhige Animationen"
     },
-    "vision": {
-      "name": "Größerer Text",
-      "desc": "Vergrößerte Schriftart und Symbole"
-    },
     "colors": {
       "name": "Sichere Farben",
       "desc": "Optimierte, lesbare Farbpalette"
@@ -160,13 +156,36 @@
       "name": "Fokuslineal",
       "desc": "Hebt eine horizontale Linie unter dem Cursor hervor, oder mit ↑↓ verschieben (ohne Maus)"
     },
-    "spacing": {
-      "name": "Größerer Abstand",
-      "desc": "Erhöht den Abstand zwischen Buchstaben und Wörtern"
-    },
     "desaturation": {
       "name": "Sanfte Farben",
       "desc": "Reduziert die Sättigung heller Farben"
+    }
+  },
+  "designTokensSectionTitle": "Text & Abstände",
+  "designTokens": {
+    "fontSizeExercise": {
+      "name": "Textgröße Übung",
+      "desc": "Größe von Frage-/Antworttext innerhalb der Übungen"
+    },
+    "fontSizeUi": {
+      "name": "Textgröße Oberfläche",
+      "desc": "Größe von Menüs, Schaltflächen und Beschriftungen außerhalb der Übungen"
+    },
+    "lineHeight": {
+      "name": "Zeilenhöhe",
+      "desc": "Vertikaler Abstand zwischen den Textzeilen"
+    },
+    "letterSpacing": {
+      "name": "Buchstabenabstand",
+      "desc": "Abstand zwischen einzelnen Buchstaben"
+    },
+    "wordSpacing": {
+      "name": "Wortabstand",
+      "desc": "Abstand zwischen Wörtern"
+    },
+    "paragraphSpacing": {
+      "name": "Absatzabstand",
+      "desc": "Abstand unter einem Absatz Lesetext (z. B. einem Leseverständnistext)"
     }
   },
   "inclusive": {

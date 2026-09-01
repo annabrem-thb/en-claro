@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -72,6 +72,58 @@ const SettingToggle = ({
     </button>
   </div>
 );
+
+// One of the six design-token sliders — reaches from `min` (today's default
+// look, unchanged) up to `max` (the spec's stated cap). Unlike SettingToggle
+// this is a genuine range control, not a repurposed switch, since these
+// tokens are continuous values rather than on/off states.
+const SettingSlider = ({
+  label,
+  desc,
+  value,
+  min,
+  max,
+  step,
+  unit,
+  onChange,
+  bionic,
+  isHighContrast,
+}) => {
+  const inputId = useId();
+  return (
+    <div className="rounded-xl p-3">
+      <div className="mb-2 flex items-baseline justify-between gap-2">
+        <label
+          htmlFor={inputId}
+          className={`font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
+        >
+          <BionicText text={label} enabled={bionic} />
+        </label>
+        <span
+          className={`shrink-0 text-sm font-medium tabular-nums ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+        >
+          {value}
+          {unit}
+        </span>
+      </div>
+      <p
+        className={`mb-2 text-xs ${isHighContrast ? 'text-white/60' : 'text-slate-500'}`}
+      >
+        <BionicText text={desc} enabled={bionic} />
+      </p>
+      <input
+        id={inputId}
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="w-full accent-emerald-500"
+      />
+    </div>
+  );
+};
 
 const GeneralTab = ({ speak }) => {
   const { t } = useTranslation();
@@ -193,12 +245,12 @@ const A11Y_SECTIONS = [
   {
     titleKey: 'a11ySectionVision',
     icon: '👁️',
-    keys: ['contrast', 'vision', 'color', 'desaturation'],
+    keys: ['contrast', 'color', 'desaturation'],
   },
   {
     titleKey: 'a11ySectionReading',
     icon: '📖',
-    keys: ['lrs', 'spacing', 'ruler', 'bionicReading', 'zenMode'],
+    keys: ['lrs', 'ruler', 'bionicReading', 'zenMode'],
   },
   {
     titleKey: 'a11ySectionMotor',
@@ -210,6 +262,20 @@ const A11Y_SECTIONS = [
     icon: '🔊',
     keys: ['voiceAssistant', 'cognitiveBreaks', 'adaptiveDifficulty'],
   },
+];
+
+// The six adjustable design tokens (see src/styles/index.css). Each min
+// reproduces today's default look exactly; each max is the spec's stated
+// cap. `lrs` above still exists as a one-tap preset that jumps these same
+// settings fields, so moving a slider here is exactly equivalent to what
+// that toggle already does, just to any value in between too.
+const DESIGN_TOKEN_SLIDERS = [
+  { key: 'fontSizeExercise', min: 16, max: 32, step: 1, unit: 'px' },
+  { key: 'fontSizeUi', min: 16, max: 28, step: 1, unit: 'px' },
+  { key: 'lineHeight', min: 1.5, max: 2.2, step: 0.1, unit: '' },
+  { key: 'letterSpacing', min: 0, max: 0.24, step: 0.02, unit: 'em' },
+  { key: 'wordSpacing', min: 0, max: 0.32, step: 0.02, unit: 'em' },
+  { key: 'paragraphSpacing', min: 0, max: 3, step: 0.25, unit: 'em' },
 ];
 
 const A11yTab = ({ speak }) => {
@@ -228,11 +294,9 @@ const A11yTab = ({ speak }) => {
   const optionsByKey = useMemo(
     () => ({
       contrast: t('a11y.contrast', { returnObjects: true }),
-      vision: t('a11y.vision', { returnObjects: true }),
       color: t('a11y.colors', { returnObjects: true }),
       desaturation: t('a11y.desaturation', { returnObjects: true }),
       lrs: t('a11y.lrs', { returnObjects: true }),
-      spacing: t('a11y.spacing', { returnObjects: true }),
       ruler: t('a11y.ruler', { returnObjects: true }),
       bionicReading: t('inclusive.bionicReading', { returnObjects: true }),
       zenMode: t('inclusive.zenMode', { returnObjects: true }),
@@ -246,6 +310,17 @@ const A11yTab = ({ speak }) => {
         returnObjects: true,
       }),
     }),
+    [t],
+  );
+
+  const designTokensByKey = useMemo(
+    () =>
+      Object.fromEntries(
+        DESIGN_TOKEN_SLIDERS.map(({ key }) => [
+          key,
+          t(`designTokens.${key}`, { returnObjects: true }),
+        ]),
+      ),
     [t],
   );
 
@@ -275,13 +350,25 @@ const A11yTab = ({ speak }) => {
               `${optionsByKey[key].name}, ${settings[key] ? t('optionOn') : t('optionOff')}`,
           ),
       ]),
+      t('designTokensSectionTitle'),
+      ...DESIGN_TOKEN_SLIDERS.filter(({ key }) => designTokensByKey[key]?.name).map(
+        ({ key, unit }) => `${designTokensByKey[key].name}, ${settings[key]}${unit}`,
+      ),
     ].filter(Boolean);
     let delayAcc = 0;
     segments.forEach((segment) => {
       setSafeTimeout(() => speak(segment), delayAcc);
       delayAcc += segment.length * 70 + 700;
     });
-  }, [speak, t, optionsByKey, settings, setSafeTimeout, clearAllTimeouts]);
+  }, [
+    speak,
+    t,
+    optionsByKey,
+    designTokensByKey,
+    settings,
+    setSafeTimeout,
+    clearAllTimeouts,
+  ]);
 
   useAutoReadAloud(!!voiceAssistant, readA11yTab);
 
@@ -344,6 +431,40 @@ const A11yTab = ({ speak }) => {
           </div>
         </div>
       ))}
+      <div
+        className={`border-t pt-6 ${contrast ? 'border-white/20' : 'border-slate-200'}`}
+      >
+        <h3
+          className={`mb-2 flex items-center gap-2 px-3 text-sm font-bold ${contrast ? 'text-white' : 'text-slate-500'}`}
+        >
+          <span aria-hidden="true">🔤</span>
+          <BionicText
+            text={t('designTokensSectionTitle')}
+            enabled={bionicReading}
+          />
+        </h3>
+        <div className="space-y-1">
+          {DESIGN_TOKEN_SLIDERS.map(({ key, min, max, step, unit }) => {
+            const opt = designTokensByKey[key];
+            if (!opt) return null;
+            return (
+              <SettingSlider
+                key={key}
+                label={opt.name}
+                desc={opt.desc}
+                value={settings[key]}
+                min={min}
+                max={max}
+                step={step}
+                unit={unit}
+                onChange={(next) => updateSetting(key, next)}
+                bionic={bionicReading}
+                isHighContrast={contrast}
+              />
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };

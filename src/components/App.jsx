@@ -330,7 +330,13 @@ function AppContent() {
   const themeStyles = THEMES[theme] || THEMES.Natur;
   const noFlash = settings.noFlash || settings.motion;
   const bigTargets = settings.bigTargets || settings.motorik;
-  const hideNavLabel = settings.vision;
+  // Nav labels wrap/overflow in the compact rail once UI text grows past its
+  // default size — `vision` used to be a single fixed 115%-zoom toggle that
+  // this gated on directly; now that it's a continuous slider, the same
+  // "moved above default" threshold used elsewhere (SurveyComponent.tsx,
+  // IntroScreen.jsx's hasVision) applies here too.
+  const hideNavLabel =
+    settings.fontSizeUi > 16 || settings.fontSizeExercise > 16;
   const isHighContrast = settings.contrast;
   const isColorblind = settings.color;
   const hasRuler = settings.ruler;
@@ -809,7 +815,7 @@ function AppContent() {
                 )}
                 <div
                   key={`exercise-wrapper-${activeTab}-${currentIndex}`}
-                  className={`flex h-full min-h-0 w-full flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
+                  className={`exercise-scale flex h-full min-h-0 w-full flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
                 >
                   {renderCurrentExercise()}
                 </div>
