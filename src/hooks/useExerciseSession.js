@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 
 import { STUDY_EXERCISE_TYPES } from '../data/exerciseTypes.js';
+import { belongsToActiveSet } from '../data/studySets.js';
 import { getSharedAudioContext } from '../utils/audioUnlock.js';
 import { saveLog } from '../utils/indexedDB.js';
 import { seededShuffle } from '../utils/shuffleUtils.js';
@@ -70,6 +71,7 @@ export function useExerciseSession({
   t,
   speak,
   theme,
+  studySet,
   growthValue,
   setGrowthValue,
   // Called once per completed unit, after growthValue/feedback are updated
@@ -131,11 +133,13 @@ export function useExerciseSession({
     // strictly by *category*, not by rendering component.
     const includeIfActive = (dbKey) =>
       STUDY_EXERCISE_TYPES.has(dbKey) && activeExercises[dbKey] !== false
-        ? (db[dbKey] || []).map((task) => ({ ...task, __exerciseType: dbKey }))
+        ? (db[dbKey] || [])
+            .filter((task) => belongsToActiveSet(task, studySet))
+            .map((task) => ({ ...task, __exerciseType: dbKey }))
         : [];
     const tagDiagnostic = (pillar) =>
       (db.diagnostic || [])
-        .filter((d) => d.pillar === pillar)
+        .filter((d) => d.pillar === pillar && belongsToActiveSet(d, studySet))
         .map((task) => ({ ...task, __exerciseType: 'diagnostic' }));
 
     let rawTasks = [];
@@ -245,6 +249,7 @@ export function useExerciseSession({
     inclusiveOptions.activeExercises,
     userDifficulty,
     cycle,
+    studySet,
   ]);
 
   const safeIndex = currentIndex % (activePillarTasks.length || 1);

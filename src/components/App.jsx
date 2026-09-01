@@ -24,6 +24,7 @@ import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts.js';
 import { useLocalTTS } from '../hooks/useLocalTTS.js';
 import { useReadingRuler } from '../hooks/useReadingRuler.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
+import { useStudySet } from '../hooks/useStudySet.js';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation.js';
 import { useThemeCSSVariables } from '../hooks/useThemeCSSVariables.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
@@ -119,6 +120,7 @@ const THEMES = {
 
 function AppContent() {
   const { isGamified, growthValue, setGrowthValue } = useGamification();
+  const { studySet } = useStudySet();
 
   const { settings, updateSetting } = useUserSettingsContext();
   const { language, theme, dailyGoal, userDifficulty } = settings;
@@ -390,6 +392,7 @@ function AppContent() {
     t,
     speak,
     theme,
+    studySet,
     growthValue,
     setGrowthValue,
     onUnitCompleted: handleUnitCompleted,
