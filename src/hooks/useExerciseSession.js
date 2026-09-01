@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 
+import { STUDY_EXERCISE_TYPES } from '../data/exerciseTypes.js';
 import { getSharedAudioContext } from '../utils/audioUnlock.js';
 import { saveLog } from '../utils/indexedDB.js';
 import { seededShuffle } from '../utils/shuffleUtils.js';
@@ -129,7 +130,7 @@ export function useExerciseSession({
     // 'grapheme'`/`'diagnostic'`) — so the interleaving step below can group
     // strictly by *category*, not by rendering component.
     const includeIfActive = (dbKey) =>
-      activeExercises[dbKey] !== false
+      STUDY_EXERCISE_TYPES.has(dbKey) && activeExercises[dbKey] !== false
         ? (db[dbKey] || []).map((task) => ({ ...task, __exerciseType: dbKey }))
         : [];
     const tagDiagnostic = (pillar) =>

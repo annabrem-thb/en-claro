@@ -48,3 +48,26 @@ const ALL_EXERCISE_KEYS = Object.values(EXERCISE_PILLARS).flat();
 export function getDefaultActiveExercises() {
   return Object.fromEntries(ALL_EXERCISE_KEYS.map((key) => [key, true]));
 }
+
+// Exercise types kept in the codebase (components, data, per-user toggle)
+// but not offered in this build's session routing — a code-level gate that
+// wins regardless of the user's own activeExercises setting, unlike every
+// other key above. `tracking` routes to the spatial-tracking exercise,
+// `rhythm`/`rhythmMemory`/`melodyMemory` to the sound-timing/melody-recall
+// ones; none exercise phoneme/grapheme decoding, the skill this pillar set
+// is meant to practice.
+const EXCLUDED_FROM_STUDY = ['tracking', 'rhythm', 'rhythmMemory', 'melodyMemory'];
+
+export const STUDY_EXERCISE_TYPES = new Set(
+  ALL_EXERCISE_KEYS.filter((key) => !EXCLUDED_FROM_STUDY.includes(key)),
+);
+
+// Same shape as EXERCISE_PILLARS, with the excluded keys dropped from each
+// pillar's list — what exercise-toggle UI should render, so it never offers
+// a switch for a type that STUDY_EXERCISE_TYPES will never select anyway.
+export const STUDY_EXERCISE_PILLARS = Object.fromEntries(
+  Object.entries(EXERCISE_PILLARS).map(([pillar, keys]) => [
+    pillar,
+    keys.filter((key) => !EXCLUDED_FROM_STUDY.includes(key)),
+  ]),
+);
