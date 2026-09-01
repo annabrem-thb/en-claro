@@ -73,13 +73,6 @@
     "Almost right, look again.",
     "That's a normal part of learning."
   ],
-  "streakMsg": [
-    "{{count}} in a row! 🔥",
-    "{{count}} hit streak! 🚀",
-    "You have {{count}}! 🌟",
-    "{{count}}x flawless! 💪",
-    "{{count}} in a row — that's how a habit is built. 🌱"
-  ],
   "levelUp": "Level Up!",
   "levelUpTitle": "Your garden is growing!",
   "levelUpDesc": "Another goal behind you — your consistency is paying off.",
@@ -90,12 +83,6 @@
       "Let's analyze this together",
       "Let's try again",
       "Almost right, look again"
-    ],
-    "streak": [
-      "{{count}} in a row! You're on fire!",
-      "Amazing! That's {{count}} correct answers!",
-      "Great streak! Keep it up!",
-      "Fantastic! {{count}} hits without a mistake!"
     ]
   },
   "voiceOptions": "Voice actor",
@@ -369,15 +356,9 @@
     "Ocean": ["Drop", "Fish", "Coral", "Dolphin", "Whale"]
   },
   "garden": "Garden",
-  "gardenBlooming": "The garden is blooming! Goals achieved:",
   "gardenEmpty": "Your own ecosystem. It will grow as you progress.",
-  "gardenCollectionTitle": "Your collection",
   "srPlantFeature": "Your journey currently features",
-  "srDailyRewards": "Has",
-  "srRewardsCount": "daily rewards.",
   "dailyGoalProgress": "Daily Goal Progress",
-  "srVisitor": "A friendly visitor has joined you thanks to your regular practice.",
-  "srTrophies": "Through perseverance, {{count}} unique objects appeared in the garden.",
   "rewardItems": {
     "Natur": ["🍀", "🌸", "🦋", "🐝", "🌈"],
     "Musik": ["🎵", "🎶", "🎤", "🎸", "🎧"],
@@ -402,8 +383,6 @@
   "sharePoints_one": "⭐ {{count}} point earned",
   "sharePoints_other": "⭐ {{count}} points earned",
   "shareLevel": "🌱 Level {{count}}",
-  "shareStreak_one": "🔥 {{count}} day in a row",
-  "shareStreak_other": "🔥 {{count}} days in a row",
   "shareGoalDays": "✅ {{count}} of 7 days this week met the daily goal",
   "workloadCheckInTitle": "How did that feel?",
   "workloadDemandQuestion": "How mentally demanding were these exercises?",
