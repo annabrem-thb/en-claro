@@ -176,7 +176,7 @@ function ReadingComprehensionExercise({
       )}
 
       <div
-        className={`no-scrollbar mb-2 min-h-0 w-full max-w-2xl flex-1 overflow-y-auto rounded-3xl border-2 p-3 sm:mb-4 sm:p-6 ${
+        className={`prose-text no-scrollbar mb-2 min-h-0 w-full max-w-2xl flex-1 overflow-y-auto rounded-3xl border-2 p-3 sm:mb-4 sm:p-6 ${
           isHighContrast
             ? 'border-white/30 bg-black text-white'
             : `${themeStyles.border} bg-white text-slate-800`
