@@ -108,8 +108,7 @@ export function useUserSettings() {
       }
     });
     // Inline styles win over any selector in the stylesheet regardless of
-    // specificity, so this is the one place these six tokens are ever set —
-    // a11y.css only touches --dyn-font-family (the OpenDyslexic swap) now.
+    // specificity, so this is the one place these six tokens are ever set.
     html.style.setProperty('--font-size-exercise', `${settings.fontSizeExercise}px`);
     html.style.setProperty('--font-size-ui', `${settings.fontSizeUi}px`);
     html.style.setProperty('--line-height', settings.lineHeight);
@@ -125,22 +124,21 @@ export function useUserSettings() {
   // into the same fields the sliders control (so a slider always shows the
   // value actually in effect, never silently overridden elsewhere), and
   // flipping it off returns to the plain baseline rather than trying to
-  // remember whatever custom position a slider was at before.
+  // remember whatever custom position a slider was at before. It no longer
+  // touches font size — that used to shrink to 14px specifically to offset
+  // OpenDyslexic's extra width, a reason that no longer exists now that
+  // this preset is spacing-only.
   const prevLrsRef = useRef(settings.lrs);
   useEffect(() => {
     if (settings.lrs === prevLrsRef.current) return;
     prevLrsRef.current = settings.lrs;
     const preset = settings.lrs
       ? {
-          fontSizeExercise: 14,
-          fontSizeUi: 14,
           lineHeight: 1.75,
           letterSpacing: 0.08,
           wordSpacing: 0.2,
         }
       : {
-          fontSizeExercise: DEFAULT_SETTINGS.fontSizeExercise,
-          fontSizeUi: DEFAULT_SETTINGS.fontSizeUi,
           lineHeight: DEFAULT_SETTINGS.lineHeight,
           letterSpacing: DEFAULT_SETTINGS.letterSpacing,
           wordSpacing: DEFAULT_SETTINGS.wordSpacing,

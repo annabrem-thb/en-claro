@@ -12,7 +12,7 @@
     "modeClassic": "Nur Lernen",
     "modeGamified": "Spiel (Belohnungen)",
     "a11y": "Komfort-Werkzeuge",
-    "lrs": "Schriftart",
+    "lrs": "Zusätzlicher Leseabstand",
     "contrast": "Kontrast",
     "vision": "Größerer Text",
     "big": "Bequeme Tasten",
@@ -133,8 +133,8 @@
   "textSizeDesc": "Passen Sie die Schriftgröße an Ihre Lesepräferenzen an",
   "a11y": {
     "lrs": {
-      "name": "Schriftart",
-      "desc": "Schriftart, die das Lesen erleichtert (OpenDyslexic)"
+      "name": "Zusätzlicher Leseabstand",
+      "desc": "Größerer Zeilenabstand sowie Buchstaben-/Wortabstand für leichteres Lesen"
     },
     "contrast": {
       "name": "Hoher Kontrast",

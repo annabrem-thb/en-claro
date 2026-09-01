@@ -11,7 +11,7 @@
     "modeClassic": "Tylko nauka",
     "modeGamified": "Gra (nagrody)",
     "a11y": "Narzędzia komfortu",
-    "lrs": "Czcionka",
+    "lrs": "Dodatkowe odstępy w czytaniu",
     "contrast": "Kontrast",
     "vision": "Większy tekst",
     "big": "Przyciski",
@@ -132,8 +132,8 @@
   "a11ySectionVoice": "Głos i tempo nauki",
   "a11y": {
     "lrs": {
-      "name": "Przyjazna czcionka",
-      "desc": "Czcionka ułatwiająca czytanie (OpenDyslexic)"
+      "name": "Dodatkowe odstępy w czytaniu",
+      "desc": "Większa wysokość wiersza oraz odstępy między literami/słowami dla łatwiejszego czytania"
     },
     "contrast": {
       "name": "Wysoki kontrast",
