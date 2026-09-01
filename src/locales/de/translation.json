@@ -73,13 +73,6 @@
     "Fast richtig, schauen Sie noch einmal hin.",
     "Das gehört zum Lernen dazu."
   ],
-  "streakMsg": [
-    "{{count}} in Folge! 🔥",
-    "{{count}} Treffer-Serie! 🚀",
-    "Sie haben {{count}}! 🌟",
-    "{{count}}x fehlerfrei! 💪",
-    "{{count}} in Folge — so entsteht ein Ritual. 🌱"
-  ],
   "levelUp": "Level Up!",
   "levelUpTitle": "Ihr Garten wächst!",
   "levelUpDesc": "Ein weiteres Ziel geschafft — Ihre Beständigkeit zahlt sich aus.",
@@ -90,12 +83,6 @@
       "Lassen Sie uns das gemeinsam analysieren",
       "Versuchen wir es noch einmal",
       "Fast richtig, schauen Sie noch einmal hin"
-    ],
-    "streak": [
-      "{{count}} in Folge! Sie sind nicht zu stoppen!",
-      "Unglaublich! Das sind {{count}} richtige Antworten!",
-      "Tolle Serie! Weiter so!",
-      "Fantastisch! {{count}} Treffer ohne Fehler!"
     ]
   },
   "voiceOptions": "Sprecherstimme",
@@ -369,15 +356,9 @@
     "Ocean": ["Tropfen", "Fisch", "Koralle", "Delfin", "Wal"]
   },
   "garden": "Garten",
-  "gardenBlooming": "Der Garten blüht! Erreichte Ziele:",
   "gardenEmpty": "Ihr eigenes Ökosystem. Es wird mit Ihrem Fortschritt wachsen.",
-  "gardenCollectionTitle": "Deine Sammlung",
   "srPlantFeature": "Ihre Reise beinhaltet derzeit",
-  "srDailyRewards": "Hat",
-  "srRewardsCount": "tägliche Belohnungen.",
   "dailyGoalProgress": "Tagesziel-Fortschritt",
-  "srVisitor": "Ein freundlicher Besucher hat sich Ihnen dank Ihrer regelmäßigen Praxis angeschlossen.",
-  "srTrophies": "Durch Ausdauer sind {{count}} einzigartige Objekte im Garten erschienen.",
   "rewardItems": {
     "Natur": ["🍀", "🌸", "🦋", "🐝", "🌈"],
     "Musik": ["🎵", "🎶", "🎤", "🎸", "🎧"],
@@ -402,8 +383,6 @@
   "sharePoints_one": "⭐ {{count}} Punkt gesammelt",
   "sharePoints_other": "⭐ {{count}} Punkte gesammelt",
   "shareLevel": "🌱 Level {{count}}",
-  "shareStreak_one": "🔥 {{count}} Tag in Folge",
-  "shareStreak_other": "🔥 {{count}} Tage in Folge",
   "shareGoalDays": "✅ {{count}} von 7 Tagen diese Woche mit erreichtem Tagesziel",
   "workloadCheckInTitle": "Wie war das für dich?",
   "workloadDemandQuestion": "Wie anstrengend waren diese Übungen für dich?",
