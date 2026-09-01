@@ -12,14 +12,13 @@ import BionicText from './common/BionicText.jsx';
 import Dialog from './common/Dialog.jsx';
 
 // Matches App.jsx/useExerciseSession.js — kept local rather than shared
-// since this is the only other place that needs to turn raw points into a
-// level number (for the share summary).
+// since this is the only other place that needs to turn raw growthValue
+// into a level number (for the share summary).
 const POINTS_PER_LEVEL = 5;
 
 function VirtualGarden({
-  points,
+  growthValue,
   streak,
-  dailyQuests,
   isHighContrast,
   theme = 'Natur',
   t,
@@ -37,7 +36,7 @@ function VirtualGarden({
   voiceAssistant = false,
 }) {
   const ecosystemState = useMemo(() => {
-    const growthLevel = Math.floor(points / 5);
+    const growthLevel = Math.floor(growthValue / 5);
 
     const themeCategoryVisuals = {
       Natur: {
@@ -81,21 +80,6 @@ function VirtualGarden({
     const plantVisual = themeIcons[stageIndex];
     const plantName = themeStages[stageIndex];
 
-    const completedModules =
-      dailyQuests?.tasks?.filter((t) => t.completed).length || 0;
-
-    const questIconsByTheme = {
-      Natur: '🌼',
-      Musik: '🎶',
-      Kunst: '🏅',
-      Space: '🌠',
-      Ocean: '🐬',
-    };
-    const questIcon = questIconsByTheme[theme] || '🏅';
-    const flowers = Array.from({ length: completedModules }).map(
-      () => questIcon,
-    );
-
     const visitorsByTheme = {
       Natur: ['💧', '🌬️', '☀️', '⭐', '🌙'],
       Musik: ['🎵', '🎶', '🎼', '🎤', '🎧'],
@@ -113,13 +97,11 @@ function VirtualGarden({
     return {
       plantVisual,
       plantName,
-      flowers,
       hasVisitor,
       visitor,
-      completedModules,
       themeVisitors,
     };
-  }, [points, streak, dailyQuests, theme, t, activeCategory]);
+  }, [growthValue, streak, theme, t, activeCategory]);
 
   const [visitorAnimation, setVisitorAnimation] = useState(null);
 
@@ -207,12 +189,12 @@ function VirtualGarden({
     return () => {
       isMounted = false;
     };
-  }, [isFullScreen, points]);
+  }, [isFullScreen, growthValue]);
 
   const [justCopied, setJustCopied] = useState(false);
 
   const handleShare = async () => {
-    const level = Math.floor(points / POINTS_PER_LEVEL) + 1;
+    const level = Math.floor(growthValue / POINTS_PER_LEVEL) + 1;
 
     const today = new Date();
     let goalDaysThisWeek = 0;
@@ -225,7 +207,7 @@ function VirtualGarden({
     }
 
     const text = [
-      t('sharePoints', { count: points }),
+      t('sharePoints', { count: growthValue }),
       t('shareLevel', { count: level }),
       t('shareStreak', { count: maxStreak }),
       t('shareGoalDays', { count: goalDaysThisWeek }),
@@ -337,7 +319,6 @@ function VirtualGarden({
   }, [maxStreak, streak, theme]);
 
   const srText = `${t('srPlantFeature')} ${ecosystemState.plantName}.
-    ${ecosystemState.completedModules > 0 ? `${t('srDailyRewards')} ${ecosystemState.completedModules} ${t('srRewardsCount')}` : ''}
     ${ecosystemState.hasVisitor ? t('srVisitor') : ''}
     ${earnedTrophies.length > 0 ? t('srTrophies', { count: earnedTrophies.length }) : ''}`;
 
@@ -353,9 +334,6 @@ function VirtualGarden({
     const segments = [
       t('garden') || 'Garden',
       `${t('srPlantFeature')} ${ecosystemState.plantName}.`,
-      ecosystemState.completedModules > 0
-        ? `${t('srDailyRewards')} ${ecosystemState.completedModules} ${t('srRewardsCount')}`
-        : null,
       ecosystemState.hasVisitor ? t('srVisitor') : null,
       earnedTrophies.length > 0
         ? t('srTrophies', { count: earnedTrophies.length })
@@ -405,9 +383,6 @@ function VirtualGarden({
   const plantTextSize = isFullScreen
     ? 'text-[64px] sm:text-[120px] md:text-[160px]'
     : 'text-3xl';
-  const flowerTextSize = isFullScreen
-    ? 'text-2xl sm:text-4xl md:text-5xl'
-    : 'text-lg';
   const visitorTextSize = isFullScreen
     ? 'text-4xl sm:text-6xl md:text-8xl'
     : 'text-2xl';
@@ -429,13 +404,7 @@ function VirtualGarden({
         <div
           className={`flex flex-wrap items-center justify-center gap-2 sm:gap-3 ${isFullScreen ? 'mt-4 px-2 text-center text-lg sm:text-2xl' : 'px-2 text-sm'}`}
         >
-          {ecosystemState.completedModules > 0 && (
-            <span
-              className={`font-medium opacity-70 ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
-            >
-              (+{ecosystemState.completedModules})
-            </span>
-          )}
+          {ecosystemState.plantVisual}
         </div>
       ) : (
         <>
@@ -449,20 +418,6 @@ function VirtualGarden({
             >
               {ecosystemState.plantVisual}
             </div>
-
-            {!isFullScreen && (
-              <div className="flex flex-wrap items-center gap-0.5">
-                {ecosystemState.flowers.map((flower, i) => (
-                  <span
-                    key={i}
-                    className={`${flowerTextSize} ${noFlash ? '' : 'animate-in fade-in delay-150 duration-700'}`}
-                    style={{ animationDelay: `${i * 150}ms` }}
-                  >
-                    {flower}
-                  </span>
-                ))}
-              </div>
-            )}
           </div>
 
           {ecosystemState.hasVisitor && (
@@ -496,14 +451,7 @@ function VirtualGarden({
           <p
             className={`max-w-xs px-2 text-center text-xs leading-relaxed font-medium wrap-break-word sm:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
           >
-            <BionicText
-              text={
-                ecosystemState.completedModules > 0
-                  ? `${t('gardenBlooming')} ${ecosystemState.completedModules}`
-                  : t('gardenEmpty')
-              }
-              enabled={bionicReading}
-            />
+            <BionicText text={t('gardenEmpty')} enabled={bionicReading} />
           </p>
           <WeeklyCalendar
             dailyProgress={dailyProgress}
@@ -532,7 +480,7 @@ function VirtualGarden({
             </p>
           )}
 
-          {(ecosystemState.flowers.length > 0 || earnedTrophies.length > 0) && (
+          {earnedTrophies.length > 0 && (
             <div
               className={`mt-4 w-full max-w-70 rounded-2xl border-2 p-3 transition-all sm:mt-6 sm:max-w-xs sm:rounded-3xl sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 delay-700 duration-700'} ${isHighContrast ? 'border-white/30 bg-black text-white' : `${themeStyles?.border || 'border-slate-100'} bg-[#FCFBF9] text-slate-700 shadow-sm`}`}
             >
@@ -545,10 +493,7 @@ function VirtualGarden({
                 />
               </h3>
               <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-                {[
-                  ...ecosystemState.flowers,
-                  ...earnedTrophies.map((trophy) => trophy.icon),
-                ].map((icon, i) => (
+                {earnedTrophies.map((trophy) => trophy.icon).map((icon, i) => (
                   <div
                     key={i}
                     className={`flex h-10 w-10 items-center justify-center rounded-full text-xl transition-all sm:h-12 sm:w-12 sm:text-2xl ${noFlash ? '' : 'animate-in zoom-in duration-500'} ${isHighContrast ? 'border border-white/40 bg-white/10' : `border bg-white ${themeStyles?.border || 'border-slate-200'}`}`}

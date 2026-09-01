@@ -80,7 +80,6 @@ function NavButton({
 function BottomNavComponent({
   pillars,
   activeTab,
-  dailyQuests,
   isGamified,
   theme,
   themeStyles,
@@ -105,7 +104,6 @@ function BottomNavComponent({
       aria-label={t('navAria') || 'Main Navigation'}
     >
       {pillars.map((pillar) => {
-        const quest = dailyQuests.tasks.find((tsk) => tsk.type === pillar);
         const label = t('pillars', { returnObjects: true })?.[pillar] || pillar;
         return (
           <NavButton
@@ -124,7 +122,6 @@ function BottomNavComponent({
             activeGlow
             icon={PILLAR_ICONS[pillar]}
             label={label}
-            badge={!!quest && !quest.completed && quest.current > 0}
           />
         );
       })}
