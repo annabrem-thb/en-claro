@@ -23,6 +23,7 @@ import { useIndexedDB } from '../hooks/useIndexedDB.js';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts.js';
 import { useLocalTTS } from '../hooks/useLocalTTS.js';
 import { useReadingRuler } from '../hooks/useReadingRuler.js';
+import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation.js';
 import { useThemeCSSVariables } from '../hooks/useThemeCSSVariables.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
@@ -119,17 +120,7 @@ const THEMES = {
 };
 
 function AppContent() {
-  const {
-    isGamified,
-    points,
-    setPoints,
-    coins,
-    setCoins,
-    rewards,
-    setRewards,
-    dailyQuests,
-    updateQuests,
-  } = useGamification();
+  const { isGamified, growthValue, setGrowthValue } = useGamification();
 
   const { settings, updateSetting } = useUserSettingsContext();
   const { language, theme, dailyGoal, userDifficulty } = settings;
@@ -259,15 +250,14 @@ function AppContent() {
   const [lastPillar, setLastPillar] = useState('Literacy');
   const [settingsOpen, setSettingsOpen] = useState(initialRoute.settingsOpen);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [, setEarnedCoinsAnim] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [pendingFeedback, setPendingFeedback] = useState(false);
   // Distinguishes the nav-triggered "open the survey any time" entry point
-  // from the automatic every-10-points trigger. The automatic path shows the
-  // survey *instead of* immediately calling goNext() (see
-  // handleLevelUpNext), so closing it must call goNext() to catch up on the
-  // advance it deferred. A manual open never deferred one, so closing it
-  // must not silently skip whatever exercise the user was looking at.
+  // from the automatic every-10-points trigger (see useExerciseSession's
+  // handleSuccess). The automatic path shows the survey *instead of*
+  // immediately calling goNext(), so closing it must call goNext() to catch
+  // up on the advance it deferred. A manual open never deferred one, so
+  // closing it must not silently skip whatever exercise the user was
+  // looking at.
   const [surveyOpenedManually, setSurveyOpenedManually] = useState(false);
 
   const { loadLevel, showBreakModal, setShowBreakModal, setErrorTimestamps } =
@@ -286,9 +276,9 @@ function AppContent() {
     'cfg_daily_progress',
   );
 
-  const { affirmation } = useAffirmativeNotifications(points, language);
+  const { affirmation } = useAffirmativeNotifications(growthValue, language);
 
-  const prevPointsRef = useRef(points);
+  const prevGrowthValueRef = useRef(growthValue);
   const [newTreeNotification, setNewTreeNotification] = useState(false);
   const [isAppReady, setIsAppReady] = useState(false);
   const [prevIsGamified, setPrevIsGamified] = useState(isGamified);
@@ -299,8 +289,8 @@ function AppContent() {
   }, []);
 
   useEffect(() => {
-    const prevTrees = Math.floor(prevPointsRef.current / 10);
-    const currentTrees = Math.floor(points / 10);
+    const prevTrees = Math.floor(prevGrowthValueRef.current / 10);
+    const currentTrees = Math.floor(growthValue / 10);
 
     if (isAppReady && currentTrees > prevTrees && currentTrees > 0) {
       setNewTreeNotification(true);
@@ -311,8 +301,8 @@ function AppContent() {
       );
       return () => clearTimeout(timer);
     }
-    prevPointsRef.current = points;
-  }, [points, isAppReady, vibrate]);
+    prevGrowthValueRef.current = growthValue;
+  }, [growthValue, isAppReady, vibrate]);
 
   // Adjusted during render (React's recommended pattern for reacting to a
   // state change with more state — see "You Might Not Need an Effect") so
@@ -347,6 +337,29 @@ function AppContent() {
 
   const { cardRef, rulerPos } = useReadingRuler(hasRuler);
 
+  const { setSafeTimeout } = useSafeTimeouts();
+
+  // The gamification module's only foothold into the exercise session:
+  // called once per completed unit (a successful answer or a Skip — see
+  // handleSkip below) with identical timing regardless of the gamification
+  // setting. When it's off this simply does nothing. Nothing here may delay
+  // or otherwise change when the session advances to the next exercise.
+  const handleUnitCompleted = useCallback(
+    (newGrowthValue) => {
+      if (!isGamified) return;
+      const todayStr = new Date().toDateString();
+      setDailyProgress((prev) => {
+        const todayPoints = prev[todayStr]?.points || 0;
+        return { ...prev, [todayStr]: { points: todayPoints + 1 } };
+      });
+      if (newGrowthValue % POINTS_PER_LEVEL === 0) {
+        setShowSuccess(true);
+        setSafeTimeout(() => setShowSuccess(false), 1500);
+      }
+    },
+    [isGamified, setDailyProgress, setSafeTimeout],
+  );
+
   useThemeCSSVariables({
     themeStyles,
     isHighContrast,
@@ -380,20 +393,22 @@ function AppContent() {
     t,
     speak,
     theme,
-    isGamified,
-    points,
-    setPoints,
-    setCoins,
-    setRewards,
-    dailyQuests,
-    updateQuests,
-    setDailyProgress,
-    setPendingFeedback,
-    setShowSuccess,
-    setShowFeedback,
-    setEarnedCoinsAnim,
+    growthValue,
+    setGrowthValue,
+    onUnitCompleted: handleUnitCompleted,
     setErrorTimestamps,
   });
+
+  // Growth is independent of correctness and retries, so skipping a task
+  // without answering it still completes the unit — the only thing that
+  // does *not* complete a unit is an error, which leaves the same task in
+  // place for a no-penalty retry.
+  const handleSkip = useCallback(() => {
+    const newGrowthValue = growthValue + 1;
+    setGrowthValue(newGrowthValue);
+    handleUnitCompleted(newGrowthValue);
+    goNext();
+  }, [growthValue, setGrowthValue, handleUnitCompleted, goNext]);
 
   const handleTabChange = useCallback(
     (pillar) => {
@@ -475,10 +490,20 @@ function AppContent() {
     onSwipeRight: () => handleSwipeTab('right'),
   });
 
+  // ArrowRight/Enter double as both the post-success "Next" button and the
+  // pre-answer "Skip" button, matching whichever one is actually on screen
+  // (see the feedback?.type === 'success' branch below) — Skip must go
+  // through handleSkip, not the raw goNext, so growth increments the same
+  // way whether it's clicked or triggered by keyboard.
+  const handleAdvanceKey = useCallback(() => {
+    if (feedback?.type === 'success') goNext();
+    else handleSkip();
+  }, [feedback, goNext, handleSkip]);
+
   useKeyboardShortcuts({
     isGamified,
     pillars: PILLARS,
-    goNext,
+    goNext: handleAdvanceKey,
     goPrev,
     onTabChange: handleTabChange,
     onGardenClick: handleGardenClick,
@@ -551,16 +576,6 @@ function AppContent() {
     );
   };
 
-  const handleLevelUpNext = useCallback(() => {
-    setShowSuccess(false);
-    if (pendingFeedback) {
-      setShowFeedback(true);
-      setPendingFeedback(false);
-    } else {
-      goNext();
-    }
-  }, [pendingFeedback, goNext]);
-
   const dismissPwaUpdate = useCallback(
     () => setNeedRefresh(false),
     [setNeedRefresh],
@@ -627,7 +642,6 @@ function AppContent() {
           activeTab={activeTab}
           onTabChange={handleTabChange}
           onGardenClick={handleGardenClick}
-          dailyQuests={dailyQuests}
           language={language}
           isGamified={isGamified}
           theme={theme}
@@ -638,7 +652,6 @@ function AppContent() {
           setSettingsOpen={setSettingsOpen}
           onOpenSurvey={openSurvey}
           t={t}
-          coins={coins}
           loadLevel={loadLevel}
           speak={speak}
           noFlash={noFlash}
@@ -678,9 +691,8 @@ function AppContent() {
                 }
               >
                 <VirtualGarden
-                  points={points}
+                  growthValue={growthValue}
                   streak={currentStreak}
-                  dailyQuests={dailyQuests}
                   isHighContrast={isHighContrast}
                   theme={theme}
                   themeStyles={themeStyles}
@@ -708,26 +720,10 @@ function AppContent() {
                 <div
                   className={`relative mb-3 flex shrink-0 items-center justify-between gap-4 rounded-3xl px-3 py-2.5 sm:px-4 md:mb-4 ${isHighContrast ? 'border border-white/30 bg-black shadow-sm md:shadow-none' : `border bg-[#FCFBF9] ${themeStyles.border} shadow-md shadow-slate-200/40 md:shadow-sm`}`}
                 >
-                  {rewards.length > 0 && isGamified && (
-                    <div
-                      className={`absolute -top-4 left-4 z-20 flex items-center gap-1.5 rounded-full border-2 px-3 py-1 text-xs font-black tracking-widest uppercase shadow-lg ${isHighContrast ? 'border-white bg-black text-white' : `bg-[#FCFBF9] ${themeStyles.border} text-[#4A5D54]`} ${noFlash ? '' : 'animate-in zoom-in duration-300'}`}
-                    >
-                      <span>
-                        <BionicText
-                          text={t('collectedLabel')}
-                          enabled={!!settings.bionicReading}
-                        />
-                        :
-                      </span>
-                      <span className="text-xs">
-                        {rewards[rewards.length - 1]}
-                      </span>
-                    </div>
-                  )}
                   <div className="flex min-w-0 flex-1 items-center gap-3">
                     {isGamified ? (
                       <ProgressPill
-                        points={points % POINTS_PER_LEVEL}
+                        points={growthValue % POINTS_PER_LEVEL}
                         max={POINTS_PER_LEVEL}
                         theme={theme}
                         isGamified={true}
@@ -739,10 +735,10 @@ function AppContent() {
                         <div
                           className={`scale-size-10 flex shrink-0 items-center justify-center rounded-full text-sm font-black ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}
                         >
-                          {Math.floor(points / POINTS_PER_LEVEL) + 1}
+                          {Math.floor(growthValue / POINTS_PER_LEVEL) + 1}
                         </div>
                         <ProgressPill
-                          points={points % POINTS_PER_LEVEL}
+                          points={growthValue % POINTS_PER_LEVEL}
                           max={POINTS_PER_LEVEL}
                           theme={theme}
                           isGamified={false}
@@ -874,7 +870,7 @@ function AppContent() {
                 !settings.zenMode && (
                   <div className="mt-2 flex shrink-0 flex-col items-center justify-center pb-1 md:mt-3 md:pb-2">
                     <button
-                      onClick={goNext}
+                      onClick={handleSkip}
                       className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} rounded-full border-2 bg-transparent font-black tracking-widest uppercase transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}
                     >
                       <BionicText
@@ -921,7 +917,6 @@ function AppContent() {
         <BottomNav
           pillars={PILLARS}
           activeTab={activeTab}
-          dailyQuests={dailyQuests}
           isGamified={isGamified}
           theme={theme}
           themeStyles={themeStyles}
@@ -950,9 +945,7 @@ function AppContent() {
         open={showSuccess}
         isHighContrast={isHighContrast}
         noFlash={noFlash}
-        bigTargets={bigTargets}
         t={t}
-        onNext={handleLevelUpNext}
         bionicReading={!!settings.bionicReading}
       />
 
