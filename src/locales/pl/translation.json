@@ -143,10 +143,6 @@
       "name": "Wygodne przyciski",
       "desc": "Powiększone przyciski i spokojne animacje"
     },
-    "vision": {
-      "name": "Większy tekst",
-      "desc": "Powiększona czcionka i ikony"
-    },
     "colors": {
       "name": "Bezpieczne kolory",
       "desc": "Zoptymalizowana, czytelna paleta barw"
@@ -159,13 +155,36 @@
       "name": "Linijka skupienia",
       "desc": "Podświetla poziomą linię pod kursorem lub strzałkami ↑↓ (bez myszy)"
     },
-    "spacing": {
-      "name": "Większe odstępy",
-      "desc": "Zwiększa odstępy między literami i słowami"
-    },
     "desaturation": {
       "name": "Łagodne barwy",
       "desc": "Zmniejsza nasycenie jaskrawych kolorów"
+    }
+  },
+  "designTokensSectionTitle": "Tekst i odstępy",
+  "designTokens": {
+    "fontSizeExercise": {
+      "name": "Rozmiar tekstu ćwiczenia",
+      "desc": "Rozmiar tekstu pytania/odpowiedzi wewnątrz ćwiczeń"
+    },
+    "fontSizeUi": {
+      "name": "Rozmiar tekstu interfejsu",
+      "desc": "Rozmiar menu, przycisków i etykiet poza ćwiczeniami"
+    },
+    "lineHeight": {
+      "name": "Wysokość wiersza",
+      "desc": "Pionowy odstęp między wierszami tekstu"
+    },
+    "letterSpacing": {
+      "name": "Odstępy między literami",
+      "desc": "Odstęp między poszczególnymi literami"
+    },
+    "wordSpacing": {
+      "name": "Odstępy między słowami",
+      "desc": "Odstęp między słowami"
+    },
+    "paragraphSpacing": {
+      "name": "Odstęp między akapitami",
+      "desc": "Odstęp pod akapitem tekstu do czytania (np. fragmentu ze zrozumienia tekstu)"
     }
   },
   "inclusive": {

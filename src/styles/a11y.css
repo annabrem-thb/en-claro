@@ -2,19 +2,16 @@
    ACCESSIBILITY OPTIONS (Accessibility Overrides)
    ========================================================================== */
 
-/* --- Dyslexia-friendly font (LRS) --- */
+/* --- Dyslexia-friendly font (LRS) ---
+   Only the font swap lives here now — its spacing/size preset (line-height
+   1.75, word-spacing 0.2em, letter-spacing 0.08em, a smaller base size to
+   offset OpenDyslexic's extra width) is applied by useUserSettings.js
+   directly into the same --font-size-exercise/--font-size-ui/--line-height/
+   --letter-spacing/--word-spacing tokens the sliders use, since those are
+   set as inline styles (highest possible specificity) and a selector-based
+   rule here could never win against that. */
 html[data-a11y-lrs='true'] {
   --dyn-font-family: 'OpenDyslexic', Helvetica, Arial, Verdana, sans-serif;
-  --dyn-line-height: 1.75;
-  --dyn-word-spacing: 0.2em;
-  --dyn-letter-spacing: 0.08em;
-  --dyn-font-size: 14px; /* Reduced base size to prevent overflow (OpenDyslexic is naturally wider) */
-}
-
-@media (min-width: 768px) {
-  html[data-a11y-lrs='true'] {
-    --dyn-font-size: 14px; /* Scaled down for desktop monitors to avoid scrollbars */
-  }
 }
 
 /* --- Dyslexia Bionic Reading Enhancement ---
@@ -52,11 +49,6 @@ html[data-a11y-motorik='true'] *,
 html[data-a11y-motorik='true'] *::before,
 html[data-a11y-motorik='true'] *::after {
   transition-duration: 0.5s !important;
-}
-
-/* --- Vision accommodations (Zoom and boldness) --- */
-html[data-a11y-vision='true'] {
-  font-size: 115% !important;
 }
 
 /* --- Safe colors (Color blindness) --- */
@@ -112,26 +104,6 @@ html[data-a11y-motion='true'] .animate-in,
 html[data-a11y-motion='true'] .animate-pip-pulse {
   animation: none !important;
   opacity: 1 !important;
-}
-
-/* --- Increased spacing (Spacing) --- */
-html[data-a11y-spacing='true'] {
-  --dyn-letter-spacing: 0.15em;
-  --dyn-word-spacing: 0.35em;
-  --dyn-line-height: 2;
-}
-html[data-a11y-spacing='true'] * {
-  letter-spacing: var(--dyn-letter-spacing) !important;
-  word-spacing: var(--dyn-word-spacing) !important;
-  line-height: var(--dyn-line-height) !important;
-}
-html[data-a11y-spacing='true'] span,
-html[data-a11y-spacing='true'] b,
-html[data-a11y-spacing='true'] strong,
-html[data-a11y-spacing='true'] i,
-html[data-a11y-spacing='true'] em {
-  letter-spacing: inherit !important;
-  word-spacing: inherit !important;
 }
 
 /* --- Soft colors (Desaturation) ---
