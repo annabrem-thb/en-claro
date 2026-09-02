@@ -176,15 +176,24 @@ Z. 49–52) sauber funktionieren, damit der A/B-Vergleich valide bleibt.
 - **Regel:** Jede neue UI-Komponente muss mit Tastatur bedienbar sein,
   ausreichenden Kontrast bieten, und darf Farbe nicht als einzigen
   Informationskanal nutzen (siehe 2.7).
-- **Status:** ✅ Sehr weit umgesetzt. `src/styles/a11y.css` (150 Zeilen)
-  implementiert daten-attributgesteuerte Overrides für: LRS-Schriftbild
-  (OpenDyslexic, Z. 6–12), Bionic-Reading-Hervorhebung (Z. 20–26),
-  Fokus-Kontrast (Z. 29–32), motorische Zielgrößen ≥56 px (Z. 41–49),
-  Zoom (Z. 58–60), farbfehlsichtige Palette (Z. 63–96), reduzierte Bewegung
-  (Z. 98–115), erhöhte Laufweite (Z. 117–135), Desaturierung (Z. 143–145)
-  und Minimalmodus (Z. 148–150). Zusätzlich automatisierte WCAG-2.1-AA-Prüfung
-  via `@axe-core/playwright` in `tests-playwright/accessibility.spec.js`
-  sowie ein manuelles Screenreader-Protokoll in
+- **Status:** ✅ Sehr weit umgesetzt. `src/styles/a11y.css` (109 Zeilen)
+  implementiert daten-attributgesteuerte Overrides für: Fokus-Kontrast
+  (Z. 12–16), motorische Zielgrößen ≥56 px (Z. 24–33), farbfehlsichtige
+  Palette (Z. 41–75), reduzierte Bewegung (Z. 77–94), Desaturierung
+  (Z. 102–104) und Minimalmodus (Z. 106–109). Die frühere OpenDyslexic-
+  Schriftart wurde vollständig entfernt (keine Font-Umschaltung mehr,
+  siehe `useUserSettings.js`); die LRS-Voreinstellung setzt seither nur
+  noch Zeilenhöhe/Buchstaben-/Wortabstand als sechs anpassbare
+  Design-Token (`--line-height`, `--letter-spacing`, `--word-spacing`,
+  `--font-size-exercise`, `--font-size-ui`, `--paragraph-spacing`), nicht
+  mehr als CSS-Regel hier. Bionic Reading ist eine JS-Komponente
+  (`BionicText`), keine `data-a11y-*`-Regel. Farbkontrast ist zusätzlich
+  über einen echten 7:1-AAA-Test abgesichert (`src/utils/
+  contrastChecker.js`'s `checkContrast()`, geprüft in
+  `src/__tests__/contrastCompliance.test.js`), nicht nur per
+  Konsolenwarnung. Zusätzlich automatisierte WCAG-2.1-AA-Prüfung via
+  `@axe-core/playwright` in `tests-playwright/accessibility.spec.js` sowie
+  ein manuelles Screenreader-Protokoll in
   `docs/screen-reader-walkthrough.md`.
 
 ### 2.6 Sprachgesteuerte / TTS-gestützte Interaktion
@@ -202,14 +211,17 @@ Z. 49–52) sauber funktionieren, damit der A/B-Vergleich valide bleibt.
   `hooks/useAutoReadAloud.js` liest die App jetzt Frage/Anweisung und
   Antwortoptionen **automatisch vor**, sobald `voiceAssistant` aktiv ist
   (0,5 s Verzögerung, damit sie nicht die Erfolgsmeldung der vorherigen
-  Antwort überspricht) — in allen 13 Übungstypen eingebunden
+  Antwort überspricht) — in allen 18 Übungstypen eingebunden
   (`GraphemeExercise.jsx`, `SyllableExercise.jsx`, `PhonemeExercise.jsx`,
   `ContextExercise.jsx`, `ScrabbleExercise.jsx`, `ClockExercise.jsx`,
   `SequenceExercise.jsx`, `SpatialExercise.jsx`,
   `VisualCategorization.jsx`, `ReadAloudExercise.jsx`,
-  `DictationExercise.jsx`, `MemorySpanExercise.jsx` — nur in der
-  Abfragephase, nicht in der Merkphase, sonst würde die Antwort verraten —,
-  `LookCoverWriteCheck.jsx` — nur in der „look"-Phase). Bei
+  `DictationExercise.jsx`, `GraphemePhonemeMatchExercise.jsx`,
+  `ReadingComprehensionExercise.jsx`, `RhythmMemoryExercise.jsx`,
+  `RhythmTapExercise.jsx`, `MelodyMemoryExercise.jsx`,
+  `MemorySpanExercise.jsx` — nur in der Abfragephase, nicht in der
+  Merkphase, sonst würde die Antwort verraten —, `LookCoverWriteCheck.jsx`
+  — nur in der „look"-Phase). Bei
   `DictationExercise.jsx` erzwingt App.jsx's `isVoiceException`-Mechanismus
   (Z. 382–389) ohnehin schon `voiceAssistant = true` unabhängig von der
   Einstellung, da dort das Audio selbst die Aufgabenstellung ist, nicht nur

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
 
 function VisualCategorization({
@@ -224,21 +225,18 @@ function VisualCategorization({
         </h2>
       )}
 
-      <div className="flex w-full shrink-0 justify-center">
+      <ExerciseControlsRow className="flex w-full shrink-0 justify-center">
         <TTSController
           onReadAloud={readCategorization}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
           controlBtnSize={
             bigTargets ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'
           }
-          isHighContrast={isHighContrast}
           noFlash={noFlash}
-          bionicReading={bionicReading}
           ttsFallback={ttsFallback}
         />
-      </div>
+      </ExerciseControlsRow>
 
       {}
       <div
@@ -273,7 +271,7 @@ function VisualCategorization({
       </div>
 
       {}
-      <div className="no-scrollbar grid max-h-full min-h-0 w-full max-w-2xl shrink grid-cols-1 gap-2 overflow-y-auto pb-2 sm:grid-cols-2 sm:gap-4">
+      <div className="no-scrollbar grid max-h-full min-h-0 w-full max-w-2xl shrink grid-cols-1 gap-2 overflow-y-auto p-1 sm:grid-cols-2 sm:gap-4">
         {data.buckets.map((bucket) => {
           const bucketItems = data.items.filter(
             (item) => placements[item.id] === bucket.id,

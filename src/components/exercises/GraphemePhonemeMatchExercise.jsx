@@ -4,6 +4,7 @@ import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { playPhoneme } from '../../utils/phonemeAudio';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
 
 function GraphemePhonemeMatchExercise({
@@ -136,19 +137,16 @@ function GraphemePhonemeMatchExercise({
     <div
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-start overflow-hidden px-2 pt-6 pb-2 sm:pt-10`}
     >
-      <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
+      <ExerciseControlsRow className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
         <TTSController
           onReadAloud={readAloud}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
           controlBtnSize={controlBtnSize}
-          isHighContrast={isHighContrast}
           noFlash={noFlash}
-          bionicReading={bionicReading}
           ttsFallback={ttsFallback}
         />
-      </div>
+      </ExerciseControlsRow>
 
       {!zenMode && (
         <h3
