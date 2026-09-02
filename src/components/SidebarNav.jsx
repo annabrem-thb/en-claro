@@ -137,8 +137,13 @@ const SidebarNav = memo(function SidebarNav({
                   className="flex min-w-0 lg:flex"
                   interactive={false}
                 >
+                  {
+                    // Never bionic-split: see BottomNav.jsx's identical
+                    // choice for why a short, all-caps nav label doesn't
+                    // benefit from the flowing-text bold/regular pattern.
+                  }
                   <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                    <BionicText text={label} enabled={bionicReading} />
+                    {label}
                   </span>
                 </AccessibleTTS>
                 <span
@@ -189,10 +194,7 @@ const SidebarNav = memo(function SidebarNav({
                 interactive={false}
               >
                 <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                  <BionicText
-                    text={t('garden') || 'Garden'}
-                    enabled={bionicReading}
-                  />
+                  {t('garden') || 'Garden'}
                 </span>
               </AccessibleTTS>
               <span
@@ -213,10 +215,7 @@ const SidebarNav = memo(function SidebarNav({
               <span
                 className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
               >
-                <BionicText
-                  text={t('energyTitle') || 'Energy'}
-                  enabled={bionicReading}
-                />
+                {t('energyTitle') || 'Energy'}
               </span>
               <CognitiveEnergyIndicator
                 loadLevel={loadLevel}
@@ -260,10 +259,7 @@ const SidebarNav = memo(function SidebarNav({
                 interactive={false}
               >
                 <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                  <BionicText
-                    text={t('installApp') || 'Install App'}
-                    enabled={bionicReading}
-                  />
+                  {t('installApp') || 'Install App'}
                 </span>
               </AccessibleTTS>
             </button>
@@ -302,7 +298,7 @@ const SidebarNav = memo(function SidebarNav({
               interactive={false}
             >
               <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                <BionicText text={t('surveyAria')} enabled={bionicReading} />
+                {t('surveyAria')}
               </span>
             </AccessibleTTS>
           </button>
@@ -336,7 +332,7 @@ const SidebarNav = memo(function SidebarNav({
               interactive={false}
             >
               <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                <BionicText text={t('settingsAria')} enabled={bionicReading} />
+                {t('settingsAria')}
               </span>
             </AccessibleTTS>
             <span

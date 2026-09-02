@@ -1,7 +1,5 @@
 import { memo } from 'react';
 
-import BionicText from './common/BionicText.jsx';
-
 const PILLAR_ICONS = { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' };
 
 // One button shape shared by every entry (pillars, Garden, Settings)
@@ -22,7 +20,6 @@ function NavButton({
   label,
   ariaLabel = label,
   badge = false,
-  bionicReading = false,
 }) {
   return (
     <button
@@ -57,8 +54,15 @@ function NavButton({
           — both left the button's meaning readable only from its icon.
           `line-clamp-2` still caps runaway length (e.g. German compounds)
           with an ellipsis rather than growing the bar unboundedly. */}
+      {
+        // Never bionic-split: the bold/regular half-word pattern is meant
+        // to anchor the eye while reading flowing sentences, but on a
+        // short, single/two-word nav tag it just reads as an arbitrary
+        // bold pattern — worse once `hideNavLabel`'s removal (above) made
+        // these regularly two lines of tracking-wide text.
+      }
       <span className="line-clamp-2 max-w-full text-center text-[10px] leading-tight wrap-break-word">
-        <BionicText text={label} enabled={bionicReading} />
+        {label}
       </span>
       {badge && (
         <span
@@ -85,7 +89,6 @@ function BottomNavComponent({
   isHighContrast,
   noFlash,
   bigTargets = false,
-  bionicReading = false,
   t,
   onTabChange,
   onGardenClick,
@@ -115,7 +118,6 @@ function BottomNavComponent({
             themeStyles={themeStyles}
             noFlash={noFlash}
             bigTargets={bigTargets}
-            bionicReading={bionicReading}
             activeGlow
             icon={PILLAR_ICONS[pillar]}
             label={label}
@@ -134,7 +136,6 @@ function BottomNavComponent({
           themeStyles={themeStyles}
           noFlash={noFlash}
           bigTargets={bigTargets}
-          bionicReading={bionicReading}
           icon={gardenIcon}
           label={t('garden') || 'Garden'}
         />
@@ -148,7 +149,6 @@ function BottomNavComponent({
         isHighContrast={isHighContrast}
         themeStyles={themeStyles}
         bigTargets={bigTargets}
-        bionicReading={bionicReading}
         icon="📝"
         label={t('surveyAria') || 'Survey'}
       />
@@ -161,7 +161,6 @@ function BottomNavComponent({
         isHighContrast={isHighContrast}
         themeStyles={themeStyles}
         bigTargets={bigTargets}
-        bionicReading={bionicReading}
         icon="⚙️"
         label={t('settings') || 'Settings'}
         ariaLabel={t('settingsAria') || 'Settings'}
