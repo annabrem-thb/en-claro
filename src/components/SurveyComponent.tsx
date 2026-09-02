@@ -121,11 +121,19 @@ export const SurveyComponent: React.FC = () => {
         LRS: settings.lrs,
         Kontrast: settings.contrast,
         Motorik: settings.motorik,
-        Niedowidzenie: settings.vision,
+        // `vision`/`spacing` were fixed booleans (115% zoom; a fixed
+        // spacing preset); now that both are continuous sliders, "active"
+        // is approximated as "moved above its own default minimum" rather
+        // than a specific position.
+        Niedowidzenie: settings.fontSizeUi > 16 || settings.fontSizeExercise > 16,
         Daltonizm: settings.color,
         Redukcja: settings.motion,
         Linijka: settings.ruler,
-        Spacing: settings.spacing,
+        Spacing:
+          settings.lineHeight > 1.5 ||
+          settings.letterSpacing > 0 ||
+          settings.wordSpacing > 0 ||
+          settings.paragraphSpacing > 0,
         Desaturacja: settings.desaturation,
       })
         .filter(([, active]) => active)
@@ -288,7 +296,7 @@ export const SurveyComponent: React.FC = () => {
                   forced onto one line: every size here (the 24-28px radio
                   circles, their gaps) is Tailwind's rem-based spacing scale,
                   which tracks the app's dynamic root font-size
-                  (--dyn-font-size) the same as body text does — a user with a
+                  (--font-size-ui) the same as body text does — a user with a
                   much larger OS/browser text size ends up with
                   proportionally much larger circles too. A single-line
                   layout had nowhere left to give and silently clipped the

@@ -5,6 +5,7 @@ import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { getTTSException } from '../../hooks/useGlobalTTS';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
@@ -229,7 +230,7 @@ function SyllableExercise({
       )}
 
       {}
-      <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
+      <ExerciseControlsRow className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
         <div
           className={
             isResolved ? 'pointer-events-none opacity-50 grayscale' : ''
@@ -239,11 +240,8 @@ function SyllableExercise({
             onReadAloud={readInstructionAndSyllables}
             pauseAllTimeouts={pauseAllTimeouts}
             resumeAllTimeouts={resumeAllTimeouts}
-            t={t}
             controlBtnSize={controlBtnSize}
-            isHighContrast={isHighContrast}
             noFlash={noFlash}
-            bionicReading={bionicReading}
             ttsFallback={ttsFallback}
           />
         </div>
@@ -266,7 +264,7 @@ function SyllableExercise({
           controlBtnSize={controlBtnSize}
           idleLabel={t('speakGapNumber')}
         />
-      </div>
+      </ExerciseControlsRow>
 
       {transcript ? (
         <p className="mb-1 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-2 sm:text-xs">

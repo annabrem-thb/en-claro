@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 import { getDefaultActiveExercises } from '../data/exerciseTypes.js';
 import { safeJSONParse } from '../utils/safeJSONParse.js';
@@ -24,14 +24,15 @@ function getDefaultLanguage() {
   return 'en';
 }
 
+// Minimums reproduce today's default look exactly (no slider movement =
+// no visual change); maximums are the six design-token spec's stated caps.
+// See src/styles/index.css for how each is actually applied.
 const DEFAULT_SETTINGS = {
   lrs: false,
   contrast: false,
   motorik: false,
-  vision: false,
   color: false,
   motion: false,
-  spacing: false,
   desaturation: false,
   minimalist: false,
   ruler: false,
@@ -45,7 +46,12 @@ const DEFAULT_SETTINGS = {
   muteNotifications: false,
   voiceAssistant: false,
   cognitiveBreaks: false,
-  textScale: 100,
+  fontSizeExercise: 16, // px, max 32
+  fontSizeUi: 16, // px, max 28
+  lineHeight: 1.5, // unitless, max 2.2
+  letterSpacing: 0, // em, max 0.24
+  wordSpacing: 0, // em, max 0.32
+  paragraphSpacing: 0, // em, max 3.0
   theme: 'Natur',
   dailyGoal: 5,
   userDifficulty: 2,
@@ -101,8 +107,44 @@ export function useUserSettings() {
         html.setAttribute(`data-a11y-${key}`, settings[key].toString());
       }
     });
-    html.style.setProperty('--user-text-scale', settings.textScale / 100);
+    // Inline styles win over any selector in the stylesheet regardless of
+    // specificity, so this is the one place these six tokens are ever set.
+    html.style.setProperty('--font-size-exercise', `${settings.fontSizeExercise}px`);
+    html.style.setProperty('--font-size-ui', `${settings.fontSizeUi}px`);
+    html.style.setProperty('--line-height', settings.lineHeight);
+    html.style.setProperty('--letter-spacing', `${settings.letterSpacing}em`);
+    html.style.setProperty('--word-spacing', `${settings.wordSpacing}em`);
+    html.style.setProperty(
+      '--paragraph-spacing',
+      `${settings.paragraphSpacing}em`,
+    );
   }, [settings]);
+  // `lrs` is a quick preset button dressed as a toggle, not a second
+  // parallel mechanism: flipping it on writes its fixed values straight
+  // into the same fields the sliders control (so a slider always shows the
+  // value actually in effect, never silently overridden elsewhere), and
+  // flipping it off returns to the plain baseline rather than trying to
+  // remember whatever custom position a slider was at before. It no longer
+  // touches font size — that used to shrink to 14px specifically to offset
+  // OpenDyslexic's extra width, a reason that no longer exists now that
+  // this preset is spacing-only.
+  const prevLrsRef = useRef(settings.lrs);
+  useEffect(() => {
+    if (settings.lrs === prevLrsRef.current) return;
+    prevLrsRef.current = settings.lrs;
+    const preset = settings.lrs
+      ? {
+          lineHeight: 1.75,
+          letterSpacing: 0.08,
+          wordSpacing: 0.2,
+        }
+      : {
+          lineHeight: DEFAULT_SETTINGS.lineHeight,
+          letterSpacing: DEFAULT_SETTINGS.letterSpacing,
+          wordSpacing: DEFAULT_SETTINGS.wordSpacing,
+        };
+    setSettings((prev) => ({ ...prev, ...preset }));
+  }, [settings.lrs]);
   useEffect(() => {
     const handleBeforeInstall = (e) => {
       e.preventDefault();

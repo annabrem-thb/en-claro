@@ -12,7 +12,7 @@
     "modeClassic": "Study only",
     "modeGamified": "Game (rewards)",
     "a11y": "Comfort Tools",
-    "lrs": "Friendly font",
+    "lrs": "Extra reading spacing",
     "contrast": "Contrast",
     "vision": "Larger text",
     "big": "Comfort buttons",
@@ -59,20 +59,6 @@
   "readAloudTitle": "Read aloud",
   "ttsLocalDownloadError": "Couldn't load the voice engine — check your connection and try again.",
   "ttsLocalEngineError": "Something went wrong reading this aloud — try again.",
-  "successMsg": [
-    "Great!",
-    "Excellent!",
-    "Wonderful!",
-    "Super!",
-    "You've got this!",
-    "That's real progress."
-  ],
-  "errorMsg": [
-    "Let's analyze this together.",
-    "Let's try again.",
-    "Almost right, look again.",
-    "That's a normal part of learning."
-  ],
   "levelUp": "Level Up!",
   "levelUpTitle": "Your garden is growing!",
   "levelUpDesc": "Another goal behind you — your consistency is paying off.",
@@ -107,6 +93,7 @@
   "settingsTheme": "Theme",
   "settingsAccessibility": "Comfort options",
   "settingsFooter": "Your settings are saved automatically.",
+  "studySetIndicator": "Content set: {{set}}",
   "tabGeneral": "General",
   "tabA11y": "Comfort",
   "tabExercises": "Exercises",
@@ -132,8 +119,8 @@
   "a11ySectionVoice": "Voice & learning pace",
   "a11y": {
     "lrs": {
-      "name": "Friendly font",
-      "desc": "Font facilitating reading (OpenDyslexic)"
+      "name": "Extra reading spacing",
+      "desc": "Wider line height and letter/word spacing for easier reading"
     },
     "contrast": {
       "name": "High contrast",
@@ -142,10 +129,6 @@
     "motor": {
       "name": "Comfort buttons",
       "desc": "Enlarged buttons and calm animations"
-    },
-    "vision": {
-      "name": "Larger text",
-      "desc": "Enlarged font and icons"
     },
     "colors": {
       "name": "Safe colors",
@@ -159,13 +142,36 @@
       "name": "Focus ruler",
       "desc": "Highlights a horizontal line under the cursor, or move it with ↑↓ arrow keys (no mouse needed)"
     },
-    "spacing": {
-      "name": "Larger spacing",
-      "desc": "Increases spacing between letters and words"
-    },
     "desaturation": {
       "name": "Soft colors",
       "desc": "Reduces the saturation of bright colors"
+    }
+  },
+  "designTokensSectionTitle": "Text & spacing",
+  "designTokens": {
+    "fontSizeExercise": {
+      "name": "Exercise text size",
+      "desc": "Size of the question/answer text inside exercises"
+    },
+    "fontSizeUi": {
+      "name": "Interface text size",
+      "desc": "Size of menus, buttons and labels outside exercises"
+    },
+    "lineHeight": {
+      "name": "Line height",
+      "desc": "Vertical space between lines of text"
+    },
+    "letterSpacing": {
+      "name": "Letter spacing",
+      "desc": "Space between individual letters"
+    },
+    "wordSpacing": {
+      "name": "Word spacing",
+      "desc": "Space between words"
+    },
+    "paragraphSpacing": {
+      "name": "Paragraph spacing",
+      "desc": "Space below a paragraph of reading text (e.g. a comprehension passage)"
     }
   },
   "inclusive": {
@@ -359,13 +365,6 @@
   "gardenEmpty": "Your own ecosystem. It will grow as you progress.",
   "srPlantFeature": "Your journey currently features",
   "dailyGoalProgress": "Daily Goal Progress",
-  "rewardItems": {
-    "Natur": ["🍀", "🌸", "🦋", "🐝", "🌈"],
-    "Musik": ["🎵", "🎶", "🎤", "🎸", "🎧"],
-    "Kunst": ["🎨", "🖌️", "🖼️", "💎", "✨"],
-    "Space": ["🚀", "🌟", "🛸", "🪐", "☄️"],
-    "Ocean": ["🐚", "🐠", "🌊", "⚓", "🐬"]
-  },
   "dailyGoal": "Daily goal",
   "goal5": "5 min — Step",
   "goal10": "10 min — Habit",
@@ -469,6 +468,9 @@
   "melodyMemoryInstruction": "Listen to the melody, then play it back in the same order",
   "phonemeInstruction": "Guess the missing letters from the definition",
   "phonemeRevealHint": "Hear the whole word",
+  "graphemePhonemeListenPrompt": "Listen to the sound, then choose the matching spelling:",
+  "graphemePhonemeChooseSoundPrompt": "Look at the letters, then choose the matching sound:",
+  "graphemePhonemeTapAgainToConfirm": "Tap again to choose this one",
   "speakTheWord": "Say the word",
   "listenCarefully": "Listen carefully to the word.",
   "readyToSegment": "I'm ready to segment",
@@ -632,7 +634,7 @@
     "title": "Your Impact",
     "desc": "Your progress supports real-world goals. Every 10 points contributes to one virtually planted tree.",
     "treesPlanted": "Trees Planted",
-    "newTreeTitle": "New Tree! 🎉",
-    "newTreeMsg": "Amazing! Your consistent learning helped us virtually plant another tree."
+    "newTreeTitle": "New tree",
+    "newTreeMsg": "Your consistent learning helped plant another tree, virtually."
   }
 }
