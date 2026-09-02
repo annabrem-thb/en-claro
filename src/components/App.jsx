@@ -362,6 +362,21 @@ function AppContent() {
   // in progress.
   const isProcessingTask = activeTab !== 'Garden' && !!currentTask && !feedback;
 
+  // Touch users have no equivalent of the Ctrl+1-4/Ctrl+,/Ctrl+S shortcuts
+  // that let keyboard users reach nav/Settings/Survey while nav is
+  // unmounted above — this is the escape hatch for them. Deliberately
+  // per-task, not per-session: resets the moment a new task loads so nav
+  // goes back to hidden by default next time too, rather than becoming a
+  // standing "nav always visible" mode. Compared during render (same
+  // pattern as prevIsGamified above), not in an effect, so this doesn't
+  // cost an extra commit+effect cycle.
+  const [navRevealedDuringTask, setNavRevealedDuringTask] = useState(false);
+  const [prevTaskForNavReveal, setPrevTaskForNavReveal] = useState(currentTask);
+  if (currentTask !== prevTaskForNavReveal) {
+    setPrevTaskForNavReveal(currentTask);
+    setNavRevealedDuringTask(false);
+  }
+
   const handleSkip = useCallback(() => {
     const newGrowthValue = growthValue + 1;
     setGrowthValue(newGrowthValue);
@@ -598,8 +613,10 @@ function AppContent() {
           the bottom bar below instead of switching to a squeezed sidebar.
           Unmounted entirely (not just CSS-hidden) while a task is actively
           being worked on — nav/Settings must not render at all during that
-          window, only before a task starts and after it's answered. */}
-      {!isProcessingTask && (
+          window, only before a task starts and after it's answered —
+          unless the touch-only escape hatch below explicitly revealed it
+          for this one task. */}
+      {(!isProcessingTask || navRevealedDuringTask) && (
         <div
           className={`z-40 hidden h-full shrink-0 lg:flex ${noFlash ? '' : 'animate-in fade-in duration-300'}`}
         >
@@ -838,15 +855,29 @@ function AppContent() {
                 currentTask &&
                 !settings.zenMode && (
                   <div className="mt-2 flex shrink-0 flex-col items-center justify-center pb-1 md:mt-3 md:pb-2">
-                    <button
-                      onClick={handleSkip}
-                      className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} rounded-full border-2 bg-transparent font-black tracking-widest uppercase transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}
-                    >
-                      <BionicText
-                        text={t('skip') || 'Skip'}
-                        enabled={!!settings.bionicReading}
-                      />
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={handleSkip}
+                        className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} rounded-full border-2 bg-transparent font-black tracking-widest uppercase transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}
+                      >
+                        <BionicText
+                          text={t('skip') || 'Skip'}
+                          enabled={!!settings.bionicReading}
+                        />
+                      </button>
+                      {isProcessingTask && (
+                        <button
+                          onClick={() =>
+                            setNavRevealedDuringTask((prev) => !prev)
+                          }
+                          aria-expanded={navRevealedDuringTask}
+                          aria-label={t('openMenu') || 'Open menu'}
+                          className={`flex items-center justify-center rounded-full border-2 bg-transparent transition-colors ${bigTargets ? 'h-14 w-14 text-base' : 'h-10 w-10 text-sm'} ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}
+                        >
+                          ☰
+                        </button>
+                      )}
+                    </div>
                     <p
                       className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
                     >
@@ -885,7 +916,7 @@ function AppContent() {
             portrait keep this bottom bar instead of a cramped desktop
             sidebar. Unmounted entirely while a task is actively being
             worked on — see the matching SidebarNav wrapper above. */}
-        {!isProcessingTask && (
+        {(!isProcessingTask || navRevealedDuringTask) && (
           <div className={noFlash ? '' : 'animate-in fade-in duration-300'}>
             <BottomNav
               pillars={PILLARS}
