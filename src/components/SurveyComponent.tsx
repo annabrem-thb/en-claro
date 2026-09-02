@@ -219,6 +219,10 @@ export const SurveyComponent: React.FC = () => {
         </p>
       </header>
 
+      <p className="rounded-2xl border border-indigo-100 bg-indigo-50 p-4 text-xs leading-relaxed font-medium text-slate-600 sm:text-sm">
+        {t('feedback.privacyNotice')}
+      </p>
+
       {/* min-w-0: <fieldset> has a browser-default min-width of min-content,
           which silences flex/grid shrinking for every descendant (grid
           cells, wrapped labels, the legend text) regardless of their own

@@ -1,6 +1,7 @@
 {
   "title": "A moment of reflection",
   "desc": "How do you evaluate today's session? Your feedback helps us adapt the app to you.",
+  "privacyNotice": "Submitting this form sends your answers on this page, together with a randomly generated identifier not linked to your name, the app version you used, your language, theme, and your active comfort settings, to a server, stored solely for the evaluation of this thesis. No names, contact details, or exercise content are transmitted.",
   "nasaTitle": "Workload (NASA-TLX)",
   "low": "Low",
   "high": "High",
