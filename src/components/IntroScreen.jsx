@@ -407,39 +407,6 @@ function IntroScreen({ onStart, speak }) {
               )}
             </fieldset>
 
-            <fieldset className="m-0 mb-2 grid w-full shrink-0 grid-cols-2 gap-1 border-none p-0 sm:mb-3 sm:gap-1.5">
-              <legend className="mb-1 w-full p-0 text-left sm:text-center">
-                <h2
-                  className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
-                >
-                  <BionicText text={t('dailyGoal')} enabled={hasBionic} />
-                </h2>
-              </legend>
-              {[5, 10, 15, 20].map((minutes) => (
-                <button
-                  key={minutes}
-                  onClick={() => {
-                    updateSetting('dailyGoal', minutes);
-                    if (settings.voiceAssistant && speak)
-                      speak(t(`goal${minutes}`));
-                  }}
-                  className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
-                    settings.dailyGoal === minutes
-                      ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-700 shadow-md'}`
-                      : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-amber-300'}`
-                  }`}
-                  aria-pressed={settings.dailyGoal === minutes}
-                >
-                  <span className="text-center tracking-wider uppercase">
-                    <BionicText
-                      text={t(`goal${minutes}`)}
-                      enabled={hasBionic}
-                    />
-                  </span>
-                </button>
-              ))}
-            </fieldset>
-
             <fieldset className="m-0 mb-2 grid w-full shrink-0 grid-cols-2 gap-1 border-none p-0 sm:mb-3 sm:grid-cols-3 sm:gap-1.5">
               {/* HTML's content model for <legend> explicitly permits a single
                 heading element (h1-h6) as its entire content, alongside
