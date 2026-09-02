@@ -29,13 +29,11 @@ test.describe('Dyslexia PWA - Przerwy Kognitywne', () => {
     await page.goto('/');
     await page.locator('text=/Tylko nauka|Study only/i').click();
     await page.locator('text=/Rozpocznij|Start/i').click();
-    // Scoped to the Cognitive Energy badge's accessible name specifically —
-    // a bare `[role="status"]` also matches VoiceFallbackBanner's toast,
-    // which only renders in browsers without built-in speech recognition
-    // (Firefox, Safari/WebKit) and made this a strict-mode violation there.
-    await expect(
-      page.getByRole('status', { name: /Energia Poznawcza|Cognitive Energy/i }),
-    ).toBeVisible();
+    // The CognitiveEnergyIndicator badge that used to be asserted visible
+    // here now lives in the progress row, which — like nav — is unmounted
+    // while a task is actively being processed (Stage 2D), so it isn't
+    // reliably present at this exact point; the loop below exercises the
+    // same feature by driving it to the break prompt directly.
     // The break prompt needs 4 wrong answers within a 3-minute window
     // (useCognitiveLoad.js). Two things make a fixed "click the first
     // button 5 times" unreliable: (1) the exercise rotation includes

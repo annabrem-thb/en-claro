@@ -5,6 +5,7 @@ import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { getSmartSpellingHint } from '../../utils/spellingHints';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
@@ -212,16 +213,13 @@ function ContextExercise({
         <BionicText text={data.sentence_part2} enabled={bionicReading} />
       </div>
 
-      <div className="mb-3 flex shrink-0 gap-4 sm:mb-6 sm:gap-6">
+      <ExerciseControlsRow className="mb-3 flex shrink-0 gap-4 sm:mb-6 sm:gap-6">
         <TTSController
           onReadAloud={readContextAndOptions}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
           controlBtnSize={controlBtnSize}
-          isHighContrast={isHighContrast}
           noFlash={noFlash}
-          bionicReading={bionicReading}
           ttsFallback={ttsFallback}
         />
 
@@ -241,7 +239,7 @@ function ContextExercise({
           declineModelDownload={declineModelDownload}
           controlBtnSize={controlBtnSize}
         />
-      </div>
+      </ExerciseControlsRow>
 
       {/* Before this, the only clue that the mic expects a spoken *option
           number* was the button's aria-label — invisible to sighted users,

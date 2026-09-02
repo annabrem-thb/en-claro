@@ -11,6 +11,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
+import { THEMES } from '../data/themes.js';
 import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotifications.js';
 import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
 import { useDocumentTitle } from '../hooks/useDocumentTitle.js';
@@ -24,6 +25,7 @@ import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts.js';
 import { useLocalTTS } from '../hooks/useLocalTTS.js';
 import { useReadingRuler } from '../hooks/useReadingRuler.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
+import { useStudySet } from '../hooks/useStudySet.js';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation.js';
 import { useThemeCSSVariables } from '../hooks/useThemeCSSVariables.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
@@ -61,64 +63,9 @@ const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
 const TREE_NOTIFICATION_MS = 5000;
 const APP_READY_DELAY_MS = 1500;
 
-// `buttonText` is pure black across every theme: none of these five button
-// background colors reach 4.5:1 against their original light/cream text
-// (2.59–3.94:1, an axe-core color-contrast finding) — black gives a
-// comfortable 5.3–7.3:1 against all of them without changing the palette.
-// `ring` mirrors each theme's `hex`/`button` hue as a literal `ring-[#...]`
-// Tailwind class — used by WeeklyCalendar.jsx's "today" indicator so the
-// Garden's own chrome (and not just its growth icons) actually tracks the
-// selected theme instead of a fixed indigo regardless of theme.
-const THEMES = {
-  Natur: {
-    accent: 'text-[#4A5D54]',
-    bg: 'bg-[#F4F1EA]',
-    button: 'bg-[#8A9A86]',
-    buttonText: 'text-black',
-    border: 'border-[#D0D6CE]',
-    ring: 'ring-[#8A9A86]',
-    hex: '#8A9A86',
-  },
-  Musik: {
-    accent: 'text-[#6B5B7B]',
-    bg: 'bg-[#F3F0F5]',
-    button: 'bg-[#8F7D9E]',
-    buttonText: 'text-black',
-    border: 'border-[#D1C8D6]',
-    ring: 'ring-[#8F7D9E]',
-    hex: '#8F7D9E',
-  },
-  Kunst: {
-    accent: 'text-[#8A6A4B]',
-    bg: 'bg-[#F7F4F0]',
-    button: 'bg-[#B08E6D]',
-    buttonText: 'text-black',
-    border: 'border-[#DED4CA]',
-    ring: 'ring-[#B08E6D]',
-    hex: '#B08E6D',
-  },
-  Space: {
-    accent: 'text-[#4B5E6B]',
-    bg: 'bg-[#F0F3F5]',
-    button: 'bg-[#6D8394]',
-    buttonText: 'text-black',
-    border: 'border-[#CAD4DE]',
-    ring: 'ring-[#6D8394]',
-    hex: '#6D8394',
-  },
-  Ocean: {
-    accent: 'text-[#437A7A]',
-    bg: 'bg-[#EFF5F5]',
-    button: 'bg-[#67A3A3]',
-    buttonText: 'text-black',
-    border: 'border-[#C4DBDB]',
-    ring: 'ring-[#67A3A3]',
-    hex: '#67A3A3',
-  },
-};
-
 function AppContent() {
   const { isGamified, growthValue, setGrowthValue } = useGamification();
+  const { studySet } = useStudySet();
 
   const { settings, updateSetting } = useUserSettingsContext();
   const { language, theme, dailyGoal, userDifficulty } = settings;
@@ -328,7 +275,13 @@ function AppContent() {
   const themeStyles = THEMES[theme] || THEMES.Natur;
   const noFlash = settings.noFlash || settings.motion;
   const bigTargets = settings.bigTargets || settings.motorik;
-  const hideNavLabel = settings.vision;
+  // Nav labels wrap/overflow in the compact rail once UI text grows past its
+  // default size — `vision` used to be a single fixed 115%-zoom toggle that
+  // this gated on directly; now that it's a continuous slider, the same
+  // "moved above default" threshold used elsewhere (SurveyComponent.tsx,
+  // IntroScreen.jsx's hasVision) applies here too.
+  const hideNavLabel =
+    settings.fontSizeUi > 16 || settings.fontSizeExercise > 16;
   const isHighContrast = settings.contrast;
   const isColorblind = settings.color;
   const hasRuler = settings.ruler;
@@ -390,6 +343,7 @@ function AppContent() {
     t,
     speak,
     theme,
+    studySet,
     growthValue,
     setGrowthValue,
     onUnitCompleted: handleUnitCompleted,
@@ -400,6 +354,14 @@ function AppContent() {
   // without answering it still completes the unit — the only thing that
   // does *not* complete a unit is an error, which leaves the same task in
   // place for a no-penalty retry.
+  // True only for the "actively looking at an unanswered question" window —
+  // false again the moment feedback appears (right up until the next task
+  // replaces it), on the Garden tab, and whenever no task is loaded. Nav,
+  // Settings, and the progress row all key off this: they're allowed to
+  // show *before* a task starts and *after* it's answered, never while it's
+  // in progress.
+  const isProcessingTask = activeTab !== 'Garden' && !!currentTask && !feedback;
+
   const handleSkip = useCallback(() => {
     const newGrowthValue = growthValue + 1;
     setGrowthValue(newGrowthValue);
@@ -505,6 +467,7 @@ function AppContent() {
     onTabChange: handleTabChange,
     onGardenClick: handleGardenClick,
     onOpenSettings: openSettings,
+    onOpenSurvey: openSurvey,
     vibrate,
     // While any focus-trapped dialog is open, it owns the keyboard —
     // otherwise ArrowRight/Enter meant for a control inside e.g. the
@@ -632,29 +595,36 @@ function AppContent() {
 
       {}
       {/* lg: matches SidebarNav's own breakpoint, so tablets in portrait keep
-          the bottom bar below instead of switching to a squeezed sidebar. */}
-      <div className="z-40 hidden h-full shrink-0 lg:flex">
-        <SidebarNav
-          pillars={PILLARS}
-          activeTab={activeTab}
-          onTabChange={handleTabChange}
-          onGardenClick={handleGardenClick}
-          language={language}
-          isGamified={isGamified}
-          theme={theme}
-          themeStyles={themeStyles}
-          isHighContrast={isHighContrast}
-          bigTargets={bigTargets}
-          hideNavLabel={hideNavLabel}
-          setSettingsOpen={setSettingsOpen}
-          onOpenSurvey={openSurvey}
-          t={t}
-          loadLevel={loadLevel}
-          speak={speak}
-          noFlash={noFlash}
-          bionicReading={!!settings.bionicReading}
-        />
-      </div>
+          the bottom bar below instead of switching to a squeezed sidebar.
+          Unmounted entirely (not just CSS-hidden) while a task is actively
+          being worked on — nav/Settings must not render at all during that
+          window, only before a task starts and after it's answered. */}
+      {!isProcessingTask && (
+        <div
+          className={`z-40 hidden h-full shrink-0 lg:flex ${noFlash ? '' : 'animate-in fade-in duration-300'}`}
+        >
+          <SidebarNav
+            pillars={PILLARS}
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+            onGardenClick={handleGardenClick}
+            language={language}
+            isGamified={isGamified}
+            theme={theme}
+            themeStyles={themeStyles}
+            isHighContrast={isHighContrast}
+            bigTargets={bigTargets}
+            hideNavLabel={hideNavLabel}
+            setSettingsOpen={setSettingsOpen}
+            onOpenSurvey={openSurvey}
+            t={t}
+            loadLevel={loadLevel}
+            speak={speak}
+            noFlash={noFlash}
+            bionicReading={!!settings.bionicReading}
+          />
+        </div>
+      )}
 
       {}
       <div className="relative flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
@@ -712,7 +682,10 @@ function AppContent() {
           ) : (
             <>
               {}
-              {!settings.zenMode && (
+              {/* Progress row: hidden by default while a task is being
+                  processed (only shown before/after), and always hidden
+                  under zenMode regardless of that window. */}
+              {!isProcessingTask && !settings.zenMode && (
                 <div
                   className={`relative mb-3 flex shrink-0 items-center justify-between gap-4 rounded-3xl px-3 py-2.5 sm:px-4 md:mb-4 ${isHighContrast ? 'border border-white/30 bg-black shadow-sm md:shadow-none' : `border bg-[#FCFBF9] ${themeStyles.border} shadow-md shadow-slate-200/40 md:shadow-sm`}`}
                 >
@@ -806,7 +779,7 @@ function AppContent() {
                 )}
                 <div
                   key={`exercise-wrapper-${activeTab}-${currentIndex}`}
-                  className={`flex h-full min-h-0 w-full flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
+                  className={`exercise-scale flex h-full min-h-0 w-full flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
                 >
                   {renderCurrentExercise()}
                 </div>
@@ -909,25 +882,31 @@ function AppContent() {
 
         {}
         {/* lg: matches the sidebar wrapper's breakpoint above, so tablets in
-            portrait keep this bottom bar instead of a cramped desktop sidebar. */}
-        <BottomNav
-          pillars={PILLARS}
-          activeTab={activeTab}
-          isGamified={isGamified}
-          theme={theme}
-          themeStyles={themeStyles}
-          isHighContrast={isHighContrast}
-          hideNavLabel={hideNavLabel}
-          noFlash={noFlash}
-          bigTargets={bigTargets}
-          bionicReading={!!settings.bionicReading}
-          t={t}
-          onTabChange={handleTabChange}
-          onGardenClick={handleGardenClick}
-          onOpenSettings={openSettings}
-          onOpenSurvey={openSurvey}
-          vibrate={vibrate}
-        />
+            portrait keep this bottom bar instead of a cramped desktop
+            sidebar. Unmounted entirely while a task is actively being
+            worked on — see the matching SidebarNav wrapper above. */}
+        {!isProcessingTask && (
+          <div className={noFlash ? '' : 'animate-in fade-in duration-300'}>
+            <BottomNav
+              pillars={PILLARS}
+              activeTab={activeTab}
+              isGamified={isGamified}
+              theme={theme}
+              themeStyles={themeStyles}
+              isHighContrast={isHighContrast}
+              hideNavLabel={hideNavLabel}
+              noFlash={noFlash}
+              bigTargets={bigTargets}
+              bionicReading={!!settings.bionicReading}
+              t={t}
+              onTabChange={handleTabChange}
+              onGardenClick={handleGardenClick}
+              onOpenSettings={openSettings}
+              onOpenSurvey={openSurvey}
+              vibrate={vibrate}
+            />
+          </div>
+        )}
       </div>
 
       <NewTreeToast

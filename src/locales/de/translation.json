@@ -12,7 +12,7 @@
     "modeClassic": "Nur Lernen",
     "modeGamified": "Spiel (Belohnungen)",
     "a11y": "Komfort-Werkzeuge",
-    "lrs": "Schriftart",
+    "lrs": "Zusätzlicher Leseabstand",
     "contrast": "Kontrast",
     "vision": "Größerer Text",
     "big": "Bequeme Tasten",
@@ -59,20 +59,6 @@
   "readAloudTitle": "Laut vorlesen",
   "ttsLocalDownloadError": "Die Sprach-Engine konnte nicht geladen werden — überprüfe deine Verbindung und versuche es erneut.",
   "ttsLocalEngineError": "Beim Vorlesen ist etwas schiefgelaufen — versuche es erneut.",
-  "successMsg": [
-    "Großartig!",
-    "Ausgezeichnet!",
-    "Wunderbar!",
-    "Super!",
-    "Das schaffen Sie!",
-    "Das zeigt Wirkung."
-  ],
-  "errorMsg": [
-    "Lassen Sie uns das gemeinsam analysieren.",
-    "Versuchen wir es noch einmal.",
-    "Fast richtig, schauen Sie noch einmal hin.",
-    "Das gehört zum Lernen dazu."
-  ],
   "levelUp": "Level Up!",
   "levelUpTitle": "Ihr Garten wächst!",
   "levelUpDesc": "Ein weiteres Ziel geschafft — Ihre Beständigkeit zahlt sich aus.",
@@ -107,6 +93,7 @@
   "settingsTheme": "Thema",
   "settingsAccessibility": "Komfortoptionen",
   "settingsFooter": "Ihre Einstellungen werden automatisch gespeichert.",
+  "studySetIndicator": "Inhaltsset: {{set}}",
   "tabGeneral": "Allgemein",
   "tabA11y": "Komfort",
   "tabExercises": "Übungen",
@@ -132,8 +119,8 @@
   "textSizeDesc": "Passen Sie die Schriftgröße an Ihre Lesepräferenzen an",
   "a11y": {
     "lrs": {
-      "name": "Schriftart",
-      "desc": "Schriftart, die das Lesen erleichtert (OpenDyslexic)"
+      "name": "Zusätzlicher Leseabstand",
+      "desc": "Größerer Zeilenabstand sowie Buchstaben-/Wortabstand für leichteres Lesen"
     },
     "contrast": {
       "name": "Hoher Kontrast",
@@ -142,10 +129,6 @@
     "motor": {
       "name": "Bequeme Tasten",
       "desc": "Vergrößerte Tasten und ruhige Animationen"
-    },
-    "vision": {
-      "name": "Größerer Text",
-      "desc": "Vergrößerte Schriftart und Symbole"
     },
     "colors": {
       "name": "Sichere Farben",
@@ -159,13 +142,36 @@
       "name": "Fokuslineal",
       "desc": "Hebt eine horizontale Linie unter dem Cursor hervor, oder mit ↑↓ verschieben (ohne Maus)"
     },
-    "spacing": {
-      "name": "Größerer Abstand",
-      "desc": "Erhöht den Abstand zwischen Buchstaben und Wörtern"
-    },
     "desaturation": {
       "name": "Sanfte Farben",
       "desc": "Reduziert die Sättigung heller Farben"
+    }
+  },
+  "designTokensSectionTitle": "Text & Abstände",
+  "designTokens": {
+    "fontSizeExercise": {
+      "name": "Textgröße Übung",
+      "desc": "Größe von Frage-/Antworttext innerhalb der Übungen"
+    },
+    "fontSizeUi": {
+      "name": "Textgröße Oberfläche",
+      "desc": "Größe von Menüs, Schaltflächen und Beschriftungen außerhalb der Übungen"
+    },
+    "lineHeight": {
+      "name": "Zeilenhöhe",
+      "desc": "Vertikaler Abstand zwischen den Textzeilen"
+    },
+    "letterSpacing": {
+      "name": "Buchstabenabstand",
+      "desc": "Abstand zwischen einzelnen Buchstaben"
+    },
+    "wordSpacing": {
+      "name": "Wortabstand",
+      "desc": "Abstand zwischen Wörtern"
+    },
+    "paragraphSpacing": {
+      "name": "Absatzabstand",
+      "desc": "Abstand unter einem Absatz Lesetext (z. B. einem Leseverständnistext)"
     }
   },
   "inclusive": {
@@ -359,13 +365,6 @@
   "gardenEmpty": "Ihr eigenes Ökosystem. Es wird mit Ihrem Fortschritt wachsen.",
   "srPlantFeature": "Ihre Reise beinhaltet derzeit",
   "dailyGoalProgress": "Tagesziel-Fortschritt",
-  "rewardItems": {
-    "Natur": ["🍀", "🌸", "🦋", "🐝", "🌈"],
-    "Musik": ["🎵", "🎶", "🎤", "🎸", "🎧"],
-    "Kunst": ["🎨", "🖌️", "🖼️", "💎", "✨"],
-    "Space": ["🚀", "🌟", "🛸", "🪐", "☄️"],
-    "Ocean": ["🐚", "🐠", "🌊", "⚓", "🐬"]
-  },
   "dailyGoal": "Tagesziel",
   "goal5": "5 Min – Schritt",
   "goal10": "10 Min – Ritual",
@@ -477,6 +476,9 @@
   "melodyMemoryInstruction": "Höre dir die Melodie an und spiele sie dann in derselben Reihenfolge nach",
   "phonemeInstruction": "Errate die fehlenden Buchstaben anhand der Definition",
   "phonemeRevealHint": "Ganzes Wort hören",
+  "graphemePhonemeListenPrompt": "Höre den Laut und wähle die passende Schreibweise:",
+  "graphemePhonemeChooseSoundPrompt": "Sieh dir die Buchstaben an und wähle den passenden Laut:",
+  "graphemePhonemeTapAgainToConfirm": "Nochmal tippen, um diese Option zu wählen",
   "speakTheWord": "Sag das Wort",
   "listenCarefully": "Hören Sie sich das Wort aufmerksam an.",
   "readyToSegment": "Ich bin bereit, es zu zerlegen",
@@ -634,7 +636,7 @@
     "title": "Ihr Einfluss",
     "desc": "Ihr Fortschritt unterstützt reale Ziele. Alle 10 Punkte tragen zu einem virtuell gepflanzten Baum bei.",
     "treesPlanted": "Gepflanzte Bäume",
-    "newTreeTitle": "Neuer Baum! 🎉",
-    "newTreeMsg": "Fantastisch! Ihr konsequentes Lernen hat uns geholfen, einen weiteren Baum virtuell zu pflanzen."
+    "newTreeTitle": "Neuer Baum",
+    "newTreeMsg": "Ihr beständiges Lernen hat geholfen, einen weiteren Baum virtuell zu pflanzen."
   }
 }
