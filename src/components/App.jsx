@@ -465,10 +465,24 @@ function AppContent() {
   // block's current pillar rather than wherever manual nav last left it —
   // forced back in the same render it would otherwise drift, same pattern
   // as the isGamified/prevIsGamified sync above.
+  //
+  // Gated on `!feedback`: the pillar/pillarCount bookkeeping in
+  // studyMode.recordUnitCompleted() advances the instant a task is
+  // answered — immediately, in the same render as handleSuccess setting
+  // feedback to show "Correct!" and scheduling goNext() a second or two
+  // later. Switching activeTab right then (setPillarTab also resets
+  // feedback/currentIndex) would wipe that feedback before it's ever seen
+  // and land on the new pillar's task list at index 0 — which the
+  // already-scheduled goNext() would then advance past, silently
+  // completing that pillar's first task without the participant answering
+  // it. Waiting for feedback to clear naturally (goNext's own
+  // setFeedback(null), once its delay elapses) lines the pillar switch up
+  // with the same moment the exercise would have advanced anyway.
   if (
     studyMode.isActive &&
     studyMode.currentPillar &&
-    activeTab !== studyMode.currentPillar
+    activeTab !== studyMode.currentPillar &&
+    !feedback
   ) {
     setPillarTab(studyMode.currentPillar);
   }
