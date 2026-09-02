@@ -21,13 +21,12 @@ async function skipIntro(page) {
     await studyOnly.click();
     await page.locator('text=/Rozpocznij|Start/i').click();
   }
-  // SidebarNav (<aside>) only renders above the `lg:` breakpoint — on the
-  // Tablet/Mobile projects it's genuinely hidden and BottomNav (<nav
-  // class="...justify-around...">) takes over, so hardcoding `aside` here
-  // made every caller of this helper fail on those two projects specifically.
-  await expect(
-    page.locator('aside:visible, nav.justify-around:visible').first(),
-  ).toBeVisible();
+  // Nav (SidebarNav's <aside> or BottomNav's <nav class="...justify-
+  // around...">, depending on breakpoint) is unmounted entirely while a
+  // task is actively being processed — only the main content region is
+  // guaranteed to be present at this point, so that's what this helper
+  // waits on instead of nav visibility.
+  await expect(page.locator('#main-content')).toBeVisible();
 }
 
 async function runAxe(page, disableRules = []) {
@@ -133,23 +132,20 @@ test.describe('Accessibility (axe-core)', () => {
   }) => {
     // The survey no longer auto-appears every 10 points in either study arm
     // (removed in Stage 1A: it's a researcher-administered instrument, not
-    // an inline popup — see docs/COMPLIANCE_AUDIT.md §6). The only way to
-    // reach it now is the always-available "open survey" nav button, so
-    // that's what this test drives instead of grinding through exercises
-    // waiting for a trigger that no longer exists.
+    // an inline popup — see docs/COMPLIANCE_AUDIT.md §6). Nav (and its "open
+    // survey" button) is unmounted entirely while a task is being processed
+    // (Stage 2D), so the Ctrl/Cmd/Alt+S shortcut — wired for exactly this
+    // reason — is the only way to reach it reliably regardless of that
+    // window; the nav button click only ever worked here by timing luck.
     await page.goto('/#/literacy');
     const studyOnly = page.locator('text=/Tylko nauka|Study only|Nur lernen/i');
     if (await studyOnly.isVisible().catch(() => false)) {
       await studyOnly.click();
       await page.locator('text=/Rozpocznij|Start/i').click();
     }
-    await expect(
-      page.locator('aside:visible, nav.justify-around:visible').first(),
-    ).toBeVisible();
+    await expect(page.locator('#main-content')).toBeVisible();
 
-    await page
-      .getByRole('button', { name: /Umfrage|Ankieta|Survey/i })
-      .click();
+    await page.keyboard.press('Control+s');
 
     await expect(page.locator('#survey-title')).toBeVisible();
     const results = await runAxe(page);

@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 
 import { STUDY_EXERCISE_TYPES } from '../data/exerciseTypes.js';
+import { belongsToActiveSet } from '../data/studySets.js';
 import { getSharedAudioContext } from '../utils/audioUnlock.js';
 import { saveLog } from '../utils/indexedDB.js';
 import { seededShuffle } from '../utils/shuffleUtils.js';
@@ -70,6 +71,7 @@ export function useExerciseSession({
   t,
   speak,
   theme,
+  studySet,
   growthValue,
   setGrowthValue,
   // Called once per completed unit, after growthValue/feedback are updated
@@ -84,7 +86,9 @@ export function useExerciseSession({
   const [currentIndex, setCurrentIndex] = useState(
     () => Number(localStorage.getItem('idx')) || 0,
   );
-  const [cycle, setCycle] = useState(0);
+  const [cycle, setCycle] = useState(
+    () => Number(localStorage.getItem('cycle')) || 0,
+  );
   // Never shown to the user and never feeds feedback copy — this exists
   // solely to trigger the adaptive-difficulty bump below after 5 correct
   // answers in a row.
@@ -113,6 +117,10 @@ export function useExerciseSession({
     localStorage.setItem('idx', String(currentIndex));
   }, [currentIndex]);
 
+  useEffect(() => {
+    localStorage.setItem('cycle', String(cycle));
+  }, [cycle]);
+
   const activePillarTasks = useMemo(() => {
     if (!db) return [];
     if (activeTab === 'Garden') return [];
@@ -131,11 +139,13 @@ export function useExerciseSession({
     // strictly by *category*, not by rendering component.
     const includeIfActive = (dbKey) =>
       STUDY_EXERCISE_TYPES.has(dbKey) && activeExercises[dbKey] !== false
-        ? (db[dbKey] || []).map((task) => ({ ...task, __exerciseType: dbKey }))
+        ? (db[dbKey] || [])
+            .filter((task) => belongsToActiveSet(task, studySet))
+            .map((task) => ({ ...task, __exerciseType: dbKey }))
         : [];
     const tagDiagnostic = (pillar) =>
       (db.diagnostic || [])
-        .filter((d) => d.pillar === pillar)
+        .filter((d) => d.pillar === pillar && belongsToActiveSet(d, studySet))
         .map((task) => ({ ...task, __exerciseType: 'diagnostic' }));
 
     let rawTasks = [];
@@ -154,6 +164,7 @@ export function useExerciseSession({
           ...includeIfActive('readAloud'),
           ...includeIfActive('comprehension'),
           ...includeIfActive('rhythm'),
+          ...includeIfActive('graphemePhoneme'),
           ...tagDiagnostic('Literacy'),
         ];
         break;
@@ -245,6 +256,7 @@ export function useExerciseSession({
     inclusiveOptions.activeExercises,
     userDifficulty,
     cycle,
+    studySet,
   ]);
 
   const safeIndex = currentIndex % (activePillarTasks.length || 1);
@@ -290,10 +302,9 @@ export function useExerciseSession({
     setErrorCounter(0);
     if (inclusiveOptions.audioRewards && !inclusiveOptions.muteNotifications)
       playThemeSound(theme);
-    const successMsgs = t('successMsg', { returnObjects: true });
-    const msg = Array.isArray(successMsgs)
-      ? successMsgs[Math.floor(Math.random() * successMsgs.length)]
-      : successMsgs;
+    const msg = currentTask?.focus
+      ? t('feedback.correctWithRule', { rule: currentTask.focus })
+      : t('feedback.correct');
     setFeedback({ type: 'success', msg });
     const voiceSuccess = t('voice.success', { returnObjects: true });
     const voiceSuccessMsg = Array.isArray(voiceSuccess)
@@ -325,6 +336,7 @@ export function useExerciseSession({
   }, [
     consecutiveCorrect,
     activeTab,
+    currentTask,
     t,
     speak,
     growthValue,
@@ -350,15 +362,18 @@ export function useExerciseSession({
       setUserDifficulty((prev) => Math.max(prev - 1, 1));
       setErrorCounter(0);
     }
+    const msg = currentTask?.focus
+      ? t('feedback.incorrectWithRule', { rule: currentTask.focus })
+      : t('feedback.incorrect');
+    setFeedback({ type: 'error', msg });
     const voiceError = t('voice.error', { returnObjects: true });
-    const errorMsg = Array.isArray(voiceError)
+    const voiceErrorMsg = Array.isArray(voiceError)
       ? voiceError[Math.floor(Math.random() * voiceError.length)]
       : voiceError || "Let's look closer at this one together.";
-    setFeedback({ type: 'error', msg: errorMsg });
     // Same fix as handleSuccess above: respect the global voiceAssistant
     // toggle, not just muteNotifications.
     if (inclusiveOptions.voiceAssistant && !inclusiveOptions.muteNotifications)
-      speak(errorMsg);
+      speak(voiceErrorMsg);
     saveLog('exercise_history', {
       date: new Date().toISOString(),
       type: activeTab,
@@ -371,6 +386,7 @@ export function useExerciseSession({
     inclusiveOptions,
     userDifficulty,
     activeTab,
+    currentTask,
     setErrorTimestamps,
     setUserDifficulty,
   ]);

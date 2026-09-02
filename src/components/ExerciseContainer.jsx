@@ -2,6 +2,7 @@ import ClockExercise from './exercises/ClockExercise';
 import ContextExercise from './exercises/ContextExercise';
 import DictationExercise from './exercises/DictationExercise.jsx';
 import GraphemeExercise from './exercises/GraphemeExercise';
+import GraphemePhonemeMatchExercise from './exercises/GraphemePhonemeMatchExercise.jsx';
 import LookCoverWriteCheck from './exercises/LookCoverWriteCheck.jsx';
 import MelodyMemoryExercise from './exercises/MelodyMemoryExercise.jsx';
 import MemorySpanExercise from './exercises/MemorySpanExercise.jsx';
@@ -26,6 +27,7 @@ import VisualCategorization from './exercises/VisualCategorization.jsx';
 const EXERCISE_COMPONENTS = {
   phoneme: PhonemeExercise,
   grapheme: GraphemeExercise,
+  graphemePhoneme: GraphemePhonemeMatchExercise,
   diagnostic: GraphemeExercise, // same question+options shape as `grapheme`
   syllable: SyllableExercise,
   scrabble: ScrabbleExercise,

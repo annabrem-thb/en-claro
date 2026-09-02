@@ -18,6 +18,7 @@
     "test:run": "vitest run",
     "test:e2e": "playwright test",
     "check:locales": "node check-locales.mjs",
+    "check:sets": "node check-sets.mjs",
     "serve": "npm run build && npm run preview",
     "clean": "rm -rf dist node_modules .vite",
     "audit:check": "npm audit",

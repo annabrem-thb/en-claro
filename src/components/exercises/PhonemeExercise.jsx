@@ -4,6 +4,7 @@ import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
@@ -155,16 +156,13 @@ function PhonemeExercise({
         </div>
       )}
 
-      <div className="mb-2 flex shrink-0 items-center justify-center gap-4 sm:mb-4">
+      <ExerciseControlsRow className="mb-2 flex shrink-0 items-center justify-center gap-4 sm:mb-4">
         <TTSController
           onReadAloud={readDefinition}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
           controlBtnSize={controlBtnSize}
-          isHighContrast={isHighContrast}
           noFlash={noFlash}
-          bionicReading={bionicReading}
           ttsFallback={ttsFallback}
         />
 
@@ -197,7 +195,7 @@ function PhonemeExercise({
         >
           💡
         </button>
-      </div>
+      </ExerciseControlsRow>
 
       {transcript && (
         <p

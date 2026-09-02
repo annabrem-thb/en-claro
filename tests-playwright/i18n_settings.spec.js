@@ -12,18 +12,11 @@ test.describe('Dyslexia PWA - Internacjonalizacja (i18n)', () => {
     await page.locator('button[lang="en"]').click();
     await page.locator('text=/Study only/i').click();
     await page.locator('text=/Start/i').click();
-    // Below the `lg:` breakpoint (Tablet/Mobile projects), SidebarNav is
-    // still mounted but CSS-hidden by its App.jsx wrapper (`hidden lg:flex`)
-    // in favor of BottomNav — the two are never both visible, but both
-    // exist in the DOM, each with their own "Settings" button/label. A bare
-    // `.first()` picks whichever comes first in DOM order (SidebarNav's
-    // hidden one), not whichever is actually on screen, so every ambiguous
-    // match below is narrowed with the chained `visible=true` locator
-    // engine to the one the user can actually see and click.
-    await page
-      .getByRole('button', { name: /settings/i })
-      .locator('visible=true')
-      .click();
+    // Nav (and its Settings button) is unmounted entirely while a task is
+    // being processed (Stage 2D) — the Ctrl/Cmd/Alt+, shortcut opens
+    // Settings regardless of that window, so it's used here instead of
+    // needing nav visible and clickable first.
+    await page.keyboard.press('Control+,');
     // Exact `text="..."` CSS-engine locators require the matched element's
     // own text to equal the string with no other descendant elements in the
     // way — but Bionic Reading (on by default) splits every label into
