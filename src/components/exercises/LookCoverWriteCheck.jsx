@@ -4,6 +4,7 @@ import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { useUserSettingsContext } from '../../hooks/useUserSettingsContext.js';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
 
 function LookCoverWriteCheck({
@@ -64,21 +65,18 @@ function LookCoverWriteCheck({
           </h2>
         )}
 
-        <div className="mb-3 shrink-0 sm:mb-6">
+        <ExerciseControlsRow className="mb-3 shrink-0 sm:mb-6">
           <TTSController
             onReadAloud={handleReadWord}
             pauseAllTimeouts={pauseAllTimeouts}
             resumeAllTimeouts={resumeAllTimeouts}
-            t={t}
             controlBtnSize={
               bigTargets ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'
             }
-            isHighContrast={isHighContrast}
             noFlash={noFlash}
-            bionicReading={bionicReading}
             ttsFallback={ttsFallback}
           />
-        </div>
+        </ExerciseControlsRow>
 
         <div
           className={`mb-4 flex min-h-0 w-full max-w-md shrink items-center justify-center overflow-y-auto rounded-3xl px-4 py-6 shadow-sm sm:mb-8 sm:px-8 sm:py-10 ${isHighContrast ? 'border-2 border-white bg-black text-white' : 'border border-slate-200 bg-white text-slate-800'}`}

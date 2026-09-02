@@ -4,6 +4,7 @@ import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
@@ -136,16 +137,13 @@ function ReadingComprehensionExercise({
     <div
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center overflow-hidden px-2 pt-4 pb-2 sm:pt-6`}
     >
-      <div className="mb-2 flex shrink-0 gap-4 sm:mb-3">
+      <ExerciseControlsRow className="mb-2 flex shrink-0 gap-4 sm:mb-3">
         <TTSController
           onReadAloud={readAll}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
           controlBtnSize={controlBtnSize}
-          isHighContrast={isHighContrast}
           noFlash={noFlash}
-          bionicReading={bionicReading}
           ttsFallback={ttsFallback}
         />
 
@@ -165,7 +163,7 @@ function ReadingComprehensionExercise({
           declineModelDownload={declineModelDownload}
           controlBtnSize={controlBtnSize}
         />
-      </div>
+      </ExerciseControlsRow>
 
       {transcript && (
         <p
