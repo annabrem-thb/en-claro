@@ -309,17 +309,17 @@ export const wordDatabasePL = {
         {
           text: 'Stuł',
           isCorrect: false,
-          icon: '❌',
+          icon: '🪑',
         },
         {
           text: 'Córka',
           isCorrect: false,
-          icon: '👩',
+          icon: '🪑',
         },
         {
           text: 'Curka',
           isCorrect: false,
-          icon: '❌',
+          icon: '🪑',
         },
       ],
     },
@@ -343,17 +343,17 @@ export const wordDatabasePL = {
         {
           text: 'Curka',
           isCorrect: false,
-          icon: '❌',
+          icon: '👩',
         },
         {
           text: 'Wróg',
           isCorrect: false,
-          icon: '👤',
+          icon: '👩',
         },
         {
           text: 'Wrug',
           isCorrect: false,
-          icon: '❌',
+          icon: '👩',
         },
       ],
     },
@@ -372,22 +372,22 @@ export const wordDatabasePL = {
         {
           text: 'Przemoc',
           isCorrect: true,
-          icon: '⚠️',
+          icon: '🧠',
         },
         {
           text: 'Pżemoc',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
         {
           text: 'Pszemoc',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
         {
           text: 'Pśemoc',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
       ],
     },
@@ -411,17 +411,17 @@ export const wordDatabasePL = {
         {
           text: 'Bżuch',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧍',
         },
         {
           text: 'Bszuch',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧍',
         },
         {
           text: 'Brzuh',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧍',
         },
       ],
     },
@@ -445,17 +445,17 @@ export const wordDatabasePL = {
         {
           text: 'Droszszy',
           isCorrect: false,
-          icon: '❌',
+          icon: '💸',
         },
         {
           text: 'Żółw',
           isCorrect: false,
-          icon: '🐢',
+          icon: '💸',
         },
         {
           text: 'Rzółw',
           isCorrect: false,
-          icon: '❌',
+          icon: '💸',
         },
       ],
     },
@@ -479,17 +479,17 @@ export const wordDatabasePL = {
         {
           text: 'Chierarchia',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
         {
           text: 'Chmura',
           isCorrect: false,
-          icon: '☁️',
+          icon: '📊',
         },
         {
           text: 'Hmura',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
       ],
     },
@@ -513,17 +513,17 @@ export const wordDatabasePL = {
         {
           text: 'Niepracuję',
           isCorrect: false,
-          icon: '❌',
+          icon: '🚫',
         },
         {
           text: 'Nie pracóje',
           isCorrect: false,
-          icon: '❌',
+          icon: '🚫',
         },
         {
           text: 'Niepracuje',
           isCorrect: false,
-          icon: '❌',
+          icon: '🚫',
         },
       ],
     },
@@ -547,17 +547,17 @@ export const wordDatabasePL = {
         {
           text: 'Nie sprawiedliwy',
           isCorrect: false,
-          icon: '❌',
+          icon: '⚖️',
         },
         {
           text: 'Nie-sprawiedliwy',
           isCorrect: false,
-          icon: '❌',
+          icon: '⚖️',
         },
         {
           text: 'Niesprawiedliwi',
           isCorrect: false,
-          icon: '❌',
+          icon: '⚖️',
         },
       ],
     },
@@ -581,17 +581,17 @@ export const wordDatabasePL = {
         {
           text: 'Chciał bym',
           isCorrect: false,
-          icon: '❌',
+          icon: '💬',
         },
         {
           text: 'Chciał-bym',
           isCorrect: false,
-          icon: '❌',
+          icon: '💬',
         },
         {
           text: 'Kciałbym',
           isCorrect: false,
-          icon: '❌',
+          icon: '💬',
         },
       ],
     },
@@ -615,17 +615,17 @@ export const wordDatabasePL = {
         {
           text: 'Zonb',
           isCorrect: false,
-          icon: '❌',
+          icon: '🦷',
         },
         {
           text: 'Zomp',
           isCorrect: false,
-          icon: '❌',
+          icon: '🦷',
         },
         {
           text: 'Zomb',
           isCorrect: false,
-          icon: '❌',
+          icon: '🦷',
         },
       ],
     },
@@ -649,17 +649,17 @@ export const wordDatabasePL = {
         {
           text: 'Pięnć',
           isCorrect: false,
-          icon: '❌',
+          icon: '5️⃣',
         },
         {
           text: 'Pienć',
           isCorrect: false,
-          icon: '❌',
+          icon: '5️⃣',
         },
         {
           text: 'Pienc',
           isCorrect: false,
-          icon: '❌',
+          icon: '5️⃣',
         },
       ],
     },
@@ -683,17 +683,17 @@ export const wordDatabasePL = {
         {
           text: 'Tży',
           isCorrect: false,
-          icon: '❌',
+          icon: '3️⃣',
         },
         {
           text: 'Trzi',
           isCorrect: false,
-          icon: '❌',
+          icon: '3️⃣',
         },
         {
           text: 'Tżi',
           isCorrect: false,
-          icon: '❌',
+          icon: '3️⃣',
         },
       ],
     },
@@ -717,17 +717,17 @@ export const wordDatabasePL = {
         {
           text: 'Niepracujący',
           isCorrect: false,
-          icon: '❌',
+          icon: '🚫',
         },
         {
           text: 'Niepracóją',
           isCorrect: false,
-          icon: '❌',
+          icon: '🚫',
         },
         {
           text: 'Nie-pracujący',
           isCorrect: false,
-          icon: '❌',
+          icon: '🚫',
         },
       ],
     },
@@ -751,17 +751,17 @@ export const wordDatabasePL = {
         {
           text: 'Wul',
           isCorrect: false,
-          icon: '❌',
+          icon: '🐂',
         },
         {
           text: 'Vół',
           isCorrect: false,
-          icon: '❌',
+          icon: '🐂',
         },
         {
           text: 'Wuł',
           isCorrect: false,
-          icon: '❌',
+          icon: '🐂',
         },
       ],
     },
@@ -785,17 +785,17 @@ export const wordDatabasePL = {
         {
           text: 'Wziąść',
           isCorrect: false,
-          icon: '❌',
+          icon: '🤲',
         },
         {
           text: 'Wźąć',
           isCorrect: false,
-          icon: '❌',
+          icon: '🤲',
         },
         {
           text: 'Wzionć',
           isCorrect: false,
-          icon: '❌',
+          icon: '🤲',
         },
       ],
     },
@@ -819,17 +819,17 @@ export const wordDatabasePL = {
         {
           text: 'Shować',
           isCorrect: false,
-          icon: '❌',
+          icon: '🫣',
         },
         {
           text: 'Scować',
           isCorrect: false,
-          icon: '❌',
+          icon: '🫣',
         },
         {
           text: 'Skhować',
           isCorrect: false,
-          icon: '❌',
+          icon: '🫣',
         },
       ],
     },
@@ -853,17 +853,17 @@ export const wordDatabasePL = {
         {
           text: 'Żeka',
           isCorrect: false,
-          icon: '❌',
+          icon: '🌊',
         },
         {
           text: 'Rzaba',
           isCorrect: false,
-          icon: '❌',
+          icon: '🌊',
         },
         {
           text: 'Zeka',
           isCorrect: false,
-          icon: '❌',
+          icon: '🌊',
         },
       ],
     },
@@ -887,17 +887,17 @@ export const wordDatabasePL = {
         {
           text: 'Dah',
           isCorrect: false,
-          icon: '❌',
+          icon: '🏠',
         },
         {
           text: 'Groh',
           isCorrect: false,
-          icon: '❌',
+          icon: '🏠',
         },
         {
           text: 'Strah',
           isCorrect: false,
-          icon: '❌',
+          icon: '🏠',
         },
       ],
     },
@@ -921,17 +921,17 @@ export const wordDatabasePL = {
         {
           text: 'Śiano',
           isCorrect: false,
-          icon: '❌',
+          icon: '🌾',
         },
         {
           text: 'Sjano',
           isCorrect: false,
-          icon: '❌',
+          icon: '🌾',
         },
         {
           text: 'Syano',
           isCorrect: false,
-          icon: '❌',
+          icon: '🌾',
         },
       ],
     },
@@ -955,17 +955,17 @@ export const wordDatabasePL = {
         {
           text: 'Ćiasto',
           isCorrect: false,
-          icon: '❌',
+          icon: '🎂',
         },
         {
           text: 'Cjasto',
           isCorrect: false,
-          icon: '❌',
+          icon: '🎂',
         },
         {
           text: 'Tiasto',
           isCorrect: false,
-          icon: '❌',
+          icon: '🎂',
         },
       ],
     },
@@ -989,17 +989,17 @@ export const wordDatabasePL = {
         {
           text: 'Gwuźdź',
           isCorrect: false,
-          icon: '❌',
+          icon: '🔩',
         },
         {
           text: 'Gwóźć',
           isCorrect: false,
-          icon: '❌',
+          icon: '🔩',
         },
         {
           text: 'Gwoźdź',
           isCorrect: false,
-          icon: '❌',
+          icon: '🔩',
         },
       ],
     },
@@ -1023,17 +1023,17 @@ export const wordDatabasePL = {
         {
           text: 'Tszynaście',
           isCorrect: false,
-          icon: '❌',
+          icon: '🔢',
         },
         {
           text: 'Czrzynaście',
           isCorrect: false,
-          icon: '❌',
+          icon: '🔢',
         },
         {
           text: 'Trzynaśćie',
           isCorrect: false,
-          icon: '❌',
+          icon: '🔢',
         },
       ],
     },
@@ -1057,17 +1057,17 @@ export const wordDatabasePL = {
         {
           text: 'Rzagiel',
           isCorrect: false,
-          icon: '❌',
+          icon: '⛵',
         },
         {
           text: 'Zagiel',
           isCorrect: false,
-          icon: '❌',
+          icon: '⛵',
         },
         {
           text: 'Żagieł',
           isCorrect: false,
-          icon: '❌',
+          icon: '⛵',
         },
       ],
     },
@@ -1091,17 +1091,17 @@ export const wordDatabasePL = {
         {
           text: 'Drzungla',
           isCorrect: false,
-          icon: '❌',
+          icon: '🌴',
         },
         {
           text: 'Żungla',
           isCorrect: false,
-          icon: '❌',
+          icon: '🌴',
         },
         {
           text: 'Dzungla',
           isCorrect: false,
-          icon: '❌',
+          icon: '🌴',
         },
       ],
     },
@@ -1120,9 +1120,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Komfort', isCorrect: true, icon: '📋' },
-        { text: 'Projekt', isCorrect: false, icon: '❌' },
-        { text: 'Budżet', isCorrect: false, icon: '❌' },
-        { text: 'Zespół', isCorrect: false, icon: '❌' },
+        { text: 'Projekt', isCorrect: false, icon: '📋' },
+        { text: 'Budżet', isCorrect: false, icon: '📋' },
+        { text: 'Zespół', isCorrect: false, icon: '📋' },
       ],
     },
     {
@@ -1138,9 +1138,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Kultura', isCorrect: true, icon: '📚' },
-        { text: 'Premia', isCorrect: false, icon: '❌' },
-        { text: 'Rabat', isCorrect: false, icon: '❌' },
-        { text: 'Sektor', isCorrect: false, icon: '❌' },
+        { text: 'Premia', isCorrect: false, icon: '📚' },
+        { text: 'Rabat', isCorrect: false, icon: '📚' },
+        { text: 'Sektor', isCorrect: false, icon: '📚' },
       ],
     },
     {
@@ -1156,9 +1156,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Organizacja', isCorrect: true, icon: '🏢' },
-        { text: 'Inwestycja', isCorrect: false, icon: '❌' },
-        { text: 'Dyrektor', isCorrect: false, icon: '❌' },
-        { text: 'Harmonogram', isCorrect: false, icon: '❌' },
+        { text: 'Inwestycja', isCorrect: false, icon: '🏢' },
+        { text: 'Dyrektor', isCorrect: false, icon: '🏢' },
+        { text: 'Harmonogram', isCorrect: false, icon: '🏢' },
       ],
     },
     {
@@ -1173,10 +1173,10 @@ export const wordDatabasePL = {
         de: 'Welches Wort beginnt mit einem stimmlosen Laut, anders als die übrigen?',
       },
       options: [
-        { text: 'Task', isCorrect: true, icon: '✅' },
-        { text: 'Bank', isCorrect: false, icon: '❌' },
-        { text: 'Dom', isCorrect: false, icon: '❌' },
-        { text: 'Gest', isCorrect: false, icon: '❌' },
+        { text: 'Task', isCorrect: true, icon: '🧠' },
+        { text: 'Bank', isCorrect: false, icon: '🧠' },
+        { text: 'Dom', isCorrect: false, icon: '🧠' },
+        { text: 'Gest', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -1191,10 +1191,10 @@ export const wordDatabasePL = {
         de: 'Welches Wort beginnt NICHT mit einem Nasallaut (m/n), anders als die übrigen?',
       },
       options: [
-        { text: 'Projekt', isCorrect: true, icon: '✅' },
-        { text: 'Market', isCorrect: false, icon: '❌' },
-        { text: 'Narzut', isCorrect: false, icon: '❌' },
-        { text: 'Moduł', isCorrect: false, icon: '❌' },
+        { text: 'Projekt', isCorrect: true, icon: '🧠' },
+        { text: 'Market', isCorrect: false, icon: '🧠' },
+        { text: 'Narzut', isCorrect: false, icon: '🧠' },
+        { text: 'Moduł', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -1209,10 +1209,10 @@ export const wordDatabasePL = {
         de: 'Welches Wort enthält einen Nasalvokal (ą oder ę), den die übrigen nicht haben?',
       },
       options: [
-        { text: 'Wgląd', isCorrect: true, icon: '✅' },
-        { text: 'Rabat', isCorrect: false, icon: '❌' },
-        { text: 'Projekt', isCorrect: false, icon: '❌' },
-        { text: 'Zespół', isCorrect: false, icon: '❌' },
+        { text: 'Wgląd', isCorrect: true, icon: '🧠' },
+        { text: 'Rabat', isCorrect: false, icon: '🧠' },
+        { text: 'Projekt', isCorrect: false, icon: '🧠' },
+        { text: 'Zespół', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -1228,9 +1228,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Morze', isCorrect: true, icon: '🌊' },
-        { text: 'Może', isCorrect: false, icon: '❌' },
-        { text: 'Morzie', isCorrect: false, icon: '❌' },
-        { text: 'Morrze', isCorrect: false, icon: '❌' },
+        { text: 'Może', isCorrect: false, icon: '🌊' },
+        { text: 'Morzie', isCorrect: false, icon: '🌊' },
+        { text: 'Morrze', isCorrect: false, icon: '🌊' },
       ],
     },
     {
@@ -1246,9 +1246,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Bug', isCorrect: true, icon: '🌉' },
-        { text: 'Bóg', isCorrect: false, icon: '❌' },
-        { text: 'Buk', isCorrect: false, icon: '❌' },
-        { text: 'Búg', isCorrect: false, icon: '❌' },
+        { text: 'Bóg', isCorrect: false, icon: '🌉' },
+        { text: 'Buk', isCorrect: false, icon: '🌉' },
+        { text: 'Búg', isCorrect: false, icon: '🌉' },
       ],
     },
     {
@@ -1264,9 +1264,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Kod', isCorrect: true, icon: '🔢' },
-        { text: 'Kot', isCorrect: false, icon: '❌' },
-        { text: 'Kód', isCorrect: false, icon: '❌' },
-        { text: 'Kodd', isCorrect: false, icon: '❌' },
+        { text: 'Kot', isCorrect: false, icon: '🔢' },
+        { text: 'Kód', isCorrect: false, icon: '🔢' },
+        { text: 'Kodd', isCorrect: false, icon: '🔢' },
       ],
     },
     {
@@ -1282,9 +1282,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Obiekt', isCorrect: true, icon: '📋' },
-        { text: 'Rabat', isCorrect: false, icon: '❌' },
-        { text: 'Budżet', isCorrect: false, icon: '❌' },
-        { text: 'Sektor', isCorrect: false, icon: '❌' },
+        { text: 'Rabat', isCorrect: false, icon: '📋' },
+        { text: 'Budżet', isCorrect: false, icon: '📋' },
+        { text: 'Sektor', isCorrect: false, icon: '📋' },
       ],
     },
     {
@@ -1300,9 +1300,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Rektor', isCorrect: true, icon: '🎓' },
-        { text: 'Projekt', isCorrect: false, icon: '❌' },
-        { text: 'Rabat', isCorrect: false, icon: '❌' },
-        { text: 'Termin', isCorrect: false, icon: '❌' },
+        { text: 'Projekt', isCorrect: false, icon: '🎓' },
+        { text: 'Rabat', isCorrect: false, icon: '🎓' },
+        { text: 'Termin', isCorrect: false, icon: '🎓' },
       ],
     },
     {
@@ -1318,9 +1318,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Kontakt', isCorrect: true, icon: '📞' },
-        { text: 'Budżet', isCorrect: false, icon: '❌' },
-        { text: 'Premia', isCorrect: false, icon: '❌' },
-        { text: 'Rabat', isCorrect: false, icon: '❌' },
+        { text: 'Budżet', isCorrect: false, icon: '📞' },
+        { text: 'Premia', isCorrect: false, icon: '📞' },
+        { text: 'Rabat', isCorrect: false, icon: '📞' },
       ],
     },
     {
@@ -1336,9 +1336,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Chemia', isCorrect: true, icon: '🧪' },
-        { text: 'Budżet', isCorrect: false, icon: '❌' },
-        { text: 'Termin', isCorrect: false, icon: '❌' },
-        { text: 'Projekt', isCorrect: false, icon: '❌' },
+        { text: 'Budżet', isCorrect: false, icon: '🧪' },
+        { text: 'Termin', isCorrect: false, icon: '🧪' },
+        { text: 'Projekt', isCorrect: false, icon: '🧪' },
       ],
     },
     {
@@ -1354,9 +1354,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Inspektor', isCorrect: true, icon: '🔍' },
-        { text: 'Menedżer', isCorrect: false, icon: '❌' },
-        { text: 'Specjalista', isCorrect: false, icon: '❌' },
-        { text: 'Konsultant', isCorrect: false, icon: '❌' },
+        { text: 'Menedżer', isCorrect: false, icon: '🔍' },
+        { text: 'Specjalista', isCorrect: false, icon: '🔍' },
+        { text: 'Konsultant', isCorrect: false, icon: '🔍' },
       ],
     },
     {
@@ -1371,10 +1371,10 @@ export const wordDatabasePL = {
         de: 'Welches Wort beginnt mit einem stimmhaften Laut, anders als die übrigen?',
       },
       options: [
-        { text: 'Budżet', isCorrect: true, icon: '✅' },
-        { text: 'Task', isCorrect: false, icon: '❌' },
-        { text: 'Kontrakt', isCorrect: false, icon: '❌' },
-        { text: 'Sektor', isCorrect: false, icon: '❌' },
+        { text: 'Budżet', isCorrect: true, icon: '🧠' },
+        { text: 'Task', isCorrect: false, icon: '🧠' },
+        { text: 'Kontrakt', isCorrect: false, icon: '🧠' },
+        { text: 'Sektor', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -1389,10 +1389,10 @@ export const wordDatabasePL = {
         de: 'Welches Wort beginnt NICHT mit einem Nasallaut (m/n), anders als die übrigen?',
       },
       options: [
-        { text: 'Budżet', isCorrect: true, icon: '✅' },
-        { text: 'Market', isCorrect: false, icon: '❌' },
-        { text: 'Nadzór', isCorrect: false, icon: '❌' },
-        { text: 'Moduł', isCorrect: false, icon: '❌' },
+        { text: 'Budżet', isCorrect: true, icon: '🧠' },
+        { text: 'Market', isCorrect: false, icon: '🧠' },
+        { text: 'Nadzór', isCorrect: false, icon: '🧠' },
+        { text: 'Moduł', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -1407,10 +1407,10 @@ export const wordDatabasePL = {
         de: 'Welches Wort beginnt mit einem Vokal, anders als die übrigen?',
       },
       options: [
-        { text: 'Analiza', isCorrect: true, icon: '✅' },
-        { text: 'Budżet', isCorrect: false, icon: '❌' },
-        { text: 'Kontrakt', isCorrect: false, icon: '❌' },
-        { text: 'Premia', isCorrect: false, icon: '❌' },
+        { text: 'Analiza', isCorrect: true, icon: '🧠' },
+        { text: 'Budżet', isCorrect: false, icon: '🧠' },
+        { text: 'Kontrakt', isCorrect: false, icon: '🧠' },
+        { text: 'Premia', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -1425,10 +1425,10 @@ export const wordDatabasePL = {
         de: 'Welches Wort beginnt mit einem Konsonanten, anders als die übrigen?',
       },
       options: [
-        { text: 'Kontrakt', isCorrect: true, icon: '✅' },
-        { text: 'Analiza', isCorrect: false, icon: '❌' },
-        { text: 'Ekspert', isCorrect: false, icon: '❌' },
-        { text: 'Inwestor', isCorrect: false, icon: '❌' },
+        { text: 'Kontrakt', isCorrect: true, icon: '🧠' },
+        { text: 'Analiza', isCorrect: false, icon: '🧠' },
+        { text: 'Ekspert', isCorrect: false, icon: '🧠' },
+        { text: 'Inwestor', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -1444,9 +1444,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Morze', isCorrect: true, icon: '🌊' },
-        { text: 'Może', isCorrect: false, icon: '❌' },
-        { text: 'Morzie', isCorrect: false, icon: '❌' },
-        { text: 'Możie', isCorrect: false, icon: '❌' },
+        { text: 'Może', isCorrect: false, icon: '🌊' },
+        { text: 'Morzie', isCorrect: false, icon: '🌊' },
+        { text: 'Możie', isCorrect: false, icon: '🌊' },
       ],
     },
     {
@@ -1462,9 +1462,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Kod', isCorrect: true, icon: '🔢' },
-        { text: 'Kot', isCorrect: false, icon: '❌' },
-        { text: 'Kód', isCorrect: false, icon: '❌' },
-        { text: 'Koud', isCorrect: false, icon: '❌' },
+        { text: 'Kot', isCorrect: false, icon: '🔢' },
+        { text: 'Kód', isCorrect: false, icon: '🔢' },
+        { text: 'Koud', isCorrect: false, icon: '🔢' },
       ],
     },
   ],
@@ -1482,9 +1482,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Pieniądze', isCorrect: true, icon: '💰' },
-        { text: 'Współpraca', isCorrect: false, icon: '🤝' },
-        { text: 'Wzrost', isCorrect: false, icon: '📈' },
-        { text: 'Termin', isCorrect: false, icon: '📅' },
+        { text: 'Współpraca', isCorrect: false, icon: '💰' },
+        { text: 'Wzrost', isCorrect: false, icon: '💰' },
+        { text: 'Termin', isCorrect: false, icon: '💰' },
       ],
     },
     {
@@ -1500,9 +1500,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Zamek', isCorrect: true, icon: '🔒' },
-        { text: 'Współpraca', isCorrect: false, icon: '🤝' },
-        { text: 'Wzrost', isCorrect: false, icon: '📈' },
-        { text: 'Termin', isCorrect: false, icon: '📅' },
+        { text: 'Współpraca', isCorrect: false, icon: '🔒' },
+        { text: 'Wzrost', isCorrect: false, icon: '🔒' },
+        { text: 'Termin', isCorrect: false, icon: '🔒' },
       ],
     },
     {
@@ -1518,9 +1518,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Sprawiedliwość', isCorrect: true, icon: '⚖️' },
-        { text: 'Dokument', isCorrect: false, icon: '📄' },
-        { text: 'Firma', isCorrect: false, icon: '🏢' },
-        { text: 'Umowa', isCorrect: false, icon: '🤝' },
+        { text: 'Dokument', isCorrect: false, icon: '⚖️' },
+        { text: 'Firma', isCorrect: false, icon: '⚖️' },
+        { text: 'Umowa', isCorrect: false, icon: '⚖️' },
       ],
     },
     {
@@ -1536,9 +1536,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Rząd', isCorrect: true, icon: '📋' },
-        { text: 'Zarys', isCorrect: false, icon: '❌' },
-        { text: 'Dozór', isCorrect: false, icon: '❌' },
-        { text: 'Radar', isCorrect: false, icon: '❌' },
+        { text: 'Zarys', isCorrect: false, icon: '📋' },
+        { text: 'Dozór', isCorrect: false, icon: '📋' },
+        { text: 'Radar', isCorrect: false, icon: '📋' },
       ],
     },
     {
@@ -1554,9 +1554,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Gospoda', isCorrect: true, icon: '🏨' },
-        { text: 'Podarek', isCorrect: false, icon: '❌' },
-        { text: 'Dorak', isCorrect: false, icon: '❌' },
-        { text: 'Karta', isCorrect: false, icon: '❌' },
+        { text: 'Podarek', isCorrect: false, icon: '🏨' },
+        { text: 'Dorak', isCorrect: false, icon: '🏨' },
+        { text: 'Karta', isCorrect: false, icon: '🏨' },
       ],
     },
     {
@@ -1572,9 +1572,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Rozum', isCorrect: true, icon: '🧠' },
-        { text: 'Umienie', isCorrect: false, icon: '❌' },
-        { text: 'Porozu', isCorrect: false, icon: '❌' },
-        { text: 'Zumienie', isCorrect: false, icon: '❌' },
+        { text: 'Umienie', isCorrect: false, icon: '🧠' },
+        { text: 'Porozu', isCorrect: false, icon: '🧠' },
+        { text: 'Zumienie', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -1590,9 +1590,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Edukacja', isCorrect: true, icon: '🎓' },
-        { text: 'Współpraca', isCorrect: false, icon: '🤝' },
-        { text: 'Wzrost', isCorrect: false, icon: '📈' },
-        { text: 'Termin', isCorrect: false, icon: '📅' },
+        { text: 'Współpraca', isCorrect: false, icon: '🎓' },
+        { text: 'Wzrost', isCorrect: false, icon: '🎓' },
+        { text: 'Termin', isCorrect: false, icon: '🎓' },
       ],
     },
     {
@@ -1608,9 +1608,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Porozumienie', isCorrect: true, icon: '🤝' },
-        { text: 'Pieniądze', isCorrect: false, icon: '💰' },
-        { text: 'Wzrost', isCorrect: false, icon: '📈' },
-        { text: 'Dokument', isCorrect: false, icon: '📄' },
+        { text: 'Pieniądze', isCorrect: false, icon: '🤝' },
+        { text: 'Wzrost', isCorrect: false, icon: '🤝' },
+        { text: 'Dokument', isCorrect: false, icon: '🤝' },
       ],
     },
     {
@@ -1626,9 +1626,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Pomysł', isCorrect: true, icon: '💡' },
-        { text: 'Termin', isCorrect: false, icon: '📅' },
-        { text: 'Pieniądze', isCorrect: false, icon: '💰' },
-        { text: 'Umowa', isCorrect: false, icon: '🤝' },
+        { text: 'Termin', isCorrect: false, icon: '💡' },
+        { text: 'Pieniądze', isCorrect: false, icon: '💡' },
+        { text: 'Umowa', isCorrect: false, icon: '💡' },
       ],
     },
     {
@@ -1644,9 +1644,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Kontrola', isCorrect: true, icon: '🔍' },
-        { text: 'Wzrost', isCorrect: false, icon: '📈' },
-        { text: 'Współpraca', isCorrect: false, icon: '🤝' },
-        { text: 'Szkolenie', isCorrect: false, icon: '🎓' },
+        { text: 'Wzrost', isCorrect: false, icon: '🔍' },
+        { text: 'Współpraca', isCorrect: false, icon: '🔍' },
+        { text: 'Szkolenie', isCorrect: false, icon: '🔍' },
       ],
     },
     {
@@ -1662,9 +1662,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Praca', isCorrect: true, icon: '💼' },
-        { text: 'Prawo', isCorrect: false, icon: '❌' },
-        { text: 'Opieka', isCorrect: false, icon: '❌' },
-        { text: 'Współ', isCorrect: false, icon: '❌' },
+        { text: 'Prawo', isCorrect: false, icon: '💼' },
+        { text: 'Opieka', isCorrect: false, icon: '💼' },
+        { text: 'Współ', isCorrect: false, icon: '💼' },
       ],
     },
     {
@@ -1680,9 +1680,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Bez', isCorrect: true, icon: '➖' },
-        { text: 'Bieg', isCorrect: false, icon: '❌' },
-        { text: 'Wieża', isCorrect: false, icon: '❌' },
-        { text: 'Nurt', isCorrect: false, icon: '❌' },
+        { text: 'Bieg', isCorrect: false, icon: '➖' },
+        { text: 'Wieża', isCorrect: false, icon: '➖' },
+        { text: 'Nurt', isCorrect: false, icon: '➖' },
       ],
     },
     {
@@ -1698,9 +1698,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Staw', isCorrect: true, icon: '🏞️' },
-        { text: 'Staż', isCorrect: false, icon: '❌' },
-        { text: 'Przed', isCorrect: false, icon: '❌' },
-        { text: 'Cielę', isCorrect: false, icon: '❌' },
+        { text: 'Staż', isCorrect: false, icon: '🏞️' },
+        { text: 'Przed', isCorrect: false, icon: '🏞️' },
+        { text: 'Cielę', isCorrect: false, icon: '🏞️' },
       ],
     },
     {
@@ -1716,9 +1716,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Puls', isCorrect: true, icon: '🥁' },
-        { text: 'Cisza', isCorrect: false, icon: '🤫' },
-        { text: 'Zapach', isCorrect: false, icon: '👃' },
-        { text: 'Kolor', isCorrect: false, icon: '🎨' },
+        { text: 'Cisza', isCorrect: false, icon: '🥁' },
+        { text: 'Zapach', isCorrect: false, icon: '🥁' },
+        { text: 'Kolor', isCorrect: false, icon: '🥁' },
       ],
     },
     {
@@ -1734,9 +1734,9 @@ export const wordDatabasePL = {
       },
       options: [
         { text: 'Współpraca', isCorrect: true, icon: '🎶' },
-        { text: 'Konflikt', isCorrect: false, icon: '⚡' },
-        { text: 'Chaos', isCorrect: false, icon: '🌪️' },
-        { text: 'Rywalizacja', isCorrect: false, icon: '🥊' },
+        { text: 'Konflikt', isCorrect: false, icon: '🎶' },
+        { text: 'Chaos', isCorrect: false, icon: '🎶' },
+        { text: 'Rywalizacja', isCorrect: false, icon: '🎶' },
       ],
     },
   ],
@@ -3962,10 +3962,10 @@ export const wordDatabasePL = {
         de: 'Prämisse 1: "Jedes Projekt, das das Budget überschreitet, benötigt die Zustimmung der Geschäftsführung." Prämisse 2: "Projekt X hat das Budget überschritten." Was folgt daraus?',
       },
       options: [
-        { text: 'Wymaga zgody zarządu', isCorrect: true, icon: '✅' },
-        { text: 'Projekt zostanie anulowany', isCorrect: false, icon: '❌' },
-        { text: 'Zespół zostanie ukarany', isCorrect: false, icon: '❌' },
-        { text: 'Nie można nic wywnioskować', isCorrect: false, icon: '❌' },
+        { text: 'Wymaga zgody zarządu', isCorrect: true, icon: '🧠' },
+        { text: 'Projekt zostanie anulowany', isCorrect: false, icon: '🧠' },
+        { text: 'Zespół zostanie ukarany', isCorrect: false, icon: '🧠' },
+        { text: 'Nie można nic wywnioskować', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -3985,9 +3985,9 @@ export const wordDatabasePL = {
           isCorrect: true,
           icon: '📋',
         },
-        { text: 'Transakcja zostanie odrzucona', isCorrect: false, icon: '❌' },
-        { text: 'Nie jest wymagany żaden audyt', isCorrect: false, icon: '❌' },
-        { text: 'Wystarczy zgoda kierownika', isCorrect: false, icon: '❌' },
+        { text: 'Transakcja zostanie odrzucona', isCorrect: false, icon: '📋' },
+        { text: 'Nie jest wymagany żaden audyt', isCorrect: false, icon: '📋' },
+        { text: 'Wystarczy zgoda kierownika', isCorrect: false, icon: '📋' },
       ],
     },
     {
@@ -4010,17 +4010,17 @@ export const wordDatabasePL = {
         {
           text: 'Automatyzacja nie ma wpływu na produktywność',
           isCorrect: false,
-          icon: '❌',
+          icon: '📈',
         },
         {
           text: 'Automatyzacja zawsze zwiększa produktywność o dokładnie 20%',
           isCorrect: false,
-          icon: '❌',
+          icon: '📈',
         },
         {
           text: 'Nie da się nic wywnioskować z tych danych',
           isCorrect: false,
-          icon: '❌',
+          icon: '📈',
         },
       ],
     },
@@ -4041,16 +4041,16 @@ export const wordDatabasePL = {
           isCorrect: true,
           icon: '📊',
         },
-        { text: 'Rynek stale się kurczy', isCorrect: false, icon: '❌' },
+        { text: 'Rynek stale się kurczy', isCorrect: false, icon: '📊' },
         {
           text: 'Wzrost jest całkowicie nieprzewidywalny',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
         {
           text: 'Rok 3 należy zignorować jako błąd danych',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
       ],
     },
@@ -4069,18 +4069,18 @@ export const wordDatabasePL = {
         {
           text: 'Natychmiast wyłączyć system',
           isCorrect: true,
-          icon: '⚠️',
+          icon: '🧠',
         },
         {
           text: 'Zignorować i kontynuować pracę',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
-        { text: 'Poczekać do jutra', isCorrect: false, icon: '❌' },
+        { text: 'Poczekać do jutra', isCorrect: false, icon: '🧠' },
         {
           text: 'Zwiększyć obciążenie serwera',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
       ],
     },
@@ -4099,14 +4099,14 @@ export const wordDatabasePL = {
         {
           text: 'Zgoda dyrektora ORAZ przegląd zakupowy (+5 dni)',
           isCorrect: true,
-          icon: '✅',
+          icon: '🧠',
         },
-        { text: 'Tylko zgoda kierownika', isCorrect: false, icon: '❌' },
-        { text: 'Żadna zgoda nie jest wymagana', isCorrect: false, icon: '❌' },
+        { text: 'Tylko zgoda kierownika', isCorrect: false, icon: '🧠' },
+        { text: 'Żadna zgoda nie jest wymagana', isCorrect: false, icon: '🧠' },
         {
           text: 'Tylko przegląd zakupowy, bez zgody',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
       ],
     },
@@ -4122,10 +4122,10 @@ export const wordDatabasePL = {
         de: 'Prämisse 1: "Alle Mitarbeiter der IT-Abteilung haben Zugriff auf das CRM-System." Prämisse 2: "Anna arbeitet in der IT-Abteilung." Was folgt daraus?',
       },
       options: [
-        { text: 'Anna ma dostęp do systemu CRM', isCorrect: true, icon: '✅' },
-        { text: 'Anna nie pracuje w firmie', isCorrect: false, icon: '❌' },
-        { text: 'Anna jest kierownikiem', isCorrect: false, icon: '❌' },
-        { text: 'Nic nie można wywnioskować', isCorrect: false, icon: '❌' },
+        { text: 'Anna ma dostęp do systemu CRM', isCorrect: true, icon: '🧠' },
+        { text: 'Anna nie pracuje w firmie', isCorrect: false, icon: '🧠' },
+        { text: 'Anna jest kierownikiem', isCorrect: false, icon: '🧠' },
+        { text: 'Nic nie można wywnioskować', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -4140,10 +4140,10 @@ export const wordDatabasePL = {
         de: 'Prämisse 1: "Wenn ein Dokument keine Unterschrift hat, ist es ungültig." Prämisse 2: "Dieses Dokument hat keine Unterschrift." Was folgt daraus?',
       },
       options: [
-        { text: 'Dokument jest nieważny', isCorrect: true, icon: '✅' },
-        { text: 'Dokument jest ważny', isCorrect: false, icon: '❌' },
-        { text: 'Trzeba dodać datę', isCorrect: false, icon: '❌' },
-        { text: 'Nic nie można wywnioskować', isCorrect: false, icon: '❌' },
+        { text: 'Dokument jest nieważny', isCorrect: true, icon: '🧠' },
+        { text: 'Dokument jest ważny', isCorrect: false, icon: '🧠' },
+        { text: 'Trzeba dodać datę', isCorrect: false, icon: '🧠' },
+        { text: 'Nic nie można wywnioskować', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -4158,10 +4158,10 @@ export const wordDatabasePL = {
         de: 'Prämisse 1: "Jedes Produkt mit ISO-Zertifizierung erfüllt die Qualitätsstandards." Prämisse 2: "Dieses Produkt hat eine ISO-Zertifizierung." Was folgt daraus?',
       },
       options: [
-        { text: 'Produkt spełnia normy jakości', isCorrect: true, icon: '✅' },
-        { text: 'Produkt jest wadliwy', isCorrect: false, icon: '❌' },
-        { text: 'Certyfikat wygasł', isCorrect: false, icon: '❌' },
-        { text: 'Nic nie można wywnioskować', isCorrect: false, icon: '❌' },
+        { text: 'Produkt spełnia normy jakości', isCorrect: true, icon: '🧠' },
+        { text: 'Produkt jest wadliwy', isCorrect: false, icon: '🧠' },
+        { text: 'Certyfikat wygasł', isCorrect: false, icon: '🧠' },
+        { text: 'Nic nie można wywnioskować', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -4179,11 +4179,11 @@ export const wordDatabasePL = {
         {
           text: 'Dokument trafi do zarządu i zostanie przeczytany w ciągu 5 dni',
           isCorrect: true,
-          icon: '✅',
+          icon: '🧠',
         },
-        { text: 'Dokument zostanie odrzucony', isCorrect: false, icon: '❌' },
-        { text: 'Zarząd go zignoruje', isCorrect: false, icon: '❌' },
-        { text: 'Nic nie można wywnioskować', isCorrect: false, icon: '❌' },
+        { text: 'Dokument zostanie odrzucony', isCorrect: false, icon: '🧠' },
+        { text: 'Zarząd go zignoruje', isCorrect: false, icon: '🧠' },
+        { text: 'Nic nie można wywnioskować', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -4201,14 +4201,14 @@ export const wordDatabasePL = {
         {
           text: 'Zasada nie została przestrzegana — wymagane wyjaśnienie',
           isCorrect: true,
-          icon: '✅',
+          icon: '🧠',
         },
-        { text: 'To niemożliwe, dane są błędne', isCorrect: false, icon: '❌' },
-        { text: 'Piotr nie jest pracownikiem', isCorrect: false, icon: '❌' },
+        { text: 'To niemożliwe, dane są błędne', isCorrect: false, icon: '🧠' },
+        { text: 'Piotr nie jest pracownikiem', isCorrect: false, icon: '🧠' },
         {
           text: 'Szkolenie nie jest obowiązkowe',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
       ],
     },
@@ -4232,14 +4232,14 @@ export const wordDatabasePL = {
         {
           text: 'Praca zdalna obniża produktywność',
           isCorrect: false,
-          icon: '❌',
+          icon: '📈',
         },
         {
           text: 'Praca zdalna zawsze daje dokładnie 10%',
           isCorrect: false,
-          icon: '❌',
+          icon: '📈',
         },
-        { text: 'Nie da się nic wywnioskować', isCorrect: false, icon: '❌' },
+        { text: 'Nie da się nic wywnioskować', isCorrect: false, icon: '📈' },
       ],
     },
     {
@@ -4258,10 +4258,10 @@ export const wordDatabasePL = {
         {
           text: 'Sprzedaż jest stała przez cały tydzień',
           isCorrect: false,
-          icon: '❌',
+          icon: '📈',
         },
-        { text: 'Sprzedaż maleje w weekendy', isCorrect: false, icon: '❌' },
-        { text: 'Nie da się nic wywnioskować', isCorrect: false, icon: '❌' },
+        { text: 'Sprzedaż maleje w weekendy', isCorrect: false, icon: '📈' },
+        { text: 'Nie da się nic wywnioskować', isCorrect: false, icon: '📈' },
       ],
     },
     {
@@ -4281,13 +4281,13 @@ export const wordDatabasePL = {
           isCorrect: true,
           icon: '📊',
         },
-        { text: 'Metoda A nie działa', isCorrect: false, icon: '❌' },
+        { text: 'Metoda A nie działa', isCorrect: false, icon: '📊' },
         {
           text: 'Grupa 3 popełniła błąd pomiaru',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
-        { text: 'Wyniki są całkowicie losowe', isCorrect: false, icon: '❌' },
+        { text: 'Wyniki są całkowicie losowe', isCorrect: false, icon: '📊' },
       ],
     },
     {
@@ -4310,14 +4310,14 @@ export const wordDatabasePL = {
         {
           text: 'Elastyczne godziny zawsze zwiększają satysfakcję',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
         {
           text: 'Elastyczne godziny nie mają wpływu',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
-        { text: 'Dane są bezużyteczne', isCorrect: false, icon: '❌' },
+        { text: 'Dane są bezużyteczne', isCorrect: false, icon: '📊' },
       ],
     },
     {
@@ -4340,13 +4340,13 @@ export const wordDatabasePL = {
         {
           text: 'Aplikacja jest całkowicie bezużyteczna',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
-        { text: 'Wszyscy klienci są zadowoleni', isCorrect: false, icon: '❌' },
+        { text: 'Wszyscy klienci są zadowoleni', isCorrect: false, icon: '📊' },
         {
           text: 'Dane są sprzeczne i nieprzydatne',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
       ],
     },
@@ -4362,10 +4362,10 @@ export const wordDatabasePL = {
         de: 'Regel: "Wenn ein Kunde eine Rechnung nicht innerhalb von 30 Tagen bezahlt, DANN werden Zinsen berechnet." Der Kunde hat nach 35 Tagen bezahlt. Was passiert?',
       },
       options: [
-        { text: 'Naliczane są odsetki', isCorrect: true, icon: '✅' },
-        { text: 'Faktura zostaje anulowana', isCorrect: false, icon: '❌' },
-        { text: 'Nic się nie dzieje', isCorrect: false, icon: '❌' },
-        { text: 'Klient otrzymuje rabat', isCorrect: false, icon: '❌' },
+        { text: 'Naliczane są odsetki', isCorrect: true, icon: '🧠' },
+        { text: 'Faktura zostaje anulowana', isCorrect: false, icon: '🧠' },
+        { text: 'Nic się nie dzieje', isCorrect: false, icon: '🧠' },
+        { text: 'Klient otrzymuje rabat', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -4380,10 +4380,10 @@ export const wordDatabasePL = {
         de: 'Regel: "Wenn die Luftfeuchtigkeit im Lager 70 % überschreitet UND die Ware feuchtigkeitsempfindlich ist, DANN muss sie umgelagert werden." Die Luftfeuchtigkeit beträgt 75 %, die Ware ist feuchtigkeitsempfindlich. Was ist zu tun?',
       },
       options: [
-        { text: 'Przenieść towar', isCorrect: true, icon: '✅' },
-        { text: 'Nic nie robić', isCorrect: false, icon: '❌' },
-        { text: 'Zwiększyć wilgotność', isCorrect: false, icon: '❌' },
-        { text: 'Wyrzucić towar', isCorrect: false, icon: '❌' },
+        { text: 'Przenieść towar', isCorrect: true, icon: '🧠' },
+        { text: 'Nic nie robić', isCorrect: false, icon: '🧠' },
+        { text: 'Zwiększyć wilgotność', isCorrect: false, icon: '🧠' },
+        { text: 'Wyrzucić towar', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -4398,10 +4398,10 @@ export const wordDatabasePL = {
         de: 'Regeln: (1) Wenn der Fehler kritisch ist — sofortige Behebung. (2) Wenn der Fehler geringfügig ist — Behebung im nächsten Zyklus. (3) Wenn er die Sicherheit betrifft — immer sofortige Behebung, auch wenn geringfügig. Szenario: ein geringfügiger sicherheitsrelevanter Fehler. Was ist zu tun?',
       },
       options: [
-        { text: 'Naprawić natychmiast', isCorrect: true, icon: '✅' },
-        { text: 'Naprawić w kolejnym cyklu', isCorrect: false, icon: '❌' },
-        { text: 'Zignorować błąd', isCorrect: false, icon: '❌' },
-        { text: 'Poczekać na decyzję klienta', isCorrect: false, icon: '❌' },
+        { text: 'Naprawić natychmiast', isCorrect: true, icon: '🧠' },
+        { text: 'Naprawić w kolejnym cyklu', isCorrect: false, icon: '🧠' },
+        { text: 'Zignorować błąd', isCorrect: false, icon: '🧠' },
+        { text: 'Poczekać na decyzję klienta', isCorrect: false, icon: '🧠' },
       ],
     },
     {
@@ -4419,14 +4419,14 @@ export const wordDatabasePL = {
         {
           text: 'Uruchamiany jest dodatkowy zespół wsparcia',
           isCorrect: true,
-          icon: '✅',
+          icon: '🧠',
         },
-        { text: 'Nic się nie zmienia', isCorrect: false, icon: '❌' },
-        { text: 'Zgłoszenia zostają odrzucone', isCorrect: false, icon: '❌' },
+        { text: 'Nic się nie zmienia', isCorrect: false, icon: '🧠' },
+        { text: 'Zgłoszenia zostają odrzucone', isCorrect: false, icon: '🧠' },
         {
           text: 'Zespół wsparcia zostaje zmniejszony',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
       ],
     },
@@ -5565,7 +5565,7 @@ export const wordDatabasePL = {
         {
           id: 'niewym',
           label: 'ó niewymienne',
-          icon: '❌',
+          icon: '🔒',
         },
       ],
       items: [
