@@ -238,6 +238,7 @@
       "readAloud": "Czytanie na głos",
       "comprehension": "Czytanie ze zrozumieniem",
       "rhythm": "Rytm sylabowy",
+      "graphemePhoneme": "Dopasowanie grafem-fonem",
       "clock": "Odczytywanie zegara",
       "tracking": "Mapowanie przestrzenne",
       "mirrorImage": "Lustrzane odbicie",
