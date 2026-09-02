@@ -20,16 +20,18 @@ function NavButton({
   label,
   ariaLabel = label,
   badge = false,
+  disabled = false,
 }) {
   return (
     <button
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick}
+      disabled={disabled}
       // `min-h-14` (56px) mirrors SidebarNav/the exercise Skip button's own
       // bigTargets sizing (WCAG 2.5.5/2.5.8 target size) — without it, this
       // bar's per-button width is only whatever `flex-1` divides the
       // viewport into, which happily satisfies 56px on a typical phone but
       // isn't guaranteed to (narrow devices, 5 items when Garden is shown).
-      className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl transition-all duration-300 active:scale-95 ${bigTargets ? 'min-h-14 p-3' : 'p-2'} ${
+      className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl transition-all duration-300 active:scale-95 ${bigTargets ? 'min-h-14 p-3' : 'p-2'} ${disabled && !isActive ? 'cursor-not-allowed opacity-40' : ''} ${
         isActive
           ? isHighContrast
             ? 'bg-white/20 font-black text-white shadow-sm'
@@ -95,77 +97,95 @@ function BottomNavComponent({
   onOpenSettings,
   onOpenSurvey,
   vibrate,
+  // Non-null while a guided study block is running — see SidebarNav.jsx's
+  // identical prop for why pillar/Garden/Survey nav is disabled for its
+  // duration instead of left to double as free navigation.
+  studyProgressLabel = null,
 }) {
   const gardenIcon =
     t('levelIcons', { returnObjects: true })?.[theme]?.[0] || '🌱';
+  const pillarsLocked = !!studyProgressLabel;
 
   return (
-    <nav
-      className={`z-40 flex shrink-0 items-center justify-around border-t px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] transition-colors lg:hidden ${isHighContrast ? 'border-white/20 bg-black' : 'border-slate-100 bg-white'}`}
-      aria-label={t('navAria') || 'Main Navigation'}
-    >
-      {pillars.map((pillar) => {
-        const label = t('pillars', { returnObjects: true })?.[pillar] || pillar;
-        return (
+    <div className="shrink-0 lg:hidden">
+      {studyProgressLabel && (
+        <p
+          className={`px-2 py-1 text-center text-[10px] font-bold tracking-wide uppercase ${isHighContrast ? 'bg-black text-white/70' : 'bg-white text-slate-500'}`}
+        >
+          {studyProgressLabel}
+        </p>
+      )}
+      <nav
+        className={`z-40 flex items-center justify-around border-t px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] transition-colors ${isHighContrast ? 'border-white/20 bg-black' : 'border-slate-100 bg-white'}`}
+        aria-label={t('navAria') || 'Main Navigation'}
+      >
+        {pillars.map((pillar) => {
+          const label =
+            t('pillars', { returnObjects: true })?.[pillar] || pillar;
+          return (
+            <NavButton
+              key={pillar}
+              onClick={() => {
+                vibrate(15);
+                onTabChange(pillar);
+              }}
+              disabled={pillarsLocked}
+              isActive={activeTab === pillar}
+              isHighContrast={isHighContrast}
+              themeStyles={themeStyles}
+              noFlash={noFlash}
+              bigTargets={bigTargets}
+              activeGlow
+              icon={PILLAR_ICONS[pillar]}
+              label={label}
+            />
+          );
+        })}
+
+        {isGamified && !pillarsLocked && (
           <NavButton
-            key={pillar}
             onClick={() => {
               vibrate(15);
-              onTabChange(pillar);
+              onGardenClick();
             }}
-            isActive={activeTab === pillar}
+            isActive={activeTab === 'Garden'}
             isHighContrast={isHighContrast}
             themeStyles={themeStyles}
             noFlash={noFlash}
             bigTargets={bigTargets}
-            activeGlow
-            icon={PILLAR_ICONS[pillar]}
-            label={label}
+            icon={gardenIcon}
+            label={t('garden') || 'Garden'}
           />
-        );
-      })}
+        )}
 
-      {isGamified && (
+        {!pillarsLocked && (
+          <NavButton
+            onClick={() => {
+              vibrate(15);
+              onOpenSurvey();
+            }}
+            isHighContrast={isHighContrast}
+            themeStyles={themeStyles}
+            bigTargets={bigTargets}
+            icon="📝"
+            label={t('surveyAria') || 'Survey'}
+          />
+        )}
+
         <NavButton
           onClick={() => {
             vibrate(15);
-            onGardenClick();
+            onOpenSettings();
           }}
-          isActive={activeTab === 'Garden'}
           isHighContrast={isHighContrast}
           themeStyles={themeStyles}
-          noFlash={noFlash}
           bigTargets={bigTargets}
-          icon={gardenIcon}
-          label={t('garden') || 'Garden'}
+          icon="⚙️"
+          label={t('settings') || 'Settings'}
+          ariaLabel={t('settingsAria') || 'Settings'}
         />
-      )}
-
-      <NavButton
-        onClick={() => {
-          vibrate(15);
-          onOpenSurvey();
-        }}
-        isHighContrast={isHighContrast}
-        themeStyles={themeStyles}
-        bigTargets={bigTargets}
-        icon="📝"
-        label={t('surveyAria') || 'Survey'}
-      />
-
-      <NavButton
-        onClick={() => {
-          vibrate(15);
-          onOpenSettings();
-        }}
-        isHighContrast={isHighContrast}
-        themeStyles={themeStyles}
-        bigTargets={bigTargets}
-        icon="⚙️"
-        label={t('settings') || 'Settings'}
-        ariaLabel={t('settingsAria') || 'Settings'}
-      />
-    </nav>
+      </nav>
+    </div>
   );
 }
 

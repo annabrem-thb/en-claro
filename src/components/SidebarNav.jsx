@@ -25,7 +25,13 @@ const SidebarNav = memo(function SidebarNav({
   speak,
   noFlash,
   bionicReading = false,
+  // Non-null while a guided study block is running: pillar/Garden/Survey
+  // nav is disabled (the block owns navigation — see App.jsx's
+  // handleTabChange/handleGardenClick guards) and this replaces them with
+  // a small "which block, which pillar" readout instead.
+  studyProgressLabel = null,
 }) {
+  const pillarsLocked = !!studyProgressLabel;
   const animClass = noFlash
     ? ''
     : 'animate-in fade-in slide-in-from-bottom-12 lg:slide-in-from-bottom-0 lg:slide-in-from-left-12 duration-700 ease-out';
@@ -117,10 +123,12 @@ const SidebarNav = memo(function SidebarNav({
             >
               <button
                 onClick={() => {
+                  if (pillarsLocked) return;
                   speak(label, true);
                   onTabChange(p);
                 }}
-                className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+                disabled={pillarsLocked}
+                className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${pillarsLocked && !isSelected ? 'cursor-not-allowed opacity-40' : ''} ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
                 aria-current={isSelected ? 'page' : undefined}
                 aria-label={label}
               >
@@ -157,6 +165,14 @@ const SidebarNav = memo(function SidebarNav({
           );
         })}
 
+        {studyProgressLabel && (
+          <p
+            className={`px-1 py-1 text-center text-[10px] font-bold tracking-wide uppercase lg:px-2 lg:text-left ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+          >
+            {studyProgressLabel}
+          </p>
+        )}
+
         <div
           className={`my-2 hidden border-t lg:block ${isHighContrast ? 'border-white/20' : themeStyles.border}`}
         />
@@ -164,7 +180,7 @@ const SidebarNav = memo(function SidebarNav({
           className={`my-1 block w-px border-l lg:hidden ${isHighContrast ? 'border-white/20' : themeStyles.border}`}
         />
 
-        {isGamified && (
+        {isGamified && !pillarsLocked && (
           <Tooltip
             content={`${t('shortcut') || 'Shortcut'}: Ctrl + 4`}
             placement="top"
@@ -269,40 +285,45 @@ const SidebarNav = memo(function SidebarNav({
         {}
         {/* Lets a user open the feedback survey on their own terms rather
             than only when it auto-appears every 10 points — placed directly
-            above Settings, the item it's most often reached for alongside. */}
-        <Tooltip
-          content={t('surveyAria')}
-          placement="top"
-          isHighContrast={isHighContrast}
-          wrapperClass={`flex-1 lg:flex-none flex ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 lg:mt-0' : 'lg:mt-auto'}`}
-        >
-          <button
-            onClick={() => {
-              speak(t('surveyAria'), true);
-              onOpenSurvey();
-            }}
-            className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
-            aria-label={t('surveyAria')}
+            above Settings, the item it's most often reached for alongside.
+            Hidden during a guided study block's task phase: that block's
+            survey opens itself right on time, and a manual open here in the
+            meantime would just be a second, empty submission. */}
+        {!pillarsLocked && (
+          <Tooltip
+            content={t('surveyAria')}
+            placement="top"
+            isHighContrast={isHighContrast}
+            wrapperClass={`flex-1 lg:flex-none flex ${isGamified || (!isInstalled && installPrompt) ? 'mt-2 lg:mt-0' : 'lg:mt-auto'}`}
           >
-            <span
-              className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
-              aria-hidden="true"
+            <button
+              onClick={() => {
+                speak(t('surveyAria'), true);
+                onOpenSurvey();
+              }}
+              className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+              aria-label={t('surveyAria')}
             >
-              📝
-            </span>
-            <AccessibleTTS
-              text={t('surveyAria')}
-              speak={speak}
-              language={language}
-              className="flex min-w-0 lg:flex"
-              interactive={false}
-            >
-              <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                {t('surveyAria')}
+              <span
+                className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
+                aria-hidden="true"
+              >
+                📝
               </span>
-            </AccessibleTTS>
-          </button>
-        </Tooltip>
+              <AccessibleTTS
+                text={t('surveyAria')}
+                speak={speak}
+                language={language}
+                className="flex min-w-0 lg:flex"
+                interactive={false}
+              >
+                <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
+                  {t('surveyAria')}
+                </span>
+              </AccessibleTTS>
+            </button>
+          </Tooltip>
+        )}
 
         <Tooltip
           content={`${t('shortcut') || 'Shortcut'}: Ctrl + ,`}
