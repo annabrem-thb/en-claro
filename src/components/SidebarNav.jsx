@@ -125,7 +125,7 @@ const SidebarNav = memo(function SidebarNav({
                 aria-label={label}
               >
                 <span
-                  className="text-xl lg:text-xl"
+                  className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
                   aria-hidden="true"
                 >
                   {PILLAR_ICONS[p]}
@@ -181,7 +181,7 @@ const SidebarNav = memo(function SidebarNav({
               aria-label={t('garden') || 'Garden'}
             >
               <span
-                className="text-xl lg:text-xl"
+                className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
                 aria-hidden="true"
               >
                 {t('levelIcons', { returnObjects: true })?.[theme]?.[0] || '🌱'}
@@ -246,7 +246,7 @@ const SidebarNav = memo(function SidebarNav({
               aria-label={t('installApp') || 'Install App'}
             >
               <span
-                className="text-xl lg:text-xl"
+                className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
                 aria-hidden="true"
               >
                 📱
@@ -285,7 +285,7 @@ const SidebarNav = memo(function SidebarNav({
             aria-label={t('surveyAria')}
           >
             <span
-              className="text-xl lg:text-xl"
+              className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
               aria-hidden="true"
             >
               📝
@@ -319,7 +319,7 @@ const SidebarNav = memo(function SidebarNav({
             aria-label={t('settingsAria')}
           >
             <span
-              className="text-xl lg:text-xl"
+              className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
               aria-hidden="true"
             >
               ⚙️

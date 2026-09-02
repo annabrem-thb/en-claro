@@ -1,6 +1,7 @@
 {
   "title": "Chwila na refleksję",
   "desc": "Jak oceniasz dzisiejszą sesję? Twoja opinia pomaga nam dostosować aplikację do Ciebie.",
+  "privacyNotice": "Po wysłaniu formularza Twoje odpowiedzi z tej strony, wraz z losowo wygenerowanym identyfikatorem niepowiązanym z Twoim imieniem i nazwiskiem, użytą wersją aplikacji, językiem, motywem oraz aktywnymi ustawieniami ułatwień, zostaną przesłane na serwer i zapisane wyłącznie na potrzeby ewaluacji tej pracy magisterskiej. Nie są przesyłane żadne dane osobowe, kontaktowe ani treści Twoich ćwiczeń.",
   "nasaTitle": "Obciążenie (NASA-TLX)",
   "low": "Niski",
   "high": "Wysoki",
