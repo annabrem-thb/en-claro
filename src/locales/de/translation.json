@@ -11,6 +11,7 @@
     "appMode": "Modus",
     "modeClassic": "Nur Lernen",
     "modeGamified": "Spiel (Belohnungen)",
+    "modeLocked": "Schaltet sich nach {{count}} weiteren abgeschlossenen Übungen frei",
     "a11y": "Komfort-Werkzeuge",
     "lrs": "Zusätzlicher Leseabstand",
     "contrast": "Kontrast",

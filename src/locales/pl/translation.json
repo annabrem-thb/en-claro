@@ -10,6 +10,7 @@
     "appMode": "Tryb",
     "modeClassic": "Tylko nauka",
     "modeGamified": "Gra (nagrody)",
+    "modeLocked": "Odblokuje się po {{count}} kolejnych ukończonych ćwiczeniach",
     "a11y": "Narzędzia komfortu",
     "lrs": "Dodatkowe odstępy w czytaniu",
     "contrast": "Kontrast",
