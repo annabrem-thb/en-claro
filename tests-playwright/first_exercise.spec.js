@@ -18,14 +18,11 @@ test.describe('Dyslexia PWA - Pierwsze uruchomienie i ćwiczenie', () => {
     await page.locator('text=/Rozpocznij|Start/i').click();
 
     // Weryfikacja załadowania głównego interfejsu aplikacji
-    // `<aside>` is SidebarNav's own tag, but it's desktop-only — below the
-    // `lg:` breakpoint (Tablet/Mobile projects) it's CSS-hidden in favor of
-    // BottomNav, which is a `<nav>`, not an `<aside>`. Checking for a
-    // visible navigation landmark (either one) instead of a specific tag
-    // makes this assertion viewport-agnostic.
-    await expect(
-      page.getByRole('navigation').locator('visible=true').first(),
-    ).toBeVisible();
+    // Nav (SidebarNav/BottomNav) is unmounted entirely while a task is
+    // actively being processed (Stage 2D) — not just CSS-hidden per
+    // breakpoint — so it can't be asserted visible here; the main content
+    // region below is the reliable "app loaded" signal instead.
+    await expect(page.locator('#main-content')).toBeVisible();
     await expect(page.locator('section')).toBeVisible();
 
     await expect(page.locator('text=/Brak zadań|No tasks/i')).not.toBeVisible();
