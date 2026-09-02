@@ -239,6 +239,7 @@
       "readAloud": "Lautes Vorlesen",
       "comprehension": "Leseverständnis",
       "rhythm": "Silbenrhythmus",
+      "graphemePhoneme": "Graphem-Phonem-Zuordnung",
       "clock": "Uhrzeit lesen",
       "tracking": "Räumliche Zuordnung",
       "mirrorImage": "Spiegelbild",
