@@ -296,10 +296,9 @@ export function useExerciseSession({
     setErrorCounter(0);
     if (inclusiveOptions.audioRewards && !inclusiveOptions.muteNotifications)
       playThemeSound(theme);
-    const successMsgs = t('successMsg', { returnObjects: true });
-    const msg = Array.isArray(successMsgs)
-      ? successMsgs[Math.floor(Math.random() * successMsgs.length)]
-      : successMsgs;
+    const msg = currentTask?.focus
+      ? t('feedback.correctWithRule', { rule: currentTask.focus })
+      : t('feedback.correct');
     setFeedback({ type: 'success', msg });
     const voiceSuccess = t('voice.success', { returnObjects: true });
     const voiceSuccessMsg = Array.isArray(voiceSuccess)
@@ -331,6 +330,7 @@ export function useExerciseSession({
   }, [
     consecutiveCorrect,
     activeTab,
+    currentTask,
     t,
     speak,
     growthValue,
@@ -356,15 +356,18 @@ export function useExerciseSession({
       setUserDifficulty((prev) => Math.max(prev - 1, 1));
       setErrorCounter(0);
     }
+    const msg = currentTask?.focus
+      ? t('feedback.incorrectWithRule', { rule: currentTask.focus })
+      : t('feedback.incorrect');
+    setFeedback({ type: 'error', msg });
     const voiceError = t('voice.error', { returnObjects: true });
-    const errorMsg = Array.isArray(voiceError)
+    const voiceErrorMsg = Array.isArray(voiceError)
       ? voiceError[Math.floor(Math.random() * voiceError.length)]
       : voiceError || "Let's look closer at this one together.";
-    setFeedback({ type: 'error', msg: errorMsg });
     // Same fix as handleSuccess above: respect the global voiceAssistant
     // toggle, not just muteNotifications.
     if (inclusiveOptions.voiceAssistant && !inclusiveOptions.muteNotifications)
-      speak(errorMsg);
+      speak(voiceErrorMsg);
     saveLog('exercise_history', {
       date: new Date().toISOString(),
       type: activeTab,
@@ -377,6 +380,7 @@ export function useExerciseSession({
     inclusiveOptions,
     userDifficulty,
     activeTab,
+    currentTask,
     setErrorTimestamps,
     setUserDifficulty,
   ]);

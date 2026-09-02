@@ -40,5 +40,9 @@
   "rateAria": "Oceń {{value}} na 5",
   "submit": "Zapisz i kontynuuj",
   "skip": "Pomiń tym razem",
-  "thankYou": "Dziękujemy za Twoją opinię!"
+  "thankYou": "Dziękujemy za Twoją opinię!",
+  "correct": "Poprawnie.",
+  "correctWithRule": "Poprawnie. Zasada: {{rule}}",
+  "incorrect": "Niepoprawnie.",
+  "incorrectWithRule": "Niepoprawnie. Zasada: {{rule}}"
 }
