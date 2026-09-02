@@ -82,6 +82,13 @@ export function useExerciseSession({
   // on screen while it does.
   onUnitCompleted,
   setErrorTimestamps,
+  // Non-null while a guided study block is working through the current
+  // pillar: restricts the task pool to this fixed set of exercise-type keys
+  // (assigned once per participant — see useStudyModeState.js's
+  // exercisePlan) instead of every active type, so the same handful of
+  // types get exercised in both the classic and gamified blocks rather than
+  // each block landing on whatever the round-robin happens to shuffle up.
+  studyExerciseTypes,
 }) {
   const [currentIndex, setCurrentIndex] = useState(
     () => Number(localStorage.getItem('idx')) || 0,
@@ -192,7 +199,13 @@ export function useExerciseSession({
         rawTasks = [];
     }
 
-    let tasks = rawTasks;
+    // Falls back to the full pillar pool if the assigned types happen to
+    // have zero items for this participant's content set/language — an
+    // empty screen would be worse than a task from outside the plan.
+    const studyFiltered = studyExerciseTypes
+      ? rawTasks.filter((task) => studyExerciseTypes.includes(task.__exerciseType))
+      : rawTasks;
+    let tasks = studyExerciseTypes && studyFiltered.length === 0 ? rawTasks : studyFiltered;
     let filteredTasks = tasks;
     if (inclusiveOptions.adaptiveDifficulty) {
       filteredTasks = tasks.filter((task) => {
@@ -257,6 +270,7 @@ export function useExerciseSession({
     userDifficulty,
     cycle,
     studySet,
+    studyExerciseTypes,
   ]);
 
   const safeIndex = currentIndex % (activePillarTasks.length || 1);

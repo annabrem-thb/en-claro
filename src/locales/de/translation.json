@@ -423,7 +423,7 @@
     "infoText": "Führt Sie automatisch durch zwei kurze Übungsblöcke – einen ohne, einen mit Spielelementen – mit je einem kurzen Fragebogen danach. Antworten werden anonymisiert nur für diese Abschlussarbeit gespeichert, ohne Namen oder Übungsinhalte. Ausschalten für freie Nutzung ohne diese Vorgaben.",
     "completeTitle": "Vielen Dank für Ihre Teilnahme!",
     "completeMessage": "Beide Übungsblöcke und Fragebögen sind abgeschlossen. Sie können die App ab jetzt frei weiter nutzen.",
-    "progressLabel": "Block {{block}}/2 · {{pillar}} {{count}}/3",
+    "progressLabel": "Block {{block}}/2 · {{pillar}} {{count}}/{{total}}",
     "currentVariantClassic": "Aktueller Modus: Nur Lernen",
     "currentVariantGamified": "Aktueller Modus: Spiel (Belohnungen)"
   },

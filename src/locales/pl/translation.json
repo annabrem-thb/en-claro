@@ -425,7 +425,7 @@
     "infoText": "Automatycznie prowadzi Cię przez dwa krótkie bloki ćwiczeń – jeden bez i jeden z elementami grywalizacji – a po każdym krótka ankieta. Odpowiedzi są zapisywane anonimowo wyłącznie na potrzeby tej pracy magisterskiej, bez danych osobowych i treści ćwiczeń. Wyłącz, aby korzystać swobodnie bez tej struktury.",
     "completeTitle": "Dziękujemy za udział!",
     "completeMessage": "Oba bloki ćwiczeń i ankiety zostały ukończone. Możesz teraz swobodnie korzystać z aplikacji.",
-    "progressLabel": "Blok {{block}}/2 · {{pillar}} {{count}}/3",
+    "progressLabel": "Blok {{block}}/2 · {{pillar}} {{count}}/{{total}}",
     "currentVariantClassic": "Aktualny tryb: Tylko nauka",
     "currentVariantGamified": "Aktualny tryb: Gra (nagrody)"
   },

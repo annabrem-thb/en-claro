@@ -321,6 +321,7 @@ function AppContent() {
             t('pillars', { returnObjects: true })?.[studyMode.currentPillar] ||
             studyMode.currentPillar,
           count: studyMode.pillarCount + 1,
+          total: studyMode.pillarTotal,
         })
       : null;
 
@@ -406,6 +407,10 @@ function AppContent() {
     setGrowthValue,
     onUnitCompleted: notifyUnitCompleted,
     setErrorTimestamps,
+    studyExerciseTypes:
+      studyMode.isActive && studyMode.phase === 'tasks'
+        ? studyMode.currentExerciseTypes
+        : null,
   });
 
   // Growth is independent of correctness and retries, so skipping a task
