@@ -239,6 +239,7 @@
       "readAloud": "Oral Reading",
       "comprehension": "Reading Comprehension",
       "rhythm": "Syllable Rhythm",
+      "graphemePhoneme": "Grapheme-Phoneme Matching",
       "clock": "Clock Reading",
       "tracking": "Spatial Mapping",
       "mirrorImage": "Mirror Image",
