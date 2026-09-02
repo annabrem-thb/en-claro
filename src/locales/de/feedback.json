@@ -40,5 +40,9 @@
   "rateAria": "{{value}} von 5 bewerten",
   "submit": "Feedback senden",
   "skip": "Diesmal überspringen",
-  "thankYou": "Vielen Dank für Ihr Feedback!"
+  "thankYou": "Vielen Dank für Ihr Feedback!",
+  "correct": "Richtig.",
+  "correctWithRule": "Richtig. Regel: {{rule}}",
+  "incorrect": "Nicht richtig.",
+  "incorrectWithRule": "Nicht richtig. Regel: {{rule}}"
 }

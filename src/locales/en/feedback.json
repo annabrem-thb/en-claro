@@ -21,5 +21,9 @@
   "rateAria": "Rate {{value}} out of 5",
   "submit": "Save and continue",
   "skip": "Skip this time",
-  "thankYou": "Thank you for your feedback!"
+  "thankYou": "Thank you for your feedback!",
+  "correct": "Correct.",
+  "correctWithRule": "Correct. Rule: {{rule}}",
+  "incorrect": "Not correct.",
+  "incorrectWithRule": "Not correct. Rule: {{rule}}"
 }

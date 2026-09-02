@@ -59,20 +59,6 @@
   "readAloudTitle": "Read aloud",
   "ttsLocalDownloadError": "Couldn't load the voice engine — check your connection and try again.",
   "ttsLocalEngineError": "Something went wrong reading this aloud — try again.",
-  "successMsg": [
-    "Great!",
-    "Excellent!",
-    "Wonderful!",
-    "Super!",
-    "You've got this!",
-    "That's real progress."
-  ],
-  "errorMsg": [
-    "Let's analyze this together.",
-    "Let's try again.",
-    "Almost right, look again.",
-    "That's a normal part of learning."
-  ],
   "levelUp": "Level Up!",
   "levelUpTitle": "Your garden is growing!",
   "levelUpDesc": "Another goal behind you — your consistency is paying off.",
@@ -379,13 +365,6 @@
   "gardenEmpty": "Your own ecosystem. It will grow as you progress.",
   "srPlantFeature": "Your journey currently features",
   "dailyGoalProgress": "Daily Goal Progress",
-  "rewardItems": {
-    "Natur": ["🍀", "🌸", "🦋", "🐝", "🌈"],
-    "Musik": ["🎵", "🎶", "🎤", "🎸", "🎧"],
-    "Kunst": ["🎨", "🖌️", "🖼️", "💎", "✨"],
-    "Space": ["🚀", "🌟", "🛸", "🪐", "☄️"],
-    "Ocean": ["🐚", "🐠", "🌊", "⚓", "🐬"]
-  },
   "dailyGoal": "Daily goal",
   "goal5": "5 min — Step",
   "goal10": "10 min — Habit",
@@ -655,7 +634,7 @@
     "title": "Your Impact",
     "desc": "Your progress supports real-world goals. Every 10 points contributes to one virtually planted tree.",
     "treesPlanted": "Trees Planted",
-    "newTreeTitle": "New Tree! 🎉",
-    "newTreeMsg": "Amazing! Your consistent learning helped us virtually plant another tree."
+    "newTreeTitle": "New tree",
+    "newTreeMsg": "Your consistent learning helped plant another tree, virtually."
   }
 }

@@ -25,26 +25,36 @@ const EMOJI_PATTERN = /\p{Extended_Pictographic}/u;
 
 describe('feedback strings stay free of exclamation marks and emoji', () => {
   const translation = JSON.parse(read('locales/de/translation.json'));
+  const feedback = JSON.parse(read('locales/de/feedback.json'));
 
-  // Keys that carry user-facing praise/feedback copy. Nested paths (e.g.
-  // "voice.streak") are looked up dot-by-dot.
-  const CHECKED_KEYS = [
-    'successMsg',
-    'errorMsg',
-    'streakMsg',
-    'rewardItems',
-    'realWorldImpact.newTreeTitle',
-    'realWorldImpact.newTreeMsg',
-    'voice.success',
-    'voice.streak',
-    'voice.error',
+  // Keys that carry user-facing praise/feedback copy, per source file.
+  // Nested paths are looked up dot-by-dot. Exercise-answer feedback
+  // (correct/incorrect) lives in feedback.json, not translation.json — it's
+  // merged into i18next's single "feedback" namespace object alongside the
+  // end-of-session survey strings (see src/locales/de.js), so `t('feedback.
+  // correct')` resolves there, not to a "feedback" key inside
+  // translation.json (which would in fact be silently overwritten by that
+  // merge — the two must never both define a top-level "feedback" key).
+  const CHECKED = [
+    { file: 'locales/de/translation.json', data: translation, keys: [
+      'realWorldImpact.newTreeTitle',
+      'realWorldImpact.newTreeMsg',
+      'voice.success',
+      'voice.error',
+    ] },
+    { file: 'locales/de/feedback.json', data: feedback, keys: [
+      'correct',
+      'correctWithRule',
+      'incorrect',
+      'incorrectWithRule',
+    ] },
   ];
 
   const resolve = (obj, dottedKey) =>
     dottedKey.split('.').reduce((node, key) => node?.[key], obj);
 
   // Flattens whatever shape a resolved value has (string, array, or a
-  // theme-keyed object of arrays, as rewardItems is) into a flat string list.
+  // nested object of strings/arrays) into a flat string list.
   const flattenStrings = (value) => {
     if (typeof value === 'string') return [value];
     if (Array.isArray(value)) return value.flatMap(flattenStrings);
@@ -53,22 +63,25 @@ describe('feedback strings stay free of exclamation marks and emoji', () => {
     return [];
   };
 
-  for (const key of CHECKED_KEYS) {
-    it(`de/translation.json "${key}" has no "!" and no emoji`, () => {
-      const value = resolve(translation, key);
-      expect(value, `expected "${key}" to exist in translation.json`).toBeDefined();
-      const strings = flattenStrings(value);
-      expect(strings.length).toBeGreaterThan(0);
-      for (const s of strings) {
-        expect(s.includes('!'), `"${key}" contains "!": ${JSON.stringify(s)}`).toBe(
-          false,
-        );
-        expect(
-          EMOJI_PATTERN.test(s),
-          `"${key}" contains an emoji: ${JSON.stringify(s)}`,
-        ).toBe(false);
-      }
-    });
+  for (const { file, data, keys } of CHECKED) {
+    for (const key of keys) {
+      it(`${file} "${key}" has no "!" and no emoji`, () => {
+        const value = resolve(data, key);
+        expect(value, `expected "${key}" to exist in ${file}`).toBeDefined();
+        const strings = flattenStrings(value);
+        expect(strings.length).toBeGreaterThan(0);
+        for (const s of strings) {
+          expect(
+            s.includes('!'),
+            `"${key}" contains "!": ${JSON.stringify(s)}`,
+          ).toBe(false);
+          expect(
+            EMOJI_PATTERN.test(s),
+            `"${key}" contains an emoji: ${JSON.stringify(s)}`,
+          ).toBe(false);
+        }
+      });
+    }
   }
 });
 
