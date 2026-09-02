@@ -63,7 +63,6 @@ const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
 const TREE_NOTIFICATION_MS = 5000;
 const APP_READY_DELAY_MS = 1500;
 
-
 function AppContent() {
   const { isGamified, growthValue, setGrowthValue } = useGamification();
   const { studySet } = useStudySet();
@@ -355,6 +354,14 @@ function AppContent() {
   // without answering it still completes the unit — the only thing that
   // does *not* complete a unit is an error, which leaves the same task in
   // place for a no-penalty retry.
+  // True only for the "actively looking at an unanswered question" window —
+  // false again the moment feedback appears (right up until the next task
+  // replaces it), on the Garden tab, and whenever no task is loaded. Nav,
+  // Settings, and the progress row all key off this: they're allowed to
+  // show *before* a task starts and *after* it's answered, never while it's
+  // in progress.
+  const isProcessingTask = activeTab !== 'Garden' && !!currentTask && !feedback;
+
   const handleSkip = useCallback(() => {
     const newGrowthValue = growthValue + 1;
     setGrowthValue(newGrowthValue);
@@ -460,6 +467,7 @@ function AppContent() {
     onTabChange: handleTabChange,
     onGardenClick: handleGardenClick,
     onOpenSettings: openSettings,
+    onOpenSurvey: openSurvey,
     vibrate,
     // While any focus-trapped dialog is open, it owns the keyboard —
     // otherwise ArrowRight/Enter meant for a control inside e.g. the
@@ -587,29 +595,36 @@ function AppContent() {
 
       {}
       {/* lg: matches SidebarNav's own breakpoint, so tablets in portrait keep
-          the bottom bar below instead of switching to a squeezed sidebar. */}
-      <div className="z-40 hidden h-full shrink-0 lg:flex">
-        <SidebarNav
-          pillars={PILLARS}
-          activeTab={activeTab}
-          onTabChange={handleTabChange}
-          onGardenClick={handleGardenClick}
-          language={language}
-          isGamified={isGamified}
-          theme={theme}
-          themeStyles={themeStyles}
-          isHighContrast={isHighContrast}
-          bigTargets={bigTargets}
-          hideNavLabel={hideNavLabel}
-          setSettingsOpen={setSettingsOpen}
-          onOpenSurvey={openSurvey}
-          t={t}
-          loadLevel={loadLevel}
-          speak={speak}
-          noFlash={noFlash}
-          bionicReading={!!settings.bionicReading}
-        />
-      </div>
+          the bottom bar below instead of switching to a squeezed sidebar.
+          Unmounted entirely (not just CSS-hidden) while a task is actively
+          being worked on — nav/Settings must not render at all during that
+          window, only before a task starts and after it's answered. */}
+      {!isProcessingTask && (
+        <div
+          className={`z-40 hidden h-full shrink-0 lg:flex ${noFlash ? '' : 'animate-in fade-in duration-300'}`}
+        >
+          <SidebarNav
+            pillars={PILLARS}
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+            onGardenClick={handleGardenClick}
+            language={language}
+            isGamified={isGamified}
+            theme={theme}
+            themeStyles={themeStyles}
+            isHighContrast={isHighContrast}
+            bigTargets={bigTargets}
+            hideNavLabel={hideNavLabel}
+            setSettingsOpen={setSettingsOpen}
+            onOpenSurvey={openSurvey}
+            t={t}
+            loadLevel={loadLevel}
+            speak={speak}
+            noFlash={noFlash}
+            bionicReading={!!settings.bionicReading}
+          />
+        </div>
+      )}
 
       {}
       <div className="relative flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
@@ -667,7 +682,10 @@ function AppContent() {
           ) : (
             <>
               {}
-              {!settings.zenMode && (
+              {/* Progress row: hidden by default while a task is being
+                  processed (only shown before/after), and always hidden
+                  under zenMode regardless of that window. */}
+              {!isProcessingTask && !settings.zenMode && (
                 <div
                   className={`relative mb-3 flex shrink-0 items-center justify-between gap-4 rounded-3xl px-3 py-2.5 sm:px-4 md:mb-4 ${isHighContrast ? 'border border-white/30 bg-black shadow-sm md:shadow-none' : `border bg-[#FCFBF9] ${themeStyles.border} shadow-md shadow-slate-200/40 md:shadow-sm`}`}
                 >
@@ -864,25 +882,31 @@ function AppContent() {
 
         {}
         {/* lg: matches the sidebar wrapper's breakpoint above, so tablets in
-            portrait keep this bottom bar instead of a cramped desktop sidebar. */}
-        <BottomNav
-          pillars={PILLARS}
-          activeTab={activeTab}
-          isGamified={isGamified}
-          theme={theme}
-          themeStyles={themeStyles}
-          isHighContrast={isHighContrast}
-          hideNavLabel={hideNavLabel}
-          noFlash={noFlash}
-          bigTargets={bigTargets}
-          bionicReading={!!settings.bionicReading}
-          t={t}
-          onTabChange={handleTabChange}
-          onGardenClick={handleGardenClick}
-          onOpenSettings={openSettings}
-          onOpenSurvey={openSurvey}
-          vibrate={vibrate}
-        />
+            portrait keep this bottom bar instead of a cramped desktop
+            sidebar. Unmounted entirely while a task is actively being
+            worked on — see the matching SidebarNav wrapper above. */}
+        {!isProcessingTask && (
+          <div className={noFlash ? '' : 'animate-in fade-in duration-300'}>
+            <BottomNav
+              pillars={PILLARS}
+              activeTab={activeTab}
+              isGamified={isGamified}
+              theme={theme}
+              themeStyles={themeStyles}
+              isHighContrast={isHighContrast}
+              hideNavLabel={hideNavLabel}
+              noFlash={noFlash}
+              bigTargets={bigTargets}
+              bionicReading={!!settings.bionicReading}
+              t={t}
+              onTabChange={handleTabChange}
+              onGardenClick={handleGardenClick}
+              onOpenSettings={openSettings}
+              onOpenSurvey={openSurvey}
+              vibrate={vibrate}
+            />
+          </div>
+        )}
       </div>
 
       <NewTreeToast
