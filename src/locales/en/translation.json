@@ -414,6 +414,11 @@
     "Visual": "Vision and Space",
     "Cognitive": "Logic and Memory"
   },
+  "pillarsNav": {
+    "Literacy": "Reading\nand Writing",
+    "Visual": "Vision\nand Space",
+    "Cognitive": "Logic\nand Memory"
+  },
   "studyMode": {
     "toggleLabel": "Study mode",
     "infoText": "Automatically guides you through two short exercise blocks — one without, one with game elements — each followed by a brief questionnaire. Answers are stored anonymized, solely for this thesis, with no names or exercise content. Turn off for free use without this structure.",
