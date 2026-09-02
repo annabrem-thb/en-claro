@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { STUDY_EXERCISE_PILLARS } from '../data/exerciseTypes.js';
 import { safeJSONParse } from '../utils/safeJSONParse.js';
 
 const VARIANT_ORDERS = ['classicFirst', 'gamifiedFirst'];
@@ -8,7 +9,14 @@ const VARIANT_ORDERS = ['classicFirst', 'gamifiedFirst'];
 // matches PILLARS in App.jsx (Literacy/Visual/Cognitive), just named here
 // independently so this hook has no import-time dependency on App.jsx.
 export const PILLAR_SEQUENCE = ['Literacy', 'Visual', 'Cognitive'];
-export const TASKS_PER_PILLAR = 3;
+
+// How many distinct exercise *types* each pillar contributes to a block.
+// Visual (3 types) and Cognitive (4 types) get full coverage — there's
+// barely more to cover. Literacy has 12 candidate types; 8 was chosen as
+// "more than a token 3, but not the full set" so every session still stays
+// within a manageable length. See STUDY_EXERCISE_PILLARS for the pools this
+// is sampled from.
+export const TASKS_PER_PILLAR = { Literacy: 8, Visual: 3, Cognitive: 4 };
 
 const DEFAULT_PROGRESS = {
   block: 1,
@@ -31,6 +39,27 @@ function readStudyModeEnabled() {
 function readStoredOrder() {
   const stored = localStorage.getItem('variantOrder');
   return VARIANT_ORDERS.includes(stored) ? stored : null;
+}
+
+// Picks TASKS_PER_PILLAR[pillar] distinct exercise types per pillar, once
+// per participant, and remembers the choice — so a pillar's block-1 and
+// block-2 visits draw from the exact same set of types (a paired
+// classic-vs-gamified comparison per exercise type) instead of each block
+// rolling its own independent, possibly-different subset.
+function assignExercisePlan() {
+  const plan = Object.fromEntries(
+    PILLAR_SEQUENCE.map((pillar) => {
+      const pool = STUDY_EXERCISE_PILLARS[pillar];
+      const shuffled = [...pool].sort(() => Math.random() - 0.5);
+      return [pillar, shuffled.slice(0, TASKS_PER_PILLAR[pillar])];
+    }),
+  );
+  localStorage.setItem('studyExercisePlan', JSON.stringify(plan));
+  return plan;
+}
+
+function readStoredExercisePlan() {
+  return safeJSONParse(localStorage.getItem('studyExercisePlan'), null);
 }
 
 // Single source of truth for the guided study session: whether it's active
@@ -75,16 +104,22 @@ export function useStudyModeState() {
     setProgressState(next);
   };
 
+  const [exercisePlan, setExercisePlan] = useState(
+    () => readStoredExercisePlan() || (readStudyModeEnabled() ? assignExercisePlan() : null),
+  );
+
   const setStudyModeEnabled = (value) => {
     localStorage.setItem('studyModeEnabled', String(value));
     setStudyModeEnabledState(value);
     // Re-enabling after a previous run already finished starts a fresh one
-    // (new coin flip, progress reset) rather than staying permanently inert
-    // — otherwise the toggle would show on while the free picker/nav stays
-    // up, exactly the inconsistent state this flag exists to prevent.
+    // (new coin flip, progress reset, new exercise-type plan) rather than
+    // staying permanently inert — otherwise the toggle would show on while
+    // the free picker/nav stays up, exactly the inconsistent state this
+    // flag exists to prevent.
     if (value && progress.phase === 'done') {
       setProgress(DEFAULT_PROGRESS);
       setVariantOrder(assignRandomOrder());
+      setExercisePlan(assignExercisePlan());
     }
   };
 
@@ -96,6 +131,13 @@ export function useStudyModeState() {
     isActive && progress.phase === 'tasks'
       ? PILLAR_SEQUENCE[progress.pillarIndex]
       : null;
+
+  // How many tasks the current pillar's block requires, and which exercise
+  // types those tasks must come from — both null once no pillar is current.
+  const pillarTotal = currentPillar ? TASKS_PER_PILLAR[currentPillar] : null;
+  const currentExerciseTypes = currentPillar
+    ? exercisePlan?.[currentPillar] || null
+    : null;
 
   // Which variant the current block requires, independent of any manual
   // toggle — block 1 is whatever the coin flip/URL assigned, block 2 is
@@ -111,7 +153,8 @@ export function useStudyModeState() {
   const recordUnitCompleted = () => {
     if (!isActive || progress.phase !== 'tasks') return;
     const nextCount = progress.pillarCount + 1;
-    if (nextCount < TASKS_PER_PILLAR) {
+    const target = TASKS_PER_PILLAR[PILLAR_SEQUENCE[progress.pillarIndex]];
+    if (nextCount < target) {
       setProgress({ ...progress, pillarCount: nextCount });
       return;
     }
@@ -154,6 +197,8 @@ export function useStudyModeState() {
     currentPillar,
     pillarIndex: progress.pillarIndex,
     pillarCount: progress.pillarCount,
+    pillarTotal,
+    currentExerciseTypes,
     blockIsGamified,
     recordUnitCompleted,
     recordSurveySubmitted,
