@@ -59,20 +59,6 @@
   "readAloudTitle": "Laut vorlesen",
   "ttsLocalDownloadError": "Die Sprach-Engine konnte nicht geladen werden — überprüfe deine Verbindung und versuche es erneut.",
   "ttsLocalEngineError": "Beim Vorlesen ist etwas schiefgelaufen — versuche es erneut.",
-  "successMsg": [
-    "Großartig!",
-    "Ausgezeichnet!",
-    "Wunderbar!",
-    "Super!",
-    "Das schaffen Sie!",
-    "Das zeigt Wirkung."
-  ],
-  "errorMsg": [
-    "Lassen Sie uns das gemeinsam analysieren.",
-    "Versuchen wir es noch einmal.",
-    "Fast richtig, schauen Sie noch einmal hin.",
-    "Das gehört zum Lernen dazu."
-  ],
   "levelUp": "Level Up!",
   "levelUpTitle": "Ihr Garten wächst!",
   "levelUpDesc": "Ein weiteres Ziel geschafft — Ihre Beständigkeit zahlt sich aus.",
@@ -379,13 +365,6 @@
   "gardenEmpty": "Ihr eigenes Ökosystem. Es wird mit Ihrem Fortschritt wachsen.",
   "srPlantFeature": "Ihre Reise beinhaltet derzeit",
   "dailyGoalProgress": "Tagesziel-Fortschritt",
-  "rewardItems": {
-    "Natur": ["🍀", "🌸", "🦋", "🐝", "🌈"],
-    "Musik": ["🎵", "🎶", "🎤", "🎸", "🎧"],
-    "Kunst": ["🎨", "🖌️", "🖼️", "💎", "✨"],
-    "Space": ["🚀", "🌟", "🛸", "🪐", "☄️"],
-    "Ocean": ["🐚", "🐠", "🌊", "⚓", "🐬"]
-  },
   "dailyGoal": "Tagesziel",
   "goal5": "5 Min – Schritt",
   "goal10": "10 Min – Ritual",
@@ -657,7 +636,7 @@
     "title": "Ihr Einfluss",
     "desc": "Ihr Fortschritt unterstützt reale Ziele. Alle 10 Punkte tragen zu einem virtuell gepflanzten Baum bei.",
     "treesPlanted": "Gepflanzte Bäume",
-    "newTreeTitle": "Neuer Baum! 🎉",
-    "newTreeMsg": "Fantastisch! Ihr konsequentes Lernen hat uns geholfen, einen weiteren Baum virtuell zu pflanzen."
+    "newTreeTitle": "Neuer Baum",
+    "newTreeMsg": "Ihr beständiges Lernen hat geholfen, einen weiteren Baum virtuell zu pflanzen."
   }
 }
