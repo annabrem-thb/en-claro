@@ -56,6 +56,48 @@ No `ProfileModal-*.js` chunk at all anymore — `recharts` (326.23 kB /
 96.33 kB gzip) is gone from the dependency tree entirely, not just deferred,
 since Profile was its only consumer (removed from `package.json` too).
 
+## Current full breakdown (2026-08-17 audit)
+
+The numbers above predate two features that add their own large,
+**on-demand** chunks — neither ships in the initial page load, so they don't
+change the "Initial JS payload" figure above, but a bundle-size doc that
+doesn't mention them at all invites someone to mistake a real regression for
+one of these:
+
+```
+dist/assets/index-*.js                    522.28 kB │ gzip: 156.42 kB   (initial bundle)
+dist/assets/VirtualGarden-*.js            337.03 kB │ gzip:  86.70 kB   (lazy, on Garden open)
+dist/assets/vocabulary_pl-*.js            130.13 kB │ gzip:  31.34 kB   (lazy, per active language)
+dist/assets/vocabulary_de-*.js            125.34 kB │ gzip:  29.18 kB
+dist/assets/vocabulary_en-*.js            120.20 kB │ gzip:  28.03 kB
+dist/assets/SettingsModal-*.js             16.02 kB │ gzip:   4.62 kB   (lazy, on Settings open)
+dist/assets/SurveyComponent-*.js            7.50 kB │ gzip:   2.67 kB   (lazy, on Survey open)
+
+dist/assets/ttsWorker-*.js              1,721.37 kB                    (lazy, meSpeak fallback)
+dist/assets/whisperWorker-*.js            517.37 kB                    (lazy, voice input)
+dist/assets/ort-wasm-simd-threaded.asyncify-*.wasm
+                                        23,567.05 kB │ gzip: 5,824.05 kB (lazy, whisperWorker's ONNX runtime)
+```
+
+`ttsWorker` and `whisperWorker` are separate, independent lazy chunks —
+loading one never pulls in the other:
+
+- **`ttsWorker`** (`src/workers/ttsWorker.js`) only loads if a browser
+  reports zero installed system voices (mainly desktop Firefox/Opera). It
+  bundles `mespeak`, a ~4-5MB one-time engine download (see the file's own
+  comment for why this replaced an earlier neural-TTS approach that took
+  25-90s per read-aloud click).
+- **`whisperWorker`** + the 23.5MB `ort-wasm-simd-threaded` WASM file back
+  voice input (`@huggingface/transformers`' ONNX runtime for Whisper). This
+  only loads if/when a user actually engages a voice-input flow — it was
+  never part of what the "Before/After" numbers above were measuring, so its
+  presence here isn't a regression of that code-splitting work, just a
+  separate feature this file hadn't been updated to mention.
+
+Reproduce with `npm run build` — chunk hashes change per build, but relative
+sizes should be stable unless a dependency version bump or new feature
+changes what's in a given chunk.
+
 ## Reproducing this
 
 ```bash

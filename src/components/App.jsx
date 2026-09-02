@@ -11,18 +11,21 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
+import { THEMES } from '../data/themes.js';
 import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotifications.js';
 import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
 import { useDocumentTitle } from '../hooks/useDocumentTitle.js';
 import { useExerciseSession } from '../hooks/useExerciseSession.js';
 import { useGamification } from '../hooks/useGamification.js';
-import { useGlobalTTS } from '../hooks/useGlobalTTS.js';
+import { useGlobalTTS, hasVoiceForLanguage } from '../hooks/useGlobalTTS.js';
 import { useHapticFeedback } from '../hooks/useHapticFeedback.js';
 import { getInitialRouteState, useHashRoute } from '../hooks/useHashRoute.js';
 import { useIndexedDB } from '../hooks/useIndexedDB.js';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts.js';
 import { useLocalTTS } from '../hooks/useLocalTTS.js';
 import { useReadingRuler } from '../hooks/useReadingRuler.js';
+import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
+import { useStudySet } from '../hooks/useStudySet.js';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation.js';
 import { useThemeCSSVariables } from '../hooks/useThemeCSSVariables.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
@@ -47,10 +50,8 @@ import BionicText from './common/BionicText.jsx';
 import Dialog from './common/Dialog.jsx';
 import SkeletonLoader from './common/SkeletonLoader.jsx';
 
-// Lazy-loaded: each of these pulls in a library only it needs (lottie-react
-// for VirtualGarden) that would otherwise inflate the initial bundle for
-// every user, even ones who never open Settings/Survey/Garden. See
-// docs/bundle-size.md.
+// Lazy-loaded so a user who never opens Settings/Survey/Garden never pays
+// for their code in the initial bundle. See docs/bundle-size.md.
 const SettingsModal = lazy(() => import('./SettingsModal.jsx'));
 const VirtualGarden = lazy(() => import('./VirtualGarden.jsx'));
 const SurveyComponent = lazy(() =>
@@ -62,74 +63,9 @@ const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
 const TREE_NOTIFICATION_MS = 5000;
 const APP_READY_DELAY_MS = 1500;
 
-// `buttonText` is pure black across every theme: none of these five button
-// background colors reach 4.5:1 against their original light/cream text
-// (2.59–3.94:1, an axe-core color-contrast finding) — black gives a
-// comfortable 5.3–7.3:1 against all of them without changing the palette.
-// `ring` mirrors each theme's `hex`/`button` hue as a literal `ring-[#...]`
-// Tailwind class — used by WeeklyCalendar.jsx's "today" indicator so the
-// Garden's own chrome (and not just its growth icons) actually tracks the
-// selected theme instead of a fixed indigo regardless of theme.
-const THEMES = {
-  Natur: {
-    accent: 'text-[#4A5D54]',
-    bg: 'bg-[#F4F1EA]',
-    button: 'bg-[#8A9A86]',
-    buttonText: 'text-black',
-    border: 'border-[#D0D6CE]',
-    ring: 'ring-[#8A9A86]',
-    hex: '#8A9A86',
-  },
-  Musik: {
-    accent: 'text-[#6B5B7B]',
-    bg: 'bg-[#F3F0F5]',
-    button: 'bg-[#8F7D9E]',
-    buttonText: 'text-black',
-    border: 'border-[#D1C8D6]',
-    ring: 'ring-[#8F7D9E]',
-    hex: '#8F7D9E',
-  },
-  Kunst: {
-    accent: 'text-[#8A6A4B]',
-    bg: 'bg-[#F7F4F0]',
-    button: 'bg-[#B08E6D]',
-    buttonText: 'text-black',
-    border: 'border-[#DED4CA]',
-    ring: 'ring-[#B08E6D]',
-    hex: '#B08E6D',
-  },
-  Space: {
-    accent: 'text-[#4B5E6B]',
-    bg: 'bg-[#F0F3F5]',
-    button: 'bg-[#6D8394]',
-    buttonText: 'text-black',
-    border: 'border-[#CAD4DE]',
-    ring: 'ring-[#6D8394]',
-    hex: '#6D8394',
-  },
-  Ocean: {
-    accent: 'text-[#437A7A]',
-    bg: 'bg-[#EFF5F5]',
-    button: 'bg-[#67A3A3]',
-    buttonText: 'text-black',
-    border: 'border-[#C4DBDB]',
-    ring: 'ring-[#67A3A3]',
-    hex: '#67A3A3',
-  },
-};
-
 function AppContent() {
-  const {
-    isGamified,
-    points,
-    setPoints,
-    coins,
-    setCoins,
-    rewards,
-    setRewards,
-    dailyQuests,
-    updateQuests,
-  } = useGamification();
+  const { isGamified, growthValue, setGrowthValue } = useGamification();
+  const { studySet } = useStudySet();
 
   const { settings, updateSetting } = useUserSettingsContext();
   const { language, theme, dailyGoal, userDifficulty } = settings;
@@ -167,14 +103,20 @@ function AppContent() {
   // voices — desktop Firefox has no bundled voices of its own (unlike
   // Chrome, which ships network-backed voices independent of the OS), so
   // read-aloud silently does nothing once the OS has none registered
-  // either. Detected once here, not per-TTSController instance, since it
+  // either. The same fallback also has to cover the case where *some*
+  // voices exist but none for the language actually being read (e.g.
+  // Windows with only an English voice pack installed reading Polish) —
+  // otherwise pickBestVoice finds nothing, msg.voice is left unset, and the
+  // browser mumbles the text through its unrelated default-language voice
+  // instead. Detected once here, not per-TTSController instance, since it
   // decides which engine speak() itself routes to below, not just what a
   // button displays.
   const [noNativeVoices, setNoNativeVoices] = useState(false);
   useEffect(() => {
     const checkVoices = () => {
+      const allVoices = window.speechSynthesis?.getVoices?.() || [];
       setNoNativeVoices(
-        (window.speechSynthesis?.getVoices?.() || []).length === 0,
+        allVoices.length === 0 || !hasVoiceForLanguage(allVoices, language),
       );
     };
     checkVoices();
@@ -190,7 +132,7 @@ function AppContent() {
       window.speechSynthesis.removeEventListener('voiceschanged', checkVoices);
       clearTimeout(timeoutId);
     };
-  }, []);
+  }, [language]);
 
   const {
     status: localTTSStatus,
@@ -253,15 +195,14 @@ function AppContent() {
   const [lastPillar, setLastPillar] = useState('Literacy');
   const [settingsOpen, setSettingsOpen] = useState(initialRoute.settingsOpen);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [, setEarnedCoinsAnim] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [pendingFeedback, setPendingFeedback] = useState(false);
   // Distinguishes the nav-triggered "open the survey any time" entry point
-  // from the automatic every-10-points trigger. The automatic path shows the
-  // survey *instead of* immediately calling goNext() (see
-  // handleLevelUpNext), so closing it must call goNext() to catch up on the
-  // advance it deferred. A manual open never deferred one, so closing it
-  // must not silently skip whatever exercise the user was looking at.
+  // from the automatic every-10-points trigger (see useExerciseSession's
+  // handleSuccess). The automatic path shows the survey *instead of*
+  // immediately calling goNext(), so closing it must call goNext() to catch
+  // up on the advance it deferred. A manual open never deferred one, so
+  // closing it must not silently skip whatever exercise the user was
+  // looking at.
   const [surveyOpenedManually, setSurveyOpenedManually] = useState(false);
 
   const { loadLevel, showBreakModal, setShowBreakModal, setErrorTimestamps } =
@@ -280,9 +221,9 @@ function AppContent() {
     'cfg_daily_progress',
   );
 
-  const { affirmation } = useAffirmativeNotifications(points, language);
+  const { affirmation } = useAffirmativeNotifications(growthValue, language);
 
-  const prevPointsRef = useRef(points);
+  const prevGrowthValueRef = useRef(growthValue);
   const [newTreeNotification, setNewTreeNotification] = useState(false);
   const [isAppReady, setIsAppReady] = useState(false);
   const [prevIsGamified, setPrevIsGamified] = useState(isGamified);
@@ -293,8 +234,8 @@ function AppContent() {
   }, []);
 
   useEffect(() => {
-    const prevTrees = Math.floor(prevPointsRef.current / 10);
-    const currentTrees = Math.floor(points / 10);
+    const prevTrees = Math.floor(prevGrowthValueRef.current / 10);
+    const currentTrees = Math.floor(growthValue / 10);
 
     if (isAppReady && currentTrees > prevTrees && currentTrees > 0) {
       setNewTreeNotification(true);
@@ -305,8 +246,8 @@ function AppContent() {
       );
       return () => clearTimeout(timer);
     }
-    prevPointsRef.current = points;
-  }, [points, isAppReady, vibrate]);
+    prevGrowthValueRef.current = growthValue;
+  }, [growthValue, isAppReady, vibrate]);
 
   // Adjusted during render (React's recommended pattern for reacting to a
   // state change with more state — see "You Might Not Need an Effect") so
@@ -334,12 +275,41 @@ function AppContent() {
   const themeStyles = THEMES[theme] || THEMES.Natur;
   const noFlash = settings.noFlash || settings.motion;
   const bigTargets = settings.bigTargets || settings.motorik;
-  const hideNavLabel = settings.vision;
+  // Nav labels wrap/overflow in the compact rail once UI text grows past its
+  // default size — `vision` used to be a single fixed 115%-zoom toggle that
+  // this gated on directly; now that it's a continuous slider, the same
+  // "moved above default" threshold used elsewhere (SurveyComponent.tsx,
+  // IntroScreen.jsx's hasVision) applies here too.
+  const hideNavLabel =
+    settings.fontSizeUi > 16 || settings.fontSizeExercise > 16;
   const isHighContrast = settings.contrast;
   const isColorblind = settings.color;
   const hasRuler = settings.ruler;
 
   const { cardRef, rulerPos } = useReadingRuler(hasRuler);
+
+  const { setSafeTimeout } = useSafeTimeouts();
+
+  // The gamification module's only foothold into the exercise session:
+  // called once per completed unit (a successful answer or a Skip — see
+  // handleSkip below) with identical timing regardless of the gamification
+  // setting. When it's off this simply does nothing. Nothing here may delay
+  // or otherwise change when the session advances to the next exercise.
+  const handleUnitCompleted = useCallback(
+    (newGrowthValue) => {
+      if (!isGamified) return;
+      const todayStr = new Date().toDateString();
+      setDailyProgress((prev) => {
+        const todayPoints = prev[todayStr]?.points || 0;
+        return { ...prev, [todayStr]: { points: todayPoints + 1 } };
+      });
+      if (newGrowthValue % POINTS_PER_LEVEL === 0) {
+        setShowSuccess(true);
+        setSafeTimeout(() => setShowSuccess(false), 1500);
+      }
+    },
+    [isGamified, setDailyProgress, setSafeTimeout],
+  );
 
   useThemeCSSVariables({
     themeStyles,
@@ -352,8 +322,7 @@ function AppContent() {
     currentIndex,
     setCurrentIndex,
     setCycle,
-    currentStreak,
-    setCurrentStreak,
+    setConsecutiveCorrect,
     feedback,
     setFeedback,
     isTransitioning,
@@ -374,20 +343,31 @@ function AppContent() {
     t,
     speak,
     theme,
-    isGamified,
-    points,
-    setPoints,
-    setCoins,
-    setRewards,
-    dailyQuests,
-    updateQuests,
-    setDailyProgress,
-    setPendingFeedback,
-    setShowSuccess,
-    setShowFeedback,
-    setEarnedCoinsAnim,
+    studySet,
+    growthValue,
+    setGrowthValue,
+    onUnitCompleted: handleUnitCompleted,
     setErrorTimestamps,
   });
+
+  // Growth is independent of correctness and retries, so skipping a task
+  // without answering it still completes the unit — the only thing that
+  // does *not* complete a unit is an error, which leaves the same task in
+  // place for a no-penalty retry.
+  // True only for the "actively looking at an unanswered question" window —
+  // false again the moment feedback appears (right up until the next task
+  // replaces it), on the Garden tab, and whenever no task is loaded. Nav,
+  // Settings, and the progress row all key off this: they're allowed to
+  // show *before* a task starts and *after* it's answered, never while it's
+  // in progress.
+  const isProcessingTask = activeTab !== 'Garden' && !!currentTask && !feedback;
+
+  const handleSkip = useCallback(() => {
+    const newGrowthValue = growthValue + 1;
+    setGrowthValue(newGrowthValue);
+    handleUnitCompleted(newGrowthValue);
+    goNext();
+  }, [growthValue, setGrowthValue, handleUnitCompleted, goNext]);
 
   const handleTabChange = useCallback(
     (pillar) => {
@@ -396,9 +376,9 @@ function AppContent() {
       setCurrentIndex(0);
       setCycle(0);
       setFeedback(null);
-      setCurrentStreak(0);
+      setConsecutiveCorrect(0);
     },
-    [setCurrentIndex, setCycle, setFeedback, setCurrentStreak],
+    [setCurrentIndex, setCycle, setFeedback, setConsecutiveCorrect],
   );
 
   const handleGardenClick = useCallback(() => {
@@ -469,14 +449,25 @@ function AppContent() {
     onSwipeRight: () => handleSwipeTab('right'),
   });
 
+  // ArrowRight/Enter double as both the post-success "Next" button and the
+  // pre-answer "Skip" button, matching whichever one is actually on screen
+  // (see the feedback?.type === 'success' branch below) — Skip must go
+  // through handleSkip, not the raw goNext, so growth increments the same
+  // way whether it's clicked or triggered by keyboard.
+  const handleAdvanceKey = useCallback(() => {
+    if (feedback?.type === 'success') goNext();
+    else handleSkip();
+  }, [feedback, goNext, handleSkip]);
+
   useKeyboardShortcuts({
     isGamified,
     pillars: PILLARS,
-    goNext,
+    goNext: handleAdvanceKey,
     goPrev,
     onTabChange: handleTabChange,
     onGardenClick: handleGardenClick,
     onOpenSettings: openSettings,
+    onOpenSurvey: openSurvey,
     vibrate,
     // While any focus-trapped dialog is open, it owns the keyboard —
     // otherwise ArrowRight/Enter meant for a control inside e.g. the
@@ -545,16 +536,6 @@ function AppContent() {
     );
   };
 
-  const handleLevelUpNext = useCallback(() => {
-    setShowSuccess(false);
-    if (pendingFeedback) {
-      setShowFeedback(true);
-      setPendingFeedback(false);
-    } else {
-      goNext();
-    }
-  }, [pendingFeedback, goNext]);
-
   const dismissPwaUpdate = useCallback(
     () => setNeedRefresh(false),
     [setNeedRefresh],
@@ -614,31 +595,36 @@ function AppContent() {
 
       {}
       {/* lg: matches SidebarNav's own breakpoint, so tablets in portrait keep
-          the bottom bar below instead of switching to a squeezed sidebar. */}
-      <div className="z-40 hidden h-full shrink-0 lg:flex">
-        <SidebarNav
-          pillars={PILLARS}
-          activeTab={activeTab}
-          onTabChange={handleTabChange}
-          onGardenClick={handleGardenClick}
-          dailyQuests={dailyQuests}
-          language={language}
-          isGamified={isGamified}
-          theme={theme}
-          themeStyles={themeStyles}
-          isHighContrast={isHighContrast}
-          bigTargets={bigTargets}
-          hideNavLabel={hideNavLabel}
-          setSettingsOpen={setSettingsOpen}
-          onOpenSurvey={openSurvey}
-          t={t}
-          coins={coins}
-          loadLevel={loadLevel}
-          speak={speak}
-          noFlash={noFlash}
-          bionicReading={!!settings.bionicReading}
-        />
-      </div>
+          the bottom bar below instead of switching to a squeezed sidebar.
+          Unmounted entirely (not just CSS-hidden) while a task is actively
+          being worked on — nav/Settings must not render at all during that
+          window, only before a task starts and after it's answered. */}
+      {!isProcessingTask && (
+        <div
+          className={`z-40 hidden h-full shrink-0 lg:flex ${noFlash ? '' : 'animate-in fade-in duration-300'}`}
+        >
+          <SidebarNav
+            pillars={PILLARS}
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+            onGardenClick={handleGardenClick}
+            language={language}
+            isGamified={isGamified}
+            theme={theme}
+            themeStyles={themeStyles}
+            isHighContrast={isHighContrast}
+            bigTargets={bigTargets}
+            hideNavLabel={hideNavLabel}
+            setSettingsOpen={setSettingsOpen}
+            onOpenSurvey={openSurvey}
+            t={t}
+            loadLevel={loadLevel}
+            speak={speak}
+            noFlash={noFlash}
+            bionicReading={!!settings.bionicReading}
+          />
+        </div>
+      )}
 
       {}
       <div className="relative flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
@@ -672,9 +658,7 @@ function AppContent() {
                 }
               >
                 <VirtualGarden
-                  points={points}
-                  streak={currentStreak}
-                  dailyQuests={dailyQuests}
+                  growthValue={growthValue}
                   isHighContrast={isHighContrast}
                   theme={theme}
                   themeStyles={themeStyles}
@@ -698,30 +682,17 @@ function AppContent() {
           ) : (
             <>
               {}
-              {!settings.zenMode && (
+              {/* Progress row: hidden by default while a task is being
+                  processed (only shown before/after), and always hidden
+                  under zenMode regardless of that window. */}
+              {!isProcessingTask && !settings.zenMode && (
                 <div
                   className={`relative mb-3 flex shrink-0 items-center justify-between gap-4 rounded-3xl px-3 py-2.5 sm:px-4 md:mb-4 ${isHighContrast ? 'border border-white/30 bg-black shadow-sm md:shadow-none' : `border bg-[#FCFBF9] ${themeStyles.border} shadow-md shadow-slate-200/40 md:shadow-sm`}`}
                 >
-                  {rewards.length > 0 && isGamified && (
-                    <div
-                      className={`absolute -top-4 left-4 z-20 flex items-center gap-1.5 rounded-full border-2 px-3 py-1 text-xs font-black tracking-widest uppercase shadow-lg ${isHighContrast ? 'border-white bg-black text-white' : `bg-[#FCFBF9] ${themeStyles.border} text-[#4A5D54]`} ${noFlash ? '' : 'animate-in zoom-in duration-300'}`}
-                    >
-                      <span>
-                        <BionicText
-                          text={t('collectedLabel')}
-                          enabled={!!settings.bionicReading}
-                        />
-                        :
-                      </span>
-                      <span className="text-xs">
-                        {rewards[rewards.length - 1]}
-                      </span>
-                    </div>
-                  )}
                   <div className="flex min-w-0 flex-1 items-center gap-3">
                     {isGamified ? (
                       <ProgressPill
-                        points={points % POINTS_PER_LEVEL}
+                        points={growthValue % POINTS_PER_LEVEL}
                         max={POINTS_PER_LEVEL}
                         theme={theme}
                         isGamified={true}
@@ -733,10 +704,10 @@ function AppContent() {
                         <div
                           className={`scale-size-10 flex shrink-0 items-center justify-center rounded-full text-sm font-black ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}
                         >
-                          {Math.floor(points / POINTS_PER_LEVEL) + 1}
+                          {Math.floor(growthValue / POINTS_PER_LEVEL) + 1}
                         </div>
                         <ProgressPill
-                          points={points % POINTS_PER_LEVEL}
+                          points={growthValue % POINTS_PER_LEVEL}
                           max={POINTS_PER_LEVEL}
                           theme={theme}
                           isGamified={false}
@@ -808,7 +779,7 @@ function AppContent() {
                 )}
                 <div
                   key={`exercise-wrapper-${activeTab}-${currentIndex}`}
-                  className={`flex h-full min-h-0 w-full flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
+                  className={`exercise-scale flex h-full min-h-0 w-full flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
                 >
                   {renderCurrentExercise()}
                 </div>
@@ -868,7 +839,7 @@ function AppContent() {
                 !settings.zenMode && (
                   <div className="mt-2 flex shrink-0 flex-col items-center justify-center pb-1 md:mt-3 md:pb-2">
                     <button
-                      onClick={goNext}
+                      onClick={handleSkip}
                       className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} rounded-full border-2 bg-transparent font-black tracking-widest uppercase transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}
                     >
                       <BionicText
@@ -911,26 +882,31 @@ function AppContent() {
 
         {}
         {/* lg: matches the sidebar wrapper's breakpoint above, so tablets in
-            portrait keep this bottom bar instead of a cramped desktop sidebar. */}
-        <BottomNav
-          pillars={PILLARS}
-          activeTab={activeTab}
-          dailyQuests={dailyQuests}
-          isGamified={isGamified}
-          theme={theme}
-          themeStyles={themeStyles}
-          isHighContrast={isHighContrast}
-          hideNavLabel={hideNavLabel}
-          noFlash={noFlash}
-          bigTargets={bigTargets}
-          bionicReading={!!settings.bionicReading}
-          t={t}
-          onTabChange={handleTabChange}
-          onGardenClick={handleGardenClick}
-          onOpenSettings={openSettings}
-          onOpenSurvey={openSurvey}
-          vibrate={vibrate}
-        />
+            portrait keep this bottom bar instead of a cramped desktop
+            sidebar. Unmounted entirely while a task is actively being
+            worked on — see the matching SidebarNav wrapper above. */}
+        {!isProcessingTask && (
+          <div className={noFlash ? '' : 'animate-in fade-in duration-300'}>
+            <BottomNav
+              pillars={PILLARS}
+              activeTab={activeTab}
+              isGamified={isGamified}
+              theme={theme}
+              themeStyles={themeStyles}
+              isHighContrast={isHighContrast}
+              hideNavLabel={hideNavLabel}
+              noFlash={noFlash}
+              bigTargets={bigTargets}
+              bionicReading={!!settings.bionicReading}
+              t={t}
+              onTabChange={handleTabChange}
+              onGardenClick={handleGardenClick}
+              onOpenSettings={openSettings}
+              onOpenSurvey={openSurvey}
+              vibrate={vibrate}
+            />
+          </div>
+        )}
       </div>
 
       <NewTreeToast
@@ -944,9 +920,7 @@ function AppContent() {
         open={showSuccess}
         isHighContrast={isHighContrast}
         noFlash={noFlash}
-        bigTargets={bigTargets}
         t={t}
-        onNext={handleLevelUpNext}
         bionicReading={!!settings.bionicReading}
       />
 

@@ -1,5 +1,7 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 
+import { STUDY_EXERCISE_TYPES } from '../data/exerciseTypes.js';
+import { belongsToActiveSet } from '../data/studySets.js';
 import { getSharedAudioContext } from '../utils/audioUnlock.js';
 import { saveLog } from '../utils/indexedDB.js';
 import { seededShuffle } from '../utils/shuffleUtils.js';
@@ -59,8 +61,6 @@ const playThemeSound = (theme) => {
   }
 };
 
-const POINTS_PER_LEVEL = 5;
-
 export function useExerciseSession({
   db,
   activeTab,
@@ -71,25 +71,28 @@ export function useExerciseSession({
   t,
   speak,
   theme,
-  isGamified,
-  points,
-  setPoints,
-  setCoins,
-  setRewards,
-  dailyQuests,
-  updateQuests,
-  setDailyProgress,
-  setPendingFeedback,
-  setShowSuccess,
-  setShowFeedback,
-  setEarnedCoinsAnim,
+  studySet,
+  growthValue,
+  setGrowthValue,
+  // Called once per completed unit, after growthValue/feedback are updated
+  // but before the fixed advance-to-next-task delay is scheduled below.
+  // This is the gamification module's only foothold into the session:
+  // whatever it does (or doesn't do — passing no callback is a no-op) never
+  // changes when the session pauses or what it waits for, only what appears
+  // on screen while it does.
+  onUnitCompleted,
   setErrorTimestamps,
 }) {
   const [currentIndex, setCurrentIndex] = useState(
     () => Number(localStorage.getItem('idx')) || 0,
   );
-  const [cycle, setCycle] = useState(0);
-  const [currentStreak, setCurrentStreak] = useState(0);
+  const [cycle, setCycle] = useState(
+    () => Number(localStorage.getItem('cycle')) || 0,
+  );
+  // Never shown to the user and never feeds feedback copy — this exists
+  // solely to trigger the adaptive-difficulty bump below after 5 correct
+  // answers in a row.
+  const [consecutiveCorrect, setConsecutiveCorrect] = useState(0);
   const [errorCounter, setErrorCounter] = useState(0);
   const [feedback, setFeedback] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -114,6 +117,10 @@ export function useExerciseSession({
     localStorage.setItem('idx', String(currentIndex));
   }, [currentIndex]);
 
+  useEffect(() => {
+    localStorage.setItem('cycle', String(cycle));
+  }, [cycle]);
+
   const activePillarTasks = useMemo(() => {
     if (!db) return [];
     if (activeTab === 'Garden') return [];
@@ -131,12 +138,14 @@ export function useExerciseSession({
     // 'grapheme'`/`'diagnostic'`) — so the interleaving step below can group
     // strictly by *category*, not by rendering component.
     const includeIfActive = (dbKey) =>
-      activeExercises[dbKey] !== false
-        ? (db[dbKey] || []).map((task) => ({ ...task, __exerciseType: dbKey }))
+      STUDY_EXERCISE_TYPES.has(dbKey) && activeExercises[dbKey] !== false
+        ? (db[dbKey] || [])
+            .filter((task) => belongsToActiveSet(task, studySet))
+            .map((task) => ({ ...task, __exerciseType: dbKey }))
         : [];
     const tagDiagnostic = (pillar) =>
       (db.diagnostic || [])
-        .filter((d) => d.pillar === pillar)
+        .filter((d) => d.pillar === pillar && belongsToActiveSet(d, studySet))
         .map((task) => ({ ...task, __exerciseType: 'diagnostic' }));
 
     let rawTasks = [];
@@ -155,6 +164,7 @@ export function useExerciseSession({
           ...includeIfActive('readAloud'),
           ...includeIfActive('comprehension'),
           ...includeIfActive('rhythm'),
+          ...includeIfActive('graphemePhoneme'),
           ...tagDiagnostic('Literacy'),
         ];
         break;
@@ -246,6 +256,7 @@ export function useExerciseSession({
     inclusiveOptions.activeExercises,
     userDifficulty,
     cycle,
+    studySet,
   ]);
 
   const safeIndex = currentIndex % (activePillarTasks.length || 1);
@@ -279,53 +290,26 @@ export function useExerciseSession({
   }, [activePillarTasks.length]);
 
   const handleSuccess = useCallback(() => {
-    const newStreak = currentStreak + 1;
-    setCurrentStreak(newStreak);
+    const newConsecutiveCorrect = consecutiveCorrect + 1;
+    setConsecutiveCorrect(newConsecutiveCorrect);
     if (
       inclusiveOptions.adaptiveDifficulty &&
-      newStreak > 0 &&
-      newStreak % 5 === 0 &&
+      newConsecutiveCorrect > 0 &&
+      newConsecutiveCorrect % 5 === 0 &&
       userDifficulty < 4
     )
       setUserDifficulty((prev) => Math.min(prev + 1, 4));
     setErrorCounter(0);
     if (inclusiveOptions.audioRewards && !inclusiveOptions.muteNotifications)
       playThemeSound(theme);
-    let earnedCoins = 1;
-    if (isGamified)
-      dailyQuests.tasks.forEach((task) => {
-        if (!task.completed && (task.type === activeTab || task.type === 'Any'))
-          if (task.current + 1 >= task.target) earnedCoins += task.reward;
-      });
-    updateQuests(activeTab);
-    const successMsgs = t('successMsg', { returnObjects: true });
-    const baseSuccessMsg = Array.isArray(successMsgs)
-      ? successMsgs[Math.floor(Math.random() * successMsgs.length)]
-      : successMsgs;
-    let msg = baseSuccessMsg;
-    if (newStreak >= 3) {
-      const streakMsgs = t('streakMsg', { returnObjects: true });
-      const template = Array.isArray(streakMsgs)
-        ? streakMsgs[Math.floor(Math.random() * streakMsgs.length)]
-        : streakMsgs;
-      // i18next's `returnObjects` bypasses its own interpolator (it only
-      // post-processes string results, not values pulled out of an array),
-      // so the {{count}} placeholder is filled in by hand after picking the
-      // random variant.
-      if (template) msg = template.replace(/{{count}}/g, newStreak);
-    }
+    const msg = currentTask?.focus
+      ? t('feedback.correctWithRule', { rule: currentTask.focus })
+      : t('feedback.correct');
     setFeedback({ type: 'success', msg });
     const voiceSuccess = t('voice.success', { returnObjects: true });
-    let voiceSuccessMsg = Array.isArray(voiceSuccess)
+    const voiceSuccessMsg = Array.isArray(voiceSuccess)
       ? voiceSuccess[Math.floor(Math.random() * voiceSuccess.length)]
       : voiceSuccess || '';
-    if (newStreak >= 3) {
-      const voiceStreak = t('voice.streak', { returnObjects: true });
-      const template = Array.isArray(voiceStreak)
-        ? voiceStreak[Math.floor(Math.random() * voiceStreak.length)]
-        : voiceStreak;
-      if (template) voiceSuccessMsg = template.replace(/{{count}}/g, newStreak);
-    }
     // Bug fix: this used to check only `muteNotifications`, so success/error
     // speech ignored the global `voiceAssistant` toggle entirely — a user who
     // turned Voice Assistant off would still hear these lines on every
@@ -333,62 +317,35 @@ export function useExerciseSession({
     // the narrower "mute notifications" sub-preference.
     if (inclusiveOptions.voiceAssistant && !inclusiveOptions.muteNotifications)
       speak(voiceSuccessMsg);
-    const newPoints = points + 1;
-    setPoints(newPoints);
-    if (isGamified) {
-      setCoins((prev) => prev + 1);
-      const todayStr = new Date().toDateString();
-      setDailyProgress((prev) => {
-        const todayPoints = prev[todayStr]?.points || 0;
-        return { ...prev, [todayStr]: { points: todayPoints + 1 } };
-      });
-      setEarnedCoinsAnim(earnedCoins);
-      setSafeTimeout(() => setEarnedCoinsAnim(null), 1500);
-      const rewardItems = t('rewardItems', { returnObjects: true });
-      const pool = rewardItems?.[theme] || rewardItems?.Natur || ['⭐'];
-      setRewards((prev) => [
-        ...prev,
-        pool[Math.floor(Math.random() * pool.length)],
-      ]);
-      if (newPoints % POINTS_PER_LEVEL === 0) {
-        if (newPoints > 0 && newPoints % 10 === 0) setPendingFeedback(true);
-        setSafeTimeout(() => setShowSuccess(true), 1000);
-      } else
-        setSafeTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
-    } else {
-      if (newPoints > 0 && newPoints % 10 === 0)
-        setSafeTimeout(
-          () => setShowFeedback(true),
-          inclusiveOptions.extendedTime ? 3000 : 1500,
-        );
-      else setSafeTimeout(goNext, inclusiveOptions.extendedTime ? 3000 : 1500);
-    }
+    const newGrowthValue = growthValue + 1;
+    setGrowthValue(newGrowthValue);
+    onUnitCompleted?.(newGrowthValue);
+    // Advance timing must be identical regardless of what onUnitCompleted
+    // does (or whether anything is wired to it at all) — it's a single
+    // shared schedule, not something the gamification setting should be
+    // able to change. The in-session feedback-survey popup this used to
+    // also schedule has been removed entirely: the survey is opened
+    // explicitly by the user now, not triggered inline by point count.
+    const advanceDelay = inclusiveOptions.extendedTime ? 3000 : 1500;
+    setSafeTimeout(goNext, advanceDelay);
     saveLog('exercise_history', {
       date: new Date().toISOString(),
       type: activeTab,
       correct: true,
     }).catch(console.error);
   }, [
-    currentStreak,
-    isGamified,
-    dailyQuests,
+    consecutiveCorrect,
     activeTab,
-    updateQuests,
+    currentTask,
     t,
     speak,
-    points,
+    growthValue,
     theme,
-    setRewards,
     inclusiveOptions,
-    setDailyProgress,
     userDifficulty,
     goNext,
-    setCoins,
-    setEarnedCoinsAnim,
-    setPoints,
-    setPendingFeedback,
-    setShowSuccess,
-    setShowFeedback,
+    setGrowthValue,
+    onUnitCompleted,
     setUserDifficulty,
     setSafeTimeout,
   ]);
@@ -405,15 +362,18 @@ export function useExerciseSession({
       setUserDifficulty((prev) => Math.max(prev - 1, 1));
       setErrorCounter(0);
     }
+    const msg = currentTask?.focus
+      ? t('feedback.incorrectWithRule', { rule: currentTask.focus })
+      : t('feedback.incorrect');
+    setFeedback({ type: 'error', msg });
     const voiceError = t('voice.error', { returnObjects: true });
-    const errorMsg = Array.isArray(voiceError)
+    const voiceErrorMsg = Array.isArray(voiceError)
       ? voiceError[Math.floor(Math.random() * voiceError.length)]
       : voiceError || "Let's look closer at this one together.";
-    setFeedback({ type: 'error', msg: errorMsg });
     // Same fix as handleSuccess above: respect the global voiceAssistant
     // toggle, not just muteNotifications.
     if (inclusiveOptions.voiceAssistant && !inclusiveOptions.muteNotifications)
-      speak(errorMsg);
+      speak(voiceErrorMsg);
     saveLog('exercise_history', {
       date: new Date().toISOString(),
       type: activeTab,
@@ -426,6 +386,7 @@ export function useExerciseSession({
     inclusiveOptions,
     userDifficulty,
     activeTab,
+    currentTask,
     setErrorTimestamps,
     setUserDifficulty,
   ]);
@@ -435,8 +396,7 @@ export function useExerciseSession({
     setCurrentIndex,
     cycle,
     setCycle,
-    currentStreak,
-    setCurrentStreak,
+    setConsecutiveCorrect,
     feedback,
     setFeedback,
     isTransitioning,
