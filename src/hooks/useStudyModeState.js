@@ -42,7 +42,13 @@ export function useStudyModeState() {
     readStudyModeEnabled,
   );
 
-  const [variantOrder] = useState(() => {
+  const assignRandomOrder = () => {
+    const assigned = Math.random() < 0.5 ? 'classicFirst' : 'gamifiedFirst';
+    localStorage.setItem('variantOrder', assigned);
+    return assigned;
+  };
+
+  const [variantOrder, setVariantOrder] = useState(() => {
     const fromUrl = new URLSearchParams(window.location.search)
       .get('order');
     if (VARIANT_ORDERS.includes(fromUrl)) {
@@ -57,23 +63,29 @@ export function useStudyModeState() {
     // "randomized starting order" actually happen for a plain shared link,
     // rather than depending on every participant getting a hand-crafted
     // URL from whoever runs the study.
-    const assigned = Math.random() < 0.5 ? 'classicFirst' : 'gamifiedFirst';
-    localStorage.setItem('variantOrder', assigned);
-    return assigned;
+    return assignRandomOrder();
   });
 
   const [progress, setProgressState] = useState(() =>
     safeJSONParse(localStorage.getItem('studyProgress'), DEFAULT_PROGRESS),
   );
 
-  const setStudyModeEnabled = (value) => {
-    localStorage.setItem('studyModeEnabled', String(value));
-    setStudyModeEnabledState(value);
-  };
-
   const setProgress = (next) => {
     localStorage.setItem('studyProgress', JSON.stringify(next));
     setProgressState(next);
+  };
+
+  const setStudyModeEnabled = (value) => {
+    localStorage.setItem('studyModeEnabled', String(value));
+    setStudyModeEnabledState(value);
+    // Re-enabling after a previous run already finished starts a fresh one
+    // (new coin flip, progress reset) rather than staying permanently inert
+    // — otherwise the toggle would show on while the free picker/nav stays
+    // up, exactly the inconsistent state this flag exists to prevent.
+    if (value && progress.phase === 'done') {
+      setProgress(DEFAULT_PROGRESS);
+      setVariantOrder(assignRandomOrder());
+    }
   };
 
   // Guided mode only actually governs anything once a starting variant
@@ -123,6 +135,12 @@ export function useStudyModeState() {
       setProgress({ block: 2, pillarIndex: 0, pillarCount: 0, phase: 'tasks' });
     } else {
       setProgress({ ...progress, phase: 'done' });
+      // Both blocks and both surveys are done — turn the toggle itself off
+      // rather than leaving it on but functionally inert, so the app
+      // plainly reflects "guided part finished, free practice from here"
+      // instead of a toggle that still reads on with no visible effect.
+      localStorage.setItem('studyModeEnabled', 'false');
+      setStudyModeEnabledState(false);
     }
   };
 
