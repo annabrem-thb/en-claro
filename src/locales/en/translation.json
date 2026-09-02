@@ -419,7 +419,7 @@
     "infoText": "Automatically guides you through two short exercise blocks — one without, one with game elements — each followed by a brief questionnaire. Answers are stored anonymized, solely for this thesis, with no names or exercise content. Turn off for free use without this structure.",
     "completeTitle": "Thank you for participating!",
     "completeMessage": "Both exercise blocks and questionnaires are complete. You can keep using the app freely from now on.",
-    "progressLabel": "Block {{block}}/2 · {{pillar}} {{count}}/3",
+    "progressLabel": "Block {{block}}/2 · {{pillar}} {{count}}/{{total}}",
     "currentVariantClassic": "Current mode: Learning only",
     "currentVariantGamified": "Current mode: Game (rewards)"
   },
