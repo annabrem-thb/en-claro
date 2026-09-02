@@ -420,7 +420,7 @@
   },
   "studyMode": {
     "toggleLabel": "Studienmodus",
-    "infoText": "Im Studienmodus durchlaufen Sie automatisch zwei kurze Übungsblöcke in zufälliger Reihenfolge – einen ohne und einen mit spielerischen Elementen – und füllen danach jeweils einen kurzen Fragebogen aus. Ihre Fragebogenantworten werden zusammen mit einer zufälligen, nicht mit Ihrem Namen verknüpften Kennung ausschließlich für die Auswertung dieser Abschlussarbeit gespeichert; es werden keine Namen oder Übungsinhalte übermittelt. Schalten Sie den Studienmodus aus, um die App frei und ohne diese Vorgaben zu nutzen.",
+    "infoText": "Führt Sie automatisch durch zwei kurze Übungsblöcke – einen ohne, einen mit Spielelementen – mit je einem kurzen Fragebogen danach. Antworten werden anonymisiert nur für diese Abschlussarbeit gespeichert, ohne Namen oder Übungsinhalte. Ausschalten für freie Nutzung ohne diese Vorgaben.",
     "completeTitle": "Vielen Dank für Ihre Teilnahme!",
     "completeMessage": "Beide Übungsblöcke und Fragebögen sind abgeschlossen. Sie können die App ab jetzt frei weiter nutzen.",
     "progressLabel": "Block {{block}}/2 · {{pillar}} {{count}}/3",

@@ -416,7 +416,7 @@
   },
   "studyMode": {
     "toggleLabel": "Study mode",
-    "infoText": "In study mode, you'll automatically go through two short exercise blocks in a random order — one without and one with game-like elements — and fill in a short questionnaire after each one. Your questionnaire answers are stored together with a random identifier not linked to your name, solely for the evaluation of this thesis; no names or exercise content are transmitted. Turn study mode off to use the app freely, without this structure.",
+    "infoText": "Automatically guides you through two short exercise blocks — one without, one with game elements — each followed by a brief questionnaire. Answers are stored anonymized, solely for this thesis, with no names or exercise content. Turn off for free use without this structure.",
     "completeTitle": "Thank you for participating!",
     "completeMessage": "Both exercise blocks and questionnaires are complete. You can keep using the app freely from now on.",
     "progressLabel": "Block {{block}}/2 · {{pillar}} {{count}}/3",
