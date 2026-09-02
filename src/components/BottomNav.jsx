@@ -15,7 +15,6 @@ function NavButton({
   isActive,
   isHighContrast,
   themeStyles,
-  hideNavLabel,
   noFlash,
   bigTargets = false,
   activeGlow = false,
@@ -51,19 +50,19 @@ function NavButton({
       >
         {icon}
       </div>
-      {!hideNavLabel && (
-        // `truncate` alone (ellipsis on overflow) replaces the previous
-        // `label.split(' ')[0]` first-word cut: a long localized label like
-        // German "Rechtschreibung" now degrades gracefully instead of
-        // silently losing every word after the first, while aria-label
-        // above always carries the full, untruncated text to screen readers.
-        <span className="max-w-full truncate text-center text-[10px] leading-none">
-          <BionicText text={label} enabled={bionicReading} />
-        </span>
-      )}
+      {}
+      {/* Wraps onto a second line instead of a previous approach that
+          either truncated to one line or hid the label outright once the
+          user's UI text-size setting pushed it past a single line's width
+          — both left the button's meaning readable only from its icon.
+          `line-clamp-2` still caps runaway length (e.g. German compounds)
+          with an ellipsis rather than growing the bar unboundedly. */}
+      <span className="line-clamp-2 max-w-full text-center text-[10px] leading-tight wrap-break-word">
+        <BionicText text={label} enabled={bionicReading} />
+      </span>
       {badge && (
         <span
-          className={`absolute ${hideNavLabel ? 'top-2 right-3' : 'top-1 right-2'} h-2.5 w-2.5 border-2 bg-blue-500 ${isHighContrast ? 'border-black' : 'border-white'} rounded-full`}
+          className={`absolute top-1 right-2 h-2.5 w-2.5 border-2 bg-blue-500 ${isHighContrast ? 'border-black' : 'border-white'} rounded-full`}
           aria-hidden="true"
         />
       )}
@@ -84,7 +83,6 @@ function BottomNavComponent({
   theme,
   themeStyles,
   isHighContrast,
-  hideNavLabel,
   noFlash,
   bigTargets = false,
   bionicReading = false,
@@ -115,7 +113,6 @@ function BottomNavComponent({
             isActive={activeTab === pillar}
             isHighContrast={isHighContrast}
             themeStyles={themeStyles}
-            hideNavLabel={hideNavLabel}
             noFlash={noFlash}
             bigTargets={bigTargets}
             bionicReading={bionicReading}
@@ -135,7 +132,6 @@ function BottomNavComponent({
           isActive={activeTab === 'Garden'}
           isHighContrast={isHighContrast}
           themeStyles={themeStyles}
-          hideNavLabel={hideNavLabel}
           noFlash={noFlash}
           bigTargets={bigTargets}
           bionicReading={bionicReading}
@@ -151,7 +147,6 @@ function BottomNavComponent({
         }}
         isHighContrast={isHighContrast}
         themeStyles={themeStyles}
-        hideNavLabel={hideNavLabel}
         bigTargets={bigTargets}
         bionicReading={bionicReading}
         icon="📝"
@@ -165,7 +160,6 @@ function BottomNavComponent({
         }}
         isHighContrast={isHighContrast}
         themeStyles={themeStyles}
-        hideNavLabel={hideNavLabel}
         bigTargets={bigTargets}
         bionicReading={bionicReading}
         icon="⚙️"

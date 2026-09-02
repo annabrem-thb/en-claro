@@ -275,13 +275,6 @@ function AppContent() {
   const themeStyles = THEMES[theme] || THEMES.Natur;
   const noFlash = settings.noFlash || settings.motion;
   const bigTargets = settings.bigTargets || settings.motorik;
-  // Nav labels wrap/overflow in the compact rail once UI text grows past its
-  // default size — `vision` used to be a single fixed 115%-zoom toggle that
-  // this gated on directly; now that it's a continuous slider, the same
-  // "moved above default" threshold used elsewhere (SurveyComponent.tsx,
-  // IntroScreen.jsx's hasVision) applies here too.
-  const hideNavLabel =
-    settings.fontSizeUi > 16 || settings.fontSizeExercise > 16;
   const isHighContrast = settings.contrast;
   const isColorblind = settings.color;
   const hasRuler = settings.ruler;
@@ -631,7 +624,6 @@ function AppContent() {
             themeStyles={themeStyles}
             isHighContrast={isHighContrast}
             bigTargets={bigTargets}
-            hideNavLabel={hideNavLabel}
             setSettingsOpen={setSettingsOpen}
             onOpenSurvey={openSurvey}
             t={t}
@@ -925,7 +917,6 @@ function AppContent() {
               theme={theme}
               themeStyles={themeStyles}
               isHighContrast={isHighContrast}
-              hideNavLabel={hideNavLabel}
               noFlash={noFlash}
               bigTargets={bigTargets}
               bionicReading={!!settings.bionicReading}
