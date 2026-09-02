@@ -726,35 +726,50 @@ function AppContent() {
           Unmounted entirely (not just CSS-hidden) while a task is actively
           being worked on — nav/Settings must not render at all during that
           window, only before a task starts and after it's answered —
-          unless the touch-only escape hatch below explicitly revealed it
-          for this one task. */}
-      {(!isProcessingTask || navRevealedDuringTask) && (
-        <div
-          className={`z-40 hidden h-full shrink-0 lg:flex ${noFlash ? '' : 'animate-in fade-in duration-300'}`}
-        >
-          <SidebarNav
-            pillars={PILLARS}
-            activeTab={activeTab}
-            onTabChange={handleTabChange}
-            onGardenClick={handleGardenClick}
-            language={language}
-            isGamified={isGamified}
-            theme={theme}
-            themeStyles={themeStyles}
-            isHighContrast={isHighContrast}
-            bigTargets={bigTargets}
-            setSettingsOpen={setSettingsOpen}
-            onOpenSurvey={openSurvey}
-            t={t}
-            loadLevel={loadLevel}
-            speak={speak}
-            noFlash={noFlash}
-            bionicReading={!!settings.bionicReading}
-            lockedToPillar={lockedToPillar}
-            studyProgressLabel={studyProgressLabel}
-          />
-        </div>
-      )}
+          unless the escape hatch below explicitly revealed it for this one
+          task, which now also happens by moving the mouse near this edge
+          (mouseenter/leave on this shared wrapper), not just by tapping the
+          hamburger — a keyboard/touch user still has that button, but a
+          mouse user shouldn't need a click just to peek at the menu. Purely
+          a hover convenience with no keyboard equivalent needed — nav stays
+          fully reachable via the hamburger button and Ctrl+1-4/,/S. */}
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+      <div
+        className="hidden h-full shrink-0 lg:flex"
+        onMouseEnter={() => setNavRevealedDuringTask(true)}
+        onMouseLeave={() => setNavRevealedDuringTask(false)}
+      >
+        {isProcessingTask && !navRevealedDuringTask && (
+          <div className="h-full w-4" aria-hidden="true" />
+        )}
+        {(!isProcessingTask || navRevealedDuringTask) && (
+          <div
+            className={`z-40 flex h-full shrink-0 ${noFlash ? '' : 'animate-in fade-in duration-300'}`}
+          >
+            <SidebarNav
+              pillars={PILLARS}
+              activeTab={activeTab}
+              onTabChange={handleTabChange}
+              onGardenClick={handleGardenClick}
+              language={language}
+              isGamified={isGamified}
+              theme={theme}
+              themeStyles={themeStyles}
+              isHighContrast={isHighContrast}
+              bigTargets={bigTargets}
+              setSettingsOpen={setSettingsOpen}
+              onOpenSurvey={openSurvey}
+              t={t}
+              loadLevel={loadLevel}
+              speak={speak}
+              noFlash={noFlash}
+              bionicReading={!!settings.bionicReading}
+              lockedToPillar={lockedToPillar}
+              studyProgressLabel={studyProgressLabel}
+            />
+          </div>
+        )}
+      </div>
 
       {}
       <div className="relative flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
@@ -874,6 +889,41 @@ function AppContent() {
                         `${safeIndex + 1} / ${activePillarTasks.length}`}
                     </div>
                   </div>
+                </div>
+              )}
+
+              {}
+              {/* The progress row above (with its own CognitiveEnergyIndicator)
+                  is hidden while a task is being processed — but cognitive
+                  load doesn't pause with it, and a break suggestion needs
+                  to be able to appear at exactly the moment it's most
+                  likely: mid-task. This is the same indicator, just kept
+                  mounted through that window instead of disappearing with
+                  the rest of the row. Classic mode has no load-tracking
+                  concept to show here (loadLevel/showBreakModal are
+                  gamification-only), so it stays gamified-only like the
+                  original. */}
+              {isProcessingTask && isGamified && !settings.zenMode && (
+                <div className="absolute top-2 right-2 z-20 sm:top-3 sm:right-3">
+                  <CognitiveEnergyIndicator
+                    loadLevel={loadLevel || 'green'}
+                    showModal={showBreakModal}
+                    onTakeBreak={() => {
+                      if (typeof setShowBreakModal === 'function')
+                        setShowBreakModal(false);
+                      handleGardenClick();
+                    }}
+                    onDismiss={() => {
+                      if (typeof setShowBreakModal === 'function')
+                        setShowBreakModal(false);
+                    }}
+                    t={t}
+                    themeStyles={themeStyles}
+                    isHighContrast={isHighContrast}
+                    noFlash={noFlash}
+                    bigTargets={bigTargets}
+                    bionicReading={!!settings.bionicReading}
+                  />
                 </div>
               )}
 

@@ -203,7 +203,21 @@ export function useExerciseSession({
     // have zero items for this participant's content set/language — an
     // empty screen would be worse than a task from outside the plan.
     const studyFiltered = studyExerciseTypes
-      ? rawTasks.filter((task) => studyExerciseTypes.includes(task.__exerciseType))
+      ? rawTasks.filter((task) => {
+          if (!studyExerciseTypes.includes(task.__exerciseType)) return false;
+          // graphemePhoneme alternates two directions by id parity (see
+          // GraphemePhonemeMatchExercise.jsx) — "look at the letters, choose
+          // the matching sound" (even ids) is excluded from the guided
+          // study, keeping only its "listen to the sound, choose the
+          // spelling" counterpart (odd ids).
+          if (
+            task.__exerciseType === 'graphemePhoneme' &&
+            (task.id ?? 0) % 2 === 0
+          ) {
+            return false;
+          }
+          return true;
+        })
       : rawTasks;
     let tasks = studyExerciseTypes && studyFiltered.length === 0 ? rawTasks : studyFiltered;
     let filteredTasks = tasks;
