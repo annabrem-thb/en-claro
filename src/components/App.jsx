@@ -222,7 +222,11 @@ function AppContent() {
     'cfg_daily_progress',
   );
 
-  const { affirmation } = useAffirmativeNotifications(growthValue, language);
+  const { affirmation } = useAffirmativeNotifications(
+    growthValue,
+    language,
+    isGamified,
+  );
 
   const prevGrowthValueRef = useRef(growthValue);
   const [newTreeNotification, setNewTreeNotification] = useState(false);
@@ -238,7 +242,7 @@ function AppContent() {
     const prevTrees = Math.floor(prevGrowthValueRef.current / 10);
     const currentTrees = Math.floor(growthValue / 10);
 
-    if (isAppReady && currentTrees > prevTrees && currentTrees > 0) {
+    if (isGamified && isAppReady && currentTrees > prevTrees && currentTrees > 0) {
       setNewTreeNotification(true);
       vibrate([50, 50, 50]);
       const timer = setTimeout(
@@ -248,7 +252,7 @@ function AppContent() {
       return () => clearTimeout(timer);
     }
     prevGrowthValueRef.current = growthValue;
-  }, [growthValue, isAppReady, vibrate]);
+  }, [growthValue, isAppReady, isGamified, vibrate]);
 
   // Adjusted during render (React's recommended pattern for reacting to a
   // state change with more state — see "You Might Not Need an Effect") so
