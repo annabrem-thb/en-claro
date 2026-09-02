@@ -86,7 +86,9 @@ export function useExerciseSession({
   const [currentIndex, setCurrentIndex] = useState(
     () => Number(localStorage.getItem('idx')) || 0,
   );
-  const [cycle, setCycle] = useState(0);
+  const [cycle, setCycle] = useState(
+    () => Number(localStorage.getItem('cycle')) || 0,
+  );
   // Never shown to the user and never feeds feedback copy — this exists
   // solely to trigger the adaptive-difficulty bump below after 5 correct
   // answers in a row.
@@ -114,6 +116,10 @@ export function useExerciseSession({
   useEffect(() => {
     localStorage.setItem('idx', String(currentIndex));
   }, [currentIndex]);
+
+  useEffect(() => {
+    localStorage.setItem('cycle', String(cycle));
+  }, [cycle]);
 
   const activePillarTasks = useMemo(() => {
     if (!db) return [];

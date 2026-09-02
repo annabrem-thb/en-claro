@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
 
 function ScrabbleExercise({
@@ -181,19 +182,16 @@ function ScrabbleExercise({
           </div>
         )}
 
-        <div className="mb-2 flex justify-center">
+        <ExerciseControlsRow className="mb-2 flex justify-center">
           <TTSController
             onReadAloud={readWordAndLetters}
             pauseAllTimeouts={pauseAllTimeouts}
             resumeAllTimeouts={resumeAllTimeouts}
-            t={t}
             controlBtnSize={controlBtnSize}
-            isHighContrast={isHighContrast}
             noFlash={noFlash}
-            bionicReading={bionicReading}
             ttsFallback={ttsFallback}
           />
-        </div>
+        </ExerciseControlsRow>
       </div>
 
       {}
