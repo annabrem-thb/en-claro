@@ -418,6 +418,11 @@
     "Visual": "Sehen und Raum",
     "Cognitive": "Logik und Gedächtnis"
   },
+  "pillarsNav": {
+    "Literacy": "Lesen und\nSchreiben",
+    "Visual": "Sehen und\nRaum",
+    "Cognitive": "Logik und\nGedächtnis"
+  },
   "studyMode": {
     "toggleLabel": "Studienmodus",
     "infoText": "Führt Sie automatisch durch zwei kurze Übungsblöcke – einen ohne, einen mit Spielelementen – mit je einem kurzen Fragebogen danach. Antworten werden anonymisiert nur für diese Abschlussarbeit gespeichert, ohne Namen oder Übungsinhalte. Ausschalten für freie Nutzung ohne diese Vorgaben.",

@@ -63,7 +63,7 @@ function NavButton({
         // bold pattern — worse once `hideNavLabel`'s removal (above) made
         // these regularly two lines of tracking-wide text.
       }
-      <span className="line-clamp-2 max-w-full text-center text-[10px] leading-tight wrap-break-word">
+      <span className="line-clamp-2 max-w-full text-center text-[10px] leading-tight wrap-break-word whitespace-pre-line">
         {label}
       </span>
       {badge && (
@@ -123,6 +123,12 @@ function BottomNavComponent({
         {pillars.map((pillar) => {
           const label =
             t('pillars', { returnObjects: true })?.[pillar] || pillar;
+          // Forces the line break at a specific word boundary per language
+          // instead of leaving it to the browser — see SidebarNav.jsx's
+          // identical navLabel for why (German 2/1 words, Polish/English
+          // 1/rest).
+          const navLabel =
+            t('pillarsNav', { returnObjects: true })?.[pillar] || label;
           return (
             <NavButton
               key={pillar}
@@ -138,7 +144,8 @@ function BottomNavComponent({
               bigTargets={bigTargets}
               activeGlow
               icon={PILLAR_ICONS[pillar]}
-              label={label}
+              label={navLabel}
+              ariaLabel={label}
             />
           );
         })}

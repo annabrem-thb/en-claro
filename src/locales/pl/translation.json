@@ -420,6 +420,11 @@
     "Visual": "Wzrok i Przestrzeń",
     "Cognitive": "Logika i Pamięć"
   },
+  "pillarsNav": {
+    "Literacy": "Czytanie\ni Pisanie",
+    "Visual": "Wzrok\ni Przestrzeń",
+    "Cognitive": "Logika\ni Pamięć"
+  },
   "studyMode": {
     "toggleLabel": "Tryb badania",
     "infoText": "Automatycznie prowadzi Cię przez dwa krótkie bloki ćwiczeń – jeden bez i jeden z elementami grywalizacji – a po każdym krótka ankieta. Odpowiedzi są zapisywane anonimowo wyłącznie na potrzeby tej pracy magisterskiej, bez danych osobowych i treści ćwiczeń. Wyłącz, aby korzystać swobodnie bez tej struktury.",

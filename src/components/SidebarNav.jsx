@@ -119,6 +119,13 @@ const SidebarNav = memo(function SidebarNav({
           const isSelected = activeTab === p;
           const isLockedOut = pillarsLocked && p !== lockedToPillar;
           const label = t('pillars', { returnObjects: true })?.[p] || p;
+          // Forces the line break at a specific word boundary per language
+          // instead of leaving it to the browser: German's compound "und"
+          // phrasing reads best as 2 words/1 word, Polish and English as 1
+          // word/rest — a plain flex-wrap left German breaking after word 1
+          // and Polish/English's short first word looking oddly short next
+          // to a long second line.
+          const navLabel = t('pillarsNav', { returnObjects: true })?.[p] || label;
           return (
             <Tooltip
               key={p}
@@ -156,8 +163,8 @@ const SidebarNav = memo(function SidebarNav({
                     // choice for why a short, all-caps nav label doesn't
                     // benefit from the flowing-text bold/regular pattern.
                   }
-                  <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                    {label}
+                  <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider whitespace-pre-line uppercase lg:text-xs">
+                    {navLabel}
                   </span>
                 </AccessibleTTS>
                 <span
