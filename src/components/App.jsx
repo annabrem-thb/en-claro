@@ -299,10 +299,19 @@ function AppContent() {
         : t('pillars', { returnObjects: true })?.[activeTab] || activeTab;
   useDocumentTitle(documentTitleSegment);
 
-  // Shown in place of free pillar/Garden/Survey nav while a guided study
-  // block owns navigation (see setPillarTab's sync above) — null once the
-  // block finishes its tasks (phase moves to 'survey'/'done') or study
-  // mode isn't active at all, which is exactly when that nav should be
+  // Which pillar switching is locked to — null means pillar nav is free
+  // (Garden is never locked; see handleGardenClick). Same lifetime as
+  // studyMode.currentPillar: only set while a block is actively working
+  // through its tasks.
+  const lockedToPillar =
+    studyMode.isActive && studyMode.phase === 'tasks'
+      ? studyMode.currentPillar
+      : null;
+
+  // Shown in place of the free pillar-nav readout while a guided study
+  // block owns which pillar is current (see setPillarTab's sync above) —
+  // null once the block finishes its tasks (phase moves to 'survey'/'done')
+  // or study mode isn't active at all, which is exactly when nav should be
   // free again.
   const studyProgressLabel =
     studyMode.isActive && studyMode.phase === 'tasks'
@@ -447,19 +456,25 @@ function AppContent() {
 
   const handleTabChange = useCallback(
     (pillar) => {
-      // A guided study block owns pillar navigation (see the sync below) —
-      // manual nav/keyboard/swipe switching is disabled for its duration.
-      if (studyMode.isActive) return;
+      // A guided study block owns *which of the three pillars* is current
+      // (see the sync below) — jumping ahead to one it hasn't reached yet
+      // is disabled, but re-selecting the pillar it's already on (e.g.
+      // returning from a Garden visit) is just going back to the task,
+      // not skipping anything.
+      if (studyMode.isActive && pillar !== studyMode.currentPillar) return;
       setPillarTab(pillar);
     },
-    [studyMode.isActive, setPillarTab],
+    [studyMode.isActive, studyMode.currentPillar, setPillarTab],
   );
 
   const handleGardenClick = useCallback(() => {
-    if (studyMode.isActive) return;
+    // Unlike pillar switching, Garden is never blocked by a guided study
+    // block: the gamified block is specifically meant to show its
+    // gamification, not hide the one part of it participants would
+    // actually want to check on.
     setActiveTab('Garden');
     setFeedback(null);
-  }, [studyMode.isActive, setFeedback]);
+  }, [setFeedback]);
 
   // While a guided study block is in progress, activeTab tracks the
   // block's current pillar rather than wherever manual nav last left it —
@@ -478,10 +493,16 @@ function AppContent() {
   // it. Waiting for feedback to clear naturally (goNext's own
   // setFeedback(null), once its delay elapses) lines the pillar switch up
   // with the same moment the exercise would have advanced anyway.
+  //
+  // Also gated on `activeTab !== 'Garden'`: a deliberate Garden visit
+  // (handleGardenClick, always allowed during a gamified block) would
+  // otherwise be yanked straight back to the exercise on the very next
+  // render, since Garden also isn't studyMode.currentPillar.
   if (
     studyMode.isActive &&
     studyMode.currentPillar &&
     activeTab !== studyMode.currentPillar &&
+    activeTab !== 'Garden' &&
     !feedback
   ) {
     setPillarTab(studyMode.currentPillar);
@@ -724,6 +745,7 @@ function AppContent() {
             speak={speak}
             noFlash={noFlash}
             bionicReading={!!settings.bionicReading}
+            lockedToPillar={lockedToPillar}
             studyProgressLabel={studyProgressLabel}
           />
         </div>
@@ -1019,6 +1041,7 @@ function AppContent() {
               onOpenSettings={openSettings}
               onOpenSurvey={openSurvey}
               vibrate={vibrate}
+              lockedToPillar={lockedToPillar}
               studyProgressLabel={studyProgressLabel}
             />
           </div>

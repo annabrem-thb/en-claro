@@ -98,13 +98,14 @@ function BottomNavComponent({
   onOpenSurvey,
   vibrate,
   // Non-null while a guided study block is running — see SidebarNav.jsx's
-  // identical prop for why pillar/Garden/Survey nav is disabled for its
-  // duration instead of left to double as free navigation.
+  // identical prop for why switching away from this pillar is disabled for
+  // its duration (Garden and the current pillar itself stay reachable).
+  lockedToPillar = null,
   studyProgressLabel = null,
 }) {
   const gardenIcon =
     t('levelIcons', { returnObjects: true })?.[theme]?.[0] || '🌱';
-  const pillarsLocked = !!studyProgressLabel;
+  const pillarsLocked = !!lockedToPillar;
 
   return (
     <div className="shrink-0 lg:hidden">
@@ -129,7 +130,7 @@ function BottomNavComponent({
                 vibrate(15);
                 onTabChange(pillar);
               }}
-              disabled={pillarsLocked}
+              disabled={pillarsLocked && pillar !== lockedToPillar}
               isActive={activeTab === pillar}
               isHighContrast={isHighContrast}
               themeStyles={themeStyles}
@@ -142,7 +143,7 @@ function BottomNavComponent({
           );
         })}
 
-        {isGamified && !pillarsLocked && (
+        {isGamified && (
           <NavButton
             onClick={() => {
               vibrate(15);
