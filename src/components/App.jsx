@@ -919,7 +919,6 @@ function AppContent() {
               isHighContrast={isHighContrast}
               noFlash={noFlash}
               bigTargets={bigTargets}
-              bionicReading={!!settings.bionicReading}
               t={t}
               onTabChange={handleTabChange}
               onGardenClick={handleGardenClick}
