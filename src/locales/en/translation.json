@@ -11,6 +11,7 @@
     "appMode": "Mode",
     "modeClassic": "Study only",
     "modeGamified": "Game (rewards)",
+    "modeLocked": "Unlocks after {{count}} more completed exercises",
     "a11y": "Comfort Tools",
     "lrs": "Extra reading spacing",
     "contrast": "Contrast",

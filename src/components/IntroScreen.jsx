@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useGamification } from '../hooks/useGamification.js';
+import { UNLOCK_AFTER_UNITS } from '../hooks/useGamificationState.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
 
@@ -48,7 +49,9 @@ const A11yBtn = ({
 function IntroScreen({ onStart, speak }) {
   const { t } = useTranslation();
   const { settings, updateSetting } = useUserSettingsContext();
-  const { isGamified, setIsGamified } = useGamification();
+  const { isGamified, setIsGamified, lockedIsGamified, growthValue } =
+    useGamification();
+  const tasksUntilUnlock = Math.max(0, UNLOCK_AFTER_UNITS - growthValue);
 
   const {
     language,
@@ -301,11 +304,17 @@ function IntroScreen({ onStart, speak }) {
               </legend>
               <button
                 onClick={() => {
+                  if (lockedIsGamified === false) return;
                   setIsGamified(false);
                   if (settings.voiceAssistant && speak)
                     speak(t('intro.modeClassic', 'Learning Only'));
                 }}
+                disabled={lockedIsGamified === false}
                 className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
+                  lockedIsGamified === false
+                    ? 'cursor-not-allowed opacity-40'
+                    : ''
+                } ${
                   !isGamified
                     ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-md'}`
                     : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300'}`
@@ -327,11 +336,17 @@ function IntroScreen({ onStart, speak }) {
               </button>
               <button
                 onClick={() => {
+                  if (lockedIsGamified === true) return;
                   setIsGamified(true);
                   if (settings.voiceAssistant && speak)
                     speak(t('intro.modeGamified', 'Gamified'));
                 }}
+                disabled={lockedIsGamified === true}
                 className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
+                  lockedIsGamified === true
+                    ? 'cursor-not-allowed opacity-40'
+                    : ''
+                } ${
                   isGamified
                     ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md'}`
                     : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-emerald-300'}`
@@ -351,6 +366,17 @@ function IntroScreen({ onStart, speak }) {
                   />
                 </span>
               </button>
+              {lockedIsGamified !== null && (
+                <p
+                  className={`col-span-2 mt-1 text-center text-[11px] ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+                >
+                  {t('intro.modeLocked', {
+                    count: tasksUntilUnlock,
+                    defaultValue:
+                      'Unlocks after {{count}} more completed exercises',
+                  })}
+                </p>
+              )}
             </fieldset>
 
             <fieldset className="m-0 mb-2 grid w-full shrink-0 grid-cols-2 gap-1 border-none p-0 sm:mb-3 sm:gap-1.5">
