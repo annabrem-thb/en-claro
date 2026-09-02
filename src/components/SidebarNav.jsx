@@ -25,13 +25,18 @@ const SidebarNav = memo(function SidebarNav({
   speak,
   noFlash,
   bionicReading = false,
-  // Non-null while a guided study block is running: pillar/Garden/Survey
-  // nav is disabled (the block owns navigation — see App.jsx's
-  // handleTabChange/handleGardenClick guards) and this replaces them with
-  // a small "which block, which pillar" readout instead.
+  // Non-null while a guided study block is running: switching to any
+  // pillar other than this one is disabled (the block owns which of the
+  // three you're on — see App.jsx's handleTabChange guard) and this
+  // replaces free pillar nav with a small "which block, which pillar"
+  // readout. Garden and the current pillar itself stay reachable — a
+  // gamified block is meant to actually show its gamification, and
+  // clicking back to the pillar you're already on is just "return to my
+  // task", not skipping ahead.
+  lockedToPillar = null,
   studyProgressLabel = null,
 }) {
-  const pillarsLocked = !!studyProgressLabel;
+  const pillarsLocked = !!lockedToPillar;
   const animClass = noFlash
     ? ''
     : 'animate-in fade-in slide-in-from-bottom-12 lg:slide-in-from-bottom-0 lg:slide-in-from-left-12 duration-700 ease-out';
@@ -112,6 +117,7 @@ const SidebarNav = memo(function SidebarNav({
       >
         {pillars.map((p, index) => {
           const isSelected = activeTab === p;
+          const isLockedOut = pillarsLocked && p !== lockedToPillar;
           const label = t('pillars', { returnObjects: true })?.[p] || p;
           return (
             <Tooltip
@@ -123,12 +129,12 @@ const SidebarNav = memo(function SidebarNav({
             >
               <button
                 onClick={() => {
-                  if (pillarsLocked) return;
+                  if (isLockedOut) return;
                   speak(label, true);
                   onTabChange(p);
                 }}
-                disabled={pillarsLocked}
-                className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${pillarsLocked && !isSelected ? 'cursor-not-allowed opacity-40' : ''} ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+                disabled={isLockedOut}
+                className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isLockedOut ? 'cursor-not-allowed opacity-40' : ''} ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
                 aria-current={isSelected ? 'page' : undefined}
                 aria-label={label}
               >
@@ -180,7 +186,7 @@ const SidebarNav = memo(function SidebarNav({
           className={`my-1 block w-px border-l lg:hidden ${isHighContrast ? 'border-white/20' : themeStyles.border}`}
         />
 
-        {isGamified && !pillarsLocked && (
+        {isGamified && (
           <Tooltip
             content={`${t('shortcut') || 'Shortcut'}: Ctrl + 4`}
             placement="top"
