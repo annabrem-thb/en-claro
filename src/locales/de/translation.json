@@ -10,9 +10,7 @@
     "chooseLanguage": "Sprache",
     "appMode": "Modus",
     "modeClassic": "Nur Lernen",
-    "modeGamified": "Spiel (Belohnungen)",
-    "modeLocked": "Schaltet sich nach {{count}} weiteren abgeschlossenen Übungen frei",
-    "a11y": "Komfort-Werkzeuge",
+    "modeGamified": "Spiel (Belohnungen)",    "a11y": "Komfort-Werkzeuge",
     "lrs": "Zusätzlicher Leseabstand",
     "contrast": "Kontrast",
     "vision": "Größerer Text",
@@ -419,6 +417,15 @@
     "Literacy": "Lesen und Schreiben",
     "Visual": "Sehen und Raum",
     "Cognitive": "Logik und Gedächtnis"
+  },
+  "studyMode": {
+    "toggleLabel": "Studienmodus",
+    "infoText": "Im Studienmodus durchlaufen Sie automatisch zwei kurze Übungsblöcke in zufälliger Reihenfolge – einen ohne und einen mit spielerischen Elementen – und füllen danach jeweils einen kurzen Fragebogen aus. Ihre Fragebogenantworten werden zusammen mit einer zufälligen, nicht mit Ihrem Namen verknüpften Kennung ausschließlich für die Auswertung dieser Abschlussarbeit gespeichert; es werden keine Namen oder Übungsinhalte übermittelt. Schalten Sie den Studienmodus aus, um die App frei und ohne diese Vorgaben zu nutzen.",
+    "completeTitle": "Vielen Dank für Ihre Teilnahme!",
+    "completeMessage": "Beide Übungsblöcke und Fragebögen sind abgeschlossen. Sie können die App ab jetzt frei weiter nutzen.",
+    "progressLabel": "Block {{block}}/2 · {{pillar}} {{count}}/3",
+    "currentVariantClassic": "Aktueller Modus: Nur Lernen",
+    "currentVariantGamified": "Aktueller Modus: Spiel (Belohnungen)"
   },
   "pillarIcons": {
     "Literacy": "📖",

@@ -25,6 +25,7 @@ import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts.js';
 import { useLocalTTS } from '../hooks/useLocalTTS.js';
 import { useReadingRuler } from '../hooks/useReadingRuler.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
+import { useStudyMode } from '../hooks/useStudyMode.js';
 import { useStudySet } from '../hooks/useStudySet.js';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation.js';
 import { useThemeCSSVariables } from '../hooks/useThemeCSSVariables.js';
@@ -44,6 +45,7 @@ import OfflineIndicator from './OfflineIndicator.jsx';
 import { ProgressPill } from './ProgressPill.jsx';
 import PwaUpdateBanner from './PwaUpdateBanner.jsx';
 import SidebarNav from './SidebarNav.jsx';
+import { StudyModeProvider } from './StudyModeContext.jsx';
 import { UserSettingsProvider } from './UserSettingsContext.jsx';
 import VoiceFallbackBanner from './VoiceFallbackBanner.jsx';
 import BionicText from './common/BionicText.jsx';
@@ -64,8 +66,10 @@ const TREE_NOTIFICATION_MS = 5000;
 const APP_READY_DELAY_MS = 1500;
 
 function AppContent() {
-  const { isGamified, growthValue, setGrowthValue } = useGamification();
+  const { isGamified, setIsGamified, growthValue, setGrowthValue } =
+    useGamification();
   const { studySet } = useStudySet();
+  const studyMode = useStudyMode();
 
   const { settings, updateSetting } = useUserSettingsContext();
   const { language, theme, dailyGoal, userDifficulty } = settings;
@@ -197,12 +201,9 @@ function AppContent() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   // Distinguishes the nav-triggered "open the survey any time" entry point
-  // from the automatic every-10-points trigger (see useExerciseSession's
-  // handleSuccess). The automatic path shows the survey *instead of*
-  // immediately calling goNext(), so closing it must call goNext() to catch
-  // up on the advance it deferred. A manual open never deferred one, so
-  // closing it must not silently skip whatever exercise the user was
-  // looking at.
+  // from a guided study block's end-of-block checkpoint (see the
+  // studyMode.phase === 'survey' effect below) — a manual open can be
+  // dismissed freely, a study checkpoint can't (see isStudyCheckpoint).
   const [surveyOpenedManually, setSurveyOpenedManually] = useState(false);
 
   const { loadLevel, showBreakModal, setShowBreakModal, setErrorTimestamps } =
@@ -261,6 +262,28 @@ function AppContent() {
     }
   }
 
+  // A guided study block dictates its own variant — this overrides
+  // whatever the free toggle last set, the same render-time sync as above.
+  if (studyMode.isActive && isGamified !== studyMode.blockIsGamified) {
+    setIsGamified(studyMode.blockIsGamified);
+  }
+
+  // Reacts to the study flow reaching a checkpoint: 'survey' means a block
+  // just finished its 9 tasks and needs that block's survey before
+  // continuing (opened the same way the automatic every-10-points survey
+  // used to, before that was removed — surveyOpenedManually stays false so
+  // the Dialog below knows this one isn't user-dismissable); 'done' means
+  // both blocks and surveys are complete, shown once via a toast.
+  const [prevStudyPhase, setPrevStudyPhase] = useState(studyMode.phase);
+  const [showStudyComplete, setShowStudyComplete] = useState(false);
+  if (studyMode.phase !== prevStudyPhase) {
+    setPrevStudyPhase(studyMode.phase);
+    if (studyMode.phase === 'survey') setShowFeedback(true);
+    if (studyMode.phase === 'done') setShowStudyComplete(true);
+  }
+  const isStudyCheckpoint =
+    showFeedback && studyMode.phase === 'survey' && !surveyOpenedManually;
+
   const { t } = useTranslation();
 
   const documentTitleSegment = showIntro
@@ -271,6 +294,22 @@ function AppContent() {
         ? t('garden') || 'Garden'
         : t('pillars', { returnObjects: true })?.[activeTab] || activeTab;
   useDocumentTitle(documentTitleSegment);
+
+  // Shown in place of free pillar/Garden/Survey nav while a guided study
+  // block owns navigation (see setPillarTab's sync above) — null once the
+  // block finishes its tasks (phase moves to 'survey'/'done') or study
+  // mode isn't active at all, which is exactly when that nav should be
+  // free again.
+  const studyProgressLabel =
+    studyMode.isActive && studyMode.phase === 'tasks'
+      ? t('studyMode.progressLabel', {
+          block: studyMode.block,
+          pillar:
+            t('pillars', { returnObjects: true })?.[studyMode.currentPillar] ||
+            studyMode.currentPillar,
+          count: studyMode.pillarCount + 1,
+        })
+      : null;
 
   const themeStyles = THEMES[theme] || THEMES.Natur;
   const noFlash = settings.noFlash || settings.motion;
@@ -302,6 +341,19 @@ function AppContent() {
       }
     },
     [isGamified, setDailyProgress, setSafeTimeout],
+  );
+
+  // Every call site that completes a unit (below, and useExerciseSession's
+  // onUnitCompleted) needs both the gamification side effect above and the
+  // study block's own pillar-progress count — the latter regardless of
+  // whether this block happens to be gamified, so it can't live inside
+  // handleUnitCompleted itself.
+  const notifyUnitCompleted = useCallback(
+    (newGrowthValue) => {
+      handleUnitCompleted(newGrowthValue);
+      studyMode.recordUnitCompleted();
+    },
+    [handleUnitCompleted, studyMode],
   );
 
   useThemeCSSVariables({
@@ -339,7 +391,7 @@ function AppContent() {
     studySet,
     growthValue,
     setGrowthValue,
-    onUnitCompleted: handleUnitCompleted,
+    onUnitCompleted: notifyUnitCompleted,
     setErrorTimestamps,
   });
 
@@ -373,11 +425,11 @@ function AppContent() {
   const handleSkip = useCallback(() => {
     const newGrowthValue = growthValue + 1;
     setGrowthValue(newGrowthValue);
-    handleUnitCompleted(newGrowthValue);
+    notifyUnitCompleted(newGrowthValue);
     goNext();
-  }, [growthValue, setGrowthValue, handleUnitCompleted, goNext]);
+  }, [growthValue, setGrowthValue, notifyUnitCompleted, goNext]);
 
-  const handleTabChange = useCallback(
+  const setPillarTab = useCallback(
     (pillar) => {
       setActiveTab(pillar);
       setLastPillar(pillar);
@@ -389,10 +441,33 @@ function AppContent() {
     [setCurrentIndex, setCycle, setFeedback, setConsecutiveCorrect],
   );
 
+  const handleTabChange = useCallback(
+    (pillar) => {
+      // A guided study block owns pillar navigation (see the sync below) —
+      // manual nav/keyboard/swipe switching is disabled for its duration.
+      if (studyMode.isActive) return;
+      setPillarTab(pillar);
+    },
+    [studyMode.isActive, setPillarTab],
+  );
+
   const handleGardenClick = useCallback(() => {
+    if (studyMode.isActive) return;
     setActiveTab('Garden');
     setFeedback(null);
-  }, [setFeedback]);
+  }, [studyMode.isActive, setFeedback]);
+
+  // While a guided study block is in progress, activeTab tracks the
+  // block's current pillar rather than wherever manual nav last left it —
+  // forced back in the same render it would otherwise drift, same pattern
+  // as the isGamified/prevIsGamified sync above.
+  if (
+    studyMode.isActive &&
+    studyMode.currentPillar &&
+    activeTab !== studyMode.currentPillar
+  ) {
+    setPillarTab(studyMode.currentPillar);
+  }
 
   const handleNavigateTab = useCallback(
     (tab) => {
@@ -631,6 +706,7 @@ function AppContent() {
             speak={speak}
             noFlash={noFlash}
             bionicReading={!!settings.bionicReading}
+            studyProgressLabel={studyProgressLabel}
           />
         </div>
       )}
@@ -925,6 +1001,7 @@ function AppContent() {
               onOpenSettings={openSettings}
               onOpenSurvey={openSurvey}
               vibrate={vibrate}
+              studyProgressLabel={studyProgressLabel}
             />
           </div>
         )}
@@ -946,35 +1023,71 @@ function AppContent() {
       />
 
       {}
+      {/* A guided study block's end-of-block survey isn't dismissable —
+          forcing it open (no close button, backdrop/Escape ignored) is
+          what makes this a real checkpoint rather than a suggestion the
+          participant can skip past without recording that block's SUS/
+          NASA-TLX scores. */}
       <Dialog
         open={showFeedback}
         onClose={() => {
+          if (isStudyCheckpoint) return;
           setShowFeedback(false);
-          if (!surveyOpenedManually) goNext();
           setSurveyOpenedManually(false);
         }}
         labelledBy="survey-title"
         overlayClassName="z-60 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm sm:p-6"
         className="no-scrollbar animate-in zoom-in relative max-h-[95dvh] w-full max-w-5xl overflow-y-auto rounded-3xl bg-white shadow-2xl duration-300"
       >
-        {}
-        <button
-          onClick={() => {
-            setShowFeedback(false);
-            if (!surveyOpenedManually) goNext();
-            setSurveyOpenedManually(false);
-          }}
-          aria-label={t('close') || 'Close'}
-          className="absolute top-4 right-4 z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 font-bold text-slate-500 transition-colors hover:bg-slate-200"
-        >
-          ✕
-        </button>
+        {!isStudyCheckpoint && (
+          <button
+            onClick={() => {
+              setShowFeedback(false);
+              setSurveyOpenedManually(false);
+            }}
+            aria-label={t('close') || 'Close'}
+            className="absolute top-4 right-4 z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 font-bold text-slate-500 transition-colors hover:bg-slate-200"
+          >
+            ✕
+          </button>
+        )}
 
         <Suspense
           fallback={<SkeletonLoader isHighContrast={false} noFlash={noFlash} />}
         >
-          <SurveyComponent />
+          <SurveyComponent
+            onSubmitted={() => {
+              if (studyMode.phase === 'survey') studyMode.recordSurveySubmitted();
+              setShowFeedback(false);
+              setSurveyOpenedManually(false);
+            }}
+          />
         </Suspense>
+      </Dialog>
+
+      {}
+      <Dialog
+        open={showStudyComplete}
+        onClose={() => setShowStudyComplete(false)}
+        labelledBy="study-complete-title"
+        overlayClassName="z-60 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm sm:p-6"
+        className="animate-in zoom-in relative w-full max-w-md rounded-3xl bg-white p-8 text-center shadow-2xl duration-300"
+      >
+        <h2
+          id="study-complete-title"
+          className="mb-2 text-2xl font-black text-emerald-600"
+        >
+          🎉 {t('studyMode.completeTitle')}
+        </h2>
+        <p className="mb-6 font-medium text-slate-600">
+          {t('studyMode.completeMessage')}
+        </p>
+        <button
+          onClick={() => setShowStudyComplete(false)}
+          className="w-full rounded-2xl bg-indigo-600 py-4 font-black tracking-widest text-white uppercase shadow-lg transition-all hover:bg-indigo-500 focus:ring-4 focus:ring-indigo-200 focus:outline-none active:scale-[0.98]"
+        >
+          {t('close') || 'OK'}
+        </button>
       </Dialog>
 
       <AffirmationToast
@@ -1011,9 +1124,11 @@ function AppContent() {
 export default function App() {
   return (
     <GamificationProvider>
-      <UserSettingsProvider>
-        <AppContent />
-      </UserSettingsProvider>
+      <StudyModeProvider>
+        <UserSettingsProvider>
+          <AppContent />
+        </UserSettingsProvider>
+      </StudyModeProvider>
     </GamificationProvider>
   );
 }

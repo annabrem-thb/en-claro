@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { STUDY_EXERCISE_PILLARS } from '../data/exerciseTypes.js';
 import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useGamification } from '../hooks/useGamification.js';
-import { UNLOCK_AFTER_UNITS } from '../hooks/useGamificationState.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
+import { useStudyMode } from '../hooks/useStudyMode.js';
 import { useStudySet } from '../hooks/useStudySet.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
 
@@ -129,9 +129,9 @@ const SettingSlider = ({
 const GeneralTab = ({ speak }) => {
   const { t } = useTranslation();
   const { settings, updateSetting } = useUserSettingsContext();
-  const { isGamified, setIsGamified, lockedIsGamified, growthValue } =
-    useGamification();
-  const tasksUntilUnlock = Math.max(0, UNLOCK_AFTER_UNITS - growthValue);
+  const { isGamified, setIsGamified } = useGamification();
+  const { studyModeEnabled, setStudyModeEnabled, isActive: studyModeActive } =
+    useStudyMode();
   const bionicReading = !!settings.bionicReading;
   const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
 
@@ -177,49 +177,64 @@ const GeneralTab = ({ speak }) => {
       </div>
       <div>
         <h3 className="mb-2 px-3 text-sm font-bold text-slate-500">
-          <BionicText text={t('appMode')} enabled={bionicReading} />
+          <BionicText text={t('studyMode.toggleLabel')} enabled={bionicReading} />
         </h3>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="flex items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3">
+          <p className="min-w-0 flex-1 text-xs leading-relaxed text-slate-500">
+            <BionicText text={t('studyMode.infoText')} enabled={bionicReading} />
+          </p>
           <button
-            onClick={() => {
-              if (lockedIsGamified === false) return;
-              setIsGamified(false);
-            }}
-            disabled={lockedIsGamified === false}
-            aria-pressed={!isGamified}
-            className={`rounded-xl border-2 p-4 text-left ${lockedIsGamified === false ? 'cursor-not-allowed opacity-40' : ''} ${!isGamified ? 'border-indigo-500 bg-indigo-50' : 'bg-white hover:border-slate-300'}`}
+            type="button"
+            role="switch"
+            aria-checked={studyModeEnabled}
+            aria-label={t('studyMode.toggleLabel')}
+            onClick={() => setStudyModeEnabled(!studyModeEnabled)}
+            className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${studyModeEnabled ? 'bg-indigo-500' : 'bg-slate-300'}`}
           >
-            <p className="font-bold text-slate-800">
-              <BionicText text={t('v1Label')} enabled={bionicReading} />
-            </p>
-            <p className="text-xs text-slate-500">
-              <BionicText text={t('v1Desc')} enabled={bionicReading} />
-            </p>
-          </button>
-          <button
-            onClick={() => {
-              if (lockedIsGamified === true) return;
-              setIsGamified(true);
-            }}
-            disabled={lockedIsGamified === true}
-            aria-pressed={isGamified}
-            className={`rounded-xl border-2 p-4 text-left ${lockedIsGamified === true ? 'cursor-not-allowed opacity-40' : ''} ${isGamified ? 'border-indigo-500 bg-indigo-50' : 'bg-white hover:border-slate-300'}`}
-          >
-            <p className="font-bold text-slate-800">
-              <BionicText text={t('v2Label')} enabled={bionicReading} />
-            </p>
-            <p className="text-xs text-slate-500">
-              <BionicText text={t('v2Desc')} enabled={bionicReading} />
-            </p>
+            <span
+              aria-hidden="true"
+              className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-transform ${studyModeEnabled ? 'translate-x-5' : 'translate-x-0.5'}`}
+            />
           </button>
         </div>
-        {lockedIsGamified !== null && (
-          <p className="mt-1 px-1 text-xs text-slate-500">
-            {t('intro.modeLocked', {
-              count: tasksUntilUnlock,
-              defaultValue: 'Unlocks after {{count}} more completed exercises',
-            })}
+      </div>
+      <div>
+        <h3 className="mb-2 px-3 text-sm font-bold text-slate-500">
+          <BionicText text={t('appMode')} enabled={bionicReading} />
+        </h3>
+        {studyModeActive ? (
+          <p className="rounded-xl border-2 border-slate-100 bg-slate-50 p-4 text-center text-sm font-bold text-slate-600">
+            {isGamified
+              ? t('studyMode.currentVariantGamified')
+              : t('studyMode.currentVariantClassic')}
           </p>
+        ) : (
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => setIsGamified(false)}
+              aria-pressed={!isGamified}
+              className={`rounded-xl border-2 p-4 text-left ${!isGamified ? 'border-indigo-500 bg-indigo-50' : 'bg-white hover:border-slate-300'}`}
+            >
+              <p className="font-bold text-slate-800">
+                <BionicText text={t('v1Label')} enabled={bionicReading} />
+              </p>
+              <p className="text-xs text-slate-500">
+                <BionicText text={t('v1Desc')} enabled={bionicReading} />
+              </p>
+            </button>
+            <button
+              onClick={() => setIsGamified(true)}
+              aria-pressed={isGamified}
+              className={`rounded-xl border-2 p-4 text-left ${isGamified ? 'border-indigo-500 bg-indigo-50' : 'bg-white hover:border-slate-300'}`}
+            >
+              <p className="font-bold text-slate-800">
+                <BionicText text={t('v2Label')} enabled={bionicReading} />
+              </p>
+              <p className="text-xs text-slate-500">
+                <BionicText text={t('v2Desc')} enabled={bionicReading} />
+              </p>
+            </button>
+          </div>
         )}
       </div>
       <div>

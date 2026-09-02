@@ -10,9 +10,7 @@
     "chooseLanguage": "Language",
     "appMode": "Mode",
     "modeClassic": "Study only",
-    "modeGamified": "Game (rewards)",
-    "modeLocked": "Unlocks after {{count}} more completed exercises",
-    "a11y": "Comfort Tools",
+    "modeGamified": "Game (rewards)",    "a11y": "Comfort Tools",
     "lrs": "Extra reading spacing",
     "contrast": "Contrast",
     "vision": "Larger text",
@@ -415,6 +413,15 @@
     "Literacy": "Reading and Writing",
     "Visual": "Vision and Space",
     "Cognitive": "Logic and Memory"
+  },
+  "studyMode": {
+    "toggleLabel": "Study mode",
+    "infoText": "In study mode, you'll automatically go through two short exercise blocks in a random order — one without and one with game-like elements — and fill in a short questionnaire after each one. Your questionnaire answers are stored together with a random identifier not linked to your name, solely for the evaluation of this thesis; no names or exercise content are transmitted. Turn study mode off to use the app freely, without this structure.",
+    "completeTitle": "Thank you for participating!",
+    "completeMessage": "Both exercise blocks and questionnaires are complete. You can keep using the app freely from now on.",
+    "progressLabel": "Block {{block}}/2 · {{pillar}} {{count}}/3",
+    "currentVariantClassic": "Current mode: Learning only",
+    "currentVariantGamified": "Current mode: Game (rewards)"
   },
   "pillarIcons": {
     "Literacy": "📖",
