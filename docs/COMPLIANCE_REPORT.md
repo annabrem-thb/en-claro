@@ -24,9 +24,9 @@ run a command, or reproduce an interaction — not just re-read the diff.
 | Model gamifikacji to wieloma-walutowy system zasobów (punkty/monety/competencePoints/nagrody + wybór nagrody) zamiast jednej monotonicznej wartości | Rozwiązane (`e13ef2d`) | `useGamificationState.js` eksponuje dokładnie jedno pole liczbowe | `productInvariants.test.js` — `useGamificationState exposes exactly one numeric field`, zielony |
 | Dwa niezależne mechanizmy passy (sesyjny + kalendarzowy), oba mogące się przerwać | Rozwiązane (`6f92428`) | streak i jego wizualizacje usunięte całkowicie z `useExerciseSession.js`/`VirtualGarden.jsx` | `grep -rn "currentStreak\|calcCurrentStreak" src/` — brak wyników |
 | 4 komponenty ćwiczeń w kategorii "odradzane" wg wytycznej klinicznej (Spatial/tracking, RhythmTap, RhythmMemory, MelodyMemory) | Rozwiązane (`30c4ba7`) | `src/data/exerciseTypes.js` — `EXCLUDED_FROM_STUDY` wyklucza `tracking`/`rhythm`/`rhythmMemory`/`melodyMemory` z `STUDY_EXERCISE_TYPES`; komponenty zostają w kodzie (tryb Game), ale nie są oferowane w trybie badawczym | otwórz Ustawienia → Ćwiczenia w trybie "Tylko nauka" — te cztery nie są przełączalne/dostępne |
-| Brak podziału treści na zestaw A/B — nic nie chroni przed powtórką tego samego zadania między sesjami | **Częściowo** (`2bcde47`) | `src/data/studySets.js` — mechanizm (`STUDY_SETS`, `belongsToActiveSet`) jest gotowy i podłączony w `useExerciseSession.js`, ale **żaden element w `vocabulary_*.js` nie ma jeszcze pola `set`** — to decyzja merytoryczna (które pozycje trafiają do A, które do B), nie zadanie kodowe | `grep -n "set:" src/data/vocabulary_de.js` — brak wyników; mechanizm jest no-opem, dopóki nie przypiszesz treści |
+| Brak podziału treści na zestaw A/B — nic nie chroni przed powtórką tego samego zadania między sesjami | Rozwiązane (`2bcde47`, treść przypisana `e1ff6f1`) | Każda pozycja w `vocabulary_{de,en,pl}.js` (poza `diagnostic`, celowo pominiętym — to współdzielona ocena wstępna, nie pula ćwiczeniowa) ma teraz pole `set: 'A'` lub `'B'`, przypisane mechanicznie wg parzystości `id` (nieparzyste → A, parzyste → B), identycznie w trzech językach, więc ta sama pozycja treściowa ma ten sam zestaw niezależnie od języka interfejsu | `grep -c "set: 'A'" src/data/vocabulary_de.js` / `grep -c "set: 'B'"` — po ~202/204; aktywacja: otwórz aplikację z `?set=A` lub `?set=B` w URL (jednorazowa konfiguracja urządzenia, `useStudySet.js`) — pula zadań w danym typie ćwiczenia się zawęża |
 
-**Uwaga:** ostatni punkt wymaga Twojej decyzji merytorycznej (podział pozycji słownikowych), nie dalszej pracy programistycznej — infrastruktura czeka.
+**Uwaga:** to podział mechaniczny (parzystość `id`), nie kuratorski — większość typów ćwiczeń wyszła niemal idealnie 50/50, ale kilka sekcji (np. `auditory` w EN: 8/5) ma nierówny rozkład, bo ich `id`-y nie są tam ciągłe od 1. Jeśli Twoja metodologia wymaga ściślejszej równowagi (np. wg trudności) w konkretnych typach, warto to przejrzeć ręcznie — infrastruktura już to obsłuży, wystarczy zmienić wartość `set` przy pozycji.
 
 ---
 
@@ -50,6 +50,21 @@ run a command, or reproduce an interaction — not just re-read the diff.
 | Przycisk "czytaj na głos" pozycjonowany niezależnie w każdym komponencie — brak wspólnego slotu strukturalnego | Rozwiązane (`a2c1240`) | nowy `src/components/common/ExerciseControlsRow.jsx`, używany w 17 komponentach ćwiczeń | czytelne w `git show a2c1240` |
 | Wizualne przycinanie pierścienia fokusu w kontenerach `overflow-hidden` — wymagało sprawdzenia na żywo | Sprawdzone i naprawione (`a2c1240`) | Zbadano wszystkie kontenery scrollowalne/`overflow-hidden`; jeden realny przypadek znaleziony i naprawiony: `VisualCategorization.jsx:276` (siatka kategorii bez paddingu ucinała `focus-visible:ring-4` na skrajnych kafelkach) | Tab do skrajnego kafelka kategorii na klawiaturze — pierścień w pełni widoczny |
 | Nieaktualne twierdzenia "✅ Umgesetzt" w `docs/DEVELOPMENT_PROMPT.md` (OpenDyslexic, stare numery linii, 13 zamiast 18 typów ćwiczeń) | Rozwiązane (`a2c1240`) | Sekcje 2.5/2.6 przepisane do stanu faktycznego kodu | czytelne w diffie `a2c1240` |
+
+---
+
+## Post-audit fixes (user-reported, not on the original audit's punch list)
+
+These surfaced after the punch list above was already closed out, from
+actually using the app rather than from the original audit — kept here
+for the same reason everything else is: so the record of what changed and
+why doesn't live only in scrollback.
+
+| Problem | Status | Dowód | Jak sprawdzić |
+|---|---|---|---|
+| Po ukryciu nav podczas przetwarzania zadania (patrz wyżej) użytkownicy dotykowi (telefon/tablet bez klawiatury) nie mieli żadnego sposobu dotarcia do nav/Ustawień/Ankiety w trakcie zadania — tylko skróty klawiszowe działały | Rozwiązane (`a135c2f`) | Mały przycisk "☰" obok Skip w `App.jsx`, przełącza widoczność nav tylko dla bieżącego zadania (resetuje się przy następnym) | Na telefonie: podczas pytania dotknij "☰" obok Skip — nav się pojawia; dotknij ponownie — znika; następne zadanie znowu startuje bez nav |
+| Zwiększenie suwaka "Rozmiar tekstu interfejsu" powyżej domyślnych 16px całkowicie ukrywało etykiety nav (tylko ikony, bez tekstu, w każdym rozmiarze powyżej domyślnego) | Rozwiązane (`38a5112`) | Mechanizm `hideNavLabel` usunięty z `App.jsx`/`BottomNav.jsx`/`SidebarNav.jsx`; etykiety teraz zawijają się na maks. 2 linie zamiast znikać | W Ustawieniach zwiększ rozmiar tekstu interfejsu powyżej domyślnego — nazwy filarów w nav pozostają czytelne |
+| Przełącznik ćwiczenia `graphemePhoneme` w Ustawieniach → Ćwiczenia wyświetlał surowy klucz techniczny (np. dosłownie "graphemePhoneme") zamiast nazwy, w każdym z trzech języków | Rozwiązane (`d7a1f41`) | Dodano brakujący wpis `exerciseManager.types.graphemePhoneme` do `de`/`en`/`pl` `translation.json` | Otwórz Ustawienia → Ćwiczenia w dowolnym języku — pozycja "Graphem-Phonem-Zuordnung"/"Grapheme-Phoneme Matching"/"Dopasowanie grafem-fonem" ma prawdziwą nazwę |
 
 ---
 
