@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -56,7 +56,9 @@ const SUS_SCALES: Array<{ id: keyof SusPayload; label: string }> = [
   { id: 'sus10', label: 'survey.sus.q10' },
 ];
 
-export const SurveyComponent: React.FC = () => {
+export const SurveyComponent: React.FC<{ onSubmitted?: () => void }> = ({
+  onSubmitted,
+}) => {
   const { settings } = useUserSettingsContext();
   const { language, theme, userDifficulty, dailyGoal } = settings;
   const { isGamified } = useGamification();
@@ -188,6 +190,15 @@ export const SurveyComponent: React.FC = () => {
       setIsSubmitting(false);
     }
   };
+
+  // Gives the participant a moment to see the confirmation before the
+  // caller (App.jsx) reacts — closing the dialog, and for a guided study
+  // block's checkpoint, advancing to the next block/finishing the study.
+  useEffect(() => {
+    if (!isSuccess || !onSubmitted) return;
+    const timer = setTimeout(onSubmitted, 2000);
+    return () => clearTimeout(timer);
+  }, [isSuccess, onSubmitted]);
 
   if (isSuccess) {
     return (
