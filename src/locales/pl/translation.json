@@ -58,20 +58,6 @@
   "readAloudTitle": "Czytaj na głos",
   "ttsLocalDownloadError": "Nie udało się wczytać silnika głosowego — sprawdź połączenie i spróbuj ponownie.",
   "ttsLocalEngineError": "Coś poszło nie tak podczas czytania na głos — spróbuj ponownie.",
-  "successMsg": [
-    "Świetnie!",
-    "Doskonale!",
-    "Wspaniale!",
-    "Super!",
-    "Masz to!",
-    "Widać efekty."
-  ],
-  "errorMsg": [
-    "Przeanalizujmy to razem.",
-    "Spróbujmy jeszcze raz.",
-    "Prawie dobrze, spójrz jeszcze raz.",
-    "To normalna część nauki."
-  ],
   "levelUp": "Nowy Poziom!",
   "levelUpTitle": "Twój ogród rośnie!",
   "levelUpDesc": "Kolejny cel za Tobą — Twoja systematyczność się opłaca.",
@@ -378,13 +364,6 @@
   "gardenEmpty": "Twój własny ekosystem. Będzie rósł wraz z każdym Twoim postępem.",
   "srPlantFeature": "Twoja podróż obecnie zawiera",
   "dailyGoalProgress": "Postęp Celu Dziennego",
-  "rewardItems": {
-    "Natur": ["🍀", "🌸", "🦋", "🐝", "🌈"],
-    "Musik": ["🎵", "🎶", "🎤", "🎸", "🎧"],
-    "Kunst": ["🎨", "🖌️", "🖼️", "💎", "✨"],
-    "Space": ["🚀", "🌟", "🛸", "🪐", "☄️"],
-    "Ocean": ["🐚", "🐠", "🌊", "⚓", "🐬"]
-  },
   "dailyGoal": "Cel dzienny",
   "goal5": "5 min — Krok",
   "goal10": "10 min — Nawyk",
@@ -659,7 +638,7 @@
     "title": "Twój Wpływ",
     "desc": "Twoje postępy wspierają realne cele. Każde 10 punktów to jedno wirtualne drzewo.",
     "treesPlanted": "Posadzone Drzewa",
-    "newTreeTitle": "Nowe Drzewo! 🎉",
-    "newTreeMsg": "Wspaniale! Twoja wytrwała nauka sprawiła, że wirtualnie posadziliśmy kolejne drzewo."
+    "newTreeTitle": "Nowe drzewo",
+    "newTreeMsg": "Twoja wytrwała nauka sprawiła, że wirtualnie posadzono kolejne drzewo."
   }
 }
