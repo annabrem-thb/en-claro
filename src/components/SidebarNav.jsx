@@ -18,7 +18,6 @@ const SidebarNav = memo(function SidebarNav({
   themeStyles,
   isHighContrast,
   bigTargets,
-  hideNavLabel,
   setSettingsOpen,
   onOpenSurvey,
   t,
@@ -118,7 +117,7 @@ const SidebarNav = memo(function SidebarNav({
             >
               <button
                 onClick={() => {
-                  if (!hideNavLabel) speak(label, true);
+                  speak(label, true);
                   onTabChange(p);
                 }}
                 className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
@@ -126,32 +125,28 @@ const SidebarNav = memo(function SidebarNav({
                 aria-label={label}
               >
                 <span
-                  className={hideNavLabel ? 'text-2xl' : 'text-xl lg:text-xl'}
+                  className="text-xl lg:text-xl"
                   aria-hidden="true"
                 >
                   {PILLAR_ICONS[p]}
                 </span>
-                {!hideNavLabel && (
-                  <>
-                    <AccessibleTTS
-                      text={label}
-                      speak={speak}
-                      language={language}
-                      className="flex min-w-0 lg:flex"
-                      interactive={false}
-                    >
-                      <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                        <BionicText text={label} enabled={bionicReading} />
-                      </span>
-                    </AccessibleTTS>
-                    <span
-                      className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter transition-opacity lg:block ${isSelected ? '' : 'opacity-0 group-hover:opacity-100'}`}
-                      aria-hidden="true"
-                    >
-                      ^ {index + 1}
-                    </span>
-                  </>
-                )}
+                <AccessibleTTS
+                  text={label}
+                  speak={speak}
+                  language={language}
+                  className="flex min-w-0 lg:flex"
+                  interactive={false}
+                >
+                  <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
+                    <BionicText text={label} enabled={bionicReading} />
+                  </span>
+                </AccessibleTTS>
+                <span
+                  className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter transition-opacity lg:block ${isSelected ? '' : 'opacity-0 group-hover:opacity-100'}`}
+                  aria-hidden="true"
+                >
+                  ^ {index + 1}
+                </span>
               </button>
             </Tooltip>
           );
@@ -173,7 +168,7 @@ const SidebarNav = memo(function SidebarNav({
           >
             <button
               onClick={() => {
-                if (!hideNavLabel) speak(t('garden') || 'Garden', true);
+                speak(t('garden') || 'Garden', true);
                 onGardenClick();
               }}
               className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${activeTab === 'Garden' ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
@@ -181,35 +176,31 @@ const SidebarNav = memo(function SidebarNav({
               aria-label={t('garden') || 'Garden'}
             >
               <span
-                className={hideNavLabel ? 'text-2xl' : 'text-xl lg:text-xl'}
+                className="text-xl lg:text-xl"
                 aria-hidden="true"
               >
                 {t('levelIcons', { returnObjects: true })?.[theme]?.[0] || '🌱'}
               </span>
-              {!hideNavLabel && (
-                <>
-                  <AccessibleTTS
+              <AccessibleTTS
+                text={t('garden') || 'Garden'}
+                speak={speak}
+                language={language}
+                className="flex min-w-0 lg:flex"
+                interactive={false}
+              >
+                <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
+                  <BionicText
                     text={t('garden') || 'Garden'}
-                    speak={speak}
-                    language={language}
-                    className="flex min-w-0 lg:flex"
-                    interactive={false}
-                  >
-                    <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                      <BionicText
-                        text={t('garden') || 'Garden'}
-                        enabled={bionicReading}
-                      />
-                    </span>
-                  </AccessibleTTS>
-                  <span
-                    className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter transition-opacity lg:block ${activeTab === 'Garden' ? '' : 'opacity-0 group-hover:opacity-100'}`}
-                    aria-hidden="true"
-                  >
-                    ^ 4
-                  </span>
-                </>
-              )}
+                    enabled={bionicReading}
+                  />
+                </span>
+              </AccessibleTTS>
+              <span
+                className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter transition-opacity lg:block ${activeTab === 'Garden' ? '' : 'opacity-0 group-hover:opacity-100'}`}
+                aria-hidden="true"
+              >
+                ^ 4
+              </span>
             </button>
           </Tooltip>
         )}
@@ -249,35 +240,32 @@ const SidebarNav = memo(function SidebarNav({
           >
             <button
               onClick={() => {
-                if (!hideNavLabel)
-                  speak(t('installApp') || 'Install App', true);
+                speak(t('installApp') || 'Install App', true);
                 handleInstallClick();
               }}
               className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-500 text-white shadow-md hover:bg-indigo-400'}`}
               aria-label={t('installApp') || 'Install App'}
             >
               <span
-                className={hideNavLabel ? 'text-2xl' : 'text-xl lg:text-xl'}
+                className="text-xl lg:text-xl"
                 aria-hidden="true"
               >
                 📱
               </span>
-              {!hideNavLabel && (
-                <AccessibleTTS
-                  text={t('installApp') || 'Install App'}
-                  speak={speak}
-                  language={language}
-                  className={`flex min-w-0 lg:flex ${isHighContrast ? 'text-black' : 'text-white'}`}
-                  interactive={false}
-                >
-                  <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                    <BionicText
-                      text={t('installApp') || 'Install App'}
-                      enabled={bionicReading}
-                    />
-                  </span>
-                </AccessibleTTS>
-              )}
+              <AccessibleTTS
+                text={t('installApp') || 'Install App'}
+                speak={speak}
+                language={language}
+                className={`flex min-w-0 lg:flex ${isHighContrast ? 'text-black' : 'text-white'}`}
+                interactive={false}
+              >
+                <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
+                  <BionicText
+                    text={t('installApp') || 'Install App'}
+                    enabled={bionicReading}
+                  />
+                </span>
+              </AccessibleTTS>
             </button>
           </Tooltip>
         )}
@@ -294,31 +282,29 @@ const SidebarNav = memo(function SidebarNav({
         >
           <button
             onClick={() => {
-              if (!hideNavLabel) speak(t('surveyAria'), true);
+              speak(t('surveyAria'), true);
               onOpenSurvey();
             }}
             className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
             aria-label={t('surveyAria')}
           >
             <span
-              className={hideNavLabel ? 'text-2xl' : 'text-xl lg:text-xl'}
+              className="text-xl lg:text-xl"
               aria-hidden="true"
             >
               📝
             </span>
-            {!hideNavLabel && (
-              <AccessibleTTS
-                text={t('surveyAria')}
-                speak={speak}
-                language={language}
-                className="flex min-w-0 lg:flex"
-                interactive={false}
-              >
-                <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                  <BionicText text={t('surveyAria')} enabled={bionicReading} />
-                </span>
-              </AccessibleTTS>
-            )}
+            <AccessibleTTS
+              text={t('surveyAria')}
+              speak={speak}
+              language={language}
+              className="flex min-w-0 lg:flex"
+              interactive={false}
+            >
+              <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
+                <BionicText text={t('surveyAria')} enabled={bionicReading} />
+              </span>
+            </AccessibleTTS>
           </button>
         </Tooltip>
 
@@ -330,42 +316,35 @@ const SidebarNav = memo(function SidebarNav({
         >
           <button
             onClick={() => {
-              if (!hideNavLabel) speak(t('settingsAria'), true);
+              speak(t('settingsAria'), true);
               setSettingsOpen(true);
             }}
             className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
             aria-label={t('settingsAria')}
           >
             <span
-              className={hideNavLabel ? 'text-2xl' : 'text-xl lg:text-xl'}
+              className="text-xl lg:text-xl"
               aria-hidden="true"
             >
               ⚙️
             </span>
-            {!hideNavLabel && (
-              <>
-                <AccessibleTTS
-                  text={t('settingsAria')}
-                  speak={speak}
-                  language={language}
-                  className="flex min-w-0 lg:flex"
-                  interactive={false}
-                >
-                  <span className="max-w-full truncate text-[9px] font-bold tracking-wider uppercase lg:text-xs">
-                    <BionicText
-                      text={t('settingsAria')}
-                      enabled={bionicReading}
-                    />
-                  </span>
-                </AccessibleTTS>
-                <span
-                  className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter opacity-0 transition-opacity group-hover:opacity-100 lg:block`}
-                  aria-hidden="true"
-                >
-                  ^ ,
-                </span>
-              </>
-            )}
+            <AccessibleTTS
+              text={t('settingsAria')}
+              speak={speak}
+              language={language}
+              className="flex min-w-0 lg:flex"
+              interactive={false}
+            >
+              <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
+                <BionicText text={t('settingsAria')} enabled={bionicReading} />
+              </span>
+            </AccessibleTTS>
+            <span
+              className={`ml-auto hidden shrink-0 font-mono text-[10px] font-bold tracking-tighter opacity-0 transition-opacity group-hover:opacity-100 lg:block`}
+              aria-hidden="true"
+            >
+              ^ ,
+            </span>
           </button>
         </Tooltip>
       </nav>
