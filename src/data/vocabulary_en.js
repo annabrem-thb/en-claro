@@ -2,6 +2,7 @@ export const wordDatabaseEN = {
   phonemes: [
     {
       id: 1,
+      set: 'A',
       type: 'phoneme',
       word: 'Entrepreneur',
       difficulty: 3,
@@ -14,6 +15,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'phoneme',
       word: 'Paradigm',
       difficulty: 3,
@@ -26,6 +28,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'phoneme',
       word: 'Ubiquitous',
       difficulty: 3,
@@ -38,6 +41,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'phoneme',
       word: 'Hierarchy',
       difficulty: 2,
@@ -50,6 +54,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'phoneme',
       word: 'Colleague',
       difficulty: 1,
@@ -62,6 +67,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'phoneme',
       word: 'Bureaucracy',
       difficulty: 3,
@@ -74,6 +80,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'phoneme',
       word: 'Conscientious',
       difficulty: 3,
@@ -86,6 +93,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'phoneme',
       word: 'Guarantee',
       difficulty: 2,
@@ -98,6 +106,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'phoneme',
       word: 'Vulnerable',
       difficulty: 2,
@@ -110,6 +119,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'phoneme',
       word: 'Miscellaneous',
       difficulty: 3,
@@ -122,6 +132,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'phoneme',
       word: 'Queue',
       difficulty: 3,
@@ -134,6 +145,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'phoneme',
       word: 'Maneuver',
       difficulty: 3,
@@ -146,6 +158,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'phoneme',
       word: 'Psychology',
       difficulty: 3,
@@ -158,6 +171,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'phoneme',
       word: 'Chaos',
       difficulty: 2,
@@ -170,6 +184,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'phoneme',
       word: 'Liaison',
       difficulty: 3,
@@ -182,6 +197,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'phoneme',
       word: 'Nuance',
       difficulty: 2,
@@ -194,6 +210,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'phoneme',
       word: 'Feasible',
       difficulty: 2,
@@ -206,6 +223,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'phoneme',
       word: 'Itinerary',
       difficulty: 3,
@@ -218,6 +236,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'phoneme',
       word: 'Subsidiary',
       difficulty: 3,
@@ -230,6 +249,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'phoneme',
       word: 'Genuine',
       difficulty: 1,
@@ -244,6 +264,7 @@ export const wordDatabaseEN = {
   graphemes: [
     {
       id: 13,
+      set: 'A',
       type: 'grapheme',
       difficulty: 4,
       focus: 'silent "k" before "n"',
@@ -277,6 +298,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'grapheme',
       difficulty: 4,
       focus: 'silent "g" before "n"',
@@ -310,6 +332,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'grapheme',
       difficulty: 4,
       focus: '"ough" — one spelling, many sounds',
@@ -343,6 +366,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'grapheme',
       difficulty: 4,
       focus: 'silent "b" after "m"',
@@ -376,6 +400,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'grapheme',
       difficulty: 4,
       focus: 'silent "w" before "r"',
@@ -409,6 +434,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'grapheme',
       difficulty: 4,
       focus: 'doubling the consonant before "-ing"',
@@ -442,6 +468,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: '"i before e except after c"',
@@ -459,6 +486,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'silent "h"',
@@ -476,6 +504,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 21,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: '"ph" makes the "f" sound',
@@ -493,6 +522,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 22,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'doubling the final consonant before "-ed"',
@@ -510,6 +540,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 23,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'double "c", single "s" — necessary',
@@ -527,6 +558,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 24,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'common trap — definitely',
@@ -544,6 +576,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 25,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'common trap — separate',
@@ -561,6 +594,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 26,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'double "r" — occurred',
@@ -578,6 +612,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 27,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'single "c", double "m" — recommend',
@@ -595,6 +630,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 28,
+      set: 'B',
       type: 'grapheme',
       difficulty: 4,
       focus: 'double "c", double "m" — accommodate',
@@ -612,6 +648,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 29,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'double "r", double "s" — embarrass',
@@ -629,6 +666,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 30,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'silent "b" — debt',
@@ -646,6 +684,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 31,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'silent "b" — doubt',
@@ -663,6 +702,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 32,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: '"-sion" vs "-tion" — decision',
@@ -682,6 +722,7 @@ export const wordDatabaseEN = {
   auditory: [
     {
       id: 1,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'affect vs effect',
@@ -715,6 +756,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'stationery vs stationary',
@@ -748,6 +790,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'grapheme',
       difficulty: 1,
       focus: "their vs there vs they're",
@@ -781,6 +824,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'advise vs advice',
@@ -814,6 +858,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'bare vs bear',
@@ -847,6 +892,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'grapheme',
       focus: 'rhyme recognition',
       difficulty: 2,
@@ -864,6 +910,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'grapheme',
       focus: 'rhyme recognition',
       difficulty: 3,
@@ -881,6 +928,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 21,
+      set: 'A',
       type: 'grapheme',
       focus: 'rhyme — subtle similarities',
       difficulty: 4,
@@ -898,6 +946,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 22,
+      set: 'B',
       type: 'grapheme',
       focus: 'phoneme discrimination — initial voicing',
       difficulty: 2,
@@ -915,6 +964,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 23,
+      set: 'A',
       type: 'grapheme',
       focus: 'phoneme discrimination — initial nasals',
       difficulty: 3,
@@ -932,6 +982,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 24,
+      set: 'B',
       type: 'grapheme',
       focus: 'phoneme discrimination — vowel quality',
       difficulty: 4,
@@ -949,6 +1000,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 25,
+      set: 'A',
       type: 'grapheme',
       focus: 'rhyme — subtle similarities',
       difficulty: 4,
@@ -966,6 +1018,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 26,
+      set: 'B',
       type: 'grapheme',
       focus: 'phoneme discrimination — initial consonant',
       difficulty: 2,
@@ -985,6 +1038,7 @@ export const wordDatabaseEN = {
   vocabulary: [
     {
       id: 25,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'concept-to-icon matching — business',
@@ -1002,6 +1056,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 26,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'concept-to-icon matching — technology',
@@ -1019,6 +1074,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 27,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'concept-to-icon matching — legal',
@@ -1036,6 +1092,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 31,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'hidden words — morphological awareness',
@@ -1053,6 +1110,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 32,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'hidden words — morphological awareness',
@@ -1070,6 +1128,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 33,
+      set: 'A',
       type: 'grapheme',
       difficulty: 4,
       focus: 'hidden words — harder morphological analysis',
@@ -1087,6 +1146,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 34,
+      set: 'B',
       type: 'grapheme',
       difficulty: 1,
       focus: 'concept-to-icon matching — education',
@@ -1104,6 +1164,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 35,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'concept-to-icon matching — business',
@@ -1121,6 +1182,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 36,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'concept-to-icon matching — business',
@@ -1138,6 +1200,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 37,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'concept-to-icon matching — finance',
@@ -1155,6 +1218,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 42,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'hidden words — morphological awareness',
@@ -1172,6 +1236,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 43,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'hidden words — morphological awareness',
@@ -1189,6 +1254,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 44,
+      set: 'B',
       type: 'grapheme',
       difficulty: 4,
       focus: 'hidden words — harder morphological analysis',
@@ -1206,6 +1272,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 45,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'concept-to-icon matching — music',
@@ -1223,6 +1290,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 46,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'concept-to-icon matching — music and teamwork',
@@ -1242,6 +1310,7 @@ export const wordDatabaseEN = {
   syllables: [
     {
       id: 1,
+      set: 'A',
       type: 'syllable',
       difficulty: 3,
       word: 'Bureaucracy',
@@ -1250,6 +1319,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'syllable',
       difficulty: 3,
       word: 'Simultaneously',
@@ -1258,6 +1328,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'syllable',
       difficulty: 3,
       word: 'Conscientious',
@@ -1266,6 +1337,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'syllable',
       difficulty: 2,
       word: 'Responsibility',
@@ -1274,6 +1346,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'syllable',
       difficulty: 3,
       word: 'Entrepreneur',
@@ -1282,6 +1355,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'syllable',
       difficulty: 2,
       word: 'Organization',
@@ -1290,6 +1364,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'syllable',
       difficulty: 2,
       word: 'Communication',
@@ -1298,6 +1373,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'syllable',
       difficulty: 1,
       word: 'Development',
@@ -1306,6 +1382,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'syllable',
       difficulty: 2,
       word: 'Professional',
@@ -1314,6 +1391,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'syllable',
       difficulty: 2,
       word: 'Appreciation',
@@ -1322,6 +1400,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'syllable',
       difficulty: 3,
       word: 'Unbelievable',
@@ -1330,6 +1409,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'syllable',
       difficulty: 2,
       word: 'Reliability',
@@ -1338,6 +1418,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'syllable',
       difficulty: 2,
       word: 'Qualification',
@@ -1346,6 +1427,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'syllable',
       difficulty: 1,
       word: 'Achievement',
@@ -1354,6 +1436,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'syllable',
       difficulty: 1,
       word: 'Investment',
@@ -1362,6 +1445,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'syllable',
       difficulty: 3,
       tags: ['business'],
@@ -1371,6 +1455,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'syllable',
       difficulty: 3,
       tags: ['business'],
@@ -1380,6 +1465,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'syllable',
       difficulty: 3,
       word: 'Sustainability',
@@ -1388,6 +1474,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'syllable',
       difficulty: 2,
       tags: ['business'],
@@ -1397,6 +1484,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'syllable',
       difficulty: 2,
       tags: ['business'],
@@ -1408,6 +1496,7 @@ export const wordDatabaseEN = {
   scrabble: [
     {
       id: 1,
+      set: 'A',
       type: 'scrabble',
       difficulty: 3,
       word: 'COLLEAGUE',
@@ -1417,6 +1506,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'scrabble',
       difficulty: 3,
       word: 'GUARANTEE',
@@ -1426,6 +1516,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'scrabble',
       difficulty: 3,
       word: 'ASSESSMENT',
@@ -1435,6 +1526,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'scrabble',
       difficulty: 2,
       word: 'COMMITTEE',
@@ -1444,6 +1536,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'scrabble',
       difficulty: 2,
       word: 'SCHEDULE',
@@ -1453,6 +1546,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'scrabble',
       difficulty: 2,
       word: 'STRATEGY',
@@ -1462,6 +1556,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'scrabble',
       difficulty: 2,
       word: 'MANAGEMENT',
@@ -1471,6 +1566,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'scrabble',
       difficulty: 2,
       word: 'KNOWLEDGE',
@@ -1480,6 +1576,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'scrabble',
       difficulty: 2,
       word: 'EXPERIENCE',
@@ -1489,6 +1586,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'scrabble',
       difficulty: 2,
       word: 'LEADERSHIP',
@@ -1498,6 +1596,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'scrabble',
       difficulty: 3,
       word: 'AUTHENTIC',
@@ -1507,6 +1606,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'scrabble',
       difficulty: 3,
       word: 'INDEPENDENT',
@@ -1516,6 +1616,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'scrabble',
       focus: 'phoneme synthesis — single letters',
       difficulty: 2,
@@ -1526,6 +1627,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'scrabble',
       focus: 'phoneme synthesis — syllables',
       difficulty: 3,
@@ -1536,6 +1638,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'scrabble',
       focus: 'phoneme synthesis — syllables',
       difficulty: 4,
@@ -1546,6 +1649,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'scrabble',
       difficulty: 2,
       word: 'BUDGET',
@@ -1555,6 +1659,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'scrabble',
       difficulty: 3,
       word: 'CONTRACT',
@@ -1564,6 +1669,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'scrabble',
       difficulty: 3,
       word: 'FEEDBACK',
@@ -1573,6 +1679,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'scrabble',
       difficulty: 2,
       word: 'DEADLINE',
@@ -1582,6 +1689,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'scrabble',
       difficulty: 2,
       word: 'RESOURCE',
@@ -1593,6 +1701,7 @@ export const wordDatabaseEN = {
   context: [
     {
       id: 1,
+      set: 'A',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -1623,6 +1732,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -1653,6 +1763,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -1683,6 +1794,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['everyday'],
@@ -1713,6 +1825,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -1743,6 +1856,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -1773,6 +1887,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -1804,6 +1919,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -1834,6 +1950,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'context',
       difficulty: 2,
       tags: ['everyday'],
@@ -1864,6 +1981,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -1894,6 +2012,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'context',
       difficulty: 2,
       tags: ['everyday'],
@@ -1925,6 +2044,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -1956,6 +2076,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -1987,6 +2108,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['everyday'],
@@ -2018,6 +2140,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'context',
       difficulty: 1,
       tags: ['business'],
@@ -2036,6 +2159,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -2054,6 +2178,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -2073,6 +2198,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -2091,6 +2217,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -2109,6 +2236,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -2129,6 +2257,7 @@ export const wordDatabaseEN = {
   clock: [
     {
       id: 1,
+      set: 'A',
       type: 'clock',
       difficulty: 3,
       timeAnalog: 'Seventeen minutes past eight in the evening',
@@ -2156,6 +2285,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'clock',
       difficulty: 3,
       timeAnalog: 'Nine minutes to two in the afternoon',
@@ -2183,6 +2313,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Quarter past three in the afternoon',
@@ -2210,6 +2341,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Half past six in the evening',
@@ -2237,6 +2369,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Ten to ten in the morning',
@@ -2264,6 +2397,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Noon',
@@ -2291,6 +2425,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Midnight',
@@ -2318,6 +2453,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'clock',
       difficulty: 2,
       timeAnalog: 'Quarter to nine in the evening',
@@ -2345,6 +2481,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Twenty past four in the afternoon',
@@ -2372,6 +2509,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Half past eight in the morning',
@@ -2399,6 +2537,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'clock',
       difficulty: 2,
       timeAnalog: 'Quarter to eight in the morning',
@@ -2426,6 +2565,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'clock',
       difficulty: 2,
       timeAnalog: 'Twenty past two in the afternoon',
@@ -2453,6 +2593,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'clock',
       difficulty: 3,
       timeAnalog: 'Five past eleven at night',
@@ -2480,6 +2621,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Quarter past nine in the morning',
@@ -2507,6 +2649,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'clock',
       difficulty: 2,
       timeAnalog: 'Ten to nine in the evening',
@@ -2534,6 +2677,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Ten past six in the morning',
@@ -2549,6 +2693,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'clock',
       difficulty: 2,
       timeAnalog: 'Twenty to ten in the evening',
@@ -2564,6 +2709,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'clock',
       difficulty: 2,
       timeAnalog: 'Twenty-five past one in the afternoon',
@@ -2579,6 +2725,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'clock',
       difficulty: 3,
       timeAnalog: 'Five to five in the morning',
@@ -2594,6 +2741,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'clock',
       difficulty: 3,
       timeAnalog: 'Twenty-five to six in the evening',
@@ -2611,6 +2759,7 @@ export const wordDatabaseEN = {
   sequences: [
     {
       id: 1,
+      set: 'A',
       type: 'sequence',
       difficulty: 3,
       tags: ['business'],
@@ -2630,6 +2779,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'sequence',
       difficulty: 3,
       instruction: 'Order the software development life cycle (SDLC)',
@@ -2650,6 +2800,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order the workdays of the week',
@@ -2658,6 +2809,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'sequence',
       difficulty: 2,
       instruction: 'Order the months of Q4',
@@ -2666,6 +2818,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'sequence',
       difficulty: 2,
       tags: ['business'],
@@ -2675,6 +2828,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'sequence',
       difficulty: 2,
       tags: ['business'],
@@ -2696,6 +2850,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order the time units from shortest to longest',
@@ -2704,6 +2859,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order these letters alphabetically',
@@ -2712,6 +2868,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'sequence',
       difficulty: 2,
       tags: ['business'],
@@ -2721,6 +2878,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order the numbers from smallest to largest',
@@ -2729,6 +2887,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order the seasons of the year (starting with spring)',
@@ -2737,6 +2896,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'sequence',
       difficulty: 2,
       tags: ['business'],
@@ -2757,6 +2917,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order the meals of the day',
@@ -2765,6 +2926,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'sequence',
       difficulty: 2,
       tags: ['business'],
@@ -2784,6 +2946,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'sequence',
       difficulty: 3,
       instruction: 'Order from smallest to largest data unit',
@@ -2792,6 +2955,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'sequence',
       difficulty: 2,
       tags: ['business'],
@@ -2801,6 +2965,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order the days of the week from last to first',
@@ -2810,6 +2975,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'sequence',
       difficulty: 3,
       instruction: 'Order these words into a correct sentence',
@@ -2818,6 +2984,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'sequence',
       difficulty: 2,
       instruction: 'Steps of publishing an article',
@@ -2826,6 +2993,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'sequence',
       difficulty: 3,
       tags: ['business'],
@@ -2847,6 +3015,7 @@ export const wordDatabaseEN = {
   memorySpan: [
     {
       id: 1,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 1,
       instruction:
@@ -2857,6 +3026,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -2867,6 +3037,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 3,
       instruction:
@@ -2884,6 +3055,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 1,
       instruction:
@@ -2894,6 +3066,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 1,
       instruction:
@@ -2904,6 +3077,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -2914,6 +3088,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -2924,6 +3099,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -2934,6 +3110,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 3,
       instruction:
@@ -2950,6 +3127,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 3,
       instruction:
@@ -2966,6 +3144,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 3,
       instruction:
@@ -2989,6 +3168,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -2999,6 +3179,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 1,
       instruction:
@@ -3009,6 +3190,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 3,
       instruction:
@@ -3019,6 +3201,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 4,
       instruction:
@@ -3050,6 +3233,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -3060,6 +3244,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 3,
       instruction:
@@ -3077,6 +3262,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 4,
       instruction:
@@ -3108,6 +3294,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -3118,6 +3305,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 4,
       instruction:
@@ -3151,6 +3339,7 @@ export const wordDatabaseEN = {
   logicalReasoning: [
     {
       id: 34,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'deductive reasoning — basic premises',
@@ -3168,6 +3357,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 35,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'deductive reasoning — premise chain',
@@ -3197,6 +3387,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 36,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'inductive reasoning — pattern generalization',
@@ -3230,6 +3421,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 37,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'inductive reasoning — pattern with exception',
@@ -3263,6 +3455,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 38,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'conditional logic — if-then rule',
@@ -3292,6 +3485,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 39,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'conditional logic — nested rules',
@@ -3317,6 +3511,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 49,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'deductive reasoning — basic premises',
@@ -3342,6 +3537,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 50,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'deductive reasoning — basic premises',
@@ -3359,6 +3555,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 51,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'deductive reasoning — basic premises',
@@ -3380,6 +3577,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 52,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'deductive reasoning — premise chain',
@@ -3401,6 +3599,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 53,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'deductive reasoning — detecting contradictions',
@@ -3426,6 +3625,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 54,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'inductive reasoning — pattern generalization',
@@ -3455,6 +3655,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 55,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'inductive reasoning — pattern generalization',
@@ -3472,6 +3673,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 56,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'inductive reasoning — pattern with exception',
@@ -3501,6 +3703,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 57,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'inductive reasoning — pattern with exception',
@@ -3526,6 +3729,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 58,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'inductive reasoning — pattern generalization',
@@ -3551,6 +3755,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 59,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'conditional logic — if-then rule',
@@ -3572,6 +3777,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 60,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'conditional logic — if-then rule',
@@ -3589,6 +3795,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 61,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'conditional logic — nested rules',
@@ -3610,6 +3817,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 62,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'conditional logic — if-then rule',
@@ -3633,6 +3841,7 @@ export const wordDatabaseEN = {
   tracking: [
     {
       id: 1,
+      set: 'A',
       type: 'spatial',
       difficulty: 1,
       instruction: 'Where is the loop of this letter?',
@@ -3667,6 +3876,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'spatial',
       difficulty: 1,
       instruction: 'Which way does the arrow point?',
@@ -3701,6 +3911,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'spatial',
       difficulty: 2,
       instruction: 'Where is the loop of this letter?',
@@ -3735,6 +3946,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'spatial',
       difficulty: 1,
       instruction: 'Point to the direction the hand is pointing',
@@ -3769,6 +3981,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'spatial',
       difficulty: 2,
       instruction: 'Where is the loop of this letter?',
@@ -3803,6 +4016,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'spatial',
       difficulty: 1,
       instruction: 'Which way does the arrow point?',
@@ -3837,6 +4051,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'spatial',
       difficulty: 2,
       instruction: 'Find the odd letter out',
@@ -3871,6 +4086,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'spatial',
       difficulty: 1,
       instruction: 'Uppercase or lowercase?',
@@ -3905,6 +4121,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'spatial',
       difficulty: 2,
       instruction:
@@ -3923,6 +4140,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'spatial',
       difficulty: 2,
       instruction:
@@ -3941,6 +4159,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'spatial',
       difficulty: 3,
       instruction:
@@ -3959,6 +4178,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'spatial',
       difficulty: 3,
       instruction: 'This document marks where to sign — which side is it on?',
@@ -3976,6 +4196,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'spatial',
       difficulty: 2,
       instruction: 'Where is the loop of this number — top or bottom?',
@@ -3993,6 +4214,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'spatial',
       difficulty: 2,
       instruction:
@@ -4011,6 +4233,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'spatial',
       difficulty: 2,
       instruction:
@@ -4029,6 +4252,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'spatial',
       difficulty: 1,
       instruction:
@@ -4047,6 +4271,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'spatial',
       difficulty: 3,
       instruction: 'The trend arrow on the sales chart — growth or decline?',
@@ -4064,6 +4289,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'spatial',
       difficulty: 2,
       instruction:
@@ -4082,6 +4308,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'spatial',
       difficulty: 1,
       instruction:
@@ -4100,6 +4327,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'spatial',
       difficulty: 3,
       instruction:
@@ -4120,6 +4348,7 @@ export const wordDatabaseEN = {
   mirrorImage: [
     {
       id: 1,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'mirror-image recognition',
@@ -4137,6 +4366,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'grapheme',
       difficulty: 1,
       focus: 'mirror-image recognition',
@@ -4154,6 +4384,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'mirror-image recognition',
@@ -4171,6 +4402,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'mirror-image recognition',
@@ -4188,6 +4420,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'mirror-image recognition',
@@ -4205,6 +4438,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'mirror-image recognition',
@@ -4222,6 +4456,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'mirror-image recognition',
@@ -4239,6 +4474,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'mirror-image recognition',
@@ -4258,6 +4494,7 @@ export const wordDatabaseEN = {
   oddOneOut: [
     {
       id: 1,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'visual search',
@@ -4275,6 +4512,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'grapheme',
       difficulty: 1,
       focus: 'visual search',
@@ -4292,6 +4530,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'visual search',
@@ -4309,6 +4548,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'grapheme',
       difficulty: 1,
       focus: 'visual search',
@@ -4326,6 +4566,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'visual search',
@@ -4343,6 +4584,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'visual search',
@@ -4360,6 +4602,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'visual search',
@@ -4379,6 +4622,7 @@ export const wordDatabaseEN = {
   lcwc: [
     {
       id: 1,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4386,6 +4630,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4393,6 +4638,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4400,6 +4646,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4407,6 +4654,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4414,6 +4662,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4421,6 +4670,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4428,6 +4678,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4435,6 +4686,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4442,6 +4694,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4449,6 +4702,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4456,6 +4710,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4463,6 +4718,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4470,6 +4726,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4477,6 +4734,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4484,6 +4742,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4491,6 +4750,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4498,6 +4758,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4505,6 +4766,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4512,6 +4774,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4521,6 +4784,7 @@ export const wordDatabaseEN = {
   categorization: [
     {
       id: 1,
+      set: 'A',
       type: 'categorization',
       difficulty: 3,
       instruction: 'Categorize these cognitive biases',
@@ -4561,6 +4825,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'categorization',
       difficulty: 1,
       tags: ['business'],
@@ -4602,6 +4867,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Assign words to the correct part of speech',
@@ -4642,6 +4908,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Assign words to the correct spelling rule',
@@ -4682,6 +4949,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'categorization',
       difficulty: 1,
       instruction: 'Categorize by word type',
@@ -4722,6 +4990,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Categorize homophones',
@@ -4762,6 +5031,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'categorization',
       difficulty: 3,
       instruction: 'Categorize prefixes and suffixes',
@@ -4802,6 +5072,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'categorization',
       difficulty: 1,
       instruction: 'Categorize by double letters',
@@ -4842,6 +5113,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Categorize by business department',
@@ -4882,6 +5154,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'categorization',
       difficulty: 1,
       instruction: 'Categorize by time',
@@ -4922,6 +5195,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'categorization',
       difficulty: 1,
       instruction: 'Fruit or Vegetable?',
@@ -4962,6 +5236,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Positive or Negative?',
@@ -5002,6 +5277,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'categorization',
       difficulty: 1,
       instruction: 'Morning or evening?',
@@ -5018,6 +5294,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'categorization',
       difficulty: 2,
       tags: ['business'],
@@ -5035,6 +5312,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'categorization',
       difficulty: 2,
       tags: ['business'],
@@ -5052,6 +5330,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'categorization',
       difficulty: 1,
       tags: ['business'],
@@ -5069,6 +5348,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Digital or analog?',
@@ -5085,6 +5365,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'categorization',
       difficulty: 1,
       instruction: 'Indoor or outdoor?',
@@ -5101,6 +5382,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Singular or plural?',
@@ -5117,6 +5399,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'categorization',
       difficulty: 3,
       instruction: 'Formal or informal style?',
@@ -5135,6 +5418,7 @@ export const wordDatabaseEN = {
   dictation: [
     {
       id: 1,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       difficulty: 3,
@@ -5145,6 +5429,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       difficulty: 1,
@@ -5153,6 +5438,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5161,6 +5447,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5169,6 +5456,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5177,6 +5465,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       difficulty: 3,
@@ -5185,6 +5474,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5193,6 +5483,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5201,6 +5492,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       difficulty: 3,
@@ -5209,6 +5501,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5217,6 +5510,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5225,6 +5519,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       difficulty: 3,
@@ -5233,6 +5528,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'substitution',
@@ -5244,6 +5540,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'substitution',
@@ -5255,6 +5552,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'substitution',
@@ -5266,6 +5564,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'deletion',
@@ -5277,6 +5576,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'deletion',
@@ -5288,6 +5588,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'deletion',
@@ -5299,6 +5600,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'reversal',
@@ -5309,6 +5611,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'reversal',
@@ -5319,6 +5622,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 21,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'reversal',
@@ -5329,6 +5633,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 22,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'acrostic',
@@ -5340,6 +5645,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 23,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'acrostic',
@@ -5351,6 +5657,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 24,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'acrostic',
@@ -5362,6 +5669,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 25,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'counting',
@@ -5373,6 +5681,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 26,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'counting',
@@ -5384,6 +5693,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 27,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'counting',
@@ -5395,6 +5705,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 28,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'wordChain',
@@ -5406,6 +5717,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 29,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'wordChain',
@@ -5417,6 +5729,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 30,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'wordChain',
@@ -5428,6 +5741,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 31,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'categoryRetrieval',
@@ -5438,6 +5752,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 32,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'categoryRetrieval',
@@ -5448,6 +5763,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 33,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'categoryRetrieval',
@@ -5465,6 +5781,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 34,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'syllableCount',
@@ -5476,6 +5793,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 35,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'syllableCount',
@@ -5487,6 +5805,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 36,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'syllableCount',
@@ -5498,6 +5817,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 37,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'audioSpelling',
@@ -5508,6 +5828,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 38,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'audioSpelling',
@@ -5518,6 +5839,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 39,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'audioSpelling',
@@ -5528,6 +5850,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 40,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'rhymeCompletion',
@@ -5539,6 +5862,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 41,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'rhymeCompletion',
@@ -5550,6 +5874,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 42,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'homophoneConfusion',
@@ -5559,6 +5884,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 43,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'homophoneConfusion',
@@ -5568,6 +5894,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 44,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'homophoneConfusion',
@@ -5577,6 +5904,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 45,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'commonMisspelling',
@@ -5586,6 +5914,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 46,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'commonMisspelling',
@@ -5597,6 +5926,7 @@ export const wordDatabaseEN = {
   readAloud: [
     {
       id: 1,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5604,6 +5934,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5611,6 +5942,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5618,6 +5950,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5625,6 +5958,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 3,
@@ -5632,6 +5966,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 3,
@@ -5639,6 +5974,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5646,6 +5982,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5653,6 +5990,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 3,
@@ -5660,6 +5998,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5667,6 +6006,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 3,
@@ -5674,6 +6014,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5681,6 +6022,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5688,6 +6030,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5695,6 +6038,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5702,6 +6046,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 3,
@@ -5709,6 +6054,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5716,6 +6062,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5723,6 +6070,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 3,
@@ -5730,6 +6078,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5737,6 +6086,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 21,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 4,
@@ -5744,6 +6094,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 22,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 4,
@@ -5751,6 +6102,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 23,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 4,
@@ -5758,6 +6110,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 24,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 4,
@@ -5767,6 +6120,7 @@ export const wordDatabaseEN = {
   comprehension: [
     {
       id: 1,
+      set: 'A',
       type: 'comprehension',
       difficulty: 2,
       tags: ['finance'],
@@ -5785,6 +6139,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'comprehension',
       difficulty: 3,
       tags: ['finance'],
@@ -5806,6 +6161,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'comprehension',
       difficulty: 2,
       tags: ['business'],
@@ -5824,6 +6180,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'comprehension',
       difficulty: 3,
       tags: ['business'],
@@ -5842,6 +6199,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'comprehension',
       difficulty: 2,
       tags: ['technology'],
@@ -5860,6 +6218,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'comprehension',
       difficulty: 3,
       tags: ['technology'],
@@ -5878,6 +6237,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'comprehension',
       difficulty: 2,
       tags: ['legal'],
@@ -5896,6 +6256,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'comprehension',
       difficulty: 3,
       tags: ['legal'],
@@ -5914,6 +6275,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'comprehension',
       difficulty: 2,
       tags: ['healthcare-admin'],
@@ -5932,6 +6294,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'comprehension',
       difficulty: 3,
       tags: ['healthcare-admin'],
@@ -5952,6 +6315,7 @@ export const wordDatabaseEN = {
   rhythm: [
     {
       id: 1,
+      set: 'A',
       type: 'rhythmTap',
       difficulty: 1,
       word: 'Achievement',
@@ -5960,6 +6324,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'rhythmTap',
       difficulty: 1,
       word: 'Investment',
@@ -5968,6 +6333,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'rhythmTap',
       difficulty: 2,
       word: 'Professional',
@@ -5976,6 +6342,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'rhythmTap',
       difficulty: 2,
       word: 'Organization',
@@ -5984,6 +6351,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'rhythmTap',
       difficulty: 2,
       word: 'Collaboration',
@@ -5992,6 +6360,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'rhythmTap',
       difficulty: 2,
       word: 'Qualification',
@@ -6000,6 +6369,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'rhythmTap',
       difficulty: 3,
       word: 'Bureaucracy',
@@ -6008,6 +6378,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'rhythmTap',
       difficulty: 3,
       word: 'Negotiation',
@@ -6016,40 +6387,116 @@ export const wordDatabaseEN = {
     },
   ],
   rhythmMemory: [
-    { id: 1, type: 'rhythmMemory', difficulty: 1, pattern: [1, 1, 1] },
-    { id: 2, type: 'rhythmMemory', difficulty: 1, pattern: [2, 1, 1] },
-    { id: 3, type: 'rhythmMemory', difficulty: 1, pattern: [1, 2, 1] },
-    { id: 4, type: 'rhythmMemory', difficulty: 2, pattern: [1, 1, 2, 1] },
-    { id: 5, type: 'rhythmMemory', difficulty: 2, pattern: [2, 1, 1, 2] },
-    { id: 6, type: 'rhythmMemory', difficulty: 2, pattern: [1, 2, 1, 1, 2] },
+    {
+      id: 1,
+      set: 'A',
+      type: 'rhythmMemory',
+      difficulty: 1,
+      pattern: [1, 1, 1],
+    },
+    {
+      id: 2,
+      set: 'B',
+      type: 'rhythmMemory',
+      difficulty: 1,
+      pattern: [2, 1, 1],
+    },
+    {
+      id: 3,
+      set: 'A',
+      type: 'rhythmMemory',
+      difficulty: 1,
+      pattern: [1, 2, 1],
+    },
+    {
+      id: 4,
+      set: 'B',
+      type: 'rhythmMemory',
+      difficulty: 2,
+      pattern: [1, 1, 2, 1],
+    },
+    {
+      id: 5,
+      set: 'A',
+      type: 'rhythmMemory',
+      difficulty: 2,
+      pattern: [2, 1, 1, 2],
+    },
+    {
+      id: 6,
+      set: 'B',
+      type: 'rhythmMemory',
+      difficulty: 2,
+      pattern: [1, 2, 1, 1, 2],
+    },
     {
       id: 7,
+      set: 'A',
       type: 'rhythmMemory',
       difficulty: 3,
       pattern: [1, 1, 2, 1, 1, 2],
     },
     {
       id: 8,
+      set: 'B',
       type: 'rhythmMemory',
       difficulty: 3,
       pattern: [2, 1, 1, 2, 1, 1, 2],
     },
   ],
   melodyMemory: [
-    { id: 1, type: 'melodyMemory', difficulty: 1, sequence: [0, 1, 2] },
-    { id: 2, type: 'melodyMemory', difficulty: 1, sequence: [2, 1, 0] },
-    { id: 3, type: 'melodyMemory', difficulty: 1, sequence: [0, 0, 2] },
-    { id: 4, type: 'melodyMemory', difficulty: 2, sequence: [0, 1, 2, 3] },
-    { id: 5, type: 'melodyMemory', difficulty: 2, sequence: [3, 2, 1, 0] },
-    { id: 6, type: 'melodyMemory', difficulty: 2, sequence: [1, 1, 2, 0] },
+    {
+      id: 1,
+      set: 'A',
+      type: 'melodyMemory',
+      difficulty: 1,
+      sequence: [0, 1, 2],
+    },
+    {
+      id: 2,
+      set: 'B',
+      type: 'melodyMemory',
+      difficulty: 1,
+      sequence: [2, 1, 0],
+    },
+    {
+      id: 3,
+      set: 'A',
+      type: 'melodyMemory',
+      difficulty: 1,
+      sequence: [0, 0, 2],
+    },
+    {
+      id: 4,
+      set: 'B',
+      type: 'melodyMemory',
+      difficulty: 2,
+      sequence: [0, 1, 2, 3],
+    },
+    {
+      id: 5,
+      set: 'A',
+      type: 'melodyMemory',
+      difficulty: 2,
+      sequence: [3, 2, 1, 0],
+    },
+    {
+      id: 6,
+      set: 'B',
+      type: 'melodyMemory',
+      difficulty: 2,
+      sequence: [1, 1, 2, 0],
+    },
     {
       id: 7,
+      set: 'A',
       type: 'melodyMemory',
       difficulty: 3,
       sequence: [0, 1, 2, 3, 1],
     },
     {
       id: 8,
+      set: 'B',
       type: 'melodyMemory',
       difficulty: 3,
       sequence: [3, 1, 0, 2, 3],
@@ -6480,6 +6927,7 @@ export const wordDatabaseEN = {
   graphemePhoneme: [
     {
       id: 1,
+      set: 'A',
       type: 'graphemePhoneme',
       difficulty: 1,
       grapheme: 'sh',
@@ -6488,6 +6936,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'graphemePhoneme',
       difficulty: 1,
       grapheme: 'ch',
@@ -6496,6 +6945,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'graphemePhoneme',
       difficulty: 2,
       grapheme: 'th',
@@ -6504,6 +6954,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'graphemePhoneme',
       difficulty: 2,
       grapheme: 'ph',
@@ -6512,6 +6963,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'graphemePhoneme',
       difficulty: 1,
       grapheme: 'ee',
@@ -6520,6 +6972,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'graphemePhoneme',
       difficulty: 1,
       grapheme: 'oo',
@@ -6528,6 +6981,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'graphemePhoneme',
       difficulty: 2,
       grapheme: 'ai',
@@ -6536,6 +6990,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'graphemePhoneme',
       difficulty: 3,
       grapheme: 'igh',
@@ -6544,6 +6999,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'graphemePhoneme',
       difficulty: 1,
       grapheme: 'ck',
@@ -6552,6 +7008,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'graphemePhoneme',
       difficulty: 2,
       grapheme: 'wh',
@@ -6560,6 +7017,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'graphemePhoneme',
       difficulty: 2,
       grapheme: 'ng',
@@ -6568,6 +7026,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'graphemePhoneme',
       difficulty: 3,
       grapheme: 'qu',
