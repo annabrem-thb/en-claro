@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { STUDY_EXERCISE_PILLARS } from '../data/exerciseTypes.js';
 import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useGamification } from '../hooks/useGamification.js';
+import { UNLOCK_AFTER_UNITS } from '../hooks/useGamificationState.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 import { useStudySet } from '../hooks/useStudySet.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
@@ -128,7 +129,9 @@ const SettingSlider = ({
 const GeneralTab = ({ speak }) => {
   const { t } = useTranslation();
   const { settings, updateSetting } = useUserSettingsContext();
-  const { isGamified, setIsGamified } = useGamification();
+  const { isGamified, setIsGamified, lockedIsGamified, growthValue } =
+    useGamification();
+  const tasksUntilUnlock = Math.max(0, UNLOCK_AFTER_UNITS - growthValue);
   const bionicReading = !!settings.bionicReading;
   const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
 
@@ -178,9 +181,13 @@ const GeneralTab = ({ speak }) => {
         </h3>
         <div className="grid grid-cols-2 gap-2">
           <button
-            onClick={() => setIsGamified(false)}
+            onClick={() => {
+              if (lockedIsGamified === false) return;
+              setIsGamified(false);
+            }}
+            disabled={lockedIsGamified === false}
             aria-pressed={!isGamified}
-            className={`rounded-xl border-2 p-4 text-left ${!isGamified ? 'border-indigo-500 bg-indigo-50' : 'bg-white hover:border-slate-300'}`}
+            className={`rounded-xl border-2 p-4 text-left ${lockedIsGamified === false ? 'cursor-not-allowed opacity-40' : ''} ${!isGamified ? 'border-indigo-500 bg-indigo-50' : 'bg-white hover:border-slate-300'}`}
           >
             <p className="font-bold text-slate-800">
               <BionicText text={t('v1Label')} enabled={bionicReading} />
@@ -190,9 +197,13 @@ const GeneralTab = ({ speak }) => {
             </p>
           </button>
           <button
-            onClick={() => setIsGamified(true)}
+            onClick={() => {
+              if (lockedIsGamified === true) return;
+              setIsGamified(true);
+            }}
+            disabled={lockedIsGamified === true}
             aria-pressed={isGamified}
-            className={`rounded-xl border-2 p-4 text-left ${isGamified ? 'border-indigo-500 bg-indigo-50' : 'bg-white hover:border-slate-300'}`}
+            className={`rounded-xl border-2 p-4 text-left ${lockedIsGamified === true ? 'cursor-not-allowed opacity-40' : ''} ${isGamified ? 'border-indigo-500 bg-indigo-50' : 'bg-white hover:border-slate-300'}`}
           >
             <p className="font-bold text-slate-800">
               <BionicText text={t('v2Label')} enabled={bionicReading} />
@@ -202,6 +213,14 @@ const GeneralTab = ({ speak }) => {
             </p>
           </button>
         </div>
+        {lockedIsGamified !== null && (
+          <p className="mt-1 px-1 text-xs text-slate-500">
+            {t('intro.modeLocked', {
+              count: tasksUntilUnlock,
+              defaultValue: 'Unlocks after {{count}} more completed exercises',
+            })}
+          </p>
+        )}
       </div>
       <div>
         <h3 className="mb-2 px-3 text-sm font-bold text-slate-500">
