@@ -10,9 +10,8 @@
     "chooseLanguage": "Language",
     "appMode": "Mode",
     "modeClassic": "Study only",
-    "modeGamified": "Game (rewards)",
-    "a11y": "Comfort Tools",
-    "lrs": "Friendly font",
+    "modeGamified": "Game (rewards)",    "a11y": "Comfort Tools",
+    "lrs": "Extra reading spacing",
     "contrast": "Contrast",
     "vision": "Larger text",
     "big": "Comfort buttons",
@@ -54,32 +53,12 @@
   "navAria": "Practice areas",
   "settingsAria": "Settings",
   "surveyAria": "Survey",
+  "openMenu": "Open menu",
   "coinsAria": "Coins",
   "exerciseAria": "Exercise",
   "readAloudTitle": "Read aloud",
   "ttsLocalDownloadError": "Couldn't load the voice engine — check your connection and try again.",
   "ttsLocalEngineError": "Something went wrong reading this aloud — try again.",
-  "successMsg": [
-    "Great!",
-    "Excellent!",
-    "Wonderful!",
-    "Super!",
-    "You've got this!",
-    "That's real progress."
-  ],
-  "errorMsg": [
-    "Let's analyze this together.",
-    "Let's try again.",
-    "Almost right, look again.",
-    "That's a normal part of learning."
-  ],
-  "streakMsg": [
-    "{{count}} in a row! 🔥",
-    "{{count}} hit streak! 🚀",
-    "You have {{count}}! 🌟",
-    "{{count}}x flawless! 💪",
-    "{{count}} in a row — that's how a habit is built. 🌱"
-  ],
   "levelUp": "Level Up!",
   "levelUpTitle": "Your garden is growing!",
   "levelUpDesc": "Another goal behind you — your consistency is paying off.",
@@ -90,12 +69,6 @@
       "Let's analyze this together",
       "Let's try again",
       "Almost right, look again"
-    ],
-    "streak": [
-      "{{count}} in a row! You're on fire!",
-      "Amazing! That's {{count}} correct answers!",
-      "Great streak! Keep it up!",
-      "Fantastic! {{count}} hits without a mistake!"
     ]
   },
   "voiceOptions": "Voice actor",
@@ -120,6 +93,7 @@
   "settingsTheme": "Theme",
   "settingsAccessibility": "Comfort options",
   "settingsFooter": "Your settings are saved automatically.",
+  "studySetIndicator": "Content set: {{set}}",
   "tabGeneral": "General",
   "tabA11y": "Comfort",
   "tabExercises": "Exercises",
@@ -145,8 +119,8 @@
   "a11ySectionVoice": "Voice & learning pace",
   "a11y": {
     "lrs": {
-      "name": "Friendly font",
-      "desc": "Font facilitating reading (OpenDyslexic)"
+      "name": "Extra reading spacing",
+      "desc": "Wider line height and letter/word spacing for easier reading"
     },
     "contrast": {
       "name": "High contrast",
@@ -155,10 +129,6 @@
     "motor": {
       "name": "Comfort buttons",
       "desc": "Enlarged buttons and calm animations"
-    },
-    "vision": {
-      "name": "Larger text",
-      "desc": "Enlarged font and icons"
     },
     "colors": {
       "name": "Safe colors",
@@ -172,13 +142,36 @@
       "name": "Focus ruler",
       "desc": "Highlights a horizontal line under the cursor, or move it with ↑↓ arrow keys (no mouse needed)"
     },
-    "spacing": {
-      "name": "Larger spacing",
-      "desc": "Increases spacing between letters and words"
-    },
     "desaturation": {
       "name": "Soft colors",
       "desc": "Reduces the saturation of bright colors"
+    }
+  },
+  "designTokensSectionTitle": "Text & spacing",
+  "designTokens": {
+    "fontSizeExercise": {
+      "name": "Exercise text size",
+      "desc": "Size of the question/answer text inside exercises"
+    },
+    "fontSizeUi": {
+      "name": "Interface text size",
+      "desc": "Size of menus, buttons and labels outside exercises"
+    },
+    "lineHeight": {
+      "name": "Line height",
+      "desc": "Vertical space between lines of text"
+    },
+    "letterSpacing": {
+      "name": "Letter spacing",
+      "desc": "Space between individual letters"
+    },
+    "wordSpacing": {
+      "name": "Word spacing",
+      "desc": "Space between words"
+    },
+    "paragraphSpacing": {
+      "name": "Paragraph spacing",
+      "desc": "Space below a paragraph of reading text (e.g. a comprehension passage)"
     }
   },
   "inclusive": {
@@ -245,6 +238,7 @@
       "readAloud": "Oral Reading",
       "comprehension": "Reading Comprehension",
       "rhythm": "Syllable Rhythm",
+      "graphemePhoneme": "Grapheme-Phoneme Matching",
       "clock": "Clock Reading",
       "tracking": "Spatial Mapping",
       "mirrorImage": "Mirror Image",
@@ -369,22 +363,9 @@
     "Ocean": ["Drop", "Fish", "Coral", "Dolphin", "Whale"]
   },
   "garden": "Garden",
-  "gardenBlooming": "The garden is blooming! Goals achieved:",
   "gardenEmpty": "Your own ecosystem. It will grow as you progress.",
-  "gardenCollectionTitle": "Your collection",
   "srPlantFeature": "Your journey currently features",
-  "srDailyRewards": "Has",
-  "srRewardsCount": "daily rewards.",
   "dailyGoalProgress": "Daily Goal Progress",
-  "srVisitor": "A friendly visitor has joined you thanks to your regular practice.",
-  "srTrophies": "Through perseverance, {{count}} unique objects appeared in the garden.",
-  "rewardItems": {
-    "Natur": ["🍀", "🌸", "🦋", "🐝", "🌈"],
-    "Musik": ["🎵", "🎶", "🎤", "🎸", "🎧"],
-    "Kunst": ["🎨", "🖌️", "🖼️", "💎", "✨"],
-    "Space": ["🚀", "🌟", "🛸", "🪐", "☄️"],
-    "Ocean": ["🐚", "🐠", "🌊", "⚓", "🐬"]
-  },
   "dailyGoal": "Daily goal",
   "goal5": "5 min — Step",
   "goal10": "10 min — Habit",
@@ -402,8 +383,6 @@
   "sharePoints_one": "⭐ {{count}} point earned",
   "sharePoints_other": "⭐ {{count}} points earned",
   "shareLevel": "🌱 Level {{count}}",
-  "shareStreak_one": "🔥 {{count}} day in a row",
-  "shareStreak_other": "🔥 {{count}} days in a row",
   "shareGoalDays": "✅ {{count}} of 7 days this week met the daily goal",
   "workloadCheckInTitle": "How did that feel?",
   "workloadDemandQuestion": "How mentally demanding were these exercises?",
@@ -434,6 +413,23 @@
     "Literacy": "Reading and Writing",
     "Visual": "Vision and Space",
     "Cognitive": "Logic and Memory"
+  },
+  "pillarsNav": {
+    "Literacy": "Reading\nand Writing",
+    "Visual": "Vision\nand Space",
+    "Cognitive": "Logic\nand Memory"
+  },
+  "studyMode": {
+    "toggleLabel": "Study mode",
+    "infoText": "Automatically guides you through two short exercise blocks — one without, one with game elements — each followed by a brief questionnaire. Answers are stored anonymized, solely for this thesis, with no names or exercise content. Turn off for free use without this structure.",
+    "completeTitle": "Thank you for participating!",
+    "completeMessage": "Both exercise blocks and questionnaires are complete. You can keep using the app freely from now on.",
+    "progressLabel": "Block {{block}}/2 · {{pillar}} {{count}}/{{total}}",
+    "gardenProgressLabel": "Block {{block}}/2 · Garden",
+    "gardenCheckpointText": "Take a moment to enjoy your garden. When you're ready, continue to the survey.",
+    "continueToSurveyBtn": "Continue to survey",
+    "currentVariantClassic": "Current mode: Learning only",
+    "currentVariantGamified": "Current mode: Game (rewards)"
   },
   "pillarIcons": {
     "Literacy": "📖",
@@ -490,6 +486,9 @@
   "melodyMemoryInstruction": "Listen to the melody, then play it back in the same order",
   "phonemeInstruction": "Guess the missing letters from the definition",
   "phonemeRevealHint": "Hear the whole word",
+  "graphemePhonemeListenPrompt": "Listen to the sound, then choose the matching spelling:",
+  "graphemePhonemeChooseSoundPrompt": "Look at the letters, then choose the matching sound:",
+  "graphemePhonemeTapAgainToConfirm": "Tap again to choose this one",
   "speakTheWord": "Say the word",
   "listenCarefully": "Listen carefully to the word.",
   "readyToSegment": "I'm ready to segment",
@@ -653,7 +652,7 @@
     "title": "Your Impact",
     "desc": "Your progress supports real-world goals. Every 10 points contributes to one virtually planted tree.",
     "treesPlanted": "Trees Planted",
-    "newTreeTitle": "New Tree! 🎉",
-    "newTreeMsg": "Amazing! Your consistent learning helped us virtually plant another tree."
+    "newTreeTitle": "New tree",
+    "newTreeMsg": "Your consistent learning helped plant another tree, virtually."
   }
 }

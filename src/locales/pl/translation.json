@@ -9,9 +9,8 @@
     "chooseLanguage": "Język",
     "appMode": "Tryb",
     "modeClassic": "Tylko nauka",
-    "modeGamified": "Gra (nagrody)",
-    "a11y": "Narzędzia komfortu",
-    "lrs": "Czcionka",
+    "modeGamified": "Gra (nagrody)",    "a11y": "Narzędzia komfortu",
+    "lrs": "Dodatkowe odstępy w czytaniu",
     "contrast": "Kontrast",
     "vision": "Większy tekst",
     "big": "Przyciski",
@@ -53,32 +52,12 @@
   "navAria": "Obszary ćwiczeń",
   "settingsAria": "Ustawienia",
   "surveyAria": "Ankieta",
+  "openMenu": "Otwórz menu",
   "coinsAria": "Monety",
   "exerciseAria": "Ćwiczenie",
   "readAloudTitle": "Czytaj na głos",
   "ttsLocalDownloadError": "Nie udało się wczytać silnika głosowego — sprawdź połączenie i spróbuj ponownie.",
   "ttsLocalEngineError": "Coś poszło nie tak podczas czytania na głos — spróbuj ponownie.",
-  "successMsg": [
-    "Świetnie!",
-    "Doskonale!",
-    "Wspaniale!",
-    "Super!",
-    "Masz to!",
-    "Widać efekty."
-  ],
-  "errorMsg": [
-    "Przeanalizujmy to razem.",
-    "Spróbujmy jeszcze raz.",
-    "Prawie dobrze, spójrz jeszcze raz.",
-    "To normalna część nauki."
-  ],
-  "streakMsg": [
-    "{{count}} z rzędu! 🔥",
-    "Seria {{count}} trafień! 🚀",
-    "Masz już {{count}}! 🌟",
-    "{{count}}x bezbłędnie! 💪",
-    "{{count}} pod rząd — tak buduje się nawyk. 🌱"
-  ],
   "levelUp": "Nowy Poziom!",
   "levelUpTitle": "Twój ogród rośnie!",
   "levelUpDesc": "Kolejny cel za Tobą — Twoja systematyczność się opłaca.",
@@ -89,12 +68,6 @@
       "Przeanalizujmy to razem",
       "Spróbujmy jeszcze raz",
       "Prawie dobrze, spójrz jeszcze raz"
-    ],
-    "streak": [
-      "{{count}} z rzędu! Idziesz jak burza!",
-      "Niesamowite! To już {{count}} poprawnych odpowiedzi!",
-      "Wspaniała seria! Tak trzymaj!",
-      "Rewelacja! {{count}} trafień bez błędu!"
     ]
   },
   "voiceOptions": "Głos lektora",
@@ -119,6 +92,7 @@
   "settingsTheme": "Motyw",
   "settingsAccessibility": "Opcje komfortu",
   "settingsFooter": "Twoje ustawienia są zapisywane automatycznie.",
+  "studySetIndicator": "Zestaw treści: {{set}}",
   "tabGeneral": "Ogólne",
   "tabA11y": "Komfort",
   "tabExercises": "Ćwiczenia",
@@ -144,8 +118,8 @@
   "a11ySectionVoice": "Głos i tempo nauki",
   "a11y": {
     "lrs": {
-      "name": "Przyjazna czcionka",
-      "desc": "Czcionka ułatwiająca czytanie (OpenDyslexic)"
+      "name": "Dodatkowe odstępy w czytaniu",
+      "desc": "Większa wysokość wiersza oraz odstępy między literami/słowami dla łatwiejszego czytania"
     },
     "contrast": {
       "name": "Wysoki kontrast",
@@ -154,10 +128,6 @@
     "motor": {
       "name": "Wygodne przyciski",
       "desc": "Powiększone przyciski i spokojne animacje"
-    },
-    "vision": {
-      "name": "Większy tekst",
-      "desc": "Powiększona czcionka i ikony"
     },
     "colors": {
       "name": "Bezpieczne kolory",
@@ -171,13 +141,36 @@
       "name": "Linijka skupienia",
       "desc": "Podświetla poziomą linię pod kursorem lub strzałkami ↑↓ (bez myszy)"
     },
-    "spacing": {
-      "name": "Większe odstępy",
-      "desc": "Zwiększa odstępy między literami i słowami"
-    },
     "desaturation": {
       "name": "Łagodne barwy",
       "desc": "Zmniejsza nasycenie jaskrawych kolorów"
+    }
+  },
+  "designTokensSectionTitle": "Tekst i odstępy",
+  "designTokens": {
+    "fontSizeExercise": {
+      "name": "Rozmiar tekstu ćwiczenia",
+      "desc": "Rozmiar tekstu pytania/odpowiedzi wewnątrz ćwiczeń"
+    },
+    "fontSizeUi": {
+      "name": "Rozmiar tekstu interfejsu",
+      "desc": "Rozmiar menu, przycisków i etykiet poza ćwiczeniami"
+    },
+    "lineHeight": {
+      "name": "Wysokość wiersza",
+      "desc": "Pionowy odstęp między wierszami tekstu"
+    },
+    "letterSpacing": {
+      "name": "Odstępy między literami",
+      "desc": "Odstęp między poszczególnymi literami"
+    },
+    "wordSpacing": {
+      "name": "Odstępy między słowami",
+      "desc": "Odstęp między słowami"
+    },
+    "paragraphSpacing": {
+      "name": "Odstęp między akapitami",
+      "desc": "Odstęp pod akapitem tekstu do czytania (np. fragmentu ze zrozumienia tekstu)"
     }
   },
   "inclusive": {
@@ -244,6 +237,7 @@
       "readAloud": "Czytanie na głos",
       "comprehension": "Czytanie ze zrozumieniem",
       "rhythm": "Rytm sylabowy",
+      "graphemePhoneme": "Dopasowanie grafem-fonem",
       "clock": "Odczytywanie zegara",
       "tracking": "Mapowanie przestrzenne",
       "mirrorImage": "Lustrzane odbicie",
@@ -368,22 +362,9 @@
     "Ocean": ["Kropla", "Ryba", "Koralowiec", "Delfin", "Wieloryb"]
   },
   "garden": "Ogród",
-  "gardenBlooming": "Ogród rozkwita! Zrealizowane cele:",
   "gardenEmpty": "Twój własny ekosystem. Będzie rósł wraz z każdym Twoim postępem.",
-  "gardenCollectionTitle": "Twoja kolekcja",
   "srPlantFeature": "Twoja podróż obecnie zawiera",
-  "srDailyRewards": "Posiada",
-  "srRewardsCount": "codziennych nagród.",
   "dailyGoalProgress": "Postęp Celu Dziennego",
-  "srVisitor": "Przyjazny gość dołączył do Ciebie dzięki Twojej regularnej praktyce.",
-  "srTrophies": "Dzięki wytrwałości w ogrodzie pojawiły się {{count}} unikalne obiekty.",
-  "rewardItems": {
-    "Natur": ["🍀", "🌸", "🦋", "🐝", "🌈"],
-    "Musik": ["🎵", "🎶", "🎤", "🎸", "🎧"],
-    "Kunst": ["🎨", "🖌️", "🖼️", "💎", "✨"],
-    "Space": ["🚀", "🌟", "🛸", "🪐", "☄️"],
-    "Ocean": ["🐚", "🐠", "🌊", "⚓", "🐬"]
-  },
   "dailyGoal": "Cel dzienny",
   "goal5": "5 min — Krok",
   "goal10": "10 min — Nawyk",
@@ -403,9 +384,6 @@
   "sharePoints_few": "⭐ Zdobyto {{count}} punkty",
   "sharePoints_many": "⭐ Zdobyto {{count}} punktów",
   "shareLevel": "🌱 Poziom {{count}}",
-  "shareStreak_one": "🔥 {{count}} dzień z rzędu",
-  "shareStreak_few": "🔥 {{count}} dni z rzędu",
-  "shareStreak_many": "🔥 {{count}} dni z rzędu",
   "shareGoalDays": "✅ {{count}} z 7 dni w tym tygodniu z osiągniętym celem dziennym",
   "workloadCheckInTitle": "Jak Ci poszło?",
   "workloadDemandQuestion": "Ile wysiłku umysłowego wymagały te ćwiczenia?",
@@ -441,6 +419,23 @@
     "Literacy": "Czytanie i Pisanie",
     "Visual": "Wzrok i Przestrzeń",
     "Cognitive": "Logika i Pamięć"
+  },
+  "pillarsNav": {
+    "Literacy": "Czytanie\ni Pisanie",
+    "Visual": "Wzrok\ni Przestrzeń",
+    "Cognitive": "Logika\ni Pamięć"
+  },
+  "studyMode": {
+    "toggleLabel": "Tryb badania",
+    "infoText": "Automatycznie prowadzi Cię przez dwa krótkie bloki ćwiczeń – jeden bez i jeden z elementami grywalizacji – a po każdym krótka ankieta. Odpowiedzi są zapisywane anonimowo wyłącznie na potrzeby tej pracy magisterskiej, bez danych osobowych i treści ćwiczeń. Wyłącz, aby korzystać swobodnie bez tej struktury.",
+    "completeTitle": "Dziękujemy za udział!",
+    "completeMessage": "Oba bloki ćwiczeń i ankiety zostały ukończone. Możesz teraz swobodnie korzystać z aplikacji.",
+    "progressLabel": "Blok {{block}}/2 · {{pillar}} {{count}}/{{total}}",
+    "gardenProgressLabel": "Blok {{block}}/2 · Ogród",
+    "gardenCheckpointText": "Zajrzyj spokojnie do swojego ogrodu. Gdy będziesz gotowa/y, przejdź do ankiety.",
+    "continueToSurveyBtn": "Przejdź do ankiety",
+    "currentVariantClassic": "Aktualny tryb: Tylko nauka",
+    "currentVariantGamified": "Aktualny tryb: Gra (nagrody)"
   },
   "pillarIcons": {
     "Literacy": "📖",
@@ -540,6 +535,9 @@
   "melodyMemoryInstruction": "Posłuchaj melodii, a potem zagraj ją w tej samej kolejności",
   "phonemeInstruction": "Odgadnij brakujące litery na podstawie definicji",
   "phonemeRevealHint": "Usłysz całe słowo",
+  "graphemePhonemeListenPrompt": "Posłuchaj dźwięku, a potem wybierz pasujący zapis:",
+  "graphemePhonemeChooseSoundPrompt": "Spójrz na litery, a potem wybierz pasujący dźwięk:",
+  "graphemePhonemeTapAgainToConfirm": "Dotknij ponownie, aby wybrać tę opcję",
   "speakTheWord": "Powiedz słowo",
   "listenCarefully": "Słuchaj uważnie słowa.",
   "readyToSegment": "Jestem gotowy/a na podział",
@@ -581,7 +579,7 @@
   "tags": {
     "kontrast": "kontrast",
     "wzrok": "wzrok",
-    "motor": "motor",
+    "motor": "motoryka",
     "dotyk": "dotyk",
     "zoom": "zoom",
     "kolor": "kolor",
@@ -658,7 +656,7 @@
     "title": "Twój Wpływ",
     "desc": "Twoje postępy wspierają realne cele. Każde 10 punktów to jedno wirtualne drzewo.",
     "treesPlanted": "Posadzone Drzewa",
-    "newTreeTitle": "Nowe Drzewo! 🎉",
-    "newTreeMsg": "Wspaniale! Twoja wytrwała nauka sprawiła, że wirtualnie posadziliśmy kolejne drzewo."
+    "newTreeTitle": "Nowe drzewo",
+    "newTreeMsg": "Twoja wytrwała nauka sprawiła, że wirtualnie posadzono kolejne drzewo."
   }
 }

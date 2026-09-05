@@ -4,6 +4,7 @@ import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { getSharedAudioContext } from '../../utils/audioUnlock.js';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
 
 // Two distinct pitches — the higher "cue" tone marks the start of playback
@@ -193,19 +194,16 @@ function RhythmMemoryExercise({
       )}
 
       {phase === 'tap' && (
-        <div className="mb-2 flex shrink-0 gap-4 sm:mb-4">
+        <ExerciseControlsRow>
           <TTSController
             onReadAloud={playListen}
             pauseAllTimeouts={pauseAllTimeouts}
             resumeAllTimeouts={resumeAllTimeouts}
-            t={t}
             controlBtnSize={controlBtnSize}
-            isHighContrast={isHighContrast}
             noFlash={noFlash}
-            bionicReading={bionicReading}
             ttsFallback={ttsFallback}
           />
-        </div>
+        </ExerciseControlsRow>
       )}
 
       {!zenMode && (

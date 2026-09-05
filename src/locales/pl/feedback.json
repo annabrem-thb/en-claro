@@ -1,6 +1,7 @@
 {
   "title": "Chwila na refleksję",
   "desc": "Jak oceniasz dzisiejszą sesję? Twoja opinia pomaga nam dostosować aplikację do Ciebie.",
+  "privacyNotice": "Po wysłaniu formularza Twoje odpowiedzi z tej strony, wraz z losowo wygenerowanym identyfikatorem niepowiązanym z Twoim imieniem i nazwiskiem, użytą wersją aplikacji, językiem, motywem oraz aktywnymi ustawieniami ułatwień, zostaną przesłane na serwer i zapisane wyłącznie na potrzeby ewaluacji tej pracy magisterskiej. Nie są przesyłane żadne dane osobowe, kontaktowe ani treści Twoich ćwiczeń.",
   "nasaTitle": "Obciążenie (NASA-TLX)",
   "low": "Niski",
   "high": "Wysoki",
@@ -40,5 +41,9 @@
   "rateAria": "Oceń {{value}} na 5",
   "submit": "Zapisz i kontynuuj",
   "skip": "Pomiń tym razem",
-  "thankYou": "Dziękujemy za Twoją opinię!"
+  "thankYou": "Dziękujemy za Twoją opinię!",
+  "correct": "Poprawnie.",
+  "correctWithRule": "Poprawnie. Zasada: {{rule}}",
+  "incorrect": "Niepoprawnie.",
+  "incorrectWithRule": "Niepoprawnie. Zasada: {{rule}}"
 }

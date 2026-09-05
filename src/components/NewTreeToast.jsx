@@ -26,13 +26,13 @@ function NewTreeToastComponent({ show, noFlash, isHighContrast, t }) {
         </span>
         <div className="min-w-0 flex-1">
           <h4 className="mb-1 text-xs font-black tracking-widest uppercase sm:text-sm">
-            {t('realWorldImpact.newTreeTitle') || 'New Tree! 🎉'}
+            {t('realWorldImpact.newTreeTitle') || 'New tree'}
           </h4>
           <p
             className={`text-[10px] leading-tight font-medium wrap-break-word hyphens-auto sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-emerald-50'}`}
           >
             {t('realWorldImpact.newTreeMsg') ||
-              'Amazing! Your consistent learning helped us virtually plant another tree.'}
+              'Your consistent learning helped plant another tree, virtually.'}
           </p>
         </div>
       </div>

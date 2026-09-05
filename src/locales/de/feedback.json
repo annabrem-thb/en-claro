@@ -1,6 +1,7 @@
 {
   "title": "Ein Moment zum Nachdenken",
   "desc": "Wie bewerten Sie die heutige Sitzung? Ihr Feedback hilft uns, die App an Sie anzupassen.",
+  "privacyNotice": "Beim Absenden werden Ihre Antworten auf dieser Seite zusammen mit einer zufällig erzeugten, nicht mit Ihrem Namen verknüpften Kennung, der genutzten App-Version, Sprache, dem Design sowie Ihren aktivierten Komfort-Einstellungen an einen Server übertragen und ausschließlich für die Auswertung dieser Abschlussarbeit gespeichert. Es werden keine Namen, keine Kontaktdaten und keine Inhalte Ihrer Übungen übermittelt.",
   "nasaTitle": "Arbeitsbelastung (NASA-TLX)",
   "low": "Niedrig",
   "high": "Hoch",
@@ -40,5 +41,9 @@
   "rateAria": "{{value}} von 5 bewerten",
   "submit": "Feedback senden",
   "skip": "Diesmal überspringen",
-  "thankYou": "Vielen Dank für Ihr Feedback!"
+  "thankYou": "Vielen Dank für Ihr Feedback!",
+  "correct": "Richtig.",
+  "correctWithRule": "Richtig. Regel: {{rule}}",
+  "incorrect": "Nicht richtig.",
+  "incorrectWithRule": "Nicht richtig. Regel: {{rule}}"
 }

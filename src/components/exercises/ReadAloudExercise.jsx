@@ -4,6 +4,7 @@ import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
@@ -93,16 +94,13 @@ function ReadAloudExercise({
         </span>
       </div>
 
-      <div className="mb-2 flex shrink-0 gap-4 sm:mb-4">
+      <ExerciseControlsRow>
         <TTSController
           onReadAloud={handleReadAloud}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
           controlBtnSize={controlBtnSize}
-          isHighContrast={isHighContrast}
           noFlash={noFlash}
-          bionicReading={bionicReading}
           ttsFallback={ttsFallback}
         />
 
@@ -125,7 +123,7 @@ function ReadAloudExercise({
           unsupportedHint={t('micUnsupportedReadAloud')}
           fallbackHint={t('micFallbackHintReadAloud')}
         />
-      </div>
+      </ExerciseControlsRow>
 
       {/* Before this, the only clue that the mic here expects the displayed
           text read verbatim — not an option number, unlike every other

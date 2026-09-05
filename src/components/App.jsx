@@ -11,18 +11,22 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
+import { THEMES } from '../data/themes.js';
 import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotifications.js';
 import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
 import { useDocumentTitle } from '../hooks/useDocumentTitle.js';
 import { useExerciseSession } from '../hooks/useExerciseSession.js';
 import { useGamification } from '../hooks/useGamification.js';
-import { useGlobalTTS } from '../hooks/useGlobalTTS.js';
+import { useGlobalTTS, hasVoiceForLanguage } from '../hooks/useGlobalTTS.js';
 import { useHapticFeedback } from '../hooks/useHapticFeedback.js';
 import { getInitialRouteState, useHashRoute } from '../hooks/useHashRoute.js';
 import { useIndexedDB } from '../hooks/useIndexedDB.js';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts.js';
 import { useLocalTTS } from '../hooks/useLocalTTS.js';
 import { useReadingRuler } from '../hooks/useReadingRuler.js';
+import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
+import { useStudyMode } from '../hooks/useStudyMode.js';
+import { useStudySet } from '../hooks/useStudySet.js';
 import { useSwipeNavigation } from '../hooks/useSwipeNavigation.js';
 import { useThemeCSSVariables } from '../hooks/useThemeCSSVariables.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
@@ -41,16 +45,15 @@ import OfflineIndicator from './OfflineIndicator.jsx';
 import { ProgressPill } from './ProgressPill.jsx';
 import PwaUpdateBanner from './PwaUpdateBanner.jsx';
 import SidebarNav from './SidebarNav.jsx';
+import { StudyModeProvider } from './StudyModeContext.jsx';
 import { UserSettingsProvider } from './UserSettingsContext.jsx';
 import VoiceFallbackBanner from './VoiceFallbackBanner.jsx';
 import BionicText from './common/BionicText.jsx';
 import Dialog from './common/Dialog.jsx';
 import SkeletonLoader from './common/SkeletonLoader.jsx';
 
-// Lazy-loaded: each of these pulls in a library only it needs (lottie-react
-// for VirtualGarden) that would otherwise inflate the initial bundle for
-// every user, even ones who never open Settings/Survey/Garden. See
-// docs/bundle-size.md.
+// Lazy-loaded so a user who never opens Settings/Survey/Garden never pays
+// for their code in the initial bundle. See docs/bundle-size.md.
 const SettingsModal = lazy(() => import('./SettingsModal.jsx'));
 const VirtualGarden = lazy(() => import('./VirtualGarden.jsx'));
 const SurveyComponent = lazy(() =>
@@ -62,74 +65,11 @@ const PILLARS = ['Literacy', 'Visual', 'Cognitive'];
 const TREE_NOTIFICATION_MS = 5000;
 const APP_READY_DELAY_MS = 1500;
 
-// `buttonText` is pure black across every theme: none of these five button
-// background colors reach 4.5:1 against their original light/cream text
-// (2.59–3.94:1, an axe-core color-contrast finding) — black gives a
-// comfortable 5.3–7.3:1 against all of them without changing the palette.
-// `ring` mirrors each theme's `hex`/`button` hue as a literal `ring-[#...]`
-// Tailwind class — used by WeeklyCalendar.jsx's "today" indicator so the
-// Garden's own chrome (and not just its growth icons) actually tracks the
-// selected theme instead of a fixed indigo regardless of theme.
-const THEMES = {
-  Natur: {
-    accent: 'text-[#4A5D54]',
-    bg: 'bg-[#F4F1EA]',
-    button: 'bg-[#8A9A86]',
-    buttonText: 'text-black',
-    border: 'border-[#D0D6CE]',
-    ring: 'ring-[#8A9A86]',
-    hex: '#8A9A86',
-  },
-  Musik: {
-    accent: 'text-[#6B5B7B]',
-    bg: 'bg-[#F3F0F5]',
-    button: 'bg-[#8F7D9E]',
-    buttonText: 'text-black',
-    border: 'border-[#D1C8D6]',
-    ring: 'ring-[#8F7D9E]',
-    hex: '#8F7D9E',
-  },
-  Kunst: {
-    accent: 'text-[#8A6A4B]',
-    bg: 'bg-[#F7F4F0]',
-    button: 'bg-[#B08E6D]',
-    buttonText: 'text-black',
-    border: 'border-[#DED4CA]',
-    ring: 'ring-[#B08E6D]',
-    hex: '#B08E6D',
-  },
-  Space: {
-    accent: 'text-[#4B5E6B]',
-    bg: 'bg-[#F0F3F5]',
-    button: 'bg-[#6D8394]',
-    buttonText: 'text-black',
-    border: 'border-[#CAD4DE]',
-    ring: 'ring-[#6D8394]',
-    hex: '#6D8394',
-  },
-  Ocean: {
-    accent: 'text-[#437A7A]',
-    bg: 'bg-[#EFF5F5]',
-    button: 'bg-[#67A3A3]',
-    buttonText: 'text-black',
-    border: 'border-[#C4DBDB]',
-    ring: 'ring-[#67A3A3]',
-    hex: '#67A3A3',
-  },
-};
-
 function AppContent() {
-  const {
-    isGamified,
-    points,
-    setPoints,
-    coins,
-    setCoins,
-    rewards,
-    setRewards,
-    dailyQuests,
-    updateQuests,
-  } = useGamification();
+  const { isGamified, setIsGamified, growthValue, setGrowthValue } =
+    useGamification();
+  const { studySet } = useStudySet();
+  const studyMode = useStudyMode();
 
   const { settings, updateSetting } = useUserSettingsContext();
   const { language, theme, dailyGoal, userDifficulty } = settings;
@@ -167,14 +107,20 @@ function AppContent() {
   // voices — desktop Firefox has no bundled voices of its own (unlike
   // Chrome, which ships network-backed voices independent of the OS), so
   // read-aloud silently does nothing once the OS has none registered
-  // either. Detected once here, not per-TTSController instance, since it
+  // either. The same fallback also has to cover the case where *some*
+  // voices exist but none for the language actually being read (e.g.
+  // Windows with only an English voice pack installed reading Polish) —
+  // otherwise pickBestVoice finds nothing, msg.voice is left unset, and the
+  // browser mumbles the text through its unrelated default-language voice
+  // instead. Detected once here, not per-TTSController instance, since it
   // decides which engine speak() itself routes to below, not just what a
   // button displays.
   const [noNativeVoices, setNoNativeVoices] = useState(false);
   useEffect(() => {
     const checkVoices = () => {
+      const allVoices = window.speechSynthesis?.getVoices?.() || [];
       setNoNativeVoices(
-        (window.speechSynthesis?.getVoices?.() || []).length === 0,
+        allVoices.length === 0 || !hasVoiceForLanguage(allVoices, language),
       );
     };
     checkVoices();
@@ -190,7 +136,7 @@ function AppContent() {
       window.speechSynthesis.removeEventListener('voiceschanged', checkVoices);
       clearTimeout(timeoutId);
     };
-  }, []);
+  }, [language]);
 
   const {
     status: localTTSStatus,
@@ -253,15 +199,11 @@ function AppContent() {
   const [lastPillar, setLastPillar] = useState('Literacy');
   const [settingsOpen, setSettingsOpen] = useState(initialRoute.settingsOpen);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [, setEarnedCoinsAnim] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [pendingFeedback, setPendingFeedback] = useState(false);
   // Distinguishes the nav-triggered "open the survey any time" entry point
-  // from the automatic every-10-points trigger. The automatic path shows the
-  // survey *instead of* immediately calling goNext() (see
-  // handleLevelUpNext), so closing it must call goNext() to catch up on the
-  // advance it deferred. A manual open never deferred one, so closing it
-  // must not silently skip whatever exercise the user was looking at.
+  // from a guided study block's end-of-block checkpoint (see the
+  // studyMode.phase === 'survey' effect below) — a manual open can be
+  // dismissed freely, a study checkpoint can't (see isStudyCheckpoint).
   const [surveyOpenedManually, setSurveyOpenedManually] = useState(false);
 
   const { loadLevel, showBreakModal, setShowBreakModal, setErrorTimestamps } =
@@ -280,9 +222,13 @@ function AppContent() {
     'cfg_daily_progress',
   );
 
-  const { affirmation } = useAffirmativeNotifications(points, language);
+  const { affirmation } = useAffirmativeNotifications(
+    growthValue,
+    language,
+    isGamified,
+  );
 
-  const prevPointsRef = useRef(points);
+  const prevGrowthValueRef = useRef(growthValue);
   const [newTreeNotification, setNewTreeNotification] = useState(false);
   const [isAppReady, setIsAppReady] = useState(false);
   const [prevIsGamified, setPrevIsGamified] = useState(isGamified);
@@ -293,10 +239,10 @@ function AppContent() {
   }, []);
 
   useEffect(() => {
-    const prevTrees = Math.floor(prevPointsRef.current / 10);
-    const currentTrees = Math.floor(points / 10);
+    const prevTrees = Math.floor(prevGrowthValueRef.current / 10);
+    const currentTrees = Math.floor(growthValue / 10);
 
-    if (isAppReady && currentTrees > prevTrees && currentTrees > 0) {
+    if (isGamified && isAppReady && currentTrees > prevTrees && currentTrees > 0) {
       setNewTreeNotification(true);
       vibrate([50, 50, 50]);
       const timer = setTimeout(
@@ -305,8 +251,8 @@ function AppContent() {
       );
       return () => clearTimeout(timer);
     }
-    prevPointsRef.current = points;
-  }, [points, isAppReady, vibrate]);
+    prevGrowthValueRef.current = growthValue;
+  }, [growthValue, isAppReady, isGamified, vibrate]);
 
   // Adjusted during render (React's recommended pattern for reacting to a
   // state change with more state — see "You Might Not Need an Effect") so
@@ -320,6 +266,28 @@ function AppContent() {
     }
   }
 
+  // A guided study block dictates its own variant — this overrides
+  // whatever the free toggle last set, the same render-time sync as above.
+  if (studyMode.isActive && isGamified !== studyMode.blockIsGamified) {
+    setIsGamified(studyMode.blockIsGamified);
+  }
+
+  // Reacts to the study flow reaching a checkpoint: 'survey' means a block
+  // just finished its 9 tasks and needs that block's survey before
+  // continuing (opened the same way the automatic every-10-points survey
+  // used to, before that was removed — surveyOpenedManually stays false so
+  // the Dialog below knows this one isn't user-dismissable); 'done' means
+  // both blocks and surveys are complete, shown once via a toast.
+  const [prevStudyPhase, setPrevStudyPhase] = useState(studyMode.phase);
+  const [showStudyComplete, setShowStudyComplete] = useState(false);
+  if (studyMode.phase !== prevStudyPhase) {
+    setPrevStudyPhase(studyMode.phase);
+    if (studyMode.phase === 'survey') setShowFeedback(true);
+    if (studyMode.phase === 'done') setShowStudyComplete(true);
+  }
+  const isStudyCheckpoint =
+    showFeedback && studyMode.phase === 'survey' && !surveyOpenedManually;
+
   const { t } = useTranslation();
 
   const documentTitleSegment = showIntro
@@ -331,15 +299,83 @@ function AppContent() {
         : t('pillars', { returnObjects: true })?.[activeTab] || activeTab;
   useDocumentTitle(documentTitleSegment);
 
+  // Which pillar switching is locked to — null means pillar nav is free
+  // (Garden is never locked; see handleGardenClick). During 'tasks' this is
+  // the block's current pillar (the others are locked, that one isn't);
+  // during 'garden' (the post-block Garden stop, gamified block only) no
+  // real pillar name is ever locked *to*, so every pillar button is
+  // disabled while Garden stays reachable — the '__none__' sentinel never
+  // matches a real pillar name in PILLARS.
+  const lockedToPillar =
+    studyMode.isActive && studyMode.phase === 'tasks'
+      ? studyMode.currentPillar
+      : studyMode.isActive && studyMode.phase === 'garden'
+        ? '__none__'
+        : null;
+
+  // Shown in place of the free pillar-nav readout while a guided study
+  // block owns which pillar is current (see setPillarTab's sync above) —
+  // null once the block finishes its tasks (phase moves to 'survey'/'done')
+  // or study mode isn't active at all, which is exactly when nav should be
+  // free again.
+  const studyProgressLabel =
+    studyMode.isActive && studyMode.phase === 'tasks'
+      ? t('studyMode.progressLabel', {
+          block: studyMode.block,
+          pillar:
+            t('pillars', { returnObjects: true })?.[studyMode.currentPillar] ||
+            studyMode.currentPillar,
+          count: studyMode.pillarCount + 1,
+          total: studyMode.pillarTotal,
+        })
+      : studyMode.isActive && studyMode.phase === 'garden'
+        ? t('studyMode.gardenProgressLabel', { block: studyMode.block })
+        : null;
+
   const themeStyles = THEMES[theme] || THEMES.Natur;
   const noFlash = settings.noFlash || settings.motion;
   const bigTargets = settings.bigTargets || settings.motorik;
-  const hideNavLabel = settings.vision;
   const isHighContrast = settings.contrast;
   const isColorblind = settings.color;
   const hasRuler = settings.ruler;
 
   const { cardRef, rulerPos } = useReadingRuler(hasRuler);
+
+  const { setSafeTimeout } = useSafeTimeouts();
+
+  // The gamification module's only foothold into the exercise session:
+  // called once per completed unit (a successful answer or a Skip — see
+  // handleSkip below) with identical timing regardless of the gamification
+  // setting. When it's off this simply does nothing. Nothing here may delay
+  // or otherwise change when the session advances to the next exercise.
+  const handleUnitCompleted = useCallback(
+    (newGrowthValue) => {
+      if (!isGamified) return;
+      const todayStr = new Date().toDateString();
+      setDailyProgress((prev) => {
+        const todayPoints = prev[todayStr]?.points || 0;
+        return { ...prev, [todayStr]: { points: todayPoints + 1 } };
+      });
+      if (newGrowthValue % POINTS_PER_LEVEL === 0) {
+        setShowSuccess(true);
+        setSafeTimeout(() => setShowSuccess(false), 1500);
+      }
+    },
+    [isGamified, setDailyProgress, setSafeTimeout],
+  );
+
+  // Every call site that completes a unit (below, and useExerciseSession's
+  // onUnitCompleted) needs both the gamification side effect above and the
+  // study block's own pillar-progress count — the latter regardless of
+  // whether this block happens to be gamified, so it can't live inside
+  // handleUnitCompleted itself.
+  const notifyUnitCompleted = useCallback(
+    (newGrowthValue) => {
+      handleUnitCompleted(newGrowthValue);
+      studyMode.recordUnitCompleted();
+    },
+    [handleUnitCompleted, studyMode],
+  );
 
   useThemeCSSVariables({
     themeStyles,
@@ -352,8 +388,7 @@ function AppContent() {
     currentIndex,
     setCurrentIndex,
     setCycle,
-    currentStreak,
-    setCurrentStreak,
+    setConsecutiveCorrect,
     feedback,
     setFeedback,
     isTransitioning,
@@ -374,37 +409,131 @@ function AppContent() {
     t,
     speak,
     theme,
-    isGamified,
-    points,
-    setPoints,
-    setCoins,
-    setRewards,
-    dailyQuests,
-    updateQuests,
-    setDailyProgress,
-    setPendingFeedback,
-    setShowSuccess,
-    setShowFeedback,
-    setEarnedCoinsAnim,
+    studySet,
+    growthValue,
+    setGrowthValue,
+    onUnitCompleted: notifyUnitCompleted,
     setErrorTimestamps,
+    studyExerciseTypes:
+      studyMode.isActive && studyMode.phase === 'tasks'
+        ? studyMode.currentExerciseTypes
+        : null,
   });
 
-  const handleTabChange = useCallback(
+  // Growth is independent of correctness and retries, so skipping a task
+  // without answering it still completes the unit — the only thing that
+  // does *not* complete a unit is an error, which leaves the same task in
+  // place for a no-penalty retry.
+  // True only for the "actively looking at an unanswered question" window —
+  // false again the moment feedback appears (right up until the next task
+  // replaces it), on the Garden tab, and whenever no task is loaded. Nav,
+  // Settings, and the progress row all key off this: they're allowed to
+  // show *before* a task starts and *after* it's answered, never while it's
+  // in progress.
+  const isProcessingTask = activeTab !== 'Garden' && !!currentTask && !feedback;
+
+  // Touch users have no equivalent of the Ctrl+1-4/Ctrl+,/Ctrl+S shortcuts
+  // that let keyboard users reach nav/Settings/Survey while nav is
+  // unmounted above — this is the escape hatch for them. Deliberately
+  // per-task, not per-session: resets the moment a new task loads so nav
+  // goes back to hidden by default next time too, rather than becoming a
+  // standing "nav always visible" mode. Compared during render (same
+  // pattern as prevIsGamified above), not in an effect, so this doesn't
+  // cost an extra commit+effect cycle.
+  const [navRevealedDuringTask, setNavRevealedDuringTask] = useState(false);
+  const [prevTaskForNavReveal, setPrevTaskForNavReveal] = useState(currentTask);
+  if (currentTask !== prevTaskForNavReveal) {
+    setPrevTaskForNavReveal(currentTask);
+    setNavRevealedDuringTask(false);
+  }
+
+  const handleSkip = useCallback(() => {
+    const newGrowthValue = growthValue + 1;
+    setGrowthValue(newGrowthValue);
+    notifyUnitCompleted(newGrowthValue);
+    goNext();
+  }, [growthValue, setGrowthValue, notifyUnitCompleted, goNext]);
+
+  const setPillarTab = useCallback(
     (pillar) => {
       setActiveTab(pillar);
       setLastPillar(pillar);
       setCurrentIndex(0);
       setCycle(0);
       setFeedback(null);
-      setCurrentStreak(0);
+      setConsecutiveCorrect(0);
     },
-    [setCurrentIndex, setCycle, setFeedback, setCurrentStreak],
+    [setCurrentIndex, setCycle, setFeedback, setConsecutiveCorrect],
+  );
+
+  const handleTabChange = useCallback(
+    (pillar) => {
+      // A guided study block owns *which of the three pillars* is current
+      // (see the sync below) — jumping ahead to one it hasn't reached yet
+      // is disabled, but re-selecting the pillar it's already on (e.g.
+      // returning from a Garden visit) is just going back to the task,
+      // not skipping anything.
+      if (studyMode.isActive && pillar !== studyMode.currentPillar) return;
+      setPillarTab(pillar);
+    },
+    [studyMode.isActive, studyMode.currentPillar, setPillarTab],
   );
 
   const handleGardenClick = useCallback(() => {
+    // Unlike pillar switching, Garden is never blocked by a guided study
+    // block: the gamified block is specifically meant to show its
+    // gamification, not hide the one part of it participants would
+    // actually want to check on.
     setActiveTab('Garden');
     setFeedback(null);
   }, [setFeedback]);
+
+  // While a guided study block is in progress, activeTab tracks the
+  // block's current pillar rather than wherever manual nav last left it —
+  // forced back in the same render it would otherwise drift, same pattern
+  // as the isGamified/prevIsGamified sync above.
+  //
+  // Gated on `!feedback`: the pillar/pillarCount bookkeeping in
+  // studyMode.recordUnitCompleted() advances the instant a task is
+  // answered — immediately, in the same render as handleSuccess setting
+  // feedback to show "Correct!" and scheduling goNext() a second or two
+  // later. Switching activeTab right then (setPillarTab also resets
+  // feedback/currentIndex) would wipe that feedback before it's ever seen
+  // and land on the new pillar's task list at index 0 — which the
+  // already-scheduled goNext() would then advance past, silently
+  // completing that pillar's first task without the participant answering
+  // it. Waiting for feedback to clear naturally (goNext's own
+  // setFeedback(null), once its delay elapses) lines the pillar switch up
+  // with the same moment the exercise would have advanced anyway.
+  //
+  // Also gated on `activeTab !== 'Garden'`: a deliberate Garden visit
+  // (handleGardenClick, always allowed during a gamified block) would
+  // otherwise be yanked straight back to the exercise on the very next
+  // render, since Garden also isn't studyMode.currentPillar.
+  if (
+    studyMode.isActive &&
+    studyMode.currentPillar &&
+    activeTab !== studyMode.currentPillar &&
+    activeTab !== 'Garden' &&
+    !feedback
+  ) {
+    setPillarTab(studyMode.currentPillar);
+  }
+
+  // Same !feedback gating as the pillar sync above: the gamified block's
+  // last task's "Correct!" feedback (and the goNext() already scheduled to
+  // clear it) must play out before this hands off to Garden, not get wiped
+  // by it. Plain setActiveTab, not setPillarTab — Garden isn't one of the
+  // three pillars, so it shouldn't touch lastPillar (VirtualGarden's
+  // activeCategory needs to stay on whichever real pillar was last active).
+  if (
+    studyMode.isActive &&
+    studyMode.phase === 'garden' &&
+    activeTab !== 'Garden' &&
+    !feedback
+  ) {
+    setActiveTab('Garden');
+  }
 
   const handleNavigateTab = useCallback(
     (tab) => {
@@ -469,14 +598,25 @@ function AppContent() {
     onSwipeRight: () => handleSwipeTab('right'),
   });
 
+  // ArrowRight/Enter double as both the post-success "Next" button and the
+  // pre-answer "Skip" button, matching whichever one is actually on screen
+  // (see the feedback?.type === 'success' branch below) — Skip must go
+  // through handleSkip, not the raw goNext, so growth increments the same
+  // way whether it's clicked or triggered by keyboard.
+  const handleAdvanceKey = useCallback(() => {
+    if (feedback?.type === 'success') goNext();
+    else handleSkip();
+  }, [feedback, goNext, handleSkip]);
+
   useKeyboardShortcuts({
     isGamified,
     pillars: PILLARS,
-    goNext,
+    goNext: handleAdvanceKey,
     goPrev,
     onTabChange: handleTabChange,
     onGardenClick: handleGardenClick,
     onOpenSettings: openSettings,
+    onOpenSurvey: openSurvey,
     vibrate,
     // While any focus-trapped dialog is open, it owns the keyboard —
     // otherwise ArrowRight/Enter meant for a control inside e.g. the
@@ -545,16 +685,6 @@ function AppContent() {
     );
   };
 
-  const handleLevelUpNext = useCallback(() => {
-    setShowSuccess(false);
-    if (pendingFeedback) {
-      setShowFeedback(true);
-      setPendingFeedback(false);
-    } else {
-      goNext();
-    }
-  }, [pendingFeedback, goNext]);
-
   const dismissPwaUpdate = useCallback(
     () => setNeedRefresh(false),
     [setNeedRefresh],
@@ -614,30 +744,53 @@ function AppContent() {
 
       {}
       {/* lg: matches SidebarNav's own breakpoint, so tablets in portrait keep
-          the bottom bar below instead of switching to a squeezed sidebar. */}
-      <div className="z-40 hidden h-full shrink-0 lg:flex">
-        <SidebarNav
-          pillars={PILLARS}
-          activeTab={activeTab}
-          onTabChange={handleTabChange}
-          onGardenClick={handleGardenClick}
-          dailyQuests={dailyQuests}
-          language={language}
-          isGamified={isGamified}
-          theme={theme}
-          themeStyles={themeStyles}
-          isHighContrast={isHighContrast}
-          bigTargets={bigTargets}
-          hideNavLabel={hideNavLabel}
-          setSettingsOpen={setSettingsOpen}
-          onOpenSurvey={openSurvey}
-          t={t}
-          coins={coins}
-          loadLevel={loadLevel}
-          speak={speak}
-          noFlash={noFlash}
-          bionicReading={!!settings.bionicReading}
-        />
+          the bottom bar below instead of switching to a squeezed sidebar.
+          Unmounted entirely (not just CSS-hidden) while a task is actively
+          being worked on — nav/Settings must not render at all during that
+          window, only before a task starts and after it's answered —
+          unless the escape hatch below explicitly revealed it for this one
+          task, which now also happens by moving the mouse near this edge
+          (mouseenter/leave on this shared wrapper), not just by tapping the
+          hamburger — a keyboard/touch user still has that button, but a
+          mouse user shouldn't need a click just to peek at the menu. Purely
+          a hover convenience with no keyboard equivalent needed — nav stays
+          fully reachable via the hamburger button and Ctrl+1-4/,/S. */}
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+      <div
+        className="hidden h-full shrink-0 lg:flex"
+        onMouseEnter={() => setNavRevealedDuringTask(true)}
+        onMouseLeave={() => setNavRevealedDuringTask(false)}
+      >
+        {isProcessingTask && !navRevealedDuringTask && (
+          <div className="h-full w-4" aria-hidden="true" />
+        )}
+        {(!isProcessingTask || navRevealedDuringTask) && (
+          <div
+            className={`z-40 flex h-full shrink-0 ${noFlash ? '' : 'animate-in fade-in duration-300'}`}
+          >
+            <SidebarNav
+              pillars={PILLARS}
+              activeTab={activeTab}
+              onTabChange={handleTabChange}
+              onGardenClick={handleGardenClick}
+              language={language}
+              isGamified={isGamified}
+              theme={theme}
+              themeStyles={themeStyles}
+              isHighContrast={isHighContrast}
+              bigTargets={bigTargets}
+              setSettingsOpen={setSettingsOpen}
+              onOpenSurvey={openSurvey}
+              t={t}
+              loadLevel={loadLevel}
+              speak={speak}
+              noFlash={noFlash}
+              bionicReading={!!settings.bionicReading}
+              lockedToPillar={lockedToPillar}
+              studyProgressLabel={studyProgressLabel}
+            />
+          </div>
+        )}
       </div>
 
       {}
@@ -661,7 +814,7 @@ function AppContent() {
           {activeTab === 'Garden' ? (
             <div
               id="garden-container"
-              className={`h-full w-full flex-1 py-2 ${noFlash ? '' : 'animate-in fade-in slide-in-from-bottom-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
+              className={`flex h-full w-full flex-1 flex-col gap-3 py-2 ${noFlash ? '' : 'animate-in fade-in slide-in-from-bottom-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
             >
               <Suspense
                 fallback={
@@ -672,9 +825,7 @@ function AppContent() {
                 }
               >
                 <VirtualGarden
-                  points={points}
-                  streak={currentStreak}
-                  dailyQuests={dailyQuests}
+                  growthValue={growthValue}
                   isHighContrast={isHighContrast}
                   theme={theme}
                   themeStyles={themeStyles}
@@ -694,34 +845,45 @@ function AppContent() {
                   voiceAssistant={!!settings.voiceAssistant}
                 />
               </Suspense>
+
+              {}
+              {/* The gamified block's post-task Garden stop (see
+                  useStudyModeState's recordUnitCompleted/recordGardenSeen):
+                  no auto-timeout and no dismiss — the participant looks
+                  around on their own terms, then explicitly moves on to
+                  that block's survey with this button. */}
+              {studyMode.isActive && studyMode.phase === 'garden' && (
+                <div
+                  className={`flex shrink-0 flex-col items-center gap-3 rounded-3xl border p-4 text-center sm:flex-row sm:justify-between sm:text-left ${isHighContrast ? 'border-white/30 bg-black' : `bg-[#FCFBF9] ${themeStyles.border}`}`}
+                >
+                  <p
+                    className={`text-xs font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+                  >
+                    {t('studyMode.gardenCheckpointText')}
+                  </p>
+                  <button
+                    onClick={() => studyMode.recordGardenSeen()}
+                    className={`shrink-0 rounded-full px-6 py-2.5 text-xs font-black tracking-widest uppercase shadow-md transition-all active:scale-95 ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}
+                  >
+                    {t('studyMode.continueToSurveyBtn')}
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <>
               {}
-              {!settings.zenMode && (
+              {/* Progress row: hidden by default while a task is being
+                  processed (only shown before/after), and always hidden
+                  under zenMode regardless of that window. */}
+              {!isProcessingTask && !settings.zenMode && (
                 <div
                   className={`relative mb-3 flex shrink-0 items-center justify-between gap-4 rounded-3xl px-3 py-2.5 sm:px-4 md:mb-4 ${isHighContrast ? 'border border-white/30 bg-black shadow-sm md:shadow-none' : `border bg-[#FCFBF9] ${themeStyles.border} shadow-md shadow-slate-200/40 md:shadow-sm`}`}
                 >
-                  {rewards.length > 0 && isGamified && (
-                    <div
-                      className={`absolute -top-4 left-4 z-20 flex items-center gap-1.5 rounded-full border-2 px-3 py-1 text-xs font-black tracking-widest uppercase shadow-lg ${isHighContrast ? 'border-white bg-black text-white' : `bg-[#FCFBF9] ${themeStyles.border} text-[#4A5D54]`} ${noFlash ? '' : 'animate-in zoom-in duration-300'}`}
-                    >
-                      <span>
-                        <BionicText
-                          text={t('collectedLabel')}
-                          enabled={!!settings.bionicReading}
-                        />
-                        :
-                      </span>
-                      <span className="text-xs">
-                        {rewards[rewards.length - 1]}
-                      </span>
-                    </div>
-                  )}
                   <div className="flex min-w-0 flex-1 items-center gap-3">
                     {isGamified ? (
                       <ProgressPill
-                        points={points % POINTS_PER_LEVEL}
+                        points={growthValue % POINTS_PER_LEVEL}
                         max={POINTS_PER_LEVEL}
                         theme={theme}
                         isGamified={true}
@@ -733,10 +895,10 @@ function AppContent() {
                         <div
                           className={`scale-size-10 flex shrink-0 items-center justify-center rounded-full text-sm font-black ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}
                         >
-                          {Math.floor(points / POINTS_PER_LEVEL) + 1}
+                          {Math.floor(growthValue / POINTS_PER_LEVEL) + 1}
                         </div>
                         <ProgressPill
-                          points={points % POINTS_PER_LEVEL}
+                          points={growthValue % POINTS_PER_LEVEL}
                           max={POINTS_PER_LEVEL}
                           theme={theme}
                           isGamified={false}
@@ -777,6 +939,41 @@ function AppContent() {
               )}
 
               {}
+              {/* The progress row above (with its own CognitiveEnergyIndicator)
+                  is hidden while a task is being processed — but cognitive
+                  load doesn't pause with it, and a break suggestion needs
+                  to be able to appear at exactly the moment it's most
+                  likely: mid-task. This is the same indicator, just kept
+                  mounted through that window instead of disappearing with
+                  the rest of the row. Classic mode has no load-tracking
+                  concept to show here (loadLevel/showBreakModal are
+                  gamification-only), so it stays gamified-only like the
+                  original. */}
+              {isProcessingTask && isGamified && !settings.zenMode && (
+                <div className="absolute top-2 right-2 z-20 sm:top-3 sm:right-3">
+                  <CognitiveEnergyIndicator
+                    loadLevel={loadLevel || 'green'}
+                    showModal={showBreakModal}
+                    onTakeBreak={() => {
+                      if (typeof setShowBreakModal === 'function')
+                        setShowBreakModal(false);
+                      handleGardenClick();
+                    }}
+                    onDismiss={() => {
+                      if (typeof setShowBreakModal === 'function')
+                        setShowBreakModal(false);
+                    }}
+                    t={t}
+                    themeStyles={themeStyles}
+                    isHighContrast={isHighContrast}
+                    noFlash={noFlash}
+                    bigTargets={bigTargets}
+                    bionicReading={!!settings.bionicReading}
+                  />
+                </div>
+              )}
+
+              {}
               <section
                 ref={cardRef}
                 className={`relative flex min-h-0 w-full flex-1 flex-col items-center rounded-4xl px-2 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-12 ${isHighContrast ? 'border border-white/30 bg-black shadow-lg shadow-white/10 md:shadow-sm' : `border bg-[#FCFBF9] ${themeStyles.border} shadow-xl shadow-slate-200/30 md:shadow-md`}`}
@@ -808,7 +1005,7 @@ function AppContent() {
                 )}
                 <div
                   key={`exercise-wrapper-${activeTab}-${currentIndex}`}
-                  className={`flex h-full min-h-0 w-full flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
+                  className={`exercise-scale flex h-full min-h-0 w-full flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in slide-in-from-right-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
                 >
                   {renderCurrentExercise()}
                 </div>
@@ -867,15 +1064,29 @@ function AppContent() {
                 currentTask &&
                 !settings.zenMode && (
                   <div className="mt-2 flex shrink-0 flex-col items-center justify-center pb-1 md:mt-3 md:pb-2">
-                    <button
-                      onClick={goNext}
-                      className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} rounded-full border-2 bg-transparent font-black tracking-widest uppercase transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}
-                    >
-                      <BionicText
-                        text={t('skip') || 'Skip'}
-                        enabled={!!settings.bionicReading}
-                      />
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={handleSkip}
+                        className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} rounded-full border-2 bg-transparent font-black tracking-widest uppercase transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}
+                      >
+                        <BionicText
+                          text={t('skip') || 'Skip'}
+                          enabled={!!settings.bionicReading}
+                        />
+                      </button>
+                      {isProcessingTask && (
+                        <button
+                          onClick={() =>
+                            setNavRevealedDuringTask((prev) => !prev)
+                          }
+                          aria-expanded={navRevealedDuringTask}
+                          aria-label={t('openMenu') || 'Open menu'}
+                          className={`flex items-center justify-center rounded-full border-2 bg-transparent transition-colors ${bigTargets ? 'h-14 w-14 text-base' : 'h-10 w-10 text-sm'} ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}
+                        >
+                          ☰
+                        </button>
+                      )}
+                    </div>
                     <p
                       className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
                     >
@@ -911,26 +1122,31 @@ function AppContent() {
 
         {}
         {/* lg: matches the sidebar wrapper's breakpoint above, so tablets in
-            portrait keep this bottom bar instead of a cramped desktop sidebar. */}
-        <BottomNav
-          pillars={PILLARS}
-          activeTab={activeTab}
-          dailyQuests={dailyQuests}
-          isGamified={isGamified}
-          theme={theme}
-          themeStyles={themeStyles}
-          isHighContrast={isHighContrast}
-          hideNavLabel={hideNavLabel}
-          noFlash={noFlash}
-          bigTargets={bigTargets}
-          bionicReading={!!settings.bionicReading}
-          t={t}
-          onTabChange={handleTabChange}
-          onGardenClick={handleGardenClick}
-          onOpenSettings={openSettings}
-          onOpenSurvey={openSurvey}
-          vibrate={vibrate}
-        />
+            portrait keep this bottom bar instead of a cramped desktop
+            sidebar. Unmounted entirely while a task is actively being
+            worked on — see the matching SidebarNav wrapper above. */}
+        {(!isProcessingTask || navRevealedDuringTask) && (
+          <div className={noFlash ? '' : 'animate-in fade-in duration-300'}>
+            <BottomNav
+              pillars={PILLARS}
+              activeTab={activeTab}
+              isGamified={isGamified}
+              theme={theme}
+              themeStyles={themeStyles}
+              isHighContrast={isHighContrast}
+              noFlash={noFlash}
+              bigTargets={bigTargets}
+              t={t}
+              onTabChange={handleTabChange}
+              onGardenClick={handleGardenClick}
+              onOpenSettings={openSettings}
+              onOpenSurvey={openSurvey}
+              vibrate={vibrate}
+              lockedToPillar={lockedToPillar}
+              studyProgressLabel={studyProgressLabel}
+            />
+          </div>
+        )}
       </div>
 
       <NewTreeToast
@@ -944,42 +1160,76 @@ function AppContent() {
         open={showSuccess}
         isHighContrast={isHighContrast}
         noFlash={noFlash}
-        bigTargets={bigTargets}
         t={t}
-        onNext={handleLevelUpNext}
         bionicReading={!!settings.bionicReading}
       />
 
       {}
+      {/* A guided study block's end-of-block survey isn't dismissable —
+          forcing it open (no close button, backdrop/Escape ignored) is
+          what makes this a real checkpoint rather than a suggestion the
+          participant can skip past without recording that block's SUS/
+          NASA-TLX scores. */}
       <Dialog
         open={showFeedback}
         onClose={() => {
+          if (isStudyCheckpoint) return;
           setShowFeedback(false);
-          if (!surveyOpenedManually) goNext();
           setSurveyOpenedManually(false);
         }}
         labelledBy="survey-title"
         overlayClassName="z-60 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm sm:p-6"
         className="no-scrollbar animate-in zoom-in relative max-h-[95dvh] w-full max-w-5xl overflow-y-auto rounded-3xl bg-white shadow-2xl duration-300"
       >
-        {}
-        <button
-          onClick={() => {
-            setShowFeedback(false);
-            if (!surveyOpenedManually) goNext();
-            setSurveyOpenedManually(false);
-          }}
-          aria-label={t('close') || 'Close'}
-          className="absolute top-4 right-4 z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 font-bold text-slate-500 transition-colors hover:bg-slate-200"
-        >
-          ✕
-        </button>
+        {!isStudyCheckpoint && (
+          <button
+            onClick={() => {
+              setShowFeedback(false);
+              setSurveyOpenedManually(false);
+            }}
+            aria-label={t('close') || 'Close'}
+            className="absolute top-4 right-4 z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 font-bold text-slate-500 transition-colors hover:bg-slate-200"
+          >
+            ✕
+          </button>
+        )}
 
         <Suspense
           fallback={<SkeletonLoader isHighContrast={false} noFlash={noFlash} />}
         >
-          <SurveyComponent />
+          <SurveyComponent
+            onSubmitted={() => {
+              if (studyMode.phase === 'survey') studyMode.recordSurveySubmitted();
+              setShowFeedback(false);
+              setSurveyOpenedManually(false);
+            }}
+          />
         </Suspense>
+      </Dialog>
+
+      {}
+      <Dialog
+        open={showStudyComplete}
+        onClose={() => setShowStudyComplete(false)}
+        labelledBy="study-complete-title"
+        overlayClassName="z-60 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm sm:p-6"
+        className="animate-in zoom-in relative w-full max-w-md rounded-3xl bg-white p-8 text-center shadow-2xl duration-300"
+      >
+        <h2
+          id="study-complete-title"
+          className="mb-2 text-2xl font-black text-emerald-600"
+        >
+          🎉 {t('studyMode.completeTitle')}
+        </h2>
+        <p className="mb-6 font-medium text-slate-600">
+          {t('studyMode.completeMessage')}
+        </p>
+        <button
+          onClick={() => setShowStudyComplete(false)}
+          className="w-full rounded-2xl bg-indigo-600 py-4 font-black tracking-widest text-white uppercase shadow-lg transition-all hover:bg-indigo-500 focus:ring-4 focus:ring-indigo-200 focus:outline-none active:scale-[0.98]"
+        >
+          {t('close') || 'OK'}
+        </button>
       </Dialog>
 
       <AffirmationToast
@@ -1016,9 +1266,11 @@ function AppContent() {
 export default function App() {
   return (
     <GamificationProvider>
-      <UserSettingsProvider>
-        <AppContent />
-      </UserSettingsProvider>
+      <StudyModeProvider>
+        <UserSettingsProvider>
+          <AppContent />
+        </UserSettingsProvider>
+      </StudyModeProvider>
     </GamificationProvider>
   );
 }

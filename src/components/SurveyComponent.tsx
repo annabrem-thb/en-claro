@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -56,7 +56,9 @@ const SUS_SCALES: Array<{ id: keyof SusPayload; label: string }> = [
   { id: 'sus10', label: 'survey.sus.q10' },
 ];
 
-export const SurveyComponent: React.FC = () => {
+export const SurveyComponent: React.FC<{ onSubmitted?: () => void }> = ({
+  onSubmitted,
+}) => {
   const { settings } = useUserSettingsContext();
   const { language, theme, userDifficulty, dailyGoal } = settings;
   const { isGamified } = useGamification();
@@ -121,11 +123,19 @@ export const SurveyComponent: React.FC = () => {
         LRS: settings.lrs,
         Kontrast: settings.contrast,
         Motorik: settings.motorik,
-        Niedowidzenie: settings.vision,
+        // `vision`/`spacing` were fixed booleans (115% zoom; a fixed
+        // spacing preset); now that both are continuous sliders, "active"
+        // is approximated as "moved above its own default minimum" rather
+        // than a specific position.
+        Niedowidzenie: settings.fontSizeUi > 16 || settings.fontSizeExercise > 16,
         Daltonizm: settings.color,
         Redukcja: settings.motion,
         Linijka: settings.ruler,
-        Spacing: settings.spacing,
+        Spacing:
+          settings.lineHeight > 1.5 ||
+          settings.letterSpacing > 0 ||
+          settings.wordSpacing > 0 ||
+          settings.paragraphSpacing > 0,
         Desaturacja: settings.desaturation,
       })
         .filter(([, active]) => active)
@@ -181,6 +191,15 @@ export const SurveyComponent: React.FC = () => {
     }
   };
 
+  // Gives the participant a moment to see the confirmation before the
+  // caller (App.jsx) reacts — closing the dialog, and for a guided study
+  // block's checkpoint, advancing to the next block/finishing the study.
+  useEffect(() => {
+    if (!isSuccess || !onSubmitted) return;
+    const timer = setTimeout(onSubmitted, 2000);
+    return () => clearTimeout(timer);
+  }, [isSuccess, onSubmitted]);
+
   if (isSuccess) {
     return (
       <div className="rounded-3xl border-2 border-emerald-100 bg-emerald-50 p-8 text-center">
@@ -210,6 +229,10 @@ export const SurveyComponent: React.FC = () => {
           {t('feedback.desc')}
         </p>
       </header>
+
+      <p className="rounded-2xl border border-indigo-100 bg-indigo-50 p-4 text-xs leading-relaxed font-medium text-slate-600 sm:text-sm">
+        {t('feedback.privacyNotice')}
+      </p>
 
       {/* min-w-0: <fieldset> has a browser-default min-width of min-content,
           which silences flex/grid shrinking for every descendant (grid
@@ -288,7 +311,7 @@ export const SurveyComponent: React.FC = () => {
                   forced onto one line: every size here (the 24-28px radio
                   circles, their gaps) is Tailwind's rem-based spacing scale,
                   which tracks the app's dynamic root font-size
-                  (--dyn-font-size) the same as body text does — a user with a
+                  (--font-size-ui) the same as body text does — a user with a
                   much larger OS/browser text size ends up with
                   proportionally much larger circles too. A single-line
                   layout had nowhere left to give and silently clipped the

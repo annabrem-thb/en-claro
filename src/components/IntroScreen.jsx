@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useGamification } from '../hooks/useGamification.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
+import { useStudyMode } from '../hooks/useStudyMode.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
 
 import BionicText from './common/BionicText.jsx';
@@ -49,6 +50,8 @@ function IntroScreen({ onStart, speak }) {
   const { t } = useTranslation();
   const { settings, updateSetting } = useUserSettingsContext();
   const { isGamified, setIsGamified } = useGamification();
+  const { studyModeEnabled, setStudyModeEnabled, isActive: studyModeActive } =
+    useStudyMode();
 
   const {
     language,
@@ -60,19 +63,41 @@ function IntroScreen({ onStart, speak }) {
   const A11Y_MAPPING = {
     LRS: 'lrs',
     Kontrast: 'contrast',
-    Niedowidzenie: 'vision',
     Motorik: 'motorik',
-    Spacing: 'spacing',
     Linijka: 'ruler',
     Daltonizm: 'color',
     Redukcja: 'motion',
     Desaturacja: 'desaturation',
   };
 
+  // 'Niedowidzenie' ("Bigger text") and 'Spacing' used to be single fixed
+  // booleans; now that the six design-token sliders can be anywhere in
+  // their range, a one-tap quick toggle here jumps them to a preset
+  // instead — same pattern as the `lrs` toggle in useUserSettings.js — and
+  // reverts to the plain baseline on a second tap rather than trying to
+  // remember whatever custom slider position was there before.
+  const BIGGER_TEXT_PRESET = { fontSizeUi: 20, fontSizeExercise: 20 };
+  const MORE_SPACING_PRESET = { lineHeight: 2, letterSpacing: 0.15, wordSpacing: 0.35 };
+  const BASELINE_TEXT = { fontSizeUi: 16, fontSizeExercise: 16 };
+  const BASELINE_SPACING = { lineHeight: 1.5, letterSpacing: 0, wordSpacing: 0 };
+
+  const applyPreset = (preset) => {
+    Object.entries(preset).forEach(([key, value]) => updateSetting(key, value));
+  };
+
   const toggleAddon = (addon, label) => {
-    const mappedKey = A11Y_MAPPING[addon];
-    const newState = !settings[mappedKey];
-    updateSetting(mappedKey, newState);
+    let newState;
+    if (addon === 'Niedowidzenie') {
+      newState = !hasVision;
+      applyPreset(newState ? BIGGER_TEXT_PRESET : BASELINE_TEXT);
+    } else if (addon === 'Spacing') {
+      newState = !hasSpacing;
+      applyPreset(newState ? MORE_SPACING_PRESET : BASELINE_SPACING);
+    } else {
+      const mappedKey = A11Y_MAPPING[addon];
+      newState = !settings[mappedKey];
+      updateSetting(mappedKey, newState);
+    }
 
     if (settings.voiceAssistant && speak) {
       speak(
@@ -94,9 +119,15 @@ function IntroScreen({ onStart, speak }) {
 
   const hasLRS = settings.lrs;
   const hasContrast = settings.contrast;
-  const hasVision = settings.vision;
+  // Approximated from the sliders now: "moved above its own default
+  // minimum" rather than a specific fixed position — see the matching
+  // definition in SurveyComponent.tsx's a11yAddons.
+  const hasVision = settings.fontSizeUi > 16 || settings.fontSizeExercise > 16;
   const hasMotorik = settings.motorik;
-  const hasSpacing = settings.spacing;
+  const hasSpacing =
+    settings.lineHeight > 1.5 ||
+    settings.letterSpacing > 0 ||
+    settings.wordSpacing > 0;
   const hasRuler = settings.ruler;
   const hasColor = settings.color;
   const hasMotion = settings.motion;
@@ -250,6 +281,45 @@ function IntroScreen({ onStart, speak }) {
               ))}
             </fieldset>
 
+            {}
+            {/* The study-mode toggle and its explanation sit above the mode
+                indicator below: while it's on, the app itself assigns and
+                drives the variant (see useStudyMode.js), so there's nothing
+                left to pick here — turning it off is what brings the free
+                Learning/Gamified picker back. */}
+            <div
+              className={`mb-2 flex flex-col gap-2 rounded-xl border-2 p-3 text-left sm:mb-3 ${isHighContrast ? 'border-white/30' : 'border-slate-200 bg-slate-50'}`}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span
+                  className={`text-xs font-bold tracking-wider uppercase sm:text-sm ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
+                >
+                  <BionicText
+                    text={t('studyMode.toggleLabel')}
+                    enabled={hasBionic}
+                  />
+                </span>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={studyModeEnabled}
+                  aria-label={t('studyMode.toggleLabel')}
+                  onClick={() => setStudyModeEnabled(!studyModeEnabled)}
+                  className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${studyModeEnabled ? 'bg-indigo-500' : isHighContrast ? 'bg-white/30' : 'bg-slate-300'}`}
+                >
+                  <span
+                    aria-hidden="true"
+                    className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-transform ${studyModeEnabled ? 'translate-x-5' : 'translate-x-0.5'}`}
+                  />
+                </button>
+              </div>
+              <p
+                className={`text-[11px] leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+              >
+                {t('studyMode.infoText')}
+              </p>
+            </div>
+
             <fieldset className="m-0 mb-2 grid w-full shrink-0 grid-cols-2 gap-1 border-none p-0 sm:gap-1.5">
               {/* HTML's content model for <legend> explicitly permits a single
                 heading element (h1-h6) as its entire content, alongside
@@ -271,91 +341,70 @@ function IntroScreen({ onStart, speak }) {
                   />
                 </h2>
               </legend>
-              <button
-                onClick={() => {
-                  setIsGamified(false);
-                  if (settings.voiceAssistant && speak)
-                    speak(t('intro.modeClassic', 'Learning Only'));
-                }}
-                className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
-                  !isGamified
-                    ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-md'}`
-                    : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300'}`
-                }`}
-                aria-pressed={!isGamified}
-              >
-                <span
-                  className="text-sm drop-shadow-sm sm:text-lg"
-                  aria-hidden="true"
+              {studyModeActive ? (
+                <p
+                  className={`col-span-2 rounded-xl border-2 py-2.5 text-center text-xs font-bold tracking-wider uppercase sm:text-sm ${isHighContrast ? 'border-white/30 text-white' : 'border-slate-200 bg-white text-slate-600'}`}
                 >
-                  📖
-                </span>
-                <span className="text-center tracking-wider uppercase">
-                  <BionicText
-                    text={t('intro.modeClassic', 'Learning Only')}
-                    enabled={hasBionic}
-                  />
-                </span>
-              </button>
-              <button
-                onClick={() => {
-                  setIsGamified(true);
-                  if (settings.voiceAssistant && speak)
-                    speak(t('intro.modeGamified', 'Gamified'));
-                }}
-                className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
-                  isGamified
-                    ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md'}`
-                    : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-emerald-300'}`
-                }`}
-                aria-pressed={isGamified}
-              >
-                <span
-                  className="text-sm drop-shadow-sm sm:text-lg"
-                  aria-hidden="true"
-                >
-                  🎮
-                </span>
-                <span className="text-center tracking-wider uppercase">
-                  <BionicText
-                    text={t('intro.modeGamified', 'Gamified')}
-                    enabled={hasBionic}
-                  />
-                </span>
-              </button>
-            </fieldset>
-
-            <fieldset className="m-0 mb-2 grid w-full shrink-0 grid-cols-2 gap-1 border-none p-0 sm:mb-3 sm:gap-1.5">
-              <legend className="mb-1 w-full p-0 text-left sm:text-center">
-                <h2
-                  className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
-                >
-                  <BionicText text={t('dailyGoal')} enabled={hasBionic} />
-                </h2>
-              </legend>
-              {[5, 10, 15, 20].map((minutes) => (
-                <button
-                  key={minutes}
-                  onClick={() => {
-                    updateSetting('dailyGoal', minutes);
-                    if (settings.voiceAssistant && speak)
-                      speak(t(`goal${minutes}`));
-                  }}
-                  className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
-                    settings.dailyGoal === minutes
-                      ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-700 shadow-md'}`
-                      : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-amber-300'}`
-                  }`}
-                  aria-pressed={settings.dailyGoal === minutes}
-                >
-                  <span className="text-center tracking-wider uppercase">
-                    <BionicText
-                      text={t(`goal${minutes}`)}
-                      enabled={hasBionic}
-                    />
-                  </span>
-                </button>
-              ))}
+                  {isGamified
+                    ? t('studyMode.currentVariantGamified')
+                    : t('studyMode.currentVariantClassic')}
+                </p>
+              ) : (
+                <>
+                  <button
+                    onClick={() => {
+                      setIsGamified(false);
+                      if (settings.voiceAssistant && speak)
+                        speak(t('intro.modeClassic', 'Learning Only'));
+                    }}
+                    className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
+                      !isGamified
+                        ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-md'}`
+                        : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300'}`
+                    }`}
+                    aria-pressed={!isGamified}
+                  >
+                    <span
+                      className="text-sm drop-shadow-sm sm:text-lg"
+                      aria-hidden="true"
+                    >
+                      📖
+                    </span>
+                    <span className="text-center tracking-wider uppercase">
+                      <BionicText
+                        text={t('intro.modeClassic', 'Learning Only')}
+                        enabled={hasBionic}
+                      />
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsGamified(true);
+                      if (settings.voiceAssistant && speak)
+                        speak(t('intro.modeGamified', 'Gamified'));
+                    }}
+                    className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
+                      isGamified
+                        ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md'}`
+                        : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-emerald-300'}`
+                    }`}
+                    aria-pressed={isGamified}
+                  >
+                    <span
+                      className="text-sm drop-shadow-sm sm:text-lg"
+                      aria-hidden="true"
+                    >
+                      🎮
+                    </span>
+                    <span className="text-center tracking-wider uppercase">
+                      <BionicText
+                        text={t('intro.modeGamified', 'Gamified')}
+                        enabled={hasBionic}
+                      />
+                    </span>
+                  </button>
+                </>
+              )}
             </fieldset>
 
             <fieldset className="m-0 mb-2 grid w-full shrink-0 grid-cols-2 gap-1 border-none p-0 sm:mb-3 sm:grid-cols-3 sm:gap-1.5">
