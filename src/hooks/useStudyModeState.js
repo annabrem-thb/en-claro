@@ -23,6 +23,8 @@ const DEFAULT_PROGRESS = {
   pillarIndex: 0,
   pillarCount: 0,
   // 'tasks': working through the current block's pillars.
+  // 'garden': gamified block only — pillars just finished, Garden shown
+  // before that block's survey (see recordUnitCompleted/recordGardenSeen).
   // 'survey': block finished, waiting on that block's survey submission.
   // 'done': both blocks and both surveys are complete.
   phase: 'tasks',
@@ -149,7 +151,10 @@ export function useStudyModeState() {
 
   // Call once per completed exercise unit (success or skip) while a block
   // is in progress. Advances to the next pillar after TASKS_PER_PILLAR
-  // units, or to the 'survey' phase once all three pillars are done.
+  // units, or once all three pillars are done: to 'garden' for the
+  // gamified block (it's the one thing that block is meant to show off,
+  // so it gets a stop before the survey closes it out) or straight to
+  // 'survey' for the classic block, which has no gamification to visit.
   const recordUnitCompleted = () => {
     if (!isActive || progress.phase !== 'tasks') return;
     const nextCount = progress.pillarCount + 1;
@@ -165,8 +170,19 @@ export function useStudyModeState() {
         pillarCount: 0,
       });
     } else {
-      setProgress({ ...progress, pillarCount: nextCount, phase: 'survey' });
+      setProgress({
+        ...progress,
+        pillarCount: nextCount,
+        phase: blockIsGamified ? 'garden' : 'survey',
+      });
     }
+  };
+
+  // Call once the participant chooses to move on from the post-block Garden
+  // visit (gamified block only). Moves to that block's survey.
+  const recordGardenSeen = () => {
+    if (!isActive || progress.phase !== 'garden') return;
+    setProgress({ ...progress, phase: 'survey' });
   };
 
   // Call once a block's survey has actually been submitted successfully
@@ -201,6 +217,7 @@ export function useStudyModeState() {
     currentExerciseTypes,
     blockIsGamified,
     recordUnitCompleted,
+    recordGardenSeen,
     recordSurveySubmitted,
   };
 }
