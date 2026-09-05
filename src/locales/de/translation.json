@@ -429,6 +429,9 @@
     "completeTitle": "Vielen Dank für Ihre Teilnahme!",
     "completeMessage": "Beide Übungsblöcke und Fragebögen sind abgeschlossen. Sie können die App ab jetzt frei weiter nutzen.",
     "progressLabel": "Block {{block}}/2 · {{pillar}} {{count}}/{{total}}",
+    "gardenProgressLabel": "Block {{block}}/2 · Garten",
+    "gardenCheckpointText": "Schau dir in Ruhe deinen Garten an. Wenn du bereit bist, geh weiter zur Umfrage.",
+    "continueToSurveyBtn": "Weiter zur Umfrage",
     "currentVariantClassic": "Aktueller Modus: Nur Lernen",
     "currentVariantGamified": "Aktueller Modus: Spiel (Belohnungen)"
   },
