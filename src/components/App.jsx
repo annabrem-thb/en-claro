@@ -300,13 +300,18 @@ function AppContent() {
   useDocumentTitle(documentTitleSegment);
 
   // Which pillar switching is locked to — null means pillar nav is free
-  // (Garden is never locked; see handleGardenClick). Same lifetime as
-  // studyMode.currentPillar: only set while a block is actively working
-  // through its tasks.
+  // (Garden is never locked; see handleGardenClick). During 'tasks' this is
+  // the block's current pillar (the others are locked, that one isn't);
+  // during 'garden' (the post-block Garden stop, gamified block only) no
+  // real pillar name is ever locked *to*, so every pillar button is
+  // disabled while Garden stays reachable — the '__none__' sentinel never
+  // matches a real pillar name in PILLARS.
   const lockedToPillar =
     studyMode.isActive && studyMode.phase === 'tasks'
       ? studyMode.currentPillar
-      : null;
+      : studyMode.isActive && studyMode.phase === 'garden'
+        ? '__none__'
+        : null;
 
   // Shown in place of the free pillar-nav readout while a guided study
   // block owns which pillar is current (see setPillarTab's sync above) —
@@ -323,7 +328,9 @@ function AppContent() {
           count: studyMode.pillarCount + 1,
           total: studyMode.pillarTotal,
         })
-      : null;
+      : studyMode.isActive && studyMode.phase === 'garden'
+        ? t('studyMode.gardenProgressLabel', { block: studyMode.block })
+        : null;
 
   const themeStyles = THEMES[theme] || THEMES.Natur;
   const noFlash = settings.noFlash || settings.motion;
@@ -511,6 +518,21 @@ function AppContent() {
     !feedback
   ) {
     setPillarTab(studyMode.currentPillar);
+  }
+
+  // Same !feedback gating as the pillar sync above: the gamified block's
+  // last task's "Correct!" feedback (and the goNext() already scheduled to
+  // clear it) must play out before this hands off to Garden, not get wiped
+  // by it. Plain setActiveTab, not setPillarTab — Garden isn't one of the
+  // three pillars, so it shouldn't touch lastPillar (VirtualGarden's
+  // activeCategory needs to stay on whichever real pillar was last active).
+  if (
+    studyMode.isActive &&
+    studyMode.phase === 'garden' &&
+    activeTab !== 'Garden' &&
+    !feedback
+  ) {
+    setActiveTab('Garden');
   }
 
   const handleNavigateTab = useCallback(
@@ -792,7 +814,7 @@ function AppContent() {
           {activeTab === 'Garden' ? (
             <div
               id="garden-container"
-              className={`h-full w-full flex-1 py-2 ${noFlash ? '' : 'animate-in fade-in slide-in-from-bottom-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
+              className={`flex h-full w-full flex-1 flex-col gap-3 py-2 ${noFlash ? '' : 'animate-in fade-in slide-in-from-bottom-8 sm:slide-in-from-bottom-12 duration-500 ease-out'}`}
             >
               <Suspense
                 fallback={
@@ -823,6 +845,30 @@ function AppContent() {
                   voiceAssistant={!!settings.voiceAssistant}
                 />
               </Suspense>
+
+              {}
+              {/* The gamified block's post-task Garden stop (see
+                  useStudyModeState's recordUnitCompleted/recordGardenSeen):
+                  no auto-timeout and no dismiss — the participant looks
+                  around on their own terms, then explicitly moves on to
+                  that block's survey with this button. */}
+              {studyMode.isActive && studyMode.phase === 'garden' && (
+                <div
+                  className={`flex shrink-0 flex-col items-center gap-3 rounded-3xl border p-4 text-center sm:flex-row sm:justify-between sm:text-left ${isHighContrast ? 'border-white/30 bg-black' : `bg-[#FCFBF9] ${themeStyles.border}`}`}
+                >
+                  <p
+                    className={`text-xs font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+                  >
+                    {t('studyMode.gardenCheckpointText')}
+                  </p>
+                  <button
+                    onClick={() => studyMode.recordGardenSeen()}
+                    className={`shrink-0 rounded-full px-6 py-2.5 text-xs font-black tracking-widest uppercase shadow-md transition-all active:scale-95 ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}
+                  >
+                    {t('studyMode.continueToSurveyBtn')}
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <>

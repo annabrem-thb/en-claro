@@ -431,6 +431,9 @@
     "completeTitle": "Dziękujemy za udział!",
     "completeMessage": "Oba bloki ćwiczeń i ankiety zostały ukończone. Możesz teraz swobodnie korzystać z aplikacji.",
     "progressLabel": "Blok {{block}}/2 · {{pillar}} {{count}}/{{total}}",
+    "gardenProgressLabel": "Blok {{block}}/2 · Ogród",
+    "gardenCheckpointText": "Zajrzyj spokojnie do swojego ogrodu. Gdy będziesz gotowa/y, przejdź do ankiety.",
+    "continueToSurveyBtn": "Przejdź do ankiety",
     "currentVariantClassic": "Aktualny tryb: Tylko nauka",
     "currentVariantGamified": "Aktualny tryb: Gra (nagrody)"
   },

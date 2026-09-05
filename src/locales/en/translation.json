@@ -425,6 +425,9 @@
     "completeTitle": "Thank you for participating!",
     "completeMessage": "Both exercise blocks and questionnaires are complete. You can keep using the app freely from now on.",
     "progressLabel": "Block {{block}}/2 · {{pillar}} {{count}}/{{total}}",
+    "gardenProgressLabel": "Block {{block}}/2 · Garden",
+    "gardenCheckpointText": "Take a moment to enjoy your garden. When you're ready, continue to the survey.",
+    "continueToSurveyBtn": "Continue to survey",
     "currentVariantClassic": "Current mode: Learning only",
     "currentVariantGamified": "Current mode: Game (rewards)"
   },
