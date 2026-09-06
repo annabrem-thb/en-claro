@@ -13,6 +13,7 @@ import { useRegisterSW } from 'virtual:pwa-register/react';
 
 import { THEMES } from '../data/themes.js';
 import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotifications.js';
+import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
 import { useDocumentTitle } from '../hooks/useDocumentTitle.js';
 import { useExerciseSession } from '../hooks/useExerciseSession.js';
@@ -331,6 +332,32 @@ function AppContent() {
       : studyMode.isActive && studyMode.phase === 'garden'
         ? t('studyMode.gardenProgressLabel', { block: studyMode.block })
         : null;
+
+  // The guided study flow's own screens (garden checkpoint, final thank-you)
+  // had no speak() call anywhere, unlike every exercise — a Voice Assistant
+  // user got total silence exactly at the two points that hand-off between
+  // blocks. Wired the same way exercises auto-read themselves: gated on the
+  // user's own voiceAssistant setting, firing once when each screen appears.
+  const readGardenCheckpoint = useCallback(() => {
+    speak(t('studyMode.gardenCheckpointText'), settings.extendedTime);
+  }, [speak, t, settings.extendedTime]);
+  useAutoReadAloud(
+    !!settings.voiceAssistant &&
+      studyMode.isActive &&
+      studyMode.phase === 'garden',
+    readGardenCheckpoint,
+  );
+
+  const readStudyComplete = useCallback(() => {
+    speak(
+      `${t('studyMode.completeTitle')}. ${t('studyMode.completeMessage')}`,
+      settings.extendedTime,
+    );
+  }, [speak, t, settings.extendedTime]);
+  useAutoReadAloud(
+    !!settings.voiceAssistant && showStudyComplete,
+    readStudyComplete,
+  );
 
   const themeStyles = THEMES[theme] || THEMES.Natur;
   const noFlash = settings.noFlash || settings.motion;
