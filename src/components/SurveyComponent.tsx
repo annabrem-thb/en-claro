@@ -5,6 +5,44 @@ import { useTranslation } from 'react-i18next';
 import { NasaTlxPayload, SusPayload, AppVersion } from '../../public/survey';
 import { useGamification } from '../hooks/useGamification.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
+import { safeJSONParse } from '../utils/safeJSONParse.js';
+
+// Versioned so a future change to the payload shape can invalidate old
+// drafts outright instead of trying to merge them. Only one survey is ever
+// open at a time (a manual open or a study-block checkpoint), so a single
+// fixed key is enough — no need to thread a per-checkpoint id through props.
+const SURVEY_DRAFT_KEY = 'enclaro:survey:v1:draft';
+
+type SurveyDraft = { nasaScores: NasaTlxPayload; susScores: SusPayload };
+
+// Every localStorage access here is wrapped: private-browsing modes and a
+// full storage quota can make both getItem and setItem throw, and losing a
+// draft save is an acceptable failure — crashing the survey over it isn't.
+function readSurveyDraft(): SurveyDraft | null {
+  try {
+    return safeJSONParse(localStorage.getItem(SURVEY_DRAFT_KEY), null);
+  } catch {
+    return null;
+  }
+}
+
+function writeSurveyDraft(draft: SurveyDraft) {
+  try {
+    localStorage.setItem(SURVEY_DRAFT_KEY, JSON.stringify(draft));
+  } catch {
+    // Nothing to recover into if this fails — the in-memory form state is
+    // still authoritative for the current tab.
+  }
+}
+
+function clearSurveyDraft() {
+  try {
+    localStorage.removeItem(SURVEY_DRAFT_KEY);
+  } catch {
+    // Stale draft left behind is harmless: it's overwritten by the next
+    // autosave or simply ignored once a fresh submission succeeds again.
+  }
+}
 
 const NASA_SCALES: Array<{
   id: keyof NasaTlxPayload;
@@ -65,27 +103,41 @@ export const SurveyComponent: React.FC<{ onSubmitted?: () => void }> = ({
 
   const { t } = useTranslation();
 
-  const [nasaScores, setNasaScores] = useState<NasaTlxPayload>({
-    mentalDemand: 50,
-    physicalDemand: 50,
-    temporalDemand: 50,
-    performance: 50,
-    effort: 50,
-    frustration: 50,
-  });
+  const [nasaScores, setNasaScores] = useState<NasaTlxPayload>(
+    () =>
+      readSurveyDraft()?.nasaScores ?? {
+        mentalDemand: 50,
+        physicalDemand: 50,
+        temporalDemand: 50,
+        performance: 50,
+        effort: 50,
+        frustration: 50,
+      },
+  );
 
-  const [susScores, setSusScores] = useState<SusPayload>({
-    sus01: 3,
-    sus02: 3,
-    sus03: 3,
-    sus04: 3,
-    sus05: 3,
-    sus06: 3,
-    sus07: 3,
-    sus08: 3,
-    sus09: 3,
-    sus10: 3,
-  });
+  const [susScores, setSusScores] = useState<SusPayload>(
+    () =>
+      readSurveyDraft()?.susScores ?? {
+        sus01: 3,
+        sus02: 3,
+        sus03: 3,
+        sus04: 3,
+        sus05: 3,
+        sus06: 3,
+        sus07: 3,
+        sus08: 3,
+        sus09: 3,
+        sus10: 3,
+      },
+  );
+
+  // Autosaves on every change so a lost tab (crash, accidental reload,
+  // closed by mistake) doesn't take an in-progress NASA-TLX/SUS response
+  // with it — restored above on next mount, cleared only once the survey
+  // actually reaches the server (see handleSubmit's success path).
+  useEffect(() => {
+    writeSurveyDraft({ nasaScores, susScores });
+  }, [nasaScores, susScores]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -183,6 +235,10 @@ export const SurveyComponent: React.FC<{ onSubmitted?: () => void }> = ({
         );
       }
 
+      // Only here, on a confirmed 2xx response — not in `finally` below,
+      // and not before the fetch resolves, so a failed or interrupted
+      // submission always leaves the draft in place to retry from.
+      clearSurveyDraft();
       setIsSuccess(true);
     } catch (err: any) {
       setError(err.message || t('error', 'Wystąpił nieoczekiwany błąd.'));
