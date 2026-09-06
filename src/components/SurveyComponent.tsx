@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -286,9 +286,25 @@ export const SurveyComponent: React.FC<{
     return () => clearTimeout(timer);
   }, [isSuccess, onSubmitted]);
 
+  const successRef = useRef<HTMLDivElement>(null);
+  // The form (and whatever had focus on it, e.g. the Submit button) is
+  // replaced by this confirmation entirely — without moving focus here, a
+  // screen-reader user's focus is left on a now-detached element with
+  // nothing announced, so they'd have no way to know the submission
+  // actually succeeded.
+  useEffect(() => {
+    if (isSuccess) successRef.current?.focus();
+  }, [isSuccess]);
+
   if (isSuccess) {
     return (
-      <div className="rounded-3xl border-2 border-emerald-100 bg-emerald-50 p-8 text-center">
+      <div
+        ref={successRef}
+        role="status"
+        aria-live="polite"
+        tabIndex={-1}
+        className="rounded-3xl border-2 border-emerald-100 bg-emerald-50 p-8 text-center focus:outline-none"
+      >
         <h2 className="mb-2 text-2xl font-black text-emerald-600">
           🎉 {t('success', 'Sukces!')}
         </h2>
