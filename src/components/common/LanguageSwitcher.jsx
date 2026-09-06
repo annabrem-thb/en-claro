@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { useUserSettingsContext } from '../../hooks/useUserSettingsContext.js';
 import BionicText from './BionicText.jsx';
 
@@ -10,9 +12,10 @@ const LANGUAGES = [
 export default function LanguageSwitcher() {
   const { settings, updateSetting } = useUserSettingsContext();
   const { language, contrast: isHighContrast, bionicReading } = settings;
+  const { t } = useTranslation();
 
   return (
-    <div className="flex gap-2" role="group" aria-label="Language Selection">
+    <div className="flex gap-2" role="group" aria-label={t('languageLabel')}>
       {LANGUAGES.map(({ code, flag, label }) => (
         <button
           key={code}
