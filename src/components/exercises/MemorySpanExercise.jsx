@@ -5,6 +5,7 @@ import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
 
 function MemorySpanExercise({
@@ -295,18 +296,12 @@ function MemorySpanExercise({
             </button>
           </ExerciseControlsRow>
 
-          {transcript && (
-            <p
-              className={`mb-1 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-2 sm:text-xs ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
-            >
-              {t('heard')}:{' '}
-              <span
-                className={isHighContrast ? 'text-white' : 'text-slate-600'}
-              >
-                {transcript}
-              </span>
-            </p>
-          )}
+          <TranscriptDisplay
+            transcript={transcript}
+            isHighContrast={isHighContrast}
+            t={t}
+            className="mb-1 shrink-0 text-center text-[10px] sm:mb-2 sm:text-xs"
+          />
 
           {}
           <div
