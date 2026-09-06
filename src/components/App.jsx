@@ -1070,7 +1070,7 @@ function AppContent() {
                   <p
                     className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
                   >
-                    💡{' '}
+                    <span aria-hidden="true">💡</span>{' '}
                     <BionicText
                       text={t('pressKey') || 'Press'}
                       enabled={!!settings.bionicReading}
@@ -1129,7 +1129,7 @@ function AppContent() {
                       <p
                         className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
                       >
-                        💡{' '}
+                        <span aria-hidden="true">💡</span>{' '}
                         <BionicText
                           text={t('pressKey') || 'Press'}
                           enabled={!!settings.bionicReading}
@@ -1264,7 +1264,7 @@ function AppContent() {
           id="study-complete-title"
           className="mb-2 text-2xl font-black text-emerald-600"
         >
-          🎉 {t('studyMode.completeTitle')}
+          <span aria-hidden="true">🎉</span> {t('studyMode.completeTitle')}
         </h2>
         <p className="mb-6 font-medium text-slate-600">
           {t('studyMode.completeMessage')}

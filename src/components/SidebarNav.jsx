@@ -144,6 +144,7 @@ const SidebarNav = memo(function SidebarNav({
                 className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isLockedOut ? 'cursor-not-allowed opacity-40' : ''} ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
                 aria-current={isSelected ? 'page' : undefined}
                 aria-label={label}
+                aria-keyshortcuts={`Control+${index + 1}`}
               >
                 <span
                   className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
@@ -208,6 +209,7 @@ const SidebarNav = memo(function SidebarNav({
               className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${activeTab === 'Garden' ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
               aria-current={activeTab === 'Garden' ? 'page' : undefined}
               aria-label={t('garden') || 'Garden'}
+              aria-keyshortcuts="Control+4"
             >
               <span
                 className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
@@ -316,6 +318,7 @@ const SidebarNav = memo(function SidebarNav({
               }}
               className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
               aria-label={t('surveyAria')}
+              aria-keyshortcuts="Control+s"
             >
               <span
                 className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
@@ -351,6 +354,7 @@ const SidebarNav = memo(function SidebarNav({
             }}
             className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
             aria-label={t('settingsAria')}
+            aria-keyshortcuts="Control+,"
           >
             <span
               className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"

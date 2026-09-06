@@ -205,6 +205,26 @@ function VirtualGarden({
     setCheckInDone(true);
   };
 
+  // WAI-ARIA radiogroup pattern: arrow keys move focus *and* select in one
+  // step, wrapping at the ends, rather than leaving each button as its own
+  // Tab stop with no arrow-key behavior at all. Reads the pressed button's
+  // own value from the DOM instead of the group's current state, since
+  // before any selection is made (checkInDemand/checkInFocus start `null`)
+  // focus can already be on button 1 via the roving tabIndex below.
+  const handleRatingKeyDown = (e, setValue) => {
+    if (!['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'].includes(e.key))
+      return;
+    e.preventDefault();
+    const current = Number(e.currentTarget.dataset.ratingValue);
+    const delta = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1;
+    const next = ((current - 1 + delta + 5) % 5) + 1;
+    setValue(next);
+    e.currentTarget
+      .closest('[role="radiogroup"]')
+      ?.querySelector(`[data-rating-value="${next}"]`)
+      ?.focus();
+  };
+
   const srText = `${t('srPlantFeature')} ${ecosystemState.plantName}.`;
 
   const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
@@ -364,8 +384,11 @@ function VirtualGarden({
                     key={n}
                     type="button"
                     role="radio"
+                    data-rating-value={n}
                     aria-checked={checkInDemand === n}
+                    tabIndex={(checkInDemand ?? 1) === n ? 0 : -1}
                     onClick={() => setCheckInDemand(n)}
+                    onKeyDown={(e) => handleRatingKeyDown(e, setCheckInDemand)}
                     className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-black transition-all active:scale-95 sm:h-10 sm:w-10 sm:text-sm ${
                       checkInDemand === n
                         ? isHighContrast
@@ -414,8 +437,11 @@ function VirtualGarden({
                     key={n}
                     type="button"
                     role="radio"
+                    data-rating-value={n}
                     aria-checked={checkInFocus === n}
+                    tabIndex={(checkInFocus ?? 1) === n ? 0 : -1}
                     onClick={() => setCheckInFocus(n)}
+                    onKeyDown={(e) => handleRatingKeyDown(e, setCheckInFocus)}
                     className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-black transition-all active:scale-95 sm:h-10 sm:w-10 sm:text-sm ${
                       checkInFocus === n
                         ? isHighContrast

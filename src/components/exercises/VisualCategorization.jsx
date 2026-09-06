@@ -241,7 +241,7 @@ function VisualCategorization({
       {}
       <div
         className={`no-scrollbar flex max-h-[35dvh] min-h-15 w-full shrink flex-wrap justify-center gap-2 overflow-y-auto rounded-3xl border-2 p-2 transition-colors sm:min-h-20 sm:gap-3 sm:p-3 ${activeItem ? (isHighContrast ? 'border-white/50' : 'border-indigo-200 bg-indigo-50/30') : 'border-transparent'}`}
-        aria-label="Available items"
+        aria-label={t('availableItemsAria') || 'Available items'}
       >
         {unplacedItems.map((item) => (
           <button
