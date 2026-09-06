@@ -1061,8 +1061,15 @@ function AppContent() {
                   </p>
                 </div>
               ) : (
-                currentTask &&
-                !settings.zenMode && (
+                // Skip and the menu-reveal hamburger are escape hatches, not
+                // decoration — unlike the hint paragraph below (or the other
+                // zenMode-gated rows elsewhere in this file), they must stay
+                // mounted under zenMode too. Without this, a touch user with
+                // Zen mode on had no way off a task they couldn't answer:
+                // the hover-to-reveal sidebar (see the wrapper above) only
+                // exists for a mouse, and zenMode used to unmount this
+                // entire block, hamburger included.
+                currentTask && (
                   <div className="mt-2 flex shrink-0 flex-col items-center justify-center pb-1 md:mt-3 md:pb-2">
                     <div className="flex items-center gap-2">
                       <button
@@ -1087,22 +1094,24 @@ function AppContent() {
                         </button>
                       )}
                     </div>
-                    <p
-                      className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
-                    >
-                      💡{' '}
-                      <BionicText
-                        text={t('pressKey') || 'Press'}
-                        enabled={!!settings.bionicReading}
-                      />{' '}
-                      <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-600">
-                        →
-                      </kbd>{' '}
-                      <BionicText
-                        text={t('toSkip') || 'to skip'}
-                        enabled={!!settings.bionicReading}
-                      />
-                    </p>
+                    {!settings.zenMode && (
+                      <p
+                        className={`mt-3 hidden text-[10px] font-bold md:block ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+                      >
+                        💡{' '}
+                        <BionicText
+                          text={t('pressKey') || 'Press'}
+                          enabled={!!settings.bionicReading}
+                        />{' '}
+                        <kbd className="rounded bg-slate-200/50 px-1.5 py-0.5 font-mono text-slate-600">
+                          →
+                        </kbd>{' '}
+                        <BionicText
+                          text={t('toSkip') || 'to skip'}
+                          enabled={!!settings.bionicReading}
+                        />
+                      </p>
+                    )}
                   </div>
                 )
               )}
