@@ -1211,6 +1211,11 @@ function AppContent() {
           fallback={<SkeletonLoader isHighContrast={false} noFlash={noFlash} />}
         >
           <SurveyComponent
+            checkpointId={
+              studyMode.phase === 'survey'
+                ? `block-${studyMode.block}`
+                : 'manual'
+            }
             onSubmitted={() => {
               if (studyMode.phase === 'survey') studyMode.recordSurveySubmitted();
               setShowFeedback(false);
