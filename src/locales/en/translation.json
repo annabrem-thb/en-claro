@@ -533,6 +533,7 @@
   "chooseCorrectSpelling": "Choose the correct spelling:",
   "spellingHint": "{{word}}, with {{hint}}",
   "optionPrefix": "Option {{number}}:",
+  "letterPrefix": "Letter {{number}}:",
   "wordPrefix": "Word {{number}}:",
   "heard": "Heard",
   "voiceInput": "Voice input",
