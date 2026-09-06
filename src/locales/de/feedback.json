@@ -41,6 +41,7 @@
   "rateAria": "{{value}} von 5 bewerten",
   "submit": "Feedback senden",
   "skip": "Diesmal überspringen",
+  "offlineNotice": "Verbindung zum Server fehlgeschlagen. Deine Antworten sind auf diesem Gerät gespeichert — du kannst fortfahren, wir fragen später erneut.",
   "thankYou": "Vielen Dank für Ihr Feedback!",
   "correct": "Richtig.",
   "correctWithRule": "Richtig. Regel: {{rule}}",

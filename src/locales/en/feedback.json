@@ -22,6 +22,7 @@
   "rateAria": "Rate {{value}} out of 5",
   "submit": "Save and continue",
   "skip": "Skip this time",
+  "offlineNotice": "We couldn't reach the server. Your answers are saved on this device — you can continue, and we'll ask again later.",
   "thankYou": "Thank you for your feedback!",
   "correct": "Correct.",
   "correctWithRule": "Correct. Rule: {{rule}}",
