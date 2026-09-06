@@ -56,6 +56,20 @@ export function useKeyboardShortcuts({
             ));
         if (isFocusedControl) return;
 
+        // Same idea, for the two arrow keys: a widget with its own
+        // conventional arrow-key behavior (a role="radio" rating group, a
+        // role="tab" list, a slider, an editable region…) needs to keep
+        // them, or this window-level listener hijacks a keystroke the
+        // widget itself relies on to move selection/the caret. An explicit
+        // data-arrow-keys="local" escape hatch covers anything that needs
+        // this without matching one of the listed roles.
+        const isLocalArrowControl =
+          (e.key === 'ArrowLeft' || e.key === 'ArrowRight') &&
+          e.target.closest?.(
+            '[role="radio"], [role="tab"], [role="slider"], [role="listbox"], [role="option"], [contenteditable], [data-arrow-keys="local"]',
+          );
+        if (isLocalArrowControl) return;
+
         if (e.key === 'ArrowRight' || e.key === 'Enter') {
           e.preventDefault();
           goNext();
