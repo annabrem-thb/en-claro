@@ -36,6 +36,14 @@ i18n.use(initReactI18next).init({
 
 loadLanguageDictionary('de').then((deDictionary) => {
   i18n.addResourceBundle('de', 'translation', deDictionary, true, true);
+  // addResourceBundle only updates the resource store — it fires no event
+  // react-i18next's useTranslation actually listens for (bindI18n is
+  // 'languageChanged', not 'added'), so a component already showing German
+  // wouldn't re-render with the newly-arrived strings on its own. Only
+  // matters for the rare case where a user switches to Deutsch before this
+  // import resolves; re-running changeLanguage for the (unchanged) current
+  // language still emits 'languageChanged' and is a no-op otherwise.
+  if (i18n.language === 'de') i18n.changeLanguage('de');
 });
 
 export default i18n;
