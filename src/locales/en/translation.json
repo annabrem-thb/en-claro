@@ -93,6 +93,8 @@
   "settingsTheme": "Theme",
   "settingsAccessibility": "Comfort options",
   "settingsFooter": "Your settings are saved automatically.",
+  "aboutFooter": "Created by Anna Bremensztul (Computer Science and Digital Media, Brandenburg University of Applied Sciences) as part of the master's thesis “Gamification in an Accessible Progressive Web App for Supporting Speech Therapy Exercises in Adults with Reading and Spelling Disorder”",
+  "aboutLinkedInLabel": "LinkedIn profile",
   "studySetIndicator": "Content set: {{set}}",
   "tabGeneral": "General",
   "tabA11y": "Comfort",
