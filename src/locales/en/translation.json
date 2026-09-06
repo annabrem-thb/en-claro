@@ -407,6 +407,7 @@
   "energyTitle": "Cognitive Energy",
   "breakTitle": "Time for a break?",
   "breakDesc": "We noticed you're working intensively. Rest in the garden to regenerate and prevent fatigue.",
+  "breakTip": "Tip: Look away from the screen and focus on something in the distance (ideally something green) for at least 20 seconds.",
   "takeBreakBtn": "Rest (+2 💰)",
   "continueBtn": "Keep practicing",
   "pillars": {
