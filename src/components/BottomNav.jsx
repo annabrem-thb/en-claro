@@ -21,11 +21,13 @@ function NavButton({
   ariaLabel = label,
   badge = false,
   disabled = false,
+  keyshortcut,
 }) {
   return (
     <button
       onClick={disabled ? undefined : onClick}
       disabled={disabled}
+      aria-keyshortcuts={keyshortcut}
       // `min-h-14` (56px) mirrors SidebarNav/the exercise Skip button's own
       // bigTargets sizing (WCAG 2.5.5/2.5.8 target size) — without it, this
       // bar's per-button width is only whatever `flex-1` divides the
@@ -120,7 +122,7 @@ function BottomNavComponent({
         className={`z-40 flex items-center justify-around border-t px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] transition-colors ${isHighContrast ? 'border-white/20 bg-black' : 'border-slate-100 bg-white'}`}
         aria-label={t('navAria') || 'Main Navigation'}
       >
-        {pillars.map((pillar) => {
+        {pillars.map((pillar, index) => {
           const label =
             t('pillars', { returnObjects: true })?.[pillar] || pillar;
           // Forces the line break at a specific word boundary per language
@@ -146,6 +148,7 @@ function BottomNavComponent({
               icon={PILLAR_ICONS[pillar]}
               label={navLabel}
               ariaLabel={label}
+              keyshortcut={`Control+${index + 1}`}
             />
           );
         })}
@@ -163,6 +166,7 @@ function BottomNavComponent({
             bigTargets={bigTargets}
             icon={gardenIcon}
             label={t('garden') || 'Garden'}
+            keyshortcut="Control+4"
           />
         )}
 
@@ -177,6 +181,7 @@ function BottomNavComponent({
             bigTargets={bigTargets}
             icon="📝"
             label={t('surveyAria') || 'Survey'}
+            keyshortcut="Control+s"
           />
         )}
 
@@ -191,6 +196,7 @@ function BottomNavComponent({
           icon="⚙️"
           label={t('settings') || 'Settings'}
           ariaLabel={t('settingsAria') || 'Settings'}
+          keyshortcut="Control+,"
         />
       </nav>
     </div>
