@@ -463,6 +463,7 @@
   "chooseCorrectSpelling": "Wählen Sie die korrekte Schreibweise:",
   "spellingHint": "{{word}}, mit {{hint}}",
   "optionPrefix": "Option {{number}}:",
+  "letterPrefix": "Buchstabe {{number}}:",
   "wordPrefix": "Wort {{number}}:",
   "orderCorrectly": "In der richtigen Reihenfolge anordnen",
   "undo": "Rückgängig",

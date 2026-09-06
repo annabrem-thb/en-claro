@@ -465,6 +465,7 @@
   "chooseCorrectSpelling": "Wybierz poprawną pisownię:",
   "spellingHint": "{{word}}, pisane przez {{hint}}",
   "optionPrefix": "Opcja {{number}}:",
+  "letterPrefix": "Litera {{number}}:",
   "wordPrefix": "Słowo {{number}}:",
   "heard": "Usłyszano",
   "voiceInput": "Wprowadzanie głosowe",
