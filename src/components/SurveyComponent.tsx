@@ -8,36 +8,44 @@ import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
 import { safeJSONParse } from '../utils/safeJSONParse.js';
 
 // Versioned so a future change to the payload shape can invalidate old
-// drafts outright instead of trying to merge them. Only one survey is ever
-// open at a time (a manual open or a study-block checkpoint), so a single
-// fixed key is enough — no need to thread a per-checkpoint id through props.
-const SURVEY_DRAFT_KEY = 'enclaro:survey:v1:draft';
+// drafts outright instead of trying to merge them. Keyed by checkpointId
+// (a study-block number, or 'manual' for a nav-opened survey) rather than
+// one fixed slot — the emergency bypass below (see attemptCount) can leave
+// a block's draft behind on purpose, and the *next* checkpoint's survey
+// must not load a previous, unrelated block's abandoned answers.
+const SURVEY_DRAFT_KEY_PREFIX = 'enclaro:survey:v1:';
 
 type SurveyDraft = { nasaScores: NasaTlxPayload; susScores: SusPayload };
 
 // Every localStorage access here is wrapped: private-browsing modes and a
 // full storage quota can make both getItem and setItem throw, and losing a
 // draft save is an acceptable failure — crashing the survey over it isn't.
-function readSurveyDraft(): SurveyDraft | null {
+function readSurveyDraft(checkpointId: string): SurveyDraft | null {
   try {
-    return safeJSONParse(localStorage.getItem(SURVEY_DRAFT_KEY), null);
+    return safeJSONParse(
+      localStorage.getItem(SURVEY_DRAFT_KEY_PREFIX + checkpointId),
+      null,
+    );
   } catch {
     return null;
   }
 }
 
-function writeSurveyDraft(draft: SurveyDraft) {
+function writeSurveyDraft(checkpointId: string, draft: SurveyDraft) {
   try {
-    localStorage.setItem(SURVEY_DRAFT_KEY, JSON.stringify(draft));
+    localStorage.setItem(
+      SURVEY_DRAFT_KEY_PREFIX + checkpointId,
+      JSON.stringify(draft),
+    );
   } catch {
     // Nothing to recover into if this fails — the in-memory form state is
     // still authoritative for the current tab.
   }
 }
 
-function clearSurveyDraft() {
+function clearSurveyDraft(checkpointId: string) {
   try {
-    localStorage.removeItem(SURVEY_DRAFT_KEY);
+    localStorage.removeItem(SURVEY_DRAFT_KEY_PREFIX + checkpointId);
   } catch {
     // Stale draft left behind is harmless: it's overwritten by the next
     // autosave or simply ignored once a fresh submission succeeds again.
@@ -94,9 +102,15 @@ const SUS_SCALES: Array<{ id: keyof SusPayload; label: string }> = [
   { id: 'sus10', label: 'survey.sus.q10' },
 ];
 
-export const SurveyComponent: React.FC<{ onSubmitted?: () => void }> = ({
-  onSubmitted,
-}) => {
+export const SurveyComponent: React.FC<{
+  onSubmitted?: () => void;
+  // Which draft slot this survey occurrence reads/writes/clears — a study
+  // block number ('block-1', 'block-2') for a guided checkpoint, or the
+  // default for a nav-opened survey. Keeps one block's bypassed, still-
+  // unsent draft (see attemptCount below) from being read back as the
+  // next block's answers.
+  checkpointId?: string;
+}> = ({ onSubmitted, checkpointId = 'manual' }) => {
   const { settings } = useUserSettingsContext();
   const { language, theme, userDifficulty, dailyGoal } = settings;
   const { isGamified } = useGamification();
@@ -105,7 +119,7 @@ export const SurveyComponent: React.FC<{ onSubmitted?: () => void }> = ({
 
   const [nasaScores, setNasaScores] = useState<NasaTlxPayload>(
     () =>
-      readSurveyDraft()?.nasaScores ?? {
+      readSurveyDraft(checkpointId)?.nasaScores ?? {
         mentalDemand: 50,
         physicalDemand: 50,
         temporalDemand: 50,
@@ -117,7 +131,7 @@ export const SurveyComponent: React.FC<{ onSubmitted?: () => void }> = ({
 
   const [susScores, setSusScores] = useState<SusPayload>(
     () =>
-      readSurveyDraft()?.susScores ?? {
+      readSurveyDraft(checkpointId)?.susScores ?? {
         sus01: 3,
         sus02: 3,
         sus03: 3,
@@ -136,12 +150,16 @@ export const SurveyComponent: React.FC<{ onSubmitted?: () => void }> = ({
   // with it — restored above on next mount, cleared only once the survey
   // actually reaches the server (see handleSubmit's success path).
   useEffect(() => {
-    writeSurveyDraft({ nasaScores, susScores });
-  }, [nasaScores, susScores]);
+    writeSurveyDraft(checkpointId, { nasaScores, susScores });
+  }, [checkpointId, nasaScores, susScores]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Counts consecutive failed submit attempts so the emergency bypass below
+  // only appears once it's clear this isn't a one-off blip — not on the
+  // very first failure.
+  const [failedAttempts, setFailedAttempts] = useState(0);
 
   const handleNasaChange = (id: keyof NasaTlxPayload, value: number) => {
     setNasaScores((prev) => ({ ...prev, [id]: value }));
@@ -238,13 +256,25 @@ export const SurveyComponent: React.FC<{ onSubmitted?: () => void }> = ({
       // Only here, on a confirmed 2xx response — not in `finally` below,
       // and not before the fetch resolves, so a failed or interrupted
       // submission always leaves the draft in place to retry from.
-      clearSurveyDraft();
+      clearSurveyDraft(checkpointId);
       setIsSuccess(true);
     } catch (err: any) {
       setError(err.message || t('error', 'Wystąpił nieoczekiwany błąd.'));
+      setFailedAttempts((prev) => prev + 1);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Escape hatch for a genuine outage: a guided study checkpoint can't be
+  // dismissed (see App.jsx's isStudyCheckpoint), so without this, a
+  // participant hitting a dead server would be stuck retrying forever.
+  // Deliberately does NOT clear the draft or set isSuccess — the answers
+  // stay saved under this checkpoint's own key (never submitted, not lost
+  // either) and the caller advances the study flow the same as a real
+  // submit would.
+  const handleBypass = () => {
+    onSubmitted?.();
   };
 
   // Gives the participant a moment to see the confirmation before the
@@ -427,6 +457,26 @@ export const SurveyComponent: React.FC<{ onSubmitted?: () => void }> = ({
       {error && (
         <div className="rounded-r-lg border-l-4 border-red-500 bg-red-50 p-4 text-sm font-medium text-red-700">
           {error}
+        </div>
+      )}
+
+      {}
+      {/* Only after repeated failures, not the first one — a single dropped
+          request shouldn't immediately offer to bail on submitting. Below
+          a normal Submit retry rather than replacing it: the network may
+          well recover, and this only exists for the case where it doesn't. */}
+      {failedAttempts >= 2 && (
+        <div className="rounded-r-lg border-l-4 border-amber-400 bg-amber-50 p-4 text-sm text-amber-800">
+          <p className="font-medium">
+            {t('feedback.offlineNotice')}
+          </p>
+          <button
+            type="button"
+            onClick={handleBypass}
+            className="mt-3 font-black tracking-widest uppercase underline underline-offset-2 hover:text-amber-900"
+          >
+            {t('feedback.skip')}
+          </button>
         </div>
       )}
 
