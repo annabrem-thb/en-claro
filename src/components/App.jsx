@@ -629,7 +629,11 @@ function AppContent() {
     currentTask?.dictation ||
     currentTask?.lcwc ||
     currentTask?.phonetic ||
-    currentTask?.scrambled ||
+    // Not `currentTask?.scrambled` — that field also exists on `sequences`/
+    // `memorySpan` items (their own reorder-the-items data, unrelated to
+    // Scrabble), so checking it forced voice on in those two Cognitive
+    // exercises too. `type` uniquely identifies Scrabble.
+    currentTask?.type === 'scrabble' ||
     currentTask?.readAloud
   );
   const voiceAssistantActive = !!settings.voiceAssistant || isVoiceException;
