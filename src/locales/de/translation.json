@@ -93,6 +93,8 @@
   "settingsTheme": "Thema",
   "settingsAccessibility": "Komfortoptionen",
   "settingsFooter": "Ihre Einstellungen werden automatisch gespeichert.",
+  "aboutFooter": "Erstellt von Anna Bremensztul (Master Medieninformatik, Technische Hochschule Brandenburg) im Rahmen der Masterarbeit „Gamification in einer barrierefreien Progressive Web App zur Unterstützung sprachtherapeutischer Übungen bei Erwachsenen mit Lese-Rechtschreibstörung“.",
+  "aboutLinkedInLabel": "LinkedIn-Profil",
   "studySetIndicator": "Inhaltsset: {{set}}",
   "tabGeneral": "Allgemein",
   "tabA11y": "Komfort",

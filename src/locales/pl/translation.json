@@ -92,6 +92,8 @@
   "settingsTheme": "Motyw",
   "settingsAccessibility": "Opcje komfortu",
   "settingsFooter": "Twoje ustawienia są zapisywane automatycznie.",
+  "aboutFooter": "Autor: Anna Bremensztul (Informatyka medialna, Wyższa Szkoła Techniczna w Brandenburgu nad Hawelą), w ramach pracy magisterskiej „Grywalizacja w dostępnej cyfrowo progresywnej aplikacji webowej (PWA) wspierającej ćwiczenia logopedyczne u osób dorosłych ze specyficznym zaburzeniem czytania i pisania”.",
+  "aboutLinkedInLabel": "Profil LinkedIn",
   "studySetIndicator": "Zestaw treści: {{set}}",
   "tabGeneral": "Ogólne",
   "tabA11y": "Komfort",

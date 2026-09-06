@@ -805,6 +805,19 @@ export default function SettingsModal({ open, onClose, speak }) {
             {t('studySetIndicator', { set: studySet })}
           </p>
         )}
+        <p
+          className={`mt-2 text-xs ${settings.contrast ? 'text-white/30' : 'text-slate-400'}`}
+        >
+          <BionicText text={t('aboutFooter')} enabled={bionicReading} />{' '}
+          <a
+            href="https://www.linkedin.com/in/anna-bremensztul/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            {t('aboutLinkedInLabel')}
+          </a>
+        </p>
       </footer>
     </Dialog>
   );
