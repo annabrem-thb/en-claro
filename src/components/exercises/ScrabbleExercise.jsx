@@ -105,9 +105,30 @@ function ScrabbleExercise({
 
     const instruction =
       t('scrabbleInstruction') || 'Arrange the letters to spell the word';
+
+    // Chained off each utterance's actual onend (same pattern as
+    // GraphemeExercise's readOption) rather than a guessed delay, so a
+    // slower voice/rate doesn't run tiles together or clip one mid-word.
+    const readLetters = (index) => {
+      if (index >= shuffledLetters.length) return;
+      const prefix = t('letterPrefix', { number: index + 1 });
+      const spokenPrefix = prefix.replace(':', '.');
+      setActiveHighlight(index);
+      speak(`${spokenPrefix} ${shuffledLetters[index]}`, extendedTime, () => {
+        setSafeTimeout(() => {
+          setActiveHighlight((prev) => (prev === index ? null : prev));
+          readLetters(index + 1);
+        }, 300);
+      });
+    };
+
     speak(instruction, extendedTime);
     const delay = instruction.length * (extendedTime ? 90 : 65) + 1200;
-    setSafeTimeout(() => speak(data.word, extendedTime), delay);
+    setSafeTimeout(() => {
+      speak(data.word, extendedTime, () => {
+        setSafeTimeout(() => readLetters(0), 400);
+      });
+    }, delay);
   };
 
   useAutoReadAloud(voiceAssistant, readWordAndLetters);
@@ -215,6 +236,7 @@ function ScrabbleExercise({
               key={i}
               disabled={isUsed}
               onClick={() => addLetter(l, i)}
+              aria-label={t('letterPrefix', { number: i + 1 }) + ' ' + l}
               className={`relative ${letterBtn} font-black shadow-md transition-all active:scale-90 md:shadow-sm ${
                 isUsed
                   ? 'cursor-default border-slate-200 bg-slate-100 text-slate-600 opacity-30'
