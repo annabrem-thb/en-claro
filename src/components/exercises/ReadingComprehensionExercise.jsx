@@ -5,6 +5,7 @@ import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
@@ -165,13 +166,11 @@ function ReadingComprehensionExercise({
         />
       </ExerciseControlsRow>
 
-      {transcript && (
-        <p
-          className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-3 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-        >
-          {t('heard')}: <span className="text-slate-600">{transcript}</span>
-        </p>
-      )}
+      <TranscriptDisplay
+        transcript={transcript}
+        isHighContrast={isHighContrast}
+        t={t}
+      />
 
       <div
         className={`prose-text no-scrollbar mb-2 min-h-0 w-full max-w-2xl flex-1 overflow-y-auto rounded-3xl border-2 p-3 sm:mb-4 sm:p-6 ${
