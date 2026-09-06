@@ -120,7 +120,15 @@ function GraphemeExercise({
     const readOption = (index) => {
       if (index >= shuffledOptions.length) return;
       const opt = shuffledOptions[index];
-      const hint = getSmartSpellingHint(opt.text, allOptionTexts, language, t);
+      // `opt.text` is the answer itself for spelling-choice questions, so
+      // spelling it out letter-by-letter is the right hint there — but for
+      // an emoji-only option (mirrorImage/oddOneOut) it's not a word at
+      // all, and getSmartSpellingHint has nothing to work with. `label` is
+      // only ever present on those emoji options, so its presence is
+      // exactly the signal to speak that instead of spelling `text`.
+      const hint = opt.label
+        ? opt.label[language] || opt.label.en
+        : getSmartSpellingHint(opt.text, allOptionTexts, language, t);
       const prefix = t('optionPrefix', { number: index + 1 });
       const spokenPrefix = prefix.replace(':', '.');
       const spokenHint = formatTimeForTTS(hint, language);
@@ -217,6 +225,7 @@ function GraphemeExercise({
               opt.isCorrect ? onSuccess() : onError();
             }}
             disabled={isListening}
+            aria-label={opt.label ? opt.label[language] || opt.label.en : undefined}
             className={`relative min-w-32 flex-1 ${btnPadding} flex flex-col items-center justify-center gap-3 rounded-4xl border-b-8 shadow-lg transition-all active:translate-y-2 active:border-b-0 md:shadow-sm ${
               isListening
                 ? // Dims the tile in place rather than swapping its colors
