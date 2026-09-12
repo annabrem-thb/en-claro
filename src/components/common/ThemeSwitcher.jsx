@@ -22,10 +22,18 @@ export default function ThemeSwitcher({
   // role="group" here would just repeat that same name on a second,
   // nested group for screen-reader users.
   standalone = true,
+  // Id of a visible caption rendered by the caller just above this picker
+  // (SidebarNav/BottomNav's "Select theme" heading) — wired up as
+  // aria-labelledby instead of a second, invisible aria-label with the
+  // same text, so the group's accessible name comes from the text that's
+  // actually on screen rather than a duplicate copy of it.
+  labelId,
 }) {
-  const groupProps = standalone
-    ? { role: 'group', 'aria-label': t('selectTheme') || 'Select theme' }
-    : {};
+  const groupProps = labelId
+    ? { role: 'group', 'aria-labelledby': labelId }
+    : standalone
+      ? { role: 'group', 'aria-label': t('selectTheme') || 'Select theme' }
+      : {};
   const dotDim = bigTargets ? 'h-6 w-6' : 'h-4 w-4';
   const pad = bigTargets ? 'px-2 py-1.5' : 'px-1.5 py-1';
   const textSize = bigTargets ? 'text-[10px]' : 'text-[8px]';
