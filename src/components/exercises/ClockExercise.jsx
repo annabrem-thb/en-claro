@@ -4,6 +4,8 @@ import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
@@ -189,16 +191,13 @@ function ClockExercise({
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}
     >
       {}
-      <div className="mb-2 flex shrink-0 gap-4 sm:mb-4">
+      <ExerciseControlsRow>
         <TTSController
           onReadAloud={readTimeAndOptions}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
           controlBtnSize={controlBtnSize}
-          isHighContrast={isHighContrast}
           noFlash={noFlash}
-          bionicReading={bionicReading}
           ttsFallback={ttsFallback}
         />
 
@@ -218,21 +217,19 @@ function ClockExercise({
           declineModelDownload={declineModelDownload}
           controlBtnSize={controlBtnSize}
         />
-      </div>
+      </ExerciseControlsRow>
 
       {}
       {/* Before this, the only clue that the mic expects a spoken *option
           number* (not the time read aloud) was the button's aria-label —
           invisible to sighted users, who had no way to know what to say. */}
-      {transcript ? (
-        <p className="mb-1 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-2">
-          {t('heard')}: <span className="text-slate-600">{transcript}</span>
-        </p>
-      ) : (
-        <p className="mb-1 shrink-0 text-center text-[10px] font-medium text-slate-600 sm:mb-2">
-          {t('speakOptionNumber')}
-        </p>
-      )}
+      <TranscriptDisplay
+        transcript={transcript}
+        idleText={t('speakOptionNumber')}
+        isHighContrast={isHighContrast}
+        t={t}
+        className="mb-1 shrink-0 text-center text-[10px] sm:mb-2"
+      />
 
       {}
       <div className="mb-2 flex shrink-0 flex-col items-center sm:mb-4">

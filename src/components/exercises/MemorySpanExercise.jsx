@@ -4,6 +4,8 @@ import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
 
 function MemorySpanExercise({
@@ -228,11 +230,8 @@ function MemorySpanExercise({
               onReadAloud={playMemorizationSequence}
               pauseAllTimeouts={pauseAllTimeouts}
               resumeAllTimeouts={resumeAllTimeouts}
-              t={t}
               controlBtnSize={controlBtnSize}
-              isHighContrast={isHighContrast}
               noFlash={noFlash}
-              bionicReading={bionicReading}
               ttsFallback={ttsFallback}
             />
             <div
@@ -273,16 +272,13 @@ function MemorySpanExercise({
           className={`flex min-h-0 w-full flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in duration-500'}`}
         >
           {}
-          <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
+          <ExerciseControlsRow className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
             <TTSController
               onReadAloud={readAvailableItems}
               pauseAllTimeouts={pauseAllTimeouts}
               resumeAllTimeouts={resumeAllTimeouts}
-              t={t}
               controlBtnSize={controlBtnSize}
-              isHighContrast={isHighContrast}
               noFlash={noFlash}
-              bionicReading={bionicReading}
               ttsFallback={ttsFallback}
             />
 
@@ -298,20 +294,14 @@ function MemorySpanExercise({
             >
               {isListening ? '🛑' : '🎤'}
             </button>
-          </div>
+          </ExerciseControlsRow>
 
-          {transcript && (
-            <p
-              className={`mb-1 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-2 sm:text-xs ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
-            >
-              {t('heard')}:{' '}
-              <span
-                className={isHighContrast ? 'text-white' : 'text-slate-600'}
-              >
-                {transcript}
-              </span>
-            </p>
-          )}
+          <TranscriptDisplay
+            transcript={transcript}
+            isHighContrast={isHighContrast}
+            t={t}
+            className="mb-1 shrink-0 text-center text-[10px] sm:mb-2 sm:text-xs"
+          />
 
           {}
           <div

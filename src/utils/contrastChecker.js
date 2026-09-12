@@ -1,8 +1,9 @@
-// WCAG 2.1 color contrast utilities: relative luminance, contrast ratio,
-// and a dev-only console-warning helper for validating live CSS custom
-// properties (this app's `--theme-bg`, `--accent-em`, `--page-text`, etc. —
-// see src/styles/index.css and App.jsx's per-theme `hex`/`bg` values) against
-// the WCAG AA thresholds (4.5:1 normal text, 3:1 large text).
+// WCAG 2.1 color contrast utilities: relative luminance and contrast ratio,
+// checked against the AAA thresholds (7:1 normal text, 4.5:1 large text) —
+// see checkContrast's callers: contrastCompliance.test.js (a static,
+// always-run assertion against the app's real color values) and
+// useThemeCSSVariables.js (a dev-only console warning covering colors that
+// depend on the active theme/mode at runtime, so can't be checked statically).
 //
 // Plain JS, not TypeScript: the rest of this codebase is .jsx/.js (only a
 // couple of isolated files use .ts/.tsx), so this matches the project's
@@ -23,7 +24,7 @@ function normalizeHex(hex) {
   return h;
 }
 
-export function hexToRgb(hex) {
+function hexToRgb(hex) {
   const h = normalizeHex(hex);
   return {
     r: parseInt(h.slice(0, 2), 16),
@@ -33,7 +34,7 @@ export function hexToRgb(hex) {
 }
 
 // WCAG 2.1 relative luminance (https://www.w3.org/TR/WCAG21/#dfn-relative-luminance).
-export function getRelativeLuminance(hex) {
+function getRelativeLuminance(hex) {
   const { r, g, b } = hexToRgb(hex);
   const [rs, gs, bs] = [r, g, b].map((channel) => {
     const c = channel / 255;
@@ -44,7 +45,7 @@ export function getRelativeLuminance(hex) {
 
 // WCAG 2.1 contrast ratio (https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio).
 // Returns a value from 1 (identical colors) to 21 (pure black on white).
-export function getContrastRatio(hexA, hexB) {
+function getContrastRatio(hexA, hexB) {
   const lumA = getRelativeLuminance(hexA);
   const lumB = getRelativeLuminance(hexB);
   const lighter = Math.max(lumA, lumB);
@@ -52,17 +53,11 @@ export function getContrastRatio(hexA, hexB) {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
-// "Large text" per WCAG: >=18pt (24px), or >=14pt (18.66px) bold.
-export function isLargeText(fontSizePx, fontWeight = 400) {
-  const isBold = fontWeight >= 700 || fontWeight === 'bold';
-  return fontSizePx >= 24 || (isBold && fontSizePx >= 18.66);
-}
-
-export function checkContrast(
-  foreground,
-  background,
-  { largeText = false } = {},
-) {
+// Exported for contrastCompliance.test.js — a static, always-run assertion
+// against the app's actual color values, which is what "enforced" has to
+// mean for a check whose live counterpart below only ever runs in dev and
+// only ever logs a console warning nobody is required to look at.
+export function checkContrast(foreground, background, { largeText = false } = {}) {
   const ratio = getContrastRatio(foreground, background);
   const aaThreshold = largeText ? 3 : 4.5;
   const aaaThreshold = largeText ? 4.5 : 7;
@@ -71,69 +66,7 @@ export function checkContrast(
     passesAA: ratio >= aaThreshold,
     passesAAA: ratio >= aaaThreshold,
     requiredAA: aaThreshold,
+    requiredAAA: aaaThreshold,
   };
 }
 
-// Dev-only console warning. `label` identifies the pairing in the warning
-// (e.g. "Start button (bg-emerald-500 / text-white)") so a failure is
-// actionable without having to reverse-engineer which UI element it was.
-export function warnIfInsufficientContrast(
-  label,
-  foreground,
-  background,
-  options = {},
-) {
-  if (import.meta.env?.PROD) return;
-  const { ratio, passesAA, requiredAA } = checkContrast(
-    foreground,
-    background,
-    options,
-  );
-  if (!passesAA) {
-    console.warn(
-      `[contrastChecker] "${label}": ${foreground} on ${background} is ${ratio}:1, ` +
-        `below the required ${requiredAA}:1 (${options.largeText ? 'large' : 'normal'} text).`,
-    );
-  }
-  return { ratio, passesAA };
-}
-
-// Resolves a CSS custom property's *live, currently-applied* value (e.g.
-// `--theme-bg`) from a given element (defaults to <html>, where this app's
-// theme variables are set — see useThemeCSSVariables.js / index.css) and
-// checks it against another color. This is the "dynamic" half of the
-// requirement: static hex literals in source can be checked with
-// `checkContrast` directly, but a CSS variable's actual value depends on
-// which theme/mode is active at runtime, so it has to be read from the DOM.
-export function warnIfCssVarContrastInsufficient(
-  label,
-  {
-    foregroundVar,
-    backgroundVar,
-    element = document.documentElement,
-    ...options
-  },
-) {
-  if (import.meta.env?.PROD) return;
-  const styles = getComputedStyle(element);
-  const foreground = styles.getPropertyValue(foregroundVar).trim();
-  const background = styles.getPropertyValue(backgroundVar).trim();
-  if (!foreground || !background) {
-    console.warn(
-      `[contrastChecker] "${label}": could not resolve ${foregroundVar} and/or ${backgroundVar} on the given element.`,
-    );
-    return null;
-  }
-  try {
-    return warnIfInsufficientContrast(label, foreground, background, options);
-  } catch (err) {
-    // CSS custom properties can hold non-hex values (rgb(), oklch(), a
-    // theme's Tailwind class-based color, etc.) that this hex-only checker
-    // can't parse — fail loudly in dev rather than silently skipping.
-    console.warn(
-      `[contrastChecker] "${label}": ${err.message} (only hex colors are supported; ` +
-        `${foregroundVar}="${foreground}", ${backgroundVar}="${background}")`,
-    );
-    return null;
-  }
-}

@@ -1,10 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
 import { NasaTlxPayload, SusPayload, AppVersion } from '../../public/survey';
 import { useGamification } from '../hooks/useGamification.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
+import { safeJSONParse } from '../utils/safeJSONParse.js';
+
+// Versioned so a future change to the payload shape can invalidate old
+// drafts outright instead of trying to merge them. Keyed by checkpointId
+// (a study-block number, or 'manual' for a nav-opened survey) rather than
+// one fixed slot — the emergency bypass below (see attemptCount) can leave
+// a block's draft behind on purpose, and the *next* checkpoint's survey
+// must not load a previous, unrelated block's abandoned answers.
+const SURVEY_DRAFT_KEY_PREFIX = 'enclaro:survey:v1:';
+
+type SurveyDraft = { nasaScores: NasaTlxPayload; susScores: SusPayload };
+
+// Every localStorage access here is wrapped: private-browsing modes and a
+// full storage quota can make both getItem and setItem throw, and losing a
+// draft save is an acceptable failure — crashing the survey over it isn't.
+function readSurveyDraft(checkpointId: string): SurveyDraft | null {
+  try {
+    return safeJSONParse(
+      localStorage.getItem(SURVEY_DRAFT_KEY_PREFIX + checkpointId),
+      null,
+    );
+  } catch {
+    return null;
+  }
+}
+
+function writeSurveyDraft(checkpointId: string, draft: SurveyDraft) {
+  try {
+    localStorage.setItem(
+      SURVEY_DRAFT_KEY_PREFIX + checkpointId,
+      JSON.stringify(draft),
+    );
+  } catch {
+    // Nothing to recover into if this fails — the in-memory form state is
+    // still authoritative for the current tab.
+  }
+}
+
+function clearSurveyDraft(checkpointId: string) {
+  try {
+    localStorage.removeItem(SURVEY_DRAFT_KEY_PREFIX + checkpointId);
+  } catch {
+    // Stale draft left behind is harmless: it's overwritten by the next
+    // autosave or simply ignored once a fresh submission succeeds again.
+  }
+}
 
 const NASA_SCALES: Array<{
   id: keyof NasaTlxPayload;
@@ -56,38 +102,64 @@ const SUS_SCALES: Array<{ id: keyof SusPayload; label: string }> = [
   { id: 'sus10', label: 'survey.sus.q10' },
 ];
 
-export const SurveyComponent: React.FC = () => {
+export const SurveyComponent: React.FC<{
+  onSubmitted?: () => void;
+  // Which draft slot this survey occurrence reads/writes/clears — a study
+  // block number ('block-1', 'block-2') for a guided checkpoint, or the
+  // default for a nav-opened survey. Keeps one block's bypassed, still-
+  // unsent draft (see attemptCount below) from being read back as the
+  // next block's answers.
+  checkpointId?: string;
+}> = ({ onSubmitted, checkpointId = 'manual' }) => {
   const { settings } = useUserSettingsContext();
   const { language, theme, userDifficulty, dailyGoal } = settings;
   const { isGamified } = useGamification();
 
   const { t } = useTranslation();
 
-  const [nasaScores, setNasaScores] = useState<NasaTlxPayload>({
-    mentalDemand: 50,
-    physicalDemand: 50,
-    temporalDemand: 50,
-    performance: 50,
-    effort: 50,
-    frustration: 50,
-  });
+  const [nasaScores, setNasaScores] = useState<NasaTlxPayload>(
+    () =>
+      readSurveyDraft(checkpointId)?.nasaScores ?? {
+        mentalDemand: 50,
+        physicalDemand: 50,
+        temporalDemand: 50,
+        performance: 50,
+        effort: 50,
+        frustration: 50,
+      },
+  );
 
-  const [susScores, setSusScores] = useState<SusPayload>({
-    sus01: 3,
-    sus02: 3,
-    sus03: 3,
-    sus04: 3,
-    sus05: 3,
-    sus06: 3,
-    sus07: 3,
-    sus08: 3,
-    sus09: 3,
-    sus10: 3,
-  });
+  const [susScores, setSusScores] = useState<SusPayload>(
+    () =>
+      readSurveyDraft(checkpointId)?.susScores ?? {
+        sus01: 3,
+        sus02: 3,
+        sus03: 3,
+        sus04: 3,
+        sus05: 3,
+        sus06: 3,
+        sus07: 3,
+        sus08: 3,
+        sus09: 3,
+        sus10: 3,
+      },
+  );
+
+  // Autosaves on every change so a lost tab (crash, accidental reload,
+  // closed by mistake) doesn't take an in-progress NASA-TLX/SUS response
+  // with it — restored above on next mount, cleared only once the survey
+  // actually reaches the server (see handleSubmit's success path).
+  useEffect(() => {
+    writeSurveyDraft(checkpointId, { nasaScores, susScores });
+  }, [checkpointId, nasaScores, susScores]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Counts consecutive failed submit attempts so the emergency bypass below
+  // only appears once it's clear this isn't a one-off blip — not on the
+  // very first failure.
+  const [failedAttempts, setFailedAttempts] = useState(0);
 
   const handleNasaChange = (id: keyof NasaTlxPayload, value: number) => {
     setNasaScores((prev) => ({ ...prev, [id]: value }));
@@ -121,11 +193,19 @@ export const SurveyComponent: React.FC = () => {
         LRS: settings.lrs,
         Kontrast: settings.contrast,
         Motorik: settings.motorik,
-        Niedowidzenie: settings.vision,
+        // `vision`/`spacing` were fixed booleans (115% zoom; a fixed
+        // spacing preset); now that both are continuous sliders, "active"
+        // is approximated as "moved above its own default minimum" rather
+        // than a specific position.
+        Niedowidzenie: settings.fontSizeUi > 16 || settings.fontSizeExercise > 16,
         Daltonizm: settings.color,
         Redukcja: settings.motion,
         Linijka: settings.ruler,
-        Spacing: settings.spacing,
+        Spacing:
+          settings.lineHeight > 1.5 ||
+          settings.letterSpacing > 0 ||
+          settings.wordSpacing > 0 ||
+          settings.paragraphSpacing > 0,
         Desaturacja: settings.desaturation,
       })
         .filter(([, active]) => active)
@@ -173,17 +253,58 @@ export const SurveyComponent: React.FC = () => {
         );
       }
 
+      // Only here, on a confirmed 2xx response — not in `finally` below,
+      // and not before the fetch resolves, so a failed or interrupted
+      // submission always leaves the draft in place to retry from.
+      clearSurveyDraft(checkpointId);
       setIsSuccess(true);
     } catch (err: any) {
       setError(err.message || t('error', 'Wystąpił nieoczekiwany błąd.'));
+      setFailedAttempts((prev) => prev + 1);
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // Escape hatch for a genuine outage: a guided study checkpoint can't be
+  // dismissed (see App.jsx's isStudyCheckpoint), so without this, a
+  // participant hitting a dead server would be stuck retrying forever.
+  // Deliberately does NOT clear the draft or set isSuccess — the answers
+  // stay saved under this checkpoint's own key (never submitted, not lost
+  // either) and the caller advances the study flow the same as a real
+  // submit would.
+  const handleBypass = () => {
+    onSubmitted?.();
+  };
+
+  // Gives the participant a moment to see the confirmation before the
+  // caller (App.jsx) reacts — closing the dialog, and for a guided study
+  // block's checkpoint, advancing to the next block/finishing the study.
+  useEffect(() => {
+    if (!isSuccess || !onSubmitted) return;
+    const timer = setTimeout(onSubmitted, 2000);
+    return () => clearTimeout(timer);
+  }, [isSuccess, onSubmitted]);
+
+  const successRef = useRef<HTMLDivElement>(null);
+  // The form (and whatever had focus on it, e.g. the Submit button) is
+  // replaced by this confirmation entirely — without moving focus here, a
+  // screen-reader user's focus is left on a now-detached element with
+  // nothing announced, so they'd have no way to know the submission
+  // actually succeeded.
+  useEffect(() => {
+    if (isSuccess) successRef.current?.focus();
+  }, [isSuccess]);
+
   if (isSuccess) {
     return (
-      <div className="rounded-3xl border-2 border-emerald-100 bg-emerald-50 p-8 text-center">
+      <div
+        ref={successRef}
+        role="status"
+        aria-live="polite"
+        tabIndex={-1}
+        className="rounded-3xl border-2 border-emerald-100 bg-emerald-50 p-8 text-center focus:outline-none"
+      >
         <h2 className="mb-2 text-2xl font-black text-emerald-600">
           🎉 {t('success', 'Sukces!')}
         </h2>
@@ -210,6 +331,10 @@ export const SurveyComponent: React.FC = () => {
           {t('feedback.desc')}
         </p>
       </header>
+
+      <p className="rounded-2xl border border-indigo-100 bg-indigo-50 p-4 text-xs leading-relaxed font-medium text-slate-600 sm:text-sm">
+        {t('feedback.privacyNotice')}
+      </p>
 
       {/* min-w-0: <fieldset> has a browser-default min-width of min-content,
           which silences flex/grid shrinking for every descendant (grid
@@ -288,7 +413,7 @@ export const SurveyComponent: React.FC = () => {
                   forced onto one line: every size here (the 24-28px radio
                   circles, their gaps) is Tailwind's rem-based spacing scale,
                   which tracks the app's dynamic root font-size
-                  (--dyn-font-size) the same as body text does — a user with a
+                  (--font-size-ui) the same as body text does — a user with a
                   much larger OS/browser text size ends up with
                   proportionally much larger circles too. A single-line
                   layout had nowhere left to give and silently clipped the
@@ -348,6 +473,26 @@ export const SurveyComponent: React.FC = () => {
       {error && (
         <div className="rounded-r-lg border-l-4 border-red-500 bg-red-50 p-4 text-sm font-medium text-red-700">
           {error}
+        </div>
+      )}
+
+      {}
+      {/* Only after repeated failures, not the first one — a single dropped
+          request shouldn't immediately offer to bail on submitting. Below
+          a normal Submit retry rather than replacing it: the network may
+          well recover, and this only exists for the case where it doesn't. */}
+      {failedAttempts >= 2 && (
+        <div className="rounded-r-lg border-l-4 border-amber-400 bg-amber-50 p-4 text-sm text-amber-800">
+          <p className="font-medium">
+            {t('feedback.offlineNotice')}
+          </p>
+          <button
+            type="button"
+            onClick={handleBypass}
+            className="mt-3 font-black tracking-widest uppercase underline underline-offset-2 hover:text-amber-900"
+          >
+            {t('feedback.skip')}
+          </button>
         </div>
       )}
 

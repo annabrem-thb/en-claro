@@ -20,3 +20,10 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# submit-survey keeps its own package.json (separate dependency set, own
+# lockfile) rather than pulling @supabase/supabase-js into the top-level
+# app bundle. Netlify Build doesn't install a function's own dependencies
+# by default, so this core plugin does that install step during the build.
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"

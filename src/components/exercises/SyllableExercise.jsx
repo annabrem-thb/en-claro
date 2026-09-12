@@ -5,6 +5,8 @@ import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { getTTSException } from '../../hooks/useGlobalTTS';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
@@ -229,7 +231,7 @@ function SyllableExercise({
       )}
 
       {}
-      <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
+      <ExerciseControlsRow className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
         <div
           className={
             isResolved ? 'pointer-events-none opacity-50 grayscale' : ''
@@ -239,11 +241,8 @@ function SyllableExercise({
             onReadAloud={readInstructionAndSyllables}
             pauseAllTimeouts={pauseAllTimeouts}
             resumeAllTimeouts={resumeAllTimeouts}
-            t={t}
             controlBtnSize={controlBtnSize}
-            isHighContrast={isHighContrast}
             noFlash={noFlash}
-            bionicReading={bionicReading}
             ttsFallback={ttsFallback}
           />
         </div>
@@ -266,23 +265,21 @@ function SyllableExercise({
           controlBtnSize={controlBtnSize}
           idleLabel={t('speakGapNumber')}
         />
-      </div>
+      </ExerciseControlsRow>
 
-      {transcript ? (
-        <p className="mb-1 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-2 sm:text-xs">
-          {t('heard')}: <span className="text-slate-600">{transcript}</span>
-        </p>
-      ) : (
-        // Previously the only clue that this mic expects a spoken *gap
-        // number* — not the word itself read aloud with pauses, the more
-        // intuitive reading of "divide the word into syllables" — was
-        // idleLabel's aria-label on the button above, invisible to sighted
-        // users. Saying the whole word matched no number/command pattern
-        // and silently did nothing, which read as "the mic doesn't work."
-        <p className="mb-1 shrink-0 text-center text-[10px] font-medium text-slate-600 sm:mb-2 sm:text-xs">
-          {t('speakGapNumber')}
-        </p>
-      )}
+      {/* Previously the only clue that this mic expects a spoken *gap
+          number* — not the word itself read aloud with pauses, the more
+          intuitive reading of "divide the word into syllables" — was
+          idleLabel's aria-label on the button above, invisible to sighted
+          users. Saying the whole word matched no number/command pattern
+          and silently did nothing, which read as "the mic doesn't work." */}
+      <TranscriptDisplay
+        transcript={transcript}
+        idleText={t('speakGapNumber')}
+        isHighContrast={isHighContrast}
+        t={t}
+        className="mb-1 shrink-0 text-center text-[10px] sm:mb-2 sm:text-xs"
+      />
 
       {}
       {!zenMode && (

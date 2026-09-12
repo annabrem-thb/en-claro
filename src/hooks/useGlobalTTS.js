@@ -127,10 +127,19 @@ const NAMED_VOICE_PREFERENCES = {
   de: ['Amala'],
 };
 
+const isVoiceForLanguage = (voice, code) =>
+  voice.lang.toLowerCase().replace('_', '-').startsWith(code);
+
+// Exported so callers deciding whether to route to the local (meSpeak)
+// fallback can check the same match the native engine itself will use —
+// a browser reporting voices at all (e.g. only English on Windows) is not
+// the same as having one for the language actually being read aloud.
+export function hasVoiceForLanguage(allVoices, language) {
+  return allVoices.some((v) => isVoiceForLanguage(v, language));
+}
+
 function pickBestVoice(allVoices, language) {
-  const isLang = (v, code) =>
-    v.lang.toLowerCase().replace('_', '-').startsWith(code);
-  const langVoices = allVoices.filter((v) => isLang(v, language));
+  const langVoices = allVoices.filter((v) => isVoiceForLanguage(v, language));
   if (langVoices.length === 0) return null;
 
   for (const name of NAMED_VOICE_PREFERENCES[language] || []) {
