@@ -115,14 +115,21 @@ const SidebarNav = memo(function SidebarNav({
 
       {onThemeChange && (
         <div
-          className={`hidden shrink-0 justify-center p-3 lg:flex ${isHighContrast ? 'border-b border-white/20' : `border-b ${themeStyles.border}`}`}
+          className={`hidden shrink-0 flex-col items-center gap-1.5 p-3 lg:flex ${isHighContrast ? 'border-b border-white/20' : `border-b ${themeStyles.border}`}`}
         >
+          <span
+            id="sidebar-theme-label"
+            className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+          >
+            {t('selectTheme') || 'Select theme'}
+          </span>
           <ThemeSwitcher
             theme={theme}
             onThemeChange={onThemeChange}
             isHighContrast={isHighContrast}
             bigTargets={bigTargets}
             t={t}
+            labelId="sidebar-theme-label"
           />
         </div>
       )}
