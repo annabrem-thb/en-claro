@@ -6,6 +6,11 @@ const THEME_KEYS = Object.keys(THEMES);
 // independent of the gamified Shop tab in Settings — free to use in
 // Learning Only mode too, since it's just a visual preference, not a
 // gamification reward.
+//
+// Each swatch carries its own visible name, not just a color dot — a color
+// alone doesn't tell a user what they're choosing (and fails for anyone who
+// can't distinguish the hues), so the button's own text is what supplies
+// its accessible name too (no separate aria-label needed).
 export default function ThemeSwitcher({
   theme,
   onThemeChange,
@@ -18,13 +23,18 @@ export default function ThemeSwitcher({
   // nested group for screen-reader users.
   standalone = true,
 }) {
-  const dim = bigTargets ? 'h-9 w-9' : 'h-6 w-6';
   const groupProps = standalone
     ? { role: 'group', 'aria-label': t('selectTheme') || 'Select theme' }
     : {};
+  const dotDim = bigTargets ? 'h-6 w-6' : 'h-4 w-4';
+  const pad = bigTargets ? 'px-2 py-1.5' : 'px-1.5 py-1';
+  const textSize = bigTargets ? 'text-[10px]' : 'text-[8px]';
 
   return (
-    <div {...groupProps} className="flex shrink-0 items-center gap-2">
+    <div
+      {...groupProps}
+      className="flex w-full flex-wrap items-start justify-center gap-1"
+    >
       {THEME_KEYS.map((key) => {
         const isSelected = theme === key;
         const label = t(`themes.${key}.name`, key);
@@ -33,15 +43,40 @@ export default function ThemeSwitcher({
             key={key}
             type="button"
             onClick={() => onThemeChange(key)}
-            aria-label={label}
             aria-pressed={isSelected}
-            className={`${dim} shrink-0 rounded-full transition-transform active:scale-90 ${
+            className={`flex shrink-0 flex-col items-center gap-1 rounded-lg transition-all active:scale-95 ${pad} ${
               isSelected
-                ? `scale-110 ring-2 ring-offset-2 ${isHighContrast ? 'ring-white ring-offset-black' : 'ring-slate-800 ring-offset-white'}`
-                : 'opacity-60 hover:opacity-100'
+                ? isHighContrast
+                  ? 'bg-white/20'
+                  : 'bg-slate-100'
+                : isHighContrast
+                  ? 'hover:bg-white/10'
+                  : 'hover:bg-slate-50'
             }`}
-            style={{ backgroundColor: THEMES[key].hex }}
-          />
+          >
+            <span
+              aria-hidden="true"
+              className={`${dotDim} shrink-0 rounded-full ${
+                isSelected
+                  ? `ring-2 ring-offset-1 ${isHighContrast ? 'ring-white ring-offset-black' : 'ring-slate-800 ring-offset-white'}`
+                  : 'opacity-70'
+              }`}
+              style={{ backgroundColor: THEMES[key].hex }}
+            />
+            <span
+              className={`${textSize} leading-none font-bold tracking-wide uppercase ${
+                isSelected
+                  ? isHighContrast
+                    ? 'text-white'
+                    : 'text-slate-700'
+                  : isHighContrast
+                    ? 'text-white/60'
+                    : 'text-slate-500'
+              }`}
+            >
+              {label}
+            </span>
+          </button>
         );
       })}
     </div>
