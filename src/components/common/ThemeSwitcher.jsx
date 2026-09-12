@@ -12,15 +12,19 @@ export default function ThemeSwitcher({
   isHighContrast,
   bigTargets = false,
   t,
+  // False when a parent <fieldset>/<legend> already announces "Select
+  // theme" as the group's accessible name (IntroScreen) — an inner
+  // role="group" here would just repeat that same name on a second,
+  // nested group for screen-reader users.
+  standalone = true,
 }) {
   const dim = bigTargets ? 'h-9 w-9' : 'h-6 w-6';
+  const groupProps = standalone
+    ? { role: 'group', 'aria-label': t('selectTheme') || 'Select theme' }
+    : {};
 
   return (
-    <div
-      role="group"
-      aria-label={t('selectTheme') || 'Select theme'}
-      className="flex shrink-0 items-center gap-2"
-    >
+    <div {...groupProps} className="flex shrink-0 items-center gap-2">
       {THEME_KEYS.map((key) => {
         const isSelected = theme === key;
         const label = t(`themes.${key}.name`, key);
