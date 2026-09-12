@@ -9,6 +9,7 @@ import { useStudyMode } from '../hooks/useStudyMode.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
 
 import BionicText from './common/BionicText.jsx';
+import ThemeSwitcher from './common/ThemeSwitcher.jsx';
 
 const LANGUAGES = [
   { code: 'de', flag: '🇩🇪', label: 'Deutsch' },
@@ -405,6 +406,36 @@ function IntroScreen({ onStart, speak }) {
                   </button>
                 </>
               )}
+            </fieldset>
+
+            {}
+            {/* Same ThemeSwitcher used on the main screen's sidebar/bottom
+                nav — picking a theme here means it's already set the first
+                time the app opens, not just discoverable later via Settings
+                or the nav bars. */}
+            <fieldset className="m-0 mb-2 flex w-full shrink-0 flex-col items-center gap-2 border-none p-0 sm:mb-3">
+              <legend className="mb-1 w-full p-0 text-left sm:text-center">
+                <h2
+                  className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
+                >
+                  <BionicText
+                    text={t('selectTheme', 'Theme')}
+                    enabled={hasBionic}
+                  />
+                </h2>
+              </legend>
+              <ThemeSwitcher
+                theme={settings.theme}
+                onThemeChange={(key) => {
+                  updateSetting('theme', key);
+                  if (settings.voiceAssistant && speak)
+                    speak(t(`themes.${key}.name`, key));
+                }}
+                isHighContrast={isHighContrast}
+                bigTargets={bigTargets}
+                t={t}
+                standalone={false}
+              />
             </fieldset>
 
             <fieldset className="m-0 mb-2 grid w-full shrink-0 grid-cols-2 gap-1 border-none p-0 sm:mb-3 sm:grid-cols-3 sm:gap-1.5">
