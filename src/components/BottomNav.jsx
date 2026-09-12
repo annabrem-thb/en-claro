@@ -123,14 +123,21 @@ function BottomNavComponent({
       )}
       {onThemeChange && (
         <div
-          className={`flex justify-center border-t px-2 py-1.5 ${isHighContrast ? 'border-white/20 bg-black' : 'border-slate-100 bg-white'}`}
+          className={`flex flex-col items-center gap-1 border-t px-2 py-1.5 ${isHighContrast ? 'border-white/20 bg-black' : 'border-slate-100 bg-white'}`}
         >
+          <span
+            id="bottomnav-theme-label"
+            className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+          >
+            {t('selectTheme') || 'Select theme'}
+          </span>
           <ThemeSwitcher
             theme={theme}
             onThemeChange={onThemeChange}
             isHighContrast={isHighContrast}
             bigTargets={bigTargets}
             t={t}
+            labelId="bottomnav-theme-label"
           />
         </div>
       )}
