@@ -3,6 +3,7 @@ import { memo, useState, useEffect } from 'react';
 import { CognitiveEnergyIndicator } from './CognitiveEnergyIndicator.jsx';
 import AccessibleTTS from './common/AccessibleTTS.jsx';
 import BionicText from './common/BionicText.jsx';
+import ThemeSwitcher from './common/ThemeSwitcher.jsx';
 import Tooltip from './common/Tooltip.jsx';
 
 const PILLAR_ICONS = { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' };
@@ -20,6 +21,7 @@ const SidebarNav = memo(function SidebarNav({
   bigTargets,
   setSettingsOpen,
   onOpenSurvey,
+  onThemeChange,
   t,
   loadLevel,
   speak,
@@ -110,6 +112,20 @@ const SidebarNav = memo(function SidebarNav({
           </h1>
         </AccessibleTTS>
       </div>
+
+      {onThemeChange && (
+        <div
+          className={`hidden shrink-0 justify-center p-3 lg:flex ${isHighContrast ? 'border-b border-white/20' : `border-b ${themeStyles.border}`}`}
+        >
+          <ThemeSwitcher
+            theme={theme}
+            onThemeChange={onThemeChange}
+            isHighContrast={isHighContrast}
+            bigTargets={bigTargets}
+            t={t}
+          />
+        </div>
+      )}
 
       <nav
         className="no-scrollbar flex min-h-0 flex-1 flex-row justify-between gap-1 overflow-x-auto px-2 py-2 lg:flex-col lg:justify-start lg:gap-1.5 lg:overflow-y-auto lg:px-3 lg:py-3"

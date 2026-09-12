@@ -1,5 +1,7 @@
 import { memo } from 'react';
 
+import ThemeSwitcher from './common/ThemeSwitcher.jsx';
+
 const PILLAR_ICONS = { Literacy: '📖', Visual: '👁️', Cognitive: '🧩' };
 
 // One button shape shared by every entry (pillars, Garden, Settings)
@@ -98,6 +100,7 @@ function BottomNavComponent({
   onGardenClick,
   onOpenSettings,
   onOpenSurvey,
+  onThemeChange,
   vibrate,
   // Non-null while a guided study block is running — see SidebarNav.jsx's
   // identical prop for why switching away from this pillar is disabled for
@@ -117,6 +120,19 @@ function BottomNavComponent({
         >
           {studyProgressLabel}
         </p>
+      )}
+      {onThemeChange && (
+        <div
+          className={`flex justify-center border-t px-2 py-1.5 ${isHighContrast ? 'border-white/20 bg-black' : 'border-slate-100 bg-white'}`}
+        >
+          <ThemeSwitcher
+            theme={theme}
+            onThemeChange={onThemeChange}
+            isHighContrast={isHighContrast}
+            bigTargets={bigTargets}
+            t={t}
+          />
+        </div>
       )}
       <nav
         className={`z-40 flex items-center justify-around border-t px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] transition-colors ${isHighContrast ? 'border-white/20 bg-black' : 'border-slate-100 bg-white'}`}

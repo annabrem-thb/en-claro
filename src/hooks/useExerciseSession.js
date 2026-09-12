@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 
 import { STUDY_EXERCISE_TYPES } from '../data/exerciseTypes.js';
 import { belongsToActiveSet } from '../data/studySets.js';
@@ -104,7 +104,29 @@ export function useExerciseSession({
   const [feedback, setFeedback] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const { setSafeTimeout } = useSafeTimeouts();
+  const { setSafeTimeout, clearSafeTimeout } = useSafeTimeouts();
+  // Holds the pending "auto-advance after Correct!" timer scheduled by
+  // handleSuccess below, so it can be cancelled if the feedback it was
+  // meant to clear is dismissed some other way first (the user clicking
+  // Next / pressing Enter before the delay elapses, or a tab/pillar switch
+  // resetting feedback). Without this, that stale timer still fires later
+  // and calls goNext() again on whatever task is current by then — a
+  // silent, unrequested skip.
+  const advanceTimerRef = useRef(null);
+  const cancelPendingAdvance = useCallback(() => {
+    if (advanceTimerRef.current) {
+      clearSafeTimeout(advanceTimerRef.current);
+      advanceTimerRef.current = null;
+    }
+  }, [clearSafeTimeout]);
+
+  useEffect(() => {
+    // feedback going back to null means whatever cleared it (goNext/goPrev,
+    // or a tab/pillar switch in App.jsx calling the exposed setFeedback)
+    // already did the job the pending auto-advance timer existed for —
+    // so that timer, if still outstanding, is now stale and must not fire.
+    if (feedback === null) cancelPendingAdvance();
+  }, [feedback, cancelPendingAdvance]);
 
   useEffect(() => {
     // Genuinely synchronizing with an external system (a real setTimeout),
@@ -355,7 +377,8 @@ export function useExerciseSession({
     // also schedule has been removed entirely: the survey is opened
     // explicitly by the user now, not triggered inline by point count.
     const advanceDelay = inclusiveOptions.extendedTime ? 3000 : 1500;
-    setSafeTimeout(goNext, advanceDelay);
+    cancelPendingAdvance();
+    advanceTimerRef.current = setSafeTimeout(goNext, advanceDelay);
     saveLog('exercise_history', {
       date: new Date().toISOString(),
       type: activeTab,
@@ -375,6 +398,7 @@ export function useExerciseSession({
     setGrowthValue,
     onUnitCompleted,
     setUserDifficulty,
+    cancelPendingAdvance,
     setSafeTimeout,
   ]);
 
