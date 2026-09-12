@@ -812,6 +812,7 @@ function AppContent() {
               bigTargets={bigTargets}
               setSettingsOpen={setSettingsOpen}
               onOpenSurvey={openSurvey}
+              onThemeChange={(key) => updateSetting('theme', key)}
               t={t}
               loadLevel={loadLevel}
               speak={speak}
@@ -1181,6 +1182,7 @@ function AppContent() {
               onGardenClick={handleGardenClick}
               onOpenSettings={openSettings}
               onOpenSurvey={openSurvey}
+              onThemeChange={(key) => updateSetting('theme', key)}
               vibrate={vibrate}
               lockedToPillar={lockedToPillar}
               studyProgressLabel={studyProgressLabel}
