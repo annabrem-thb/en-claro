@@ -14,7 +14,7 @@ EnClaro is a fully responsive, accessibility-first (WCAG 2.1 AA) Progressive Web
 
 **Accessibility & personalization**
 
-- OpenDyslexic-style friendly font, adjustable letter/word spacing, and larger text
+- Dyslexia-friendly font, adjustable letter/word spacing, and larger text
 - Bionic Reading (bolded word-openings to aid visual fixation)
 - High-contrast theme, colorblind-safe palettes, and a desaturated/calm color mode
 - "Motorik" mode — enlarged touch targets (56×56px minimum) for motor-impairment support
@@ -31,8 +31,8 @@ EnClaro is a fully responsive, accessibility-first (WCAG 2.1 AA) Progressive Web
 
 **Gamification**
 
-- Virtual Garden — a growing ecosystem that reflects daily progress and streaks
-- Coins and a theme shop (Nature, Music, Art, Space, Ocean)
+- Virtual Garden — a growing ecosystem that reflects daily progress
+- A theme shop with five freely selectable color palettes (Nature, Music, Art, Space, Ocean) — no currency or unlocking, every theme is available immediately
 - Cognitive-load tracking that gently suggests a break after a run of mistakes
 - A non-gamified "Learning Only" mode for users who prefer a plain interface
 
@@ -145,8 +145,8 @@ EnClaro ist eine vollständig responsive, barrierefreie (WCAG 2.1 AA) Progressiv
 
 **Gamification**
 
-- Virtueller Garten — ein wachsendes Ökosystem, das täglichen Fortschritt und Serien widerspiegelt
-- Münzen und ein Themen-Shop (Natur, Musik, Kunst, Weltraum, Ozean)
+- Virtueller Garten — ein wachsendes Ökosystem, das den täglichen Fortschritt widerspiegelt
+- Ein Themen-Shop mit fünf frei wählbaren Farbpaletten (Natur, Musik, Kunst, Weltraum, Ozean) — ohne Währung oder Freischaltung, jedes Theme ist sofort verfügbar
 - Erfassung der kognitiven Belastung, die nach einer Reihe von Fehlern sanft eine Pause vorschlägt
 - Ein nicht-spielerischer "Nur Lernen"-Modus für Nutzer, die eine schlichte Oberfläche bevorzugen
 
@@ -242,7 +242,7 @@ EnClaro to w pełni responsywna, zaprojektowana z myślą o dostępności (WCAG 
 
 **Dostępność i personalizacja**
 
-- Czcionka przyjazna osobom z dysleksją (w stylu OpenDyslexic), regulowane odstępy między literami/słowami oraz większy tekst
+- Czcionka przyjazna osobom z dysleksją, regulowane odstępy między literami/słowami oraz większy tekst
 - Bionic Reading (pogrubione początki słów wspomagające fiksację wzroku)
 - Motyw wysokiego kontrastu, palety bezpieczne dla osób z zaburzeniami rozpoznawania barw oraz stonowany/spokojny tryb kolorystyczny
 - Tryb "Motoryka" — powiększone obszary dotykowe (min. 56×56px) dla osób z ograniczeniami motorycznymi
@@ -259,8 +259,8 @@ EnClaro to w pełni responsywna, zaprojektowana z myślą o dostępności (WCAG 
 
 **Grywalizacja**
 
-- Wirtualny Ogród — rozwijający się ekosystem odzwierciedlający codzienne postępy i serie
-- Monety i sklep z motywami (Natura, Muzyka, Sztuka, Kosmos, Ocean)
+- Wirtualny Ogród — rozwijający się ekosystem odzwierciedlający codzienne postępy
+- Sklep z pięcioma dowolnie wybieralnymi motywami kolorystycznymi (Natura, Muzyka, Sztuka, Kosmos, Ocean) — bez waluty ani odblokowywania, każdy motyw jest dostępny od razu
 - Śledzenie obciążenia poznawczego, które delikatnie sugeruje przerwę po serii błędów
 - Niegrywalizowany tryb "Tylko nauka" dla użytkowników preferujących prosty interfejs
 

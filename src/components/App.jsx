@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
 import { THEMES } from '../data/themes.js';
+import { useAchievements } from '../hooks/useAchievements.js';
 import { useAffirmativeNotifications } from '../hooks/useAffirmativeNotifications.js';
 import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useCognitiveLoad } from '../hooks/useCognitiveLoad.js';
@@ -34,6 +35,7 @@ import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
 import { useVocabularyLoader } from '../hooks/useVocabularyLoader.js';
 import i18n from '../i18n/config.ts';
 
+import AchievementToast from './AchievementToast.jsx';
 import AffirmationToast from './AffirmationToast.jsx';
 import BottomNav from './BottomNav.jsx';
 import { CognitiveEnergyIndicator } from './CognitiveEnergyIndicator.jsx';
@@ -243,7 +245,12 @@ function AppContent() {
     const prevTrees = Math.floor(prevGrowthValueRef.current / 10);
     const currentTrees = Math.floor(growthValue / 10);
 
-    if (isGamified && isAppReady && currentTrees > prevTrees && currentTrees > 0) {
+    if (
+      isGamified &&
+      isAppReady &&
+      currentTrees > prevTrees &&
+      currentTrees > 0
+    ) {
       setNewTreeNotification(true);
       vibrate([50, 50, 50]);
       const timer = setTimeout(
@@ -415,6 +422,7 @@ function AppContent() {
     currentIndex,
     setCurrentIndex,
     setCycle,
+    consecutiveCorrect,
     setConsecutiveCorrect,
     feedback,
     setFeedback,
@@ -445,6 +453,19 @@ function AppContent() {
       studyMode.isActive && studyMode.phase === 'tasks'
         ? studyMode.currentExerciseTypes
         : null,
+  });
+
+  // Discrete milestone badges alongside the continuous growthValue counter
+  // — see data/achievements.js for the registry and why each unlock
+  // condition is sized to be reachable within one short guided study block.
+  const {
+    unlocked: unlockedAchievements,
+    justUnlocked: justUnlockedAchievement,
+  } = useAchievements({
+    enabled: isGamified,
+    growthValue,
+    consecutiveCorrect,
+    gardenVisited: activeTab === 'Garden',
   });
 
   // Growth is independent of correctness and retries, so skipping a task
@@ -875,6 +896,7 @@ function AppContent() {
                   bionicReading={!!settings.bionicReading}
                   speak={speak}
                   voiceAssistant={!!settings.voiceAssistant}
+                  unlockedAchievements={unlockedAchievements}
                 />
               </Suspense>
 
@@ -1198,6 +1220,13 @@ function AppContent() {
         t={t}
       />
 
+      <AchievementToast
+        achievementId={justUnlockedAchievement}
+        t={t}
+        noFlash={noFlash}
+        isHighContrast={isHighContrast}
+      />
+
       <LevelUpModal
         open={showSuccess}
         isHighContrast={isHighContrast}
@@ -1246,7 +1275,8 @@ function AppContent() {
                 : 'manual'
             }
             onSubmitted={() => {
-              if (studyMode.phase === 'survey') studyMode.recordSurveySubmitted();
+              if (studyMode.phase === 'survey')
+                studyMode.recordSurveySubmitted();
               setShowFeedback(false);
               setSurveyOpenedManually(false);
             }}

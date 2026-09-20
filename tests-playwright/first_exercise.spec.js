@@ -2,9 +2,19 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Dyslexia PWA - Pierwsze uruchomienie i ćwiczenie', () => {
   test.beforeEach(async ({ page }) => {
-    // Czyszczenie Local Storage przez wejście na stronę i ewaluację kodu JS
+    // addInitScript, not page.evaluate() after a goto: the app's own
+    // useUserSettings effect writes its current in-memory settings back to
+    // localStorage on mount, which races with a page.evaluate() write made
+    // right after that mount already happened (see cognitive_break.spec.js).
+    await page.addInitScript(() => {
+      window.localStorage.clear();
+      // Study mode defaults to on (see useStudyModeState.js) and, while
+      // active, replaces the Classic/Gamified picker with a read-only
+      // status line — opt out first so "Study only" is an actual clickable
+      // button.
+      window.localStorage.setItem('studyModeEnabled', 'false');
+    });
     await page.goto('/');
-    await page.evaluate(() => window.localStorage.clear());
   });
 
   test('ładuje aplikację, przechodzi przez ekran powitalny i próbuje rozwiązać pierwsze ćwiczenie', async ({
@@ -14,6 +24,7 @@ test.describe('Dyslexia PWA - Pierwsze uruchomienie i ćwiczenie', () => {
 
     // Przejście przez ekran powitalny
     await expect(page.locator('text=/EnClaro/i')).toBeVisible();
+    await page.locator('text=/Weiter|Next|Dalej/i').click();
     await page.locator('text=/Tylko nauka|Study only/i').click();
     await page.locator('text=/Rozpocznij|Start/i').click();
 

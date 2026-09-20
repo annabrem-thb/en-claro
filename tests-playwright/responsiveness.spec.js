@@ -60,7 +60,14 @@ test.describe('Dyslexia PWA - Testy Responsywności (RWD)', () => {
     page: page,
     isMobile: isMobile,
   }) => {
+    // Study mode defaults to on (see useStudyModeState.js) and, while
+    // active, replaces the Classic/Gamified picker with a read-only status
+    // line — opt out first so "Study only" is an actual clickable button.
+    await page.addInitScript(() => {
+      window.localStorage.setItem('studyModeEnabled', 'false');
+    });
     await page.goto('/');
+    await page.locator('text=/Weiter|Next|Dalej/i').click();
     await page.locator('text=/Tylko nauka|Study only/i').click();
     await page.locator('text=/Rozpocznij|Start/i').click();
     await expect(page.locator('main')).toBeVisible();
@@ -95,6 +102,11 @@ test.describe('Dyslexia PWA - Testy Responsywności (RWD)', () => {
       'Ten test jest przeznaczony wyłącznie dla urządzeń mobilnych',
     );
     await page.addInitScript(() => {
+      // Study mode defaults to on (see useStudyModeState.js) and, while
+      // active, replaces the Classic/Gamified picker with a read-only
+      // status line — opt out first so "Study only" is an actual clickable
+      // button.
+      window.localStorage.setItem('studyModeEnabled', 'false');
       window.localStorage.setItem(
         'cfg_settings',
         JSON.stringify({
@@ -149,6 +161,7 @@ test.describe('Dyslexia PWA - Testy Responsywności (RWD)', () => {
       );
     });
     await page.goto('/');
+    await page.locator('text=/Weiter|Next|Dalej/i').click();
     await page.locator('text=/Tylko nauka|Study only/i').click();
     await page.locator('text=/Rozpocznij|Start/i').click();
 

@@ -22,7 +22,7 @@
     "serve": "npm run build && npm run preview",
     "clean": "rm -rf dist node_modules .vite",
     "audit:check": "npm audit",
-    "export:survey": "node scripts/export-netlify-forms.js"
+    "export:survey": "node scripts/export-survey-data.js"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,md}": "prettier --write"

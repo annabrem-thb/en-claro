@@ -2,14 +2,26 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Dyslexia PWA - Internacjonalizacja (i18n)', () => {
   test.beforeEach(async ({ page: page }) => {
+    // addInitScript, not page.evaluate() after a goto: the app's own
+    // useUserSettings effect writes its current in-memory settings back to
+    // localStorage on mount, which races with a page.evaluate() write made
+    // right after that mount already happened (see cognitive_break.spec.js).
+    await page.addInitScript(() => {
+      window.localStorage.clear();
+      // Study mode defaults to on (see useStudyModeState.js) and, while
+      // active, replaces the Classic/Gamified picker with a read-only
+      // status line — opt out first so "Study only" is an actual clickable
+      // button.
+      window.localStorage.setItem('studyModeEnabled', 'false');
+    });
     await page.goto('/');
-    await page.evaluate(() => window.localStorage.clear());
   });
   test('powinno zmieniać język w Ustawieniach i aktualizować tłumaczenia na żywo', async ({
     page: page,
   }) => {
     await page.goto('/');
     await page.locator('button[lang="en"]').click();
+    await page.locator('text=/Weiter|Next|Dalej/i').click();
     await page.locator('text=/Study only/i').click();
     await page.locator('text=/Start/i').click();
     // Nav (and its Settings button) is unmounted entirely while a task is

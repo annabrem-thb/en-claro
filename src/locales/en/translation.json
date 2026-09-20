@@ -6,11 +6,15 @@
   "installed": "Installed",
   "offlineMessage": "You are currently offline. Some features may be unavailable.",
   "intro": {
-    "subtitle": "Your safe space to grow! Choose mode and tools:",
+    "back": "Back",
+    "step1Subtitle": "Your safe space to grow! Choose your language and comfort tools:",
+    "step2Subtitle": "Now choose your mode and theme:",
+    "stepIndicator": "Step {{current}} of {{total}}",
     "chooseLanguage": "Language",
     "appMode": "Mode",
     "modeClassic": "Study only",
-    "modeGamified": "Game (rewards)",    "a11y": "Comfort Tools",
+    "modeGamified": "Game (rewards)",
+    "a11y": "Comfort Tools",
     "lrs": "Extra reading spacing",
     "contrast": "Contrast",
     "vision": "Larger text",
@@ -112,7 +116,7 @@
   "v2Label": "Gamification",
   "v2Desc": "Points, coins, and rewards",
   "a11yBase": "Base mode — always active",
-  "a11yBaseDesc": "Friendly font (OpenDyslexic), increased spacing, mild cream background",
+  "a11yBaseDesc": "Friendly font, increased spacing, mild cream background",
   "a11yAddons": "Comfort personalization options",
   "a11yAddonsDesc": "Choose any combination — customize the app to your needs",
   "a11ySectionVision": "Vision",
@@ -660,5 +664,21 @@
     "treesPlanted": "Trees Planted",
     "newTreeTitle": "New tree",
     "newTreeMsg": "Your consistent learning helped plant another tree, virtually."
+  },
+  "achievements": {
+    "heading": "Achievements",
+    "locked": "Not yet unlocked",
+    "firstCorrect": {
+      "title": "First Step",
+      "desc": "Answered your first exercise correctly."
+    },
+    "combo3": {
+      "title": "Warmed Up",
+      "desc": "Three correct answers in this section."
+    },
+    "gardenVisit": {
+      "title": "Growing Strong",
+      "desc": "Checked in on your Garden."
+    }
   }
 }

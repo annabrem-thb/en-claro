@@ -29,7 +29,7 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-        run: node scripts/export-netlify-forms.js
+        run: node scripts/export-survey-data.js
 
       - name: Send Email with CSV
         uses: dawidd6/action-send-mail@v3
