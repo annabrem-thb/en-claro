@@ -15,10 +15,12 @@ import { test, expect } from '@playwright/test';
 async function skipIntro(page) {
   await page.goto('/#/literacy');
   // If the intro screen is showing (e.g. first-ever load in this browser
-  // context), dismiss it via "Study only" -> "Start".
-  const studyOnly = page.locator('text=/Tylko nauka|Study only|Nur lernen/i');
-  if (await studyOnly.isVisible().catch(() => false)) {
-    await studyOnly.click();
+  // context), dismiss it: step 1 (language/comfort tools) -> "Next" ->
+  // step 2 (mode/theme) -> "Study only" -> "Start".
+  const nextButton = page.locator('text=/Weiter|Next|Dalej/i');
+  if (await nextButton.isVisible().catch(() => false)) {
+    await nextButton.click();
+    await page.locator('text=/Tylko nauka|Study only|Nur lernen/i').click();
     await page.locator('text=/Rozpocznij|Start/i').click();
   }
   // Nav (SidebarNav's <aside> or BottomNav's <nav class="...justify-
@@ -71,8 +73,19 @@ test.describe('Accessibility (axe-core)', () => {
     // (see a11y.css's `data-a11y-motion` rules) via the same
     // prefers-reduced-motion seed used for the "Calm screen" setting.
     await page.emulateMedia({ reducedMotion: 'reduce' });
+    // addInitScript, not page.evaluate() after a goto: the app's own
+    // useUserSettings effect writes its current in-memory settings back to
+    // localStorage on mount, which races with a page.evaluate() write made
+    // right after that mount already happened (see cognitive_break.spec.js).
+    await page.addInitScript(() => {
+      window.localStorage.clear();
+      // Study mode defaults to on (see useStudyModeState.js) and, while
+      // active, replaces the Classic/Gamified picker with a read-only
+      // status line — opt out first so "Study only" is an actual clickable
+      // button in skipIntro() below.
+      window.localStorage.setItem('studyModeEnabled', 'false');
+    });
     await page.goto('/');
-    await page.evaluate(() => window.localStorage.clear());
   });
 
   // The bare `/` intro screen — every other test below navigates past it via
@@ -138,9 +151,10 @@ test.describe('Accessibility (axe-core)', () => {
     // reason — is the only way to reach it reliably regardless of that
     // window; the nav button click only ever worked here by timing luck.
     await page.goto('/#/literacy');
-    const studyOnly = page.locator('text=/Tylko nauka|Study only|Nur lernen/i');
-    if (await studyOnly.isVisible().catch(() => false)) {
-      await studyOnly.click();
+    const nextButton = page.locator('text=/Weiter|Next|Dalej/i');
+    if (await nextButton.isVisible().catch(() => false)) {
+      await nextButton.click();
+      await page.locator('text=/Tylko nauka|Study only|Nur lernen/i').click();
       await page.locator('text=/Rozpocznij|Start/i').click();
     }
     await expect(page.locator('#main-content')).toBeVisible();

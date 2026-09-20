@@ -6,11 +6,15 @@
   "installed": "Installiert",
   "offlineMessage": "Sie sind derzeit offline. Einige Funktionen sind möglicherweise nicht verfügbar.",
   "intro": {
-    "subtitle": "Sicherer Lernraum. Wählen Sie Modus und Werkzeuge:",
+    "back": "Zurück",
+    "step1Subtitle": "Sicherer Lernraum. Wählen Sie Sprache und Komfort-Werkzeuge:",
+    "step2Subtitle": "Wählen Sie nun Modus und Motiv:",
+    "stepIndicator": "Schritt {{current}} von {{total}}",
     "chooseLanguage": "Sprache",
     "appMode": "Modus",
     "modeClassic": "Nur Lernen",
-    "modeGamified": "Spiel (Belohnungen)",    "a11y": "Komfort-Werkzeuge",
+    "modeGamified": "Spiel (Belohnungen)",
+    "a11y": "Komfort-Werkzeuge",
     "lrs": "Zusätzlicher Leseabstand",
     "contrast": "Kontrast",
     "vision": "Größerer Text",
@@ -110,7 +114,7 @@
   "v2Label": "Gamification",
   "v2Desc": "Punkte, Münzen und Belohnungen",
   "a11yBase": "Basismodus – immer aktiv",
-  "a11yBaseDesc": "Freundliche Schriftart (OpenDyslexic), vergrößerter Abstand, milder Cremeton-Hintergrund",
+  "a11yBaseDesc": "Freundliche Schriftart, vergrößerter Abstand, milder Cremeton-Hintergrund",
   "a11yAddons": "Komfort-Personalisierungsoptionen",
   "a11yAddonsDesc": "Wählen Sie eine beliebige Kombination – passen Sie die App an Ihre Bedürfnisse an",
   "a11ySectionVision": "Sehen",
@@ -662,5 +666,21 @@
     "treesPlanted": "Gepflanzte Bäume",
     "newTreeTitle": "Neuer Baum",
     "newTreeMsg": "Ihr beständiges Lernen hat geholfen, einen weiteren Baum virtuell zu pflanzen."
+  },
+  "achievements": {
+    "heading": "Erfolge",
+    "locked": "Noch nicht freigeschaltet",
+    "firstCorrect": {
+      "title": "Erster Schritt",
+      "desc": "Die erste Übung richtig gelöst."
+    },
+    "combo3": {
+      "title": "Warmgelaufen",
+      "desc": "Drei richtige Antworten in diesem Bereich."
+    },
+    "gardenVisit": {
+      "title": "Gut gewachsen",
+      "desc": "Im Garten vorbeigeschaut."
+    }
   }
 }

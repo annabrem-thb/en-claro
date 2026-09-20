@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 
+import { ACHIEVEMENTS } from '../data/achievements.js';
 import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 import { getAllLogs } from '../utils/indexedDB.js';
@@ -31,6 +32,7 @@ function VirtualGarden({
   bionicReading = false,
   speak,
   voiceAssistant = false,
+  unlockedAchievements = [],
 }) {
   const ecosystemState = useMemo(() => {
     const growthLevel = Math.floor(growthValue / 5);
@@ -248,14 +250,7 @@ function VirtualGarden({
       setSafeTimeout(() => speak(segment), delayAcc);
       delayAcc += segment.length * 70 + 900;
     });
-  }, [
-    speak,
-    t,
-    ecosystemState,
-    todayStats,
-    setSafeTimeout,
-    clearAllTimeouts,
-  ]);
+  }, [speak, t, ecosystemState, todayStats, setSafeTimeout, clearAllTimeouts]);
 
   useAutoReadAloud(!!voiceAssistant, readGardenState);
 
@@ -330,6 +325,49 @@ function VirtualGarden({
             theme={theme}
             noFlash={noFlash}
           />
+
+          <div className="mt-3 flex w-full max-w-70 flex-col items-center gap-2 sm:mt-4 sm:max-w-xs">
+            <h3 className="text-center text-[10px] font-black tracking-widest wrap-break-word text-slate-600 uppercase sm:text-xs">
+              <BionicText
+                text={t('achievements.heading')}
+                enabled={bionicReading}
+              />
+            </h3>
+            <div
+              className="flex items-center justify-center gap-2 sm:gap-3"
+              role="list"
+              aria-label={t('achievements.heading')}
+            >
+              {ACHIEVEMENTS.map((achievement) => {
+                const isUnlocked = unlockedAchievements.includes(
+                  achievement.id,
+                );
+                const title = t(achievement.titleKey);
+                const desc = isUnlocked
+                  ? t(achievement.descKey)
+                  : t('achievements.locked');
+                return (
+                  <div
+                    key={achievement.id}
+                    role="listitem"
+                    title={title}
+                    aria-label={`${title}: ${desc}`}
+                    className={`flex h-14 w-14 items-center justify-center rounded-2xl border-2 text-2xl transition-all sm:h-16 sm:w-16 ${
+                      isUnlocked
+                        ? isHighContrast
+                          ? 'border-white bg-white/10'
+                          : `${themeStyles?.border || 'border-slate-200'} bg-[#FCFBF9]`
+                        : isHighContrast
+                          ? 'border-white/20 opacity-40'
+                          : 'border-slate-100 opacity-40 grayscale'
+                    }`}
+                  >
+                    <span aria-hidden="true">{achievement.icon}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
           <button
             type="button"

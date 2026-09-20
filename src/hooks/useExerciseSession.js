@@ -241,7 +241,10 @@ export function useExerciseSession({
           return true;
         })
       : rawTasks;
-    let tasks = studyExerciseTypes && studyFiltered.length === 0 ? rawTasks : studyFiltered;
+    let tasks =
+      studyExerciseTypes && studyFiltered.length === 0
+        ? rawTasks
+        : studyFiltered;
     let filteredTasks = tasks;
     if (inclusiveOptions.adaptiveDifficulty) {
       filteredTasks = tasks.filter((task) => {
@@ -448,6 +451,7 @@ export function useExerciseSession({
     setCurrentIndex,
     cycle,
     setCycle,
+    consecutiveCorrect,
     setConsecutiveCorrect,
     feedback,
     setFeedback,

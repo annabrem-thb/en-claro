@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import { safeJSONParse } from '../utils/safeJSONParse.js';
 
 // Single source of truth for gamification state: one monotonically
-// increasing growthValue (incremented by a fixed amount per completed
-// exercise unit, independent of correctness, retries or time — practising
-// is what's rewarded, not performance) and the classic/gamified mode
-// toggle. Consumed exclusively through GamificationContext's
-// useGamification().
+// increasing growthValue (incremented by a fixed amount each time an
+// exercise is answered correctly — see handleSuccess in
+// useExerciseSession.js; errors and skips don't increment it) and the
+// classic/gamified mode toggle. Consumed exclusively through
+// GamificationContext's useGamification().
 //
 // During a guided study-mode session (see useStudyMode.js), isGamified is
 // driven by the current block rather than this toggle — App.jsx overrides

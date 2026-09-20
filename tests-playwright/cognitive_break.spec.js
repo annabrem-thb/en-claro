@@ -20,6 +20,11 @@ test.describe('Dyslexia PWA - Przerwy Kognitywne', () => {
         'cfg_settings',
         JSON.stringify({ cognitiveBreaks: true }),
       );
+      // Study mode defaults to on (see useStudyModeState.js) and, while
+      // active, replaces the Classic/Gamified picker with a read-only
+      // status line — opt out first so "Study only" is an actual clickable
+      // button.
+      window.localStorage.setItem('studyModeEnabled', 'false');
     });
   });
   test('powinno wyświetlić powiadomienie "Czas na przerwę?" po wystąpieniu zmęczenia (serii błędów)', async ({
@@ -27,6 +32,7 @@ test.describe('Dyslexia PWA - Przerwy Kognitywne', () => {
   }) => {
     test.setTimeout(90000);
     await page.goto('/');
+    await page.locator('text=/Weiter|Next|Dalej/i').click();
     await page.locator('text=/Tylko nauka|Study only/i').click();
     await page.locator('text=/Rozpocznij|Start/i').click();
     // The CognitiveEnergyIndicator badge that used to be asserted visible
