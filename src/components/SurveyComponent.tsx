@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -9,7 +9,9 @@ import {
   GamificationFeedbackPayload,
   AppVersion,
 } from '../../public/survey';
+import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useGamification } from '../hooks/useGamification.js';
+import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
 import { safeJSONParse } from '../utils/safeJSONParse.js';
 
@@ -182,12 +184,29 @@ export const SurveyComponent: React.FC<{
   // unsent draft (see attemptCount below) from being read back as the
   // next block's answers.
   checkpointId?: string;
-}> = ({ onSubmitted, checkpointId = 'manual' }) => {
+  // Same speak(text, slow?, onEnd?) every exercise/IntroScreen/Settings
+  // gets from App.jsx — optional because the small handful of existing
+  // callers (see SurveyComponent.test.tsx, if any) don't pass it, in which
+  // case the voice-assistant announcements below simply no-op.
+  speak?: (text: string, slow?: boolean, onEnd?: () => void) => void;
+}> = ({ onSubmitted, checkpointId = 'manual', speak }) => {
   const { settings } = useUserSettingsContext();
   const { language, theme, userDifficulty, dailyGoal } = settings;
   const { isGamified } = useGamification();
+  const voiceAssistant = !!settings.voiceAssistant && !!speak;
 
   const { t } = useTranslation();
+  const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
+
+  // Mirrors SettingsModal.jsx's own cleanup: a still-pending staggered
+  // segment (see readIntroAloud/readSuccessAloud below) must not keep
+  // talking, or start talking, once this dialog has closed.
+  useEffect(() => {
+    return () => {
+      clearAllTimeouts();
+      window.speechSynthesis?.cancel();
+    };
+  }, [clearAllTimeouts]);
 
   const [nasaScores, setNasaScores] = useState<NasaTlxPayload>(
     () =>
@@ -263,8 +282,65 @@ export const SurveyComponent: React.FC<{
   // very first failure.
   const [failedAttempts, setFailedAttempts] = useState(0);
 
+  // Orients a voice-assistant user to what dialog they just landed in —
+  // same "lead with what's on screen" convention as SettingsModal's
+  // readGeneralTab, deliberately short (title + one-line description, not
+  // the privacy notice or all ~27 individual items below) since every
+  // NASA-TLX/SUS/UEQ/gamification item announces itself on interaction
+  // instead (see handleNasaCommit/handleSusChange/handleUeqChange/
+  // handleGamificationChange below) — reading all of them upfront here
+  // would mean sitting through a very long monologue before being able to
+  // answer anything.
+  const readIntroAloud = useCallback(() => {
+    if (!speak) return;
+    clearAllTimeouts();
+    const segments = [t('feedback.title'), t('feedback.desc')];
+    let delayAcc = 0;
+    segments.forEach((segment) => {
+      setSafeTimeout(() => speak(segment), delayAcc);
+      delayAcc += segment.length * 70 + 900;
+    });
+  }, [speak, t, setSafeTimeout, clearAllTimeouts]);
+  useAutoReadAloud(voiceAssistant && !isSuccess, readIntroAloud);
+
+  // Confirms the submission actually went through — the visual success
+  // screen already has role="status"/aria-live="polite" for a screen
+  // reader, but a voice-assistant user without one still needs to hear it.
+  const readSuccessAloud = useCallback(() => {
+    if (!speak) return;
+    clearAllTimeouts();
+    const segments = [
+      t('feedback.successHeading', 'Sukces!'),
+      t('feedback.thankYou'),
+    ];
+    let delayAcc = 0;
+    segments.forEach((segment) => {
+      setSafeTimeout(() => speak(segment), delayAcc);
+      delayAcc += segment.length * 70 + 900;
+    });
+  }, [speak, t, setSafeTimeout, clearAllTimeouts]);
+  useAutoReadAloud(voiceAssistant && isSuccess, readSuccessAloud);
+
+  // Shared by every SUS/UEQ/gamification radio's onChange below and the
+  // NASA slider's commit handlers further down — mirrors SettingsModal's
+  // toggle-announce convention (label + the value just chosen), except a
+  // slider only announces once the drag/keypress settles (see
+  // handleNasaCommit), not on every intermediate value while dragging.
+  const announce = (text: string) => {
+    if (!voiceAssistant || !speak) return;
+    clearAllTimeouts();
+    speak(text);
+  };
+
   const handleNasaChange = (id: keyof NasaTlxPayload, value: number) => {
     setNasaScores((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleNasaCommit = (
+    scale: { id: keyof NasaTlxPayload; label: string },
+    e: React.SyntheticEvent<HTMLInputElement>,
+  ) => {
+    announce(`${t(scale.label)}, ${e.currentTarget.value}`);
   };
 
   const handleSusChange = (id: keyof SusPayload, value: number) => {
@@ -424,7 +500,7 @@ export const SurveyComponent: React.FC<{
         className="rounded-3xl border-2 border-emerald-100 bg-emerald-50 p-8 text-center focus:outline-none"
       >
         <h2 className="mb-2 text-2xl font-black text-emerald-600">
-          🎉 {t('success', 'Sukces!')}
+          🎉 {t('feedback.successHeading', 'Sukces!')}
         </h2>
         <p className="font-medium text-slate-600">
           {t('feedback.thankYou', 'Dziękujemy za Twoją opinię!')}
@@ -497,6 +573,9 @@ export const SurveyComponent: React.FC<{
                 onChange={(e) =>
                   handleNasaChange(scale.id, parseInt(e.target.value, 10))
                 }
+                onMouseUp={(e) => handleNasaCommit(scale, e)}
+                onTouchEnd={(e) => handleNasaCommit(scale, e)}
+                onKeyUp={(e) => handleNasaCommit(scale, e)}
                 className="mt-2 h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-200 accent-indigo-600 focus:ring-4 focus:ring-indigo-100 focus:outline-none"
               />
               <div className="mt-1 flex justify-between text-[10px] font-bold tracking-widest text-slate-400 uppercase">
@@ -559,7 +638,10 @@ export const SurveyComponent: React.FC<{
                         name={scale.id}
                         value={val}
                         checked={susScores[scale.id] === val}
-                        onChange={() => handleSusChange(scale.id, val)}
+                        onChange={() => {
+                          handleSusChange(scale.id, val);
+                          announce(`${t(scale.label)}, ${val}`);
+                        }}
                         className="h-6 w-6 appearance-none rounded-full border-2 border-slate-300 transition-all group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 md:h-7 md:w-7"
                         aria-label={t('feedback.rateAria', {
                           value: val,
@@ -627,7 +709,12 @@ export const SurveyComponent: React.FC<{
                       name={scale.id}
                       value={val}
                       checked={ueqScores[scale.id] === val}
-                      onChange={() => handleUeqChange(scale.id, val)}
+                      onChange={() => {
+                        handleUeqChange(scale.id, val);
+                        announce(
+                          `${t(scale.negLabel)} – ${t(scale.posLabel)}, ${val}`,
+                        );
+                      }}
                       className="h-6 w-6 appearance-none rounded-full border-2 border-slate-300 transition-all group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 md:h-7 md:w-7"
                       aria-label={t('feedback.rateAria', {
                         value: val,
@@ -684,9 +771,10 @@ export const SurveyComponent: React.FC<{
                           name={scale.id}
                           value={val}
                           checked={gamificationFeedback[scale.id] === val}
-                          onChange={() =>
-                            handleGamificationChange(scale.id, val)
-                          }
+                          onChange={() => {
+                            handleGamificationChange(scale.id, val);
+                            announce(`${t(scale.label)}, ${val}`);
+                          }}
                           className="h-6 w-6 appearance-none rounded-full border-2 border-slate-300 transition-all group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 md:h-7 md:w-7"
                           aria-label={t('feedback.rateAria', {
                             value: val,

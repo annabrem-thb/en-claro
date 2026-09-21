@@ -1280,6 +1280,7 @@ function AppContent() {
               setShowFeedback(false);
               setSurveyOpenedManually(false);
             }}
+            speak={speak}
           />
         </Suspense>
       </Dialog>
