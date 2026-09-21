@@ -38,7 +38,15 @@
     "usual": "Gewöhnlich",
     "leadingEdge": "Führend"
   },
-  "rateAria": "{{value}} von 5 bewerten",
+  "gamificationTitle": "Spielelemente",
+  "gamification": {
+    "gardenMotivation": "Das Wachsen meines Gartens hat mich motiviert, weiterzumachen.",
+    "badgeMotivation": "Die Erfolgsabzeichen haben mich zusätzlich motiviert.",
+    "distraction": "Die Spielelemente haben mich von den Übungen abgelenkt.",
+    "elementFeedbackLabel": "Was hat dir an Garten, Abzeichen oder Fortschrittsanzeige am meisten geholfen oder am meisten gestört? (optional)",
+    "elementFeedbackPlaceholder": "Deine Antwort..."
+  },
+  "rateAria": "{{value}} von {{max}} bewerten",
   "submit": "Feedback senden",
   "skip": "Diesmal überspringen",
   "offlineNotice": "Verbindung zum Server fehlgeschlagen. Deine Antworten sind auf diesem Gerät gespeichert — du kannst fortfahren, wir fragen später erneut.",

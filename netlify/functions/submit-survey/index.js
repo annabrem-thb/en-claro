@@ -95,6 +95,26 @@ function buildDbData(payload) {
     sus_q08: payload.sus08,
     sus_q09: payload.sus09,
     sus_q10: payload.sus10,
+
+    // UEQ-S: SurveyComponent.tsx spreads `...ueqScores` (a UeqPayload)
+    // with keys ueq01..ueq08, same convention as sus01..sus10 above.
+    ueq_q01: payload.ueq01,
+    ueq_q02: payload.ueq02,
+    ueq_q03: payload.ueq03,
+    ueq_q04: payload.ueq04,
+    ueq_q05: payload.ueq05,
+    ueq_q06: payload.ueq06,
+    ueq_q07: payload.ueq07,
+    ueq_q08: payload.ueq08,
+
+    // Gamification-element feedback: only present in the payload for a
+    // gamified submission (SurveyComponent.tsx only spreads it when
+    // isGamified) — undefined/NULL here correctly means "not applicable"
+    // for a basis-version submission, not a dropped answer.
+    garden_motivation: payload.gardenMotivation,
+    badge_motivation: payload.badgeMotivation,
+    game_distraction: payload.gameDistraction,
+    game_element_feedback: payload.gameElementFeedback || null,
   };
 }
 
@@ -141,6 +161,17 @@ function validatePayload(payload) {
     'sus08',
     'sus09',
     'sus10',
+    'ueq01',
+    'ueq02',
+    'ueq03',
+    'ueq04',
+    'ueq05',
+    'ueq06',
+    'ueq07',
+    'ueq08',
+    'gardenMotivation',
+    'badgeMotivation',
+    'gameDistraction',
     'userDifficulty',
     'dailyGoal',
   ];
@@ -156,6 +187,7 @@ function validatePayload(payload) {
     'userLanguage',
     'theme',
     'localTimestamp',
+    'gameElementFeedback',
   ];
   for (const field of stringFields) {
     if (payload[field] !== undefined && !isPlainString(payload[field])) {

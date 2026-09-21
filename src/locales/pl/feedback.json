@@ -38,7 +38,15 @@
     "usual": "Zwyczajny",
     "leadingEdge": "Nowatorski"
   },
-  "rateAria": "Oceń {{value}} na 5",
+  "gamificationTitle": "Elementy grywalizacji",
+  "gamification": {
+    "gardenMotivation": "Rosnący ogród motywował mnie do dalszej pracy.",
+    "badgeMotivation": "Odznaki za osiągnięcia dodatkowo mnie motywowały.",
+    "distraction": "Elementy grywalizacji rozpraszały mnie podczas ćwiczeń.",
+    "elementFeedbackLabel": "Co w ogrodzie, odznakach lub wskaźniku postępu pomogło Ci najbardziej, a co najbardziej przeszkadzało? (opcjonalnie)",
+    "elementFeedbackPlaceholder": "Twoja odpowiedź..."
+  },
+  "rateAria": "Oceń {{value}} na {{max}}",
   "submit": "Zapisz i kontynuuj",
   "skip": "Pomiń tym razem",
   "offlineNotice": "Nie udało się połączyć z serwerem. Twoje odpowiedzi są zapisane na tym urządzeniu — możesz kontynuować, zapytamy o nie ponownie później.",
