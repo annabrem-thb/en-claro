@@ -50,6 +50,7 @@
   "submit": "Zapisz i kontynuuj",
   "skip": "Pomiń tym razem",
   "offlineNotice": "Nie udało się połączyć z serwerem. Twoje odpowiedzi są zapisane na tym urządzeniu — możesz kontynuować, zapytamy o nie ponownie później.",
+  "successHeading": "Sukces!",
   "thankYou": "Dziękujemy za Twoją opinię!",
   "correct": "Poprawnie.",
   "correctWithRule": "Poprawnie. Zasada: {{rule}}",
