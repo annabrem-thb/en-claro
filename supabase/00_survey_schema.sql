@@ -81,10 +81,15 @@ CREATE TABLE IF NOT EXISTS public.ab_study_submissions (
 ALTER TABLE public.ab_study_submissions ENABLE ROW LEVEL SECURITY;
 
 -- Allow read access for the frontend to render charts
+-- Postgres has no `CREATE POLICY IF NOT EXISTS`, so DROP first — makes
+-- re-running this whole file against a database that already has these
+-- safe, instead of failing with "policy ... already exists".
+DROP POLICY IF EXISTS "Allow public read access for charts" ON public.ab_study_submissions;
 CREATE POLICY "Allow public read access for charts" ON public.ab_study_submissions
     FOR SELECT TO anon, authenticated USING (true);
 
 -- Allow insert access for the survey form submissions
+DROP POLICY IF EXISTS "Allow anonymous inserts" ON public.ab_study_submissions;
 CREATE POLICY "Allow anonymous inserts" ON public.ab_study_submissions
     FOR INSERT TO anon, authenticated WITH CHECK (true);
 
