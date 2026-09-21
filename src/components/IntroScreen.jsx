@@ -753,7 +753,7 @@ function IntroScreen({ onStart, speak }) {
             {step === 1 ? (
               <button
                 onClick={goToStep2}
-                className={`w-full shrink-0 rounded-xl font-black tracking-widest uppercase transition-all active:scale-95 sm:rounded-2xl ${
+                className={`min-w-0 flex-1 rounded-xl font-black tracking-widest uppercase transition-all active:scale-95 sm:rounded-2xl ${
                   bigTargets
                     ? 'py-3 text-sm sm:py-4 sm:text-lg'
                     : 'py-2.5 text-sm sm:py-3'
@@ -767,7 +767,7 @@ function IntroScreen({ onStart, speak }) {
                   if (settings.voiceAssistant && speak) speak(t('start', 'Start'));
                   onStart();
                 }}
-                className={`w-full shrink-0 rounded-xl font-black tracking-widest uppercase transition-all active:scale-95 sm:rounded-2xl ${
+                className={`min-w-0 flex-1 rounded-xl font-black tracking-widest uppercase transition-all active:scale-95 sm:rounded-2xl ${
                   bigTargets
                     ? 'py-3 text-sm sm:py-4 sm:text-lg'
                     : 'py-2.5 text-sm sm:py-3'
