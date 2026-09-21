@@ -50,6 +50,7 @@
   "submit": "Save and continue",
   "skip": "Skip this time",
   "offlineNotice": "We couldn't reach the server. Your answers are saved on this device — you can continue, and we'll ask again later.",
+  "successHeading": "Success!",
   "thankYou": "Thank you for your feedback!",
   "correct": "Correct.",
   "correctWithRule": "Correct. Rule: {{rule}}",

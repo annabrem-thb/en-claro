@@ -50,6 +50,7 @@
   "submit": "Feedback senden",
   "skip": "Diesmal überspringen",
   "offlineNotice": "Verbindung zum Server fehlgeschlagen. Deine Antworten sind auf diesem Gerät gespeichert — du kannst fortfahren, wir fragen später erneut.",
+  "successHeading": "Erfolg!",
   "thankYou": "Vielen Dank für Ihr Feedback!",
   "correct": "Richtig.",
   "correctWithRule": "Richtig. Regel: {{rule}}",
