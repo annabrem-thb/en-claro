@@ -2,7 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { NasaTlxPayload, SusPayload, AppVersion } from '../../public/survey';
+import {
+  NasaTlxPayload,
+  SusPayload,
+  UeqPayload,
+  GamificationFeedbackPayload,
+  AppVersion,
+} from '../../public/survey';
 import { useGamification } from '../hooks/useGamification.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
 import { safeJSONParse } from '../utils/safeJSONParse.js';
@@ -15,7 +21,12 @@ import { safeJSONParse } from '../utils/safeJSONParse.js';
 // must not load a previous, unrelated block's abandoned answers.
 const SURVEY_DRAFT_KEY_PREFIX = 'enclaro:survey:v1:';
 
-type SurveyDraft = { nasaScores: NasaTlxPayload; susScores: SusPayload };
+type SurveyDraft = {
+  nasaScores: NasaTlxPayload;
+  susScores: SusPayload;
+  ueqScores: UeqPayload;
+  gamificationFeedback: GamificationFeedbackPayload;
+};
 
 // Every localStorage access here is wrapped: private-browsing modes and a
 // full storage quota can make both getItem and setItem throw, and losing a
@@ -102,6 +113,67 @@ const SUS_SCALES: Array<{ id: keyof SusPayload; label: string }> = [
   { id: 'sus10', label: 'survey.sus.q10' },
 ];
 
+// Standard UEQ-S item order: the first 4 pairs load onto the pragmatic
+// quality factor, the last 4 onto hedonic quality.
+const UEQ_SCALES: Array<{
+  id: keyof UeqPayload;
+  negLabel: string;
+  posLabel: string;
+}> = [
+  {
+    id: 'ueq01',
+    negLabel: 'feedback.ueq.obstructive',
+    posLabel: 'feedback.ueq.supportive',
+  },
+  {
+    id: 'ueq02',
+    negLabel: 'feedback.ueq.complicated',
+    posLabel: 'feedback.ueq.easy',
+  },
+  {
+    id: 'ueq03',
+    negLabel: 'feedback.ueq.inefficient',
+    posLabel: 'feedback.ueq.efficient',
+  },
+  {
+    id: 'ueq04',
+    negLabel: 'feedback.ueq.confusing',
+    posLabel: 'feedback.ueq.clear',
+  },
+  {
+    id: 'ueq05',
+    negLabel: 'feedback.ueq.boring',
+    posLabel: 'feedback.ueq.exciting',
+  },
+  {
+    id: 'ueq06',
+    negLabel: 'feedback.ueq.notInteresting',
+    posLabel: 'feedback.ueq.interesting',
+  },
+  {
+    id: 'ueq07',
+    negLabel: 'feedback.ueq.conventional',
+    posLabel: 'feedback.ueq.inventive',
+  },
+  {
+    id: 'ueq08',
+    negLabel: 'feedback.ueq.usual',
+    posLabel: 'feedback.ueq.leadingEdge',
+  },
+];
+
+// Only asked for a gamified session (see the isGamified gate around its
+// fieldset below) — these target game elements a basis-version session
+// never shows, so they'd be meaningless there.
+const GAMIFICATION_SCALES: Array<{
+  id: 'gardenMotivation' | 'badgeMotivation' | 'gameDistraction';
+  label: string;
+}> = [
+  { id: 'gardenMotivation', label: 'feedback.gamification.gardenMotivation' },
+  { id: 'badgeMotivation', label: 'feedback.gamification.badgeMotivation' },
+  { id: 'gameDistraction', label: 'feedback.gamification.distraction' },
+];
+
 export const SurveyComponent: React.FC<{
   onSubmitted?: () => void;
   // Which draft slot this survey occurrence reads/writes/clears — a study
@@ -145,13 +217,43 @@ export const SurveyComponent: React.FC<{
       },
   );
 
+  const [ueqScores, setUeqScores] = useState<UeqPayload>(
+    () =>
+      readSurveyDraft(checkpointId)?.ueqScores ?? {
+        ueq01: 4,
+        ueq02: 4,
+        ueq03: 4,
+        ueq04: 4,
+        ueq05: 4,
+        ueq06: 4,
+        ueq07: 4,
+        ueq08: 4,
+      },
+  );
+
+  const [gamificationFeedback, setGamificationFeedback] =
+    useState<GamificationFeedbackPayload>(
+      () =>
+        readSurveyDraft(checkpointId)?.gamificationFeedback ?? {
+          gardenMotivation: 3,
+          badgeMotivation: 3,
+          gameDistraction: 3,
+          gameElementFeedback: '',
+        },
+    );
+
   // Autosaves on every change so a lost tab (crash, accidental reload,
-  // closed by mistake) doesn't take an in-progress NASA-TLX/SUS response
-  // with it — restored above on next mount, cleared only once the survey
-  // actually reaches the server (see handleSubmit's success path).
+  // closed by mistake) doesn't take an in-progress NASA-TLX/SUS/UEQ
+  // response with it — restored above on next mount, cleared only once the
+  // survey actually reaches the server (see handleSubmit's success path).
   useEffect(() => {
-    writeSurveyDraft(checkpointId, { nasaScores, susScores });
-  }, [checkpointId, nasaScores, susScores]);
+    writeSurveyDraft(checkpointId, {
+      nasaScores,
+      susScores,
+      ueqScores,
+      gamificationFeedback,
+    });
+  }, [checkpointId, nasaScores, susScores, ueqScores, gamificationFeedback]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -167,6 +269,17 @@ export const SurveyComponent: React.FC<{
 
   const handleSusChange = (id: keyof SusPayload, value: number) => {
     setSusScores((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleUeqChange = (id: keyof UeqPayload, value: number) => {
+    setUeqScores((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleGamificationChange = (
+    id: 'gardenMotivation' | 'badgeMotivation' | 'gameDistraction',
+    value: number,
+  ) => {
+    setGamificationFeedback((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -227,6 +340,11 @@ export const SurveyComponent: React.FC<{
       const payload = {
         ...nasaScores,
         ...susScores,
+        ...ueqScores,
+        // Only meaningful for the gamified condition — a basis-version
+        // session never shows these elements, so they're left out of the
+        // payload entirely rather than submitted as a meaningless score.
+        ...(isGamified ? gamificationFeedback : {}),
         participantId,
         appVersion,
         userLanguage: language,
@@ -445,6 +563,7 @@ export const SurveyComponent: React.FC<{
                         className="h-6 w-6 appearance-none rounded-full border-2 border-slate-300 transition-all group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 md:h-7 md:w-7"
                         aria-label={t('feedback.rateAria', {
                           value: val,
+                          max: 5,
                           defaultValue: `Rate ${val} out of 5`,
                         })}
                       />
@@ -468,6 +587,159 @@ export const SurveyComponent: React.FC<{
           ))}
         </div>
       </fieldset>
+
+      {}
+      <fieldset className="flex min-w-0 flex-col gap-4">
+        <legend className="mb-4 w-full border-b pb-2 text-lg font-black tracking-widest text-slate-400 uppercase">
+          {t('feedback.ueqTitle')}
+        </legend>
+        <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
+          {UEQ_SCALES.map((scale) => (
+            <div
+              key={scale.id}
+              className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4"
+            >
+              <div
+                id={`label-${scale.id}`}
+                className="flex w-full items-start justify-between gap-2"
+              >
+                <span className="min-w-0 flex-1 text-left text-sm font-bold text-slate-700">
+                  {t(scale.negLabel)}
+                </span>
+                <span className="min-w-0 flex-1 text-right text-sm font-bold text-slate-700">
+                  {t(scale.posLabel)}
+                </span>
+              </div>
+
+              <div
+                className="flex flex-wrap items-center justify-center gap-2 md:gap-3"
+                role="radiogroup"
+                aria-labelledby={`label-${scale.id}`}
+              >
+                {[1, 2, 3, 4, 5, 6, 7].map((val) => (
+                  <label
+                    key={`${scale.id}-${val}`}
+                    className="group relative flex cursor-pointer flex-col items-center p-1"
+                  >
+                    <span className="sr-only">{val}</span>
+                    <input
+                      type="radio"
+                      name={scale.id}
+                      value={val}
+                      checked={ueqScores[scale.id] === val}
+                      onChange={() => handleUeqChange(scale.id, val)}
+                      className="h-6 w-6 appearance-none rounded-full border-2 border-slate-300 transition-all group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 md:h-7 md:w-7"
+                      aria-label={t('feedback.rateAria', {
+                        value: val,
+                        max: 7,
+                        defaultValue: `Rate ${val} out of 7`,
+                      })}
+                    />
+                  </label>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </fieldset>
+
+      {}
+      {/* Only a gamified session ever shows a garden, badges, or the
+          progress indicator these three items ask about — a basis-version
+          session skips this fieldset entirely rather than asking about
+          elements the participant never saw (see isGamified in the
+          payload construction above, which mirrors this same gate). */}
+      {isGamified && (
+        <fieldset className="flex min-w-0 flex-col gap-4">
+          <legend className="mb-4 w-full border-b pb-2 text-lg font-black tracking-widest text-slate-400 uppercase">
+            {t('feedback.gamificationTitle')}
+          </legend>
+          <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
+            {GAMIFICATION_SCALES.map((scale) => (
+              <div
+                key={scale.id}
+                className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4"
+              >
+                <label
+                  id={`label-${scale.id}`}
+                  className="block text-sm leading-snug font-bold text-slate-700"
+                >
+                  {t(scale.label)}
+                </label>
+
+                <div className="mt-2 flex flex-col items-center gap-3">
+                  <div
+                    className="flex flex-wrap items-center justify-center gap-3 md:gap-4"
+                    role="radiogroup"
+                    aria-labelledby={`label-${scale.id}`}
+                  >
+                    {[1, 2, 3, 4, 5].map((val) => (
+                      <label
+                        key={`${scale.id}-${val}`}
+                        className="group relative flex cursor-pointer flex-col items-center p-1"
+                      >
+                        <span className="sr-only">{val}</span>
+                        <input
+                          type="radio"
+                          name={scale.id}
+                          value={val}
+                          checked={gamificationFeedback[scale.id] === val}
+                          onChange={() =>
+                            handleGamificationChange(scale.id, val)
+                          }
+                          className="h-6 w-6 appearance-none rounded-full border-2 border-slate-300 transition-all group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 md:h-7 md:w-7"
+                          aria-label={t('feedback.rateAria', {
+                            value: val,
+                            max: 5,
+                            defaultValue: `Rate ${val} out of 5`,
+                          })}
+                        />
+                      </label>
+                    ))}
+                  </div>
+
+                  <div className="flex w-full items-start justify-between gap-2">
+                    <span className="min-w-0 flex-1 text-center text-[10px] leading-tight font-bold text-slate-400 sm:text-xs">
+                      {t(
+                        'survey.susAnchors.stronglyDisagree',
+                        'Strongly Disagree',
+                      )}
+                    </span>
+                    <span className="min-w-0 flex-1 text-center text-[10px] leading-tight font-bold text-slate-400 sm:text-xs">
+                      {t('survey.susAnchors.stronglyAgree', 'Strongly Agree')}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            <div className="flex flex-col gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-4 lg:col-span-2">
+              <label
+                htmlFor="gameElementFeedback"
+                className="block text-sm leading-snug font-bold text-slate-700"
+              >
+                {t('feedback.gamification.elementFeedbackLabel')}
+              </label>
+              <textarea
+                id="gameElementFeedback"
+                value={gamificationFeedback.gameElementFeedback}
+                onChange={(e) =>
+                  setGamificationFeedback((prev) => ({
+                    ...prev,
+                    gameElementFeedback: e.target.value,
+                  }))
+                }
+                maxLength={500}
+                rows={3}
+                placeholder={t(
+                  'feedback.gamification.elementFeedbackPlaceholder',
+                )}
+                className="w-full resize-none rounded-xl border border-slate-200 bg-white p-3 text-sm text-slate-700 focus:ring-4 focus:ring-indigo-100 focus:outline-none"
+              />
+            </div>
+          </div>
+        </fieldset>
+      )}
 
       {}
       {error && (

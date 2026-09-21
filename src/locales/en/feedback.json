@@ -38,7 +38,15 @@
     "usual": "Usual",
     "leadingEdge": "Leading edge"
   },
-  "rateAria": "Rate {{value}} out of 5",
+  "gamificationTitle": "Game Elements",
+  "gamification": {
+    "gardenMotivation": "The growing garden motivated me to keep going.",
+    "badgeMotivation": "The achievement badges motivated me additionally.",
+    "distraction": "The game elements distracted me from the exercises.",
+    "elementFeedbackLabel": "What about the garden, badges, or progress indicator helped or bothered you most? (optional)",
+    "elementFeedbackPlaceholder": "Your answer..."
+  },
+  "rateAria": "Rate {{value}} out of {{max}}",
   "submit": "Save and continue",
   "skip": "Skip this time",
   "offlineNotice": "We couldn't reach the server. Your answers are saved on this device — you can continue, and we'll ask again later.",
