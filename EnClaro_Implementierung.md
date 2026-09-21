@@ -98,7 +98,7 @@ Verzeichnisbaum (2 Ebenen, projektrelevante Verzeichnisse; `node_modules/`, `.gi
 ├── playwright.config.js
 ├── postcss.config.js
 ├── scripts/
-│   ├── export-netlify-forms.js   # manueller CSV-Export der Supabase-Umfragedaten
+│   ├── export-survey-data.js   # manueller CSV-Export der Supabase-Umfragedaten (bis vor Kurzem: export-netlify-forms.js — siehe Abschnitt 12)
 │   └── export-survey-workflow.yml.example
 ├── src/
 │   ├── components/
@@ -106,9 +106,9 @@ Verzeichnisbaum (2 Ebenen, projektrelevante Verzeichnisse; `node_modules/`, `.gi
 │   │   ├── exercises/          # eine Komponente je Übungstyp (19 Dateien)
 │   │   ├── App.jsx             # zentrale Orchestrierung: Session, Navigation, Provider-Verkabelung
 │   │   ├── GamificationContext.jsx / StudyModeContext.jsx / UserSettingsContext.jsx
-│   │   ├── VirtualGarden.jsx, SettingsModal.jsx, SurveyComponent.tsx, IntroScreen.jsx, …
-│   ├── data/                   # Vokabular-/Übungsdatenbanken je Sprache, Themes, Exercise-Registry
-│   ├── hooks/                  # 27 Custom Hooks (Zustand, TTS/STT, IndexedDB, Gamification, Study Mode, …)
+│   │   ├── VirtualGarden.jsx, SettingsModal.jsx, SurveyComponent.tsx, IntroScreen.jsx, AchievementToast.jsx, …
+│   ├── data/                   # Vokabular-/Übungsdatenbanken je Sprache, Themes, Exercise-Registry, achievements.js (Badge-Registry)
+│   ├── hooks/                  # 26 Custom Hooks (Zustand, TTS/STT, IndexedDB, Gamification, Study Mode, Achievements, …)
 │   ├── i18n/
 │   │   └── config.ts           # i18next-Initialisierung
 │   ├── locales/                # Übersetzungs-JSON je Sprache (de/, en/, pl/) + Merge-Module
@@ -120,7 +120,7 @@ Verzeichnisbaum (2 Ebenen, projektrelevante Verzeichnisse; `node_modules/`, `.gi
 │   └── functions/submit-survey/  # einzige serverseitige Funktion (siehe Abschnitt 5)
 ├── supabase/
 │   └── 00_survey_schema.sql    # SQL-Schema + RLS-Policies für die Studien-Tabelle
-├── public/                     # statische Assets, Icons, netlify-forms.html (siehe Abschnitt 12), survey.ts (TS-Typen)
+├── public/                     # statische Assets, Icons, survey.ts (TS-Typen)
 ├── tests-playwright/           # E2E- und Accessibility-Suiten
 └── .github/workflows/ci.yml    # CI-Pipeline
 ```
@@ -186,15 +186,20 @@ Quelle: `supabase/00_survey_schema.sql:5-36`. Einzige Tabelle: `public.ab_study_
 | `theme`, `a11y_addons`, `inclusive_options`, `user_difficulty`, `daily_goal` | `TEXT`/`TEXT` (JSON-String)/`SMALLINT` | App-Konfigurationskontext zum Einreichungszeitpunkt |
 | `mental_demand`, `physical_demand`, `temporal_demand`, `performance`, `effort`, `frustration` | `SMALLINT` (0–100) | NASA-Raw-TLX-Werte |
 | `sus_q01` … `sus_q10` | `SMALLINT` (1–5) | System-Usability-Scale-Antworten |
+| `ueq_q01` … `ueq_q08` | `SMALLINT` (1–7) | UEQ-Short-Antworten (User Experience Questionnaire, bipolare Item-Paare) — seit Kurzem ergänzt (`supabase/00_survey_schema.sql:37-41`); Details siehe Abschnitt 11. |
+| `garden_motivation`, `badge_motivation`, `game_distraction` | `SMALLINT` (1–5), nullable | Grywalizations-spezifisches Feedback (Garten-/Abzeichen-Motivation, Ablenkung) — nur bei `app_version = 'gamified'` befüllt, bei `'basic'` bewusst `NULL` (`supabase/00_survey_schema.sql:45-47`). |
+| `game_element_feedback` | `TEXT`, nullable | Freitext-Antwort zu Spielelementen, optional, max. 500 Zeichen (serverseitig erzwungen, siehe unten); ebenfalls nur für die gamifizierte Bedingung (`supabase/00_survey_schema.sql:48`). |
 
-Ein auskommentierter Migrationsblock (`supabase/00_survey_schema.sql:38-45`) dokumentiert, dass frühere Schema-Versionen zusätzlich `study_group`/`study_phase`-Spalten aus einem inzwischen entfernten Feature (`useStudyModeState.js`, im aktuellen Code nicht mehr vorhanden) angelegt haben könnten — die App schreibt diese Spalten nicht mehr.
+Zwei auskommentierte Migrationsblöcke dokumentieren nachträgliche Schemaänderungen: `supabase/00_survey_schema.sql:51-69` (`ALTER TABLE ... ADD COLUMN IF NOT EXISTS`) ist eine idempotente Nachrüst-Migration der UEQ-Short-/Grywalizations-Spalten für bereits bestehende Datenbanken, auf die der (nur bei Neuanlage wirksame) `CREATE TABLE IF NOT EXISTS`-Befehl oben keine Wirkung mehr hat; `:71-78` dokumentiert, dass frühere Schema-Versionen zusätzlich `study_group`/`study_phase`-Spalten aus einem inzwischen entfernten Feature (`useStudyModeState.js`, im aktuellen Code nicht mehr vorhanden) angelegt haben könnten — die App schreibt diese Spalten nicht mehr.
 
 ### Row Level Security
 
-RLS ist aktiviert (`ALTER TABLE ... ENABLE ROW LEVEL SECURITY`, `supabase/00_survey_schema.sql:48`) mit zwei Policies:
+RLS ist aktiviert (`ALTER TABLE ... ENABLE ROW LEVEL SECURITY`, `supabase/00_survey_schema.sql:81`) mit zwei Policies:
 
-- `"Allow public read access for charts"`: `SELECT` für Rollen `anon, authenticated`, `USING (true)` — uneingeschränkter Lesezugriff (`:51-52`).
-- `"Allow anonymous inserts"`: `INSERT` für Rollen `anon, authenticated`, `WITH CHECK (true)` — uneingeschränkter Schreibzugriff (`:55-56`), zusätzlich per `GRANT SELECT, INSERT` bestätigt (`:59`).
+- `"Allow public read access for charts"`: `SELECT` für Rollen `anon, authenticated`, `USING (true)` — uneingeschränkter Lesezugriff (`:88-89`).
+- `"Allow anonymous inserts"`: `INSERT` für Rollen `anon, authenticated`, `WITH CHECK (true)` — uneingeschränkter Schreibzugriff (`:93-94`), zusätzlich per `GRANT SELECT, INSERT` bestätigt (`:97`).
+
+Beide `CREATE POLICY`-Anweisungen sind jeweils einem `DROP POLICY IF EXISTS ...` vorangestellt (`:87, 92`) — Postgres kennt kein `CREATE POLICY IF NOT EXISTS`; ohne dieses `DROP` schlägt ein erneutes Ausführen des gesamten Skripts gegen eine bereits initialisierte Datenbank mit „policy ... already exists" fehl (in der Praxis beobachtet, siehe Abschnitt 12).
 
 **Faktischer Zugriffsweg in diesem Repository:** Die einzige tatsächlich schreibende Komponente, `netlify/functions/submit-survey/index.js:211-220`, verwendet `SUPABASE_SERVICE_ROLE_KEY` (nicht den `anon`-Key) — der `service_role`-Client umgeht RLS grundsätzlich. Da im Frontend kein Supabase-Client mit `anon`-Key existiert, werden die beiden oben genannten `anon`/`authenticated`-Policies durch den im Repository vorhandenen Code **nicht genutzt**; sie wären nur relevant, wenn irgendwo (außerhalb dieses Repos) der `anon`-Key clientseitig eingesetzt würde. UNKLAR, ob dies für ein zukünftiges Dashboard vorgesehen ist — im Code findet sich dazu kein Hinweis.
 
@@ -246,16 +251,16 @@ Quelle: `netlify.toml`.
 
 Kein anwendungsspezifisches ARIA-Framework, sondern konsequente Wiederverwendung weniger zentraler Komponenten, die ARIA-Attribute einmal korrekt implementieren:
 
-- **Dialoge:** ausschließlich über `src/components/common/Dialog.jsx`, das `role="dialog"` (via `useRole` aus `@floating-ui/react`), `aria-modal="true"` sowie `aria-labelledby`/`aria-label` setzt (`Dialog.jsx:42-43, 61-63`). Genutzt u. a. von `SettingsModal.jsx`, `SurveyComponent.tsx`, `MicHelpModal.jsx`, `LocalVoiceConsentModal.jsx`, dem Workload-Check-in in `VirtualGarden.jsx:351-357`.
-- **Statusmeldungen:** `role="status"` + `aria-live="polite"` für nicht-dringende Rückmeldungen (z. B. `VirtualGarden.jsx:293-295` Bildschirmleser-Live-Region, `LevelUpModal.jsx:27-29`, `SurveyComponent.tsx:303-304` Erfolgs-Bestätigung); `role="alert"`/`aria-live="assertive"` für dringende Updates (z. B. PWA-Update-Banner).
-- **Radiogruppen mit Pfeiltasten-Navigation:** z. B. der Workload-Check-in in `VirtualGarden.jsx:377-419` (`role="radiogroup"`, `aria-labelledby`, roving `tabIndex`, Pfeiltasten zyklisch über `handleRatingKeyDown`, `VirtualGarden.jsx:214-226`) sowie die SUS-Bewertungsskalen in `SurveyComponent.tsx:427-453`.
+- **Dialoge:** ausschließlich über `src/components/common/Dialog.jsx`, das `role="dialog"` (via `useRole` aus `@floating-ui/react`), `aria-modal="true"` sowie `aria-labelledby`/`aria-label` setzt (`Dialog.jsx:42-43, 61-63`). Genutzt u. a. von `SettingsModal.jsx`, `SurveyComponent.tsx`, `MicHelpModal.jsx`, `LocalVoiceConsentModal.jsx`, dem Workload-Check-in in `VirtualGarden.jsx:389-395`.
+- **Statusmeldungen:** `role="status"` + `aria-live="polite"` für nicht-dringende Rückmeldungen (z. B. `VirtualGarden.jsx:288-290` Bildschirmleser-Live-Region, `LevelUpModal.jsx:27-29`, `SurveyComponent.tsx:303-304` Erfolgs-Bestätigung); `role="alert"`/`aria-live="assertive"` für dringende Updates (z. B. PWA-Update-Banner).
+- **Radiogruppen mit Pfeiltasten-Navigation:** z. B. der Workload-Check-in in `VirtualGarden.jsx:415-443` (`role="radiogroup"`, `aria-labelledby`, roving `tabIndex`, Pfeiltasten zyklisch über `handleRatingKeyDown`, `VirtualGarden.jsx:214-226`) sowie die SUS-Bewertungsskalen in `SurveyComponent.tsx:427-453`.
 - **Tabs (Settings-Modal):** WAI-ARIA-APG-Tabs-Muster mit roving `tabIndex` — nur der aktive Tab ist im normalen Tab-Fokusfluss, Pfeiltasten/`Home`/`End` wechseln zwischen den vier Tabs „Allgemein", „Barrierefreiheit", „Übungen", „Shop" (`src/components/SettingsModal.jsx:656-689`).
 - **`<legend><h2>`-Kombination** auf dem Intro-Screen (`src/components/IntroScreen.jsx:247-256` u. a.): ermöglicht sowohl eine per Screenreader-Überschriftennavigation erreichbare `<h2>` als auch eine korrekte `<fieldset>`-Gruppenbeschriftung — Kommentar begründet dies mit einem axe-core-`aria-allowed-role`-Konflikt bei `role="heading"` direkt auf `<legend>`.
 - ESLint erzwingt einen `strict`-jsx-a11y-Regelsatz bereits zur Lint-Zeit (`eslint.config.js:23-27`), zusätzlich automatisierte Laufzeit-Prüfung per `@axe-core/playwright` in `tests-playwright/accessibility.spec.js` gegen `wcag2a/wcag2aa/wcag21a/wcag21aa`-Tags (siehe Abschnitt 12).
 
 ### Tastaturbedienung
 
-`src/hooks/useKeyboardShortcuts.js`, aktiv nur außerhalb fokusgefangener Dialoge (`enabled: !settingsOpen && !showFeedback && !showSuccess && !showBreakModal`, `App.jsx:652`):
+`src/hooks/useKeyboardShortcuts.js`, aktiv nur außerhalb fokusgefangener Dialoge (`enabled: !settingsOpen && !showFeedback && !showSuccess && !showBreakModal`, `App.jsx:673`):
 
 - Ohne Modifier: `ArrowRight`/`Enter` → nächste Aufgabe, `ArrowLeft` → vorherige Aufgabe (außer der Fokus liegt auf einem eigenständig interaktiven Element wie Button/Link oder einem lokalen Arrow-Key-Widget, z. B. `role="radio"`/`slider`/`listbox`).
 - Mit Strg/Cmd/Alt: `,` → Einstellungen öffnen; `s` → Umfrage öffnen; **`1`/`2`/`3`** → Literacy/Visual/Cognitive-Tab (immer verfügbar); **`4`** → Garten-Tab, aber **nur wenn der Gamification-Modus aktiv ist** (`NUMBER_KEY_TO_PILLAR_INDEX`, `useKeyboardShortcuts.js:3, 97-99`) — die README-Aussage „Ctrl+1–4 shortcuts" (`README.md:23`) differenziert diese Einschränkung nicht.
@@ -263,7 +268,7 @@ Kein anwendungsspezifisches ARIA-Framework, sondern konsequente Wiederverwendung
 ### Fokus-Management
 
 - Zentraler Fokus-Trap für alle Dialoge über `@floating-ui/react`s `FloatingFocusManager` (`Dialog.jsx:51`) — bewegt den Fokus beim Öffnen in den Dialog und beim Schließen zurück zum auslösenden Element; Escape/Klick-außerhalb über `useDismiss` (`Dialog.jsx:42`).
-- „Skip to main content"-Link mit **manueller** Fokussierung von `#main-content` statt Standard-Anker-Verhalten, da der Hash-Router `#main-content` sonst als unbekanntes Routensegment interpretieren und zum Intro-Screen zurückspringen würde (`App.jsx:753-774`); `<main id="main-content" tabIndex={-1}>` ist das programmatisch fokussierbare Ziel (`App.jsx:840-843`).
+- „Skip to main content"-Link mit **manueller** Fokussierung von `#main-content` statt Standard-Anker-Verhalten, da der Hash-Router `#main-content` sonst als unbekanntes Routensegment interpretieren und zum Intro-Screen zurückspringen würde (`App.jsx:783-794`); `<main id="main-content" tabIndex={-1}>` ist das programmatisch fokussierbare Ziel (`App.jsx:861-864`).
 - Automatischer Erfolgs-Fokus im Umfrage-Formular: nach erfolgreichem Submit wird der Fokus explizit auf die Erfolgsmeldung gesetzt (`successRef.current?.focus()`, `SurveyComponent.tsx:295-297`), da das Formular durch die Bestätigung komplett ersetzt wird.
 
 ### Schriftarten
@@ -302,6 +307,8 @@ Zwei Engines, beide vollständig clientseitig:
 1. **Web Speech API** (`SpeechSynthesis`/`SpeechSynthesisUtterance`) als primärer Pfad, `src/hooks/useGlobalTTS.js` — wählt per Heuristik die beste verfügbare Systemstimme für die aktuelle Sprache.
 2. **meSpeak** (npm-Paket `mespeak`) als Fallback, läuft im Web Worker `src/workers/ttsWorker.js`, angesteuert über `src/hooks/useLocalTTS.js`. Die Umschaltung erfolgt in `App.jsx`, das prüft, ob der Browser gar keine oder keine passende Systemstimme für die aktuelle Sprache meldet (u. a. relevant für Desktop-Firefox, das keine eigenen Stimmen mitbringt) — betroffene Nutzer sehen zusätzlich `src/components/VoiceFallbackBanner.jsx`. Laut Kommentar (`src/hooks/useLocalTTS.js:10-15`) ersetzte meSpeak ein früheres neuronales VITS-Modell, das 25–90 s Latenz pro Klick hatte; meSpeak liefert unter 1 s bei „klassisch robotisch" klingender Sprache und ca. 4–5 MB statt ca. 110 MB Downloadgröße.
 
+**Sprachassistent im Umfrage-Formular:** `SurveyComponent.tsx` erhält seit Kurzem dieselbe `speak`-Funktion als Prop von `App.jsx` (`App.jsx:1283`, analog zu `IntroScreen`/`SettingsModal`). Bei aktivem `voiceAssistant` (`SurveyComponent.tsx:196`) wird beim Öffnen des Formulars Titel + Kurzbeschreibung vorgelesen (`readIntroAloud`, `:294-304`, gleiches Stagger-Muster wie `SettingsModal.jsx`s `readGeneralTab`), nach jeder NASA-TLX-Regler-Interaktion (bei Loslassen/`keyup`, nicht während des Ziehens, um Sprach-Spam zu vermeiden — `handleNasaCommit`, `:339-…`, verdrahtet über `onMouseUp`/`onTouchEnd`/`onKeyUp`) sowie nach jeder SUS-/UEQ-/Grywalizations-Auswahl (`announce(...)`-Aufrufe in den jeweiligen `onChange`-Handlern) Frage/Item plus gewählter Wert vorgelesen, und beim erfolgreichen Absenden die Erfolgsmeldung (`readSuccessAloud`, `:309-322`).
+
 ### Spracherkennung / Voice-Input
 
 - **Nativ (bevorzugt):** Web Speech API `SpeechRecognition`/`webkitSpeechRecognition`, nur in Chromium-Browsern verfügbar (`src/utils/voiceCapabilities.js`, `src/hooks/useExerciseVoice.jsx`).
@@ -332,18 +339,18 @@ Ein Vitest-Test erzwingt dies explizit: `src/__tests__/productInvariants.test.js
 
 ### Regeln für Wachstum
 
-- `growthValue` wird **ausschließlich bei korrekt gelösten Aufgaben** um 1 erhöht, in `handleSuccess` (`src/hooks/useExerciseSession.js:370-372`) — **nicht** bei Fehlern (`handleError`, `useExerciseSession.js:405-444`, erhöht `growthValue` nicht) und nicht beim Überspringen. (Anmerkung: Ein Codekommentar in `useGamificationState.js:5-8` beschreibt das Konzept als „independent of correctness" — das steht im Widerspruch zur tatsächlichen Erhöhung nur bei Erfolg in `useExerciseSession.js`; siehe „Technische Schulden".)
+- `growthValue` wird **ausschließlich bei korrekt gelösten Aufgaben** um 1 erhöht, in `handleSuccess` (`src/hooks/useExerciseSession.js:373-375`) — **nicht** bei Fehlern (`handleError`, `useExerciseSession.js:408-441`, erhöht `growthValue` nicht) und nicht beim Überspringen; der erklärende Kommentar in `useGamificationState.js:5-10` beschreibt dies inzwischen korrekt und verweist explizit auf `handleSuccess`.
 - Die visuelle Darstellung des Gartens (`src/components/VirtualGarden.jsx:35-84`) leitet aus `growthValue` eine `growthLevel = Math.floor(growthValue / 5)` ab und wählt daraus ein Icon/einen Namen aus einer 5-stufigen, themen- und (optional) pillar-spezifischen Emoji-Reihe (`themeCategoryVisuals`, `VirtualGarden.jsx:38-64`) bzw. aus den i18n-Schlüsseln `levelIcons`/`progressStages`.
-- `POINTS_PER_LEVEL = 5` (identisch definiert in `App.jsx:64` und `VirtualGarden.jsx:15`) treibt die Level-Anzeige (`Math.floor(growthValue / 5) + 1`) und die Fortschritts-Pille (`growthValue % 5`).
+- `POINTS_PER_LEVEL = 5` (identisch definiert in `App.jsx:66` und `VirtualGarden.jsx:15`) treibt die Level-Anzeige (`Math.floor(growthValue / 5) + 1`) und die Fortschritts-Pille (`growthValue % 5`).
 - Drei **unterschiedliche** Belohnungs-Intervalle auf demselben `growthValue`-Zähler, jeweils eigenständig im Code definiert (keine gemeinsame Konstante):
-  - **Level-Up-Modal** alle **5** Punkte (`newGrowthValue % POINTS_PER_LEVEL === 0`, `App.jsx:386-389`).
-  - **„Neuer Baum"-Toast** alle **10** Punkte (`Math.floor(growthValue / 10) > Math.floor(prevGrowthValue / 10)`, `App.jsx:242-256`), inkl. Vibrationsmuster `[50,50,50]`.
+  - **Level-Up-Modal** alle **5** Punkte (`newGrowthValue % POINTS_PER_LEVEL === 0`, `App.jsx:393-396`).
+  - **„Neuer Baum"-Toast** alle **10** Punkte (`Math.floor(growthValue / 10) > Math.floor(prevGrowthValue / 10)`, `App.jsx:244-258`), inkl. Vibrationsmuster `[50,50,50]`.
   - **Affirmations-Toast** alle **15** Punkte (`points % 15 === 0`, `src/hooks/useAffirmativeNotifications.js:10-15`), zeigt eine zufällige Ermutigungs-Nachricht.
 - Feedback-Texte sind bewusst nüchtern gehalten: `productInvariants.test.js:26-86` erzwingt, dass Erfolgs-/Fehler-Feedback-Strings und „neuer Baum"-Texte **kein** Ausrufezeichen und **kein** Emoji enthalten.
 
 ### Tagesziel & Fortschritt (kein Streak-Zähler)
 
-- `dailyProgress` wird über `useIndexedDB('daily_progress', 'date', 'cfg_daily_progress')` verwaltet (`App.jsx:220-224`) und pro abgeschlossener Aufgabe (Erfolg **oder** Skip, nur wenn `isGamified`) um 1 Punkt für den aktuellen Tag erhöht (`App.jsx:378-392`).
+- `dailyProgress` wird über `useIndexedDB('daily_progress', 'date', 'cfg_daily_progress')` verwaltet (`App.jsx:222-226`) und pro abgeschlossener Aufgabe (Erfolg **oder** Skip, nur wenn `isGamified`) um 1 Punkt für den aktuellen Tag erhöht (`App.jsx:385-397`).
 - `WeeklyCalendar.jsx` zeigt die letzten 7 Tage und markiert `isGoalMet = dailyProgress[date]?.points >= dailyGoal` (einstellbares Tagesziel, Standard 5, `useUserSettings.js:56`).
 - Es existiert **kein** eigenständiger „Streak"-Zähler (aufeinanderfolgende Zieltage) im Code — eine Suche nach „streak" im gesamten `src`-Verzeichnis findet nur beiläufige Kommentar-Erwähnungen, keine funktionale Implementierung.
 
@@ -351,12 +358,22 @@ Ein Vitest-Test erzwingt dies explizit: `src/__tests__/productInvariants.test.js
 
 - `growthValue`, `isGamified`: `localStorage` (siehe oben).
 - `dailyProgress`: **IndexedDB**-Datenbank `ContextMasterDB` (Version 1), Objekt-Store `daily_progress` (`keyPath: 'date'`, `src/utils/indexedDB.js:1-36`), mit automatischer einmaliger Migration alter `localStorage`-Daten (`cfg_daily_progress`) beim ersten Laden (`src/hooks/useIndexedDB.js`).
-- Jede abgeschlossene Aufgabe wird zusätzlich als Einzeleintrag in den IndexedDB-Store `exercise_history` geschrieben (`{ date, type: <Pillar>, correct: boolean }`, `useExerciseSession.js:382-386, 429-433`) — Grundlage für die „Tages-Zusammenfassung" im Garten (`VirtualGarden.jsx:86-118`) und für die Studien-Datenerhebung (Abschnitt 11).
+- Jede abgeschlossene Aufgabe wird zusätzlich als Einzeleintrag in den IndexedDB-Store `exercise_history` geschrieben (`{ date, type: <Pillar>, correct: boolean }`, `useExerciseSession.js:385-389, 432-436`) — Grundlage für die „Tages-Zusammenfassung" im Garten (`VirtualGarden.jsx:86-118`) und für die Studien-Datenerhebung (Abschnitt 11).
 - Ein dritter IndexedDB-Store, `ux_logs` (`keyPath: 'timestamp'`), wird beim Öffnen der Datenbank angelegt (`src/utils/indexedDB.js:22-23`), aber **an keiner Stelle im Code beschrieben** (Volltextsuche nach „ux_logs" außerhalb dieser Definition ergebnislos) — toter Code (siehe „Technische Schulden").
 
 ### Kompetitive Elemente
 
 **Es gibt keine kompetitiven Elemente.** Weder Bestenliste/Leaderboard noch Mehrspieler-/Vergleichsfunktionen noch ein Social-/Freundessystem sind im Code vorhanden (Volltextsuche nach „leaderboard", „ranking", „multiplayer", „compet*" ergab ausschließlich Vokabular-Übungsinhalte, keine App-Funktionalität). Die einzige „Belohnungs-Ökonomie" ist der freie Theme-Wechsel (siehe unten) — kein Münz-/Freischalt-System trotz README-Erwähnung von „Coins" (siehe „Technische Schulden").
+
+### Erfolgsabzeichen (Achievements)
+
+Ergänzend zum kontinuierlichen `growthValue`-Zähler existiert ein zweites, diskretes Gamification-Element: drei permanente Abzeichen, verwaltet in `src/hooks/useAchievements.js` und registriert in `src/data/achievements.js:12-31`.
+
+- **Freischaltbedingungen** (alle nur bei `enabled === true`, d. h. `isGamified`, ausgewertet — `useAchievements.js:45-47`): `firstCorrect` (🌱) bei `growthValue >= 1`; `combo3` (🔥) bei `consecutiveCorrect >= 3` (aus `useExerciseSession.js` exponiert); `gardenVisit` (🏁) beim ersten Besuch des Garten-Tabs (`activeTab === 'Garden'`, als `gardenVisited`-Prop aus `App.jsx:468` übergeben). Laut Code-Kommentar (`src/data/achievements.js:7-11`) sind diese Schwellen bewusst so niedrig gewählt, dass sie **innerhalb eines einzigen kurzen geführten Studienblocks** (8/3/4 Aufgaben, Abschnitt 8) erreichbar sind, nicht erst nach Wochen regulärer Nutzung — explizit für die begleitende Studie motiviert.
+- **Erkennungslogik:** Wie beim bereits bestehenden `prevIsGamified`-Muster in `App.jsx` läuft die „hat sich das gerade geändert"-Prüfung während des Renderns, nicht in einem `useEffect` (`useAchievements.js:59-85`) — drei `useState`-Flags (`prevGrowthMet`/`prevComboMet`/`prevGardenMet`), bewusst mit `false` statt dem bereits berechneten Wert initialisiert, damit ein wiederkehrender Nutzer, dessen Zustand schon beim ersten Render alle Bedingungen erfüllt, das Abzeichen trotzdem als „gerade freigeschaltet" angezeigt bekommt (der `tryUnlock`-Dedup-Schutz verhindert dabei ein erneutes Freischalten bereits gespeicherter Abzeichen).
+- **Persistenz:** `localStorage['cfg_achievements']`, Array bereits freigeschalteter IDs (`useAchievements.js:6, 40-42, 81`) — dauerhaft, kein Reset.
+- **Anzeige:** Ein Toast (`src/components/AchievementToast.jsx`), der 6 s sichtbar bleibt (`TOAST_DURATION_MS`, `useAchievements.js:7, 90-94`), gerendert in `App.jsx:1223-1229`, sowie eine dauerhafte „Abzeichen-Ablage" im Garten (`VirtualGarden.jsx:329-370`): alle drei Abzeichen werden immer angezeigt, gesperrte grau/transparent (`opacity-40 grayscale`), freigeschaltete in Theme-Farbe, mit `role="list"`/`role="listitem"` und einem `aria-label`, das Titel und (je nach Status) Beschreibung oder „gesperrt"-Text kombiniert.
+- **Bewusste Entwurfsentscheidung gegen einen Übersetzungs-„Freeze"-Bug:** `useAchievements.js` gibt ausschließlich die Abzeichen-**ID** zurück, nicht bereits über `t()` aufgelösten Text (Kommentar `useAchievements.js:16-25`) — da ein bereits beim allerersten Render erfüllter Zustand vor `App.jsx`s eigenem Sprach-Sync-Effekt (`i18n.changeLanguage(settings.language)`) freischalten kann, würde ein dort einmalig aufgelöster String in der zu diesem Zeitpunkt zufälligen i18next-Standardsprache einfrieren und nie mehr aktualisiert werden. `AchievementToast.jsx` löst Titel/Beschreibung stattdessen bei jedem eigenen Render über eine `t`-Prop auf (analog zu `NewTreeToast.jsx`).
 
 ### Theme-„Shop"
 
@@ -370,19 +387,21 @@ Die Umschaltung ist **kein** Build-/Deployment-Flag und **keine** separate Route
 
 ### a) Manuelle Umschaltung (freie Nutzung)
 
-`isGamified` (Boolean, `src/hooks/useGamificationState.js`) wird auf dem Intro-Screen explizit gewählt (zwei Buttons „Learning Only"/„Gamified", `src/components/IntroScreen.jsx:355-407`) oder jederzeit später erneut umschaltbar. `isGamified` steuert laut `productInvariants.test.js:88-93` (per Test erzwungen) **ausschließlich das Rendering** — `useExerciseSession.js` referenziert `isGamified` an keiner Stelle, d. h. der eigentliche Übungsablauf (Aufgaben-Auswahl, Fortschritts-Logik, Timing) ist in beiden Modi identisch; nur sichtbare UI-Elemente unterscheiden sich: verfügbare Tabs (`availableTabs = isGamified ? [...PILLARS, 'Garden'] : PILLARS`, `App.jsx:599` und identisch `useKeyboardShortcuts.js:97`), Level-Up-/Baum-/Affirmations-Toasts, der „Shop"-Tab in den Einstellungen, das kognitive-Load-Icon während einer Aufgabe (`App.jsx:984`).
+`isGamified` (Boolean, `src/hooks/useGamificationState.js`) wird auf dem Intro-Screen explizit gewählt (zwei Buttons „Learning Only"/„Gamified", `src/components/IntroScreen.jsx:620-670`, auf dem zweiten der beiden Intro-Schritte — siehe unten) oder jederzeit später erneut umschaltbar. `isGamified` steuert laut `productInvariants.test.js:88-93` (per Test erzwungen) **ausschließlich das Rendering** — `useExerciseSession.js` referenziert `isGamified` an keiner Stelle, d. h. der eigentliche Übungsablauf (Aufgaben-Auswahl, Fortschritts-Logik, Timing) ist in beiden Modi identisch; nur sichtbare UI-Elemente unterscheiden sich: verfügbare Tabs (`availableTabs = isGamified ? [...PILLARS, 'Garden'] : PILLARS`, `App.jsx:620` und identisch `useKeyboardShortcuts.js:97`), Level-Up-/Baum-/Affirmations-Toasts, der „Shop"-Tab in den Einstellungen, das kognitive-Load-Icon während einer Aufgabe (`App.jsx:1006`).
 
 ### b) Geführter Studienmodus (für die Masterarbeits-Studie)
 
 Ein zweiter, unabhängiger Mechanismus in `src/hooks/useStudyModeState.js` implementiert ein **kontrolliertes Within-Subjects-Design** mit randomisierter Reihenfolge:
 
 1. Bei aktivem Studienmodus (`studyModeEnabled`, Standard **an**, sofern kein gespeicherter Wert existiert — begründet damit, dass die meisten Erstbesucher während der Datenerhebung Studienteilnehmer sind, `useStudyModeState.js:33-39`) wird beim allerersten Start per **Münzwurf** (`Math.random() < 0.5`) eine Startreihenfolge `'classicFirst'` oder `'gamifiedFirst'` zugewiesen und in `localStorage['variantOrder']` persistiert (`useStudyModeState.js:76-98`) — überschreibbar über einen URL-Parameter `?order=classicFirst|gamifiedFirst` für kontrolliertes Testen.
-2. Der Ablauf gliedert sich in zwei „Blöcke" (`block: 1`/`2`), jeder Block durchläuft nacheinander die drei Pillars Literacy → Visual → Cognitive (`PILLAR_SEQUENCE`, `useStudyModeState.js:11`) mit fester Aufgabenzahl pro Pillar (`TASKS_PER_PILLAR = { Literacy: 8, Visual: 3, Cognitive: 4 }`, `useStudyModeState.js:19`), gefolgt von einer Garten-Ansicht (nur im gamifizierten Block) und einer Umfrage (NASA-TLX + SUS) pro Block (`phase`-Zustandsmaschine `'tasks' → 'garden'|'survey' → 'survey' → 'done'`).
-3. `blockIsGamified` wird aus `variantOrder` und der aktuellen `block`-Nummer abgeleitet (`useStudyModeState.js:147-150`) und in `App.jsx:272-273` **erzwungen** in `isGamified` übertragen (`if (studyMode.isActive && isGamified !== studyMode.blockIsGamified) setIsGamified(studyMode.blockIsGamified)`) — während eines aktiven Studienblocks überschreibt der Studienmodus also den freien Umschalter.
+2. Der Ablauf gliedert sich in zwei „Blöcke" (`block: 1`/`2`), jeder Block durchläuft nacheinander die drei Pillars Literacy → Visual → Cognitive (`PILLAR_SEQUENCE`, `useStudyModeState.js:11`) mit fester Aufgabenzahl pro Pillar (`TASKS_PER_PILLAR = { Literacy: 8, Visual: 3, Cognitive: 4 }`, `useStudyModeState.js:19`), gefolgt von einer Garten-Ansicht (nur im gamifizierten Block) und einer Umfrage pro Block (`phase`-Zustandsmaschine `'tasks' → 'garden'|'survey' → 'survey' → 'done'`) — NASA-TLX + SUS + UEQ-Short immer, plus drei zusätzliche Grywalizations-Feedback-Items nur im gamifizierten Block (siehe Abschnitt 11).
+3. `blockIsGamified` wird aus `variantOrder` und der aktuellen `block`-Nummer abgeleitet (`useStudyModeState.js:147-150`) und in `App.jsx:279-280` **erzwungen** in `isGamified` übertragen (`if (studyMode.isActive && isGamified !== studyMode.blockIsGamified) setIsGamified(studyMode.blockIsGamified)`) — während eines aktiven Studienblocks überschreibt der Studienmodus also den freien Umschalter. (Dieser State-Update-Aufruf während des Renderns einer anderen Komponente ist auch die Ursache einer beobachteten React-Warnung, siehe Abschnitt 12.)
 4. **Content-Counterbalancing:** Pro Teilnehmer wird einmalig eine feste Auswahl an Übungs*typen* je Pillar gezogen (`assignExercisePlan()`, `useStudyModeState.js:51-61`) und in `localStorage['studyExercisePlan']` gespeichert, sodass Block 1 und Block 2 exakt dieselben Übungstypen nutzen (gepaarter Vergleich klassisch-vs-gamifiziert pro Typ) statt unabhängig neu zu würfeln.
 5. Ein separater, unabhängiger Mechanismus (`src/hooks/useStudySet.js`, `src/data/studySets.js`) erlaubt zusätzlich eine **Content**-Gegenbalancierung über einen URL-Parameter `?set=A|B` (welches konkrete Vokabular-Set genutzt wird) — getrennt von der Varianten-Reihenfolge.
 
-Der Studienmodus lässt sich auf dem Intro-Screen ein-/ausschalten (`role="switch"`, `IntroScreen.jsx:303-315`); ist er aktiv, entfällt die manuelle Modus-Wahl (`studyModeActive ? <Anzeige des aktuellen Blocks> : <freie Auswahl>`, `IntroScreen.jsx:345-408`).
+Der Studienmodus lässt sich auf dem Intro-Screen ein-/ausschalten (`role="switch"`, `IntroScreen.jsx:556-587`); ist er aktiv, entfällt die manuelle Modus-Wahl (`studyModeActive ? <Anzeige des aktuellen Blocks> : <freie Auswahl>`, `IntroScreen.jsx:610-670`).
+
+**Zweistufiger Intro-Screen:** Der Startbildschirm ist in zwei Schritte aufgeteilt (`const [step, setStep] = useState(1)`, `IntroScreen.jsx:167`): Schritt 1 enthält die Sprachauswahl sowie ein Raster mit Komfort-/Barrierefreiheits-Werkzeugen (LRS-Schrift, Bionic Reading, Lese-Lineal, Sprachassistent, Kontrast, Safe Colors, Soft Colors, Motorik, Reduced Motion, Zen-Modus — `IntroScreen.jsx:260-511`); Schritt 2 enthält den Studienmodus-Schalter, die Modus-Wahl (Classic/Gamified bzw. die Blockanzeige bei aktivem Studienmodus) und die Theme-Auswahl (`IntroScreen.jsx:513-717`). Beide Schritte teilen sich dieselbe Vorlese-Logik (`StepAutoRead`-Hilfskomponente, remountet über `key={step}`, `IntroScreen.jsx:783-…`, nutzt dasselbe `useAutoReadAloud`-Muster wie an anderer Stelle in der App) sowie einen gemeinsamen Footer mit „Zurück"/„Weiter"/„Start"-Buttons (`IntroScreen.jsx:739-779`).
 
 **Zusammengefasst:** Es handelt sich um **ein** Deployment (kein separater Build, kein Query-Flag zur Feature-Aktivierung, kein Server-Redirect), bei dem der A/B-Zustand vollständig client-seitig in React State/`localStorage` geführt und für die begleitende Studie durch eine randomisierte, gegenbalancierte Ablaufsteuerung ergänzt wird.
 
@@ -424,8 +443,8 @@ Feedback ist **zentralisiert**, nicht pro Übungskomponente dupliziert: jede Kom
 - Anzeige eines `role="status"`/`aria-live="polite"`-Banners mit regelbezogenem Text (`t('feedback.correctWithRule'/'incorrectWithRule', { rule: task.focus })`, falls die Aufgabe ein `focus`-Feld trägt, sonst generisches `feedback.correct`/`feedback.incorrect`) — gerendert zentral in `App.jsx`.
 - Optionale, zufällig aus einer Liste gewählte gesprochene Rückmeldung (`t('voice.success'/'voice.error')`), nur wenn sowohl `voiceAssistant` als auch nicht `muteNotifications` aktiv sind.
 - Optionaler Erfolgs-Sound (Web-Audio-API-Oszillator-Töne, themenspezifisch unterschiedliche Frequenzfolgen, `useExerciseSession.js:11-62`), nur wenn `audioRewards` aktiv.
-- **Adaptive Schwierigkeit** (wenn `adaptiveDifficulty` aktiv): nach 5 aufeinanderfolgenden korrekten Antworten wird der Schwierigkeitsgrad automatisch um 1 erhöht (Max. 4, `useExerciseSession.js:345-351`); nach 2 aufeinanderfolgenden Fehlern automatisch um 1 gesenkt (Min. 1, `useExerciseSession.js:409-416`).
-- Automatischer Übergang zur nächsten Aufgabe nach fixer Verzögerung (1500 ms, bzw. 3000 ms bei aktivierter „Extended Time"-Einstellung), unabhängig vom Gamification-Modus (`useExerciseSession.js:379-381`).
+- **Adaptive Schwierigkeit** (wenn `adaptiveDifficulty` aktiv): nach 5 aufeinanderfolgenden korrekten Antworten wird der Schwierigkeitsgrad automatisch um 1 erhöht (Max. 4, `useExerciseSession.js:345-354`); nach 2 aufeinanderfolgenden Fehlern automatisch um 1 gesenkt (Min. 1, `useExerciseSession.js:412-419`).
+- Automatischer Übergang zur nächsten Aufgabe nach fixer Verzögerung (1500 ms, bzw. 3000 ms bei aktivierter „Extended Time"-Einstellung), unabhängig vom Gamification-Modus (`useExerciseSession.js:382-384`).
 - Einzelne Komponenten können zusätzliche, typ-spezifische visuelle Ergänzungen zeigen (z. B. `ClockExercise.jsx` hebt nach einem Fehler die korrekte Antwort zusätzlich optisch hervor), ersetzen aber nicht das zentrale Feedback.
 
 ### Content-/Schwierigkeits-Filterung
@@ -471,20 +490,22 @@ Ein zweites Skript, `check-sets.mjs`, prüft zusätzlich die Konsistenz der A/B-
 
 Über `src/components/SurveyComponent.tsx` → `POST /.netlify/functions/submit-survey` → Tabelle `ab_study_submissions` (siehe Abschnitt 4) werden **ausschließlich explizit vom Teilnehmenden ausgefüllte Umfrage-Antworten plus Konfigurationskontext** übertragen — **kein** automatisches Hintergrund-Tracking von Klicks/Interaktionen. Konkret pro Einreichung:
 
-- 6 NASA-Raw-TLX-Werte (mental/physical/temporal demand, performance, effort, frustration; Regler 1–100, Default 50, `SurveyComponent.tsx:120-130`).
-- 10 SUS-Werte (`sus01`…`sus10`; 5-stufige Radiobuttons, Default 3, `SurveyComponent.tsx:132-146`).
+- 6 NASA-Raw-TLX-Werte (mental/physical/temporal demand, performance, effort, frustration; Regler 1–100, Default 50, `SurveyComponent.tsx:211-221`).
+- 10 SUS-Werte (`sus01`…`sus10`; 5-stufige Radiobuttons, Default 3, `SurveyComponent.tsx:223-237`).
+- 8 UEQ-Short-Werte (`ueq01`…`ueq08`; bipolare Item-Paare, 7-stufig, Default 4, `SurveyComponent.tsx:239-250`) — **seit Kurzem ergänzt**, zuvor war UEQ trotz vorbereiteter Übersetzungstexte (`feedback.ueq.*`) nicht in das Formular eingebunden (siehe „Offene Punkte" für den ursprünglichen Befund).
+- Bei gamifizierter Bedingung zusätzlich 3 Grywalizations-spezifische Werte (Garten-/Abzeichen-Motivation, Ablenkung; 5-stufig, Default 3, `SurveyComponent.tsx:253-262`) sowie ein optionales Freitextfeld (max. 500 Zeichen, `gameElementFeedback`) zu den erlebten Spielelementen — bei der Basis-Bedingung wird dieser Teil des Formulars gar nicht gerendert und im Payload weggelassen (`isGamified ? gamificationFeedback : {}`, `SurveyComponent.tsx:423`), sodass die entsprechenden DB-Spalten bewusst `NULL` bleiben statt einen bedeutungslosen Wert zu erhalten. Diese Ergänzung adressiert gezielt die Unterfrage, welche Gamification-Elemente von Teilnehmenden als unterstützend, motivierend oder störend wahrgenommen werden.
 - Kontextfelder zum Einreichungszeitpunkt: `participantId` (zufällige, lokal generierte ID), `appVersion` (`'basis'`/`'vollversion'`, abgeleitet aus `isGamified`), `userLanguage`, `theme`, `a11yAddons` (Liste aktiver Barrierefreiheits-Kurzbezeichnungen, aus den booleschen Settings abgeleitet), `inclusiveOptions` (Objekt mit u. a. `adaptiveDifficulty`, `bigTargets`, `noFlash`, `audioRewards`, `extendedTime`, `zenMode`, `bionicReading`, `minimalistMode`, `muteNotifications`, `voiceAssistant`), `userDifficulty`, `dailyGoal`.
-- Serverseitig (`netlify/functions/submit-survey/index.js:36-99`) werden einige dieser Werte für die Analyse ins Englische übersetzt (z. B. Theme-Namen, Barrierefreiheits-Kürzel, Sprachnamen) und in die finalen Spaltennamen der Tabelle gemappt.
+- Serverseitig (`netlify/functions/submit-survey/index.js:36-121`, Funktion `buildDbData`) werden einige dieser Werte für die Analyse ins Englische übersetzt (z. B. Theme-Namen, Barrierefreiheits-Kürzel, Sprachnamen) und in die finalen Spaltennamen der Tabelle gemappt (u. a. `ueq01`…`ueq08` → `ueq_q01`…`ueq_q08`, `gardenMotivation`/`badgeMotivation`/`gameDistraction`/`gameElementFeedback` → `garden_motivation`/`badge_motivation`/`game_distraction`/`game_element_feedback`, `:101-117`).
 
 ### Erhebungszeitpunkt & Trigger
 
-Die Umfrage wird **nicht** mehr automatisch (z. B. nach X Punkten) eingeblendet — ein Kommentar in `useExerciseSession.js:373-378` bestätigt explizit, dass ein früherer, punktebasierter Auto-Trigger entfernt wurde; die Umfrage wird stattdessen vom Nutzer/von der Studienleitung geöffnet (Button in der Navigation, Tastenkürzel Ctrl/Cmd/Alt+S) **oder** automatisch an den beiden Checkpoints des geführten Studienmodus (Ende von Block 1 und Block 2, siehe Abschnitt 8) präsentiert.
+Die Umfrage wird **nicht** mehr automatisch (z. B. nach X Punkten) eingeblendet — ein Kommentar in `useExerciseSession.js:376-381` bestätigt explizit, dass ein früherer, punktebasierter Auto-Trigger entfernt wurde; die Umfrage wird stattdessen vom Nutzer/von der Studienleitung geöffnet (Button in der Navigation, Tastenkürzel Ctrl/Cmd/Alt+S) **oder** automatisch an den beiden Checkpoints des geführten Studienmodus (Ende von Block 1 und Block 2, siehe Abschnitt 8) präsentiert.
 
 ### Lokale, nicht an einen Server übertragene Telemetrie (IndexedDB)
 
 Zusätzlich zur Supabase-Übertragung führt die App lokale Nutzungsprotokolle, die **die Anwendung selbst nie an einen Server sendet** (nur für die eigene Anzeige — z. B. Wochenkalender, Tageszusammenfassung im Garten — verwendet):
 
-- IndexedDB-Store `exercise_history` (`ContextMasterDB`, siehe Abschnitt 7): pro abgeschlossener Aufgabe `{ date, type: <Pillar>, correct: boolean }` (`useExerciseSession.js:382-386, 429-433`).
+- IndexedDB-Store `exercise_history` (`ContextMasterDB`, siehe Abschnitt 7): pro abgeschlossener Aufgabe `{ date, type: <Pillar>, correct: boolean }` (`useExerciseSession.js:385-389, 432-436`).
 - IndexedDB-Store `daily_progress`: `{ date, points }` pro Tag.
 - Ein optionaler, lokal geführter „Workload-Check-in"-Verlauf (`localStorage['cfg_workload_history']`, `VirtualGarden.jsx:166-176`): Selbstauskunft zu kognitiver Belastung/Fokus (je 1–5), auf die letzten 14 Einträge begrenzt, dient ausschließlich der lokalen adaptiven Schwierigkeitssteuerung, wird **nicht** an Supabase übertragen.
 - Der IndexedDB-Store `ux_logs` wird angelegt, aber nirgends beschrieben — toter Code ohne erhobene Daten (siehe Abschnitt 12).
@@ -523,12 +544,10 @@ Es sind keine Drittanbieter-Tracking-/Analyse-SDKs eingebunden (Volltextsuche na
 
 - **Kein `TODO`/`FIXME`/`XXX`/`HACK`-Kommentar** an irgendeiner Stelle im projekteigenen Quellcode (`src/`, `netlify/`, `scripts/`) gefunden — offene Punkte sind stattdessen, wie oben zitiert, in ausführlichen erklärenden Kommentaren oder in Tests dokumentiert.
 - **`docs/`-Verzeichnis fehlt**, wird aber von mehreren Kommentaren weiterhin referenziert (siehe Abschnitt 2).
-- **README-Diskrepanz „Coins/Münzen":** `README.md:35` (und die de/pl-Übersetzungen) beschreiben „Coins and a theme shop" — im Code existiert weder eine Münz-Variable noch ein Freischalt-Mechanismus für Themes (siehe Abschnitt 7); der „Shop"-Tab bietet freie Auswahl ohne Kosten.
-- **`growthValue`-Kommentar vs. Implementierung:** `useGamificationState.js:5-8` beschreibt den Fortschritt als „independent of correctness", tatsächlich wird `growthValue` nur bei korrekten Antworten erhöht (`useExerciseSession.js:370-372`), nicht bei Fehlern.
-- **OpenDyslexic-Diskrepanz:** UI-Übersetzungstexte nennen weiterhin „OpenDyslexic" als Schriftart, obwohl keine solche Schriftdatei mehr eingebunden ist (siehe Abschnitt 6) — durch Test abgesichert, dass sie es nicht ist, aber die Nutzer-sichtbare Beschriftung wurde nicht nachgezogen.
-- **Toter IndexedDB-Store `ux_logs`:** wird beim Öffnen der Datenbank angelegt (`src/utils/indexedDB.js:22-23`), aber nirgends gelesen oder beschrieben.
-- **Verwaiste `public/netlify-forms.html`:** definiert ein verstecktes Netlify-Forms-Formular (`name="ux-survey"`) mit NASA-TLX- und **UEQ**-Kurzform-Feldern (`ueq1`…`ueq8`) — ein anderes Messinstrument als das tatsächlich genutzte SUS (`sus01`…`sus10`). Weder „netlify-forms", „ux-survey" noch „ueq" tauchen an irgendeiner anderen Stelle in `src/`/`netlify/` auf; die Datei wird vom tatsächlichen Einreichungspfad (`SurveyComponent.tsx` → `submit-survey`-Function) nicht referenziert — vermutlich Überbleibsel eines früheren, inzwischen ersetzten Erhebungsansatzes.
-- **Irreführender Skriptname `scripts/export-netlify-forms.js`:** exportiert trotz des Namens **nicht** aus Netlify Forms, sondern direkt per REST-Aufruf aus der Supabase-Tabelle `ab_study_submissions` (siehe Abschnitt 4/`scripts/export-netlify-forms.js:19-47`).
+- **Fokus-Label des Umfrage-Dialogs verweist zeitweise ins Leere:** Das `Dialog`, das `SurveyComponent.tsx` umschließt, trägt durchgehend `aria-labelledby="survey-title"` (`App.jsx:1251`). Nach erfolgreichem Absenden ersetzt `SurveyComponent.tsx` sein gesamtes Markup durch eine Erfolgsansicht (`:494-508`), die **kein** Element mit `id="survey-title"` mehr enthält — für die rund 2 Sekunden, bis der Dialog automatisch schließt (`onSubmitted`-Timer, `:479`), verweist `aria-labelledby` damit auf eine nicht (mehr) existierende ID. Per axe-core-Scan bestätigt (`aria-dialog-name`, „serious"); besteht bereits vor den in diesem Dokument beschriebenen UEQ-Short-/Achievements-Ergänzungen.
+- **Kontrastarme Navigationsbeschriftungen:** Ein Live-axe-core-Scan (Desktop-Sidebar) meldet wiederholt `color-contrast`-Verstöße („serious") für mehrere kleine Beschriftungen in `SidebarNav.jsx` — u. a. das Theme-Label (`id="sidebar-theme-label"`, `:121`) und die `text-[9px]`-Beschriftungen unter den Pillar-Icons (`:190, 250, 315, 359, 395`). Nicht Teil der durch `contrastCompliance.test.js` statisch abgedeckten Theme-Farben (Abschnitt 6) — dort wird nur gegen Kern-Theme-Farben getestet, nicht gegen jede tatsächlich gerenderte Textgröße/-farbe-Kombination.
+- **`t('error', …)`-Schlüsselkollision in `SurveyComponent.tsx`:** An zwei Stellen (`:446, 456`) wird beim Fehlschlagen der Übermittlung `t('error', 'Wystąpił błąd komunikacji z serwerem.')` aufgerufen. Ein Top-Level-Schlüssel `error` existiert in keiner Sprachdatei — tatsächlich vorhanden ist nur `voice.error` (ein Array zufälliger gesprochener Ermutigungs-Phrasen, `src/locales/de/translation.json:70-77`), ein anderer Zweck. `t()` löst den nicht existierenden Schlüssel daher nie auf und zeigt **immer** den hartkodierten polnischen Default-Text, unabhängig von der gewählten UI-Sprache. Derselbe Fehlerklasse betraf zuvor auch die Erfolgsmeldung (`t('success', …)` kollidierte mit `voice.success`) — dort wurde er durch einen eigenen Schlüssel `feedback.successHeading` behoben (siehe `SurveyComponent.tsx:503`); der Fehlerfall-Text wurde bislang **nicht** analog korrigiert.
+- **React-Warnung „Cannot update a component (`GamificationProvider`) while rendering a different component (`AppContent`)":** in der Browser-Konsole reproduzierbar beobachtet (u. a. beim Öffnen des virtuellen Gartens im Studienmodus). Ursache: `App.jsx:279-280` ruft während des Renderns von `AppContent` (`App.jsx:71`) `setIsGamified(...)` auf — den Setter aus `GamificationContext`, dessen zugehöriger State aber in der separaten `GamificationProvider`-Komponente lebt (`GamificationContext.jsx:4`, eingehängt in `App.jsx:1346-1352`). Das im übrigen Code etablierte „State-Anpassung während des Renderns"-Muster (z. B. `App.jsx:270-274` für `prevIsGamified`) ist laut React nur für den **eigenen** State einer Komponente sanktioniert — das Setzen des States einer *anderen* Komponente während des Renderns (hier: des Providers, aus Sicht von `AppContent`) ist der eigentliche Auslöser dieser Warnung. Funktional bislang ohne beobachtete Fehlfunktion, aber ein von React offiziell nicht unterstütztes Muster — UNKLAR, ob dies unter zukünftigen React-Versionen zu tatsächlichen Bugs führen könnte.
 - **Nicht genutzte RLS-Policies:** Die `anon`/`authenticated`-Policies in `supabase/00_survey_schema.sql` (öffentliches `SELECT` **und** `INSERT`) werden von keinem Code in diesem Repository genutzt, da weder ein frontend-seitiger Supabase-Client noch ein `anon`-Key im Repository vorkommen — die einzige schreibende Instanz (die Netlify Function) nutzt den RLS-umgehenden `service_role`-Key (siehe Abschnitt 4).
 - **Fehlende Security-Header/Redirects in `netlify.toml`** (siehe Abschnitt 5).
 - **Dokumentierte Inhalts-Lücken:** `src/data/vocabulary_de_gaps.md` (auf Polnisch verfasst) listet automatisiert generiert 32 Einträge in den Kategorien `phonemes`/`context`, denen in der deutschen Vokabeldatenbank mehrsprachige `hint`/`question`-Übersetzungen fehlen — laut eigener Aussage ohne Funktionsauswirkung (der Loader lädt ohnehin nur die aktive Sprache), aber relevant für eine sprachvergleichende Auswertung im Rahmen der Masterarbeit.
@@ -542,20 +561,20 @@ Es sind keine Drittanbieter-Tracking-/Analyse-SDKs eingebunden (Volltextsuche na
 ## Zusammenfassung: Offene Punkte und technische Schulden
 
 1. `docs/`-Verzeichnis fehlt trotz fortbestehender Verweise im Code (README, mehrere Kommentare, ein Playwright-Test) — entweder wiederherstellen oder alle Verweise bereinigen.
-2. README behauptet ein Münz-/Freischaltsystem („Coins and a theme shop"), das im Code nicht existiert — Dokumentation und Implementierung sind hier inkonsistent.
-3. Kommentar in `useGamificationState.js` widerspricht der tatsächlichen Wachstumslogik in `useExerciseSession.js` (Wachstum nur bei korrekten Antworten, nicht „unabhängig von Korrektheit").
-4. UI-Texte bewerben weiterhin „OpenDyslexic" als Schriftart, obwohl bewusst (und testabgesichert) keine solche Schriftdatei mehr eingebunden ist.
-5. Toter IndexedDB-Store `ux_logs` (angelegt, nie beschrieben/gelesen).
-6. Verwaiste `public/netlify-forms.html` mit einem anderen (UEQ-basierten) Umfrageschema als dem tatsächlich genutzten (SUS-basierten); keine Referenz im aktiven Code.
-7. Irreführender Name des Export-Skripts (`export-netlify-forms.js`, exportiert tatsächlich per direktem Supabase-REST-Aufruf).
-8. Ungenutzte, öffentlich lesende **und** öffentlich schreibende RLS-Policies (`anon`/`authenticated`) auf einer Tabelle mit Studien-Rohdaten, obwohl der einzige aktive Schreibpfad den RLS-umgehenden `service_role`-Key nutzt — sicherheitsrelevant zu prüfen, falls der `anon`-Key jemals clientseitig exponiert werden sollte.
-9. Keine Security-Header (CSP, `X-Frame-Options` etc.) und keine expliziten Redirects in `netlify.toml`.
-10. Dokumentierte, mehrsprachige Content-Lücken in `vocabulary_de.js` (32 Einträge ohne vollständige Drei-Sprachen-Abdeckung von `hint`/`question`) sowie vorbestehende Item-ID-Abweichungen zwischen den Sprachdatenbanken (`check-sets.mjs`).
-11. Überbleibsel eines entfernten „UserProfileDashboard"-Features (übersprungener Test, ungenutzte `profileDashboard.json`-Übersetzungsdatei).
-12. `knip.json` ist konfigurationslos (`{}`) — Potenzial für striktere Dead-Code-Erkennung ungenutzt.
-13. Kein PWA-Icon mit `purpose: 'maskable'`.
-14. `check-locales.mjs` prüft nur Schlüssel-Existenz, keine Konsistenz von Interpolations-Platzhaltern zwischen Sprachen.
-15. Laufzeit-Kontrastprüfung (`useThemeCSSVariables.js`) ist auf den Entwicklungsmodus beschränkt (nur `console.warn`) — keine erzwungene Compliance-Prüfung in Produktion (durch die begleitenden Vitest-Tests jedoch statisch abgedeckt).
+2. Der Umfrage-`Dialog` behält `aria-labelledby="survey-title"` auch auf der Erfolgsansicht, die kein Element mit dieser ID mehr rendert — für ~2 s vor dem automatischen Schließen zeigt der Dialog auf eine nicht existierende ID (axe-core: `aria-dialog-name`, „serious").
+3. Mehrere kleine Navigationsbeschriftungen (Theme-Label, Pillar-Unterbeschriftungen in `SidebarNav.jsx`) fallen bei einem Live-axe-core-Scan durch `color-contrast` („serious") — nicht durch die statischen Theme-Farb-Tests abgedeckt.
+4. `t('error', …)` in `SurveyComponent.tsx` löst wegen einer Namenskollision mit `voice.error` nie den beabsichtigten, sprachabhängigen Text auf und zeigt bei fehlgeschlagener Übermittlung immer den hartkodierten polnischen Fallback-Text — unabhängig von der UI-Sprache. Derselbe Fehlerklasse betraf zuvor `t('success', …)`, wurde dort aber bereits durch einen eigenen Schlüssel behoben; der Fehlerfall ist noch offen.
+5. React-Warnung „Cannot update a component (`GamificationProvider`) while rendering a different component (`AppContent`)" — `App.jsx` setzt während des eigenen Renderns den State einer anderen (Provider-)Komponente; ein von React nicht sanktioniertes Muster, bislang ohne beobachtete Fehlfunktion.
+6. Ungenutzte, öffentlich lesende **und** öffentlich schreibende RLS-Policies (`anon`/`authenticated`) auf einer Tabelle mit Studien-Rohdaten, obwohl der einzige aktive Schreibpfad den RLS-umgehenden `service_role`-Key nutzt — sicherheitsrelevant zu prüfen, falls der `anon`-Key jemals clientseitig exponiert werden sollte.
+7. Keine Security-Header (CSP, `X-Frame-Options` etc.) und keine expliziten Redirects in `netlify.toml`.
+8. Dokumentierte, mehrsprachige Content-Lücken in `vocabulary_de.js` (32 Einträge ohne vollständige Drei-Sprachen-Abdeckung von `hint`/`question`) sowie vorbestehende Item-ID-Abweichungen zwischen den Sprachdatenbanken (`check-sets.mjs`).
+9. Überbleibsel eines entfernten „UserProfileDashboard"-Features (übersprungener Test, ungenutzte `profileDashboard.json`-Übersetzungsdatei).
+10. `knip.json` ist konfigurationslos (`{}`) — Potenzial für striktere Dead-Code-Erkennung ungenutzt.
+11. Kein PWA-Icon mit `purpose: 'maskable'`.
+12. `check-locales.mjs` prüft nur Schlüssel-Existenz, keine Konsistenz von Interpolations-Platzhaltern zwischen Sprachen.
+13. Laufzeit-Kontrastprüfung (`useThemeCSSVariables.js`) ist auf den Entwicklungsmodus beschränkt (nur `console.warn`) — keine erzwungene Compliance-Prüfung in Produktion (durch die begleitenden Vitest-Tests jedoch statisch abgedeckt).
+
+*Inzwischen behoben (nicht mehr Teil der offenen Punkte, im Text oben entsprechend aktualisiert): die README-Diskrepanz „Coins and a theme shop", der `growthValue`-Kommentar in `useGamificationState.js`, die „OpenDyslexic"-Erwähnung in den UI-Texten, der tote IndexedDB-Store `ux_logs`, die verwaiste `public/netlify-forms.html` sowie der irreführende Name des Export-Skripts (jetzt `scripts/export-survey-data.js`).*
 
 ---
 
