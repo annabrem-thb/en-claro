@@ -23,7 +23,13 @@ export default defineConfig({
       manifest: {
         name: 'EnClaro',
         short_name: 'EnClaro',
-        description: 'Twoja bezstresowa przestrzeń do ćwiczeń językowych.',
+        // App UI is multilingual (de/en/pl) with no per-language manifest
+        // (browsers don't support that without server-side content
+        // negotiation on Accept-Language) — English here reaches the
+        // broadest audience rather than defaulting to one target language.
+        description: 'Your stress-free space for language exercises.',
+        lang: 'en',
+        dir: 'ltr',
         theme_color: '#fdfaf6',
         background_color: '#fdfaf6',
         display: 'standalone',

@@ -16,19 +16,11 @@ import Dialog from './common/Dialog.jsx';
 import LanguageSwitcher from './common/LanguageSwitcher.jsx';
 
 const THEMES = {
-  Natur: {
-    name: 'Natura',
-    icon: '🌿',
-    desc: 'Zielone barwy, relaks',
-  },
-  Musik: { name: 'Muzyka', icon: '🎵', desc: 'Fiolet, dynamika' },
-  Kunst: {
-    name: 'Sztuka',
-    icon: '🎨',
-    desc: 'Bursztyn, kreatywność',
-  },
-  Space: { name: 'Kosmos', icon: '🚀', desc: 'Kosmiczna głębia' },
-  Ocean: { name: 'Ocean', icon: '🐳', desc: 'Morski spokój' },
+  Natur: { icon: '🌿' },
+  Musik: { icon: '🎵' },
+  Kunst: { icon: '🎨' },
+  Space: { icon: '🚀' },
+  Ocean: { icon: '🐳' },
 };
 
 const SettingToggle = ({
@@ -521,8 +513,8 @@ const ShopTab = ({ speak }) => {
   const readShopTab = useCallback(() => {
     if (!speak) return;
     clearAllTimeouts();
-    const themeNames = Object.entries(THEMES).map(([key, theme]) =>
-      t(`themes.${key}.name`, theme.name),
+    const themeNames = Object.entries(THEMES).map(([key]) =>
+      t(`themes.${key}.name`, key),
     );
     const segments = [t('tabShop'), ...themeNames];
     let delayAcc = 0;
@@ -550,13 +542,13 @@ const ShopTab = ({ speak }) => {
                 <div className="flex-1">
                   <h4 className="font-bold text-slate-800">
                     <BionicText
-                      text={t(`themes.${key}.name`, theme.name)}
+                      text={t(`themes.${key}.name`, key)}
                       enabled={bionicReading}
                     />
                   </h4>
                   <p className="text-xs text-slate-500">
                     <BionicText
-                      text={t(`themes.${key}.desc`, theme.desc)}
+                      text={t(`themes.${key}.desc`, '')}
                       enabled={bionicReading}
                     />
                   </p>

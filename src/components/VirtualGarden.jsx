@@ -566,7 +566,7 @@ function VirtualGarden({
                     className="flex flex-nowrap items-center justify-between gap-2 text-[10px] sm:text-sm"
                   >
                     <span
-                      className={`min-w-0 flex-1 truncate font-bold ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+                      className={`min-w-0 flex-1 line-clamp-2 wrap-break-word font-bold ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
                     >
                       <BionicText
                         text={
