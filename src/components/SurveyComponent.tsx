@@ -448,10 +448,16 @@ export const SurveyComponent: React.FC<{
 
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
+        // The function's error/details text is always English and not
+        // meant for end users (e.g. "a11yAddons must be an array.") — log
+        // it for debugging but never render it, so a PL/DE participant
+        // never sees raw untranslated backend text mid-form.
+        console.error(
+          '[survey submit] server error:',
+          errData.details || errData.error || response.status,
+        );
         throw new Error(
-          errData.details ||
-            errData.error ||
-            t('feedback.errorServer', 'Wystąpił błąd komunikacji z serwerem.'),
+          t('feedback.errorServer', 'Wystąpił błąd komunikacji z serwerem.'),
         );
       }
 
@@ -461,7 +467,11 @@ export const SurveyComponent: React.FC<{
       clearSurveyDraft(checkpointId);
       setIsSuccess(true);
     } catch (err: any) {
-      setError(err.message || t('feedback.errorGeneric', 'Wystąpił nieoczekiwany błąd.'));
+      // Same reasoning as above: a genuine network/JS exception's own
+      // `.message` (e.g. "Failed to fetch") is browser-generated English,
+      // not a translated string — log it, but show the localized fallback.
+      console.error('[survey submit]', err);
+      setError(t('feedback.errorGeneric', 'Wystąpił nieoczekiwany błąd.'));
       setFailedAttempts((prev) => prev + 1);
     } finally {
       setIsSubmitting(false);
