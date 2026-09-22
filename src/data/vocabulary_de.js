@@ -1692,7 +1692,7 @@ export const wordDatabaseDE = {
       type: 'syllable',
       difficulty: 3,
       word: 'Herausforderung',
-      segments: ['He', 'raus', 'for', 'de', 'rung'],
+      segments: ['Her', 'aus', 'for', 'de', 'rung'],
       icon: '🧗',
     },
     {
