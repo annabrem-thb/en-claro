@@ -1821,7 +1821,7 @@ export const wordDatabasePL = {
       type: 'syllable',
       difficulty: 3,
       word: 'Rzeczpospolita',
-      segments: ['Rzecz', 'pos', 'po', 'li', 'ta'],
+      segments: ['Rzecz', 'po', 'spo', 'li', 'ta'],
       icon: '🇵🇱',
     },
     {
