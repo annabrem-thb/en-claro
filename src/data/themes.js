@@ -23,6 +23,9 @@ export const THEMES = {
     border: 'border-[#D0D6CE]',
     ring: 'ring-[#4B5D46]',
     hex: '#4B5D46',
+    // Same glyphs as SettingsModal.jsx's Shop-tab THEMES — kept in sync by
+    // hand since that one also carries its own localized `name`/`desc`.
+    icon: '🌿',
   },
   Musik: {
     accent: 'text-[#5E427B]',
@@ -32,6 +35,7 @@ export const THEMES = {
     border: 'border-[#D1C8D6]',
     ring: 'ring-[#634E74]',
     hex: '#634E74',
+    icon: '🎵',
   },
   Kunst: {
     accent: 'text-[#6B4929]',
@@ -41,6 +45,7 @@ export const THEMES = {
     border: 'border-[#DED4CA]',
     ring: 'ring-[#6E5135]',
     hex: '#6E5135',
+    icon: '🎨',
   },
   Space: {
     accent: 'text-[#355469]',
@@ -50,6 +55,7 @@ export const THEMES = {
     border: 'border-[#CAD4DE]',
     ring: 'ring-[#455968]',
     hex: '#455968',
+    icon: '🚀',
   },
   Ocean: {
     accent: 'text-[#225858]',
@@ -59,5 +65,6 @@ export const THEMES = {
     border: 'border-[#C4DBDB]',
     ring: 'ring-[#325D5D]',
     hex: '#325D5D',
+    icon: '🐳',
   },
 };
