@@ -7,10 +7,10 @@ const THEME_KEYS = Object.keys(THEMES);
 // Learning Only mode too, since it's just a visual preference, not a
 // gamification reward.
 //
-// Each swatch carries its own visible name, not just a color dot — a color
-// alone doesn't tell a user what they're choosing (and fails for anyone who
-// can't distinguish the hues), so the button's own text is what supplies
-// its accessible name too (no separate aria-label needed).
+// Each option carries its own visible name, not just its themed emoji — an
+// icon alone doesn't tell a user what they're choosing, so the button's own
+// text is what supplies its accessible name too (no separate aria-label
+// needed); the emoji itself stays aria-hidden.
 export default function ThemeSwitcher({
   theme,
   onThemeChange,
@@ -34,7 +34,7 @@ export default function ThemeSwitcher({
     : standalone
       ? { role: 'group', 'aria-label': t('selectTheme') || 'Select theme' }
       : {};
-  const dotDim = bigTargets ? 'h-6 w-6' : 'h-4 w-4';
+  const iconSize = bigTargets ? 'text-xl' : 'text-base';
   const pad = bigTargets ? 'px-2 py-1.5' : 'px-1.5 py-1';
   const textSize = bigTargets ? 'text-[10px]' : 'text-[8px]';
 
@@ -64,13 +64,14 @@ export default function ThemeSwitcher({
           >
             <span
               aria-hidden="true"
-              className={`${dotDim} shrink-0 rounded-full ${
+              className={`${iconSize} flex shrink-0 items-center justify-center leading-none ${
                 isSelected
-                  ? `ring-2 ring-offset-1 ${isHighContrast ? 'ring-white ring-offset-black' : 'ring-slate-800 ring-offset-white'}`
-                  : 'opacity-70'
+                  ? 'drop-shadow-sm'
+                  : 'opacity-60 grayscale-40'
               }`}
-              style={{ backgroundColor: THEMES[key].hex }}
-            />
+            >
+              {THEMES[key].icon}
+            </span>
             <span
               className={`${textSize} leading-none font-bold tracking-wide uppercase ${
                 isSelected

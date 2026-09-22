@@ -15,6 +15,8 @@ import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
 import { safeJSONParse } from '../utils/safeJSONParse.js';
 
+import BionicText from './common/BionicText.jsx';
+
 // Versioned so a future change to the payload shape can invalidate old
 // drafts outright instead of trying to merge them. Keyed by checkpointId
 // (a study-block number, or 'manual' for a nav-opened survey) rather than
@@ -194,6 +196,12 @@ export const SurveyComponent: React.FC<{
   const { language, theme, userDifficulty, dailyGoal } = settings;
   const { isGamified } = useGamification();
   const voiceAssistant = !!settings.voiceAssistant && !!speak;
+  // Every other dialog in the app (SettingsModal, IntroScreen, exercises)
+  // branches on these two — the survey previously didn't, so High Contrast
+  // mode left its colors untouched and Bionic Reading never bolded any of
+  // its text, unlike everywhere else these settings apply.
+  const isHighContrast = !!settings.contrast;
+  const hasBionic = !!settings.bionicReading;
 
   const { t } = useTranslation();
   const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
@@ -497,13 +505,24 @@ export const SurveyComponent: React.FC<{
         role="status"
         aria-live="polite"
         tabIndex={-1}
-        className="rounded-3xl border-2 border-emerald-100 bg-emerald-50 p-8 text-center focus:outline-none"
+        className={`rounded-3xl border-2 p-8 text-center focus:outline-none ${isHighContrast ? 'border-white bg-black' : 'border-emerald-100 bg-emerald-50'}`}
       >
-        <h2 className="mb-2 text-2xl font-black text-emerald-600">
-          🎉 {t('feedback.successHeading', 'Sukces!')}
+        <h2
+          className={`mb-2 text-2xl font-black ${isHighContrast ? 'text-white' : 'text-emerald-600'}`}
+        >
+          🎉{' '}
+          <BionicText
+            text={t('feedback.successHeading', 'Sukces!')}
+            enabled={hasBionic}
+          />
         </h2>
-        <p className="font-medium text-slate-600">
-          {t('feedback.thankYou', 'Dziękujemy za Twoją opinię!')}
+        <p
+          className={`font-medium ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+        >
+          <BionicText
+            text={t('feedback.thankYou', 'Dziękujemy za Twoją opinię!')}
+            enabled={hasBionic}
+          />
         </p>
       </div>
     );
@@ -512,22 +531,26 @@ export const SurveyComponent: React.FC<{
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-auto flex w-full max-w-5xl flex-col gap-8 rounded-3xl border border-slate-100 bg-white p-6 shadow-lg md:p-8"
+      className={`mx-auto flex w-full max-w-5xl flex-col gap-8 rounded-3xl border p-6 shadow-lg md:p-8 ${isHighContrast ? 'border-white bg-black' : 'border-slate-100 bg-white'}`}
     >
       <header className="px-10 text-center sm:px-12">
         <h1
           id="survey-title"
-          className="text-3xl font-black tracking-tight text-slate-800"
+          className={`text-3xl font-black tracking-tight ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
         >
-          {t('feedback.title')}
+          <BionicText text={t('feedback.title')} enabled={hasBionic} />
         </h1>
-        <p className="mt-2 text-sm font-medium text-slate-500">
-          {t('feedback.desc')}
+        <p
+          className={`mt-2 text-sm font-medium ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+        >
+          <BionicText text={t('feedback.desc')} enabled={hasBionic} />
         </p>
       </header>
 
-      <p className="rounded-2xl border border-indigo-100 bg-indigo-50 p-4 text-xs leading-relaxed font-medium text-slate-600 sm:text-sm">
-        {t('feedback.privacyNotice')}
+      <p
+        className={`rounded-2xl border p-4 text-xs leading-relaxed font-medium sm:text-sm ${isHighContrast ? 'border-white/40 bg-white/10 text-white' : 'border-indigo-100 bg-indigo-50 text-slate-600'}`}
+      >
+        <BionicText text={t('feedback.privacyNotice')} enabled={hasBionic} />
       </p>
 
       {/* min-w-0: <fieldset> has a browser-default min-width of min-content,
@@ -537,28 +560,34 @@ export const SurveyComponent: React.FC<{
           that individually-targeted min-w-0/flex-wrap fixes downstream
           couldn't resolve, since the constraint was coming from here. */}
       <fieldset className="flex min-w-0 flex-col gap-5">
-        <legend className="mb-4 w-full border-b pb-2 text-lg font-black tracking-widest text-slate-400 uppercase">
-          {t('feedback.nasaTitle')}
+        <legend
+          className={`mb-4 w-full border-b pb-2 text-lg font-black tracking-widest uppercase ${isHighContrast ? 'border-white/30 text-white' : 'text-slate-400'}`}
+        >
+          <BionicText text={t('feedback.nasaTitle')} enabled={hasBionic} />
         </legend>
         <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {NASA_SCALES.map((scale) => (
             <div
               key={scale.id}
-              className="flex flex-col gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-4"
+              className={`flex flex-col gap-2 rounded-2xl border p-4 ${isHighContrast ? 'border-white/30 bg-white/5' : 'border-slate-100 bg-slate-50'}`}
             >
               <div className="flex items-end justify-between">
                 <div>
                   <label
                     htmlFor={scale.id}
-                    className="block text-sm font-bold text-slate-700"
+                    className={`block text-sm font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
                   >
-                    {t(scale.label)}
+                    <BionicText text={t(scale.label)} enabled={hasBionic} />
                   </label>
-                  <span className="text-xs font-medium text-slate-500">
-                    {t(scale.desc)}
+                  <span
+                    className={`text-xs font-medium ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+                  >
+                    <BionicText text={t(scale.desc)} enabled={hasBionic} />
                   </span>
                 </div>
-                <span className="text-xl font-black text-indigo-500">
+                <span
+                  className={`text-xl font-black ${isHighContrast ? 'text-white' : 'text-indigo-500'}`}
+                >
                   {nasaScores[scale.id]}
                 </span>
               </div>
@@ -576,11 +605,17 @@ export const SurveyComponent: React.FC<{
                 onMouseUp={(e) => handleNasaCommit(scale, e)}
                 onTouchEnd={(e) => handleNasaCommit(scale, e)}
                 onKeyUp={(e) => handleNasaCommit(scale, e)}
-                className="mt-2 h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-200 accent-indigo-600 focus:ring-4 focus:ring-indigo-100 focus:outline-none"
+                className={`mt-2 h-2 w-full cursor-pointer appearance-none rounded-lg focus:ring-4 focus:outline-none ${isHighContrast ? 'bg-white/20 accent-white focus:ring-white/30' : 'bg-slate-200 accent-indigo-600 focus:ring-indigo-100'}`}
               />
-              <div className="mt-1 flex justify-between text-[10px] font-bold tracking-widest text-slate-400 uppercase">
-                <span aria-hidden="true">{t('feedback.low')}</span>
-                <span aria-hidden="true">{t('feedback.high')}</span>
+              <div
+                className={`mt-1 flex justify-between text-[10px] font-bold tracking-widest uppercase ${isHighContrast ? 'text-white/60' : 'text-slate-400'}`}
+              >
+                <span aria-hidden="true">
+                  <BionicText text={t('feedback.low')} enabled={hasBionic} />
+                </span>
+                <span aria-hidden="true">
+                  <BionicText text={t('feedback.high')} enabled={hasBionic} />
+                </span>
               </div>
             </div>
           ))}
@@ -589,20 +624,22 @@ export const SurveyComponent: React.FC<{
 
       {}
       <fieldset className="flex min-w-0 flex-col gap-4">
-        <legend className="mb-4 w-full border-b pb-2 text-lg font-black tracking-widest text-slate-400 uppercase">
-          {t('survey.susTitle')}
+        <legend
+          className={`mb-4 w-full border-b pb-2 text-lg font-black tracking-widest uppercase ${isHighContrast ? 'border-white/30 text-white' : 'text-slate-400'}`}
+        >
+          <BionicText text={t('survey.susTitle')} enabled={hasBionic} />
         </legend>
         <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
           {SUS_SCALES.map((scale) => (
             <div
               key={scale.id}
-              className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4"
+              className={`flex flex-col gap-3 rounded-2xl border p-4 ${isHighContrast ? 'border-white/30 bg-white/5' : 'border-slate-100 bg-slate-50'}`}
             >
               <label
                 id={`label-${scale.id}`}
-                className="block text-sm leading-snug font-bold text-slate-700"
+                className={`block text-sm leading-snug font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
               >
-                {t(scale.label)}
+                <BionicText text={t(scale.label)} enabled={hasBionic} />
               </label>
 
               {}
@@ -642,7 +679,7 @@ export const SurveyComponent: React.FC<{
                           handleSusChange(scale.id, val);
                           announce(`${t(scale.label)}, ${val}`);
                         }}
-                        className="h-6 w-6 appearance-none rounded-full border-2 border-slate-300 transition-all group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 md:h-7 md:w-7"
+                        className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 checked:border-transparent checked:bg-indigo-500 group-hover:border-indigo-400 focus-visible:ring-indigo-100'}`}
                         aria-label={t('feedback.rateAria', {
                           value: val,
                           max: 5,
@@ -654,14 +691,27 @@ export const SurveyComponent: React.FC<{
                 </div>
 
                 <div className="flex w-full items-start justify-between gap-2">
-                  <span className="min-w-0 flex-1 text-center text-[10px] leading-tight font-bold text-slate-400 sm:text-xs">
-                    {t(
-                      'survey.susAnchors.stronglyDisagree',
-                      'Strongly Disagree',
-                    )}
+                  <span
+                    className={`min-w-0 flex-1 text-center text-[10px] leading-tight font-bold sm:text-xs ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}
+                  >
+                    <BionicText
+                      text={t(
+                        'survey.susAnchors.stronglyDisagree',
+                        'Strongly Disagree',
+                      )}
+                      enabled={hasBionic}
+                    />
                   </span>
-                  <span className="min-w-0 flex-1 text-center text-[10px] leading-tight font-bold text-slate-400 sm:text-xs">
-                    {t('survey.susAnchors.stronglyAgree', 'Strongly Agree')}
+                  <span
+                    className={`min-w-0 flex-1 text-center text-[10px] leading-tight font-bold sm:text-xs ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}
+                  >
+                    <BionicText
+                      text={t(
+                        'survey.susAnchors.stronglyAgree',
+                        'Strongly Agree',
+                      )}
+                      enabled={hasBionic}
+                    />
                   </span>
                 </div>
               </div>
@@ -672,24 +722,30 @@ export const SurveyComponent: React.FC<{
 
       {}
       <fieldset className="flex min-w-0 flex-col gap-4">
-        <legend className="mb-4 w-full border-b pb-2 text-lg font-black tracking-widest text-slate-400 uppercase">
-          {t('feedback.ueqTitle')}
+        <legend
+          className={`mb-4 w-full border-b pb-2 text-lg font-black tracking-widest uppercase ${isHighContrast ? 'border-white/30 text-white' : 'text-slate-400'}`}
+        >
+          <BionicText text={t('feedback.ueqTitle')} enabled={hasBionic} />
         </legend>
         <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
           {UEQ_SCALES.map((scale) => (
             <div
               key={scale.id}
-              className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4"
+              className={`flex flex-col gap-3 rounded-2xl border p-4 ${isHighContrast ? 'border-white/30 bg-white/5' : 'border-slate-100 bg-slate-50'}`}
             >
               <div
                 id={`label-${scale.id}`}
                 className="flex w-full items-start justify-between gap-2"
               >
-                <span className="min-w-0 flex-1 text-left text-sm font-bold text-slate-700">
-                  {t(scale.negLabel)}
+                <span
+                  className={`min-w-0 flex-1 text-left text-sm font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
+                >
+                  <BionicText text={t(scale.negLabel)} enabled={hasBionic} />
                 </span>
-                <span className="min-w-0 flex-1 text-right text-sm font-bold text-slate-700">
-                  {t(scale.posLabel)}
+                <span
+                  className={`min-w-0 flex-1 text-right text-sm font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
+                >
+                  <BionicText text={t(scale.posLabel)} enabled={hasBionic} />
                 </span>
               </div>
 
@@ -715,7 +771,7 @@ export const SurveyComponent: React.FC<{
                           `${t(scale.negLabel)} – ${t(scale.posLabel)}, ${val}`,
                         );
                       }}
-                      className="h-6 w-6 appearance-none rounded-full border-2 border-slate-300 transition-all group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 md:h-7 md:w-7"
+                      className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 checked:border-transparent checked:bg-indigo-500 group-hover:border-indigo-400 focus-visible:ring-indigo-100'}`}
                       aria-label={t('feedback.rateAria', {
                         value: val,
                         max: 7,
@@ -738,20 +794,25 @@ export const SurveyComponent: React.FC<{
           payload construction above, which mirrors this same gate). */}
       {isGamified && (
         <fieldset className="flex min-w-0 flex-col gap-4">
-          <legend className="mb-4 w-full border-b pb-2 text-lg font-black tracking-widest text-slate-400 uppercase">
-            {t('feedback.gamificationTitle')}
+          <legend
+            className={`mb-4 w-full border-b pb-2 text-lg font-black tracking-widest uppercase ${isHighContrast ? 'border-white/30 text-white' : 'text-slate-400'}`}
+          >
+            <BionicText
+              text={t('feedback.gamificationTitle')}
+              enabled={hasBionic}
+            />
           </legend>
           <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
             {GAMIFICATION_SCALES.map((scale) => (
               <div
                 key={scale.id}
-                className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4"
+                className={`flex flex-col gap-3 rounded-2xl border p-4 ${isHighContrast ? 'border-white/30 bg-white/5' : 'border-slate-100 bg-slate-50'}`}
               >
                 <label
                   id={`label-${scale.id}`}
-                  className="block text-sm leading-snug font-bold text-slate-700"
+                  className={`block text-sm leading-snug font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
                 >
-                  {t(scale.label)}
+                  <BionicText text={t(scale.label)} enabled={hasBionic} />
                 </label>
 
                 <div className="mt-2 flex flex-col items-center gap-3">
@@ -775,7 +836,7 @@ export const SurveyComponent: React.FC<{
                             handleGamificationChange(scale.id, val);
                             announce(`${t(scale.label)}, ${val}`);
                           }}
-                          className="h-6 w-6 appearance-none rounded-full border-2 border-slate-300 transition-all group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 md:h-7 md:w-7"
+                          className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 checked:border-transparent checked:bg-indigo-500 group-hover:border-indigo-400 focus-visible:ring-indigo-100'}`}
                           aria-label={t('feedback.rateAria', {
                             value: val,
                             max: 5,
@@ -787,26 +848,44 @@ export const SurveyComponent: React.FC<{
                   </div>
 
                   <div className="flex w-full items-start justify-between gap-2">
-                    <span className="min-w-0 flex-1 text-center text-[10px] leading-tight font-bold text-slate-400 sm:text-xs">
-                      {t(
-                        'survey.susAnchors.stronglyDisagree',
-                        'Strongly Disagree',
-                      )}
+                    <span
+                      className={`min-w-0 flex-1 text-center text-[10px] leading-tight font-bold sm:text-xs ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}
+                    >
+                      <BionicText
+                        text={t(
+                          'survey.susAnchors.stronglyDisagree',
+                          'Strongly Disagree',
+                        )}
+                        enabled={hasBionic}
+                      />
                     </span>
-                    <span className="min-w-0 flex-1 text-center text-[10px] leading-tight font-bold text-slate-400 sm:text-xs">
-                      {t('survey.susAnchors.stronglyAgree', 'Strongly Agree')}
+                    <span
+                      className={`min-w-0 flex-1 text-center text-[10px] leading-tight font-bold sm:text-xs ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}
+                    >
+                      <BionicText
+                        text={t(
+                          'survey.susAnchors.stronglyAgree',
+                          'Strongly Agree',
+                        )}
+                        enabled={hasBionic}
+                      />
                     </span>
                   </div>
                 </div>
               </div>
             ))}
 
-            <div className="flex flex-col gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-4 lg:col-span-2">
+            <div
+              className={`flex flex-col gap-2 rounded-2xl border p-4 lg:col-span-2 ${isHighContrast ? 'border-white/30 bg-white/5' : 'border-slate-100 bg-slate-50'}`}
+            >
               <label
                 htmlFor="gameElementFeedback"
-                className="block text-sm leading-snug font-bold text-slate-700"
+                className={`block text-sm leading-snug font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
               >
-                {t('feedback.gamification.elementFeedbackLabel')}
+                <BionicText
+                  text={t('feedback.gamification.elementFeedbackLabel')}
+                  enabled={hasBionic}
+                />
               </label>
               <textarea
                 id="gameElementFeedback"
@@ -822,7 +901,7 @@ export const SurveyComponent: React.FC<{
                 placeholder={t(
                   'feedback.gamification.elementFeedbackPlaceholder',
                 )}
-                className="w-full resize-none rounded-xl border border-slate-200 bg-white p-3 text-sm text-slate-700 focus:ring-4 focus:ring-indigo-100 focus:outline-none"
+                className={`w-full resize-none rounded-xl border p-3 text-sm focus:ring-4 focus:outline-none ${isHighContrast ? 'border-white/50 bg-black text-white focus:ring-white/30 placeholder:text-white/50' : 'border-slate-200 bg-white text-slate-700 focus:ring-indigo-100'}`}
               />
             </div>
           </div>
@@ -831,7 +910,9 @@ export const SurveyComponent: React.FC<{
 
       {}
       {error && (
-        <div className="rounded-r-lg border-l-4 border-red-500 bg-red-50 p-4 text-sm font-medium text-red-700">
+        <div
+          className={`rounded-r-lg border-l-4 p-4 text-sm font-medium ${isHighContrast ? 'border-white bg-white/10 text-white' : 'border-red-500 bg-red-50 text-red-700'}`}
+        >
           {error}
         </div>
       )}
@@ -842,29 +923,41 @@ export const SurveyComponent: React.FC<{
           a normal Submit retry rather than replacing it: the network may
           well recover, and this only exists for the case where it doesn't. */}
       {failedAttempts >= 2 && (
-        <div className="rounded-r-lg border-l-4 border-amber-400 bg-amber-50 p-4 text-sm text-amber-800">
+        <div
+          className={`rounded-r-lg border-l-4 p-4 text-sm ${isHighContrast ? 'border-white bg-white/10 text-white' : 'border-amber-400 bg-amber-50 text-amber-800'}`}
+        >
           <p className="font-medium">
-            {t('feedback.offlineNotice')}
+            <BionicText
+              text={t('feedback.offlineNotice')}
+              enabled={hasBionic}
+            />
           </p>
           <button
             type="button"
             onClick={handleBypass}
-            className="mt-3 font-black tracking-widest uppercase underline underline-offset-2 hover:text-amber-900"
+            className={`mt-3 font-black tracking-widest uppercase underline underline-offset-2 ${isHighContrast ? 'hover:text-white/80' : 'hover:text-amber-900'}`}
           >
-            {t('feedback.skip')}
+            <BionicText text={t('feedback.skip')} enabled={hasBionic} />
           </button>
         </div>
       )}
 
-      <div className="border-t border-slate-100 pt-4">
+      <div
+        className={`border-t pt-4 ${isHighContrast ? 'border-white/30' : 'border-slate-100'}`}
+      >
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full rounded-2xl bg-indigo-600 py-5 font-black tracking-widest text-white uppercase shadow-lg transition-all hover:bg-indigo-500 focus:ring-4 focus:ring-indigo-200 focus:outline-none active:scale-[0.98] disabled:opacity-50 disabled:grayscale"
+          className={`w-full rounded-2xl py-5 font-black tracking-widest uppercase shadow-lg transition-all focus:ring-4 focus:outline-none active:scale-[0.98] disabled:opacity-50 disabled:grayscale ${isHighContrast ? 'bg-white text-black hover:bg-slate-200 focus:ring-white/30' : 'bg-indigo-600 text-white hover:bg-indigo-500 focus:ring-indigo-200'}`}
         >
-          {isSubmitting
-            ? t('loading', 'Ładowanie...')
-            : t('feedback.submit', 'Zapisz')}
+          <BionicText
+            text={
+              isSubmitting
+                ? t('loading', 'Ładowanie...')
+                : t('feedback.submit', 'Zapisz')
+            }
+            enabled={hasBionic}
+          />
         </button>
       </div>
     </form>
