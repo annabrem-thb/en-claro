@@ -5,6 +5,8 @@ import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { seededShuffle } from '../../utils/shuffleUtils.js';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
@@ -267,7 +269,7 @@ function SequenceExercise({
         </h3>
       )}
 
-      <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
+      <ExerciseControlsRow className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
         <TTSController
           onReadAloud={readAvailableWords}
           pauseAllTimeouts={() => {
@@ -276,11 +278,8 @@ function SequenceExercise({
           resumeAllTimeouts={() => {
             if (!isShowingCorrection) resumeAllTimeouts();
           }}
-          t={t}
           controlBtnSize={controlBtnSize}
-          isHighContrast={isHighContrast}
           noFlash={noFlash}
-          bionicReading={bionicReading}
           ttsFallback={ttsFallback}
         />
 
@@ -301,27 +300,18 @@ function SequenceExercise({
           declineModelDownload={declineModelDownload}
           controlBtnSize={controlBtnSize}
         />
-      </div>
+      </ExerciseControlsRow>
 
       {/* Before this, the only clue that the mic expects a spoken *option
           number* was the button's aria-label — invisible to sighted users,
           who had no way to know what to say. */}
-      {transcript ? (
-        <p
-          className={`mb-1 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-2 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-        >
-          {t('heard')}:{' '}
-          <span className={isHighContrast ? 'text-white' : 'text-slate-600'}>
-            {transcript}
-          </span>
-        </p>
-      ) : (
-        <p
-          className={`mb-1 shrink-0 text-center text-[10px] font-medium sm:mb-2 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-        >
-          {t('speakOptionNumber')}
-        </p>
-      )}
+      <TranscriptDisplay
+        transcript={transcript}
+        idleText={t('speakOptionNumber')}
+        isHighContrast={isHighContrast}
+        t={t}
+        className="mb-1 shrink-0 text-center text-[10px] sm:mb-2 sm:text-xs"
+      />
 
       <div className="no-scrollbar mb-2 flex max-h-[35dvh] min-h-15 w-full shrink flex-wrap content-start gap-2 overflow-y-auto rounded-2xl border-4 border-dashed border-slate-200 bg-slate-50 p-2.5 sm:mb-4 sm:min-h-25 sm:gap-3 sm:rounded-3xl sm:p-4">
         {selectedWords.length === 0 && (

@@ -18,10 +18,12 @@
     "test:run": "vitest run",
     "test:e2e": "playwright test",
     "check:locales": "node check-locales.mjs",
+    "check:sets": "node check-sets.mjs",
+    "audit:vocabulary": "node audit-vocabulary.mjs",
     "serve": "npm run build && npm run preview",
     "clean": "rm -rf dist node_modules .vite",
     "audit:check": "npm audit",
-    "export:survey": "node scripts/export-netlify-forms.js"
+    "export:survey": "node scripts/export-survey-data.js"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,md}": "prettier --write"
@@ -29,7 +31,6 @@
   "dependencies": {
     "@floating-ui/react": "^0.27.20",
     "@huggingface/transformers": "^4.2.0",
-    "@supabase/supabase-js": "^2.106.1",
     "i18next": "^26.2.0",
     "lottie-react": "^2.4.1",
     "mespeak": "^2.0.2",

@@ -20,6 +20,11 @@ test.describe('Dyslexia PWA - Przerwy Kognitywne', () => {
         'cfg_settings',
         JSON.stringify({ cognitiveBreaks: true }),
       );
+      // Study mode defaults to on (see useStudyModeState.js) and, while
+      // active, replaces the Classic/Gamified picker with a read-only
+      // status line — opt out first so "Study only" is an actual clickable
+      // button.
+      window.localStorage.setItem('studyModeEnabled', 'false');
     });
   });
   test('powinno wyświetlić powiadomienie "Czas na przerwę?" po wystąpieniu zmęczenia (serii błędów)', async ({
@@ -27,9 +32,14 @@ test.describe('Dyslexia PWA - Przerwy Kognitywne', () => {
   }) => {
     test.setTimeout(90000);
     await page.goto('/');
+    await page.locator('text=/Weiter|Next|Dalej/i').click();
     await page.locator('text=/Tylko nauka|Study only/i').click();
     await page.locator('text=/Rozpocznij|Start/i').click();
-    await expect(page.locator('[role="status"]')).toBeVisible();
+    // The CognitiveEnergyIndicator badge that used to be asserted visible
+    // here now lives in the progress row, which — like nav — is unmounted
+    // while a task is actively being processed (Stage 2D), so it isn't
+    // reliably present at this exact point; the loop below exercises the
+    // same feature by driving it to the break prompt directly.
     // The break prompt needs 4 wrong answers within a 3-minute window
     // (useCognitiveLoad.js). Two things make a fixed "click the first
     // button 5 times" unreliable: (1) the exercise rotation includes

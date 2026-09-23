@@ -5,6 +5,8 @@ import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { getSmartSpellingHint } from '../../utils/spellingHints';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
@@ -212,16 +214,13 @@ function ContextExercise({
         <BionicText text={data.sentence_part2} enabled={bionicReading} />
       </div>
 
-      <div className="mb-3 flex shrink-0 gap-4 sm:mb-6 sm:gap-6">
+      <ExerciseControlsRow className="mb-3 flex shrink-0 gap-4 sm:mb-6 sm:gap-6">
         <TTSController
           onReadAloud={readContextAndOptions}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
           controlBtnSize={controlBtnSize}
-          isHighContrast={isHighContrast}
           noFlash={noFlash}
-          bionicReading={bionicReading}
           ttsFallback={ttsFallback}
         />
 
@@ -241,20 +240,17 @@ function ContextExercise({
           declineModelDownload={declineModelDownload}
           controlBtnSize={controlBtnSize}
         />
-      </div>
+      </ExerciseControlsRow>
 
       {/* Before this, the only clue that the mic expects a spoken *option
           number* was the button's aria-label — invisible to sighted users,
           who had no way to know what to say. */}
-      {transcript ? (
-        <p className="mb-2 shrink-0 text-center text-[10px] font-black tracking-widest text-slate-600 uppercase sm:mb-3 sm:text-xs">
-          {t('heard')}: <span className="text-slate-600">{transcript}</span>
-        </p>
-      ) : (
-        <p className="mb-2 shrink-0 text-center text-[10px] font-medium text-slate-600 sm:mb-3 sm:text-xs">
-          {t('speakOptionNumber')}
-        </p>
-      )}
+      <TranscriptDisplay
+        transcript={transcript}
+        idleText={t('speakOptionNumber')}
+        isHighContrast={isHighContrast}
+        t={t}
+      />
 
       <div className="no-scrollbar grid max-h-full min-h-0 w-full max-w-sm shrink grid-cols-1 gap-2 overflow-y-auto px-2 pt-2 pb-2 sm:gap-3">
         {shuffledOptions.map((opt, i) => (

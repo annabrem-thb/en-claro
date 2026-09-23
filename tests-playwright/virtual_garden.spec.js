@@ -8,20 +8,26 @@ test.describe('Dyslexia PWA - Wirtualny Ogród', () => {
   test('ładuje aplikację, przechodzi do ogrodu i weryfikuje jego stan startowy', async ({
     page: page,
   }) => {
+    // Study mode defaults to on (see useStudyModeState.js) and, while
+    // active, replaces the Classic/Gamified picker with a read-only status
+    // line showing whichever variant the study's own coin flip assigned —
+    // this test needs Gamified specifically (to reach the Garden tab at
+    // all), so it opts out of the guided flow first to get the picker back.
+    await page.addInitScript(() => {
+      window.localStorage.setItem('studyModeEnabled', 'false');
+    });
     await page.goto('/');
-    await page.locator('text=/Gra|Game|Gamified/i').click();
+    await page.locator('text=/Weiter|Next|Dalej/i').click();
+    // Scoped to the button role: the Study Mode toggle's own description
+    // text ("...one with game elements...") also contains "game" and would
+    // otherwise match this same plain-text locator ambiguously.
+    await page.getByRole('button', { name: /Gra|Game|Gamified/i }).click();
     await page.locator('text=/Rozpocznij|Start/i').click();
-    // SidebarNav (<aside>, desktop) and BottomNav (<nav class="...
-    // justify-around...">, mobile/tablet) both always render — CSS-hidden
-    // per breakpoint, not conditionally mounted — so a bare 'aside'/'nav'
-    // locator either misses the viewport-appropriate one or (for nav)
-    // strict-mode-fails on matching both. Target whichever chrome is
-    // actually visible for this project instead of assuming desktop.
-    const navChrome = page
-      .locator('aside:visible, nav.justify-around:visible')
-      .first();
-    await expect(navChrome).toBeVisible();
-    await navChrome.getByText(/Ogród|Garden/i).click();
+    // Nav is unmounted entirely while a task is being processed (Stage 2D),
+    // so it can't be relied on to click "Garden" right after Start — the
+    // Ctrl/Cmd/Alt+4 shortcut (Garden is pillar-count-th, gamified mode
+    // only) reaches it regardless of that window.
+    await page.keyboard.press('Control+4');
     await expect(page.locator('#garden-container')).toBeVisible();
     // The growth-stage name (e.g. "Ziarno") is no longer shown as a visible
     // heading — it lives only in the sr-only aria-live journey summary now

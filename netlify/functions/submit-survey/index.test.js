@@ -12,8 +12,10 @@ const { buildDbData, validatePayload, handler } = require('./index.js');
 
 // Mirrors the exact shape SurveyComponent.tsx sends: NasaTlxPayload fields
 // spread directly (mentalDemand/physicalDemand/temporalDemand/performance/
-// effort/frustration) plus SusPayload fields spread directly (sus01..sus10,
-// no "_q"). See public/survey.ts.
+// effort/frustration), SusPayload fields spread directly (sus01..sus10, no
+// "_q"), UeqPayload fields spread directly (ueq01..ueq08, no "_q"), and
+// GamificationFeedbackPayload fields (only present for a gamified session —
+// see public/survey.ts).
 function makeClientPayload(overrides = {}) {
   return {
     mentalDemand: 70,
@@ -32,6 +34,18 @@ function makeClientPayload(overrides = {}) {
     sus08: 2,
     sus09: 4,
     sus10: 1,
+    ueq01: 6,
+    ueq02: 5,
+    ueq03: 6,
+    ueq04: 5,
+    ueq05: 7,
+    ueq06: 6,
+    ueq07: 4,
+    ueq08: 5,
+    gardenMotivation: 4,
+    badgeMotivation: 5,
+    gameDistraction: 2,
+    gameElementFeedback: 'Der Garten hat mich am meisten motiviert.',
     participantId: 'participant-123',
     appVersion: 'vollversion',
     userLanguage: 'de',
@@ -72,6 +86,50 @@ describe('submit-survey buildDbData', () => {
     expect(dbData.sus_q10).toBe(1);
   });
 
+  it('carries every UEQ-S item through under its ueq_qNN db column name', () => {
+    const dbData = buildDbData(makeClientPayload());
+
+    expect(dbData.ueq_q01).toBe(6);
+    expect(dbData.ueq_q02).toBe(5);
+    expect(dbData.ueq_q03).toBe(6);
+    expect(dbData.ueq_q04).toBe(5);
+    expect(dbData.ueq_q05).toBe(7);
+    expect(dbData.ueq_q06).toBe(6);
+    expect(dbData.ueq_q07).toBe(4);
+    expect(dbData.ueq_q08).toBe(5);
+  });
+
+  it('carries gamification-element feedback through for a gamified submission', () => {
+    const dbData = buildDbData(makeClientPayload());
+
+    expect(dbData.garden_motivation).toBe(4);
+    expect(dbData.badge_motivation).toBe(5);
+    expect(dbData.game_distraction).toBe(2);
+    expect(dbData.game_element_feedback).toBe(
+      'Der Garten hat mich am meisten motiviert.',
+    );
+  });
+
+  // A basis-version session never shows a garden/badges, so
+  // SurveyComponent.tsx omits these fields from the payload entirely
+  // rather than sending a meaningless score — that must land as NULL, not
+  // as an accidental 0/empty-string default.
+  it('stores gamification-element feedback as NULL when absent from the payload (basis condition)', () => {
+    const dbData = buildDbData(
+      makeClientPayload({
+        gardenMotivation: undefined,
+        badgeMotivation: undefined,
+        gameDistraction: undefined,
+        gameElementFeedback: undefined,
+      }),
+    );
+
+    expect(dbData.garden_motivation).toBeUndefined();
+    expect(dbData.badge_motivation).toBeUndefined();
+    expect(dbData.game_distraction).toBeUndefined();
+    expect(dbData.game_element_feedback).toBeNull();
+  });
+
   // The actual regression: this field-name mismatch (payload.mental instead
   // of payload.mentalDemand, payload.sus_q01 instead of payload.sus01, etc.)
   // was silently writing `undefined` — NULL in Postgres — for SUS and half
@@ -96,6 +154,14 @@ describe('submit-survey buildDbData', () => {
       'sus_q08',
       'sus_q09',
       'sus_q10',
+      'ueq_q01',
+      'ueq_q02',
+      'ueq_q03',
+      'ueq_q04',
+      'ueq_q05',
+      'ueq_q06',
+      'ueq_q07',
+      'ueq_q08',
     ];
 
     for (const key of measurementKeys) {
@@ -121,6 +187,53 @@ describe('submit-survey buildDbData', () => {
       isGamified: true,
     });
     expect(buildDbData(payload).app_version).toBe('gamified');
+  });
+
+  it('maps variantOrder and block to variant_order and block', () => {
+    const dbData = buildDbData(
+      makeClientPayload({
+        appVersion: 'basis',
+        variantOrder: 'classicFirst',
+        block: 1,
+      }),
+    );
+    expect(dbData.variant_order).toBe('classicFirst');
+    expect(dbData.block).toBe(1);
+  });
+
+  it('stores variant_order and block as NULL for a survey outside a guided block', () => {
+    const dbData = buildDbData(makeClientPayload());
+    expect(dbData.variant_order).toBeNull();
+    expect(dbData.block).toBeNull();
+  });
+
+  it('throws on an unknown appVersion instead of silently filing it as "basic"', () => {
+    for (const appVersion of ['Basis', 'vollversion ', 'full', '', 7, true]) {
+      expect(
+        () => buildDbData(makeClientPayload({ appVersion })),
+        `appVersion=${JSON.stringify(appVersion)}`,
+      ).toThrow(/appVersion/);
+    }
+  });
+
+  it('throws when neither appVersion nor a boolean isGamified is present', () => {
+    expect(() =>
+      buildDbData(makeClientPayload({ appVersion: undefined })),
+    ).toThrow(/appVersion is required/);
+    expect(() =>
+      buildDbData(
+        makeClientPayload({ appVersion: undefined, isGamified: 'yes' }),
+      ),
+    ).toThrow(/appVersion is required/);
+  });
+
+  it('accepts the already-English condition names as well', () => {
+    expect(
+      buildDbData(makeClientPayload({ appVersion: 'gamified' })).app_version,
+    ).toBe('gamified');
+    expect(
+      buildDbData(makeClientPayload({ appVersion: 'basic' })).app_version,
+    ).toBe('basic');
   });
 
   it('translates theme, language, and a11y addon labels to English for analysis', () => {
@@ -166,6 +279,74 @@ describe('submit-survey validatePayload', () => {
   it('rejects a string field sent as the wrong type', () => {
     const error = validatePayload(makeClientPayload({ participantId: 123 }));
     expect(error).toMatch(/participantId/);
+  });
+
+  it('rejects a UEQ-S field sent as the wrong type', () => {
+    const error = validatePayload(makeClientPayload({ ueq03: 'six' }));
+    expect(error).toMatch(/ueq03/);
+  });
+
+  it('rejects a gamification-feedback numeric field sent as the wrong type', () => {
+    const error = validatePayload(
+      makeClientPayload({ gardenMotivation: 'lots' }),
+    );
+    expect(error).toMatch(/gardenMotivation/);
+  });
+
+  it('accepts a payload with gamification-feedback fields omitted (basis condition)', () => {
+    const error = validatePayload(
+      makeClientPayload({
+        gardenMotivation: undefined,
+        badgeMotivation: undefined,
+        gameDistraction: undefined,
+        gameElementFeedback: undefined,
+      }),
+    );
+    expect(error).toBeNull();
+  });
+
+  it('rejects an unknown or missing appVersion with a validation error', () => {
+    expect(validatePayload(makeClientPayload({ appVersion: 'Basis' }))).toMatch(
+      /Unknown appVersion/,
+    );
+    expect(
+      validatePayload(makeClientPayload({ appVersion: undefined })),
+    ).toMatch(/appVersion is required/);
+  });
+
+  it('accepts a valid variantOrder and block', () => {
+    expect(
+      validatePayload(
+        makeClientPayload({ variantOrder: 'gamifiedFirst', block: 2 }),
+      ),
+    ).toBeNull();
+  });
+
+  it('accepts a variantOrder without a block (participant with an order, survey opened manually)', () => {
+    expect(
+      validatePayload(makeClientPayload({ variantOrder: 'classicFirst' })),
+    ).toBeNull();
+  });
+
+  it('rejects an unknown variantOrder', () => {
+    const error = validatePayload(
+      makeClientPayload({ variantOrder: 'random', block: 1 }),
+    );
+    expect(error).toMatch(/variantOrder/);
+  });
+
+  it('rejects a block outside 1-2', () => {
+    for (const block of [0, 3, '1', 1.5]) {
+      const error = validatePayload(
+        makeClientPayload({ variantOrder: 'classicFirst', block }),
+      );
+      expect(error, `block=${JSON.stringify(block)}`).toMatch(/block/);
+    }
+  });
+
+  it('rejects a block sent without its variantOrder', () => {
+    const error = validatePayload(makeClientPayload({ block: 1 }));
+    expect(error).toMatch(/variantOrder is required/);
   });
 
   it('rejects a11yAddons that is not an array', () => {
@@ -218,6 +399,18 @@ describe('submit-survey handler', () => {
     expect(response.statusCode).toBe(400);
     const body = JSON.parse(response.body);
     expect(body.error).toMatch(/dailyGoal/);
+  });
+
+  it('answers an unknown appVersion with 400, never inserting it under a guessed condition', async () => {
+    const response = await handler(
+      {
+        httpMethod: 'POST',
+        body: JSON.stringify(makeClientPayload({ appVersion: 'Basis' })),
+      },
+      {},
+    );
+    expect(response.statusCode).toBe(400);
+    expect(JSON.parse(response.body).error).toMatch(/Unknown appVersion/);
   });
 
   // Regression test for the leak: index.js used to return

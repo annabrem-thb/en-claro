@@ -2,9 +2,19 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Dyslexia PWA - Pierwsze uruchomienie i ćwiczenie', () => {
   test.beforeEach(async ({ page }) => {
-    // Czyszczenie Local Storage przez wejście na stronę i ewaluację kodu JS
+    // addInitScript, not page.evaluate() after a goto: the app's own
+    // useUserSettings effect writes its current in-memory settings back to
+    // localStorage on mount, which races with a page.evaluate() write made
+    // right after that mount already happened (see cognitive_break.spec.js).
+    await page.addInitScript(() => {
+      window.localStorage.clear();
+      // Study mode defaults to on (see useStudyModeState.js) and, while
+      // active, replaces the Classic/Gamified picker with a read-only
+      // status line — opt out first so "Study only" is an actual clickable
+      // button.
+      window.localStorage.setItem('studyModeEnabled', 'false');
+    });
     await page.goto('/');
-    await page.evaluate(() => window.localStorage.clear());
   });
 
   test('ładuje aplikację, przechodzi przez ekran powitalny i próbuje rozwiązać pierwsze ćwiczenie', async ({
@@ -14,18 +24,16 @@ test.describe('Dyslexia PWA - Pierwsze uruchomienie i ćwiczenie', () => {
 
     // Przejście przez ekran powitalny
     await expect(page.locator('text=/EnClaro/i')).toBeVisible();
+    await page.locator('text=/Weiter|Next|Dalej/i').click();
     await page.locator('text=/Tylko nauka|Study only/i').click();
     await page.locator('text=/Rozpocznij|Start/i').click();
 
     // Weryfikacja załadowania głównego interfejsu aplikacji
-    // `<aside>` is SidebarNav's own tag, but it's desktop-only — below the
-    // `lg:` breakpoint (Tablet/Mobile projects) it's CSS-hidden in favor of
-    // BottomNav, which is a `<nav>`, not an `<aside>`. Checking for a
-    // visible navigation landmark (either one) instead of a specific tag
-    // makes this assertion viewport-agnostic.
-    await expect(
-      page.getByRole('navigation').locator('visible=true').first(),
-    ).toBeVisible();
+    // Nav (SidebarNav/BottomNav) is unmounted entirely while a task is
+    // actively being processed (Stage 2D) — not just CSS-hidden per
+    // breakpoint — so it can't be asserted visible here; the main content
+    // region below is the reliable "app loaded" signal instead.
+    await expect(page.locator('#main-content')).toBeVisible();
     await expect(page.locator('section')).toBeVisible();
 
     await expect(page.locator('text=/Brak zadań|No tasks/i')).not.toBeVisible();

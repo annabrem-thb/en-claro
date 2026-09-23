@@ -19,9 +19,6 @@ export const initDB = () => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
-      if (!db.objectStoreNames.contains('ux_logs')) {
-        db.createObjectStore('ux_logs', { keyPath: 'timestamp' });
-      }
       if (!db.objectStoreNames.contains('daily_progress')) {
         db.createObjectStore('daily_progress', { keyPath: 'date' });
       }

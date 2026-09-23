@@ -1,6 +1,7 @@
 {
   "title": "A moment of reflection",
   "desc": "How do you evaluate today's session? Your feedback helps us adapt the app to you.",
+  "privacyNotice": "Submitting this form sends your answers on this page, together with a randomly generated identifier not linked to your name, the app version you used, your language, theme, and your active comfort settings, to a server, stored solely for the evaluation of this thesis. No names, contact details, or exercise content are transmitted.",
   "nasaTitle": "Workload (NASA-TLX)",
   "low": "Low",
   "high": "High",
@@ -18,8 +19,48 @@
     "frustration": "Frustration",
     "frustrationDesc": "How insecure, discouraged, irritated, stressed, and annoyed were you?"
   },
-  "rateAria": "Rate {{value}} out of 5",
+  "ueqTitle": "User Experience (UEQ-Short)",
+  "ueq": {
+    "obstructive": "Obstructive",
+    "supportive": "Supportive",
+    "complicated": "Complicated",
+    "easy": "Easy",
+    "inefficient": "Inefficient",
+    "efficient": "Efficient",
+    "confusing": "Confusing",
+    "clear": "Clear",
+    "boring": "Boring",
+    "exciting": "Exciting",
+    "notInteresting": "Not interesting",
+    "interesting": "Interesting",
+    "conventional": "Conventional",
+    "inventive": "Inventive",
+    "usual": "Usual",
+    "leadingEdge": "Leading edge"
+  },
+  "gamificationTitle": "Game Elements",
+  "gamification": {
+    "gardenMotivation": "The growing garden motivated me to keep going.",
+    "badgeMotivation": "The achievement badges motivated me additionally.",
+    "distraction": "The game elements distracted me from the exercises.",
+    "elementFeedbackLabel": "What about the garden, badges, or progress indicator helped or bothered you most? (optional)",
+    "elementFeedbackPlaceholder": "Your answer..."
+  },
+  "rateAria": "Rate {{value}} out of {{max}}",
   "submit": "Save and continue",
   "skip": "Skip this time",
-  "thankYou": "Thank you for your feedback!"
+  "offlineNotice": "We couldn't reach the server. Your answers are saved on this device — you can continue, and we'll ask again later.",
+  "allRequired": "All questions must be answered. Only the free-text field is optional.",
+  "sliderInstructions": "Move the slider or press Enter to confirm your answer. Until then the question counts as unanswered.",
+  "notAnswered": "Not answered yet",
+  "validationSummary": "Please answer all highlighted questions before submitting.",
+  "validationItemRequired": "This question is still unanswered.",
+  "errorServer": "A server communication error occurred.",
+  "errorGeneric": "An unexpected error occurred.",
+  "successHeading": "Success!",
+  "thankYou": "Thank you for your feedback!",
+  "correct": "Correct.",
+  "correctWithRule": "Correct. Rule: {{rule}}",
+  "incorrect": "Not correct.",
+  "incorrectWithRule": "Not correct. Rule: {{rule}}"
 }

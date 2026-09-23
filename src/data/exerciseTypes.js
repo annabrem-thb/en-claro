@@ -29,6 +29,7 @@ export const EXERCISE_PILLARS = {
     'readAloud',
     'comprehension',
     'rhythm',
+    'graphemePhoneme',
   ],
   Visual: ['clock', 'tracking', 'mirrorImage', 'oddOneOut'],
   Cognitive: [
@@ -48,3 +49,50 @@ const ALL_EXERCISE_KEYS = Object.values(EXERCISE_PILLARS).flat();
 export function getDefaultActiveExercises() {
   return Object.fromEntries(ALL_EXERCISE_KEYS.map((key) => [key, true]));
 }
+
+// Exercise types kept in the codebase (components, data, per-user toggle)
+// but not offered in this build's session routing — a code-level gate that
+// wins regardless of the user's own activeExercises setting, unlike every
+// other key above. `tracking` routes to the spatial-tracking exercise,
+// `rhythm`/`rhythmMemory`/`melodyMemory` to the sound-timing/melody-recall
+// ones; none exercise phoneme/grapheme decoding, the skill this pillar set
+// is meant to practice.
+const EXCLUDED_FROM_STUDY = [
+  'tracking',
+  'rhythm',
+  'rhythmMemory',
+  'melodyMemory',
+];
+
+export const STUDY_EXERCISE_TYPES = new Set(
+  ALL_EXERCISE_KEYS.filter((key) => !EXCLUDED_FROM_STUDY.includes(key)),
+);
+
+// Same shape as EXERCISE_PILLARS, with the excluded keys dropped from each
+// pillar's list — what exercise-toggle UI should render, so it never offers
+// a switch for a type that STUDY_EXERCISE_TYPES will never select anyway.
+export const STUDY_EXERCISE_PILLARS = Object.fromEntries(
+  Object.entries(EXERCISE_PILLARS).map(([pillar, keys]) => [
+    pillar,
+    keys.filter((key) => !EXCLUDED_FROM_STUDY.includes(key)),
+  ]),
+);
+
+// Types the guided study must not *assign* to a participant's exercise plan.
+// The study gives block 1 Set A and block 2 Set B (studySets.js), so a type
+// only works in the plan if both sets hold items at the study difficulty
+// (the default userDifficulty, 2) in every language. These two don't:
+// `comprehension`'s Set-B items all sit at another difficulty, and
+// `graphemePhoneme`'s study-eligible odd-id items are all in Set A. Left in
+// the plan they would silently vanish from block 2 (fewer tasks than the
+// block requires, so items would repeat). They stay fully available in free
+// use — this only shapes what the study assigns; studySets.test.js fails if
+// a type left in the plan loses its Set-A/Set-B coverage.
+const EXCLUDED_FROM_STUDY_PLAN = ['comprehension', 'graphemePhoneme'];
+
+export const STUDY_PLAN_EXERCISE_PILLARS = Object.fromEntries(
+  Object.entries(STUDY_EXERCISE_PILLARS).map(([pillar, keys]) => [
+    pillar,
+    keys.filter((key) => !EXCLUDED_FROM_STUDY_PLAN.includes(key)),
+  ]),
+);

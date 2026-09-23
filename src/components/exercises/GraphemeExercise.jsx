@@ -5,6 +5,8 @@ import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { getSmartSpellingHint } from '../../utils/spellingHints';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
@@ -119,7 +121,15 @@ function GraphemeExercise({
     const readOption = (index) => {
       if (index >= shuffledOptions.length) return;
       const opt = shuffledOptions[index];
-      const hint = getSmartSpellingHint(opt.text, allOptionTexts, language, t);
+      // `opt.text` is the answer itself for spelling-choice questions, so
+      // spelling it out letter-by-letter is the right hint there — but for
+      // an emoji-only option (mirrorImage/oddOneOut) it's not a word at
+      // all, and getSmartSpellingHint has nothing to work with. `label` is
+      // only ever present on those emoji options, so its presence is
+      // exactly the signal to speak that instead of spelling `text`.
+      const hint = opt.label
+        ? opt.label[language] || opt.label.en
+        : getSmartSpellingHint(opt.text, allOptionTexts, language, t);
       const prefix = t('optionPrefix', { number: index + 1 });
       const spokenPrefix = prefix.replace(':', '.');
       const spokenHint = formatTimeForTTS(hint, language);
@@ -154,16 +164,13 @@ function GraphemeExercise({
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-start overflow-hidden px-2 pt-6 pb-2 sm:pt-10`}
     >
       {}
-      <div className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
+      <ExerciseControlsRow className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
         <TTSController
           onReadAloud={readQuestionAndOptions}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
           controlBtnSize={controlBtnSize}
-          isHighContrast={isHighContrast}
           noFlash={noFlash}
-          bionicReading={bionicReading}
           ttsFallback={ttsFallback}
         />
 
@@ -183,24 +190,17 @@ function GraphemeExercise({
           declineModelDownload={declineModelDownload}
           controlBtnSize={controlBtnSize}
         />
-      </div>
+      </ExerciseControlsRow>
 
       {/* Before this, the only clue that the mic expects a spoken *option
           number* was the button's aria-label — invisible to sighted users,
           who had no way to know what to say. */}
-      {transcript ? (
-        <p
-          className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-3 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-        >
-          {t('heard')}: <span className="text-slate-600">{transcript}</span>
-        </p>
-      ) : (
-        <p
-          className={`mb-2 shrink-0 text-center text-[10px] font-medium sm:mb-3 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-        >
-          {t('speakOptionNumber')}
-        </p>
-      )}
+      <TranscriptDisplay
+        transcript={transcript}
+        idleText={t('speakOptionNumber')}
+        isHighContrast={isHighContrast}
+        t={t}
+      />
 
       {!zenMode && (
         <h3
@@ -219,6 +219,7 @@ function GraphemeExercise({
               opt.isCorrect ? onSuccess() : onError();
             }}
             disabled={isListening}
+            aria-label={opt.label ? opt.label[language] || opt.label.en : undefined}
             className={`relative min-w-32 flex-1 ${btnPadding} flex flex-col items-center justify-center gap-3 rounded-4xl border-b-8 shadow-lg transition-all active:translate-y-2 active:border-b-0 md:shadow-sm ${
               isListening
                 ? // Dims the tile in place rather than swapping its colors

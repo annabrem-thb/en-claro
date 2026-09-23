@@ -2,6 +2,7 @@ export const wordDatabaseEN = {
   phonemes: [
     {
       id: 1,
+      set: 'A',
       type: 'phoneme',
       word: 'Entrepreneur',
       difficulty: 3,
@@ -14,6 +15,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'phoneme',
       word: 'Paradigm',
       difficulty: 3,
@@ -26,6 +28,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'phoneme',
       word: 'Ubiquitous',
       difficulty: 3,
@@ -38,6 +41,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'phoneme',
       word: 'Hierarchy',
       difficulty: 2,
@@ -50,6 +54,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'phoneme',
       word: 'Colleague',
       difficulty: 1,
@@ -62,6 +67,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'phoneme',
       word: 'Bureaucracy',
       difficulty: 3,
@@ -74,6 +80,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'phoneme',
       word: 'Conscientious',
       difficulty: 3,
@@ -86,6 +93,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'phoneme',
       word: 'Guarantee',
       difficulty: 2,
@@ -98,6 +106,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'phoneme',
       word: 'Vulnerable',
       difficulty: 2,
@@ -110,6 +119,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'phoneme',
       word: 'Miscellaneous',
       difficulty: 3,
@@ -122,6 +132,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'phoneme',
       word: 'Queue',
       difficulty: 3,
@@ -134,6 +145,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'phoneme',
       word: 'Maneuver',
       difficulty: 3,
@@ -146,6 +158,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'phoneme',
       word: 'Psychology',
       difficulty: 3,
@@ -158,6 +171,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'phoneme',
       word: 'Chaos',
       difficulty: 2,
@@ -170,6 +184,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'phoneme',
       word: 'Liaison',
       difficulty: 3,
@@ -182,6 +197,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'phoneme',
       word: 'Nuance',
       difficulty: 2,
@@ -194,6 +210,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'phoneme',
       word: 'Feasible',
       difficulty: 2,
@@ -206,6 +223,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'phoneme',
       word: 'Itinerary',
       difficulty: 3,
@@ -218,6 +236,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'phoneme',
       word: 'Subsidiary',
       difficulty: 3,
@@ -230,6 +249,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'phoneme',
       word: 'Genuine',
       difficulty: 1,
@@ -244,6 +264,7 @@ export const wordDatabaseEN = {
   graphemes: [
     {
       id: 13,
+      set: 'A',
       type: 'grapheme',
       difficulty: 4,
       focus: 'silent "k" before "n"',
@@ -261,22 +282,23 @@ export const wordDatabaseEN = {
         {
           text: 'Nee',
           isCorrect: false,
-          icon: '❌',
+          icon: '🦵',
         },
         {
           text: 'Kne',
           isCorrect: false,
-          icon: '❌',
+          icon: '🦵',
         },
         {
           text: 'Neee',
           isCorrect: false,
-          icon: '❌',
+          icon: '🦵',
         },
       ],
     },
     {
       id: 14,
+      set: 'B',
       type: 'grapheme',
       difficulty: 4,
       focus: 'silent "g" before "n"',
@@ -294,22 +316,23 @@ export const wordDatabaseEN = {
         {
           text: 'Nome',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧙',
         },
         {
           text: 'Knome',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧙',
         },
         {
           text: 'Gknome',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧙',
         },
       ],
     },
     {
       id: 15,
+      set: 'A',
       type: 'grapheme',
       difficulty: 4,
       focus: '"ough" — one spelling, many sounds',
@@ -327,22 +350,23 @@ export const wordDatabaseEN = {
         {
           text: 'Thawt',
           isCorrect: false,
-          icon: '❌',
+          icon: '💭',
         },
         {
           text: 'Thort',
           isCorrect: false,
-          icon: '❌',
+          icon: '💭',
         },
         {
           text: 'Thourght',
           isCorrect: false,
-          icon: '❌',
+          icon: '💭',
         },
       ],
     },
     {
       id: 16,
+      set: 'B',
       type: 'grapheme',
       difficulty: 4,
       focus: 'silent "b" after "m"',
@@ -360,22 +384,23 @@ export const wordDatabaseEN = {
         {
           text: 'Com',
           isCorrect: false,
-          icon: '❌',
+          icon: '🪮',
         },
         {
           text: 'Coumb',
           isCorrect: false,
-          icon: '❌',
+          icon: '🪮',
         },
         {
           text: 'Comm',
           isCorrect: false,
-          icon: '❌',
+          icon: '🪮',
         },
       ],
     },
     {
       id: 17,
+      set: 'A',
       type: 'grapheme',
       difficulty: 4,
       focus: 'silent "w" before "r"',
@@ -393,22 +418,23 @@ export const wordDatabaseEN = {
         {
           text: 'Rist',
           isCorrect: false,
-          icon: '❌',
+          icon: '✋',
         },
         {
           text: 'Wriist',
           isCorrect: false,
-          icon: '❌',
+          icon: '✋',
         },
         {
           text: 'Rrist',
           isCorrect: false,
-          icon: '❌',
+          icon: '✋',
         },
       ],
     },
     {
       id: 18,
+      set: 'B',
       type: 'grapheme',
       difficulty: 4,
       focus: 'doubling the consonant before "-ing"',
@@ -426,22 +452,23 @@ export const wordDatabaseEN = {
         {
           text: 'Runing',
           isCorrect: false,
-          icon: '❌',
+          icon: '🏃',
         },
         {
           text: 'Runnning',
           isCorrect: false,
-          icon: '❌',
+          icon: '🏃',
         },
         {
           text: 'Runeing',
           isCorrect: false,
-          icon: '❌',
+          icon: '🏃',
         },
       ],
     },
     {
       id: 19,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: '"i before e except after c"',
@@ -452,13 +479,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Receive', isCorrect: true, icon: '📨' },
-        { text: 'Recieve', isCorrect: false, icon: '❌' },
-        { text: 'Receeve', isCorrect: false, icon: '❌' },
-        { text: 'Receve', isCorrect: false, icon: '❌' },
+        { text: 'Recieve', isCorrect: false, icon: '📨' },
+        { text: 'Receeve', isCorrect: false, icon: '📨' },
+        { text: 'Receve', isCorrect: false, icon: '📨' },
       ],
     },
     {
       id: 20,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'silent "h"',
@@ -469,13 +497,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Honest', isCorrect: true, icon: '🤝' },
-        { text: 'Onest', isCorrect: false, icon: '❌' },
-        { text: 'Honnest', isCorrect: false, icon: '❌' },
-        { text: 'Honnist', isCorrect: false, icon: '❌' },
+        { text: 'Onest', isCorrect: false, icon: '🤝' },
+        { text: 'Honnest', isCorrect: false, icon: '🤝' },
+        { text: 'Honnist', isCorrect: false, icon: '🤝' },
       ],
     },
     {
       id: 21,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: '"ph" makes the "f" sound',
@@ -486,13 +515,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Phase', isCorrect: true, icon: '📆' },
-        { text: 'Faze', isCorrect: false, icon: '❌' },
-        { text: 'Fase', isCorrect: false, icon: '❌' },
-        { text: 'Phasse', isCorrect: false, icon: '❌' },
+        { text: 'Faze', isCorrect: false, icon: '📆' },
+        { text: 'Fase', isCorrect: false, icon: '📆' },
+        { text: 'Phasse', isCorrect: false, icon: '📆' },
       ],
     },
     {
       id: 22,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'doubling the final consonant before "-ed"',
@@ -503,13 +533,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Stopped', isCorrect: true, icon: '🛑' },
-        { text: 'Stoped', isCorrect: false, icon: '❌' },
-        { text: 'Stopp', isCorrect: false, icon: '❌' },
-        { text: 'Stoppped', isCorrect: false, icon: '❌' },
+        { text: 'Stoped', isCorrect: false, icon: '🛑' },
+        { text: 'Stopp', isCorrect: false, icon: '🛑' },
+        { text: 'Stoppped', isCorrect: false, icon: '🛑' },
       ],
     },
     {
       id: 23,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'double "c", single "s" — necessary',
@@ -519,14 +550,15 @@ export const wordDatabaseEN = {
         de: 'Dieses Wort wird oft falsch geschrieben. Welche Schreibweise ist richtig?',
       },
       options: [
-        { text: 'Necessary', isCorrect: true, icon: '✅' },
-        { text: 'Neccessary', isCorrect: false, icon: '❌' },
-        { text: 'Necesary', isCorrect: false, icon: '❌' },
-        { text: 'Neccesary', isCorrect: false, icon: '❌' },
+        { text: 'Necessary', isCorrect: true, icon: '🧠' },
+        { text: 'Neccessary', isCorrect: false, icon: '🧠' },
+        { text: 'Necesary', isCorrect: false, icon: '🧠' },
+        { text: 'Neccesary', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 24,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'common trap — definitely',
@@ -536,14 +568,15 @@ export const wordDatabaseEN = {
         de: 'Dies ist eines der am häufigsten falsch geschriebenen englischen Wörter. Welche Schreibweise ist richtig?',
       },
       options: [
-        { text: 'Definitely', isCorrect: true, icon: '✅' },
-        { text: 'Definately', isCorrect: false, icon: '❌' },
-        { text: 'Definitly', isCorrect: false, icon: '❌' },
-        { text: 'Defenitely', isCorrect: false, icon: '❌' },
+        { text: 'Definitely', isCorrect: true, icon: '🧠' },
+        { text: 'Definately', isCorrect: false, icon: '🧠' },
+        { text: 'Definitly', isCorrect: false, icon: '🧠' },
+        { text: 'Defenitely', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 25,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'common trap — separate',
@@ -553,14 +586,15 @@ export const wordDatabaseEN = {
         de: 'Merke: im Wort "sep-a-rate" steckt "a", nicht "e". Welche Schreibweise ist richtig?',
       },
       options: [
-        { text: 'Separate', isCorrect: true, icon: '✅' },
-        { text: 'Seperate', isCorrect: false, icon: '❌' },
-        { text: 'Separrate', isCorrect: false, icon: '❌' },
-        { text: 'Sepparate', isCorrect: false, icon: '❌' },
+        { text: 'Separate', isCorrect: true, icon: '🧠' },
+        { text: 'Seperate', isCorrect: false, icon: '🧠' },
+        { text: 'Separrate', isCorrect: false, icon: '🧠' },
+        { text: 'Sepparate', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 26,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'double "r" — occurred',
@@ -570,14 +604,15 @@ export const wordDatabaseEN = {
         de: 'Welche Schreibweise verdoppelt das "r" vor "-ed" richtig?',
       },
       options: [
-        { text: 'Occurred', isCorrect: true, icon: '✅' },
-        { text: 'Occured', isCorrect: false, icon: '❌' },
-        { text: 'Ocurred', isCorrect: false, icon: '❌' },
-        { text: 'Occurrred', isCorrect: false, icon: '❌' },
+        { text: 'Occurred', isCorrect: true, icon: '🧠' },
+        { text: 'Occured', isCorrect: false, icon: '🧠' },
+        { text: 'Ocurred', isCorrect: false, icon: '🧠' },
+        { text: 'Occurrred', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 27,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'single "c", double "m" — recommend',
@@ -587,14 +622,15 @@ export const wordDatabaseEN = {
         de: 'Welche Schreibweise ist richtig: einfaches "c", doppeltes "m"?',
       },
       options: [
-        { text: 'Recommend', isCorrect: true, icon: '✅' },
-        { text: 'Reccomend', isCorrect: false, icon: '❌' },
-        { text: 'Recomend', isCorrect: false, icon: '❌' },
-        { text: 'Reccommend', isCorrect: false, icon: '❌' },
+        { text: 'Recommend', isCorrect: true, icon: '🧠' },
+        { text: 'Reccomend', isCorrect: false, icon: '🧠' },
+        { text: 'Recomend', isCorrect: false, icon: '🧠' },
+        { text: 'Reccommend', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 28,
+      set: 'B',
       type: 'grapheme',
       difficulty: 4,
       focus: 'double "c", double "m" — accommodate',
@@ -604,14 +640,15 @@ export const wordDatabaseEN = {
         de: 'Welche Schreibweise ist richtig: doppeltes "c", doppeltes "m"?',
       },
       options: [
-        { text: 'Accommodate', isCorrect: true, icon: '✅' },
-        { text: 'Acommodate', isCorrect: false, icon: '❌' },
-        { text: 'Accomodate', isCorrect: false, icon: '❌' },
-        { text: 'Acomodate', isCorrect: false, icon: '❌' },
+        { text: 'Accommodate', isCorrect: true, icon: '🧠' },
+        { text: 'Acommodate', isCorrect: false, icon: '🧠' },
+        { text: 'Accomodate', isCorrect: false, icon: '🧠' },
+        { text: 'Acomodate', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 29,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'double "r", double "s" — embarrass',
@@ -621,14 +658,15 @@ export const wordDatabaseEN = {
         de: 'Welche Schreibweise ist richtig: doppeltes "r", doppeltes "s"?',
       },
       options: [
-        { text: 'Embarrass', isCorrect: true, icon: '✅' },
-        { text: 'Embarass', isCorrect: false, icon: '❌' },
-        { text: 'Emberrass', isCorrect: false, icon: '❌' },
-        { text: 'Embarras', isCorrect: false, icon: '❌' },
+        { text: 'Embarrass', isCorrect: true, icon: '🧠' },
+        { text: 'Embarass', isCorrect: false, icon: '🧠' },
+        { text: 'Emberrass', isCorrect: false, icon: '🧠' },
+        { text: 'Embarras', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 30,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'silent "b" — debt',
@@ -639,13 +677,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Debt', isCorrect: true, icon: '💳' },
-        { text: 'Det', isCorrect: false, icon: '❌' },
-        { text: 'Dept', isCorrect: false, icon: '❌' },
-        { text: 'Debtt', isCorrect: false, icon: '❌' },
+        { text: 'Det', isCorrect: false, icon: '💳' },
+        { text: 'Dept', isCorrect: false, icon: '💳' },
+        { text: 'Debtt', isCorrect: false, icon: '💳' },
       ],
     },
     {
       id: 31,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'silent "b" — doubt',
@@ -656,13 +695,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Doubt', isCorrect: true, icon: '🤔' },
-        { text: 'Dout', isCorrect: false, icon: '❌' },
-        { text: 'Doubte', isCorrect: false, icon: '❌' },
-        { text: 'Dowbt', isCorrect: false, icon: '❌' },
+        { text: 'Dout', isCorrect: false, icon: '🤔' },
+        { text: 'Doubte', isCorrect: false, icon: '🤔' },
+        { text: 'Dowbt', isCorrect: false, icon: '🤔' },
       ],
     },
     {
       id: 32,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: '"-sion" vs "-tion" — decision',
@@ -672,16 +712,17 @@ export const wordDatabaseEN = {
         de: 'Dieses Wort endet auf "-sion", nicht auf "-tion". Welche Schreibweise ist richtig?',
       },
       options: [
-        { text: 'Decision', isCorrect: true, icon: '✅' },
-        { text: 'Decission', isCorrect: false, icon: '❌' },
-        { text: 'Decizion', isCorrect: false, icon: '❌' },
-        { text: 'Decishun', isCorrect: false, icon: '❌' },
+        { text: 'Decision', isCorrect: true, icon: '🧠' },
+        { text: 'Decission', isCorrect: false, icon: '🧠' },
+        { text: 'Decizion', isCorrect: false, icon: '🧠' },
+        { text: 'Decishun', isCorrect: false, icon: '🧠' },
       ],
     },
   ],
   auditory: [
     {
       id: 1,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'affect vs effect',
@@ -699,22 +740,23 @@ export const wordDatabaseEN = {
         {
           text: 'effect',
           isCorrect: false,
-          icon: '❌',
+          icon: '📉',
         },
         {
           text: 'afect',
           isCorrect: false,
-          icon: '❌',
+          icon: '📉',
         },
         {
           text: 'efect',
           isCorrect: false,
-          icon: '❌',
+          icon: '📉',
         },
       ],
     },
     {
       id: 3,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'stationery vs stationary',
@@ -732,22 +774,23 @@ export const wordDatabaseEN = {
         {
           text: 'Stationary',
           isCorrect: false,
-          icon: '🚗',
+          icon: '✉️',
         },
         {
           text: 'Stationerry',
           isCorrect: false,
-          icon: '❌',
+          icon: '✉️',
         },
         {
           text: 'Stationarry',
           isCorrect: false,
-          icon: '❌',
+          icon: '✉️',
         },
       ],
     },
     {
       id: 4,
+      set: 'B',
       type: 'grapheme',
       difficulty: 1,
       focus: "their vs there vs they're",
@@ -765,22 +808,23 @@ export const wordDatabaseEN = {
         {
           text: 'There',
           isCorrect: false,
-          icon: '📍',
+          icon: '👥',
         },
         {
           text: "They're",
           isCorrect: false,
-          icon: '❌',
+          icon: '👥',
         },
         {
           text: 'Thier',
           isCorrect: false,
-          icon: '❌',
+          icon: '👥',
         },
       ],
     },
     {
       id: 9,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'advise vs advice',
@@ -798,22 +842,23 @@ export const wordDatabaseEN = {
         {
           text: 'Advice',
           isCorrect: false,
-          icon: '📝',
+          icon: '🗣️',
         },
         {
           text: 'Advize',
           isCorrect: false,
-          icon: '❌',
+          icon: '🗣️',
         },
         {
           text: 'Advis',
           isCorrect: false,
-          icon: '❌',
+          icon: '🗣️',
         },
       ],
     },
     {
       id: 11,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'bare vs bear',
@@ -831,22 +876,23 @@ export const wordDatabaseEN = {
         {
           text: 'Bare',
           isCorrect: false,
-          icon: '🦶',
+          icon: '🐻',
         },
         {
           text: 'Bair',
           isCorrect: false,
-          icon: '❌',
+          icon: '🐻',
         },
         {
           text: 'Beare',
           isCorrect: false,
-          icon: '❌',
+          icon: '🐻',
         },
       ],
     },
     {
       id: 19,
+      set: 'A',
       type: 'grapheme',
       focus: 'rhyme recognition',
       difficulty: 2,
@@ -857,13 +903,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Demonstrate', isCorrect: true, icon: '📢' },
-        { text: 'Develop', isCorrect: false, icon: '❌' },
-        { text: 'Decision', isCorrect: false, icon: '❌' },
-        { text: 'Department', isCorrect: false, icon: '❌' },
+        { text: 'Develop', isCorrect: false, icon: '📢' },
+        { text: 'Decision', isCorrect: false, icon: '📢' },
+        { text: 'Department', isCorrect: false, icon: '📢' },
       ],
     },
     {
       id: 20,
+      set: 'B',
       type: 'grapheme',
       focus: 'rhyme recognition',
       difficulty: 3,
@@ -874,13 +921,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Communicate', isCorrect: true, icon: '💬' },
-        { text: 'Negotiation', isCorrect: false, icon: '❌' },
-        { text: 'Organize', isCorrect: false, icon: '❌' },
-        { text: 'Management', isCorrect: false, icon: '❌' },
+        { text: 'Negotiation', isCorrect: false, icon: '💬' },
+        { text: 'Organize', isCorrect: false, icon: '💬' },
+        { text: 'Management', isCorrect: false, icon: '💬' },
       ],
     },
     {
       id: 21,
+      set: 'A',
       type: 'grapheme',
       focus: 'rhyme — subtle similarities',
       difficulty: 4,
@@ -890,14 +938,15 @@ export const wordDatabaseEN = {
         de: 'Welches Wort reimt sich auf "commit" (sich verpflichten)?',
       },
       options: [
-        { text: 'Permit', isCorrect: true, icon: '✅' },
-        { text: 'Comment', isCorrect: false, icon: '❌' },
-        { text: 'Complete', isCorrect: false, icon: '❌' },
-        { text: 'Compete', isCorrect: false, icon: '❌' },
+        { text: 'Permit', isCorrect: true, icon: '🧠' },
+        { text: 'Comment', isCorrect: false, icon: '🧠' },
+        { text: 'Complete', isCorrect: false, icon: '🧠' },
+        { text: 'Compete', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 22,
+      set: 'B',
       type: 'grapheme',
       focus: 'phoneme discrimination — initial voicing',
       difficulty: 2,
@@ -907,14 +956,15 @@ export const wordDatabaseEN = {
         de: 'Welches Wort beginnt mit einem stimmlosen Laut, anders als die übrigen?',
       },
       options: [
-        { text: 'Task', isCorrect: true, icon: '✅' },
-        { text: 'Deal', isCorrect: false, icon: '❌' },
-        { text: 'Goal', isCorrect: false, icon: '❌' },
-        { text: 'Budget', isCorrect: false, icon: '❌' },
+        { text: 'Task', isCorrect: true, icon: '🧠' },
+        { text: 'Deal', isCorrect: false, icon: '🧠' },
+        { text: 'Goal', isCorrect: false, icon: '🧠' },
+        { text: 'Budget', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 23,
+      set: 'A',
       type: 'grapheme',
       focus: 'phoneme discrimination — initial nasals',
       difficulty: 3,
@@ -924,14 +974,15 @@ export const wordDatabaseEN = {
         de: 'Welches Wort beginnt NICHT mit einem Nasallaut (m/n), anders als die übrigen?',
       },
       options: [
-        { text: 'Target', isCorrect: true, icon: '✅' },
-        { text: 'Market', isCorrect: false, icon: '❌' },
-        { text: 'Notice', isCorrect: false, icon: '❌' },
-        { text: 'Manage', isCorrect: false, icon: '❌' },
+        { text: 'Target', isCorrect: true, icon: '🧠' },
+        { text: 'Market', isCorrect: false, icon: '🧠' },
+        { text: 'Notice', isCorrect: false, icon: '🧠' },
+        { text: 'Manage', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 24,
+      set: 'B',
       type: 'grapheme',
       focus: 'phoneme discrimination — vowel quality',
       difficulty: 4,
@@ -941,14 +992,15 @@ export const wordDatabaseEN = {
         de: 'Welches Wort enthält NICHT den kurzen Vokal /ɪ/, anders als die übrigen?',
       },
       options: [
-        { text: 'Cloud', isCorrect: true, icon: '✅' },
-        { text: 'Chip', isCorrect: false, icon: '❌' },
-        { text: 'Disk', isCorrect: false, icon: '❌' },
-        { text: 'Link', isCorrect: false, icon: '❌' },
+        { text: 'Cloud', isCorrect: true, icon: '🧠' },
+        { text: 'Chip', isCorrect: false, icon: '🧠' },
+        { text: 'Disk', isCorrect: false, icon: '🧠' },
+        { text: 'Link', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 25,
+      set: 'A',
       type: 'grapheme',
       focus: 'rhyme — subtle similarities',
       difficulty: 4,
@@ -959,13 +1011,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Inspector', isCorrect: true, icon: '🔍' },
-        { text: 'Manager', isCorrect: false, icon: '❌' },
-        { text: 'Specialist', isCorrect: false, icon: '❌' },
-        { text: 'Consultant', isCorrect: false, icon: '❌' },
+        { text: 'Manager', isCorrect: false, icon: '🔍' },
+        { text: 'Specialist', isCorrect: false, icon: '🔍' },
+        { text: 'Consultant', isCorrect: false, icon: '🔍' },
       ],
     },
     {
       id: 26,
+      set: 'B',
       type: 'grapheme',
       focus: 'phoneme discrimination — initial consonant',
       difficulty: 2,
@@ -975,16 +1028,143 @@ export const wordDatabaseEN = {
         de: 'Welches Wort beginnt mit einem Konsonanten, anders als die übrigen?',
       },
       options: [
-        { text: 'Contract', isCorrect: true, icon: '✅' },
-        { text: 'Analysis', isCorrect: false, icon: '❌' },
-        { text: 'Expert', isCorrect: false, icon: '❌' },
-        { text: 'Investor', isCorrect: false, icon: '❌' },
+        { text: 'Contract', isCorrect: true, icon: '🧠' },
+        { text: 'Analysis', isCorrect: false, icon: '🧠' },
+        { text: 'Expert', isCorrect: false, icon: '🧠' },
+        { text: 'Investor', isCorrect: false, icon: '🧠' },
+      ],
+    },
+    {
+      id: 27,
+      set: 'A',
+      type: 'grapheme',
+      focus: 'rhyme recognition',
+      difficulty: 2,
+      question: {
+        en: 'Which word rhymes with "contract"?',
+        pl: 'Które słowo rymuje się ze słowem "contract" (umowa)?',
+        de: 'Welches Wort reimt sich auf "contract" (Vertrag)?',
+      },
+      options: [
+        { text: 'Attract', isCorrect: true, icon: '📢' },
+        { text: 'Discount', isCorrect: false, icon: '📢' },
+        { text: 'Feedback', isCorrect: false, icon: '📢' },
+        { text: 'Schedule', isCorrect: false, icon: '📢' },
+      ],
+    },
+    {
+      id: 28,
+      set: 'B',
+      type: 'grapheme',
+      focus: 'rhyme — subtle similarities',
+      difficulty: 3,
+      question: {
+        en: 'Which word rhymes with "meeting"?',
+        pl: 'Które słowo rymuje się ze słowem "meeting" (spotkanie)?',
+        de: 'Welches Wort reimt sich auf "meeting" (Besprechung)?',
+      },
+      options: [
+        { text: 'Greeting', isCorrect: true, icon: '💬' },
+        { text: 'Briefing', isCorrect: false, icon: '💬' },
+        { text: 'Training', isCorrect: false, icon: '💬' },
+        { text: 'Planning', isCorrect: false, icon: '💬' },
+      ],
+    },
+    {
+      id: 29,
+      set: 'B',
+      type: 'grapheme',
+      focus: 'phoneme discrimination — initial voicing',
+      difficulty: 2,
+      question: {
+        en: 'Which word starts with a voiced sound, unlike the others?',
+        pl: 'Które słowo zaczyna się głoską dźwięczną, inną niż pozostałe?',
+        de: 'Welches Wort beginnt mit einem stimmhaften Laut, anders als die übrigen?',
+      },
+      options: [
+        { text: 'Budget', isCorrect: true, icon: '🧠' },
+        { text: 'Task', isCorrect: false, icon: '🧠' },
+        { text: 'Contract', isCorrect: false, icon: '🧠' },
+        { text: 'Policy', isCorrect: false, icon: '🧠' },
+      ],
+    },
+    {
+      id: 30,
+      set: 'B',
+      type: 'grapheme',
+      focus: 'phoneme discrimination — vowel onset',
+      difficulty: 3,
+      question: {
+        en: 'Which word starts with a vowel sound, unlike the others?',
+        pl: 'Które słowo zaczyna się od samogłoski, inaczej niż pozostałe?',
+        de: 'Welches Wort beginnt mit einem Vokal, anders als die übrigen?',
+      },
+      options: [
+        { text: 'Analysis', isCorrect: true, icon: '🧠' },
+        { text: 'Budget', isCorrect: false, icon: '🧠' },
+        { text: 'Contract', isCorrect: false, icon: '🧠' },
+        { text: 'Meeting', isCorrect: false, icon: '🧠' },
+      ],
+    },
+    {
+      id: 31,
+      set: 'A',
+      type: 'grapheme',
+      difficulty: 2,
+      focus: 'Homophone — council vs. counsel',
+      question: {
+        en: 'Which word fits: "The board sought legal ___ before signing the contract"?',
+        pl: 'Które słowo pasuje: "Zarząd zasięgnął ___ prawnej przed podpisaniem umowy"?',
+        de: 'Welches Wort passt: "Der Vorstand holte rechtlichen ___ ein, bevor der Vertrag unterschrieben wurde"?',
+      },
+      options: [
+        { text: 'Counsel', isCorrect: true, icon: '⚖️' },
+        { text: 'Council', isCorrect: false, icon: '⚖️' },
+        { text: 'Councel', isCorrect: false, icon: '⚖️' },
+        { text: 'Consel', isCorrect: false, icon: '⚖️' },
+      ],
+    },
+    {
+      id: 32,
+      set: 'B',
+      type: 'grapheme',
+      difficulty: 3,
+      focus: 'Homophone — complement vs. compliment',
+      question: {
+        en: 'Which word fits: "This bonus is meant to ___ your salary, not replace it"?',
+        pl: 'Które słowo pasuje: "Ta premia ma ___ Twoje wynagrodzenie, a nie je zastępować"?',
+        de: 'Welches Wort passt: "Dieser Bonus soll Ihr Gehalt ___, nicht ersetzen"?',
+      },
+      options: [
+        { text: 'Complement', isCorrect: true, icon: '💰' },
+        { text: 'Compliment', isCorrect: false, icon: '💰' },
+        { text: 'Complemant', isCorrect: false, icon: '💰' },
+        { text: 'Complerment', isCorrect: false, icon: '💰' },
+      ],
+    },
+    {
+      id: 33,
+      set: 'B',
+      type: 'grapheme',
+      difficulty: 4,
+      focus: 'Homophone — waive vs. wave',
+      question: {
+        en: 'Which word fits: "The client agreed to ___ the late fee"?',
+        pl: 'Które słowo pasuje: "Klient zgodził się ___ opłaty za zwłokę"?',
+        de: 'Welches Wort passt: "Der Kunde erklärte sich bereit, auf die Verzugsgebühr zu ___"?',
+      },
+      options: [
+        { text: 'Waive', isCorrect: true, icon: '📄' },
+        { text: 'Wave', isCorrect: false, icon: '📄' },
+        { text: 'Whaive', isCorrect: false, icon: '📄' },
+        { text: 'Waeve', isCorrect: false, icon: '📄' },
       ],
     },
   ],
   vocabulary: [
     {
       id: 25,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'concept-to-icon matching — business',
@@ -995,13 +1175,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Money', isCorrect: true, icon: '💰' },
-        { text: 'Collaboration', isCorrect: false, icon: '🤝' },
-        { text: 'Growth', isCorrect: false, icon: '📈' },
-        { text: 'Deadline', isCorrect: false, icon: '📅' },
+        { text: 'Collaboration', isCorrect: false, icon: '💰' },
+        { text: 'Growth', isCorrect: false, icon: '💰' },
+        { text: 'Deadline', isCorrect: false, icon: '💰' },
       ],
     },
     {
       id: 26,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'concept-to-icon matching — technology',
@@ -1012,13 +1193,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Lock', isCorrect: true, icon: '🔒' },
-        { text: 'Collaboration', isCorrect: false, icon: '🤝' },
-        { text: 'Growth', isCorrect: false, icon: '📈' },
-        { text: 'Deadline', isCorrect: false, icon: '📅' },
+        { text: 'Collaboration', isCorrect: false, icon: '🔒' },
+        { text: 'Growth', isCorrect: false, icon: '🔒' },
+        { text: 'Deadline', isCorrect: false, icon: '🔒' },
       ],
     },
     {
       id: 27,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'concept-to-icon matching — legal',
@@ -1029,13 +1211,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Justice', isCorrect: true, icon: '⚖️' },
-        { text: 'Document', isCorrect: false, icon: '📄' },
-        { text: 'Company', isCorrect: false, icon: '🏢' },
-        { text: 'Agreement', isCorrect: false, icon: '🤝' },
+        { text: 'Document', isCorrect: false, icon: '⚖️' },
+        { text: 'Company', isCorrect: false, icon: '⚖️' },
+        { text: 'Agreement', isCorrect: false, icon: '⚖️' },
       ],
     },
     {
       id: 31,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'hidden words — morphological awareness',
@@ -1046,13 +1229,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Present', isCorrect: true, icon: '🎁' },
-        { text: 'Precise', isCorrect: false, icon: '❌' },
-        { text: 'Portion', isCorrect: false, icon: '❌' },
-        { text: 'Pretend', isCorrect: false, icon: '❌' },
+        { text: 'Precise', isCorrect: false, icon: '🎁' },
+        { text: 'Portion', isCorrect: false, icon: '🎁' },
+        { text: 'Pretend', isCorrect: false, icon: '🎁' },
       ],
     },
     {
       id: 32,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'hidden words — morphological awareness',
@@ -1062,14 +1246,15 @@ export const wordDatabaseEN = {
         de: 'Welches Wort ist versteckt in "management" (Management)?',
       },
       options: [
-        { text: 'Manage', isCorrect: true, icon: '✅' },
-        { text: 'Manner', isCorrect: false, icon: '❌' },
-        { text: 'Magnet', isCorrect: false, icon: '❌' },
-        { text: 'Mantle', isCorrect: false, icon: '❌' },
+        { text: 'Manage', isCorrect: true, icon: '🧠' },
+        { text: 'Manner', isCorrect: false, icon: '🧠' },
+        { text: 'Magnet', isCorrect: false, icon: '🧠' },
+        { text: 'Mantle', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 33,
+      set: 'A',
       type: 'grapheme',
       difficulty: 4,
       focus: 'hidden words — harder morphological analysis',
@@ -1080,13 +1265,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Vascular', isCorrect: true, icon: '🩺' },
-        { text: 'Cardinal', isCorrect: false, icon: '❌' },
-        { text: 'Vacation', isCorrect: false, icon: '❌' },
-        { text: 'Cascade', isCorrect: false, icon: '❌' },
+        { text: 'Cardinal', isCorrect: false, icon: '🩺' },
+        { text: 'Vacation', isCorrect: false, icon: '🩺' },
+        { text: 'Cascade', isCorrect: false, icon: '🩺' },
       ],
     },
     {
       id: 34,
+      set: 'B',
       type: 'grapheme',
       difficulty: 1,
       focus: 'concept-to-icon matching — education',
@@ -1097,13 +1283,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Education', isCorrect: true, icon: '🎓' },
-        { text: 'Collaboration', isCorrect: false, icon: '🤝' },
-        { text: 'Growth', isCorrect: false, icon: '📈' },
-        { text: 'Deadline', isCorrect: false, icon: '📅' },
+        { text: 'Collaboration', isCorrect: false, icon: '🎓' },
+        { text: 'Growth', isCorrect: false, icon: '🎓' },
+        { text: 'Deadline', isCorrect: false, icon: '🎓' },
       ],
     },
     {
       id: 35,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'concept-to-icon matching — business',
@@ -1114,13 +1301,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Agreement', isCorrect: true, icon: '🤝' },
-        { text: 'Money', isCorrect: false, icon: '💰' },
-        { text: 'Growth', isCorrect: false, icon: '📈' },
-        { text: 'Document', isCorrect: false, icon: '📄' },
+        { text: 'Money', isCorrect: false, icon: '🤝' },
+        { text: 'Growth', isCorrect: false, icon: '🤝' },
+        { text: 'Document', isCorrect: false, icon: '🤝' },
       ],
     },
     {
       id: 36,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'concept-to-icon matching — business',
@@ -1131,13 +1319,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Idea', isCorrect: true, icon: '💡' },
-        { text: 'Deadline', isCorrect: false, icon: '📅' },
-        { text: 'Money', isCorrect: false, icon: '💰' },
-        { text: 'Contract', isCorrect: false, icon: '🤝' },
+        { text: 'Deadline', isCorrect: false, icon: '💡' },
+        { text: 'Money', isCorrect: false, icon: '💡' },
+        { text: 'Contract', isCorrect: false, icon: '💡' },
       ],
     },
     {
       id: 37,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'concept-to-icon matching — finance',
@@ -1148,13 +1337,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Inspection', isCorrect: true, icon: '🔍' },
-        { text: 'Growth', isCorrect: false, icon: '📈' },
-        { text: 'Collaboration', isCorrect: false, icon: '🤝' },
-        { text: 'Training', isCorrect: false, icon: '🎓' },
+        { text: 'Growth', isCorrect: false, icon: '🔍' },
+        { text: 'Collaboration', isCorrect: false, icon: '🔍' },
+        { text: 'Training', isCorrect: false, icon: '🔍' },
       ],
     },
     {
       id: 42,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'hidden words — morphological awareness',
@@ -1165,13 +1355,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Operation', isCorrect: true, icon: '⚙️' },
-        { text: 'Corporate', isCorrect: false, icon: '❌' },
-        { text: 'Coordinate', isCorrect: false, icon: '❌' },
-        { text: 'Cooking', isCorrect: false, icon: '❌' },
+        { text: 'Corporate', isCorrect: false, icon: '⚙️' },
+        { text: 'Coordinate', isCorrect: false, icon: '⚙️' },
+        { text: 'Cooking', isCorrect: false, icon: '⚙️' },
       ],
     },
     {
       id: 43,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'hidden words — morphological awareness',
@@ -1182,13 +1373,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'House', isCorrect: true, icon: '🏠' },
-        { text: 'Horse', isCorrect: false, icon: '❌' },
-        { text: 'Warm', isCorrect: false, icon: '❌' },
-        { text: 'Wear', isCorrect: false, icon: '❌' },
+        { text: 'Horse', isCorrect: false, icon: '🏠' },
+        { text: 'Warm', isCorrect: false, icon: '🏠' },
+        { text: 'Wear', isCorrect: false, icon: '🏠' },
       ],
     },
     {
       id: 44,
+      set: 'B',
       type: 'grapheme',
       difficulty: 4,
       focus: 'hidden words — harder morphological analysis',
@@ -1199,13 +1391,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Sent', isCorrect: true, icon: '✉️' },
-        { text: 'Rent', isCorrect: false, icon: '❌' },
-        { text: 'Table', isCorrect: false, icon: '❌' },
-        { text: 'Native', isCorrect: false, icon: '❌' },
+        { text: 'Rent', isCorrect: false, icon: '✉️' },
+        { text: 'Table', isCorrect: false, icon: '✉️' },
+        { text: 'Native', isCorrect: false, icon: '✉️' },
       ],
     },
     {
       id: 45,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'concept-to-icon matching — music',
@@ -1216,13 +1409,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Pulse', isCorrect: true, icon: '🥁' },
-        { text: 'Silence', isCorrect: false, icon: '🤫' },
-        { text: 'Scent', isCorrect: false, icon: '👃' },
-        { text: 'Color', isCorrect: false, icon: '🎨' },
+        { text: 'Silence', isCorrect: false, icon: '🥁' },
+        { text: 'Scent', isCorrect: false, icon: '🥁' },
+        { text: 'Color', isCorrect: false, icon: '🥁' },
       ],
     },
     {
       id: 46,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'concept-to-icon matching — music and teamwork',
@@ -1233,15 +1427,16 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Cooperation', isCorrect: true, icon: '🎶' },
-        { text: 'Conflict', isCorrect: false, icon: '⚡' },
-        { text: 'Chaos', isCorrect: false, icon: '🌪️' },
-        { text: 'Rivalry', isCorrect: false, icon: '🥊' },
+        { text: 'Conflict', isCorrect: false, icon: '🎶' },
+        { text: 'Chaos', isCorrect: false, icon: '🎶' },
+        { text: 'Rivalry', isCorrect: false, icon: '🎶' },
       ],
     },
   ],
   syllables: [
     {
       id: 1,
+      set: 'A',
       type: 'syllable',
       difficulty: 3,
       word: 'Bureaucracy',
@@ -1250,6 +1445,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'syllable',
       difficulty: 3,
       word: 'Simultaneously',
@@ -1258,6 +1454,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'syllable',
       difficulty: 3,
       word: 'Conscientious',
@@ -1266,6 +1463,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'syllable',
       difficulty: 2,
       word: 'Responsibility',
@@ -1274,6 +1472,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'syllable',
       difficulty: 3,
       word: 'Entrepreneur',
@@ -1282,6 +1481,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'syllable',
       difficulty: 2,
       word: 'Organization',
@@ -1290,6 +1490,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'syllable',
       difficulty: 2,
       word: 'Communication',
@@ -1298,6 +1499,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'syllable',
       difficulty: 1,
       word: 'Development',
@@ -1306,6 +1508,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'syllable',
       difficulty: 2,
       word: 'Professional',
@@ -1314,6 +1517,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'syllable',
       difficulty: 2,
       word: 'Appreciation',
@@ -1322,6 +1526,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'syllable',
       difficulty: 3,
       word: 'Unbelievable',
@@ -1330,6 +1535,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'syllable',
       difficulty: 2,
       word: 'Reliability',
@@ -1338,6 +1544,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'syllable',
       difficulty: 2,
       word: 'Qualification',
@@ -1346,6 +1553,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'syllable',
       difficulty: 1,
       word: 'Achievement',
@@ -1354,6 +1562,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'syllable',
       difficulty: 1,
       word: 'Investment',
@@ -1362,6 +1571,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'syllable',
       difficulty: 3,
       tags: ['business'],
@@ -1371,6 +1581,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'syllable',
       difficulty: 3,
       tags: ['business'],
@@ -1380,6 +1591,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'syllable',
       difficulty: 3,
       word: 'Sustainability',
@@ -1388,6 +1600,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'syllable',
       difficulty: 2,
       tags: ['business'],
@@ -1397,6 +1610,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'syllable',
       difficulty: 2,
       tags: ['business'],
@@ -1408,6 +1622,7 @@ export const wordDatabaseEN = {
   scrabble: [
     {
       id: 1,
+      set: 'A',
       type: 'scrabble',
       difficulty: 3,
       word: 'COLLEAGUE',
@@ -1417,6 +1632,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'scrabble',
       difficulty: 3,
       word: 'GUARANTEE',
@@ -1426,6 +1642,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'scrabble',
       difficulty: 3,
       word: 'ASSESSMENT',
@@ -1435,6 +1652,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'scrabble',
       difficulty: 2,
       word: 'COMMITTEE',
@@ -1444,6 +1662,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'scrabble',
       difficulty: 2,
       word: 'SCHEDULE',
@@ -1453,6 +1672,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'scrabble',
       difficulty: 2,
       word: 'STRATEGY',
@@ -1462,6 +1682,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'scrabble',
       difficulty: 2,
       word: 'MANAGEMENT',
@@ -1471,6 +1692,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'scrabble',
       difficulty: 2,
       word: 'KNOWLEDGE',
@@ -1480,6 +1702,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'scrabble',
       difficulty: 2,
       word: 'EXPERIENCE',
@@ -1489,6 +1712,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'scrabble',
       difficulty: 2,
       word: 'LEADERSHIP',
@@ -1498,6 +1722,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'scrabble',
       difficulty: 3,
       word: 'AUTHENTIC',
@@ -1507,6 +1732,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'scrabble',
       difficulty: 3,
       word: 'INDEPENDENT',
@@ -1516,6 +1742,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'scrabble',
       focus: 'phoneme synthesis — single letters',
       difficulty: 2,
@@ -1526,6 +1753,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'scrabble',
       focus: 'phoneme synthesis — syllables',
       difficulty: 3,
@@ -1536,6 +1764,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'scrabble',
       focus: 'phoneme synthesis — syllables',
       difficulty: 4,
@@ -1546,6 +1775,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'scrabble',
       difficulty: 2,
       word: 'BUDGET',
@@ -1555,6 +1785,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'scrabble',
       difficulty: 3,
       word: 'CONTRACT',
@@ -1564,6 +1795,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'scrabble',
       difficulty: 3,
       word: 'FEEDBACK',
@@ -1573,6 +1805,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'scrabble',
       difficulty: 2,
       word: 'DEADLINE',
@@ -1582,6 +1815,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'scrabble',
       difficulty: 2,
       word: 'RESOURCE',
@@ -1593,6 +1827,7 @@ export const wordDatabaseEN = {
   context: [
     {
       id: 1,
+      set: 'A',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -1623,6 +1858,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -1653,6 +1889,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -1683,6 +1920,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['everyday'],
@@ -1713,6 +1951,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -1743,6 +1982,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -1773,6 +2013,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -1804,6 +2045,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -1834,6 +2076,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'context',
       difficulty: 2,
       tags: ['everyday'],
@@ -1864,6 +2107,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -1894,6 +2138,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'context',
       difficulty: 2,
       tags: ['everyday'],
@@ -1925,6 +2170,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -1956,6 +2202,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -1987,6 +2234,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['everyday'],
@@ -2018,6 +2266,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'context',
       difficulty: 1,
       tags: ['business'],
@@ -2036,6 +2285,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -2054,6 +2304,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -2073,6 +2324,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -2091,6 +2343,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'context',
       difficulty: 3,
       tags: ['business'],
@@ -2109,6 +2362,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'context',
       difficulty: 2,
       tags: ['business'],
@@ -2129,6 +2383,7 @@ export const wordDatabaseEN = {
   clock: [
     {
       id: 1,
+      set: 'A',
       type: 'clock',
       difficulty: 3,
       timeAnalog: 'Seventeen minutes past eight in the evening',
@@ -2156,6 +2411,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'clock',
       difficulty: 3,
       timeAnalog: 'Nine minutes to two in the afternoon',
@@ -2183,6 +2439,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Quarter past three in the afternoon',
@@ -2210,6 +2467,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Half past six in the evening',
@@ -2237,6 +2495,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Ten to ten in the morning',
@@ -2264,6 +2523,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Noon',
@@ -2291,6 +2551,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Midnight',
@@ -2318,6 +2579,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'clock',
       difficulty: 2,
       timeAnalog: 'Quarter to nine in the evening',
@@ -2345,6 +2607,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Twenty past four in the afternoon',
@@ -2372,6 +2635,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Half past eight in the morning',
@@ -2399,6 +2663,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'clock',
       difficulty: 2,
       timeAnalog: 'Quarter to eight in the morning',
@@ -2426,6 +2691,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'clock',
       difficulty: 2,
       timeAnalog: 'Twenty past two in the afternoon',
@@ -2453,6 +2719,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'clock',
       difficulty: 3,
       timeAnalog: 'Five past eleven at night',
@@ -2480,6 +2747,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Quarter past nine in the morning',
@@ -2507,6 +2775,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'clock',
       difficulty: 2,
       timeAnalog: 'Ten to nine in the evening',
@@ -2534,6 +2803,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'clock',
       difficulty: 1,
       timeAnalog: 'Ten past six in the morning',
@@ -2549,6 +2819,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'clock',
       difficulty: 2,
       timeAnalog: 'Twenty to ten in the evening',
@@ -2564,6 +2835,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'clock',
       difficulty: 2,
       timeAnalog: 'Twenty-five past one in the afternoon',
@@ -2579,6 +2851,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'clock',
       difficulty: 3,
       timeAnalog: 'Five to five in the morning',
@@ -2594,6 +2867,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'clock',
       difficulty: 3,
       timeAnalog: 'Twenty-five to six in the evening',
@@ -2611,6 +2885,7 @@ export const wordDatabaseEN = {
   sequences: [
     {
       id: 1,
+      set: 'A',
       type: 'sequence',
       difficulty: 3,
       tags: ['business'],
@@ -2630,6 +2905,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'sequence',
       difficulty: 3,
       instruction: 'Order the software development life cycle (SDLC)',
@@ -2650,6 +2926,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order the workdays of the week',
@@ -2658,6 +2935,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'sequence',
       difficulty: 2,
       instruction: 'Order the months of Q4',
@@ -2666,6 +2944,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'sequence',
       difficulty: 2,
       tags: ['business'],
@@ -2675,6 +2954,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'sequence',
       difficulty: 2,
       tags: ['business'],
@@ -2696,6 +2976,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order the time units from shortest to longest',
@@ -2704,6 +2985,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order these letters alphabetically',
@@ -2712,6 +2994,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'sequence',
       difficulty: 2,
       tags: ['business'],
@@ -2721,6 +3004,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order the numbers from smallest to largest',
@@ -2729,6 +3013,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order the seasons of the year (starting with spring)',
@@ -2737,6 +3022,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'sequence',
       difficulty: 2,
       tags: ['business'],
@@ -2757,6 +3043,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order the meals of the day',
@@ -2765,6 +3052,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'sequence',
       difficulty: 2,
       tags: ['business'],
@@ -2784,6 +3072,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'sequence',
       difficulty: 3,
       instruction: 'Order from smallest to largest data unit',
@@ -2792,6 +3081,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'sequence',
       difficulty: 2,
       tags: ['business'],
@@ -2801,6 +3091,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'sequence',
       difficulty: 1,
       instruction: 'Order the days of the week from last to first',
@@ -2810,6 +3101,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'sequence',
       difficulty: 3,
       instruction: 'Order these words into a correct sentence',
@@ -2818,6 +3110,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'sequence',
       difficulty: 2,
       instruction: 'Steps of publishing an article',
@@ -2826,6 +3119,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'sequence',
       difficulty: 3,
       tags: ['business'],
@@ -2847,6 +3141,7 @@ export const wordDatabaseEN = {
   memorySpan: [
     {
       id: 1,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 1,
       instruction:
@@ -2857,6 +3152,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -2867,6 +3163,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 3,
       instruction:
@@ -2884,6 +3181,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 1,
       instruction:
@@ -2894,6 +3192,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 1,
       instruction:
@@ -2904,6 +3203,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -2914,6 +3214,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -2924,6 +3225,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -2934,6 +3236,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 3,
       instruction:
@@ -2950,6 +3253,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 3,
       instruction:
@@ -2966,6 +3270,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 3,
       instruction:
@@ -2989,6 +3294,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -2999,6 +3305,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 1,
       instruction:
@@ -3009,6 +3316,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 3,
       instruction:
@@ -3019,6 +3327,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 4,
       instruction:
@@ -3050,6 +3359,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -3060,6 +3370,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 3,
       instruction:
@@ -3077,6 +3388,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 4,
       instruction:
@@ -3108,6 +3420,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'memorySpan',
       difficulty: 2,
       instruction:
@@ -3118,6 +3431,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'memorySpan',
       difficulty: 4,
       instruction:
@@ -3151,6 +3465,7 @@ export const wordDatabaseEN = {
   logicalReasoning: [
     {
       id: 34,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'deductive reasoning — basic premises',
@@ -3160,14 +3475,15 @@ export const wordDatabaseEN = {
         de: 'Prämisse 1: "Jedes Projekt, das das Budget überschreitet, benötigt die Zustimmung der Geschäftsführung." Prämisse 2: "Projekt X hat das Budget überschritten." Was folgt daraus?',
       },
       options: [
-        { text: 'It requires executive approval', isCorrect: true, icon: '✅' },
-        { text: 'The project will be cancelled', isCorrect: false, icon: '❌' },
-        { text: 'The team will be reprimanded', isCorrect: false, icon: '❌' },
-        { text: 'Nothing can be concluded', isCorrect: false, icon: '❌' },
+        { text: 'It requires executive approval', isCorrect: true, icon: '🧠' },
+        { text: 'The project will be cancelled', isCorrect: false, icon: '🧠' },
+        { text: 'The team will be reprimanded', isCorrect: false, icon: '🧠' },
+        { text: 'Nothing can be concluded', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 35,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'deductive reasoning — premise chain',
@@ -3185,18 +3501,19 @@ export const wordDatabaseEN = {
         {
           text: 'The transaction will be rejected',
           isCorrect: false,
-          icon: '❌',
+          icon: '📋',
         },
-        { text: 'No audit is required', isCorrect: false, icon: '❌' },
+        { text: 'No audit is required', isCorrect: false, icon: '📋' },
         {
           text: 'Manager approval alone is sufficient',
           isCorrect: false,
-          icon: '❌',
+          icon: '📋',
         },
       ],
     },
     {
       id: 36,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'inductive reasoning — pattern generalization',
@@ -3214,22 +3531,23 @@ export const wordDatabaseEN = {
         {
           text: 'Automation has no effect on productivity',
           isCorrect: false,
-          icon: '❌',
+          icon: '📈',
         },
         {
           text: 'Automation always increases productivity by exactly 20%',
           isCorrect: false,
-          icon: '❌',
+          icon: '📈',
         },
         {
           text: 'Nothing can be inferred from this data',
           isCorrect: false,
-          icon: '❌',
+          icon: '📈',
         },
       ],
     },
     {
       id: 37,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'inductive reasoning — pattern with exception',
@@ -3247,22 +3565,23 @@ export const wordDatabaseEN = {
         {
           text: 'The market is continuously shrinking',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
         {
           text: 'The trend is completely unpredictable',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
         {
           text: 'Year 3 should be ignored as a data error',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
       ],
     },
     {
       id: 38,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'conditional logic — if-then rule',
@@ -3275,23 +3594,24 @@ export const wordDatabaseEN = {
         {
           text: 'Shut down the system immediately',
           isCorrect: true,
-          icon: '⚠️',
+          icon: '🧠',
         },
         {
           text: 'Ignore it and continue working',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
-        { text: 'Wait until tomorrow', isCorrect: false, icon: '❌' },
+        { text: 'Wait until tomorrow', isCorrect: false, icon: '🧠' },
         {
           text: 'Increase the server load',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
       ],
     },
     {
       id: 39,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'conditional logic — nested rules',
@@ -3304,19 +3624,20 @@ export const wordDatabaseEN = {
         {
           text: 'Director approval AND procurement review (+5 days)',
           isCorrect: true,
-          icon: '✅',
+          icon: '🧠',
         },
-        { text: 'Manager approval only', isCorrect: false, icon: '❌' },
-        { text: 'No approval is required', isCorrect: false, icon: '❌' },
+        { text: 'Manager approval only', isCorrect: false, icon: '🧠' },
+        { text: 'No approval is required', isCorrect: false, icon: '🧠' },
         {
           text: 'Procurement review only, no approval',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
       ],
     },
     {
       id: 49,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'deductive reasoning — basic premises',
@@ -3329,19 +3650,20 @@ export const wordDatabaseEN = {
         {
           text: 'Anna has access to the CRM system',
           isCorrect: true,
-          icon: '✅',
+          icon: '🧠',
         },
         {
           text: 'Anna does not work at the company',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
-        { text: 'Anna is a manager', isCorrect: false, icon: '❌' },
-        { text: 'Nothing can be concluded', isCorrect: false, icon: '❌' },
+        { text: 'Anna is a manager', isCorrect: false, icon: '🧠' },
+        { text: 'Nothing can be concluded', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 50,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'deductive reasoning — basic premises',
@@ -3351,14 +3673,15 @@ export const wordDatabaseEN = {
         de: 'Prämisse 1: "Wenn ein Dokument keine Unterschrift hat, ist es ungültig." Prämisse 2: "Dieses Dokument hat keine Unterschrift." Was folgt daraus?',
       },
       options: [
-        { text: 'The document is invalid', isCorrect: true, icon: '✅' },
-        { text: 'The document is valid', isCorrect: false, icon: '❌' },
-        { text: 'A date needs to be added', isCorrect: false, icon: '❌' },
-        { text: 'Nothing can be concluded', isCorrect: false, icon: '❌' },
+        { text: 'The document is invalid', isCorrect: true, icon: '🧠' },
+        { text: 'The document is valid', isCorrect: false, icon: '🧠' },
+        { text: 'A date needs to be added', isCorrect: false, icon: '🧠' },
+        { text: 'Nothing can be concluded', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 51,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'deductive reasoning — basic premises',
@@ -3371,15 +3694,16 @@ export const wordDatabaseEN = {
         {
           text: 'The product meets quality standards',
           isCorrect: true,
-          icon: '✅',
+          icon: '🧠',
         },
-        { text: 'The product is defective', isCorrect: false, icon: '❌' },
-        { text: 'The certificate has expired', isCorrect: false, icon: '❌' },
-        { text: 'Nothing can be concluded', isCorrect: false, icon: '❌' },
+        { text: 'The product is defective', isCorrect: false, icon: '🧠' },
+        { text: 'The certificate has expired', isCorrect: false, icon: '🧠' },
+        { text: 'Nothing can be concluded', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 52,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'deductive reasoning — premise chain',
@@ -3392,15 +3716,16 @@ export const wordDatabaseEN = {
         {
           text: 'The document will reach the board and be read within 5 days',
           isCorrect: true,
-          icon: '✅',
+          icon: '🧠',
         },
-        { text: 'The document will be rejected', isCorrect: false, icon: '❌' },
-        { text: 'The board will ignore it', isCorrect: false, icon: '❌' },
-        { text: 'Nothing can be concluded', isCorrect: false, icon: '❌' },
+        { text: 'The document will be rejected', isCorrect: false, icon: '🧠' },
+        { text: 'The board will ignore it', isCorrect: false, icon: '🧠' },
+        { text: 'Nothing can be concluded', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 53,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'deductive reasoning — detecting contradictions',
@@ -3413,19 +3738,20 @@ export const wordDatabaseEN = {
         {
           text: 'The rule was not followed — this needs an explanation',
           isCorrect: true,
-          icon: '✅',
+          icon: '🧠',
         },
         {
           text: 'This is impossible, the data is wrong',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
-        { text: 'Piotr is not an employee', isCorrect: false, icon: '❌' },
-        { text: 'Training is not mandatory', isCorrect: false, icon: '❌' },
+        { text: 'Piotr is not an employee', isCorrect: false, icon: '🧠' },
+        { text: 'Training is not mandatory', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 54,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'inductive reasoning — pattern generalization',
@@ -3443,18 +3769,19 @@ export const wordDatabaseEN = {
         {
           text: 'Remote work decreases productivity',
           isCorrect: false,
-          icon: '❌',
+          icon: '📈',
         },
         {
           text: 'Remote work always gives exactly 10%',
           isCorrect: false,
-          icon: '❌',
+          icon: '📈',
         },
-        { text: 'Nothing can be inferred', isCorrect: false, icon: '❌' },
+        { text: 'Nothing can be inferred', isCorrect: false, icon: '📈' },
       ],
     },
     {
       id: 55,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'inductive reasoning — pattern generalization',
@@ -3465,13 +3792,14 @@ export const wordDatabaseEN = {
       },
       options: [
         { text: 'Sales increase on weekends', isCorrect: true, icon: '📈' },
-        { text: 'Sales are constant all week', isCorrect: false, icon: '❌' },
-        { text: 'Sales decrease on weekends', isCorrect: false, icon: '❌' },
-        { text: 'Nothing can be inferred', isCorrect: false, icon: '❌' },
+        { text: 'Sales are constant all week', isCorrect: false, icon: '📈' },
+        { text: 'Sales decrease on weekends', isCorrect: false, icon: '📈' },
+        { text: 'Nothing can be inferred', isCorrect: false, icon: '📈' },
       ],
     },
     {
       id: 56,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'inductive reasoning — pattern with exception',
@@ -3486,21 +3814,22 @@ export const wordDatabaseEN = {
           isCorrect: true,
           icon: '📊',
         },
-        { text: 'Method A does not work', isCorrect: false, icon: '❌' },
+        { text: 'Method A does not work', isCorrect: false, icon: '📊' },
         {
           text: 'Group 3 made a measurement error',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
         {
           text: 'The results are entirely random',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
       ],
     },
     {
       id: 57,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'inductive reasoning — pattern with exception',
@@ -3518,14 +3847,15 @@ export const wordDatabaseEN = {
         {
           text: 'Flexible hours always increase satisfaction',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
-        { text: 'Flexible hours have no effect', isCorrect: false, icon: '❌' },
-        { text: 'The data is useless', isCorrect: false, icon: '❌' },
+        { text: 'Flexible hours have no effect', isCorrect: false, icon: '📊' },
+        { text: 'The data is useless', isCorrect: false, icon: '📊' },
       ],
     },
     {
       id: 58,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'inductive reasoning — pattern generalization',
@@ -3540,17 +3870,18 @@ export const wordDatabaseEN = {
           isCorrect: true,
           icon: '📊',
         },
-        { text: 'The app is completely useless', isCorrect: false, icon: '❌' },
-        { text: 'All customers are satisfied', isCorrect: false, icon: '❌' },
+        { text: 'The app is completely useless', isCorrect: false, icon: '📊' },
+        { text: 'All customers are satisfied', isCorrect: false, icon: '📊' },
         {
           text: 'The data is contradictory and useless',
           isCorrect: false,
-          icon: '❌',
+          icon: '📊',
         },
       ],
     },
     {
       id: 59,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'conditional logic — if-then rule',
@@ -3560,18 +3891,19 @@ export const wordDatabaseEN = {
         de: 'Regel: "Wenn ein Kunde eine Rechnung nicht innerhalb von 30 Tagen bezahlt, DANN werden Zinsen berechnet." Der Kunde hat nach 35 Tagen bezahlt. Was passiert?',
       },
       options: [
-        { text: 'Interest is charged', isCorrect: true, icon: '✅' },
-        { text: 'The invoice is cancelled', isCorrect: false, icon: '❌' },
-        { text: 'Nothing happens', isCorrect: false, icon: '❌' },
+        { text: 'Interest is charged', isCorrect: true, icon: '🧠' },
+        { text: 'The invoice is cancelled', isCorrect: false, icon: '🧠' },
+        { text: 'Nothing happens', isCorrect: false, icon: '🧠' },
         {
           text: 'The client receives a discount',
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
       ],
     },
     {
       id: 60,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'conditional logic — if-then rule',
@@ -3581,14 +3913,15 @@ export const wordDatabaseEN = {
         de: 'Regel: "Wenn die Luftfeuchtigkeit im Lager 70 % überschreitet UND die Ware feuchtigkeitsempfindlich ist, DANN muss sie umgelagert werden." Die Luftfeuchtigkeit beträgt 75 %, die Ware ist feuchtigkeitsempfindlich. Was ist zu tun?',
       },
       options: [
-        { text: 'Relocate the goods', isCorrect: true, icon: '✅' },
-        { text: 'Do nothing', isCorrect: false, icon: '❌' },
-        { text: 'Increase the humidity', isCorrect: false, icon: '❌' },
-        { text: 'Discard the goods', isCorrect: false, icon: '❌' },
+        { text: 'Relocate the goods', isCorrect: true, icon: '🧠' },
+        { text: 'Do nothing', isCorrect: false, icon: '🧠' },
+        { text: 'Increase the humidity', isCorrect: false, icon: '🧠' },
+        { text: 'Discard the goods', isCorrect: false, icon: '🧠' },
       ],
     },
     {
       id: 61,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'conditional logic — nested rules',
@@ -3598,18 +3931,19 @@ export const wordDatabaseEN = {
         de: 'Regeln: (1) Wenn der Fehler kritisch ist — sofortige Behebung. (2) Wenn der Fehler geringfügig ist — Behebung im nächsten Zyklus. (3) Wenn er die Sicherheit betrifft — immer sofortige Behebung, auch wenn geringfügig. Szenario: ein geringfügiger sicherheitsrelevanter Fehler. Was ist zu tun?',
       },
       options: [
-        { text: 'Fix it immediately', isCorrect: true, icon: '✅' },
-        { text: 'Fix it in the next cycle', isCorrect: false, icon: '❌' },
-        { text: 'Ignore the bug', isCorrect: false, icon: '❌' },
+        { text: 'Fix it immediately', isCorrect: true, icon: '🧠' },
+        { text: 'Fix it in the next cycle', isCorrect: false, icon: '🧠' },
+        { text: 'Ignore the bug', isCorrect: false, icon: '🧠' },
         {
           text: "Wait for the client's decision",
           isCorrect: false,
-          icon: '❌',
+          icon: '🧠',
         },
       ],
     },
     {
       id: 62,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'conditional logic — if-then rule',
@@ -3622,17 +3956,18 @@ export const wordDatabaseEN = {
         {
           text: 'An additional support team is activated',
           isCorrect: true,
-          icon: '✅',
+          icon: '🧠',
         },
-        { text: 'Nothing changes', isCorrect: false, icon: '❌' },
-        { text: 'Tickets are rejected', isCorrect: false, icon: '❌' },
-        { text: 'The support team is reduced', isCorrect: false, icon: '❌' },
+        { text: 'Nothing changes', isCorrect: false, icon: '🧠' },
+        { text: 'Tickets are rejected', isCorrect: false, icon: '🧠' },
+        { text: 'The support team is reduced', isCorrect: false, icon: '🧠' },
       ],
     },
   ],
   tracking: [
     {
       id: 1,
+      set: 'A',
       type: 'spatial',
       difficulty: 1,
       instruction: 'Where is the loop of this letter?',
@@ -3667,6 +4002,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'spatial',
       difficulty: 1,
       instruction: 'Which way does the arrow point?',
@@ -3701,6 +4037,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'spatial',
       difficulty: 2,
       instruction: 'Where is the loop of this letter?',
@@ -3735,6 +4072,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'spatial',
       difficulty: 1,
       instruction: 'Point to the direction the hand is pointing',
@@ -3769,6 +4107,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'spatial',
       difficulty: 2,
       instruction: 'Where is the loop of this letter?',
@@ -3803,6 +4142,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'spatial',
       difficulty: 1,
       instruction: 'Which way does the arrow point?',
@@ -3837,6 +4177,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'spatial',
       difficulty: 2,
       instruction: 'Find the odd letter out',
@@ -3871,6 +4212,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'spatial',
       difficulty: 1,
       instruction: 'Uppercase or lowercase?',
@@ -3905,6 +4247,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'spatial',
       difficulty: 2,
       instruction:
@@ -3923,6 +4266,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'spatial',
       difficulty: 2,
       instruction:
@@ -3941,6 +4285,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'spatial',
       difficulty: 3,
       instruction:
@@ -3959,6 +4304,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'spatial',
       difficulty: 3,
       instruction: 'This document marks where to sign — which side is it on?',
@@ -3976,6 +4322,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'spatial',
       difficulty: 2,
       instruction: 'Where is the loop of this number — top or bottom?',
@@ -3993,6 +4340,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'spatial',
       difficulty: 2,
       instruction:
@@ -4011,6 +4359,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'spatial',
       difficulty: 2,
       instruction:
@@ -4029,6 +4378,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'spatial',
       difficulty: 1,
       instruction:
@@ -4047,6 +4397,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'spatial',
       difficulty: 3,
       instruction: 'The trend arrow on the sales chart — growth or decline?',
@@ -4064,6 +4415,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'spatial',
       difficulty: 2,
       instruction:
@@ -4082,6 +4434,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'spatial',
       difficulty: 1,
       instruction:
@@ -4100,6 +4453,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'spatial',
       difficulty: 3,
       instruction:
@@ -4120,6 +4474,7 @@ export const wordDatabaseEN = {
   mirrorImage: [
     {
       id: 1,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'mirror-image recognition',
@@ -4129,14 +4484,15 @@ export const wordDatabaseEN = {
         de: 'Welches ist das Spiegelbild dieses Symbols? ➡️',
       },
       options: [
-        { text: '➡️', isCorrect: false },
-        { text: '⬅️', isCorrect: true },
-        { text: '↗️', isCorrect: false },
-        { text: '⬆️', isCorrect: false },
+        { text: '➡️', isCorrect: false, label: { en: 'right arrow', pl: 'strzałka w prawo', de: 'Pfeil nach rechts' } },
+        { text: '⬅️', isCorrect: true, label: { en: 'left arrow', pl: 'strzałka w lewo', de: 'Pfeil nach links' } },
+        { text: '↗️', isCorrect: false, label: { en: 'up-right arrow', pl: 'strzałka w prawo i w górę', de: 'Pfeil nach rechts oben' } },
+        { text: '⬆️', isCorrect: false, label: { en: 'up arrow', pl: 'strzałka w górę', de: 'Pfeil nach oben' } },
       ],
     },
     {
       id: 2,
+      set: 'B',
       type: 'grapheme',
       difficulty: 1,
       focus: 'mirror-image recognition',
@@ -4146,14 +4502,15 @@ export const wordDatabaseEN = {
         de: 'Welches ist das Spiegelbild dieses Symbols? ⬅️',
       },
       options: [
-        { text: '⬅️', isCorrect: false },
-        { text: '➡️', isCorrect: true },
-        { text: '↙️', isCorrect: false },
-        { text: '⬇️', isCorrect: false },
+        { text: '⬅️', isCorrect: false, label: { en: 'left arrow', pl: 'strzałka w lewo', de: 'Pfeil nach links' } },
+        { text: '➡️', isCorrect: true, label: { en: 'right arrow', pl: 'strzałka w prawo', de: 'Pfeil nach rechts' } },
+        { text: '↙️', isCorrect: false, label: { en: 'down-left arrow', pl: 'strzałka w lewo i w dół', de: 'Pfeil nach links unten' } },
+        { text: '⬇️', isCorrect: false, label: { en: 'down arrow', pl: 'strzałka w dół', de: 'Pfeil nach unten' } },
       ],
     },
     {
       id: 3,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'mirror-image recognition',
@@ -4163,14 +4520,15 @@ export const wordDatabaseEN = {
         de: 'Welches ist das Spiegelbild dieses Symbols? ↗️',
       },
       options: [
-        { text: '↖️', isCorrect: true },
-        { text: '↙️', isCorrect: false },
-        { text: '↗️', isCorrect: false },
-        { text: '↘️', isCorrect: false },
+        { text: '↖️', isCorrect: true, label: { en: 'up-left arrow', pl: 'strzałka w lewo i w górę', de: 'Pfeil nach links oben' } },
+        { text: '↙️', isCorrect: false, label: { en: 'down-left arrow', pl: 'strzałka w lewo i w dół', de: 'Pfeil nach links unten' } },
+        { text: '↗️', isCorrect: false, label: { en: 'up-right arrow', pl: 'strzałka w prawo i w górę', de: 'Pfeil nach rechts oben' } },
+        { text: '↘️', isCorrect: false, label: { en: 'down-right arrow', pl: 'strzałka w prawo i w dół', de: 'Pfeil nach rechts unten' } },
       ],
     },
     {
       id: 4,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'mirror-image recognition',
@@ -4180,14 +4538,15 @@ export const wordDatabaseEN = {
         de: 'Welches ist das Spiegelbild dieses Symbols? ↖️',
       },
       options: [
-        { text: '↗️', isCorrect: true },
-        { text: '↙️', isCorrect: false },
-        { text: '↖️', isCorrect: false },
-        { text: '↘️', isCorrect: false },
+        { text: '↗️', isCorrect: true, label: { en: 'up-right arrow', pl: 'strzałka w prawo i w górę', de: 'Pfeil nach rechts oben' } },
+        { text: '↙️', isCorrect: false, label: { en: 'down-left arrow', pl: 'strzałka w lewo i w dół', de: 'Pfeil nach links unten' } },
+        { text: '↖️', isCorrect: false, label: { en: 'up-left arrow', pl: 'strzałka w lewo i w górę', de: 'Pfeil nach links oben' } },
+        { text: '↘️', isCorrect: false, label: { en: 'down-right arrow', pl: 'strzałka w prawo i w dół', de: 'Pfeil nach rechts unten' } },
       ],
     },
     {
       id: 5,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'mirror-image recognition',
@@ -4197,14 +4556,15 @@ export const wordDatabaseEN = {
         de: 'Welches ist das Spiegelbild dieses Symbols? ↘️',
       },
       options: [
-        { text: '↘️', isCorrect: false },
-        { text: '↖️', isCorrect: false },
-        { text: '↙️', isCorrect: true },
-        { text: '↗️', isCorrect: false },
+        { text: '↘️', isCorrect: false, label: { en: 'down-right arrow', pl: 'strzałka w prawo i w dół', de: 'Pfeil nach rechts unten' } },
+        { text: '↖️', isCorrect: false, label: { en: 'up-left arrow', pl: 'strzałka w lewo i w górę', de: 'Pfeil nach links oben' } },
+        { text: '↙️', isCorrect: true, label: { en: 'down-left arrow', pl: 'strzałka w lewo i w dół', de: 'Pfeil nach links unten' } },
+        { text: '↗️', isCorrect: false, label: { en: 'up-right arrow', pl: 'strzałka w prawo i w górę', de: 'Pfeil nach rechts oben' } },
       ],
     },
     {
       id: 6,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'mirror-image recognition',
@@ -4214,14 +4574,15 @@ export const wordDatabaseEN = {
         de: 'Welches ist das Spiegelbild dieses Symbols? ↙️',
       },
       options: [
-        { text: '↙️', isCorrect: false },
-        { text: '↗️', isCorrect: false },
-        { text: '↘️', isCorrect: true },
-        { text: '↖️', isCorrect: false },
+        { text: '↙️', isCorrect: false, label: { en: 'down-left arrow', pl: 'strzałka w lewo i w dół', de: 'Pfeil nach links unten' } },
+        { text: '↗️', isCorrect: false, label: { en: 'up-right arrow', pl: 'strzałka w prawo i w górę', de: 'Pfeil nach rechts oben' } },
+        { text: '↘️', isCorrect: true, label: { en: 'down-right arrow', pl: 'strzałka w prawo i w dół', de: 'Pfeil nach rechts unten' } },
+        { text: '↖️', isCorrect: false, label: { en: 'up-left arrow', pl: 'strzałka w lewo i w górę', de: 'Pfeil nach links oben' } },
       ],
     },
     {
       id: 7,
+      set: 'A',
       type: 'grapheme',
       difficulty: 3,
       focus: 'mirror-image recognition',
@@ -4231,14 +4592,15 @@ export const wordDatabaseEN = {
         de: 'Welches ist das Spiegelbild dieses Symbols? ➡️↗️',
       },
       options: [
-        { text: '➡️↗️', isCorrect: false },
-        { text: '↖️⬅️', isCorrect: true },
-        { text: '⬅️↙️', isCorrect: false },
-        { text: '↘️⬆️', isCorrect: false },
+        { text: '➡️↗️', isCorrect: false, label: { en: 'right and up-right arrows', pl: 'strzałki w prawo i w prawo-górę', de: 'Pfeile nach rechts und rechts oben' } },
+        { text: '↖️⬅️', isCorrect: true, label: { en: 'up-left and left arrows', pl: 'strzałki w lewo-górę i w lewo', de: 'Pfeile nach links oben und links' } },
+        { text: '⬅️↙️', isCorrect: false, label: { en: 'left and down-left arrows', pl: 'strzałki w lewo i w lewo-dół', de: 'Pfeile nach links und links unten' } },
+        { text: '↘️⬆️', isCorrect: false, label: { en: 'down-right and up arrows', pl: 'strzałki w prawo-dół i w górę', de: 'Pfeile nach rechts unten und oben' } },
       ],
     },
     {
       id: 8,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'mirror-image recognition',
@@ -4248,16 +4610,17 @@ export const wordDatabaseEN = {
         de: 'Welches ist das Spiegelbild dieses Symbols? ↘️⬅️',
       },
       options: [
-        { text: '➡️↙️', isCorrect: true },
-        { text: '↘️⬅️', isCorrect: false },
-        { text: '↙️➡️', isCorrect: false },
-        { text: '⬆️↖️', isCorrect: false },
+        { text: '➡️↙️', isCorrect: true, label: { en: 'right and down-left arrows', pl: 'strzałki w prawo i w lewo-dół', de: 'Pfeile nach rechts und links unten' } },
+        { text: '↘️⬅️', isCorrect: false, label: { en: 'down-right and left arrows', pl: 'strzałki w prawo-dół i w lewo', de: 'Pfeile nach rechts unten und links' } },
+        { text: '↙️➡️', isCorrect: false, label: { en: 'down-left and right arrows', pl: 'strzałki w lewo-dół i w prawo', de: 'Pfeile nach links unten und rechts' } },
+        { text: '⬆️↖️', isCorrect: false, label: { en: 'up and up-left arrows', pl: 'strzałki w górę i w lewo-górę', de: 'Pfeile nach oben und links oben' } },
       ],
     },
   ],
   oddOneOut: [
     {
       id: 1,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'visual search',
@@ -4267,14 +4630,15 @@ export const wordDatabaseEN = {
         de: 'Welches Symbol passt nicht zu den anderen?',
       },
       options: [
-        { text: '🍎', isCorrect: false },
-        { text: '🍊', isCorrect: false },
-        { text: '🍐', isCorrect: false },
-        { text: '🚗', isCorrect: true },
+        { text: '🍎', isCorrect: false, label: { en: 'apple', pl: 'jabłko', de: 'Apfel' } },
+        { text: '🍊', isCorrect: false, label: { en: 'orange', pl: 'pomarańcza', de: 'Orange' } },
+        { text: '🍐', isCorrect: false, label: { en: 'pear', pl: 'gruszka', de: 'Birne' } },
+        { text: '🚗', isCorrect: true, label: { en: 'car', pl: 'samochód', de: 'Auto' } },
       ],
     },
     {
       id: 2,
+      set: 'B',
       type: 'grapheme',
       difficulty: 1,
       focus: 'visual search',
@@ -4284,14 +4648,15 @@ export const wordDatabaseEN = {
         de: 'Welches Symbol passt nicht zu den anderen?',
       },
       options: [
-        { text: '🐶', isCorrect: false },
-        { text: '🐱', isCorrect: false },
-        { text: '🐹', isCorrect: false },
-        { text: '🚀', isCorrect: true },
+        { text: '🐶', isCorrect: false, label: { en: 'dog', pl: 'pies', de: 'Hund' } },
+        { text: '🐱', isCorrect: false, label: { en: 'cat', pl: 'kot', de: 'Katze' } },
+        { text: '🐹', isCorrect: false, label: { en: 'hamster', pl: 'chomik', de: 'Hamster' } },
+        { text: '🚀', isCorrect: true, label: { en: 'rocket', pl: 'rakieta', de: 'Rakete' } },
       ],
     },
     {
       id: 3,
+      set: 'A',
       type: 'grapheme',
       difficulty: 1,
       focus: 'visual search',
@@ -4301,14 +4666,15 @@ export const wordDatabaseEN = {
         de: 'Welches Symbol passt nicht zu den anderen?',
       },
       options: [
-        { text: '🔺', isCorrect: false },
-        { text: '🔷', isCorrect: false },
-        { text: '🔶', isCorrect: false },
-        { text: '🌳', isCorrect: true },
+        { text: '🔺', isCorrect: false, label: { en: 'red triangle', pl: 'czerwony trójkąt', de: 'rotes Dreieck' } },
+        { text: '🔷', isCorrect: false, label: { en: 'blue diamond', pl: 'niebieski romb', de: 'blaue Raute' } },
+        { text: '🔶', isCorrect: false, label: { en: 'orange diamond', pl: 'pomarańczowy romb', de: 'orange Raute' } },
+        { text: '🌳', isCorrect: true, label: { en: 'tree', pl: 'drzewo', de: 'Baum' } },
       ],
     },
     {
       id: 4,
+      set: 'B',
       type: 'grapheme',
       difficulty: 1,
       focus: 'visual search',
@@ -4318,14 +4684,15 @@ export const wordDatabaseEN = {
         de: 'Welches Symbol passt nicht zu den anderen?',
       },
       options: [
-        { text: '⭐', isCorrect: false },
-        { text: '🌙', isCorrect: false },
-        { text: '☀️', isCorrect: false },
-        { text: '🚗', isCorrect: true },
+        { text: '⭐', isCorrect: false, label: { en: 'star', pl: 'gwiazda', de: 'Stern' } },
+        { text: '🌙', isCorrect: false, label: { en: 'moon', pl: 'księżyc', de: 'Mond' } },
+        { text: '☀️', isCorrect: false, label: { en: 'sun', pl: 'słońce', de: 'Sonne' } },
+        { text: '🚗', isCorrect: true, label: { en: 'car', pl: 'samochód', de: 'Auto' } },
       ],
     },
     {
       id: 5,
+      set: 'A',
       type: 'grapheme',
       difficulty: 2,
       focus: 'visual search',
@@ -4335,14 +4702,15 @@ export const wordDatabaseEN = {
         de: 'Welches Symbol passt nicht zu den anderen?',
       },
       options: [
-        { text: '🚗', isCorrect: false },
-        { text: '🚕', isCorrect: false },
-        { text: '🚙', isCorrect: false },
-        { text: '✈️', isCorrect: true },
+        { text: '🚗', isCorrect: false, label: { en: 'car', pl: 'samochód', de: 'Auto' } },
+        { text: '🚕', isCorrect: false, label: { en: 'taxi', pl: 'taksówka', de: 'Taxi' } },
+        { text: '🚙', isCorrect: false, label: { en: 'SUV', pl: 'terenówka', de: 'Geländewagen' } },
+        { text: '✈️', isCorrect: true, label: { en: 'airplane', pl: 'samolot', de: 'Flugzeug' } },
       ],
     },
     {
       id: 6,
+      set: 'B',
       type: 'grapheme',
       difficulty: 2,
       focus: 'visual search',
@@ -4352,14 +4720,15 @@ export const wordDatabaseEN = {
         de: 'Welches Symbol passt nicht zu den anderen?',
       },
       options: [
-        { text: '🐦', isCorrect: false },
-        { text: '🦅', isCorrect: false },
-        { text: '🦉', isCorrect: false },
-        { text: '🐟', isCorrect: true },
+        { text: '🐦', isCorrect: false, label: { en: 'bird', pl: 'ptak', de: 'Vogel' } },
+        { text: '🦅', isCorrect: false, label: { en: 'eagle', pl: 'orzeł', de: 'Adler' } },
+        { text: '🦉', isCorrect: false, label: { en: 'owl', pl: 'sowa', de: 'Eule' } },
+        { text: '🐟', isCorrect: true, label: { en: 'fish', pl: 'ryba', de: 'Fisch' } },
       ],
     },
     {
       id: 8,
+      set: 'B',
       type: 'grapheme',
       difficulty: 3,
       focus: 'visual search',
@@ -4369,16 +4738,17 @@ export const wordDatabaseEN = {
         de: 'Welches Symbol passt nicht zu den anderen?',
       },
       options: [
-        { text: '↗️', isCorrect: false },
-        { text: '↘️', isCorrect: false },
-        { text: '➡️', isCorrect: false },
-        { text: '⬆️', isCorrect: true },
+        { text: '↗️', isCorrect: false, label: { en: 'up-right arrow', pl: 'strzałka w prawo i w górę', de: 'Pfeil nach rechts oben' } },
+        { text: '↘️', isCorrect: false, label: { en: 'down-right arrow', pl: 'strzałka w prawo i w dół', de: 'Pfeil nach rechts unten' } },
+        { text: '➡️', isCorrect: false, label: { en: 'right arrow', pl: 'strzałka w prawo', de: 'Pfeil nach rechts' } },
+        { text: '⬆️', isCorrect: true, label: { en: 'up arrow', pl: 'strzałka w górę', de: 'Pfeil nach oben' } },
       ],
     },
   ],
   lcwc: [
     {
       id: 1,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4386,6 +4756,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4393,6 +4764,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4400,6 +4772,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4407,6 +4780,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4414,6 +4788,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4421,6 +4796,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4428,6 +4804,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4435,6 +4812,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4442,6 +4820,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4449,6 +4828,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4456,6 +4836,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4463,6 +4844,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4470,6 +4852,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4477,6 +4860,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4484,6 +4868,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4491,6 +4876,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4498,6 +4884,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4505,6 +4892,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 2,
@@ -4512,6 +4900,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'lookCoverWriteCheck',
       lcwc: true,
       difficulty: 3,
@@ -4521,6 +4910,7 @@ export const wordDatabaseEN = {
   categorization: [
     {
       id: 1,
+      set: 'A',
       type: 'categorization',
       difficulty: 3,
       instruction: 'Categorize these cognitive biases',
@@ -4561,6 +4951,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'categorization',
       difficulty: 1,
       tags: ['business'],
@@ -4602,6 +4993,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Assign words to the correct part of speech',
@@ -4642,6 +5034,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Assign words to the correct spelling rule',
@@ -4682,6 +5075,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'categorization',
       difficulty: 1,
       instruction: 'Categorize by word type',
@@ -4722,6 +5116,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Categorize homophones',
@@ -4762,6 +5157,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'categorization',
       difficulty: 3,
       instruction: 'Categorize prefixes and suffixes',
@@ -4802,6 +5198,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'categorization',
       difficulty: 1,
       instruction: 'Categorize by double letters',
@@ -4842,6 +5239,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Categorize by business department',
@@ -4882,6 +5280,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'categorization',
       difficulty: 1,
       instruction: 'Categorize by time',
@@ -4922,6 +5321,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'categorization',
       difficulty: 1,
       instruction: 'Fruit or Vegetable?',
@@ -4962,6 +5362,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Positive or Negative?',
@@ -5002,6 +5403,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'categorization',
       difficulty: 1,
       instruction: 'Morning or evening?',
@@ -5018,6 +5420,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'categorization',
       difficulty: 2,
       tags: ['business'],
@@ -5035,6 +5438,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'categorization',
       difficulty: 2,
       tags: ['business'],
@@ -5052,6 +5456,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'categorization',
       difficulty: 1,
       tags: ['business'],
@@ -5069,6 +5474,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Digital or analog?',
@@ -5085,6 +5491,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'categorization',
       difficulty: 1,
       instruction: 'Indoor or outdoor?',
@@ -5101,6 +5508,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'categorization',
       difficulty: 2,
       instruction: 'Singular or plural?',
@@ -5117,6 +5525,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'categorization',
       difficulty: 3,
       instruction: 'Formal or informal style?',
@@ -5135,6 +5544,7 @@ export const wordDatabaseEN = {
   dictation: [
     {
       id: 1,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       difficulty: 3,
@@ -5145,6 +5555,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       difficulty: 1,
@@ -5153,6 +5564,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5161,6 +5573,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5169,6 +5582,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5177,6 +5591,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       difficulty: 3,
@@ -5185,6 +5600,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5193,6 +5609,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5201,6 +5618,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       difficulty: 3,
@@ -5209,6 +5627,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5217,6 +5636,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       difficulty: 2,
@@ -5225,6 +5645,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       difficulty: 3,
@@ -5233,6 +5654,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'substitution',
@@ -5244,6 +5666,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'substitution',
@@ -5255,17 +5678,19 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'substitution',
       difficulty: 4,
       instruction: 'Change the sound and give the new word',
       audioPrompt:
-        'In the word pin, change the vowel sound to get pan. Say the new word.',
+        'Change the vowel sound in the word pin to the short a sound, as in cat. What word do you get?',
       correct: 'pan',
     },
     {
       id: 16,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'deletion',
@@ -5277,6 +5702,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'deletion',
@@ -5288,6 +5714,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'deletion',
@@ -5299,6 +5726,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'reversal',
@@ -5309,6 +5737,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'reversal',
@@ -5319,6 +5748,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 21,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'reversal',
@@ -5329,6 +5759,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 22,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'acrostic',
@@ -5340,6 +5771,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 23,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'acrostic',
@@ -5351,6 +5783,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 24,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'acrostic',
@@ -5362,6 +5795,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 25,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'counting',
@@ -5373,6 +5807,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 26,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'counting',
@@ -5384,6 +5819,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 27,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'counting',
@@ -5395,6 +5831,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 28,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'wordChain',
@@ -5406,6 +5843,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 29,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'wordChain',
@@ -5417,6 +5855,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 30,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'wordChain',
@@ -5428,6 +5867,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 31,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'categoryRetrieval',
@@ -5438,6 +5878,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 32,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'categoryRetrieval',
@@ -5448,6 +5889,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 33,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'categoryRetrieval',
@@ -5465,6 +5907,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 34,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'syllableCount',
@@ -5476,6 +5919,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 35,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'syllableCount',
@@ -5487,6 +5931,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 36,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'syllableCount',
@@ -5498,6 +5943,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 37,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'audioSpelling',
@@ -5508,6 +5954,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 38,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'audioSpelling',
@@ -5518,6 +5965,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 39,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'audioSpelling',
@@ -5528,6 +5976,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 40,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'rhymeCompletion',
@@ -5539,6 +5988,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 41,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'rhymeCompletion',
@@ -5550,6 +6000,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 42,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'homophoneConfusion',
@@ -5559,6 +6010,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 43,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'homophoneConfusion',
@@ -5568,6 +6020,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 44,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'homophoneConfusion',
@@ -5577,6 +6030,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 45,
+      set: 'A',
       type: 'dictation',
       dictation: true,
       focus: 'commonMisspelling',
@@ -5586,6 +6040,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 46,
+      set: 'B',
       type: 'dictation',
       dictation: true,
       focus: 'commonMisspelling',
@@ -5597,6 +6052,7 @@ export const wordDatabaseEN = {
   readAloud: [
     {
       id: 1,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5604,6 +6060,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5611,6 +6068,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5618,6 +6076,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5625,6 +6084,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 3,
@@ -5632,6 +6092,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 3,
@@ -5639,6 +6100,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5646,6 +6108,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5653,6 +6116,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 3,
@@ -5660,6 +6124,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5667,6 +6132,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 11,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 3,
@@ -5674,6 +6140,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 12,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5681,6 +6148,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 13,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5688,6 +6156,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 14,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5695,6 +6164,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 15,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5702,6 +6172,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 16,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 3,
@@ -5709,6 +6180,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 17,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5716,6 +6188,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 18,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 1,
@@ -5723,6 +6196,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 19,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 3,
@@ -5730,6 +6204,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 20,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 2,
@@ -5737,6 +6212,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 21,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 4,
@@ -5744,6 +6220,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 22,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 4,
@@ -5751,6 +6228,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 23,
+      set: 'A',
       type: 'readAloud',
       readAloud: true,
       difficulty: 4,
@@ -5758,6 +6236,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 24,
+      set: 'B',
       type: 'readAloud',
       readAloud: true,
       difficulty: 4,
@@ -5767,6 +6246,7 @@ export const wordDatabaseEN = {
   comprehension: [
     {
       id: 1,
+      set: 'A',
       type: 'comprehension',
       difficulty: 2,
       tags: ['finance'],
@@ -5785,6 +6265,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'comprehension',
       difficulty: 3,
       tags: ['finance'],
@@ -5806,6 +6287,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'comprehension',
       difficulty: 2,
       tags: ['business'],
@@ -5824,6 +6306,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'comprehension',
       difficulty: 3,
       tags: ['business'],
@@ -5842,6 +6325,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'comprehension',
       difficulty: 2,
       tags: ['technology'],
@@ -5860,6 +6344,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'comprehension',
       difficulty: 3,
       tags: ['technology'],
@@ -5878,6 +6363,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'comprehension',
       difficulty: 2,
       tags: ['legal'],
@@ -5896,6 +6382,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'comprehension',
       difficulty: 3,
       tags: ['legal'],
@@ -5914,6 +6401,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 9,
+      set: 'A',
       type: 'comprehension',
       difficulty: 2,
       tags: ['healthcare-admin'],
@@ -5932,6 +6420,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 10,
+      set: 'B',
       type: 'comprehension',
       difficulty: 3,
       tags: ['healthcare-admin'],
@@ -5952,6 +6441,7 @@ export const wordDatabaseEN = {
   rhythm: [
     {
       id: 1,
+      set: 'A',
       type: 'rhythmTap',
       difficulty: 1,
       word: 'Achievement',
@@ -5960,6 +6450,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 2,
+      set: 'B',
       type: 'rhythmTap',
       difficulty: 1,
       word: 'Investment',
@@ -5968,6 +6459,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 3,
+      set: 'A',
       type: 'rhythmTap',
       difficulty: 2,
       word: 'Professional',
@@ -5976,6 +6468,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 4,
+      set: 'B',
       type: 'rhythmTap',
       difficulty: 2,
       word: 'Organization',
@@ -5984,6 +6477,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 5,
+      set: 'A',
       type: 'rhythmTap',
       difficulty: 2,
       word: 'Collaboration',
@@ -5992,6 +6486,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 6,
+      set: 'B',
       type: 'rhythmTap',
       difficulty: 2,
       word: 'Qualification',
@@ -6000,6 +6495,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 7,
+      set: 'A',
       type: 'rhythmTap',
       difficulty: 3,
       word: 'Bureaucracy',
@@ -6008,6 +6504,7 @@ export const wordDatabaseEN = {
     },
     {
       id: 8,
+      set: 'B',
       type: 'rhythmTap',
       difficulty: 3,
       word: 'Negotiation',
@@ -6016,40 +6513,116 @@ export const wordDatabaseEN = {
     },
   ],
   rhythmMemory: [
-    { id: 1, type: 'rhythmMemory', difficulty: 1, pattern: [1, 1, 1] },
-    { id: 2, type: 'rhythmMemory', difficulty: 1, pattern: [2, 1, 1] },
-    { id: 3, type: 'rhythmMemory', difficulty: 1, pattern: [1, 2, 1] },
-    { id: 4, type: 'rhythmMemory', difficulty: 2, pattern: [1, 1, 2, 1] },
-    { id: 5, type: 'rhythmMemory', difficulty: 2, pattern: [2, 1, 1, 2] },
-    { id: 6, type: 'rhythmMemory', difficulty: 2, pattern: [1, 2, 1, 1, 2] },
+    {
+      id: 1,
+      set: 'A',
+      type: 'rhythmMemory',
+      difficulty: 1,
+      pattern: [1, 1, 1],
+    },
+    {
+      id: 2,
+      set: 'B',
+      type: 'rhythmMemory',
+      difficulty: 1,
+      pattern: [2, 1, 1],
+    },
+    {
+      id: 3,
+      set: 'A',
+      type: 'rhythmMemory',
+      difficulty: 1,
+      pattern: [1, 2, 1],
+    },
+    {
+      id: 4,
+      set: 'B',
+      type: 'rhythmMemory',
+      difficulty: 2,
+      pattern: [1, 1, 2, 1],
+    },
+    {
+      id: 5,
+      set: 'A',
+      type: 'rhythmMemory',
+      difficulty: 2,
+      pattern: [2, 1, 1, 2],
+    },
+    {
+      id: 6,
+      set: 'B',
+      type: 'rhythmMemory',
+      difficulty: 2,
+      pattern: [1, 2, 1, 1, 2],
+    },
     {
       id: 7,
+      set: 'A',
       type: 'rhythmMemory',
       difficulty: 3,
       pattern: [1, 1, 2, 1, 1, 2],
     },
     {
       id: 8,
+      set: 'B',
       type: 'rhythmMemory',
       difficulty: 3,
       pattern: [2, 1, 1, 2, 1, 1, 2],
     },
   ],
   melodyMemory: [
-    { id: 1, type: 'melodyMemory', difficulty: 1, sequence: [0, 1, 2] },
-    { id: 2, type: 'melodyMemory', difficulty: 1, sequence: [2, 1, 0] },
-    { id: 3, type: 'melodyMemory', difficulty: 1, sequence: [0, 0, 2] },
-    { id: 4, type: 'melodyMemory', difficulty: 2, sequence: [0, 1, 2, 3] },
-    { id: 5, type: 'melodyMemory', difficulty: 2, sequence: [3, 2, 1, 0] },
-    { id: 6, type: 'melodyMemory', difficulty: 2, sequence: [1, 1, 2, 0] },
+    {
+      id: 1,
+      set: 'A',
+      type: 'melodyMemory',
+      difficulty: 1,
+      sequence: [0, 1, 2],
+    },
+    {
+      id: 2,
+      set: 'B',
+      type: 'melodyMemory',
+      difficulty: 1,
+      sequence: [2, 1, 0],
+    },
+    {
+      id: 3,
+      set: 'A',
+      type: 'melodyMemory',
+      difficulty: 1,
+      sequence: [0, 0, 2],
+    },
+    {
+      id: 4,
+      set: 'B',
+      type: 'melodyMemory',
+      difficulty: 2,
+      sequence: [0, 1, 2, 3],
+    },
+    {
+      id: 5,
+      set: 'A',
+      type: 'melodyMemory',
+      difficulty: 2,
+      sequence: [3, 2, 1, 0],
+    },
+    {
+      id: 6,
+      set: 'B',
+      type: 'melodyMemory',
+      difficulty: 2,
+      sequence: [1, 1, 2, 0],
+    },
     {
       id: 7,
+      set: 'A',
       type: 'melodyMemory',
       difficulty: 3,
       sequence: [0, 1, 2, 3, 1],
     },
     {
       id: 8,
+      set: 'B',
       type: 'melodyMemory',
       difficulty: 3,
       sequence: [3, 1, 0, 2, 3],
@@ -6475,6 +7048,116 @@ export const wordDatabaseEN = {
           isCorrect: false,
         },
       ],
+    },
+  ],
+  graphemePhoneme: [
+    {
+      id: 1,
+      set: 'A',
+      type: 'graphemePhoneme',
+      difficulty: 1,
+      grapheme: 'sh',
+      phoneme: 'ʃ',
+      distractors: ['ch', 'th', 's'],
+    },
+    {
+      id: 2,
+      set: 'B',
+      type: 'graphemePhoneme',
+      difficulty: 1,
+      grapheme: 'ch',
+      phoneme: 'tʃ',
+      distractors: ['sh', 'ck', 'c'],
+    },
+    {
+      id: 3,
+      set: 'A',
+      type: 'graphemePhoneme',
+      difficulty: 2,
+      grapheme: 'th',
+      phoneme: 'θ',
+      distractors: ['sh', 'f', 't'],
+    },
+    {
+      id: 4,
+      set: 'B',
+      type: 'graphemePhoneme',
+      difficulty: 2,
+      grapheme: 'ph',
+      phoneme: 'f',
+      distractors: ['th', 'p', 'v'],
+    },
+    {
+      id: 5,
+      set: 'A',
+      type: 'graphemePhoneme',
+      difficulty: 1,
+      grapheme: 'ee',
+      phoneme: 'iː',
+      distractors: ['ea', 'ie', 'e'],
+    },
+    {
+      id: 6,
+      set: 'B',
+      type: 'graphemePhoneme',
+      difficulty: 1,
+      grapheme: 'oo',
+      phoneme: 'uː',
+      distractors: ['ou', 'ow', 'o'],
+    },
+    {
+      id: 7,
+      set: 'A',
+      type: 'graphemePhoneme',
+      difficulty: 2,
+      grapheme: 'ai',
+      phoneme: 'eɪ',
+      distractors: ['ay', 'a', 'i'],
+    },
+    {
+      id: 8,
+      set: 'B',
+      type: 'graphemePhoneme',
+      difficulty: 3,
+      grapheme: 'igh',
+      phoneme: 'aɪ',
+      distractors: ['ie', 'i', 'ee'],
+    },
+    {
+      id: 9,
+      set: 'A',
+      type: 'graphemePhoneme',
+      difficulty: 1,
+      grapheme: 'ck',
+      phoneme: 'k',
+      distractors: ['ch', 'c', 'q'],
+    },
+    {
+      id: 10,
+      set: 'B',
+      type: 'graphemePhoneme',
+      difficulty: 2,
+      grapheme: 'wh',
+      phoneme: 'w',
+      distractors: ['h', 'sh', 'w'],
+    },
+    {
+      id: 11,
+      set: 'A',
+      type: 'graphemePhoneme',
+      difficulty: 2,
+      grapheme: 'ng',
+      phoneme: 'ŋ',
+      distractors: ['nk', 'n', 'g'],
+    },
+    {
+      id: 12,
+      set: 'B',
+      type: 'graphemePhoneme',
+      difficulty: 3,
+      grapheme: 'qu',
+      phoneme: 'kw',
+      distractors: ['k', 'c', 'w'],
     },
   ],
 };

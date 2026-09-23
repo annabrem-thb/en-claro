@@ -1,6 +1,6 @@
 // Manual/scheduled export of survey submissions (see supabase/00_survey_schema.sql)
 // to CSV. Run with SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY set:
-//   node scripts/export-netlify-forms.js
+//   node scripts/export-survey-data.js
 // (or `npm run export:survey`).
 import fs from 'fs';
 import https from 'https';

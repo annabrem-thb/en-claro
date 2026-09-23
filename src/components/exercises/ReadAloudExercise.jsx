@@ -4,6 +4,8 @@ import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
@@ -93,16 +95,13 @@ function ReadAloudExercise({
         </span>
       </div>
 
-      <div className="mb-2 flex shrink-0 gap-4 sm:mb-4">
+      <ExerciseControlsRow>
         <TTSController
           onReadAloud={handleReadAloud}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
           controlBtnSize={controlBtnSize}
-          isHighContrast={isHighContrast}
           noFlash={noFlash}
-          bionicReading={bionicReading}
           ttsFallback={ttsFallback}
         />
 
@@ -125,7 +124,7 @@ function ReadAloudExercise({
           unsupportedHint={t('micUnsupportedReadAloud')}
           fallbackHint={t('micFallbackHintReadAloud')}
         />
-      </div>
+      </ExerciseControlsRow>
 
       {/* Before this, the only clue that the mic here expects the displayed
           text read verbatim — not an option number, unlike every other
@@ -133,16 +132,22 @@ function ReadAloudExercise({
           users. It also defaulted to the generic "speak option number"
           wording, which was simply wrong for this exercise. */}
       {!transcript && (
-        <p className="mb-2 shrink-0 text-center text-[10px] font-medium text-slate-600">
-          {t('speakTextAloud')}
-        </p>
+        <TranscriptDisplay
+          idleText={t('speakTextAloud')}
+          isHighContrast={isHighContrast}
+          t={t}
+          className="mb-2 shrink-0 text-center text-[10px]"
+        />
       )}
 
       {transcript && (
         <div className="flex w-full max-w-sm shrink-0 flex-col items-center gap-3 sm:gap-4">
-          <p className="text-center text-xs font-black tracking-widest text-slate-600 uppercase">
-            {t('heard')}: <span className="text-slate-600">{transcript}</span>
-          </p>
+          <TranscriptDisplay
+            transcript={transcript}
+            isHighContrast={isHighContrast}
+            t={t}
+            className="text-center text-xs"
+          />
           <button
             onClick={handleCheck}
             className={`w-full rounded-full py-4 font-black tracking-widest uppercase transition-all active:scale-95 ${themeStyles.button} ${themeStyles.buttonText} shadow-xl hover:brightness-110`}

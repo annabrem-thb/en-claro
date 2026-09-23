@@ -15,6 +15,17 @@ jobs:
         node-version: lts/*
     - name: Install dependencies
       run: npm ci
+    - name: Install Netlify Function dependencies
+      # netlify/functions/submit-survey has its own package.json/lockfile,
+      # deliberately kept separate from the root so @supabase/supabase-js
+      # never ends up in the frontend bundle (see netlify.toml's comment on
+      # @netlify/plugin-functions-install-core, which installs this same
+      # nested package.json during an actual Netlify build, but not here in
+      # CI). Its own node_modules/ is gitignored like any other, so without
+      # this step index.test.js's `require('./index.js')` — which requires
+      # @supabase/supabase-js at the top of index.js — fails immediately.
+      run: npm ci
+      working-directory: netlify/functions/submit-survey
     - name: Lint
       run: npm run lint
     - name: Type check

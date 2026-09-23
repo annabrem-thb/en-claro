@@ -4,6 +4,7 @@ import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import { useUserSettingsContext } from '../../hooks/useUserSettingsContext.js';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
 
 function LookCoverWriteCheck({
@@ -22,6 +23,8 @@ function LookCoverWriteCheck({
   const activeWord = targetWord || word || '';
   const [phase, setPhase] = useState('look');
   const [userInput, setUserInput] = useState('');
+  const isCorrect =
+    userInput.trim().toLowerCase() === activeWord.trim().toLowerCase();
 
   const { settings } = useUserSettingsContext();
   const t = propT;
@@ -39,6 +42,20 @@ function LookCoverWriteCheck({
   }, [speak, activeWord, extendedTime, clearAllTimeouts]);
 
   useAutoReadAloud(voiceAssistant && phase === 'look', handleReadWord);
+
+  // The comparison screen (phase 'check') used to have no speak() call at
+  // all — the one place this exercise actually delivers its feedback was
+  // silent for a Voice Assistant user, who'd see phase change but hear
+  // nothing about whether they got it right.
+  const handleReadResult = useCallback(() => {
+    clearAllTimeouts();
+    if (!speak) return;
+    const result = isCorrect ? t('feedback.correct') : t('feedback.incorrect');
+    const spoken = `${result} ${t('targetWord')}: ${activeWord}. ${t('yourSpelling')}: ${userInput}.`;
+    speak(spoken, extendedTime);
+  }, [speak, isCorrect, t, activeWord, userInput, extendedTime, clearAllTimeouts]);
+
+  useAutoReadAloud(voiceAssistant && phase === 'check', handleReadResult);
 
   useEffect(() => {
     if (phase === 'write' && inputRef.current) {
@@ -64,21 +81,18 @@ function LookCoverWriteCheck({
           </h2>
         )}
 
-        <div className="mb-3 shrink-0 sm:mb-6">
+        <ExerciseControlsRow className="mb-3 shrink-0 sm:mb-6">
           <TTSController
             onReadAloud={handleReadWord}
             pauseAllTimeouts={pauseAllTimeouts}
             resumeAllTimeouts={resumeAllTimeouts}
-            t={t}
             controlBtnSize={
               bigTargets ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'
             }
-            isHighContrast={isHighContrast}
             noFlash={noFlash}
-            bionicReading={bionicReading}
             ttsFallback={ttsFallback}
           />
-        </div>
+        </ExerciseControlsRow>
 
         <div
           className={`mb-4 flex min-h-0 w-full max-w-md shrink items-center justify-center overflow-y-auto rounded-3xl px-4 py-6 shadow-sm sm:mb-8 sm:px-8 sm:py-10 ${isHighContrast ? 'border-2 border-white bg-black text-white' : 'border border-slate-200 bg-white text-slate-800'}`}
@@ -151,13 +165,23 @@ function LookCoverWriteCheck({
   }
 
   if (phase === 'check') {
-    const isCorrect =
-      userInput.trim().toLowerCase() === activeWord.trim().toLowerCase();
-
     return (
       <div
         className={`flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 ${noFlash ? '' : 'animate-in slide-in-from-bottom-4 fade-in duration-500'}`}
       >
+        <ExerciseControlsRow className="mb-3 shrink-0 sm:mb-6">
+          <TTSController
+            onReadAloud={handleReadResult}
+            pauseAllTimeouts={pauseAllTimeouts}
+            resumeAllTimeouts={resumeAllTimeouts}
+            controlBtnSize={
+              bigTargets ? 'w-20 h-20 text-3xl' : 'w-16 h-16 text-2xl'
+            }
+            noFlash={noFlash}
+            ttsFallback={ttsFallback}
+          />
+        </ExerciseControlsRow>
+
         {!zenMode && (
           <h2
             className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}

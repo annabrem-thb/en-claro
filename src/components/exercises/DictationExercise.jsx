@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
 
 function DictationExercise({
@@ -116,23 +117,20 @@ function DictationExercise({
         </h3>
       )}
 
-      <div className="mb-4 shrink-0 sm:mb-6">
+      <ExerciseControlsRow className="mb-4 shrink-0 sm:mb-6">
         <TTSController
           onReadAloud={handleReplay}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
           controlBtnSize={
             bigTargets
               ? 'w-16 h-16 sm:w-24 sm:h-24 text-3xl sm:text-4xl'
               : 'w-14 h-14 sm:w-20 sm:h-20 text-2xl sm:text-3xl'
           }
-          isHighContrast={isHighContrast}
           noFlash={noFlash}
-          bionicReading={bionicReading}
           ttsFallback={ttsFallback}
         />
-      </div>
+      </ExerciseControlsRow>
 
       <input
         ref={inputRef}
