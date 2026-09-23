@@ -14,6 +14,7 @@ import { useGamification } from '../hooks/useGamification.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
 import { safeJSONParse } from '../utils/safeJSONParse.js';
+import { applyStudyOverrides } from '../utils/studyOverrides.js';
 
 import BionicText from './common/BionicText.jsx';
 
@@ -23,14 +24,38 @@ import BionicText from './common/BionicText.jsx';
 // one fixed slot — the emergency bypass below (see attemptCount) can leave
 // a block's draft behind on purpose, and the *next* checkpoint's survey
 // must not load a previous, unrelated block's abandoned answers.
-const SURVEY_DRAFT_KEY_PREFIX = 'enclaro:survey:v1:';
+//
+// v2: a v1 draft can't be told apart from "never touched" — every item used
+// to be pre-filled with a midpoint default, so a restored v1 value may be
+// one the participant never actually chose. v1 drafts are ignored.
+const SURVEY_DRAFT_KEY_PREFIX = 'enclaro:survey:v2:';
+
+// Every rating starts unanswered (null) — no item is pre-filled, so a
+// submitted value is always one the participant deliberately gave.
+type Answers<T> = { [K in keyof T]: T[K] | null };
+type GamificationAnswers = Answers<
+  Omit<GamificationFeedbackPayload, 'gameElementFeedback'>
+> & { gameElementFeedback: string };
 
 type SurveyDraft = {
-  nasaScores: NasaTlxPayload;
-  susScores: SusPayload;
-  ueqScores: UeqPayload;
-  gamificationFeedback: GamificationFeedbackPayload;
+  nasaScores: Answers<NasaTlxPayload>;
+  susScores: Answers<SusPayload>;
+  ueqScores: Answers<UeqPayload>;
+  gamificationFeedback: GamificationAnswers;
 };
+
+// Keys that move or commit a native range input; anything else (notably the
+// Tab that merely lands focus on it) must not count as answering.
+const SLIDER_NAVIGATION_KEYS = new Set([
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowUp',
+  'ArrowDown',
+  'Home',
+  'End',
+  'PageUp',
+  'PageDown',
+]);
 
 // Every localStorage access here is wrapped: private-browsing modes and a
 // full storage quota can make both getItem and setItem throw, and losing a
@@ -191,7 +216,24 @@ export const SurveyComponent: React.FC<{
   // callers (see SurveyComponent.test.tsx, if any) don't pass it, in which
   // case the voice-assistant announcements below simply no-op.
   speak?: (text: string, slow?: boolean, onEnd?: () => void) => void;
-}> = ({ onSubmitted, checkpointId = 'manual', speak }) => {
+  // Guided-study design context, stored with each submission so the two
+  // conditions can be analyzed per participant. variantOrder is the
+  // participant's starting condition (null if they never had one); block is
+  // 1 or 2 only for a survey that closes a guided block, null otherwise.
+  variantOrder?: 'classicFirst' | 'gamifiedFirst' | null;
+  block?: 1 | 2 | null;
+  // True while a guided study is running: adaptive difficulty is forced off
+  // for its whole duration (App.jsx), so the recorded setting must say off
+  // too rather than echo the participant's stored preference.
+  studyModeActive?: boolean;
+}> = ({
+  onSubmitted,
+  checkpointId = 'manual',
+  speak,
+  variantOrder = null,
+  block = null,
+  studyModeActive = false,
+}) => {
   const { settings } = useUserSettingsContext();
   const { language, theme, userDifficulty, dailyGoal } = settings;
   const { isGamified } = useGamification();
@@ -216,55 +258,55 @@ export const SurveyComponent: React.FC<{
     };
   }, [clearAllTimeouts]);
 
-  const [nasaScores, setNasaScores] = useState<NasaTlxPayload>(
+  const [nasaScores, setNasaScores] = useState<Answers<NasaTlxPayload>>(
     () =>
       readSurveyDraft(checkpointId)?.nasaScores ?? {
-        mentalDemand: 50,
-        physicalDemand: 50,
-        temporalDemand: 50,
-        performance: 50,
-        effort: 50,
-        frustration: 50,
+        mentalDemand: null,
+        physicalDemand: null,
+        temporalDemand: null,
+        performance: null,
+        effort: null,
+        frustration: null,
       },
   );
 
-  const [susScores, setSusScores] = useState<SusPayload>(
+  const [susScores, setSusScores] = useState<Answers<SusPayload>>(
     () =>
       readSurveyDraft(checkpointId)?.susScores ?? {
-        sus01: 3,
-        sus02: 3,
-        sus03: 3,
-        sus04: 3,
-        sus05: 3,
-        sus06: 3,
-        sus07: 3,
-        sus08: 3,
-        sus09: 3,
-        sus10: 3,
+        sus01: null,
+        sus02: null,
+        sus03: null,
+        sus04: null,
+        sus05: null,
+        sus06: null,
+        sus07: null,
+        sus08: null,
+        sus09: null,
+        sus10: null,
       },
   );
 
-  const [ueqScores, setUeqScores] = useState<UeqPayload>(
+  const [ueqScores, setUeqScores] = useState<Answers<UeqPayload>>(
     () =>
       readSurveyDraft(checkpointId)?.ueqScores ?? {
-        ueq01: 4,
-        ueq02: 4,
-        ueq03: 4,
-        ueq04: 4,
-        ueq05: 4,
-        ueq06: 4,
-        ueq07: 4,
-        ueq08: 4,
+        ueq01: null,
+        ueq02: null,
+        ueq03: null,
+        ueq04: null,
+        ueq05: null,
+        ueq06: null,
+        ueq07: null,
+        ueq08: null,
       },
   );
 
   const [gamificationFeedback, setGamificationFeedback] =
-    useState<GamificationFeedbackPayload>(
+    useState<GamificationAnswers>(
       () =>
         readSurveyDraft(checkpointId)?.gamificationFeedback ?? {
-          gardenMotivation: 3,
-          badgeMotivation: 3,
-          gameDistraction: 3,
+          gardenMotivation: null,
+          badgeMotivation: null,
+          gameDistraction: null,
           gameElementFeedback: '',
         },
     );
@@ -289,6 +331,48 @@ export const SurveyComponent: React.FC<{
   // only appears once it's clear this isn't a one-off blip — not on the
   // very first failure.
   const [failedAttempts, setFailedAttempts] = useState(0);
+  // Flipped on by a Submit attempt with unanswered items; from then on each
+  // unanswered item shows its own error until it gets an answer.
+  const [showMissing, setShowMissing] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // Everything the participant has to answer, in document order. A 0 is a
+  // real NASA-TLX answer, so unanswered means null, never falsy.
+  const missingIds: string[] = [
+    ...NASA_SCALES.filter((scale) => nasaScores[scale.id] === null),
+    ...SUS_SCALES.filter((scale) => susScores[scale.id] === null),
+    ...UEQ_SCALES.filter((scale) => ueqScores[scale.id] === null),
+    ...(isGamified
+      ? GAMIFICATION_SCALES.filter(
+          (scale) => gamificationFeedback[scale.id] === null,
+        )
+      : []),
+  ].map((scale) => scale.id);
+  const isMissing = (id: string) => showMissing && missingIds.includes(id);
+  const errorIdsFor = (id: string) =>
+    isMissing(id) ? `${id}-error` : undefined;
+
+  // The error state adds a heavier border on top of the normal card, and the
+  // per-item message below repeats it in text, so it isn't color-only.
+  const cardTone = (missing: boolean) =>
+    isHighContrast
+      ? missing
+        ? 'border-2 border-white bg-white/10'
+        : 'border-white/30 bg-white/5'
+      : missing
+        ? 'border-2 border-red-500 bg-red-50'
+        : 'border-slate-100 bg-slate-50';
+
+  const renderItemError = (id: string) =>
+    isMissing(id) ? (
+      <p
+        id={`${id}-error`}
+        className={`text-sm font-bold ${isHighContrast ? 'text-white' : 'text-red-700'}`}
+      >
+        <span aria-hidden="true">⚠ </span>
+        {t('feedback.validationItemRequired')}
+      </p>
+    ) : null;
 
   // Orients a voice-assistant user to what dialog they just landed in —
   // same "lead with what's on screen" convention as SettingsModal's
@@ -344,11 +428,28 @@ export const SurveyComponent: React.FC<{
     setNasaScores((prev) => ({ ...prev, [id]: value }));
   };
 
+  // A native range input always has a value, so an untouched slider can't be
+  // told from one deliberately left on its midpoint by onChange alone (no
+  // change event fires when the pointer is released without moving the
+  // thumb). Releasing the pointer/finger, a navigation key, or Enter/Space
+  // therefore records the current value as the answer.
   const handleNasaCommit = (
     scale: { id: keyof NasaTlxPayload; label: string },
     e: React.SyntheticEvent<HTMLInputElement>,
   ) => {
-    announce(`${t(scale.label)}, ${e.currentTarget.value}`);
+    const value = parseInt(e.currentTarget.value, 10);
+    setNasaScores((prev) =>
+      prev[scale.id] === null ? { ...prev, [scale.id]: value } : prev,
+    );
+    announce(`${t(scale.label)}, ${value}`);
+  };
+
+  const focusItem = (id: string) => {
+    const el = formRef.current?.querySelector<HTMLElement>(
+      `input[name="${id}"]`,
+    );
+    el?.focus();
+    el?.scrollIntoView({ block: 'center' });
   };
 
   const handleSusChange = (id: keyof SusPayload, value: number) => {
@@ -368,6 +469,14 @@ export const SurveyComponent: React.FC<{
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Unanswered items block submission — nothing is pre-filled, so a
+    // missing answer is a real gap, not a default to fall back on.
+    if (missingIds.length > 0) {
+      setShowMissing(true);
+      setError(null);
+      focusItem(missingIds[0]);
+      return;
+    }
     setIsSubmitting(true);
     setError(null);
 
@@ -409,7 +518,8 @@ export const SurveyComponent: React.FC<{
         .map(([key]) => key);
 
       const inclusiveOptions = {
-        adaptiveDifficulty: settings.adaptiveDifficulty,
+        adaptiveDifficulty: applyStudyOverrides(settings, studyModeActive)
+          .adaptiveDifficulty,
         bigTargets: settings.bigTargets,
         noFlash: settings.noFlash,
         audioRewards: settings.audioRewards,
@@ -421,16 +531,19 @@ export const SurveyComponent: React.FC<{
         voiceAssistant: settings.voiceAssistant,
       };
 
+      // Every rating is non-null here: missingIds was empty above.
       const payload = {
-        ...nasaScores,
-        ...susScores,
-        ...ueqScores,
+        ...(nasaScores as NasaTlxPayload),
+        ...(susScores as SusPayload),
+        ...(ueqScores as UeqPayload),
         // Only meaningful for the gamified condition — a basis-version
         // session never shows these elements, so they're left out of the
         // payload entirely rather than submitted as a meaningless score.
-        ...(isGamified ? gamificationFeedback : {}),
+        ...(isGamified ? (gamificationFeedback as GamificationFeedbackPayload) : {}),
         participantId,
         appVersion,
+        ...(variantOrder ? { variantOrder } : {}),
+        ...(block ? { block } : {}),
         userLanguage: language,
         localTimestamp: new Date().toISOString(),
         theme,
@@ -540,6 +653,7 @@ export const SurveyComponent: React.FC<{
 
   return (
     <form
+      ref={formRef}
       onSubmit={handleSubmit}
       className={`mx-auto flex w-full max-w-5xl flex-col gap-8 rounded-3xl border p-6 shadow-lg md:p-8 ${isHighContrast ? 'border-white bg-black' : 'border-slate-100 bg-white'}`}
     >
@@ -563,6 +677,13 @@ export const SurveyComponent: React.FC<{
         <BionicText text={t('feedback.privacyNotice')} enabled={hasBionic} />
       </p>
 
+      <p
+        id="survey-required-note"
+        className={`text-sm font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
+      >
+        <BionicText text={t('feedback.allRequired')} enabled={hasBionic} />
+      </p>
+
       {/* min-w-0: <fieldset> has a browser-default min-width of min-content,
           which silences flex/grid shrinking for every descendant (grid
           cells, wrapped labels, the legend text) regardless of their own
@@ -575,11 +696,20 @@ export const SurveyComponent: React.FC<{
         >
           <BionicText text={t('feedback.nasaTitle')} enabled={hasBionic} />
         </legend>
+        <p
+          id="nasa-instructions"
+          className={`text-sm font-medium ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+        >
+          <BionicText
+            text={t('feedback.sliderInstructions')}
+            enabled={hasBionic}
+          />
+        </p>
         <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {NASA_SCALES.map((scale) => (
             <div
               key={scale.id}
-              className={`flex flex-col gap-2 rounded-2xl border p-4 ${isHighContrast ? 'border-white/30 bg-white/5' : 'border-slate-100 bg-slate-50'}`}
+              className={`flex flex-col gap-2 rounded-2xl border p-4 ${cardTone(isMissing(scale.id))}`}
             >
               <div className="flex items-end justify-between">
                 <div>
@@ -598,26 +728,54 @@ export const SurveyComponent: React.FC<{
                 <span
                   className={`text-xl font-black ${isHighContrast ? 'text-white' : 'text-indigo-500'}`}
                 >
-                  {nasaScores[scale.id]}
+                  {nasaScores[scale.id] ?? '–'}
                 </span>
               </div>
               {}
               <input
                 id={scale.id}
+                name={scale.id}
                 type="range"
-                min="1"
+                min="0"
                 max="100"
-                step="1"
-                value={nasaScores[scale.id]}
+                step="5"
+                value={nasaScores[scale.id] ?? 50}
                 onChange={(e) =>
                   handleNasaChange(scale.id, parseInt(e.target.value, 10))
                 }
                 onMouseUp={(e) => handleNasaCommit(scale, e)}
                 onTouchEnd={(e) => handleNasaCommit(scale, e)}
-                onKeyUp={(e) => handleNasaCommit(scale, e)}
-                aria-describedby={`${scale.id}-anchors`}
-                aria-valuetext={`${nasaScores[scale.id]} / 100`}
-                className={`mt-2 h-2 w-full cursor-pointer appearance-none rounded-lg focus:ring-4 focus:outline-none ${isHighContrast ? 'bg-white/20 accent-white focus:ring-white/30' : 'bg-slate-200 accent-indigo-600 focus:ring-indigo-100'}`}
+                onKeyDown={(e) => {
+                  // Enter must not submit the form from a slider, and
+                  // Enter/Space are how a keyboard user confirms the
+                  // midpoint without having to nudge away from it first.
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleNasaCommit(scale, e);
+                  }
+                }}
+                onKeyUp={(e) => {
+                  if (SLIDER_NAVIGATION_KEYS.has(e.key))
+                    handleNasaCommit(scale, e);
+                }}
+                aria-invalid={isMissing(scale.id) || undefined}
+                aria-describedby={[
+                  `${scale.id}-anchors`,
+                  nasaScores[scale.id] === null ? 'nasa-instructions' : null,
+                  errorIdsFor(scale.id),
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+                aria-valuetext={
+                  nasaScores[scale.id] === null
+                    ? t('feedback.notAnswered')
+                    : `${nasaScores[scale.id]} / 100`
+                }
+                className={`mt-2 h-2 w-full cursor-pointer appearance-none rounded-lg focus:ring-4 focus:outline-none ${
+                  isHighContrast
+                    ? `bg-white/20 focus:ring-white/30 ${nasaScores[scale.id] === null ? 'accent-white/40' : 'accent-white'}`
+                    : `bg-slate-200 focus:ring-indigo-100 ${nasaScores[scale.id] === null ? 'accent-slate-400' : 'accent-indigo-600'}`
+                }`}
               />
               <div
                 id={`${scale.id}-anchors`}
@@ -630,6 +788,7 @@ export const SurveyComponent: React.FC<{
                   <BionicText text={t('feedback.high')} enabled={hasBionic} />
                 </span>
               </div>
+              {renderItemError(scale.id)}
             </div>
           ))}
         </div>
@@ -646,7 +805,7 @@ export const SurveyComponent: React.FC<{
           {SUS_SCALES.map((scale) => (
             <div
               key={scale.id}
-              className={`flex flex-col gap-3 rounded-2xl border p-4 ${isHighContrast ? 'border-white/30 bg-white/5' : 'border-slate-100 bg-slate-50'}`}
+              className={`flex flex-col gap-3 rounded-2xl border p-4 ${cardTone(isMissing(scale.id))}`}
             >
               <label
                 id={`label-${scale.id}`}
@@ -676,6 +835,9 @@ export const SurveyComponent: React.FC<{
                   className="flex flex-wrap items-center justify-center gap-3 md:gap-4"
                   role="radiogroup"
                   aria-labelledby={`label-${scale.id}`}
+                  aria-required="true"
+                  aria-invalid={isMissing(scale.id) || undefined}
+                  aria-describedby={errorIdsFor(scale.id)}
                 >
                   {[1, 2, 3, 4, 5].map((val) => (
                     <label
@@ -728,6 +890,7 @@ export const SurveyComponent: React.FC<{
                   </span>
                 </div>
               </div>
+              {renderItemError(scale.id)}
             </div>
           ))}
         </div>
@@ -744,7 +907,7 @@ export const SurveyComponent: React.FC<{
           {UEQ_SCALES.map((scale) => (
             <div
               key={scale.id}
-              className={`flex flex-col gap-3 rounded-2xl border p-4 ${isHighContrast ? 'border-white/30 bg-white/5' : 'border-slate-100 bg-slate-50'}`}
+              className={`flex flex-col gap-3 rounded-2xl border p-4 ${cardTone(isMissing(scale.id))}`}
             >
               <div
                 id={`label-${scale.id}`}
@@ -766,6 +929,9 @@ export const SurveyComponent: React.FC<{
                 className="flex flex-wrap items-center justify-center gap-2 md:gap-3"
                 role="radiogroup"
                 aria-labelledby={`label-${scale.id}`}
+                aria-required="true"
+                aria-invalid={isMissing(scale.id) || undefined}
+                aria-describedby={errorIdsFor(scale.id)}
               >
                 {[1, 2, 3, 4, 5, 6, 7].map((val) => (
                   <label
@@ -794,6 +960,7 @@ export const SurveyComponent: React.FC<{
                   </label>
                 ))}
               </div>
+              {renderItemError(scale.id)}
             </div>
           ))}
         </div>
@@ -819,7 +986,7 @@ export const SurveyComponent: React.FC<{
             {GAMIFICATION_SCALES.map((scale) => (
               <div
                 key={scale.id}
-                className={`flex flex-col gap-3 rounded-2xl border p-4 ${isHighContrast ? 'border-white/30 bg-white/5' : 'border-slate-100 bg-slate-50'}`}
+                className={`flex flex-col gap-3 rounded-2xl border p-4 ${cardTone(isMissing(scale.id))}`}
               >
                 <label
                   id={`label-${scale.id}`}
@@ -833,6 +1000,9 @@ export const SurveyComponent: React.FC<{
                     className="flex flex-wrap items-center justify-center gap-3 md:gap-4"
                     role="radiogroup"
                     aria-labelledby={`label-${scale.id}`}
+                    aria-required="true"
+                    aria-invalid={isMissing(scale.id) || undefined}
+                    aria-describedby={errorIdsFor(scale.id)}
                   >
                     {[1, 2, 3, 4, 5].map((val) => (
                       <label
@@ -885,6 +1055,7 @@ export const SurveyComponent: React.FC<{
                     </span>
                   </div>
                 </div>
+                {renderItemError(scale.id)}
               </div>
             ))}
 
@@ -919,6 +1090,16 @@ export const SurveyComponent: React.FC<{
             </div>
           </div>
         </fieldset>
+      )}
+
+      {}
+      {showMissing && missingIds.length > 0 && (
+        <div
+          role="alert"
+          className={`rounded-r-lg border-l-4 p-4 text-sm font-medium ${isHighContrast ? 'border-white bg-white/10 text-white' : 'border-red-500 bg-red-50 text-red-800'}`}
+        >
+          {t('feedback.validationSummary')}
+        </div>
       )}
 
       {}

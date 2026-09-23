@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { STUDY_EXERCISE_PILLARS } from '../data/exerciseTypes.js';
+import { STUDY_PLAN_EXERCISE_PILLARS } from '../data/exerciseTypes.js';
+import { studySetForBlock } from '../data/studySets.js';
 import { safeJSONParse } from '../utils/safeJSONParse.js';
 
 const VARIANT_ORDERS = ['classicFirst', 'gamifiedFirst'];
@@ -12,10 +13,11 @@ export const PILLAR_SEQUENCE = ['Literacy', 'Visual', 'Cognitive'];
 
 // How many distinct exercise *types* each pillar contributes to a block.
 // Visual (3 types) and Cognitive (4 types) get full coverage — there's
-// barely more to cover. Literacy has 12 candidate types; 8 was chosen as
+// barely more to cover. Literacy has 10 candidate types; 8 was chosen as
 // "more than a token 3, but not the full set" so every session still stays
-// within a manageable length. See STUDY_EXERCISE_PILLARS for the pools this
-// is sampled from.
+// within a manageable length. See STUDY_PLAN_EXERCISE_PILLARS for the pools
+// this is sampled from (STUDY_EXERCISE_PILLARS minus the types that can't
+// be split across the block-1/block-2 content sets).
 export const TASKS_PER_PILLAR = { Literacy: 8, Visual: 3, Cognitive: 4 };
 
 const DEFAULT_PROGRESS = {
@@ -43,6 +45,12 @@ function readStoredOrder() {
   return VARIANT_ORDERS.includes(stored) ? stored : null;
 }
 
+// Which condition a block runs, from the participant's starting order:
+// block 1 is whatever variantOrder names first, block 2 the other one.
+export function isBlockGamified(variantOrder, block) {
+  return variantOrder === 'classicFirst' ? block === 2 : block === 1;
+}
+
 // Picks TASKS_PER_PILLAR[pillar] distinct exercise types per pillar, once
 // per participant, and remembers the choice — so a pillar's block-1 and
 // block-2 visits draw from the exact same set of types (a paired
@@ -51,7 +59,7 @@ function readStoredOrder() {
 function assignExercisePlan() {
   const plan = Object.fromEntries(
     PILLAR_SEQUENCE.map((pillar) => {
-      const pool = STUDY_EXERCISE_PILLARS[pillar];
+      const pool = STUDY_PLAN_EXERCISE_PILLARS[pillar];
       const shuffled = [...pool].sort(() => Math.random() - 0.5);
       return [pillar, shuffled.slice(0, TASKS_PER_PILLAR[pillar])];
     }),
@@ -144,10 +152,7 @@ export function useStudyModeState() {
   // Which variant the current block requires, independent of any manual
   // toggle — block 1 is whatever the coin flip/URL assigned, block 2 is
   // the other one.
-  const blockIsGamified =
-    variantOrder === 'classicFirst'
-      ? progress.block === 2
-      : progress.block === 1;
+  const blockIsGamified = isBlockGamified(variantOrder, progress.block);
 
   // Call once per completed exercise unit (success or skip) while a block
   // is in progress. Advances to the next pillar after TASKS_PER_PILLAR
@@ -216,6 +221,8 @@ export function useStudyModeState() {
     pillarTotal,
     currentExerciseTypes,
     blockIsGamified,
+    // Content set this block draws from — differs between block 1 and 2.
+    blockStudySet: studySetForBlock(progress.block),
     recordUnitCompleted,
     recordGardenSeen,
     recordSurveySubmitted,
