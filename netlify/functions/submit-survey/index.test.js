@@ -189,6 +189,53 @@ describe('submit-survey buildDbData', () => {
     expect(buildDbData(payload).app_version).toBe('gamified');
   });
 
+  it('maps variantOrder and block to variant_order and block', () => {
+    const dbData = buildDbData(
+      makeClientPayload({
+        appVersion: 'basis',
+        variantOrder: 'classicFirst',
+        block: 1,
+      }),
+    );
+    expect(dbData.variant_order).toBe('classicFirst');
+    expect(dbData.block).toBe(1);
+  });
+
+  it('stores variant_order and block as NULL for a survey outside a guided block', () => {
+    const dbData = buildDbData(makeClientPayload());
+    expect(dbData.variant_order).toBeNull();
+    expect(dbData.block).toBeNull();
+  });
+
+  it('throws on an unknown appVersion instead of silently filing it as "basic"', () => {
+    for (const appVersion of ['Basis', 'vollversion ', 'full', '', 7, true]) {
+      expect(
+        () => buildDbData(makeClientPayload({ appVersion })),
+        `appVersion=${JSON.stringify(appVersion)}`,
+      ).toThrow(/appVersion/);
+    }
+  });
+
+  it('throws when neither appVersion nor a boolean isGamified is present', () => {
+    expect(() =>
+      buildDbData(makeClientPayload({ appVersion: undefined })),
+    ).toThrow(/appVersion is required/);
+    expect(() =>
+      buildDbData(
+        makeClientPayload({ appVersion: undefined, isGamified: 'yes' }),
+      ),
+    ).toThrow(/appVersion is required/);
+  });
+
+  it('accepts the already-English condition names as well', () => {
+    expect(
+      buildDbData(makeClientPayload({ appVersion: 'gamified' })).app_version,
+    ).toBe('gamified');
+    expect(
+      buildDbData(makeClientPayload({ appVersion: 'basic' })).app_version,
+    ).toBe('basic');
+  });
+
   it('translates theme, language, and a11y addon labels to English for analysis', () => {
     const dbData = buildDbData(makeClientPayload());
 
@@ -258,6 +305,50 @@ describe('submit-survey validatePayload', () => {
     expect(error).toBeNull();
   });
 
+  it('rejects an unknown or missing appVersion with a validation error', () => {
+    expect(validatePayload(makeClientPayload({ appVersion: 'Basis' }))).toMatch(
+      /Unknown appVersion/,
+    );
+    expect(
+      validatePayload(makeClientPayload({ appVersion: undefined })),
+    ).toMatch(/appVersion is required/);
+  });
+
+  it('accepts a valid variantOrder and block', () => {
+    expect(
+      validatePayload(
+        makeClientPayload({ variantOrder: 'gamifiedFirst', block: 2 }),
+      ),
+    ).toBeNull();
+  });
+
+  it('accepts a variantOrder without a block (participant with an order, survey opened manually)', () => {
+    expect(
+      validatePayload(makeClientPayload({ variantOrder: 'classicFirst' })),
+    ).toBeNull();
+  });
+
+  it('rejects an unknown variantOrder', () => {
+    const error = validatePayload(
+      makeClientPayload({ variantOrder: 'random', block: 1 }),
+    );
+    expect(error).toMatch(/variantOrder/);
+  });
+
+  it('rejects a block outside 1-2', () => {
+    for (const block of [0, 3, '1', 1.5]) {
+      const error = validatePayload(
+        makeClientPayload({ variantOrder: 'classicFirst', block }),
+      );
+      expect(error, `block=${JSON.stringify(block)}`).toMatch(/block/);
+    }
+  });
+
+  it('rejects a block sent without its variantOrder', () => {
+    const error = validatePayload(makeClientPayload({ block: 1 }));
+    expect(error).toMatch(/variantOrder is required/);
+  });
+
   it('rejects a11yAddons that is not an array', () => {
     const error = validatePayload(
       makeClientPayload({ a11yAddons: 'LRS,Kontrast' }),
@@ -308,6 +399,18 @@ describe('submit-survey handler', () => {
     expect(response.statusCode).toBe(400);
     const body = JSON.parse(response.body);
     expect(body.error).toMatch(/dailyGoal/);
+  });
+
+  it('answers an unknown appVersion with 400, never inserting it under a guessed condition', async () => {
+    const response = await handler(
+      {
+        httpMethod: 'POST',
+        body: JSON.stringify(makeClientPayload({ appVersion: 'Basis' })),
+      },
+      {},
+    );
+    expect(response.statusCode).toBe(400);
+    expect(JSON.parse(response.body).error).toMatch(/Unknown appVersion/);
   });
 
   // Regression test for the leak: index.js used to return

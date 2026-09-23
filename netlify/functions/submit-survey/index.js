@@ -33,14 +33,37 @@ const langMap = {
 // handler's I/O (Supabase call, HTTP response) so the mapping — the part
 // that previously silently dropped SUS and half of the NASA-TLX data via a
 // field-name mismatch — can be regression-tested without a network call.
+// app_version is the study's independent variable, so an unrecognized value
+// must fail loudly: silently coercing it to 'basic' would file a submission
+// under the wrong condition with nothing to show it happened. Only the
+// legacy pre-appVersion payload shape (a bare isGamified boolean) is still
+// accepted as a fallback, and only when that boolean is really present.
+const APP_VERSION_MAP = {
+  vollversion: 'gamified',
+  gamified: 'gamified',
+  basis: 'basic',
+  basic: 'basic',
+};
+
+function resolveAppVersion(payload) {
+  const raw = payload.appVersion;
+  if (raw === undefined || raw === null) {
+    if (typeof payload.isGamified === 'boolean') {
+      return payload.isGamified ? 'gamified' : 'basic';
+    }
+    throw new Error('appVersion is required.');
+  }
+  if (typeof raw !== 'string' || !Object.hasOwn(APP_VERSION_MAP, raw)) {
+    throw new Error(
+      `Unknown appVersion ${JSON.stringify(raw)} (expected one of ${Object.keys(APP_VERSION_MAP).join(', ')}).`,
+    );
+  }
+  return APP_VERSION_MAP[raw];
+}
+
 function buildDbData(payload) {
   // Standardization and translation of parameters to English
-  const rawVersion =
-    payload.appVersion || (payload.isGamified ? 'gamified' : 'basic');
-  const appVersionEn =
-    rawVersion === 'vollversion' || rawVersion === 'gamified'
-      ? 'gamified'
-      : 'basic';
+  const appVersionEn = resolveAppVersion(payload);
 
   const translatedTheme = themeMap[payload.theme] || payload.theme;
   const translatedLang = langMap[payload.userLanguage] || payload.userLanguage;
@@ -54,6 +77,12 @@ function buildDbData(payload) {
 
   return {
     app_version: appVersionEn,
+
+    // Guided-study design context (SurveyComponent.tsx only sends these for
+    // a participant with a study order / a block checkpoint) — NULL means
+    // "not part of a guided block", not a dropped value.
+    variant_order: payload.variantOrder ?? null,
+    block: payload.block ?? null,
 
     local_timestamp: payload.localTimestamp || null,
     participant_id: payload.participantId || null,
@@ -121,6 +150,8 @@ function buildDbData(payload) {
 exports.buildDbData = buildDbData;
 
 const MAX_STRING_LENGTH = 500;
+const VARIANT_ORDERS = ['classicFirst', 'gamifiedFirst'];
+const STUDY_BLOCKS = [1, 2];
 
 function isFiniteNumber(value) {
   return typeof value === 'number' && Number.isFinite(value);
@@ -193,6 +224,40 @@ function validatePayload(payload) {
     if (payload[field] !== undefined && !isPlainString(payload[field])) {
       return `${field} must be a string.`;
     }
+  }
+
+  // Same rule as buildDbData: an unknown or missing condition is a 400, not
+  // a row filed under a guessed condition.
+  try {
+    resolveAppVersion(payload);
+  } catch (err) {
+    return err.message;
+  }
+
+  if (
+    payload.variantOrder !== undefined &&
+    payload.variantOrder !== null &&
+    !VARIANT_ORDERS.includes(payload.variantOrder)
+  ) {
+    return 'variantOrder must be "classicFirst" or "gamifiedFirst".';
+  }
+
+  if (
+    payload.block !== undefined &&
+    payload.block !== null &&
+    !STUDY_BLOCKS.includes(payload.block)
+  ) {
+    return 'block must be 1 or 2.';
+  }
+
+  // A block number is meaningless without the order that says which
+  // condition that block ran — reject rather than store an unanalyzable row.
+  if (
+    payload.block !== undefined &&
+    payload.block !== null &&
+    (payload.variantOrder === undefined || payload.variantOrder === null)
+  ) {
+    return 'variantOrder is required when block is set.';
   }
 
   if (payload.a11yAddons !== undefined && !Array.isArray(payload.a11yAddons)) {

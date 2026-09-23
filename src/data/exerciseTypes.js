@@ -77,3 +77,22 @@ export const STUDY_EXERCISE_PILLARS = Object.fromEntries(
     keys.filter((key) => !EXCLUDED_FROM_STUDY.includes(key)),
   ]),
 );
+
+// Types the guided study must not *assign* to a participant's exercise plan.
+// The study gives block 1 Set A and block 2 Set B (studySets.js), so a type
+// only works in the plan if both sets hold items at the study difficulty
+// (the default userDifficulty, 2) in every language. These two don't:
+// `comprehension`'s Set-B items all sit at another difficulty, and
+// `graphemePhoneme`'s study-eligible odd-id items are all in Set A. Left in
+// the plan they would silently vanish from block 2 (fewer tasks than the
+// block requires, so items would repeat). They stay fully available in free
+// use — this only shapes what the study assigns; studySets.test.js fails if
+// a type left in the plan loses its Set-A/Set-B coverage.
+const EXCLUDED_FROM_STUDY_PLAN = ['comprehension', 'graphemePhoneme'];
+
+export const STUDY_PLAN_EXERCISE_PILLARS = Object.fromEntries(
+  Object.entries(STUDY_EXERCISE_PILLARS).map(([pillar, keys]) => [
+    pillar,
+    keys.filter((key) => !EXCLUDED_FROM_STUDY_PLAN.includes(key)),
+  ]),
+);

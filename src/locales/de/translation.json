@@ -432,6 +432,7 @@
     "Cognitive": "Logik und\nGedächtnis"
   },
   "studyMode": {
+    "adaptiveLocked": "Im Studienmodus für beide Blöcke fest ausgeschaltet.",
     "toggleLabel": "Studienmodus",
     "infoText": "Führt Sie automatisch durch zwei kurze Übungsblöcke – einen ohne, einen mit Spielelementen – mit je einem kurzen Fragebogen danach. Antworten werden anonymisiert nur für diese Abschlussarbeit gespeichert, ohne Namen oder Übungsinhalte. Ausschalten für freie Nutzung ohne diese Vorgaben.",
     "completeTitle": "Vielen Dank für Ihre Teilnahme!",

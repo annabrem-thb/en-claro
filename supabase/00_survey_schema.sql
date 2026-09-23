@@ -18,6 +18,11 @@ CREATE TABLE IF NOT EXISTS public.ab_study_submissions (
     inclusive_options TEXT,
     user_difficulty SMALLINT,
     daily_goal SMALLINT,
+
+    -- Guided-study design context. NULL for a survey opened outside a
+    -- guided block (e.g. via the nav button).
+    variant_order TEXT,   -- 'classicFirst' | 'gamifiedFirst': condition of block 1
+    block SMALLINT,       -- 1 | 2: which guided block this survey closes
     
     -- NASA Raw TLX (0-100)
     mental_demand SMALLINT,
@@ -68,6 +73,14 @@ CREATE TABLE IF NOT EXISTS public.ab_study_submissions (
 --     ADD COLUMN IF NOT EXISTS game_distraction SMALLINT,
 --     ADD COLUMN IF NOT EXISTS game_element_feedback TEXT;
 
+-- Migration for a database created before variant_order/block existed.
+-- RUN THIS BEFORE deploying the submit-survey function version that writes
+-- these two columns: PostgREST rejects an insert naming a column the table
+-- doesn't have, which would make every submission fail with a 500.
+-- ALTER TABLE public.ab_study_submissions
+--     ADD COLUMN IF NOT EXISTS variant_order TEXT,
+--     ADD COLUMN IF NOT EXISTS block SMALLINT;
+
 -- Optional cleanup for a database that already picked up study_group/
 -- study_phase from a since-reverted study-mode feature (useStudyMode.js —
 -- removed again; the app never writes these columns anymore). Not run
@@ -77,21 +90,21 @@ CREATE TABLE IF NOT EXISTS public.ab_study_submissions (
 --     DROP COLUMN IF EXISTS study_group,
 --     DROP COLUMN IF EXISTS study_phase;
 
--- Enable RLS: Restrict frontend access, leaving access only to the service_role key.
+-- Row Level Security: no policy for anon/authenticated on purpose.
+-- The only code that touches this table is the submit-survey Netlify
+-- function (insert) and scripts/export-survey-data.js (read), and both use
+-- the service_role key, which bypasses RLS. Nothing in this repository uses
+-- the anon key. With RLS enabled and no policy, the anon and authenticated
+-- roles can neither read nor write any row — in particular the raw study
+-- data is not publicly readable through the (public) project URL + anon key.
 ALTER TABLE public.ab_study_submissions ENABLE ROW LEVEL SECURITY;
 
--- Allow read access for the frontend to render charts
--- Postgres has no `CREATE POLICY IF NOT EXISTS`, so DROP first — makes
--- re-running this whole file against a database that already has these
--- safe, instead of failing with "policy ... already exists".
+-- Earlier versions of this file created a public SELECT policy ("charts")
+-- and a public INSERT policy, plus GRANT SELECT, INSERT to anon/authenticated.
+-- Deleting those CREATE statements from this file does not touch a database
+-- that already ran them, so the policies are dropped explicitly here:
+-- re-running this whole file against an existing database is what actually
+-- removes them (all three statements are safe to run repeatedly).
 DROP POLICY IF EXISTS "Allow public read access for charts" ON public.ab_study_submissions;
-CREATE POLICY "Allow public read access for charts" ON public.ab_study_submissions
-    FOR SELECT TO anon, authenticated USING (true);
-
--- Allow insert access for the survey form submissions
 DROP POLICY IF EXISTS "Allow anonymous inserts" ON public.ab_study_submissions;
-CREATE POLICY "Allow anonymous inserts" ON public.ab_study_submissions
-    FOR INSERT TO anon, authenticated WITH CHECK (true);
-
--- Grant explicit select and insert permissions to anonymous users
-GRANT SELECT, INSERT ON public.ab_study_submissions TO anon, authenticated;
+REVOKE ALL ON public.ab_study_submissions FROM anon, authenticated;
