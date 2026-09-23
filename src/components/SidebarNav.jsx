@@ -105,11 +105,16 @@ const SidebarNav = memo(function SidebarNav({
           language={language}
           className="hidden lg:flex"
         >
-          <h1
+          {/* Not a real <h1>: this is the brand mark, not the page's
+              heading — App.jsx's #main-content now renders the app's one
+              true, always-present <h1> reflecting the active view, so a
+              second h1 here (only when this brand mark becomes visible at
+              lg:) would leave two h1s in the tree at once. */}
+          <p
             className={`text-base font-black tracking-tighter ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
           >
             <BionicText text={t('appTitle')} enabled={bionicReading} />
-          </h1>
+          </p>
         </AccessibleTTS>
       </div>
 
@@ -119,7 +124,7 @@ const SidebarNav = memo(function SidebarNav({
         >
           <span
             id="sidebar-theme-label"
-            className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+            className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
           >
             {t('selectTheme') || 'Select theme'}
           </span>
@@ -164,7 +169,7 @@ const SidebarNav = memo(function SidebarNav({
                   onTabChange(p);
                 }}
                 disabled={isLockedOut}
-                className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isLockedOut ? 'cursor-not-allowed opacity-40' : ''} ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+                className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isLockedOut ? 'cursor-not-allowed opacity-40' : ''} ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-700 hover:bg-slate-100/50 hover:text-slate-700 hover:shadow-sm'}`}
                 aria-current={isSelected ? 'page' : undefined}
                 aria-label={label}
                 aria-keyshortcuts={`Control+${index + 1}`}
@@ -204,7 +209,7 @@ const SidebarNav = memo(function SidebarNav({
 
         {studyProgressLabel && (
           <p
-            className={`px-1 py-1 text-center text-[10px] font-bold tracking-wide uppercase lg:px-2 lg:text-left ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+            className={`px-1 py-1 text-center text-[10px] font-bold tracking-wide uppercase lg:px-2 lg:text-left ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
           >
             {studyProgressLabel}
           </p>
@@ -229,7 +234,7 @@ const SidebarNav = memo(function SidebarNav({
                 speak(t('garden') || 'Garden', true);
                 onGardenClick();
               }}
-              className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${activeTab === 'Garden' ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+              className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${activeTab === 'Garden' ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-700 hover:bg-slate-100/50 hover:text-slate-700 hover:shadow-sm'}`}
               aria-current={activeTab === 'Garden' ? 'page' : undefined}
               aria-label={t('garden') || 'Garden'}
               aria-keyshortcuts="Control+4"
@@ -267,7 +272,7 @@ const SidebarNav = memo(function SidebarNav({
           >
             <div className="flex items-center justify-between px-2 pt-2">
               <span
-                className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+                className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
               >
                 {t('energyTitle') || 'Energy'}
               </span>
@@ -339,7 +344,7 @@ const SidebarNav = memo(function SidebarNav({
                 speak(t('surveyAria'), true);
                 onOpenSurvey();
               }}
-              className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+              className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-700 hover:bg-slate-100/50 hover:text-slate-700 hover:shadow-sm'}`}
               aria-label={t('surveyAria')}
               aria-keyshortcuts="Control+s"
             >
@@ -375,7 +380,7 @@ const SidebarNav = memo(function SidebarNav({
               speak(t('settingsAria'), true);
               setSettingsOpen(true);
             }}
-            className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+            className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-700 hover:bg-slate-100/50 hover:text-slate-700 hover:shadow-sm'}`}
             aria-label={t('settingsAria')}
             aria-keyshortcuts="Control+,"
           >

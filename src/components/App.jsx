@@ -307,6 +307,21 @@ function AppContent() {
         : t('pillars', { returnObjects: true })?.[activeTab] || activeTab;
   useDocumentTitle(documentTitleSegment);
 
+  // Hash-routed pillar/Garden navigation swaps #main-content's whole
+  // subtree with no page reload and no focus/announcement of any kind —
+  // a screen-reader user gets total silence on a real view change. Settings
+  // and the survey are deliberately excluded (not in this effect's deps):
+  // both are Dialogs whose own FloatingFocusManager already moves focus
+  // correctly on open, and refocusing #main-content here would fight that.
+  const isFirstTabRender = useRef(true);
+  useEffect(() => {
+    if (isFirstTabRender.current) {
+      isFirstTabRender.current = false;
+      return;
+    }
+    document.getElementById('main-content')?.focus();
+  }, [activeTab]);
+
   // Which pillar switching is locked to — null means pillar nav is free
   // (Garden is never locked; see handleGardenClick). During 'tasks' this is
   // the block's current pillar (the others are locked, that one isn't);
@@ -864,6 +879,13 @@ function AppContent() {
           className={`no-scrollbar mx-auto flex min-h-0 w-full max-w-5xl flex-1 touch-pan-y flex-col overflow-y-auto overscroll-none px-3 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))] md:px-6 md:pt-5 xl:px-8 ${isHighContrast ? 'text-white' : 'text-[#2D3732]'}`}
           {...swipeHandlers}
         >
+          {/* The app's only visible <h1> ("EnClaro" in SidebarNav) is
+              `hidden` below the lg: breakpoint, so most phone/tablet users
+              never get a level-1 heading at all — this sr-only one is
+              always in the a11y tree, giving every screen-reader user a
+              real heading to land on and reuses the same text already
+              computed for the document title above. */}
+          <h1 className="sr-only">{documentTitleSegment}</h1>
           {activeTab === 'Garden' ? (
             <div
               id="garden-container"

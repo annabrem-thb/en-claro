@@ -615,15 +615,18 @@ export const SurveyComponent: React.FC<{
                 onMouseUp={(e) => handleNasaCommit(scale, e)}
                 onTouchEnd={(e) => handleNasaCommit(scale, e)}
                 onKeyUp={(e) => handleNasaCommit(scale, e)}
+                aria-describedby={`${scale.id}-anchors`}
+                aria-valuetext={`${nasaScores[scale.id]} / 100`}
                 className={`mt-2 h-2 w-full cursor-pointer appearance-none rounded-lg focus:ring-4 focus:outline-none ${isHighContrast ? 'bg-white/20 accent-white focus:ring-white/30' : 'bg-slate-200 accent-indigo-600 focus:ring-indigo-100'}`}
               />
               <div
+                id={`${scale.id}-anchors`}
                 className={`mt-1 flex justify-between text-[10px] font-bold tracking-widest uppercase ${isHighContrast ? 'text-white/60' : 'text-slate-400'}`}
               >
-                <span aria-hidden="true">
+                <span>
                   <BionicText text={t('feedback.low')} enabled={hasBionic} />
                 </span>
-                <span aria-hidden="true">
+                <span>
                   <BionicText text={t('feedback.high')} enabled={hasBionic} />
                 </span>
               </div>
@@ -921,6 +924,7 @@ export const SurveyComponent: React.FC<{
       {}
       {error && (
         <div
+          role="alert"
           className={`rounded-r-lg border-l-4 p-4 text-sm font-medium ${isHighContrast ? 'border-white bg-white/10 text-white' : 'border-red-500 bg-red-50 text-red-700'}`}
         >
           {error}
@@ -945,7 +949,7 @@ export const SurveyComponent: React.FC<{
           <button
             type="button"
             onClick={handleBypass}
-            className={`mt-3 font-black tracking-widest uppercase underline underline-offset-2 ${isHighContrast ? 'hover:text-white/80' : 'hover:text-amber-900'}`}
+            className={`mt-3 min-h-6 py-1 font-black tracking-widest uppercase underline underline-offset-2 ${isHighContrast ? 'hover:text-white/80' : 'hover:text-amber-900'}`}
           >
             <BionicText text={t('feedback.skip')} enabled={hasBionic} />
           </button>

@@ -80,7 +80,7 @@ export default function ThemeSwitcher({
                     : 'text-slate-700'
                   : isHighContrast
                     ? 'text-white/60'
-                    : 'text-slate-500'
+                    : 'text-slate-600'
               }`}
             >
               {label}

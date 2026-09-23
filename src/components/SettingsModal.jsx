@@ -100,6 +100,7 @@ const SettingSlider = ({
         </span>
       </div>
       <p
+        id={`${inputId}-desc`}
         className={`mb-2 text-xs ${isHighContrast ? 'text-white/60' : 'text-slate-500'}`}
       >
         <BionicText text={desc} enabled={bionic} />
@@ -112,6 +113,8 @@ const SettingSlider = ({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
+        aria-describedby={`${inputId}-desc`}
+        aria-valuetext={`${value}${unit || ''}`}
         className="w-full accent-emerald-500"
       />
     </div>
