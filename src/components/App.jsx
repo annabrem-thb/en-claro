@@ -34,6 +34,7 @@ import { useThemeCSSVariables } from '../hooks/useThemeCSSVariables.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
 import { useVocabularyLoader } from '../hooks/useVocabularyLoader.js';
 import i18n from '../i18n/config.ts';
+import { applyStudyOverrides } from '../utils/studyOverrides.js';
 
 import AchievementToast from './AchievementToast.jsx';
 import AffirmationToast from './AffirmationToast.jsx';
@@ -398,14 +399,18 @@ function AppContent() {
   // setting. When it's off this simply does nothing. Nothing here may delay
   // or otherwise change when the session advances to the next exercise.
   const handleUnitCompleted = useCallback(
-    (newGrowthValue) => {
+    (newGrowthValue, { pointEarned = true } = {}) => {
       if (!isGamified) return;
       const todayStr = new Date().toDateString();
       setDailyProgress((prev) => {
         const todayPoints = prev[todayStr]?.points || 0;
         return { ...prev, [todayStr]: { points: todayPoints + 1 } };
       });
-      if (newGrowthValue % POINTS_PER_LEVEL === 0) {
+      // A skipped unit still counts toward the daily goal above, but it
+      // earned no growth point — without this guard a skip while
+      // growthValue already sits on a multiple of POINTS_PER_LEVEL would
+      // re-trigger the level-up modal.
+      if (pointEarned && newGrowthValue % POINTS_PER_LEVEL === 0) {
         setShowSuccess(true);
         setSafeTimeout(() => setShowSuccess(false), 1500);
       }
@@ -419,8 +424,8 @@ function AppContent() {
   // whether this block happens to be gamified, so it can't live inside
   // handleUnitCompleted itself.
   const notifyUnitCompleted = useCallback(
-    (newGrowthValue) => {
-      handleUnitCompleted(newGrowthValue);
+    (newGrowthValue, options) => {
+      handleUnitCompleted(newGrowthValue, options);
       studyMode.recordUnitCompleted();
     },
     [handleUnitCompleted, studyMode],
@@ -432,6 +437,17 @@ function AppContent() {
     isColorblind,
     language,
   });
+
+  // Adaptive difficulty changes which items a participant sees as they
+  // answer (see useExerciseSession.js), so left on it would make the two
+  // guided blocks diverge by individual performance instead of differing
+  // only in the gamification condition. It is fixed off for the whole
+  // guided study; the participant's own setting is left untouched and applies
+  // again in free use afterwards.
+  const sessionOptions = useMemo(
+    () => applyStudyOverrides(settings, studyMode.isActive),
+    [studyMode.isActive, settings],
+  );
 
   const {
     currentIndex,
@@ -455,11 +471,13 @@ function AppContent() {
     language,
     userDifficulty,
     setUserDifficulty: (val) => updateSetting('userDifficulty', val),
-    inclusiveOptions: settings,
+    inclusiveOptions: sessionOptions,
     t,
     speak,
     theme,
-    studySet,
+    // A guided study block dictates its own content set (block 1 = A,
+    // block 2 = B); outside the study the device-level ?set= lock applies.
+    studySet: studyMode.isActive ? studyMode.blockStudySet : studySet,
     growthValue,
     setGrowthValue,
     onUnitCompleted: notifyUnitCompleted,
@@ -510,12 +528,12 @@ function AppContent() {
     setNavRevealedDuringTask(false);
   }
 
+  // A skip completes a unit for study-block and daily-goal bookkeeping but
+  // is not a correct answer, so it must not earn growth.
   const handleSkip = useCallback(() => {
-    const newGrowthValue = growthValue + 1;
-    setGrowthValue(newGrowthValue);
-    notifyUnitCompleted(newGrowthValue);
+    notifyUnitCompleted(growthValue, { pointEarned: false });
     goNext();
-  }, [growthValue, setGrowthValue, notifyUnitCompleted, goNext]);
+  }, [growthValue, notifyUnitCompleted, goNext]);
 
   const setPillarTab = useCallback(
     (pillar) => {
@@ -1296,6 +1314,9 @@ function AppContent() {
                 ? `block-${studyMode.block}`
                 : 'manual'
             }
+            variantOrder={studyMode.variantOrder}
+            studyModeActive={studyMode.isActive}
+            block={studyMode.phase === 'survey' ? studyMode.block : null}
             onSubmitted={() => {
               if (studyMode.phase === 'survey')
                 studyMode.recordSurveySubmitted();

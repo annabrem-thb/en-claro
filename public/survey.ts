@@ -1,6 +1,7 @@
 /**
  * Core interface representing a complete NASA-TLX response.
- * Each metric typically ranges from 1 to 100 in digital adaptations.
+ * Each metric ranges from 0 to 100 in steps of 5 (the slider in
+ * SurveyComponent.tsx), the 21-tick raw-TLX scale.
  */
 export interface NasaTlxPayload {
   mentalDemand: number;

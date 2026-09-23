@@ -9,6 +9,7 @@ import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 import { useStudyMode } from '../hooks/useStudyMode.js';
 import { useStudySet } from '../hooks/useStudySet.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
+import { applyStudyOverrides } from '../utils/studyOverrides.js';
 
 import ExerciseToggleManager from './ExerciseToggleManager.jsx';
 import BionicText from './common/BionicText.jsx';
@@ -30,6 +31,7 @@ const SettingToggle = ({
   onChange,
   bionic,
   isHighContrast,
+  disabled = false,
 }) => (
   <div
     className={`flex items-center justify-between rounded-xl p-3 transition-colors ${checked ? (isHighContrast ? 'bg-white/10' : 'bg-slate-50') : ''}`}
@@ -56,8 +58,9 @@ const SettingToggle = ({
       // from each other. (Caught by an axe-core sweep: `button-name`,
       // critical impact, all 14 switches on this tab.)
       aria-label={label}
+      disabled={disabled}
       onClick={onChange}
-      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${checked ? 'bg-emerald-500' : isHighContrast ? 'bg-white/30' : 'bg-slate-200'}`}
+      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${checked ? 'bg-emerald-500' : isHighContrast ? 'bg-white/30' : 'bg-slate-200'} ${disabled ? 'cursor-not-allowed opacity-50' : ''}`}
     >
       <span
         className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${checked ? 'translate-x-6' : 'translate-x-1'}`}
@@ -312,6 +315,7 @@ const DESIGN_TOKEN_SLIDERS = [
 const A11yTab = ({ speak }) => {
   const { t } = useTranslation();
   const { settings, updateSetting } = useUserSettingsContext();
+  const { isActive: studyModeActive } = useStudyMode();
   const { bionicReading, contrast, voiceAssistant } = settings;
   const { setSafeTimeout, clearAllTimeouts } = useSafeTimeouts();
 
@@ -429,12 +433,27 @@ const A11yTab = ({ speak }) => {
             {section.keys.map((key) => {
               const opt = optionsByKey[key];
               if (!opt) return null;
+              // Adaptive difficulty is forced off for the whole guided
+              // study (App.jsx's sessionOptions), so the switch shows the
+              // effective state and can't be flipped instead of appearing
+              // to work while doing nothing.
+              const lockedByStudy =
+                key === 'adaptiveDifficulty' && studyModeActive;
               return (
                 <SettingToggle
                   key={key}
                   label={opt.name}
-                  desc={opt.desc}
-                  checked={!!settings[key]}
+                  desc={
+                    lockedByStudy
+                      ? `${opt.desc} ${t('studyMode.adaptiveLocked')}`
+                      : opt.desc
+                  }
+                  disabled={lockedByStudy}
+                  checked={
+                    lockedByStudy
+                      ? applyStudyOverrides(settings, true)[key]
+                      : !!settings[key]
+                  }
                   onChange={() => {
                     const next = !settings[key];
                     updateSetting(key, next);
