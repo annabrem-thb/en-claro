@@ -50,4 +50,31 @@ export interface GamificationFeedbackPayload {
   gameElementFeedback: string;
 }
 
+/**
+ * "Angaben zur Person" — only collected on the questionnaire that closes
+ * guided-study block 2 (see SurveyComponent.tsx's block === 2 gate), so the
+ * same participant is asked exactly once, after both conditions, not twice.
+ * Every value (including "prefer not to say") is a deliberate choice — see
+ * LRS_STATUS_OPTIONS/SLT_ROLE_OPTIONS/AGE_GROUP_OPTIONS/
+ * FIRST_LANGUAGE_OPTIONS in SurveyComponent.tsx for the allowed values,
+ * which must stay in sync with the CHECK constraints in
+ * supabase/00_survey_schema.sql. firstLanguage is a multi-select: choosing
+ * "no_answer" clears every other choice and vice versa (handled in
+ * SurveyComponent.tsx), so a submitted array is never both "no_answer" and
+ * a real language at once.
+ */
+export interface PersonalInfoPayload {
+  lrsStatus: 'diagnosed' | 'suspected' | 'no' | 'no_answer';
+  sltRole: 'yes' | 'training' | 'no' | 'no_answer';
+  ageGroup: '18-29' | '30-49' | '50+' | 'no_answer';
+  firstLanguage: Array<'de' | 'pl' | 'en' | 'other' | 'no_answer'>;
+}
+
 export type AppVersion = 'basis' | 'vollversion';
+
+// Bumped when the questionnaire's required fields or wording change in a way
+// that would make an old submission not comparable to a new one — see
+// SURVEY_DRAFT_KEY_PREFIX/STUDY_CONSENT_KEY for the client-side drafts/
+// consent bumped alongside this. 'v2' adds the consent screen, the
+// "Angaben zur Person" block, and the reworded NASA-RTLX/SUS items.
+export type QuestionnaireVersion = 'v2';

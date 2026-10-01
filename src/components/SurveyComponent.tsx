@@ -7,6 +7,7 @@ import {
   SusPayload,
   UeqPayload,
   GamificationFeedbackPayload,
+  PersonalInfoPayload,
   AppVersion,
 } from '../../public/survey';
 import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
@@ -28,7 +29,18 @@ import BionicText from './common/BionicText.jsx';
 // v2: a v1 draft can't be told apart from "never touched" — every item used
 // to be pre-filled with a midpoint default, so a restored v1 value may be
 // one the participant never actually chose. v1 drafts are ignored.
-const SURVEY_DRAFT_KEY_PREFIX = 'enclaro:survey:v2:';
+// v3: questionnaire_version 2 adds the "Angaben zur Person" block (only for
+// a block-2 checkpoint) and changes several question texts outright — a
+// restored v2 draft could silently resubmit answers to wording the
+// participant never saw. v2 (and earlier) drafts are ignored.
+const SURVEY_DRAFT_KEY_PREFIX = 'enclaro:survey:v3:';
+
+// Versioned so a later change to the required fields (e.g. questionnaire_
+// version 3 adding another block) can invalidate an old participant id the
+// same way the draft prefix above does — see STUDY_CONSENT_KEY/
+// STUDY_PROGRESS_KEY in useStudyModeState.js for the same bump, done for
+// the same rollout.
+const PARTICIPANT_ID_KEY = 'cfg_participant_id_v2';
 
 // Every rating starts unanswered (null) — no item is pre-filled, so a
 // submitted value is always one the participant deliberately gave.
@@ -36,12 +48,20 @@ type Answers<T> = { [K in keyof T]: T[K] | null };
 type GamificationAnswers = Answers<
   Omit<GamificationFeedbackPayload, 'gameElementFeedback'>
 > & { gameElementFeedback: string };
+// firstLanguage is a multi-select (see PersonalInfoPayload) and starts as an
+// empty array, not null — "no answer yet" and "chose nothing" would
+// otherwise be indistinguishable from "chose no_answer" for the missingIds
+// check below.
+type PersonalInfoAnswers = Omit<Answers<PersonalInfoPayload>, 'firstLanguage'> & {
+  firstLanguage: PersonalInfoPayload['firstLanguage'];
+};
 
 type SurveyDraft = {
   nasaScores: Answers<NasaTlxPayload>;
   susScores: Answers<SusPayload>;
   ueqScores: Answers<UeqPayload>;
   gamificationFeedback: GamificationAnswers;
+  personalInfo: PersonalInfoAnswers;
 };
 
 // Keys that move or commit a native range input; anything else (notably the
@@ -92,40 +112,61 @@ function clearSurveyDraft(checkpointId: string) {
   }
 }
 
+// lowLabel/highLabel default to the generic "Very Low"/"Very High" anchors
+// (feedback.low/feedback.high) for five of the six dimensions — Performance
+// is the one exception: its own "Perfect"/"Failure" anchors (T3) reflect
+// that a *high* raw value there also means high perceived workload (the
+// same "no reversal" convention questionnaire_version v2 uses for every
+// dimension, see index.js's buildDbData — performance is stored exactly as
+// given, never inverted).
 const NASA_SCALES: Array<{
   id: keyof NasaTlxPayload;
   label: string;
   desc: string;
+  lowLabel: string;
+  highLabel: string;
 }> = [
   {
     id: 'mentalDemand',
     label: 'feedback.nasa.mental',
     desc: 'feedback.nasa.mentalDesc',
+    lowLabel: 'feedback.low',
+    highLabel: 'feedback.high',
   },
   {
     id: 'physicalDemand',
     label: 'feedback.nasa.physical',
     desc: 'feedback.nasa.physicalDesc',
+    lowLabel: 'feedback.low',
+    highLabel: 'feedback.high',
   },
   {
     id: 'temporalDemand',
     label: 'feedback.nasa.temporal',
     desc: 'feedback.nasa.temporalDesc',
+    lowLabel: 'feedback.low',
+    highLabel: 'feedback.high',
   },
   {
     id: 'performance',
     label: 'feedback.nasa.performance',
     desc: 'feedback.nasa.performanceDesc',
+    lowLabel: 'feedback.performanceLow',
+    highLabel: 'feedback.performanceHigh',
   },
   {
     id: 'effort',
     label: 'feedback.nasa.effort',
     desc: 'feedback.nasa.effortDesc',
+    lowLabel: 'feedback.low',
+    highLabel: 'feedback.high',
   },
   {
     id: 'frustration',
     label: 'feedback.nasa.frustration',
     desc: 'feedback.nasa.frustrationDesc',
+    lowLabel: 'feedback.low',
+    highLabel: 'feedback.high',
   },
 ];
 
@@ -201,6 +242,65 @@ const GAMIFICATION_SCALES: Array<{
   { id: 'gardenMotivation', label: 'feedback.gamification.gardenMotivation' },
   { id: 'badgeMotivation', label: 'feedback.gamification.badgeMotivation' },
   { id: 'gameDistraction', label: 'feedback.gamification.distraction' },
+];
+
+// "Angaben zur Person" — only asked on the questionnaire that closes guided-
+// study block 2 (see the block === 2 gate around its fieldset below), so a
+// participant answers these exactly once, after experiencing both
+// conditions. Option value lists double as the allowed-value check for
+// missingIds below; keep them in sync with the CHECK constraints in
+// supabase/00_survey_schema.sql and with validatePayload/buildDbData in
+// netlify/functions/submit-survey/index.js.
+const LRS_STATUS_OPTIONS: PersonalInfoPayload['lrsStatus'][] = [
+  'diagnosed',
+  'suspected',
+  'no',
+  'no_answer',
+];
+const SLT_ROLE_OPTIONS: PersonalInfoPayload['sltRole'][] = [
+  'yes',
+  'training',
+  'no',
+  'no_answer',
+];
+const AGE_GROUP_OPTIONS: PersonalInfoPayload['ageGroup'][] = [
+  '18-29',
+  '30-49',
+  '50+',
+  'no_answer',
+];
+const FIRST_LANGUAGE_OPTIONS: PersonalInfoPayload['firstLanguage'] = [
+  'de',
+  'pl',
+  'en',
+  'other',
+  'no_answer',
+];
+
+const PERSONAL_INFO_SINGLE_CHOICE_FIELDS: Array<{
+  id: 'lrsStatus' | 'sltRole' | 'ageGroup';
+  questionKey: string;
+  optionKeyPrefix: string;
+  options: readonly string[];
+}> = [
+  {
+    id: 'lrsStatus',
+    questionKey: 'feedback.personalInfo.lrs.question',
+    optionKeyPrefix: 'feedback.personalInfo.lrs.options',
+    options: LRS_STATUS_OPTIONS,
+  },
+  {
+    id: 'sltRole',
+    questionKey: 'feedback.personalInfo.slt.question',
+    optionKeyPrefix: 'feedback.personalInfo.slt.options',
+    options: SLT_ROLE_OPTIONS,
+  },
+  {
+    id: 'ageGroup',
+    questionKey: 'feedback.personalInfo.age.question',
+    optionKeyPrefix: 'feedback.personalInfo.age.options',
+    options: AGE_GROUP_OPTIONS,
+  },
 ];
 
 export const SurveyComponent: React.FC<{
@@ -311,6 +411,16 @@ export const SurveyComponent: React.FC<{
         },
     );
 
+  const [personalInfo, setPersonalInfo] = useState<PersonalInfoAnswers>(
+    () =>
+      readSurveyDraft(checkpointId)?.personalInfo ?? {
+        lrsStatus: null,
+        sltRole: null,
+        ageGroup: null,
+        firstLanguage: [],
+      },
+  );
+
   // Autosaves on every change so a lost tab (crash, accidental reload,
   // closed by mistake) doesn't take an in-progress NASA-TLX/SUS/UEQ
   // response with it — restored above on next mount, cleared only once the
@@ -321,8 +431,16 @@ export const SurveyComponent: React.FC<{
       susScores,
       ueqScores,
       gamificationFeedback,
+      personalInfo,
     });
-  }, [checkpointId, nasaScores, susScores, ueqScores, gamificationFeedback]);
+  }, [
+    checkpointId,
+    nasaScores,
+    susScores,
+    ueqScores,
+    gamificationFeedback,
+    personalInfo,
+  ]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -336,6 +454,12 @@ export const SurveyComponent: React.FC<{
   const [showMissing, setShowMissing] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
+  // Only the questionnaire that closes guided-study block 2 asks "Angaben
+  // zur Person" — a block-1 checkpoint, or a nav-opened survey outside the
+  // guided study (block === null), must leave these null/empty rather than
+  // demand an answer to a question never shown.
+  const isPersonalInfoBlock = block === 2;
+
   // Everything the participant has to answer, in document order. A 0 is a
   // real NASA-TLX answer, so unanswered means null, never falsy.
   const missingIds: string[] = [
@@ -348,6 +472,14 @@ export const SurveyComponent: React.FC<{
         )
       : []),
   ].map((scale) => scale.id);
+  if (isPersonalInfoBlock) {
+    for (const field of PERSONAL_INFO_SINGLE_CHOICE_FIELDS) {
+      if (personalInfo[field.id] === null) missingIds.push(field.id);
+    }
+    if (personalInfo.firstLanguage.length === 0) {
+      missingIds.push('firstLanguage');
+    }
+  }
   const isMissing = (id: string) => showMissing && missingIds.includes(id);
   const errorIdsFor = (id: string) =>
     isMissing(id) ? `${id}-error` : undefined;
@@ -467,6 +599,38 @@ export const SurveyComponent: React.FC<{
     setGamificationFeedback((prev) => ({ ...prev, [id]: value }));
   };
 
+  const handlePersonalInfoChange = (
+    id: 'lrsStatus' | 'sltRole' | 'ageGroup',
+    value: string,
+  ) => {
+    setPersonalInfo((prev) => ({ ...prev, [id]: value }));
+  };
+
+  // "Keine Angabe hebt die anderen Antworten auf und umgekehrt": choosing
+  // no_answer replaces whatever was selected; choosing a real language while
+  // no_answer is selected drops no_answer rather than sitting alongside it.
+  // A real language toggles normally (on/off) against the other real
+  // languages.
+  const handleFirstLanguageToggle = (
+    value: PersonalInfoPayload['firstLanguage'][number],
+  ) => {
+    setPersonalInfo((prev) => {
+      if (value === 'no_answer') {
+        const next = prev.firstLanguage.includes('no_answer')
+          ? []
+          : (['no_answer'] as PersonalInfoPayload['firstLanguage']);
+        return { ...prev, firstLanguage: next };
+      }
+      const withoutNoAnswer = prev.firstLanguage.filter(
+        (v) => v !== 'no_answer',
+      );
+      const next = withoutNoAnswer.includes(value)
+        ? withoutNoAnswer.filter((v) => v !== value)
+        : [...withoutNoAnswer, value];
+      return { ...prev, firstLanguage: next };
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Unanswered items block submission — nothing is pre-filled, so a
@@ -481,14 +645,16 @@ export const SurveyComponent: React.FC<{
     setError(null);
 
     try {
-      let participantId = localStorage.getItem('cfg_participant_id');
+      let participantId = localStorage.getItem(PARTICIPANT_ID_KEY);
       if (!participantId) {
         participantId =
           typeof crypto !== 'undefined' && crypto.randomUUID
             ? crypto.randomUUID()
             : 'user_' + Math.random().toString(36).substring(2, 15);
-        localStorage.setItem('cfg_participant_id', participantId);
+        localStorage.setItem(PARTICIPANT_ID_KEY, participantId);
       }
+
+      const consentGiven = localStorage.getItem('studyConsent_v2') === 'true';
 
       const appVersion: AppVersion = isGamified ? 'vollversion' : 'basis';
 
@@ -533,6 +699,8 @@ export const SurveyComponent: React.FC<{
 
       // Every rating is non-null here: missingIds was empty above.
       const payload = {
+        questionnaireVersion: 'v2',
+        consentGiven,
         ...(nasaScores as NasaTlxPayload),
         ...(susScores as SusPayload),
         ...(ueqScores as UeqPayload),
@@ -540,6 +708,12 @@ export const SurveyComponent: React.FC<{
         // session never shows these elements, so they're left out of the
         // payload entirely rather than submitted as a meaningless score.
         ...(isGamified ? (gamificationFeedback as GamificationFeedbackPayload) : {}),
+        // Only meaningful on the questionnaire that closes block 2 (see
+        // isPersonalInfoBlock above) — left out entirely for block 1 or a
+        // manually opened survey, the same reasoning as gamification above.
+        ...(isPersonalInfoBlock
+          ? (personalInfo as PersonalInfoPayload)
+          : {}),
         participantId,
         appVersion,
         ...(variantOrder ? { variantOrder } : {}),
@@ -675,6 +849,15 @@ export const SurveyComponent: React.FC<{
         className={`rounded-2xl border p-4 text-xs leading-relaxed font-medium sm:text-sm ${isHighContrast ? 'border-white/40 bg-white/10 text-white' : 'border-indigo-100 bg-indigo-50 text-slate-600'}`}
       >
         <BionicText text={t('feedback.privacyNotice')} enabled={hasBionic} />
+        {isPersonalInfoBlock && (
+          <>
+            {' '}
+            <BionicText
+              text={t('feedback.privacyNoticeBlock2Addendum')}
+              enabled={hasBionic}
+            />
+          </>
+        )}
       </p>
 
       <p
@@ -782,10 +965,10 @@ export const SurveyComponent: React.FC<{
                 className={`mt-1 flex justify-between text-[10px] font-bold tracking-widest uppercase ${isHighContrast ? 'text-white/60' : 'text-slate-400'}`}
               >
                 <span>
-                  <BionicText text={t('feedback.low')} enabled={hasBionic} />
+                  <BionicText text={t(scale.lowLabel)} enabled={hasBionic} />
                 </span>
                 <span>
-                  <BionicText text={t('feedback.high')} enabled={hasBionic} />
+                  <BionicText text={t(scale.highLabel)} enabled={hasBionic} />
                 </span>
               </div>
               {renderItemError(scale.id)}
@@ -1088,6 +1271,147 @@ export const SurveyComponent: React.FC<{
                 className={`w-full resize-none rounded-xl border p-3 text-sm focus:ring-4 focus:outline-none ${isHighContrast ? 'border-white/50 bg-black text-white focus:ring-white/30 placeholder:text-white/50' : 'border-slate-200 bg-white text-slate-700 focus:ring-indigo-100'}`}
               />
             </div>
+          </div>
+        </fieldset>
+      )}
+
+      {}
+      {/* Only on the questionnaire that closes guided-study block 2 — see
+          isPersonalInfoBlock above. Large card-style answer areas (not small
+          radio circles) per the same big-touch-target reasoning as
+          bigTargets elsewhere, since these are often the last questions in a
+          longer session. */}
+      {isPersonalInfoBlock && (
+        <fieldset className="flex min-w-0 flex-col gap-5">
+          <legend
+            className={`mb-1 w-full border-b pb-2 text-lg font-black tracking-widest uppercase ${isHighContrast ? 'border-white/30 text-white' : 'text-slate-400'}`}
+          >
+            <BionicText
+              text={t('feedback.personalInfo.heading')}
+              enabled={hasBionic}
+            />
+          </legend>
+          <p
+            className={`text-sm font-medium ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+          >
+            <BionicText
+              text={t('feedback.personalInfo.intro')}
+              enabled={hasBionic}
+            />
+          </p>
+
+          {PERSONAL_INFO_SINGLE_CHOICE_FIELDS.map((field) => (
+            <div
+              key={field.id}
+              className={`flex flex-col gap-3 rounded-2xl border p-4 ${cardTone(isMissing(field.id))}`}
+            >
+              <span
+                id={`label-${field.id}`}
+                className={`block text-sm leading-snug font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
+              >
+                <BionicText text={t(field.questionKey)} enabled={hasBionic} />
+              </span>
+              <div
+                role="radiogroup"
+                aria-labelledby={`label-${field.id}`}
+                aria-required="true"
+                aria-invalid={isMissing(field.id) || undefined}
+                aria-describedby={errorIdsFor(field.id)}
+                className="grid grid-cols-1 gap-2 sm:grid-cols-2"
+              >
+                {field.options.map((value) => (
+                  <label
+                    key={value}
+                    className={`flex min-h-11 cursor-pointer items-center gap-3 rounded-xl border-2 p-3 text-sm font-medium transition-all sm:text-base ${
+                      personalInfo[field.id] === value
+                        ? isHighContrast
+                          ? 'border-white bg-white/20 text-white'
+                          : 'border-indigo-500 bg-indigo-50 text-indigo-900'
+                        : isHighContrast
+                          ? 'border-white/30 text-white/80'
+                          : 'border-slate-200 text-slate-600'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name={field.id}
+                      value={value}
+                      checked={personalInfo[field.id] === value}
+                      onChange={() => {
+                        handlePersonalInfoChange(field.id, value);
+                        announce(
+                          `${t(field.questionKey)}, ${t(`${field.optionKeyPrefix}.${value}`)}`,
+                        );
+                      }}
+                      className="h-5 w-5 shrink-0"
+                    />
+                    <BionicText
+                      text={t(`${field.optionKeyPrefix}.${value}`)}
+                      enabled={hasBionic}
+                    />
+                  </label>
+                ))}
+              </div>
+              {renderItemError(field.id)}
+            </div>
+          ))}
+
+          <div
+            className={`flex flex-col gap-3 rounded-2xl border p-4 ${cardTone(isMissing('firstLanguage'))}`}
+          >
+            <span
+              id="label-firstLanguage"
+              className={`block text-sm leading-snug font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
+            >
+              <BionicText
+                text={t('feedback.personalInfo.firstLanguage.question')}
+                enabled={hasBionic}
+              />
+            </span>
+            <div
+              role="group"
+              aria-labelledby="label-firstLanguage"
+              aria-required="true"
+              aria-invalid={isMissing('firstLanguage') || undefined}
+              aria-describedby={errorIdsFor('firstLanguage')}
+              className="grid grid-cols-1 gap-2 sm:grid-cols-2"
+            >
+              {FIRST_LANGUAGE_OPTIONS.map((value) => (
+                <label
+                  key={value}
+                  className={`flex min-h-11 cursor-pointer items-center gap-3 rounded-xl border-2 p-3 text-sm font-medium transition-all sm:text-base ${
+                    personalInfo.firstLanguage.includes(value)
+                      ? isHighContrast
+                        ? 'border-white bg-white/20 text-white'
+                        : 'border-indigo-500 bg-indigo-50 text-indigo-900'
+                      : isHighContrast
+                        ? 'border-white/30 text-white/80'
+                        : 'border-slate-200 text-slate-600'
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    name="firstLanguage"
+                    value={value}
+                    checked={personalInfo.firstLanguage.includes(value)}
+                    onChange={() => {
+                      handleFirstLanguageToggle(value);
+                      announce(
+                        `${t('feedback.personalInfo.firstLanguage.question')}, ${t(`feedback.personalInfo.firstLanguage.options.${value}`)}`,
+                      );
+                    }}
+                    className="h-5 w-5 shrink-0"
+                  />
+                  <BionicText
+                    text={t(
+                      `feedback.personalInfo.firstLanguage.options.${value}`,
+                    )}
+                    enabled={hasBionic}
+                  />
+                </label>
+              ))}
+            </div>
+            {renderItemError('firstLanguage')}
           </div>
         </fieldset>
       )}
