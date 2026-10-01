@@ -124,6 +124,10 @@ for (const lang of ['de', 'en', 'pl']) {
       for (let i = 1; i <= 10; i++) {
         await fillRadioGroup(page, `sus${String(i).padStart(2, '0')}`, '3');
       }
+      // Asked every time regardless of condition (see ENGAGEMENT_SCALES in
+      // SurveyComponent.tsx), unlike the gamification fieldset below.
+      await fillRadioGroup(page, 'concentration', '4');
+      await fillRadioGroup(page, 'perseverance', '3');
       for (let i = 1; i <= 8; i++) {
         await fillRadioGroup(page, `ueq0${i}`, '4');
       }
@@ -144,6 +148,8 @@ for (const lang of ['de', 'en', 'pl']) {
       expect(block1Body.appVersion).toBe('vollversion');
       expect(block1Body.block).toBe(1);
       expect(block1Body.variantOrder).toBe('gamifiedFirst');
+      expect(block1Body.concentration).toBe(4);
+      expect(block1Body.perseverance).toBe(3);
       expect(block1Body.gardenMotivation).toBe(3);
       expect(block1Body.badgeMotivation).toBe(3);
       expect(block1Body.gameDistraction).toBe(2);
@@ -183,6 +189,10 @@ for (const lang of ['de', 'en', 'pl']) {
       for (let i = 1; i <= 10; i++) {
         await fillRadioGroup(page, `sus${String(i).padStart(2, '0')}`, '3');
       }
+      // Asked every time regardless of condition (see ENGAGEMENT_SCALES in
+      // SurveyComponent.tsx), unlike the gamification fieldset below.
+      await fillRadioGroup(page, 'concentration', '4');
+      await fillRadioGroup(page, 'perseverance', '3');
       for (let i = 1; i <= 8; i++) {
         await fillRadioGroup(page, `ueq0${i}`, '4');
       }
@@ -219,6 +229,8 @@ for (const lang of ['de', 'en', 'pl']) {
       expect(block2Body.consentGiven).toBe(true);
       expect(block2Body.appVersion).toBe('basis');
       expect(block2Body.block).toBe(2);
+      expect(block2Body.concentration).toBe(4);
+      expect(block2Body.perseverance).toBe(3);
       expect(block2Body.lrsStatus).toBe('no');
       expect(block2Body.sltRole).toBe('no');
       expect(block2Body.ageGroup).toBe('30-49');

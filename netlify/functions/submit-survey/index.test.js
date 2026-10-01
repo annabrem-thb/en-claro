@@ -44,6 +44,8 @@ function makeClientPayload(overrides = {}) {
     ueq06: 6,
     ueq07: 4,
     ueq08: 5,
+    concentration: 4,
+    perseverance: 5,
     gardenMotivation: 4,
     badgeMotivation: 5,
     gameDistraction: 2,
@@ -99,6 +101,32 @@ describe('submit-survey buildDbData', () => {
     expect(dbData.ueq_q06).toBe(6);
     expect(dbData.ueq_q07).toBe(4);
     expect(dbData.ueq_q08).toBe(5);
+  });
+
+  it('carries concentration/perseverance through for every submission, regardless of condition', () => {
+    const gamified = buildDbData(
+      makeClientPayload({
+        appVersion: 'vollversion',
+        concentration: 4,
+        perseverance: 5,
+      }),
+    );
+    expect(gamified.concentration).toBe(4);
+    expect(gamified.perseverance).toBe(5);
+
+    const basis = buildDbData(
+      makeClientPayload({
+        appVersion: 'basis',
+        concentration: 2,
+        perseverance: 3,
+        gardenMotivation: undefined,
+        badgeMotivation: undefined,
+        gameDistraction: undefined,
+        gameElementFeedback: undefined,
+      }),
+    );
+    expect(basis.concentration).toBe(2);
+    expect(basis.perseverance).toBe(3);
   });
 
   it('carries gamification-element feedback through for a gamified submission', () => {
@@ -164,6 +192,8 @@ describe('submit-survey buildDbData', () => {
       'ueq_q06',
       'ueq_q07',
       'ueq_q08',
+      'concentration',
+      'perseverance',
     ];
 
     for (const key of measurementKeys) {
@@ -340,6 +370,15 @@ describe('submit-survey validatePayload', () => {
     expect(error).toMatch(/ueq03/);
   });
 
+  it('rejects a concentration/perseverance field sent as the wrong type', () => {
+    expect(
+      validatePayload(makeClientPayload({ concentration: 'high' })),
+    ).toMatch(/concentration/);
+    expect(
+      validatePayload(makeClientPayload({ perseverance: 'high' })),
+    ).toMatch(/perseverance/);
+  });
+
   it('rejects a gamification-feedback numeric field sent as the wrong type', () => {
     const error = validatePayload(
       makeClientPayload({ gardenMotivation: 'lots' }),
@@ -430,9 +469,9 @@ describe('submit-survey validatePayload', () => {
   });
 
   it('rejects a submission without consent', () => {
-    expect(
-      validatePayload(makeClientPayload({ consentGiven: false })),
-    ).toMatch(/consentGiven/);
+    expect(validatePayload(makeClientPayload({ consentGiven: false }))).toMatch(
+      /consentGiven/,
+    );
     expect(
       validatePayload(makeClientPayload({ consentGiven: undefined })),
     ).toMatch(/consentGiven/);
@@ -471,14 +510,10 @@ describe('submit-survey validatePayload', () => {
       validatePayload(makeClientPayload({ ...base, ageGroup: '12-17' })),
     ).toMatch(/ageGroup/);
     expect(
-      validatePayload(
-        makeClientPayload({ ...base, firstLanguage: ['fr'] }),
-      ),
+      validatePayload(makeClientPayload({ ...base, firstLanguage: ['fr'] })),
     ).toMatch(/firstLanguage/);
     expect(
-      validatePayload(
-        makeClientPayload({ ...base, firstLanguage: 'de' }),
-      ),
+      validatePayload(makeClientPayload({ ...base, firstLanguage: 'de' })),
     ).toMatch(/firstLanguage/);
   });
 

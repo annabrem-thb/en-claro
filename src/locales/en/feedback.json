@@ -22,6 +22,11 @@
     "frustration": "Frustration",
     "frustrationDesc": "How insecure, discouraged, irritated, stressed, and annoyed were you?"
   },
+  "engagementTitle": "Concentration and Perseverance",
+  "engagement": {
+    "concentration": "During these exercises, it was easy for me to concentrate.",
+    "perseverance": "I wanted to keep going with these exercises, even when they were difficult."
+  },
   "ueqTitle": "User Experience (UEQ-Short)",
   "ueq": {
     "obstructive": "Obstructive",

@@ -5,12 +5,11 @@
 // the gamification state growing extra counters again. Do not "fix" a
 // failure here by loosening the assertion — fix the source it's checking
 // instead.
-import { createRequire } from 'node:module';
+import { renderHook } from '@testing-library/react';
 import fs from 'node:fs';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-
-import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import { useGamificationState } from '../hooks/useGamificationState.js';
@@ -38,18 +37,21 @@ describe('feedback strings stay free of exclamation marks and emoji', () => {
   // translation.json (which would in fact be silently overwritten by that
   // merge — the two must never both define a top-level "feedback" key).
   const CHECKED = [
-    { file: 'locales/de/translation.json', data: translation, keys: [
-      'realWorldImpact.newTreeTitle',
-      'realWorldImpact.newTreeMsg',
-      'voice.success',
-      'voice.error',
-    ] },
-    { file: 'locales/de/feedback.json', data: feedback, keys: [
-      'correct',
-      'correctWithRule',
-      'incorrect',
-      'incorrectWithRule',
-    ] },
+    {
+      file: 'locales/de/translation.json',
+      data: translation,
+      keys: [
+        'realWorldImpact.newTreeTitle',
+        'realWorldImpact.newTreeMsg',
+        'voice.success',
+        'voice.error',
+      ],
+    },
+    {
+      file: 'locales/de/feedback.json',
+      data: feedback,
+      keys: ['correct', 'correctWithRule', 'incorrect', 'incorrectWithRule'],
+    },
   ];
 
   const resolve = (obj, dottedKey) =>
@@ -100,9 +102,10 @@ describe('no special-purpose typeface is bundled', () => {
     for (const file of fs.readdirSync(stylesDir)) {
       if (!file.endsWith('.css')) continue;
       const source = fs.readFileSync(path.join(stylesDir, file), 'utf8');
-      expect(/OpenDyslexic/i.test(source), `${file} mentions OpenDyslexic`).toBe(
-        false,
-      );
+      expect(
+        /OpenDyslexic/i.test(source),
+        `${file} mentions OpenDyslexic`,
+      ).toBe(false);
     }
   });
 });
@@ -147,10 +150,7 @@ describe('ab_study_submissions schema matches buildDbData', () => {
   // native `require` rather than an ESM `import`.
   const require = createRequire(import.meta.url);
   const { buildDbData } = require(
-    path.join(
-      repoRoot,
-      'netlify/functions/submit-survey/index.js',
-    ),
+    path.join(repoRoot, 'netlify/functions/submit-survey/index.js'),
   );
 
   // Every column the CREATE TABLE statement declares, in the order they're
@@ -227,6 +227,8 @@ describe('ab_study_submissions schema matches buildDbData', () => {
       ueq06: 4,
       ueq07: 4,
       ueq08: 4,
+      concentration: 4,
+      perseverance: 3,
       gardenMotivation: 3,
       badgeMotivation: 3,
       gameDistraction: 3,

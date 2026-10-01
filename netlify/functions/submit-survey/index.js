@@ -157,6 +157,14 @@ function buildDbData(payload) {
     ueq_q07: payload.ueq07,
     ueq_q08: payload.ueq08,
 
+    // Concentration/perseverance: SurveyComponent.tsx spreads
+    // `...engagementScores` (an EngagementPayload). Unlike gamification
+    // feedback below, these two are sent for every submission regardless
+    // of condition — comparing classic vs. gamified on them needs the same
+    // question answered in both blocks, not a gamified-only score.
+    concentration: payload.concentration,
+    perseverance: payload.perseverance,
+
     // Gamification-element feedback: only present in the payload for a
     // gamified submission (SurveyComponent.tsx only spreads it when
     // isGamified) — undefined/NULL here correctly means "not applicable"
@@ -232,6 +240,8 @@ function validatePayload(payload) {
     'ueq06',
     'ueq07',
     'ueq08',
+    'concentration',
+    'perseverance',
     'gardenMotivation',
     'badgeMotivation',
     'gameDistraction',
@@ -326,13 +336,22 @@ function validatePayload(payload) {
   // is a sign of a stale or broken client, not something to paper over.
   const isPersonalInfoBlock = payload.block === 2;
 
-  if (payload.lrsStatus !== undefined && !LRS_STATUS_VALUES.includes(payload.lrsStatus)) {
+  if (
+    payload.lrsStatus !== undefined &&
+    !LRS_STATUS_VALUES.includes(payload.lrsStatus)
+  ) {
     return `lrsStatus must be one of ${LRS_STATUS_VALUES.join(', ')}.`;
   }
-  if (payload.sltRole !== undefined && !SLT_ROLE_VALUES.includes(payload.sltRole)) {
+  if (
+    payload.sltRole !== undefined &&
+    !SLT_ROLE_VALUES.includes(payload.sltRole)
+  ) {
     return `sltRole must be one of ${SLT_ROLE_VALUES.join(', ')}.`;
   }
-  if (payload.ageGroup !== undefined && !AGE_GROUP_VALUES.includes(payload.ageGroup)) {
+  if (
+    payload.ageGroup !== undefined &&
+    !AGE_GROUP_VALUES.includes(payload.ageGroup)
+  ) {
     return `ageGroup must be one of ${AGE_GROUP_VALUES.join(', ')}.`;
   }
   if (payload.firstLanguage !== undefined) {

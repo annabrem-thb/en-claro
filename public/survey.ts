@@ -17,11 +17,16 @@ export interface NasaTlxPayload {
  * Standard 10 items, 5-point Likert scale (1=Strongly Disagree, 5=Strongly Agree).
  */
 export interface SusPayload {
-  sus01: number; sus02: number;
-  sus03: number; sus04: number;
-  sus05: number; sus06: number;
-  sus07: number; sus08: number;
-  sus09: number; sus10: number;
+  sus01: number;
+  sus02: number;
+  sus03: number;
+  sus04: number;
+  sus05: number;
+  sus06: number;
+  sus07: number;
+  sus08: number;
+  sus09: number;
+  sus10: number;
 }
 
 /**
@@ -31,10 +36,29 @@ export interface SusPayload {
  * positive term — the app's digital adaptation of UEQ's usual -3..+3).
  */
 export interface UeqPayload {
-  ueq01: number; ueq02: number;
-  ueq03: number; ueq04: number;
-  ueq05: number; ueq06: number;
-  ueq07: number; ueq08: number;
+  ueq01: number;
+  ueq02: number;
+  ueq03: number;
+  ueq04: number;
+  ueq05: number;
+  ueq06: number;
+  ueq07: number;
+  ueq08: number;
+}
+
+/**
+ * Concentration and perseverance during the exercises just finished.
+ * Unlike GamificationFeedbackPayload below, these two items are collected
+ * for *every* session regardless of condition (see SurveyComponent.tsx's
+ * ENGAGEMENT_SCALES, not gated by isGamified) — only a value present in
+ * both the classic and the gamified block lets the two conditions actually
+ * be compared on concentration/perseverance, which a gamification-only
+ * item never could.
+ * 5-point Likert scale (1=Strongly Disagree, 5=Strongly Agree), same as SUS.
+ */
+export interface EngagementPayload {
+  concentration: number;
+  perseverance: number;
 }
 
 /**
