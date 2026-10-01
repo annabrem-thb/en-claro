@@ -166,3 +166,63 @@ test.describe('Accessibility (axe-core)', () => {
     expect(results.violations, formatViolations(results)).toEqual([]);
   });
 });
+
+// Separate describe block: both tests below need study mode actually
+// active (the describe above deliberately opts out of it in its own
+// beforeEach, see the comment there), so they set up their own localStorage
+// state from scratch rather than fighting that shared hook.
+test.describe('Accessibility (axe-core) — guided study', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+  });
+
+  test('Study consent screen has no WCAG 2.1 A/AA violations', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      window.localStorage.clear();
+    });
+    await page.goto('/');
+    const nextButton = page.locator('text=/Weiter|Next|Dalej/i');
+    if (await nextButton.isVisible().catch(() => false)) {
+      await nextButton.click();
+      await page.locator('text=/Rozpocznij|Start/i').click();
+    }
+    // StudyConsentScreen.jsx also mounts its own #main-content landmark, the
+    // same reasoning as IntroScreen.jsx (see skipIntro above).
+    await expect(page.locator('#main-content')).toBeVisible();
+    const results = await runAxe(page);
+    expect(results.violations, formatViolations(results)).toEqual([]);
+  });
+
+  // variantOrder "classicFirst" makes block 2 the gamified condition
+  // (isBlockGamified in useStudyModeState.js), so this one page exercises
+  // NASA-TLX, SUS, UEQ-S, the gamification fieldset, and "Angaben zur
+  // Person" together — the most complete single-page scan available.
+  test('Questionnaire closing guided-study block 2 has no WCAG 2.1 A/AA violations', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      window.localStorage.clear();
+      window.localStorage.setItem('studyConsent_v2', 'true');
+      window.localStorage.setItem('variantOrder', 'classicFirst');
+      window.localStorage.setItem(
+        'studyProgress_v2',
+        JSON.stringify({
+          block: 2,
+          pillarIndex: 0,
+          pillarCount: 0,
+          phase: 'survey',
+        }),
+      );
+    });
+    await page.goto('/#/literacy');
+    await expect(page.locator('#main-content')).toBeVisible();
+
+    await page.keyboard.press('Control+s');
+
+    await expect(page.locator('#survey-title')).toBeVisible();
+    const results = await runAxe(page);
+    expect(results.violations, formatViolations(results)).toEqual([]);
+  });
+});
