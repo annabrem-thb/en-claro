@@ -49,6 +49,7 @@ import OfflineIndicator from './OfflineIndicator.jsx';
 import { ProgressPill } from './ProgressPill.jsx';
 import PwaUpdateBanner from './PwaUpdateBanner.jsx';
 import SidebarNav from './SidebarNav.jsx';
+import StudyConsentScreen from './StudyConsentScreen.jsx';
 import { StudyModeProvider } from './StudyModeContext.jsx';
 import { UserSettingsProvider } from './UserSettingsContext.jsx';
 import VoiceFallbackBanner from './VoiceFallbackBanner.jsx';
@@ -781,6 +782,19 @@ function AppContent() {
 
   if (showIntro) {
     return <IntroScreen onStart={() => setShowIntro(false)} speak={speak} />;
+  }
+
+  // A guided study participant must see and confirm the information/consent
+  // screen once, before block 1, and before anything else the app offers
+  // (nav, Settings, exercises) is reachable — mirrors showIntro above:
+  // consentGiven is asked exactly once per participant (useStudyModeState.js
+  // persists it independently of block/survey progress), so a returning
+  // participant mid-study, or anyone with study mode off, skips straight
+  // past this.
+  if (studyMode.isActive && !studyMode.consentGiven) {
+    return (
+      <StudyConsentScreen onConsent={studyMode.giveConsent} speak={speak} />
+    );
   }
 
   if (settingsOpen) {

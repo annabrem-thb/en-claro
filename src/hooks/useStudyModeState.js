@@ -56,6 +56,12 @@ export function isBlockGamified(variantOrder, block) {
 // block-2 visits draw from the exact same set of types (a paired
 // classic-vs-gamified comparison per exercise type) instead of each block
 // rolling its own independent, possibly-different subset.
+// _v2: bumped alongside studyProgress/consent below for the questionnaire_
+// version 2 rollout (new consent screen, new "Angaben zur Person" block) —
+// a participant's plan from before that change must not carry over into a
+// session that now expects the new flow.
+const STUDY_EXERCISE_PLAN_KEY = 'studyExercisePlan_v2';
+
 function assignExercisePlan() {
   const plan = Object.fromEntries(
     PILLAR_SEQUENCE.map((pillar) => {
@@ -64,12 +70,25 @@ function assignExercisePlan() {
       return [pillar, shuffled.slice(0, TASKS_PER_PILLAR[pillar])];
     }),
   );
-  localStorage.setItem('studyExercisePlan', JSON.stringify(plan));
+  localStorage.setItem(STUDY_EXERCISE_PLAN_KEY, JSON.stringify(plan));
   return plan;
 }
 
 function readStoredExercisePlan() {
-  return safeJSONParse(localStorage.getItem('studyExercisePlan'), null);
+  return safeJSONParse(localStorage.getItem(STUDY_EXERCISE_PLAN_KEY), null);
+}
+
+// Same _v2 bump as the exercise plan above.
+const STUDY_PROGRESS_KEY = 'studyProgress_v2';
+
+// Whether the participant has confirmed the information/consent screen
+// shown before block 1 (StudyConsentScreen.jsx) — independent of
+// studyProgress, since consent is asked once for the whole study, not once
+// per block, and must survive a reload the same way progress does.
+const STUDY_CONSENT_KEY = 'studyConsent_v2';
+
+function readConsentGiven() {
+  return localStorage.getItem(STUDY_CONSENT_KEY) === 'true';
 }
 
 // Single source of truth for the guided study session: whether it's active
@@ -106,12 +125,24 @@ export function useStudyModeState() {
   });
 
   const [progress, setProgressState] = useState(() =>
-    safeJSONParse(localStorage.getItem('studyProgress'), DEFAULT_PROGRESS),
+    safeJSONParse(localStorage.getItem(STUDY_PROGRESS_KEY), DEFAULT_PROGRESS),
   );
 
   const setProgress = (next) => {
-    localStorage.setItem('studyProgress', JSON.stringify(next));
+    localStorage.setItem(STUDY_PROGRESS_KEY, JSON.stringify(next));
     setProgressState(next);
+  };
+
+  // Asked once per participant (StudyConsentScreen.jsx, shown before block 1
+  // in App.jsx whenever isActive is true and this is still false) — not
+  // reset by recordSurveySubmitted()'s 'done' transition, so re-enabling
+  // study mode after a finished run (setStudyModeEnabled below) does not ask
+  // again.
+  const [consentGiven, setConsentGivenState] = useState(readConsentGiven);
+
+  const giveConsent = () => {
+    localStorage.setItem(STUDY_CONSENT_KEY, 'true');
+    setConsentGivenState(true);
   };
 
   const [exercisePlan, setExercisePlan] = useState(
@@ -213,6 +244,8 @@ export function useStudyModeState() {
     setStudyModeEnabled,
     variantOrder,
     isActive,
+    consentGiven,
+    giveConsent,
     phase: progress.phase,
     block: progress.block,
     currentPillar,
