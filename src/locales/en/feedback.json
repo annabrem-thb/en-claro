@@ -1,15 +1,18 @@
 {
   "title": "A moment of reflection",
   "desc": "How do you evaluate today's session? Your feedback helps us adapt the app to you.",
-  "privacyNotice": "Submitting this form sends your answers on this page, together with a randomly generated identifier not linked to your name, the app version you used, your language, theme, and your active comfort settings, to a server, stored solely for the evaluation of this thesis. No names, contact details, or exercise content are transmitted.",
+  "privacyNotice": "When you submit, your answers on this page are sent to a server in the EU together with a randomly generated code, the app version you used, your language, the colour theme and your active comfort settings. They are stored only for the analysis of this master's thesis. Names, contact details and the content of your exercises are not transmitted.",
+  "privacyNoticeBlock2Addendum": "On this page, this also includes the information about you.",
   "nasaTitle": "Workload (NASA-TLX)",
-  "low": "Low",
-  "high": "High",
+  "low": "Very Low",
+  "high": "Very High",
+  "performanceLow": "Perfect",
+  "performanceHigh": "Failure",
   "nasa": {
     "mental": "Mental Demand",
-    "mentalDesc": "How much mental and perceptual activity was required?",
+    "mentalDesc": "How mentally demanding was the task?",
     "physical": "Physical Demand",
-    "physicalDesc": "How much physical activity was required?",
+    "physicalDesc": "How physically demanding was the task?",
     "temporal": "Temporal Demand",
     "temporalDesc": "How hurried or rushed was the pace of the task?",
     "performance": "Performance",
@@ -41,10 +44,51 @@
   "gamificationTitle": "Game Elements",
   "gamification": {
     "gardenMotivation": "The growing garden motivated me to keep going.",
-    "badgeMotivation": "The achievement badges motivated me additionally.",
+    "badgeMotivation": "The badges motivated me to keep going.",
     "distraction": "The game elements distracted me from the exercises.",
     "elementFeedbackLabel": "What about the garden, badges, or progress indicator helped or bothered you most? (optional)",
     "elementFeedbackPlaceholder": "Your answer..."
+  },
+  "personalInfo": {
+    "heading": "About you",
+    "intro": "This information helps with the analysis. You can choose “Prefer not to say” for every question.",
+    "lrs": {
+      "question": "Do you have dyslexia (a reading and spelling disorder)?",
+      "options": {
+        "diagnosed": "Yes, diagnosed",
+        "suspected": "I think so, but I have no diagnosis",
+        "no": "No",
+        "no_answer": "Prefer not to say"
+      }
+    },
+    "slt": {
+      "question": "Do you work in speech and language therapy?",
+      "options": {
+        "yes": "Yes",
+        "training": "I am training or studying in this field",
+        "no": "No",
+        "no_answer": "Prefer not to say"
+      }
+    },
+    "age": {
+      "question": "How old are you?",
+      "options": {
+        "18-29": "18 to 29 years",
+        "30-49": "30 to 49 years",
+        "50+": "50 years or older",
+        "no_answer": "Prefer not to say"
+      }
+    },
+    "firstLanguage": {
+      "question": "What is your first language (mother tongue)? You can choose more than one.",
+      "options": {
+        "de": "German",
+        "pl": "Polish",
+        "en": "English",
+        "other": "Another language",
+        "no_answer": "Prefer not to say"
+      }
+    }
   },
   "rateAria": "Rate {{value}} out of {{max}}",
   "submit": "Save and continue",
