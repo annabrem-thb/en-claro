@@ -17,8 +17,17 @@ export default defineConfig({
         brotliSize: true,
         template: 'treemap',
       }),
+      // 'autoUpdate': a new service worker activates and reloads the page
+      // automatically as soon as it's installed, instead of waiting for a
+      // user to notice and click a "new version available" banner. That
+      // banner only renders once past the intro/consent screens (see
+      // App.jsx), so a participant sitting on the study-mode toggle or the
+      // consent screen right after a deploy had no way to trigger it —
+      // they could silently keep running stale cached code for an entire
+      // guided-study session, which is exactly the kind of cross-
+      // participant inconsistency an A/B study can't tolerate.
     VitePWA({
-      registerType: 'prompt',
+      registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', '**/*.json'],
       manifest: {
         name: 'EnClaro',
