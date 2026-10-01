@@ -1,23 +1,26 @@
 {
   "title": "Ein Moment zum Nachdenken",
   "desc": "Wie bewerten Sie die heutige Sitzung? Ihr Feedback hilft uns, die App an Sie anzupassen.",
-  "privacyNotice": "Beim Absenden werden Ihre Antworten auf dieser Seite zusammen mit einer zufällig erzeugten, nicht mit Ihrem Namen verknüpften Kennung, der genutzten App-Version, Sprache, dem Design sowie Ihren aktivierten Komfort-Einstellungen an einen Server übertragen und ausschließlich für die Auswertung dieser Abschlussarbeit gespeichert. Es werden keine Namen, keine Kontaktdaten und keine Inhalte Ihrer Übungen übermittelt.",
+  "privacyNotice": "Beim Absenden werden Ihre Antworten auf dieser Seite zusammen mit einer zufällig erzeugten Kennung, der genutzten App-Version, der Sprache, dem Farbthema und Ihren aktiven Komfort-Einstellungen an einen Server in der EU übertragen. Sie werden nur für die Auswertung dieser Masterarbeit gespeichert. Namen, Kontaktdaten und Inhalte Ihrer Übungen werden nicht übermittelt.",
+  "privacyNoticeBlock2Addendum": "Dazu gehören auf dieser Seite auch Ihre Angaben zur Person.",
   "nasaTitle": "Arbeitsbelastung (NASA-TLX)",
-  "low": "Niedrig",
-  "high": "Hoch",
+  "low": "Sehr gering",
+  "high": "Sehr hoch",
+  "performanceLow": "Perfekt",
+  "performanceHigh": "Misserfolg",
   "nasa": {
     "mental": "Geistige Anforderung",
-    "mentalDesc": "Wie viel geistige Anstrengung war erforderlich?",
+    "mentalDesc": "Wie geistig anspruchsvoll war die Aufgabe?",
     "physical": "Körperliche Anforderung",
-    "physicalDesc": "Wie viel körperliche Anstrengung war erforderlich?",
+    "physicalDesc": "Wie körperlich anspruchsvoll war die Aufgabe?",
     "temporal": "Zeitliche Anforderung",
-    "temporalDesc": "Wie viel Zeitdruck haben Sie empfunden?",
+    "temporalDesc": "Wie gehetzt oder hektisch war das Tempo der Aufgabe?",
     "performance": "Leistung",
-    "performanceDesc": "Wie erfolgreich waren Sie bei der Erfüllung der Aufgabe?",
+    "performanceDesc": "Wie erfolgreich haben Sie erledigt, was von Ihnen verlangt wurde?",
     "effort": "Anstrengung",
     "effortDesc": "Wie hart mussten Sie arbeiten, um Ihr Leistungsniveau zu erreichen?",
     "frustration": "Frustration",
-    "frustrationDesc": "Wie unsicher, entmutigt, gereizt oder gestresst waren Sie?"
+    "frustrationDesc": "Wie unsicher, entmutigt, gereizt, gestresst und verärgert waren Sie?"
   },
   "ueqTitle": "Benutzererfahrung (UEQ-Short)",
   "ueq": {
@@ -41,10 +44,51 @@
   "gamificationTitle": "Spielelemente",
   "gamification": {
     "gardenMotivation": "Das Wachsen meines Gartens hat mich motiviert, weiterzumachen.",
-    "badgeMotivation": "Die Erfolgsabzeichen haben mich zusätzlich motiviert.",
+    "badgeMotivation": "Die Abzeichen haben mich motiviert, weiterzumachen.",
     "distraction": "Die Spielelemente haben mich von den Übungen abgelenkt.",
-    "elementFeedbackLabel": "Was hat dir an Garten, Abzeichen oder Fortschrittsanzeige am meisten geholfen oder am meisten gestört? (optional)",
-    "elementFeedbackPlaceholder": "Deine Antwort..."
+    "elementFeedbackLabel": "Was hat Ihnen an Garten, Abzeichen oder Fortschrittsanzeige am meisten geholfen, und was hat Sie am meisten gestört? (optional)",
+    "elementFeedbackPlaceholder": "Ihre Antwort..."
+  },
+  "personalInfo": {
+    "heading": "Angaben zu Ihrer Person",
+    "intro": "Diese Angaben helfen bei der Auswertung. Bei jeder Frage können Sie „Keine Angabe“ wählen.",
+    "lrs": {
+      "question": "Haben Sie eine Lese-Rechtschreibstörung (LRS) oder Legasthenie?",
+      "options": {
+        "diagnosed": "Ja, mit Diagnose",
+        "suspected": "Ich vermute es, habe aber keine Diagnose",
+        "no": "Nein",
+        "no_answer": "Keine Angabe"
+      }
+    },
+    "slt": {
+      "question": "Arbeiten Sie in der Logopädie oder Sprachtherapie?",
+      "options": {
+        "yes": "Ja",
+        "training": "Ich bin in Ausbildung oder im Studium",
+        "no": "Nein",
+        "no_answer": "Keine Angabe"
+      }
+    },
+    "age": {
+      "question": "Wie alt sind Sie?",
+      "options": {
+        "18-29": "18 bis 29 Jahre",
+        "30-49": "30 bis 49 Jahre",
+        "50+": "50 Jahre oder älter",
+        "no_answer": "Keine Angabe"
+      }
+    },
+    "firstLanguage": {
+      "question": "Welche Sprache ist Ihre Erstsprache (Muttersprache)? Sie können mehrere wählen.",
+      "options": {
+        "de": "Deutsch",
+        "pl": "Polnisch",
+        "en": "Englisch",
+        "other": "Eine andere Sprache",
+        "no_answer": "Keine Angabe"
+      }
+    }
   },
   "rateAria": "{{value}} von {{max}} bewerten",
   "submit": "Feedback senden",

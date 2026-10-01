@@ -1,23 +1,26 @@
 {
   "title": "Chwila na refleksję",
   "desc": "Jak oceniasz dzisiejszą sesję? Twoja opinia pomaga nam dostosować aplikację do Ciebie.",
-  "privacyNotice": "Po wysłaniu formularza Twoje odpowiedzi z tej strony, wraz z losowo wygenerowanym identyfikatorem niepowiązanym z Twoim imieniem i nazwiskiem, użytą wersją aplikacji, językiem, motywem oraz aktywnymi ustawieniami ułatwień, zostaną przesłane na serwer i zapisane wyłącznie na potrzeby ewaluacji pracy magisterskiej. Nie są przesyłane żadne dane osobowe, kontaktowe ani treści Twoich ćwiczeń.",
+  "privacyNotice": "Po wysłaniu Twoje odpowiedzi z tej strony trafiają na serwer w UE razem z losowo utworzonym kodem, użytą wersją aplikacji, językiem, motywem kolorystycznym i włączonymi ustawieniami ułatwień. Są przechowywane wyłącznie na potrzeby analizy tej pracy magisterskiej. Nie są przesyłane imiona i nazwiska, dane kontaktowe ani treści Twoich ćwiczeń.",
+  "privacyNoticeBlock2Addendum": "Na tej stronie dotyczy to także informacji o Tobie.",
   "nasaTitle": "Obciążenie (NASA-TLX)",
-  "low": "Niski",
-  "high": "Wysoki",
+  "low": "Bardzo niski",
+  "high": "Bardzo wysoki",
+  "performanceLow": "Doskonale",
+  "performanceHigh": "Niepowodzenie",
   "nasa": {
-    "mental": "Wysiłek umysłowy",
-    "mentalDesc": "Jak dużo aktywności umysłowej wymagało zadanie?",
-    "physical": "Wysiłek fizyczny",
-    "physicalDesc": "Jak dużo aktywności fizycznej wymagało zadanie?",
+    "mental": "Wymagania umysłowe",
+    "mentalDesc": "Jak bardzo zadanie było wymagające umysłowo?",
+    "physical": "Wymagania fizyczne",
+    "physicalDesc": "Jak bardzo zadanie było wymagające fizycznie?",
     "temporal": "Wymagania czasowe",
-    "temporalDesc": "Jak bardzo odczuwalna była presja czasu?",
-    "performance": "Wydajność",
-    "performanceDesc": "Jak udane było według Ciebie wykonanie tego zadania?",
-    "effort": "Wysiłek ogólny",
-    "effortDesc": "Jak ciężko trzeba było pracować, aby osiągnąć ten poziom wydajności?",
-    "frustration": "Poziom frustracji",
-    "frustrationDesc": "Jak bardzo byłeś irytowany, zestresowany lub zniechęcony?"
+    "temporalDesc": "Jak bardzo pospieszne lub gorączkowe było tempo pracy nad zadaniem?",
+    "performance": "Skuteczność",
+    "performanceDesc": "Na ile udało Ci się zrobić to, o co Cię poproszono?",
+    "effort": "Wysiłek",
+    "effortDesc": "Jak ciężko trzeba było pracować, aby osiągnąć Twój wynik?",
+    "frustration": "Frustracja",
+    "frustrationDesc": "Jak silne było Twoje poczucie niepewności, zniechęcenia, rozdrażnienia, stresu i zdenerwowania?"
   },
   "ueqTitle": "Twoje wrażenia (UEQ-Short)",
   "ueq": {
@@ -40,11 +43,52 @@
   },
   "gamificationTitle": "Elementy grywalizacji",
   "gamification": {
-    "gardenMotivation": "Rosnący ogród motywował mnie do dalszej pracy.",
-    "badgeMotivation": "Odznaki za osiągnięcia dodatkowo mnie motywowały.",
-    "distraction": "Elementy grywalizacji rozpraszały mnie podczas ćwiczeń.",
+    "gardenMotivation": "Rosnący ogród motywował mnie do dalszych ćwiczeń.",
+    "badgeMotivation": "Odznaki motywowały mnie do dalszych ćwiczeń.",
+    "distraction": "Elementy gry rozpraszały mnie podczas ćwiczeń.",
     "elementFeedbackLabel": "Co w ogrodzie, odznakach lub wskaźniku postępu pomogło Ci najbardziej, a co najbardziej przeszkadzało? (opcjonalnie)",
     "elementFeedbackPlaceholder": "Twoja odpowiedź..."
+  },
+  "personalInfo": {
+    "heading": "Kilka informacji o Tobie",
+    "intro": "Te informacje pomogą w analizie wyników. Przy każdym pytaniu możesz wybrać „Wolę nie odpowiadać”.",
+    "lrs": {
+      "question": "Czy masz dysleksję (specyficzne trudności w czytaniu i pisaniu)?",
+      "options": {
+        "diagnosed": "Tak, mam diagnozę",
+        "suspected": "Myślę, że tak, ale nie mam diagnozy",
+        "no": "Nie",
+        "no_answer": "Wolę nie odpowiadać"
+      }
+    },
+    "slt": {
+      "question": "Czy zajmujesz się zawodowo logopedią?",
+      "options": {
+        "yes": "Tak",
+        "training": "Uczę się lub studiuję logopedię",
+        "no": "Nie",
+        "no_answer": "Wolę nie odpowiadać"
+      }
+    },
+    "age": {
+      "question": "Ile masz lat?",
+      "options": {
+        "18-29": "18–29 lat",
+        "30-49": "30–49 lat",
+        "50+": "50 lat lub więcej",
+        "no_answer": "Wolę nie odpowiadać"
+      }
+    },
+    "firstLanguage": {
+      "question": "Jaki jest Twój pierwszy język (język ojczysty)? Możesz wybrać więcej niż jeden.",
+      "options": {
+        "de": "Niemiecki",
+        "pl": "Polski",
+        "en": "Angielski",
+        "other": "Inny język",
+        "no_answer": "Wolę nie odpowiadać"
+      }
+    }
   },
   "rateAria": "Oceń {{value}} na {{max}}",
   "submit": "Zapisz i kontynuuj",

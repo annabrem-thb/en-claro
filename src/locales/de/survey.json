@@ -1,7 +1,7 @@
 {
   "susTitle": "System Usability Scale (SUS)",
   "susAnchors": {
-    "stronglyDisagree": "Stimme gar nicht zu",
+    "stronglyDisagree": "Stimme überhaupt nicht zu",
     "stronglyAgree": "Stimme voll zu"
   },
   "sus": {
@@ -11,7 +11,7 @@
     "q04": "Ich glaube, ich würde die Hilfe einer technisch versierten Person benötigen, um das System benutzen zu können.",
     "q05": "Ich fand, die verschiedenen Funktionen in diesem System waren gut integriert.",
     "q06": "Ich denke, das System enthielt zu viele Inkonsistenzen.",
-    "q07": "Ich kann mir vorstellen, dass die meisten Leute den Umgang mit diesem System sehr schnell erlernen.",
+    "q07": "Ich kann mir vorstellen, dass die meisten Menschen den Umgang mit diesem System sehr schnell lernen.",
     "q08": "Ich fand das System sehr umständlich zu nutzen.",
     "q09": "Ich fühlte mich bei der Benutzung des Systems sehr sicher.",
     "q10": "Ich musste eine Menge lernen, bevor ich anfangen konnte, das System zu verwenden."
