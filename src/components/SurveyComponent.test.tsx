@@ -53,13 +53,17 @@ const NASA_IDS = [
   'effort',
   'frustration',
 ];
-const SUS_IDS = Array.from({ length: 10 }, (_, i) =>
-  `sus${String(i + 1).padStart(2, '0')}`,
+const SUS_IDS = Array.from(
+  { length: 10 },
+  (_, i) => `sus${String(i + 1).padStart(2, '0')}`,
 );
 const UEQ_IDS = Array.from({ length: 8 }, (_, i) => `ueq0${i + 1}`);
+const ENGAGEMENT_IDS = ['concentration', 'perseverance'];
 
 function slider(container: HTMLElement, id: string) {
-  return container.querySelector<HTMLInputElement>(`input[type="range"][name="${id}"]`)!;
+  return container.querySelector<HTMLInputElement>(
+    `input[type="range"][name="${id}"]`,
+  )!;
 }
 
 function answerAllRatings(container: HTMLElement, ids: string[]) {
@@ -121,7 +125,9 @@ describe('SurveyComponent: no pre-filled answers, required items', () => {
       'true',
     );
     const groups = container.querySelectorAll('[role="radiogroup"]');
-    expect(groups).toHaveLength(SUS_IDS.length + UEQ_IDS.length);
+    expect(groups).toHaveLength(
+      SUS_IDS.length + ENGAGEMENT_IDS.length + UEQ_IDS.length,
+    );
     groups.forEach((group) => {
       expect(group.getAttribute('aria-invalid')).toBe('true');
       const errorId = group.getAttribute('aria-describedby')!;
@@ -161,13 +167,14 @@ describe('SurveyComponent: no pre-filled answers, required items', () => {
     for (const id of NASA_IDS) {
       fireEvent.change(slider(container, id), { target: { value: '0' } });
     }
-    answerAllRatings(container, [...SUS_IDS, ...UEQ_IDS]);
+    answerAllRatings(container, [...SUS_IDS, ...ENGAGEMENT_IDS, ...UEQ_IDS]);
     submit(container);
 
     await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
     const body = JSON.parse(fetchMock.mock.calls[0][1].body);
     for (const id of NASA_IDS) expect(body[id]).toBe(0);
-    for (const id of [...SUS_IDS, ...UEQ_IDS]) expect(body[id]).toBe(1);
+    for (const id of [...SUS_IDS, ...ENGAGEMENT_IDS, ...UEQ_IDS])
+      expect(body[id]).toBe(1);
     expect(body.appVersion).toBe('basis');
     // Basis condition: no gamification items in the payload.
     expect(body.gardenMotivation).toBeUndefined();
@@ -180,7 +187,7 @@ describe('SurveyComponent: no pre-filled answers, required items', () => {
     for (const id of NASA_IDS) {
       fireEvent.change(slider(container, id), { target: { value: '10' } });
     }
-    answerAllRatings(container, [...SUS_IDS, ...UEQ_IDS]);
+    answerAllRatings(container, [...SUS_IDS, ...ENGAGEMENT_IDS, ...UEQ_IDS]);
     submit(container);
 
     expect(fetchMock).not.toHaveBeenCalled();

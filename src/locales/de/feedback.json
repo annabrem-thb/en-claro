@@ -22,6 +22,11 @@
     "frustration": "Frustration",
     "frustrationDesc": "Wie unsicher, entmutigt, gereizt, gestresst und verärgert waren Sie?"
   },
+  "engagementTitle": "Konzentration und Durchhaltevermögen",
+  "engagement": {
+    "concentration": "Während dieser Übungen fiel es mir leicht, mich zu konzentrieren.",
+    "perseverance": "Ich wollte mit diesen Übungen weitermachen, auch wenn sie schwierig waren."
+  },
   "ueqTitle": "Benutzererfahrung (UEQ-Short)",
   "ueq": {
     "obstructive": "Behindernd",

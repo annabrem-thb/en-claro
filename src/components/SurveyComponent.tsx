@@ -6,6 +6,7 @@ import {
   NasaTlxPayload,
   SusPayload,
   UeqPayload,
+  EngagementPayload,
   GamificationFeedbackPayload,
   PersonalInfoPayload,
   AppVersion,
@@ -52,13 +53,17 @@ type GamificationAnswers = Answers<
 // empty array, not null — "no answer yet" and "chose nothing" would
 // otherwise be indistinguishable from "chose no_answer" for the missingIds
 // check below.
-type PersonalInfoAnswers = Omit<Answers<PersonalInfoPayload>, 'firstLanguage'> & {
+type PersonalInfoAnswers = Omit<
+  Answers<PersonalInfoPayload>,
+  'firstLanguage'
+> & {
   firstLanguage: PersonalInfoPayload['firstLanguage'];
 };
 
 type SurveyDraft = {
   nasaScores: Answers<NasaTlxPayload>;
   susScores: Answers<SusPayload>;
+  engagementScores: Answers<EngagementPayload>;
   ueqScores: Answers<UeqPayload>;
   gamificationFeedback: GamificationAnswers;
   personalInfo: PersonalInfoAnswers;
@@ -182,6 +187,18 @@ const SUS_SCALES: Array<{ id: keyof SusPayload; label: string }> = [
   { id: 'sus09', label: 'survey.sus.q09' },
   { id: 'sus10', label: 'survey.sus.q10' },
 ];
+
+// Asked for every session regardless of condition (unlike GAMIFICATION_
+// SCALES below, which only applies to a gamified session) — these two
+// items only answer "does gamification affect concentration/perseverance"
+// if the same question is asked in both the classic and the gamified
+// block, giving a same-participant pair to compare rather than a
+// gamified-only score with nothing to set it against.
+const ENGAGEMENT_SCALES: Array<{ id: keyof EngagementPayload; label: string }> =
+  [
+    { id: 'concentration', label: 'feedback.engagement.concentration' },
+    { id: 'perseverance', label: 'feedback.engagement.perseverance' },
+  ];
 
 // Standard UEQ-S item order: the first 4 pairs load onto the pragmatic
 // quality factor, the last 4 onto hedonic quality.
@@ -386,6 +403,16 @@ export const SurveyComponent: React.FC<{
       },
   );
 
+  const [engagementScores, setEngagementScores] = useState<
+    Answers<EngagementPayload>
+  >(
+    () =>
+      readSurveyDraft(checkpointId)?.engagementScores ?? {
+        concentration: null,
+        perseverance: null,
+      },
+  );
+
   const [ueqScores, setUeqScores] = useState<Answers<UeqPayload>>(
     () =>
       readSurveyDraft(checkpointId)?.ueqScores ?? {
@@ -429,6 +456,7 @@ export const SurveyComponent: React.FC<{
     writeSurveyDraft(checkpointId, {
       nasaScores,
       susScores,
+      engagementScores,
       ueqScores,
       gamificationFeedback,
       personalInfo,
@@ -437,6 +465,7 @@ export const SurveyComponent: React.FC<{
     checkpointId,
     nasaScores,
     susScores,
+    engagementScores,
     ueqScores,
     gamificationFeedback,
     personalInfo,
@@ -465,6 +494,7 @@ export const SurveyComponent: React.FC<{
   const missingIds: string[] = [
     ...NASA_SCALES.filter((scale) => nasaScores[scale.id] === null),
     ...SUS_SCALES.filter((scale) => susScores[scale.id] === null),
+    ...ENGAGEMENT_SCALES.filter((scale) => engagementScores[scale.id] === null),
     ...UEQ_SCALES.filter((scale) => ueqScores[scale.id] === null),
     ...(isGamified
       ? GAMIFICATION_SCALES.filter(
@@ -592,6 +622,13 @@ export const SurveyComponent: React.FC<{
     setUeqScores((prev) => ({ ...prev, [id]: value }));
   };
 
+  const handleEngagementChange = (
+    id: keyof EngagementPayload,
+    value: number,
+  ) => {
+    setEngagementScores((prev) => ({ ...prev, [id]: value }));
+  };
+
   const handleGamificationChange = (
     id: 'gardenMotivation' | 'badgeMotivation' | 'gameDistraction',
     value: number,
@@ -669,7 +706,8 @@ export const SurveyComponent: React.FC<{
         // spacing preset); now that both are continuous sliders, "active"
         // is approximated as "moved above its own default minimum" rather
         // than a specific position.
-        Niedowidzenie: settings.fontSizeUi > 16 || settings.fontSizeExercise > 16,
+        Niedowidzenie:
+          settings.fontSizeUi > 16 || settings.fontSizeExercise > 16,
         Daltonizm: settings.color,
         Redukcja: settings.motion,
         Linijka: settings.ruler,
@@ -703,17 +741,18 @@ export const SurveyComponent: React.FC<{
         consentGiven,
         ...(nasaScores as NasaTlxPayload),
         ...(susScores as SusPayload),
+        ...(engagementScores as EngagementPayload),
         ...(ueqScores as UeqPayload),
         // Only meaningful for the gamified condition — a basis-version
         // session never shows these elements, so they're left out of the
         // payload entirely rather than submitted as a meaningless score.
-        ...(isGamified ? (gamificationFeedback as GamificationFeedbackPayload) : {}),
+        ...(isGamified
+          ? (gamificationFeedback as GamificationFeedbackPayload)
+          : {}),
         // Only meaningful on the questionnaire that closes block 2 (see
         // isPersonalInfoBlock above) — left out entirely for block 1 or a
         // manually opened survey, the same reasoning as gamification above.
-        ...(isPersonalInfoBlock
-          ? (personalInfo as PersonalInfoPayload)
-          : {}),
+        ...(isPersonalInfoBlock ? (personalInfo as PersonalInfoPayload) : {}),
         participantId,
         appVersion,
         ...(variantOrder ? { variantOrder } : {}),
@@ -1037,7 +1076,102 @@ export const SurveyComponent: React.FC<{
                           handleSusChange(scale.id, val);
                           announce(`${t(scale.label)}, ${val}`);
                         }}
-                        className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 checked:border-transparent checked:bg-indigo-500 group-hover:border-indigo-400 focus-visible:ring-indigo-100'}`}
+                        className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus-visible:ring-indigo-100'}`}
+                        aria-label={t('feedback.rateAria', {
+                          value: val,
+                          max: 5,
+                          defaultValue: `Rate ${val} out of 5`,
+                        })}
+                      />
+                    </label>
+                  ))}
+                </div>
+
+                <div className="flex w-full items-start justify-between gap-2">
+                  <span
+                    className={`min-w-0 flex-1 text-center text-[10px] leading-tight font-bold sm:text-xs ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}
+                  >
+                    <BionicText
+                      text={t(
+                        'survey.susAnchors.stronglyDisagree',
+                        'Strongly Disagree',
+                      )}
+                      enabled={hasBionic}
+                    />
+                  </span>
+                  <span
+                    className={`min-w-0 flex-1 text-center text-[10px] leading-tight font-bold sm:text-xs ${isHighContrast ? 'text-white/70' : 'text-slate-400'}`}
+                  >
+                    <BionicText
+                      text={t(
+                        'survey.susAnchors.stronglyAgree',
+                        'Strongly Agree',
+                      )}
+                      enabled={hasBionic}
+                    />
+                  </span>
+                </div>
+              </div>
+              {renderItemError(scale.id)}
+            </div>
+          ))}
+        </div>
+      </fieldset>
+
+      {}
+      {/* Asked every time, unlike the gamification fieldset further below —
+          only a value present in both the classic and the gamified block
+          lets concentration/perseverance actually be compared between
+          conditions (see ENGAGEMENT_SCALES above). Same card/radio markup
+          as the SUS fieldset above, including its stronglyDisagree/
+          stronglyAgree anchors, for a consistent 5-point Likert look. */}
+      <fieldset className="flex min-w-0 flex-col gap-4">
+        <legend
+          className={`mb-4 w-full border-b pb-2 text-lg font-black tracking-widest uppercase ${isHighContrast ? 'border-white/30 text-white' : 'text-slate-400'}`}
+        >
+          <BionicText
+            text={t('feedback.engagementTitle')}
+            enabled={hasBionic}
+          />
+        </legend>
+        <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
+          {ENGAGEMENT_SCALES.map((scale) => (
+            <div
+              key={scale.id}
+              className={`flex flex-col gap-3 rounded-2xl border p-4 ${cardTone(isMissing(scale.id))}`}
+            >
+              <label
+                id={`label-${scale.id}`}
+                className={`block text-sm leading-snug font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
+              >
+                <BionicText text={t(scale.label)} enabled={hasBionic} />
+              </label>
+
+              <div className="mt-2 flex flex-col items-center gap-3">
+                <div
+                  className="flex flex-wrap items-center justify-center gap-3 md:gap-4"
+                  role="radiogroup"
+                  aria-labelledby={`label-${scale.id}`}
+                  aria-required="true"
+                  aria-invalid={isMissing(scale.id) || undefined}
+                  aria-describedby={errorIdsFor(scale.id)}
+                >
+                  {[1, 2, 3, 4, 5].map((val) => (
+                    <label
+                      key={`${scale.id}-${val}`}
+                      className="group relative flex cursor-pointer flex-col items-center p-1"
+                    >
+                      <span className="sr-only">{val}</span>
+                      <input
+                        type="radio"
+                        name={scale.id}
+                        value={val}
+                        checked={engagementScores[scale.id] === val}
+                        onChange={() => {
+                          handleEngagementChange(scale.id, val);
+                          announce(`${t(scale.label)}, ${val}`);
+                        }}
+                        className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus-visible:ring-indigo-100'}`}
                         aria-label={t('feedback.rateAria', {
                           value: val,
                           max: 5,
@@ -1133,7 +1267,7 @@ export const SurveyComponent: React.FC<{
                           `${t(scale.negLabel)} – ${t(scale.posLabel)}, ${val}`,
                         );
                       }}
-                      className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 checked:border-transparent checked:bg-indigo-500 group-hover:border-indigo-400 focus-visible:ring-indigo-100'}`}
+                      className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus-visible:ring-indigo-100'}`}
                       aria-label={t('feedback.rateAria', {
                         value: val,
                         max: 7,
@@ -1202,7 +1336,7 @@ export const SurveyComponent: React.FC<{
                             handleGamificationChange(scale.id, val);
                             announce(`${t(scale.label)}, ${val}`);
                           }}
-                          className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 checked:border-transparent checked:bg-indigo-500 group-hover:border-indigo-400 focus-visible:ring-indigo-100'}`}
+                          className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus-visible:ring-indigo-100'}`}
                           aria-label={t('feedback.rateAria', {
                             value: val,
                             max: 5,
@@ -1268,7 +1402,7 @@ export const SurveyComponent: React.FC<{
                 placeholder={t(
                   'feedback.gamification.elementFeedbackPlaceholder',
                 )}
-                className={`w-full resize-none rounded-xl border p-3 text-sm focus:ring-4 focus:outline-none ${isHighContrast ? 'border-white/50 bg-black text-white focus:ring-white/30 placeholder:text-white/50' : 'border-slate-200 bg-white text-slate-700 focus:ring-indigo-100'}`}
+                className={`w-full resize-none rounded-xl border p-3 text-sm focus:ring-4 focus:outline-none ${isHighContrast ? 'border-white/50 bg-black text-white placeholder:text-white/50 focus:ring-white/30' : 'border-slate-200 bg-white text-slate-700 focus:ring-indigo-100'}`}
               />
             </div>
           </div>

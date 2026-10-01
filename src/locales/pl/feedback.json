@@ -22,6 +22,11 @@
     "frustration": "Frustracja",
     "frustrationDesc": "Jak silne było Twoje poczucie niepewności, zniechęcenia, rozdrażnienia, stresu i zdenerwowania?"
   },
+  "engagementTitle": "Koncentracja i wytrwałość",
+  "engagement": {
+    "concentration": "Podczas tych ćwiczeń łatwo było mi się skoncentrować.",
+    "perseverance": "Chciałam/chciałem kontynuować te ćwiczenia, nawet gdy były trudne."
+  },
   "ueqTitle": "Twoje wrażenia (UEQ-Short)",
   "ueq": {
     "obstructive": "Przeszkadzający",

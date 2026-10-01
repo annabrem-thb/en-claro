@@ -67,6 +67,13 @@ CREATE TABLE IF NOT EXISTS public.ab_study_submissions (
     ueq_q05 SMALLINT, ueq_q06 SMALLINT,
     ueq_q07 SMALLINT, ueq_q08 SMALLINT,
 
+    -- Concentration / perseverance (1-5), asked every session regardless
+    -- of condition so classic vs. gamified can be compared on them —
+    -- unlike the gamification-element feedback below, which only applies
+    -- to a gamified session.
+    concentration SMALLINT,
+    perseverance SMALLINT,
+
     -- Gamification-element feedback (1-5; NULL for a 'basic' submission,
     -- since these elements don't exist in that condition)
     garden_motivation SMALLINT,
@@ -118,6 +125,16 @@ CREATE TABLE IF NOT EXISTS public.ab_study_submissions (
 --   add column if not exists age_group text
 --     check (age_group in ('18-29', '30-49', '50+', 'no_answer')),
 --   add column if not exists first_language text;
+--
+-- notify pgrst, 'reload schema';
+
+-- Migration for a database created before concentration/perseverance
+-- existed: run this once in the Supabase SQL editor before deploying the
+-- submit-survey function version that writes these columns, for the same
+-- PostgREST reason as the migrations above.
+-- alter table public.ab_study_submissions
+--   add column if not exists concentration smallint,
+--   add column if not exists perseverance smallint;
 --
 -- notify pgrst, 'reload schema';
 
