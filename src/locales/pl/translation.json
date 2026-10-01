@@ -445,6 +445,23 @@
     "currentVariantClassic": "Aktualny tryb: Tylko nauka",
     "currentVariantGamified": "Aktualny tryb: Gra (nagrody)"
   },
+  "studyConsent": {
+    "heading": "Udział w badaniu",
+    "points": [
+      "To badanie jest częścią pracy magisterskiej na uczelni Technische Hochschule Brandenburg.",
+      "Wykonasz ćwiczenia w dwóch wersjach aplikacji EnClaro i po każdej z nich odpowiesz na kilka pytań. Zajmie to około 10 minut.",
+      "Udział jest dobrowolny. Możesz przerwać w każdej chwili.",
+      "Twoje imię, nazwisko i dane kontaktowe nie są zbierane.",
+      "Na końcu pojawią się cztery krótkie pytania: czy masz dysleksję, czy zajmujesz się zawodowo logopedią, o Twoją grupę wiekową i o Twój pierwszy język. Przy każdym możesz wybrać „Wolę nie odpowiadać”.",
+      "Twoje odpowiedzi są zapisywane z losowym kodem na serwerze w UE i analizowane wyłącznie na potrzeby tej pracy magisterskiej. Zostaną usunięte po zakończeniu postępowania egzaminacyjnego.",
+      "Ponieważ odpowiedzi nie da się przypisać do konkretnej osoby, pojedynczych zgłoszeń nie można później usunąć.",
+      "Jeśli w ćwiczeniu użyjesz wprowadzania głosowego, przeglądarka może, zależnie od producenta, wysłać nagranie do usługi internetowej w celu rozpoznania mowy. Takie ćwiczenia możesz pominąć."
+    ],
+    "checkbox1": "Mam ukończone 18 lat.",
+    "checkbox2": "Rozumiem powyższe informacje i zgadzam się na zapisanie i analizę moich odpowiedzi w opisany sposób, także informacji o dysleksji.",
+    "startButton": "Rozpocznij badanie",
+    "error": "Aby rozpocząć, zaznacz oba pola."
+  },
   "pillarIcons": {
     "Literacy": "📖",
     "Visual": "👁️",

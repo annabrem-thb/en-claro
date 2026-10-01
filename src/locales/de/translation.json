@@ -444,6 +444,23 @@
     "currentVariantClassic": "Aktueller Modus: Nur Lernen",
     "currentVariantGamified": "Aktueller Modus: Spiel (Belohnungen)"
   },
+  "studyConsent": {
+    "heading": "Teilnahme an der Studie",
+    "points": [
+      "Diese Studie gehört zu einer Masterarbeit an der Technischen Hochschule Brandenburg.",
+      "Sie üben mit zwei Versionen der App EnClaro und beantworten nach jeder Version einige Fragen. Das dauert etwa 10 Minuten.",
+      "Die Teilnahme ist freiwillig. Sie können jederzeit aufhören.",
+      "Ihr Name und Ihre Kontaktdaten werden nicht erfasst.",
+      "Am Ende folgen vier kurze Fragen: ob Sie eine Lese-Rechtschreibstörung (LRS) haben, ob Sie in der Logopädie arbeiten, zu Ihrer Altersgruppe und zu Ihrer Erstsprache. Sie können jedes Mal „Keine Angabe“ wählen.",
+      "Ihre Antworten werden mit einer zufälligen Kennung auf einem Server in der EU gespeichert und nur für diese Masterarbeit ausgewertet. Nach Abschluss des Prüfungsverfahrens werden sie gelöscht.",
+      "Weil sich die Antworten keiner Person zuordnen lassen, können einzelne Einsendungen später nicht gelöscht werden.",
+      "Wenn Sie in einer Übung die Spracheingabe nutzen, kann Ihr Browser die Aufnahme je nach Hersteller zur Erkennung an einen Online-Dienst senden. Solche Übungen können Sie überspringen."
+    ],
+    "checkbox1": "Ich bin mindestens 18 Jahre alt.",
+    "checkbox2": "Ich habe die Informationen gelesen und bin einverstanden, dass meine Antworten wie beschrieben gespeichert und ausgewertet werden, auch die Angabe zu einer LRS.",
+    "startButton": "Studie starten",
+    "error": "Bitte bestätigen Sie beide Punkte, um zu starten."
+  },
   "pillarIcons": {
     "Literacy": "📖",
     "Visual": "👁️",
