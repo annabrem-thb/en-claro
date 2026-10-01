@@ -1371,7 +1371,10 @@ export const SurveyComponent: React.FC<{
             <div
               role="group"
               aria-labelledby="label-firstLanguage"
-              aria-required="true"
+              // aria-required is not an allowed attribute on role="group"
+              // (unlike radiogroup above) — required-ness is still
+              // communicated via aria-invalid plus the visible/announced
+              // error message (renderItemError) once missing.
               aria-invalid={isMissing('firstLanguage') || undefined}
               aria-describedby={errorIdsFor('firstLanguage')}
               className="grid grid-cols-1 gap-2 sm:grid-cols-2"
