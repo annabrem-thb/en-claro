@@ -51,6 +51,8 @@ const generateCSV = (submissions) => {
     'id',
     'created_at',
     'app_version',
+    'questionnaire_version',
+    'consent_given',
     'participant_id',
     'user_language',
     'mentalDemand',
@@ -69,12 +71,18 @@ const generateCSV = (submissions) => {
     'sus_q08',
     'sus_q09',
     'sus_q10',
+    'lrs_status',
+    'slt_role',
+    'age_group',
+    'first_language',
   ];
   const csvRows = submissions.map((sub) =>
     [
       sub.id,
       new Date(sub.created_at).toISOString(),
       sub.app_version || '',
+      sub.questionnaire_version || '',
+      sub.consent_given ?? '',
       sub.participant_id || '',
       sub.user_language || '',
       sub.mental_demand ?? '',
@@ -93,6 +101,14 @@ const generateCSV = (submissions) => {
       sub.sus_q08 ?? '',
       sub.sus_q09 ?? '',
       sub.sus_q10 ?? '',
+      sub.lrs_status || '',
+      sub.slt_role || '',
+      sub.age_group || '',
+      // Stored as a JSON array (e.g. '["de","pl"]') — quoted so its internal
+      // commas don't get mistaken for column separators in this otherwise
+      // unescaped CSV; every other column here is a plain number or a
+      // comma-free string, so none of them need this.
+      `"${(sub.first_language || '').replace(/"/g, '""')}"`,
     ].join(','),
   );
   return [headers.join(','), ...csvRows].join('\n');

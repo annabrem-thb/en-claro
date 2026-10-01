@@ -11,7 +11,17 @@ CREATE TABLE IF NOT EXISTS public.ab_study_submissions (
     participant_id TEXT,
     user_language TEXT,
     local_timestamp TIMESTAMPTZ,
-    
+
+    -- Which wording/fields this row was collected under (see
+    -- QUESTIONNAIRE_VERSIONS in netlify/functions/submit-survey/index.js)
+    -- and whether the participant confirmed StudyConsentScreen.jsx — the
+    -- function rejects any submission with consent_given not true, so this
+    -- is effectively NOT NULL in practice, but left nullable here rather
+    -- than enforced with a DB-level NOT NULL so a schema mismatch surfaces
+    -- as a clear validation error, not an opaque insert failure.
+    questionnaire_version TEXT,
+    consent_given BOOLEAN,
+
     -- App Settings & Configuration Context
     theme TEXT,
     a11y_addons TEXT,
@@ -23,7 +33,19 @@ CREATE TABLE IF NOT EXISTS public.ab_study_submissions (
     -- guided block (e.g. via the nav button).
     variant_order TEXT,   -- 'classicFirst' | 'gamifiedFirst': condition of block 1
     block SMALLINT,       -- 1 | 2: which guided block this survey closes
-    
+
+    -- "Angaben zur Person" — only ever asked once, on the questionnaire that
+    -- closes block 2 (SurveyComponent.tsx's isPersonalInfoBlock); NULL for
+    -- every other submission, enforced independently by both the client and
+    -- buildDbData in netlify/functions/submit-survey/index.js.
+    lrs_status TEXT
+        CHECK (lrs_status IN ('diagnosed', 'suspected', 'no', 'no_answer')),
+    slt_role TEXT
+        CHECK (slt_role IN ('yes', 'training', 'no', 'no_answer')),
+    age_group TEXT
+        CHECK (age_group IN ('18-29', '30-49', '50+', 'no_answer')),
+    first_language TEXT,  -- JSON array, e.g. '["de","pl"]' — same convention as a11y_addons
+
     -- NASA Raw TLX (0-100)
     mental_demand SMALLINT,
     physical_demand SMALLINT,
@@ -80,6 +102,24 @@ CREATE TABLE IF NOT EXISTS public.ab_study_submissions (
 -- ALTER TABLE public.ab_study_submissions
 --     ADD COLUMN IF NOT EXISTS variant_order TEXT,
 --     ADD COLUMN IF NOT EXISTS block SMALLINT;
+
+-- Migration for a database created before questionnaire_version 2 (consent
+-- screen + "Angaben zur Person"): run this once in the Supabase SQL editor
+-- before deploying the submit-survey function version that writes these
+-- columns, for the same PostgREST reason as the variant_order/block
+-- migration above.
+-- alter table public.ab_study_submissions
+--   add column if not exists questionnaire_version text,
+--   add column if not exists consent_given boolean,
+--   add column if not exists lrs_status text
+--     check (lrs_status in ('diagnosed', 'suspected', 'no', 'no_answer')),
+--   add column if not exists slt_role text
+--     check (slt_role in ('yes', 'training', 'no', 'no_answer')),
+--   add column if not exists age_group text
+--     check (age_group in ('18-29', '30-49', '50+', 'no_answer')),
+--   add column if not exists first_language text;
+--
+-- notify pgrst, 'reload schema';
 
 -- Optional cleanup for a database that already picked up study_group/
 -- study_phase from a since-reverted study-mode feature (useStudyMode.js —
