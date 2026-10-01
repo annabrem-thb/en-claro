@@ -18,6 +18,8 @@ const { buildDbData, validatePayload, handler } = require('./index.js');
 // see public/survey.ts).
 function makeClientPayload(overrides = {}) {
   return {
+    questionnaireVersion: 'v2',
+    consentGiven: true,
     mentalDemand: 70,
     physicalDemand: 20,
     temporalDemand: 55,
@@ -256,6 +258,58 @@ describe('submit-survey buildDbData', () => {
     expect(dbData.user_difficulty).toBe(2);
     expect(dbData.daily_goal).toBe(10);
   });
+
+  it('carries questionnaireVersion and consentGiven through under their db column names', () => {
+    const dbData = buildDbData(makeClientPayload());
+
+    expect(dbData.questionnaire_version).toBe('v2');
+    expect(dbData.consent_given).toBe(true);
+  });
+
+  it('carries "Angaben zur Person" through for the questionnaire closing block 2', () => {
+    const dbData = buildDbData(
+      makeClientPayload({
+        appVersion: 'basis',
+        variantOrder: 'classicFirst',
+        block: 2,
+        lrsStatus: 'diagnosed',
+        sltRole: 'no',
+        ageGroup: '30-49',
+        firstLanguage: ['de', 'pl'],
+      }),
+    );
+
+    expect(dbData.lrs_status).toBe('diagnosed');
+    expect(dbData.slt_role).toBe('no');
+    expect(dbData.age_group).toBe('30-49');
+    expect(JSON.parse(dbData.first_language)).toEqual(['de', 'pl']);
+  });
+
+  // "Angaben zur Person" is only ever asked once, on the questionnaire that
+  // closes block 2 — a block-1 checkpoint (or a client bug sending these
+  // fields outside block 2 — rejected by validatePayload before this ever
+  // runs) must not file a real-looking answer under the wrong block.
+  it('stores "Angaben zur Person" as NULL outside block 2, even if present in the payload', () => {
+    // validatePayload would reject this combination before buildDbData ever
+    // sees it in production — called directly here to prove buildDbData
+    // enforces the same rule on its own, not just by trusting the caller.
+    const dbData = buildDbData(
+      makeClientPayload({
+        appVersion: 'basis',
+        variantOrder: 'classicFirst',
+        block: 1,
+        lrsStatus: 'diagnosed',
+        sltRole: 'no',
+        ageGroup: '30-49',
+        firstLanguage: ['de'],
+      }),
+    );
+
+    expect(dbData.lrs_status).toBeNull();
+    expect(dbData.slt_role).toBeNull();
+    expect(dbData.age_group).toBeNull();
+    expect(dbData.first_language).toBeNull();
+  });
 });
 
 describe('submit-survey validatePayload', () => {
@@ -315,9 +369,12 @@ describe('submit-survey validatePayload', () => {
   });
 
   it('accepts a valid variantOrder and block', () => {
+    // block 2 requires "Angaben zur Person" since questionnaire_version v2
+    // (see the dedicated tests below) — block 1 keeps this test focused on
+    // variantOrder/block alone.
     expect(
       validatePayload(
-        makeClientPayload({ variantOrder: 'gamifiedFirst', block: 2 }),
+        makeClientPayload({ variantOrder: 'gamifiedFirst', block: 1 }),
       ),
     ).toBeNull();
   });
@@ -361,6 +418,109 @@ describe('submit-survey validatePayload', () => {
       makeClientPayload({ inclusiveOptions: ['zenMode'] }),
     );
     expect(error).toMatch(/inclusiveOptions/);
+  });
+
+  it('rejects a missing or unknown questionnaireVersion', () => {
+    expect(
+      validatePayload(makeClientPayload({ questionnaireVersion: undefined })),
+    ).toMatch(/questionnaireVersion/);
+    expect(
+      validatePayload(makeClientPayload({ questionnaireVersion: 'v1' })),
+    ).toMatch(/questionnaireVersion/);
+  });
+
+  it('rejects a submission without consent', () => {
+    expect(
+      validatePayload(makeClientPayload({ consentGiven: false })),
+    ).toMatch(/consentGiven/);
+    expect(
+      validatePayload(makeClientPayload({ consentGiven: undefined })),
+    ).toMatch(/consentGiven/);
+  });
+
+  it('accepts valid "Angaben zur Person" values on the questionnaire closing block 2', () => {
+    const error = validatePayload(
+      makeClientPayload({
+        variantOrder: 'classicFirst',
+        block: 2,
+        lrsStatus: 'suspected',
+        sltRole: 'training',
+        ageGroup: '18-29',
+        firstLanguage: ['en', 'other'],
+      }),
+    );
+    expect(error).toBeNull();
+  });
+
+  it('rejects an invalid value for any "Angaben zur Person" field', () => {
+    const base = {
+      variantOrder: 'classicFirst',
+      block: 2,
+      lrsStatus: 'diagnosed',
+      sltRole: 'no',
+      ageGroup: '30-49',
+      firstLanguage: ['de'],
+    };
+    expect(
+      validatePayload(makeClientPayload({ ...base, lrsStatus: 'maybe' })),
+    ).toMatch(/lrsStatus/);
+    expect(
+      validatePayload(makeClientPayload({ ...base, sltRole: 'sometimes' })),
+    ).toMatch(/sltRole/);
+    expect(
+      validatePayload(makeClientPayload({ ...base, ageGroup: '12-17' })),
+    ).toMatch(/ageGroup/);
+    expect(
+      validatePayload(
+        makeClientPayload({ ...base, firstLanguage: ['fr'] }),
+      ),
+    ).toMatch(/firstLanguage/);
+    expect(
+      validatePayload(
+        makeClientPayload({ ...base, firstLanguage: 'de' }),
+      ),
+    ).toMatch(/firstLanguage/);
+  });
+
+  // The server enforces this independently of the client's own
+  // isPersonalInfoBlock gate (SurveyComponent.tsx) — a stale or broken
+  // client sending these fields for block 1 is rejected, not silently
+  // accepted and nulled.
+  it('rejects "Angaben zur Person" fields sent outside block 2', () => {
+    const error = validatePayload(
+      makeClientPayload({
+        variantOrder: 'classicFirst',
+        block: 1,
+        lrsStatus: 'no',
+      }),
+    );
+    expect(error).toMatch(/only valid when block is 2/);
+  });
+
+  it('rejects an incomplete "Angaben zur Person" on the questionnaire closing block 2', () => {
+    const error = validatePayload(
+      makeClientPayload({
+        variantOrder: 'classicFirst',
+        block: 2,
+        lrsStatus: 'no',
+        // sltRole, ageGroup, firstLanguage missing
+      }),
+    );
+    expect(error).toMatch(/required when block is 2/);
+  });
+
+  it('rejects an empty firstLanguage array on the questionnaire closing block 2', () => {
+    const error = validatePayload(
+      makeClientPayload({
+        variantOrder: 'classicFirst',
+        block: 2,
+        lrsStatus: 'no',
+        sltRole: 'no',
+        ageGroup: '50+',
+        firstLanguage: [],
+      }),
+    );
+    expect(error).toMatch(/required when block is 2/);
   });
 });
 
