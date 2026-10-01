@@ -439,6 +439,23 @@
     "currentVariantClassic": "Current mode: Learning only",
     "currentVariantGamified": "Current mode: Game (rewards)"
   },
+  "studyConsent": {
+    "heading": "Taking part in the study",
+    "points": [
+      "This study is part of a master's thesis at the Technische Hochschule Brandenburg (Brandenburg University of Applied Sciences).",
+      "You will practise with two versions of the EnClaro app and answer a few questions after each version. This takes about 10 minutes.",
+      "Taking part is voluntary. You can stop at any time.",
+      "Your name and contact details are not collected.",
+      "At the end there are four short questions: whether you have dyslexia, whether you work in speech and language therapy, your age group and your first language. You can always choose “Prefer not to say”.",
+      "Your answers are stored with a random code on a server in the EU and are used only for this master's thesis. They will be deleted once the examination procedure is complete.",
+      "Because the answers cannot be linked to a person, individual submissions cannot be deleted later.",
+      "If you use voice input in an exercise, your browser may send the recording to an online service for recognition, depending on the browser. You can skip these exercises."
+    ],
+    "checkbox1": "I am at least 18 years old.",
+    "checkbox2": "I have read the information and agree that my answers, including the information about dyslexia, are stored and analysed as described.",
+    "startButton": "Start the study",
+    "error": "Please confirm both points to start."
+  },
   "pillarIcons": {
     "Literacy": "📖",
     "Visual": "👁️",
