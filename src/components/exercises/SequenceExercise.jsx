@@ -55,12 +55,18 @@ function SequenceExercise({
   };
 
   const [taskWords, setTaskWords] = useState(() =>
-    prepareWords(data.correct, data.id, data.scrambled),
+    prepareWords(data.correct, data.id, data.scrambled, data.distractors),
   );
 
   const currentId = data.id || data.correct;
   if (currentId !== prevId) {
-    setTaskWords(prepareWords(data.correct, currentId, data.scrambled));
+    setTaskWords(prepareWords(
+        data.correct,
+        currentId,
+        data.scrambled,
+        data.distractors,
+      ),
+    );
     setPrevId(currentId);
   }
 

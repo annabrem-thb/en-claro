@@ -322,7 +322,7 @@ function VisualCategorization({
                     disabled={isShowingCorrection}
                     className={`flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-bold shadow-sm transition-all focus:outline-none focus-visible:ring-4 focus-visible:ring-red-400 ${isShowingCorrection ? 'cursor-not-allowed opacity-70 grayscale' : isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'border border-slate-200 bg-white text-slate-700 hover:border-red-300 hover:bg-red-50'}`}
                     onClick={(e) => handleRemoveFromBucket(item.id, e)}
-                    aria-label={`Remove ${item.word}`}
+                    aria-label={`${t('delete') || 'Remove'}: ${item.word}`}
                   >
                     {item.word}{' '}
                     <span className="opacity-50" aria-hidden="true">

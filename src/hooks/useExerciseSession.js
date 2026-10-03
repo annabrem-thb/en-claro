@@ -407,6 +407,7 @@ export function useExerciseSession({
 
   const handleError = useCallback(() => {
     setErrorTimestamps((prev) => [...prev, Date.now()]);
+    setConsecutiveCorrect(0);
     const newErrorCounter = errorCounter + 1;
     setErrorCounter(newErrorCounter);
     if (
@@ -443,6 +444,7 @@ export function useExerciseSession({
     activeTab,
     currentTask,
     setErrorTimestamps,
+    setConsecutiveCorrect,
     setUserDifficulty,
   ]);
 

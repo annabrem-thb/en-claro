@@ -50,19 +50,11 @@ export function getDefaultActiveExercises() {
   return Object.fromEntries(ALL_EXERCISE_KEYS.map((key) => [key, true]));
 }
 
-// Exercise types kept in the codebase (components, data, per-user toggle)
-// but not offered in this build's session routing — a code-level gate that
-// wins regardless of the user's own activeExercises setting, unlike every
-// other key above. `tracking` routes to the spatial-tracking exercise,
-// `rhythm`/`rhythmMemory`/`melodyMemory` to the sound-timing/melody-recall
-// ones; none exercise phoneme/grapheme decoding, the skill this pillar set
-// is meant to practice.
-const EXCLUDED_FROM_STUDY = [
-  'tracking',
-  'rhythm',
-  'rhythmMemory',
-  'melodyMemory',
-];
+// Every toggleable type is selectable in free use. The sound/timing/spatial
+// types (`tracking`, `rhythm`, `rhythmMemory`, `melodyMemory`) do not exercise
+// phoneme/grapheme decoding, the skill the guided study targets, so they are
+// kept out of the study *plan* only (see EXCLUDED_FROM_STUDY_PLAN below).
+const EXCLUDED_FROM_STUDY = [];
 
 export const STUDY_EXERCISE_TYPES = new Set(
   ALL_EXERCISE_KEYS.filter((key) => !EXCLUDED_FROM_STUDY.includes(key)),
@@ -88,7 +80,14 @@ export const STUDY_EXERCISE_PILLARS = Object.fromEntries(
 // block requires, so items would repeat). They stay fully available in free
 // use — this only shapes what the study assigns; studySets.test.js fails if
 // a type left in the plan loses its Set-A/Set-B coverage.
-const EXCLUDED_FROM_STUDY_PLAN = ['comprehension', 'graphemePhoneme'];
+const EXCLUDED_FROM_STUDY_PLAN = [
+  'comprehension',
+  'graphemePhoneme',
+  'tracking',
+  'rhythm',
+  'rhythmMemory',
+  'melodyMemory',
+];
 
 export const STUDY_PLAN_EXERCISE_PILLARS = Object.fromEntries(
   Object.entries(STUDY_EXERCISE_PILLARS).map(([pillar, keys]) => [
