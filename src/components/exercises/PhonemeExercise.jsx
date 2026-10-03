@@ -221,7 +221,7 @@ function PhonemeExercise({
               : 'border-2 border-slate-200 bg-white text-slate-800 shadow-inner focus:border-indigo-400 focus:ring-indigo-100'
           }`}
           placeholder={t('typeHere') || '...'}
-          aria-label={t('speakTheWord')}
+          aria-label={t('typeHere') || 'Type here'}
           autoComplete="off"
           spellCheck="false"
         />
