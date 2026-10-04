@@ -45,7 +45,10 @@ test.describe('En-Claro - Pierwsze uruchomienie i ćwiczenie', () => {
     const buttons = page.locator(
       'section button:not(:has-text("🎤")):not(:has-text("🛑")):not(:has-text("🔊"))',
     );
-    await buttons.last().click({ force: true });
+    // dispatchEvent, not click({ force: true }): force skips actionability
+    // checks but still needs the point inside the viewport, which an
+    // answer button mid-animation on a small screen occasionally isn't.
+    await buttons.last().dispatchEvent('click');
 
     // Weryfikacja stabilności - brak błędu renderowania
     await expect(page.locator('body')).not.toContainText('Wystąpił błąd.');

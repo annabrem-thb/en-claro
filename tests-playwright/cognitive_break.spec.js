@@ -70,6 +70,7 @@ test.describe('En-Claro - Przerwy Kognitywne', () => {
       'button:has-text("Pomiń"), button:has-text("Skip")',
     );
     let breakShown = false;
+    let attempts = 0;
     // Time-boxed rather than a fixed iteration count: iterations that find
     // nothing to click (exercise still loading) return instantly, so a
     // count budget can be burned before the first answer is even rendered.
@@ -84,8 +85,14 @@ test.describe('En-Claro - Przerwy Kognitywne', () => {
           .first()
           .click({ force: true })
           .catch(() => {});
-        await page.waitForTimeout(2e3);
-        breakShown = await breakPrompt.isVisible().catch(() => false);
+        attempts++;
+        // useCognitiveLoad evaluates on a 5s interval that restarts on every
+        // new error, so once enough attempts could have been errors, stop
+        // clicking and wait out one full quiet interval for the prompt.
+        breakShown = await breakPrompt
+          .waitFor({ state: 'visible', timeout: attempts >= 4 ? 7000 : 1500 })
+          .then(() => true)
+          .catch(() => false);
       } else if (await skipBtn.isVisible().catch(() => false)) {
         await skipBtn.click().catch(() => {});
         await page.waitForTimeout(300);
