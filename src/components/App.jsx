@@ -1119,20 +1119,6 @@ function AppContent() {
                 </div>
               </section>
 
-              {settings.bionicReading && !settings.zenMode && (
-                <p
-                  className={`mt-2 shrink-0 text-center text-[9px] font-bold sm:text-[10px] md:mt-3 ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
-                >
-                  <BionicText
-                    text={
-                      t('bionicExplanation') ||
-                      'Bionic Reading® is a typographic method that supports the reading flow.'
-                    }
-                    enabled={!!settings.bionicReading}
-                  />
-                </p>
-              )}
-
               {feedback?.type === 'success' ? (
                 <div className="animate-in zoom-in mt-3 flex shrink-0 flex-col items-center justify-center pb-1 duration-300 md:mt-4 md:pb-2">
                   <button
