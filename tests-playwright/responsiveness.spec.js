@@ -202,13 +202,27 @@ test.describe('En-Claro - Testy Responsywności (RWD)', () => {
       }
     };
 
+    // Same time-bounded window applies between reveal and click, so retry
+    // them together instead of clicking a nav that may have just closed.
+    const revealNavAndClick = async (index) => {
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          await revealNav();
+          await navButtons.nth(index).click({ timeout: 2000 });
+          return;
+        } catch (err) {
+          if (attempt === 2) throw err;
+        }
+      }
+    };
+
     await revealNavAndExpectCurrent(0);
 
-    await navButtons.nth(1).click();
+    await revealNavAndClick(1);
     await revealNavAndExpectCurrent(1);
     await expect(navButtons.nth(0)).not.toHaveAttribute('aria-current');
 
-    await navButtons.nth(2).click();
+    await revealNavAndClick(2);
     await revealNavAndExpectCurrent(2);
   });
 });

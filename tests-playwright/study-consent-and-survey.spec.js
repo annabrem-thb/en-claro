@@ -60,6 +60,9 @@ for (const lang of ['de', 'en', 'pl']) {
     test(`consent screen, block 1 (gamified) and block 2 (classic) questionnaires submit the expected fields`, async ({
       page,
     }) => {
+      // ~50 radio/slider actions; takes ~25s locally on mobile, so the 30s
+      // default is too tight for slower CI runners.
+      test.setTimeout(120000);
       const getLastBody = await interceptSubmit(page);
 
       await page.goto('/');

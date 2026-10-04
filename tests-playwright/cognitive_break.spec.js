@@ -30,7 +30,7 @@ test.describe('En-Claro - Przerwy Kognitywne', () => {
   test('powinno wyświetlić powiadomienie "Czas na przerwę?" po wystąpieniu zmęczenia (serii błędów)', async ({
     page,
   }) => {
-    test.setTimeout(90000);
+    test.setTimeout(150000);
     await page.goto('/');
     await page.locator('text=/Weiter|Next|Dalej/i').click();
     await page.locator('text=/Tylko nauka|Study only/i').click();
@@ -58,6 +58,11 @@ test.describe('En-Claro - Przerwy Kognitywne', () => {
     const submitBtn = page.locator(
       'main button:has-text("Sprawdź"), main button:has-text("Check")',
     );
+    // Look-cover-write's first step has no submit button yet, only a
+    // "cover word" button next to a ▶️ resume control — not an answer either.
+    const coverBtn = page.locator(
+      'main button:has-text("Zakryj słowo"), main button:has-text("Cover word"), main button:has-text("Wort verdecken")',
+    );
     const answerButtons = page.locator(
       'main button:not(:has-text("🎤")):not(:has-text("🛑")):not(:has-text("🔊"))',
     );
@@ -65,8 +70,14 @@ test.describe('En-Claro - Przerwy Kognitywne', () => {
       'button:has-text("Pomiń"), button:has-text("Skip")',
     );
     let breakShown = false;
-    for (let i = 0; i < 30 && !breakShown; i++) {
-      const isBuildThenSubmit = await submitBtn.isVisible().catch(() => false);
+    // Time-boxed rather than a fixed iteration count: iterations that find
+    // nothing to click (exercise still loading) return instantly, so a
+    // count budget can be burned before the first answer is even rendered.
+    const deadline = Date.now() + 100_000;
+    while (Date.now() < deadline && !breakShown) {
+      const isBuildThenSubmit =
+        (await submitBtn.isVisible().catch(() => false)) ||
+        (await coverBtn.isVisible().catch(() => false));
       const count = await answerButtons.count();
       if (!isBuildThenSubmit && count >= 2) {
         await answerButtons
@@ -78,6 +89,8 @@ test.describe('En-Claro - Przerwy Kognitywne', () => {
       } else if (await skipBtn.isVisible().catch(() => false)) {
         await skipBtn.click().catch(() => {});
         await page.waitForTimeout(300);
+      } else {
+        await page.waitForTimeout(250);
       }
     }
     await expect(breakPrompt).toBeVisible();
