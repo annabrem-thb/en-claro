@@ -3,10 +3,13 @@ import { useEffect } from 'react';
 const NUMBER_KEY_TO_PILLAR_INDEX = { 1: 0, 2: 1, 3: 2, 4: 3 };
 
 // App-wide keyboard shortcuts: plain Arrow/Enter step through the current
-// exercise; Ctrl/Cmd/Alt + a key jumps to a pillar or opens Settings without
-// needing pointer precision, which matters for the app's motor-impairment
-// ("motorik") accessibility mode. Disabled while focus is inside a text
-// input so typing an answer never triggers a shortcut.
+// exercise; Ctrl/Cmd/Alt + a key jumps to a pillar, opens Settings, or opens
+// the Survey without needing pointer precision, which matters for the app's
+// motor-impairment ("motorik") accessibility mode — and, since nav/Settings
+// are hidden while a task is actively being worked on (App.jsx's
+// isProcessingTask), this is the *only* way to reach the Survey during that
+// window at all. Disabled while focus is inside a text input so typing an
+// answer never triggers a shortcut.
 export function useKeyboardShortcuts({
   isGamified,
   pillars,
@@ -15,6 +18,7 @@ export function useKeyboardShortcuts({
   onTabChange,
   onGardenClick,
   onOpenSettings,
+  onOpenSurvey,
   vibrate,
   // Any focus-trapped dialog (Settings, the level-up celebration, the
   // feedback survey, the cognitive-break prompt) must own all keyboard
@@ -69,6 +73,13 @@ export function useKeyboardShortcuts({
         return;
       }
 
+      if (e.key === 's' || e.key === 'S') {
+        e.preventDefault();
+        vibrate(15);
+        onOpenSurvey();
+        return;
+      }
+
       const availableTabs = isGamified ? [...pillars, 'Garden'] : pillars;
       const targetTab = availableTabs[NUMBER_KEY_TO_PILLAR_INDEX[e.key]];
       if (!targetTab) return;
@@ -89,6 +100,7 @@ export function useKeyboardShortcuts({
     onTabChange,
     onGardenClick,
     onOpenSettings,
+    onOpenSurvey,
     vibrate,
   ]);
 }

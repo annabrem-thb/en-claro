@@ -21,13 +21,12 @@ async function skipIntro(page) {
     await studyOnly.click();
     await page.locator('text=/Rozpocznij|Start/i').click();
   }
-  // SidebarNav (<aside>) only renders above the `lg:` breakpoint — on the
-  // Tablet/Mobile projects it's genuinely hidden and BottomNav (<nav
-  // class="...justify-around...">) takes over, so hardcoding `aside` here
-  // made every caller of this helper fail on those two projects specifically.
-  await expect(
-    page.locator('aside:visible, nav.justify-around:visible').first(),
-  ).toBeVisible();
+  // Nav (SidebarNav's <aside> or BottomNav's <nav class="...justify-
+  // around...">, depending on breakpoint) is unmounted entirely while a
+  // task is actively being processed — only the main content region is
+  // guaranteed to be present at this point, so that's what this helper
+  // waits on instead of nav visibility.
+  await expect(page.locator('#main-content')).toBeVisible();
 }
 
 async function runAxe(page, disableRules = []) {
@@ -131,90 +130,24 @@ test.describe('Accessibility (axe-core)', () => {
   test('Feedback (NASA-TLX/SUS) dialog has no WCAG 2.1 A/AA violations', async ({
     page,
   }) => {
-    test.setTimeout(60000);
-    // The feedback survey only appears every 10 points in classic (non-
-    // gamified) mode. Seed points to 9 via an init script — run before any
-    // app JS executes — so the very next correct answer triggers it. Seeding
-    // localStorage after mount is too late: useGamificationState reads it
-    // only once, via a lazy useState initializer.
-    //
-    // beforeEach already navigated to '/' before this init script is
-    // registered, and a hash-only goto (e.g. to '/#/literacy') is a
-    // same-document navigation that does NOT run init scripts or remount the
-    // app — so a plain skipIntro() here would silently skip the seed. Force
-    // a real reload after registering the script so it actually applies.
-    await page.addInitScript(() => {
-      window.localStorage.clear();
-      window.localStorage.setItem('pts', '9');
-    });
+    // The survey no longer auto-appears every 10 points in either study arm
+    // (removed in Stage 1A: it's a researcher-administered instrument, not
+    // an inline popup — see docs/COMPLIANCE_AUDIT.md §6). Nav (and its "open
+    // survey" button) is unmounted entirely while a task is being processed
+    // (Stage 2D), so the Ctrl/Cmd/Alt+S shortcut — wired for exactly this
+    // reason — is the only way to reach it reliably regardless of that
+    // window; the nav button click only ever worked here by timing luck.
     await page.goto('/#/literacy');
-    await page.reload();
     const studyOnly = page.locator('text=/Tylko nauka|Study only|Nur lernen/i');
     if (await studyOnly.isVisible().catch(() => false)) {
       await studyOnly.click();
       await page.locator('text=/Rozpocznij|Start/i').click();
     }
-    await expect(
-      page.locator('aside:visible, nav.justify-around:visible').first(),
-    ).toBeVisible();
+    await expect(page.locator('#main-content')).toBeVisible();
 
-    const getPoints = () =>
-      page.evaluate(() => Number(window.localStorage.getItem('pts')) || 0);
+    await page.keyboard.press('Control+s');
 
-    // Some exercise types (dictation, syllable-cutting) are build-then-submit
-    // and expose a "Sprawdź/Check" button alongside several control buttons
-    // that don't represent answer choices — blindly clicking those never
-    // scores a point. Only attempt automatic answering on plain multiple-
-    // choice exercises (no submit button present); skip everything else.
-    const submitBtn = page.locator(
-      'section button:has-text("Sprawdź"), section button:has-text("Check")',
-    );
-    const answerButtons = page.locator(
-      'section button:not(:has-text("🎤")):not(:has-text("🛑")):not(:has-text("🔊"))',
-    );
-    const skipBtn = page.locator(
-      'button:has-text("Skip"), button:has-text("Pomiń")',
-    );
-
-    let feedbackShown = false;
-    for (let exercise = 0; exercise < 15 && !feedbackShown; exercise++) {
-      feedbackShown = await page
-        .locator('#survey-title')
-        .isVisible()
-        .catch(() => false);
-      if (feedbackShown) break;
-      const isBuildThenSubmit = await submitBtn.isVisible().catch(() => false);
-      const count = await answerButtons.count();
-      if (!isBuildThenSubmit && count >= 2) {
-        for (let i = 0; i < count && !feedbackShown; i++) {
-          const before = await getPoints();
-          await answerButtons
-            .nth(i)
-            .click({ force: true })
-            .catch(() => {});
-          await page.waitForTimeout(300);
-          const after = await getPoints();
-          if (after > before) {
-            // A correct answer was registered; the survey trigger (every
-            // 10th point) has its own short delay before it renders.
-            await page.waitForTimeout(2000);
-            feedbackShown = await page
-              .locator('#survey-title')
-              .isVisible()
-              .catch(() => false);
-          }
-        }
-      }
-      if (!feedbackShown && (await skipBtn.isVisible().catch(() => false))) {
-        await skipBtn.click();
-        await page.waitForTimeout(300);
-      }
-    }
-
-    expect(
-      feedbackShown,
-      'Feedback dialog never appeared within the attempt budget',
-    ).toBe(true);
+    await expect(page.locator('#survey-title')).toBeVisible();
     const results = await runAxe(page);
     expect(results.violations, formatViolations(results)).toEqual([]);
   });

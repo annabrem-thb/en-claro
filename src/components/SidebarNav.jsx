@@ -12,7 +12,6 @@ const SidebarNav = memo(function SidebarNav({
   activeTab,
   onTabChange,
   onGardenClick,
-  dailyQuests,
   language,
   isGamified,
   theme,
@@ -23,7 +22,6 @@ const SidebarNav = memo(function SidebarNav({
   setSettingsOpen,
   onOpenSurvey,
   t,
-  coins,
   loadLevel,
   speak,
   noFlash,
@@ -68,10 +66,12 @@ const SidebarNav = memo(function SidebarNav({
   const handleInstallClick = async () => {
     if (!installPrompt) return;
     installPrompt.prompt();
-    const { outcome } = await installPrompt.userChoice;
-    if (outcome === 'accepted') {
-      setInstallPrompt(null);
-    }
+    // A BeforeInstallPromptEvent can only be prompted once regardless of
+    // outcome — clearing only on 'accepted' left the button visible but
+    // dead after a 'dismissed' choice, since the stale event silently no-ops
+    // on a second click.
+    await installPrompt.userChoice;
+    setInstallPrompt(null);
   };
 
   return (
@@ -107,7 +107,6 @@ const SidebarNav = memo(function SidebarNav({
       >
         {pillars.map((p, index) => {
           const isSelected = activeTab === p;
-          const questForPillar = dailyQuests.tasks.find((q) => q.type === p);
           const label = t('pillars', { returnObjects: true })?.[p] || p;
           return (
             <Tooltip
@@ -122,7 +121,7 @@ const SidebarNav = memo(function SidebarNav({
                   if (!hideNavLabel) speak(label, true);
                   onTabChange(p);
                 }}
-                className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5' z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+                className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
                 aria-current={isSelected ? 'page' : undefined}
                 aria-label={label}
               >
@@ -153,14 +152,6 @@ const SidebarNav = memo(function SidebarNav({
                     </span>
                   </>
                 )}
-                {questForPillar &&
-                  !questForPillar.completed &&
-                  questForPillar.current > 0 && (
-                    <span
-                      className="absolute top-1 right-1 h-2 w-2 rounded-full bg-blue-500 lg:top-1.5 lg:right-1.5"
-                      aria-hidden="true"
-                    />
-                  )}
               </button>
             </Tooltip>
           );
@@ -185,7 +176,7 @@ const SidebarNav = memo(function SidebarNav({
                 if (!hideNavLabel) speak(t('garden') || 'Garden', true);
                 onGardenClick();
               }}
-              className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${activeTab === 'Garden' ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5' z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
+              className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${activeTab === 'Garden' ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100/50 hover:text-slate-600 hover:shadow-sm'}`}
               aria-current={activeTab === 'Garden' ? 'page' : undefined}
               aria-label={t('garden') || 'Garden'}
             >
@@ -228,21 +219,6 @@ const SidebarNav = memo(function SidebarNav({
             className={`mt-auto hidden flex-col gap-2 border-t pt-3 lg:flex ${isHighContrast ? 'border-white/20' : themeStyles.border}`}
           >
             <div className="flex items-center justify-between px-2 pt-2">
-              <span
-                className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
-              >
-                <BionicText
-                  text={t('coins') || 'Coins'}
-                  enabled={bionicReading}
-                />
-              </span>
-              <div
-                className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-black shadow-inner ${isHighContrast ? 'bg-white text-black' : 'bg-amber-100 text-amber-600'}`}
-              >
-                <span className="text-sm">💰</span> {coins}
-              </div>
-            </div>
-            <div className="flex items-center justify-between px-2">
               <span
                 className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
               >

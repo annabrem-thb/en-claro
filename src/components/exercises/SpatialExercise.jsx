@@ -4,6 +4,7 @@ import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
 import BionicText from '../common/BionicText';
+import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
@@ -180,16 +181,13 @@ function SpatialExercise({
   return (
     <div className="flex h-full min-h-0 w-full flex-col items-center justify-between overflow-hidden px-2 py-2">
       {}
-      <div className="mb-2 flex shrink-0 gap-4">
+      <ExerciseControlsRow className="mb-2 flex shrink-0 gap-4">
         <TTSController
           onReadAloud={readInstructionAndOptions}
           pauseAllTimeouts={pauseAllTimeouts}
           resumeAllTimeouts={resumeAllTimeouts}
-          t={t}
           controlBtnSize={controlBtnSize}
-          isHighContrast={isHighContrast}
           noFlash={noFlash}
-          bionicReading={bionicReading}
           ttsFallback={ttsFallback}
         />
 
@@ -209,7 +207,7 @@ function SpatialExercise({
           declineModelDownload={declineModelDownload}
           controlBtnSize={controlBtnSize}
         />
-      </div>
+      </ExerciseControlsRow>
 
       {/* Before this, the only clue that the mic expects a spoken *option
           number* was the button's aria-label — invisible to sighted users,

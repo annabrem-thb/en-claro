@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { EXERCISE_PILLARS } from '../data/exerciseTypes.js';
+import { STUDY_EXERCISE_PILLARS } from '../data/exerciseTypes.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
 import { useUserSettingsContext } from '../hooks/useUserSettingsContext.js';
 
@@ -158,7 +158,7 @@ export default function ExerciseToggleManager({
         />
       </p>
 
-      {Object.entries(EXERCISE_PILLARS).map(
+      {Object.entries(STUDY_EXERCISE_PILLARS).map(
         ([pillarKey, exerciseKeys], index) => (
           <section
             key={pillarKey}
