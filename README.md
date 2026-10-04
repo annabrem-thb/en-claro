@@ -1,4 +1,4 @@
-# EnClaro
+# En-Claro
 
 > Accessible Progressive Web App with reading, writing, visual, and cognitive exercises for adults with dyslexia, with an optional gamified mode. Built for a Master's thesis that compares a plain and a gamified version of the app.
 
@@ -8,7 +8,7 @@
 
 ## English
 
-EnClaro is a responsive Progressive Web App (PWA) with literacy, visual, and cognitive exercises for adults with dyslexia. It is available in Polish, English, and German (the interface starts in the browser's language) and can be used in a plain "learning only" mode or in a gamified mode with a virtual garden. The app was designed to meet WCAG 2.1 AA and is checked with automated axe-core tests.
+En-Claro is a responsive Progressive Web App (PWA) with literacy, visual, and cognitive exercises for adults with dyslexia. It is available in Polish, English, and German (the interface starts in the browser's language) and can be used in a plain "learning only" mode or in a gamified mode with a virtual garden. The app was designed to meet WCAG 2.1 AA and is checked with automated axe-core tests.
 
 ### Features
 
@@ -142,7 +142,7 @@ The survey function needs Supabase credentials. Copy `.env.example` to `.env` an
 
 ## Deutsch
 
-EnClaro ist eine responsive Progressive Web App (PWA) mit Lese-, Schreib-, visuellen und kognitiven Übungen für Erwachsene mit Legasthenie. Sie ist auf Polnisch, Englisch und Deutsch verfügbar (die Oberfläche startet in der Sprache des Browsers) und lässt sich in einem schlichten „Nur Lernen“-Modus oder in einem spielerischen Modus mit virtuellem Garten nutzen. Die App ist auf WCAG 2.1 AA ausgelegt und wird mit automatisierten axe-core-Tests geprüft.
+En-Claro ist eine responsive Progressive Web App (PWA) mit Lese-, Schreib-, visuellen und kognitiven Übungen für Erwachsene mit Legasthenie. Sie ist auf Polnisch, Englisch und Deutsch verfügbar (die Oberfläche startet in der Sprache des Browsers) und lässt sich in einem schlichten „Nur Lernen“-Modus oder in einem spielerischen Modus mit virtuellem Garten nutzen. Die App ist auf WCAG 2.1 AA ausgelegt und wird mit automatisierten axe-core-Tests geprüft.
 
 ### Funktionen
 
@@ -276,7 +276,7 @@ Die Umfrage-Function benötigt Supabase-Zugangsdaten. `.env.example` nach `.env`
 
 ## Polski
 
-EnClaro to responsywna progresywna aplikacja webowa (PWA) z ćwiczeniami czytania, pisania, wzrokowymi i poznawczymi dla dorosłych z dysleksją. Jest dostępna po polsku, angielsku i niemiecku (interfejs startuje w języku przeglądarki) i można jej używać w prostym trybie „tylko nauka” albo w trybie z grywalizacją i wirtualnym ogrodem. Aplikacja została zaprojektowana zgodnie z WCAG 2.1 AA i jest sprawdzana automatycznymi testami axe-core.
+En-Claro to responsywna progresywna aplikacja webowa (PWA) z ćwiczeniami czytania, pisania, wzrokowymi i poznawczymi dla dorosłych z dysleksją. Jest dostępna po polsku, angielsku i niemiecku (interfejs startuje w języku przeglądarki) i można jej używać w prostym trybie „tylko nauka” albo w trybie z grywalizacją i wirtualnym ogrodem. Aplikacja została zaprojektowana zgodnie z WCAG 2.1 AA i jest sprawdzana automatycznymi testami axe-core.
 
 ### Funkcje
 
