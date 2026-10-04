@@ -107,7 +107,7 @@ Answers are sent with a random identifier to a Netlify Function (`submit-survey`
 
 ```bash
 git clone <repository-url>
-cd dyslexia-pwa
+cd en-claro
 npm install
 npm run dev        # http://localhost:5173
 ```
@@ -241,7 +241,7 @@ Die Antworten werden mit einer zufälligen Kennung an eine Netlify Function (`su
 
 ```bash
 git clone <repository-url>
-cd dyslexia-pwa
+cd en-claro
 npm install
 npm run dev        # http://localhost:5173
 ```
@@ -375,7 +375,7 @@ Odpowiedzi trafiają z losowym identyfikatorem do funkcji Netlify (`submit-surve
 
 ```bash
 git clone <repository-url>
-cd dyslexia-pwa
+cd en-claro
 npm install
 npm run dev        # http://localhost:5173
 ```
