@@ -34,7 +34,7 @@ import BionicText from './common/BionicText.jsx';
 // a block-2 checkpoint) and changes several question texts outright — a
 // restored v2 draft could silently resubmit answers to wording the
 // participant never saw. v2 (and earlier) drafts are ignored.
-const SURVEY_DRAFT_KEY_PREFIX = 'enclaro:survey:v3:';
+const SURVEY_DRAFT_KEY_PREFIX = 'en-claro:survey:v3:';
 
 // Versioned so a later change to the required fields (e.g. questionnaire_
 // version 3 adding another block) can invalidate an old participant id the

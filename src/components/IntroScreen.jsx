@@ -195,7 +195,7 @@ function IntroScreen({ onStart, speak }) {
     if (!speak) return;
     clearAllTimeouts();
     const segments = [
-      t('appTitle', 'EnClaro'),
+      t('appTitle', 'En-Claro'),
       t('intro.step1Subtitle', 'Choose your language and comfort tools:'),
       t('intro.stepIndicator', { current: 1, total: 2 }),
     ].filter(Boolean);
@@ -274,7 +274,7 @@ function IntroScreen({ onStart, speak }) {
                 tabIndex={-1}
                 className={`mb-1 shrink-0 text-xl font-black tracking-tighter drop-shadow-md outline-none sm:text-3xl ${isHighContrast ? 'text-white' : 'text-indigo-700'}`}
               >
-                {t('appTitle', 'EnClaro')}
+                {t('appTitle', 'En-Claro')}
               </h1>
 
               <p
@@ -526,7 +526,7 @@ function IntroScreen({ onStart, speak }) {
                 tabIndex={-1}
                 className={`mb-1 shrink-0 text-xl font-black tracking-tighter drop-shadow-md outline-none sm:text-3xl ${isHighContrast ? 'text-white' : 'text-indigo-700'}`}
               >
-                {t('appTitle', 'EnClaro')}
+                {t('appTitle', 'En-Claro')}
               </h1>
 
               <p
