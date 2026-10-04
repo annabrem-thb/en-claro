@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Dyslexia PWA - Pierwsze uruchomienie i ćwiczenie', () => {
+test.describe('En-Claro - Pierwsze uruchomienie i ćwiczenie', () => {
   test.beforeEach(async ({ page }) => {
     // addInitScript, not page.evaluate() after a goto: the app's own
     // useUserSettings effect writes its current in-memory settings back to
@@ -23,7 +23,7 @@ test.describe('Dyslexia PWA - Pierwsze uruchomienie i ćwiczenie', () => {
     await page.goto('/');
 
     // Przejście przez ekran powitalny
-    await expect(page.locator('text=/EnClaro/i')).toBeVisible();
+    await expect(page.locator('text=/En-Claro/i')).toBeVisible();
     await page.locator('text=/Weiter|Next|Dalej/i').click();
     await page.locator('text=/Tylko nauka|Study only/i').click();
     await page.locator('text=/Rozpocznij|Start/i').click();

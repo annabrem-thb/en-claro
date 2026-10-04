@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Dyslexia PWA - Ekstremalne Testy RWD (Długie Słowa)', () => {
+test.describe('En-Claro - Ekstremalne Testy RWD (Długie Słowa)', () => {
   test.beforeEach(async ({ page: page }) => {
     // addInitScript, not page.evaluate() after a goto: the app's own
     // useUserSettings effect writes its current in-memory settings back to

@@ -51,7 +51,7 @@ async function triggerFeedbackWindow(page) {
   throw new Error('Could not find an answerable exercise to trigger feedback');
 }
 
-test.describe('Dyslexia PWA - Testy Responsywności (RWD)', () => {
+test.describe('En-Claro - Testy Responsywności (RWD)', () => {
   test.beforeEach(async ({ page: page }) => {
     await page.goto('/');
     await page.evaluate(() => window.localStorage.clear());

@@ -911,7 +911,7 @@ function AppContent() {
           className={`no-scrollbar mx-auto flex min-h-0 w-full max-w-5xl flex-1 touch-pan-y flex-col overflow-y-auto overscroll-none px-3 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))] md:px-6 md:pt-5 xl:px-8 ${isHighContrast ? 'text-white' : 'text-[#2D3732]'}`}
           {...swipeHandlers}
         >
-          {/* The app's only visible <h1> ("EnClaro" in SidebarNav) is
+          {/* The app's only visible <h1> ("En-Claro" in SidebarNav) is
               `hidden` below the lg: breakpoint, so most phone/tablet users
               never get a level-1 heading at all — this sr-only one is
               always in the a11y tree, giving every screen-reader user a

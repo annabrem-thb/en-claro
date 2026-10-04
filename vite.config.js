@@ -30,8 +30,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', '**/*.json'],
       manifest: {
-        name: 'EnClaro',
-        short_name: 'EnClaro',
+        name: 'En-Claro',
+        short_name: 'En-Claro',
         // App UI is multilingual (de/en/pl) with no per-language manifest
         // (browsers don't support that without server-side content
         // negotiation on Accept-Language) — English here reaches the

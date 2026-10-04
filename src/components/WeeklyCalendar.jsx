@@ -1,11 +1,17 @@
-const DAY_LABELS = {
-  pl: ['N', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'],
-  en: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-  de: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+import { useTranslation } from 'react-i18next';
+
+const formatDay = (date, locale, weekday) => {
+  try {
+    return new Intl.DateTimeFormat(locale, { weekday }).format(date);
+  } catch {
+    return new Intl.DateTimeFormat('en', { weekday }).format(date);
+  }
 };
 
 const Day = ({
   dayLabel,
+  fullLabel,
+  statusLabel,
   isToday,
   isGoalMet,
   isFuture,
@@ -34,7 +40,7 @@ const Day = ({
     <div
       className="flex flex-col items-center gap-1.5 text-center sm:gap-2"
       role="listitem"
-      aria-label={`${dayLabel} ${isGoalMet ? 'completed' : 'incomplete'}`}
+      aria-label={`${fullLabel}, ${statusLabel}`}
     >
       <div
         className={`${baseClasses} ${statusClasses} ${todayClasses}`}
@@ -61,8 +67,11 @@ export function WeeklyCalendar({
   theme,
   noFlash = false,
   bigTargets = false,
-  language = 'en',
+  language,
 }) {
+  const { t: translate, i18n } = useTranslation();
+  const tr = t || translate;
+  const locale = i18n?.language || language || 'en';
   const today = new Date();
 
   const weekDays = Array.from({ length: 7 }).map((_, index) => {
@@ -71,8 +80,7 @@ export function WeeklyCalendar({
     return date;
   });
 
-  const labels = DAY_LABELS[language] || DAY_LABELS.en;
-  const icon = t?.('levelIcons', { returnObjects: true })?.[theme]?.[0] || '✨';
+  const icon = tr('levelIcons', { returnObjects: true })?.[theme]?.[0] || '✨';
 
   return (
     <div
@@ -81,7 +89,7 @@ export function WeeklyCalendar({
       <h3
         className={`${bigTargets ? 'mb-3 text-xs sm:mb-6 sm:text-sm' : 'mb-2 text-[10px] sm:mb-4 sm:text-xs'} text-center font-black tracking-widest wrap-break-word text-slate-600 uppercase`}
       >
-        {t?.('dailyGoalProgress') || 'Daily Goal Progress'}
+        {tr('dailyGoalProgress')}
       </h3>
       {/* `role="list"` belongs here, not on the outer wrapper above: ARIA
           requires a list's *direct* children to be listitems, but the
@@ -92,19 +100,24 @@ export function WeeklyCalendar({
       <div
         className="flex items-start justify-around gap-1 sm:gap-2"
         role="list"
-        aria-label={t?.('dailyGoalProgress') || 'Daily Goal Progress'}
+        aria-label={tr('dailyGoalProgress')}
       >
         {weekDays.map((date, index) => {
           const isGoalMet =
             (dailyProgress[date.toDateString()]?.points || 0) >= dailyGoal;
           const isToday = date.toDateString() === today.toDateString();
           const isFuture = date > today;
-          const dayLabel = labels[date.getDay()];
+          const dayLabel = formatDay(date, locale, 'short');
+          const fullLabel = formatDay(date, locale, 'long');
 
           return (
             <Day
               key={index}
               dayLabel={dayLabel}
+              fullLabel={fullLabel}
+              statusLabel={tr(
+                isGoalMet ? 'dayGoalMet' : 'dayGoalNotMet',
+              )}
               isToday={isToday}
               isGoalMet={isGoalMet}
               isFuture={isFuture}

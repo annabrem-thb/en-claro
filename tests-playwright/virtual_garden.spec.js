@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Dyslexia PWA - Wirtualny Ogród', () => {
+test.describe('En-Claro - Wirtualny Ogród', () => {
   test.beforeEach(async ({ page: page }) => {
     await page.goto('/');
     await page.evaluate(() => window.localStorage.clear());
