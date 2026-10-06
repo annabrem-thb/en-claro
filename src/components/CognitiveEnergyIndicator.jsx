@@ -115,7 +115,7 @@ export function CognitiveEnergyIndicator({
             className={`w-full ${bigTargets ? 'py-5 text-base' : 'py-3 text-sm sm:py-4'} rounded-full font-black tracking-widest uppercase shadow-lg transition-all active:scale-95 ${isHighContrast ? 'bg-white text-black' : `${themeStyles.button} ${themeStyles.buttonText}`}`}
           >
             <BionicText
-              text={t('takeBreakBtn') || 'Take a break (+2 💰)'}
+              text={t('takeBreakBtn') || 'Take a break'}
               enabled={bionicReading}
             />
           </button>

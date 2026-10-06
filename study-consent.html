@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>En-Claro – Study Consent / Zgoda / Einwilligung</title>
+<style>
+  :root { --bg:#fdfaf6; --fg:#1e293b; --muted:#475569; --accent:#4338ca; --card:#fff; --line:#e2e8f0; --ok:#047857; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0f172a; --fg:#e2e8f0; --muted:#94a3b8; --accent:#a5b4fc; --card:#1e293b; --line:#334155; --ok:#34d399; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:18px/1.6 system-ui, sans-serif; }
+  main { max-width:44rem; margin:0 auto; padding:1.5rem 1rem 3rem; }
+  nav { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+  nav a { padding:.5rem 1rem; border:2px solid var(--accent); border-radius:999px; color:var(--accent); text-decoration:none; font-weight:700; }
+  nav a:focus-visible, nav a:hover { background:var(--accent); color:var(--bg); }
+  section { background:var(--card); border:1px solid var(--line); border-radius:1.25rem; padding:1.5rem; margin-bottom:2rem; }
+  h1 { margin:0 0 1rem; font-size:1.6rem; color:var(--accent); }
+  ol { padding-left:1.4rem; } li { margin-bottom:.6rem; }
+  .check { display:flex; gap:.75rem; align-items:flex-start; border:2px solid var(--line); border-radius:.75rem; padding:.75rem; margin:.6rem 0; }
+  .check input { width:1.3rem; height:1.3rem; margin-top:.3rem; flex:none; }
+  .btn { display:block; width:100%; margin-top:1rem; padding:.9rem; border:0; border-radius:1rem; background:var(--ok); color:#fff; font:800 1rem inherit; text-transform:uppercase; letter-spacing:.08em; }
+  .err { color:var(--muted); font-size:.9rem; margin-top:.75rem; }
+  @media print { nav, .btn { display:none; } section { break-inside:avoid; border:0; } body { background:#fff; color:#000; } }
+</style>
+</head>
+<body>
+<main>
+  <nav aria-label="Language / Język / Sprache">
+    <a href="#pl" hreflang="pl">Polski</a>
+    <a href="#de" hreflang="de">Deutsch</a>
+    <a href="#en" hreflang="en">English</a>
+  </nav>
+
+  <section id="pl" lang="pl">
+    <h1>Udział w badaniu</h1>
+    <ol>
+      <li>To badanie jest częścią pracy magisterskiej na uczelni Technische Hochschule Brandenburg.</li>
+      <li>Wykonasz ćwiczenia w dwóch wersjach aplikacji En-Claro i po każdej z nich odpowiesz na kilka pytań. Zajmie to około 10 minut.</li>
+      <li>Udział jest dobrowolny. Możesz przerwać w każdej chwili.</li>
+      <li>Twoje imię, nazwisko i dane kontaktowe nie są zbierane.</li>
+      <li>Na końcu pojawią się cztery krótkie pytania: czy masz dysleksję, czy zajmujesz się zawodowo logopedią, o Twoją grupę wiekową i o Twój pierwszy język. Przy każdym możesz wybrać „Wolę nie odpowiadać".</li>
+      <li>Twoje odpowiedzi są zapisywane z losowym kodem na serwerze w UE i analizowane wyłącznie na potrzeby tej pracy magisterskiej. Zostaną usunięte po zakończeniu postępowania egzaminacyjnego.</li>
+      <li>Ponieważ odpowiedzi nie da się przypisać do konkretnej osoby, pojedynczych zgłoszeń nie można później usunąć.</li>
+      <li>Jeśli w ćwiczeniu użyjesz wprowadzania głosowego, przeglądarka może, zależnie od producenta, wysłać nagranie do usługi internetowej w celu rozpoznania mowy. Takie ćwiczenia możesz pominąć.</li>
+    </ol>
+    <label class="check"><input type="checkbox"> Mam ukończone 18 lat.</label>
+    <label class="check"><input type="checkbox"> Rozumiem powyższe informacje i zgadzam się na zapisanie i analizę moich odpowiedzi w opisany sposób, także informacji o dysleksji.</label>
+    <button class="btn" type="button">Rozpocznij badanie</button>
+    <p class="err">Komunikat błędu: „Aby rozpocząć, zaznacz oba pola."</p>
+  </section>
+
+  <section id="de" lang="de">
+    <h1>Teilnahme an der Studie</h1>
+    <ol>
+      <li>Diese Studie gehört zu einer Masterarbeit an der Technischen Hochschule Brandenburg.</li>
+      <li>Sie üben mit zwei Versionen der App En-Claro und beantworten nach jeder Version einige Fragen. Das dauert etwa 10 Minuten.</li>
+      <li>Die Teilnahme ist freiwillig. Sie können jederzeit aufhören.</li>
+      <li>Ihr Name und Ihre Kontaktdaten werden nicht erfasst.</li>
+      <li>Am Ende folgen vier kurze Fragen: ob Sie eine Lese-Rechtschreibstörung (LRS) haben, ob Sie in der Logopädie arbeiten, zu Ihrer Altersgruppe und zu Ihrer Erstsprache. Sie können jedes Mal „Keine Angabe" wählen.</li>
+      <li>Ihre Antworten werden mit einer zufälligen Kennung auf einem Server in der EU gespeichert und nur für diese Masterarbeit ausgewertet. Nach Abschluss des Prüfungsverfahrens werden sie gelöscht.</li>
+      <li>Weil sich die Antworten keiner Person zuordnen lassen, können einzelne Einsendungen später nicht gelöscht werden.</li>
+      <li>Wenn Sie in einer Übung die Spracheingabe nutzen, kann Ihr Browser die Aufnahme je nach Hersteller zur Erkennung an einen Online-Dienst senden. Solche Übungen können Sie überspringen.</li>
+    </ol>
+    <label class="check"><input type="checkbox"> Ich bin mindestens 18 Jahre alt.</label>
+    <label class="check"><input type="checkbox"> Ich habe die Informationen gelesen und bin einverstanden, dass meine Antworten wie beschrieben gespeichert und ausgewertet werden, auch die Angabe zu einer LRS.</label>
+    <button class="btn" type="button">Studie starten</button>
+    <p class="err">Fehlermeldung: „Bitte bestätigen Sie beide Punkte, um zu starten."</p>
+  </section>
+
+  <section id="en" lang="en">
+    <h1>Taking part in the study</h1>
+    <ol>
+      <li>This study is part of a master's thesis at the Technische Hochschule Brandenburg (Brandenburg University of Applied Sciences).</li>
+      <li>You will practise with two versions of the En-Claro app and answer a few questions after each version. This takes about 10 minutes.</li>
+      <li>Taking part is voluntary. You can stop at any time.</li>
+      <li>Your name and contact details are not collected.</li>
+      <li>At the end there are four short questions: whether you have dyslexia, whether you work in speech and language therapy, your age group and your first language. You can always choose "Prefer not to say".</li>
+      <li>Your answers are stored with a random code on a server in the EU and are used only for this master's thesis. They will be deleted once the examination procedure is complete.</li>
+      <li>Because the answers cannot be linked to a person, individual submissions cannot be deleted later.</li>
+      <li>If you use voice input in an exercise, your browser may send the recording to an online service for recognition, depending on the browser. You can skip these exercises.</li>
+    </ol>
+    <label class="check"><input type="checkbox"> I am at least 18 years old.</label>
+    <label class="check"><input type="checkbox"> I have read the information and agree that my answers, including the information about dyslexia, are stored and analysed as described.</label>
+    <button class="btn" type="button">Start the study</button>
+    <p class="err">Error message: "Please confirm both points to start."</p>
+  </section>
+</main>
+</body>
+</html>
