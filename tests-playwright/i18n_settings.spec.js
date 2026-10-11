@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
-test.describe('En-Claro - Internacjonalizacja (i18n)', () => {
-  test.beforeEach(async ({ page: page }) => {
+test.describe('En-Claro - Internationalization (i18n)', () => {
+  test.beforeEach(async ({ page }) => {
     // addInitScript, not page.evaluate() after a goto: the app's own
     // useUserSettings effect writes its current in-memory settings back to
     // localStorage on mount, which races with a page.evaluate() write made
@@ -16,19 +16,22 @@ test.describe('En-Claro - Internacjonalizacja (i18n)', () => {
     });
     await page.goto('/');
   });
-  test('powinno zmieniać język w Ustawieniach i aktualizować tłumaczenia na żywo', async ({
-    page: page,
+
+  test('should change language in Settings and update translations live', async ({
+    page,
   }) => {
     await page.goto('/');
     await page.locator('button[lang="en"]').click();
     await page.locator('text=/Weiter|Next|Dalej/i').click();
     await page.locator('text=/Study only/i').click();
     await page.locator('text=/Start/i').click();
+    
     // Nav (and its Settings button) is unmounted entirely while a task is
     // being processed (Stage 2D) — the Ctrl/Cmd/Alt+, shortcut opens
     // Settings regardless of that window, so it's used here instead of
     // needing nav visible and clickable first.
     await page.keyboard.press('Control+,');
+    
     // Exact `text="..."` CSS-engine locators require the matched element's
     // own text to equal the string with no other descendant elements in the
     // way — but Bionic Reading (on by default) splits every label into
@@ -40,6 +43,7 @@ test.describe('En-Claro - Internacjonalizacja (i18n)', () => {
     await expect(
       page.getByText('Settings', { exact: true }).locator('visible=true'),
     ).toBeVisible();
+    
     // Settings' own LanguageSwitcher (distinct from the intro screen's,
     // which has `lang="xx"` on each button) renders full language names,
     // never two-letter codes — there is no "PL"/"DE" span to match here.
@@ -51,6 +55,7 @@ test.describe('En-Claro - Internacjonalizacja (i18n)', () => {
       page.getByText('Ustawienia', { exact: true }).locator('visible=true'),
     ).toBeVisible();
     await expect(page.getByText('App mode', { exact: true })).not.toBeVisible();
+    
     await page.locator('button', { hasText: 'Deutsch' }).click();
     await expect(page.getByText('App-Modus', { exact: true })).toBeVisible();
     await expect(

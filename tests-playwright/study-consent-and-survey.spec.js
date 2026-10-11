@@ -1,9 +1,9 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 // Full guided-study run-through: the consent screen before block 1, the
 // questionnaire that closes block 1 (gamified condition — exercises the
 // gamification fieldset), and the questionnaire that closes block 2
-// (classic condition — exercises the "Angaben zur Person" fieldset),
+// (classic condition — exercises the "Personal Details" fieldset),
 // repeated in all three languages. Real submissions are never sent: every
 // request to the Netlify function is intercepted and inspected instead.
 //
@@ -47,7 +47,7 @@ async function fillNasaSlider(page, name) {
 }
 
 for (const lang of ['de', 'en', 'pl']) {
-  test.describe(`Guided study consent + both questionnaires (${lang})`, () => {
+  test.describe(`Guided study consent + both questionnaires (${lang.toUpperCase()})`, () => {
     // No localStorage.clear() here on purpose: unlike accessibility.spec.js
     // (a single goto per test), this test reloads mid-test to jump between
     // block 1 and block 2 (see the comment at the top of this file) — an
@@ -156,7 +156,7 @@ for (const lang of ['de', 'en', 'pl']) {
       expect(block1Body.gardenMotivation).toBe(3);
       expect(block1Body.badgeMotivation).toBe(3);
       expect(block1Body.gameDistraction).toBe(2);
-      // "Angaben zur Person" only belongs to the block-2 questionnaire.
+      // "Personal Details" only belongs to the block-2 questionnaire.
       expect(block1Body.lrsStatus).toBeUndefined();
       expect(block1Body.sltRole).toBeUndefined();
       expect(block1Body.ageGroup).toBeUndefined();
@@ -200,12 +200,12 @@ for (const lang of ['de', 'en', 'pl']) {
         await fillRadioGroup(page, `ueq0${i}`, '4');
       }
       // Block 2 is the classic condition here — no gamification fieldset —
-      // but "Angaben zur Person" is present (block === 2).
+      // but "Personal Details" is present (block === 2).
       await fillRadioGroup(page, 'lrsStatus', 'no');
       await fillRadioGroup(page, 'sltRole', 'no');
       await fillRadioGroup(page, 'ageGroup', '30-49');
 
-      // "Keine Angabe hebt die anderen Antworten auf und umgekehrt": select
+      // "No answer" clears other selected answers and vice versa: select
       // a real language, then no_answer, and confirm the real one was
       // cleared, before picking a real language again to actually submit.
       const germanOption = page.locator(
