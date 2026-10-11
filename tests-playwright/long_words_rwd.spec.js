@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
-test.describe('En-Claro - Ekstremalne Testy RWD (Długie Słowa)', () => {
-  test.beforeEach(async ({ page: page }) => {
+test.describe('En-Claro - Extreme RWD Tests (Long Words)', () => {
+  test.beforeEach(async ({ page }) => {
     // addInitScript, not page.evaluate() after a goto: the app's own
     // useUserSettings effect writes its current in-memory settings back to
     // localStorage on mount, which races with a page.evaluate() write made
@@ -16,13 +16,14 @@ test.describe('En-Claro - Ekstremalne Testy RWD (Długie Słowa)', () => {
     });
     await page.goto('/');
   });
-  test('powinno łamać długie niemieckie słowa w ustawieniach i zapobiegać poziomemu scrollowi', async ({
-    page: page,
-    isMobile: isMobile,
+
+  test('should break long German words in settings and prevent horizontal scrolling', async ({
+    page,
+    isMobile,
   }) => {
     test.skip(
       !isMobile,
-      'Ten test RWD jest przeznaczony dla wąskich ekranów mobilnych',
+      'This RWD test is designed for narrow mobile screens',
     );
     await page.goto('/');
     await page.locator('button[lang="de"]').click();
@@ -52,13 +53,14 @@ test.describe('En-Claro - Ekstremalne Testy RWD (Długie Słowa)', () => {
     );
     expect(hasHorizontalScroll).toBe(false);
   });
-  test('powinno zapobiegać awarii layoutu przy wstrzyknięciu sztucznego, 63-znakowego słowa', async ({
-    page: page,
-    isMobile: isMobile,
+
+  test('should prevent layout breaking upon injection of an artificial 63-character word', async ({
+    page,
+    isMobile,
   }) => {
     test.skip(
       !isMobile,
-      'Ten test RWD jest przeznaczony dla wąskich ekranów mobilnych',
+      'This RWD test is designed for narrow mobile screens',
     );
     await page.goto('/');
     await page.locator('text=/Weiter|Next|Dalej/i').click();

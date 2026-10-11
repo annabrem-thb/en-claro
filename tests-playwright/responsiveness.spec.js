@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 // Nav is unmounted entirely while a task is actively being processed
 // (Stage 2D) — visible only before a task starts and in the brief feedback
