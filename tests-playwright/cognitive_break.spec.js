@@ -30,7 +30,17 @@ for (const lang of ['de', 'en', 'pl']) {
       await page.locator(`button[lang="${lang}"]`).click();
 
       await page.locator('text=/Weiter|Next|Dalej/i').click();
-      await page.locator('text=/Tylko nauka|Study only|Nur lernen/i').click();
+
+      // The mode picker is only rendered while study mode is off. If the
+      // seeded localStorage flag lost a race with the app's own persistence
+      // (seen on slow CI Firefox), switch study mode off through the UI.
+      const modeBtn = page.locator('text=/Tylko nauka|Study only|Nur lernen/i');
+      const studySwitch = page.getByRole('switch').first();
+      await studySwitch.waitFor({ state: 'visible', timeout: 15000 });
+      if ((await studySwitch.getAttribute('aria-checked')) === 'true') {
+        await studySwitch.click();
+      }
+      await modeBtn.click({ timeout: 15000 });
       await page.locator('text=/Rozpocznij|Start/i').click();
       
       const breakPrompt = page.locator(
