@@ -24,25 +24,28 @@ for (const lang of ['de', 'en', 'pl']) {
       page,
     }) => {
       test.setTimeout(150000);
-      await page.goto('/');
-      
-      // Explicitly click the language button to ensure the UI updates
-      await page.locator(`button[lang="${lang}"]`).click();
+      // The whole onboarding is retried as one unit: on slow CI the PWA
+      // service worker can reload the page mid-flow, which drops the app
+      // back to step 1 (and the init script re-seeds localStorage). Redoing
+      // the sequence from a fresh load is the only reliable recovery.
+      await expect(async () => {
+        await page.goto('/');
+        await page.locator(`button[lang="${lang}"]`).click({ timeout: 10000 });
+        await page.locator('text=/Weiter|Next|Dalej/i').click({ timeout: 10000 });
 
-      await page.locator('text=/Weiter|Next|Dalej/i').click();
+        // The mode picker only renders while study mode is off; switch it
+        // off through the UI if the seeded flag didn't stick.
+        const studySwitch = page.getByRole('switch').first();
+        await studySwitch.waitFor({ state: 'visible', timeout: 10000 });
+        if ((await studySwitch.getAttribute('aria-checked')) === 'true') {
+          await studySwitch.click();
+        }
+        await page
+          .locator('text=/Tylko nauka|Study only|Nur lernen/i')
+          .click({ timeout: 10000 });
+        await page.locator('text=/Rozpocznij|Start/i').click({ timeout: 10000 });
+      }).toPass({ timeout: 90000 });
 
-      // The mode picker is only rendered while study mode is off. If the
-      // seeded localStorage flag lost a race with the app's own persistence
-      // (seen on slow CI Firefox), switch study mode off through the UI.
-      const modeBtn = page.locator('text=/Tylko nauka|Study only|Nur lernen/i');
-      const studySwitch = page.getByRole('switch').first();
-      await studySwitch.waitFor({ state: 'visible', timeout: 15000 });
-      if ((await studySwitch.getAttribute('aria-checked')) === 'true') {
-        await studySwitch.click();
-      }
-      await modeBtn.click({ timeout: 15000 });
-      await page.locator('text=/Rozpocznij|Start/i').click();
-      
       const breakPrompt = page.locator(
         'text=/Czas na przerwę\\??|Time for a break\\??|Zeit für eine Pause\\??/i',
       );
