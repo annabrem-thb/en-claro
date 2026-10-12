@@ -3,11 +3,13 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import { seededShuffle } from '../../utils/shuffleUtils.js';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
-import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 function SequenceExercise({
@@ -27,6 +29,7 @@ function SequenceExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
+  const { headingId, groupProps } = useTaskA11y();
   const [prevId, setPrevId] = useState(data.id || data.correct);
 
   const prepareWords = (correctData, id, scrambledData, distractors = []) => {
@@ -60,12 +63,8 @@ function SequenceExercise({
 
   const currentId = data.id || data.correct;
   if (currentId !== prevId) {
-    setTaskWords(prepareWords(
-        data.correct,
-        currentId,
-        data.scrambled,
-        data.distractors,
-      ),
+    setTaskWords(
+      prepareWords(data.correct, currentId, data.scrambled, data.distractors),
     );
     setPrevId(currentId);
   }
@@ -264,16 +263,17 @@ function SequenceExercise({
     <div
       className={`${animClass} flex h-full min-h-0 w-full max-w-2xl flex-col items-center justify-start overflow-hidden px-2 pt-6 pb-2 sm:pt-10`}
     >
-      {!zenMode && (
-        <h3
-          className={`mx-auto mb-2 max-w-[65ch] shrink-0 text-center text-[10px] font-black tracking-widest wrap-break-word uppercase sm:mb-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-        >
-          <BionicText
-            text={data.instruction || t('orderCorrectly')}
-            enabled={bionicReading}
-          />
-        </h3>
-      )}
+      <TaskHeading
+        as="h3"
+        id={headingId}
+        zenMode={zenMode}
+        className={`mx-auto mb-2 max-w-[65ch] shrink-0 text-center text-[10px] font-black tracking-widest wrap-break-word uppercase sm:mb-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+      >
+        <BionicText
+          text={data.instruction || t('orderCorrectly')}
+          enabled={bionicReading}
+        />
+      </TaskHeading>
 
       <ExerciseControlsRow className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
         <TTSController
@@ -346,7 +346,10 @@ function SequenceExercise({
         ))}
       </div>
 
-      <div className="no-scrollbar mb-2 flex max-h-[40dvh] w-full shrink flex-wrap justify-center gap-2 overflow-y-auto px-2 pt-2 pb-2 sm:mb-4 sm:gap-3">
+      <div
+        {...groupProps}
+        className="no-scrollbar mb-2 flex max-h-[40dvh] w-full shrink flex-wrap justify-center gap-2 overflow-y-auto px-2 pt-2 pb-2 sm:mb-4 sm:gap-3"
+      >
         {availableWords.map((wordObj, i) => (
           <button
             key={wordObj.id}

@@ -3,10 +3,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
-import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 function SpatialExercise({
@@ -26,6 +28,7 @@ function SpatialExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
+  const { headingId, groupProps } = useTaskA11y();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animation, setAnimation] = useState('');
 
@@ -223,13 +226,14 @@ function SpatialExercise({
 
       {}
       <div className="mb-2 w-full shrink-0 text-center sm:mb-4">
-        {!zenMode && (
-          <h3
-            className={`mx-auto mb-2 max-w-[65ch] text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-          >
-            <BionicText text={data.instruction} enabled={bionicReading} />
-          </h3>
-        )}
+        <TaskHeading
+          as="h3"
+          id={headingId}
+          zenMode={zenMode}
+          className={`mx-auto mb-2 max-w-[65ch] text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        >
+          <BionicText text={data.instruction} enabled={bionicReading} />
+        </TaskHeading>
 
         {!zenMode && (
           <div className="flex justify-center gap-1.5">
@@ -264,7 +268,10 @@ function SpatialExercise({
       </div>
 
       {}
-      <div className="grid w-full max-w-sm shrink-0 grid-cols-2 gap-3 px-2 sm:gap-4">
+      <div
+        {...groupProps}
+        className="grid w-full max-w-sm shrink-0 grid-cols-2 gap-3 px-2 sm:gap-4"
+      >
         {data.options?.map((option, i) => (
           <button
             key={i}

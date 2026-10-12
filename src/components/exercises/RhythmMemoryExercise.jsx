@@ -2,10 +2,12 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import { getSharedAudioContext } from '../../utils/audioUnlock.js';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
 
 // Two distinct pitches — the higher "cue" tone marks the start of playback
 // (an audible "get ready"), the lower "beat" tone is the pattern itself, so
@@ -69,6 +71,7 @@ function RhythmMemoryExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
+  const { headingId } = useTaskA11y();
   const [phase, setPhase] = useState('listen'); // 'listen' | 'tap' | 'result'
   const [tapTimestamps, setTapTimestamps] = useState([]);
   const [lastResult, setLastResult] = useState(null); // 'correct' | 'incorrect' | null
@@ -178,20 +181,21 @@ function RhythmMemoryExercise({
     <div
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}
     >
-      {!zenMode && (
-        <h3
-          className={`mb-2 shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-        >
-          {phase === 'listen'
-            ? t('rhythmListening') || 'Listen carefully…'
-            : phase === 'tap'
-              ? t('rhythmMemoryInstruction') ||
-                'Listen to the beat pattern, then tap it back'
-              : lastResult === 'correct'
-                ? t('rhythmCorrect') || 'Perfect rhythm!'
-                : t('rhythmIncorrect') || 'Not quite — listen again'}
-        </h3>
-      )}
+      <TaskHeading
+        as="h3"
+        id={headingId}
+        zenMode={zenMode}
+        className={`mb-2 shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+      >
+        {phase === 'listen'
+          ? t('rhythmListening') || 'Listen carefully…'
+          : phase === 'tap'
+            ? t('rhythmMemoryInstruction') ||
+              'Listen to the beat pattern, then tap it back'
+            : lastResult === 'correct'
+              ? t('rhythmCorrect') || 'Perfect rhythm!'
+              : t('rhythmIncorrect') || 'Not quite — listen again'}
+      </TaskHeading>
 
       {phase === 'tap' && (
         <ExerciseControlsRow>
@@ -222,6 +226,7 @@ function RhythmMemoryExercise({
         <>
           <button
             onClick={handleTap}
+            aria-describedby={headingId}
             className={`${tapPadSize} mb-3 flex shrink-0 items-center justify-center rounded-full border-b-8 shadow-xl transition-transform active:scale-90 active:border-b-0 sm:mb-6 ${themeStyles.button} ${themeStyles.buttonText}`}
             aria-label={t('rhythmMemoryTapButton') || 'Tap here for each beat'}
           >

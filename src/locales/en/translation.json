@@ -699,5 +699,9 @@
       "title": "Growing Strong",
       "desc": "Checked in on your Garden."
     }
-  }
+  },
+  "gapLabel": "Gap",
+  "energyLevelGreen": "Going well",
+  "energyLevelYellow": "Getting tired",
+  "energyLevelRed": "Time for a break"
 }

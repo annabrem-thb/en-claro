@@ -3,11 +3,13 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import { getSmartSpellingHint } from '../../utils/spellingHints';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
-import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 const formatTimeForTTS = (text, lang) => {
@@ -43,6 +45,7 @@ function GraphemeExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
+  const { headingId, groupProps } = useTaskA11y();
   const {
     isListening,
     transcript,
@@ -202,15 +205,19 @@ function GraphemeExercise({
         t={t}
       />
 
-      {!zenMode && (
-        <h3
-          className={`mx-auto mb-3 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.15em] uppercase sm:mb-6 sm:text-[11px] ${isHighContrast ? 'text-white/50' : 'text-slate-500'}`}
-        >
-          <BionicText text={questionText} enabled={bionicReading} />
-        </h3>
-      )}
+      <TaskHeading
+        as="h3"
+        id={headingId}
+        zenMode={zenMode}
+        className={`mx-auto mb-3 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.15em] uppercase sm:mb-6 sm:text-[11px] ${isHighContrast ? 'text-white/50' : 'text-slate-500'}`}
+      >
+        <BionicText text={questionText} enabled={bionicReading} />
+      </TaskHeading>
 
-      <div className="no-scrollbar flex max-h-full min-h-0 w-full max-w-sm shrink flex-wrap justify-center gap-2 overflow-y-auto px-2 pt-2 pb-2 sm:gap-3">
+      <div
+        {...groupProps}
+        className="no-scrollbar flex max-h-full min-h-0 w-full max-w-sm shrink flex-wrap justify-center gap-2 overflow-y-auto px-2 pt-2 pb-2 sm:gap-3"
+      >
         {shuffledOptions.map((opt, i) => (
           <button
             key={i}
@@ -219,7 +226,9 @@ function GraphemeExercise({
               opt.isCorrect ? onSuccess() : onError();
             }}
             disabled={isListening}
-            aria-label={opt.label ? opt.label[language] || opt.label.en : undefined}
+            aria-label={
+              opt.label ? opt.label[language] || opt.label.en : undefined
+            }
             className={`relative min-w-32 flex-1 ${btnPadding} flex flex-col items-center justify-center gap-3 rounded-4xl border-b-8 shadow-lg transition-all active:translate-y-2 active:border-b-0 md:shadow-sm ${
               isListening
                 ? // Dims the tile in place rather than swapping its colors

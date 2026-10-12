@@ -3,10 +3,12 @@ import React, { useEffect, useCallback } from 'react';
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
-import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 function ReadAloudExercise({
@@ -26,6 +28,7 @@ function ReadAloudExercise({
   voiceAssistant,
   isHighContrast = false,
 }) {
+  const { headingId, groupProps } = useTaskA11y();
   const {
     isListening,
     transcript,
@@ -78,16 +81,17 @@ function ReadAloudExercise({
     <div
       className={`flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}
     >
-      {!zenMode && (
-        <h3
-          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-        >
-          <BionicText
-            text={t('readAloudTitle') || 'Read aloud'}
-            enabled={bionicReading}
-          />
-        </h3>
-      )}
+      <TaskHeading
+        as="h3"
+        id={headingId}
+        zenMode={zenMode}
+        className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+      >
+        <BionicText
+          text={t('readAloudTitle') || 'Read aloud'}
+          enabled={bionicReading}
+        />
+      </TaskHeading>
 
       <div className="mb-3 flex min-h-0 w-full max-w-[65ch] shrink flex-col items-center justify-center overflow-y-auto rounded-3xl border-2 border-slate-100 bg-white px-4 py-4 text-center shadow-sm sm:mb-6 sm:px-8 sm:py-8">
         <span className="text-lg leading-relaxed font-bold text-slate-700 sm:text-2xl md:text-3xl lg:text-4xl">
@@ -141,7 +145,10 @@ function ReadAloudExercise({
       )}
 
       {transcript && (
-        <div className="flex w-full max-w-sm shrink-0 flex-col items-center gap-3 sm:gap-4">
+        <div
+          {...groupProps}
+          className="flex w-full max-w-sm shrink-0 flex-col items-center gap-3 sm:gap-4"
+        >
           <TranscriptDisplay
             transcript={transcript}
             isHighContrast={isHighContrast}

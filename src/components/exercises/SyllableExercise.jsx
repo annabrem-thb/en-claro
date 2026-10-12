@@ -4,10 +4,12 @@ import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { getTTSException } from '../../hooks/useGlobalTTS';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
-import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 function SyllableExercise({
@@ -27,6 +29,7 @@ function SyllableExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
+  const { headingId, groupProps } = useTaskA11y();
   const [cuts, setCuts] = useState([]);
   const [isResolved, setIsResolved] = useState(false);
 
@@ -222,13 +225,14 @@ function SyllableExercise({
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}
     >
       {}
-      {!zenMode && (
-        <h3
-          className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-        >
-          {t('syllableInstruction') || 'Divide the word into syllables'}
-        </h3>
-      )}
+      <TaskHeading
+        as="h3"
+        id={headingId}
+        zenMode={zenMode}
+        className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+      >
+        {t('syllableInstruction') || 'Divide the word into syllables'}
+      </TaskHeading>
 
       {}
       <ExerciseControlsRow className="mb-2 flex shrink-0 gap-4 sm:mb-4 sm:gap-6">
@@ -309,7 +313,10 @@ function SyllableExercise({
       </div>
 
       {}
-      <div className="no-scrollbar mb-2 flex max-h-full min-h-0 w-full max-w-full shrink flex-wrap items-center justify-center gap-y-1 overflow-y-auto sm:mb-4 sm:gap-y-4">
+      <div
+        {...groupProps}
+        className="no-scrollbar mb-2 flex max-h-full min-h-0 w-full max-w-full shrink flex-wrap items-center justify-center gap-y-1 overflow-y-auto sm:mb-4 sm:gap-y-4"
+      >
         {wordChars.map((char, index) => (
           <React.Fragment key={index}>
             <span

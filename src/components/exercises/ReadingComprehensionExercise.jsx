@@ -3,10 +3,12 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
-import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 function ReadingComprehensionExercise({
@@ -26,6 +28,7 @@ function ReadingComprehensionExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
+  const { headingId, groupProps } = useTaskA11y();
   const {
     isListening,
     transcript,
@@ -184,15 +187,19 @@ function ReadingComprehensionExercise({
         </p>
       </div>
 
-      {!zenMode && (
-        <h3
-          className={`mx-auto mb-2 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-snug font-black tracking-[0.15em] uppercase sm:mb-4 sm:text-[11px] sm:leading-relaxed ${isHighContrast ? 'text-white/50' : 'text-slate-500'}`}
-        >
-          <BionicText text={questionText} enabled={bionicReading} />
-        </h3>
-      )}
+      <TaskHeading
+        as="h3"
+        id={headingId}
+        zenMode={zenMode}
+        className={`mx-auto mb-2 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-snug font-black tracking-[0.15em] uppercase sm:mb-4 sm:text-[11px] sm:leading-relaxed ${isHighContrast ? 'text-white/50' : 'text-slate-500'}`}
+      >
+        <BionicText text={questionText} enabled={bionicReading} />
+      </TaskHeading>
 
-      <div className="no-scrollbar flex max-h-full w-full max-w-sm shrink-0 flex-wrap justify-center gap-2 overflow-y-auto px-2 pb-2 sm:gap-3">
+      <div
+        {...groupProps}
+        className="no-scrollbar flex max-h-full w-full max-w-sm shrink-0 flex-wrap justify-center gap-2 overflow-y-auto px-2 pb-2 sm:gap-3"
+      >
         {shuffledOptions.map((opt, i) => (
           <button
             key={i}

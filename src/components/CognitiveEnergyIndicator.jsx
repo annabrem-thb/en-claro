@@ -1,6 +1,12 @@
 import BionicText from './common/BionicText.jsx';
 import Dialog from './common/Dialog.jsx';
 
+const LEVEL_KEYS = {
+  green: 'energyLevelGreen',
+  yellow: 'energyLevelYellow',
+  red: 'energyLevelRed',
+};
+
 export function CognitiveEnergyIndicator({
   loadLevel,
   showModal,
@@ -64,11 +70,17 @@ export function CognitiveEnergyIndicator({
         className={`flex items-center gap-1.5 rounded-full border p-1.5 ${isHighContrast ? 'border-white/30 bg-black' : 'border-slate-200 bg-slate-50 shadow-inner'}`}
         title={t('energyTitle') || 'Cognitive Energy'}
         role="status"
-        aria-label={`${t('energyTitle') || 'Cognitive Energy'}: ${loadLevel}`}
       >
-        {renderDot('green', loadLevel === 'green')}
-        {renderDot('yellow', loadLevel === 'yellow')}
-        {renderDot('red', loadLevel === 'red')}
+        {/* The ✓ − ✕ shapes are for sighted colorblind users only; screen
+            readers get the translated level instead of raw symbols. */}
+        <span className="sr-only">
+          {`${t('energyTitle') || 'Cognitive Energy'}: ${t(LEVEL_KEYS[loadLevel]) || loadLevel}`}
+        </span>
+        <span className="flex items-center gap-1.5" aria-hidden="true">
+          {renderDot('green', loadLevel === 'green')}
+          {renderDot('yellow', loadLevel === 'yellow')}
+          {renderDot('red', loadLevel === 'red')}
+        </span>
       </div>
 
       {}

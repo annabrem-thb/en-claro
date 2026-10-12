@@ -2,9 +2,11 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
 
 function ScrabbleExercise({
   data,
@@ -22,6 +24,7 @@ function ScrabbleExercise({
   voiceAssistant = true,
   isHighContrast = false,
 }) {
+  const { headingId, groupProps } = useTaskA11y();
   const [userScrabble, setUserScrabble] = useState([]);
   const [activeHighlight, setActiveHighlight] = useState(null);
   const {
@@ -181,19 +184,20 @@ function ScrabbleExercise({
     >
       {}
       <div className="mb-2 flex w-full shrink-0 flex-col items-center justify-center sm:mb-4">
-        {!zenMode && (
-          <h3
-            className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-          >
-            <BionicText
-              text={
-                t('scrabbleInstruction') ||
-                'Arrange the letters to spell the word'
-              }
-              enabled={bionicReading}
-            />
-          </h3>
-        )}
+        <TaskHeading
+          as="h3"
+          id={headingId}
+          zenMode={zenMode}
+          className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        >
+          <BionicText
+            text={
+              t('scrabbleInstruction') ||
+              'Arrange the letters to spell the word'
+            }
+            enabled={bionicReading}
+          />
+        </TaskHeading>
         {!zenMode && (
           <div
             className="mb-1 shrink-0 text-4xl drop-shadow-sm sm:mb-2 sm:text-6xl"
@@ -228,7 +232,10 @@ function ScrabbleExercise({
       </div>
 
       {}
-      <div className="no-scrollbar flex max-h-[35dvh] min-h-0 w-full max-w-4xl shrink flex-wrap justify-center gap-1.5 overflow-y-auto px-1 pt-2 pb-2 sm:gap-3 sm:pt-4 sm:pb-4">
+      <div
+        {...groupProps}
+        className="no-scrollbar flex max-h-[35dvh] min-h-0 w-full max-w-4xl shrink flex-wrap justify-center gap-1.5 overflow-y-auto px-1 pt-2 pb-2 sm:gap-3 sm:pt-4 sm:pb-4"
+      >
         {shuffledLetters.map((l, i) => {
           const isUsed = userScrabble.some((x) => x.index === i);
           return (

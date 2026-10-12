@@ -3,11 +3,13 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import { getSmartSpellingHint } from '../../utils/spellingHints';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
-import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 const formatTimeForTTS = (text, lang) => {
@@ -43,6 +45,7 @@ function ContextExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
+  const { headingId, detailId, groupProps } = useTaskA11y({ detail: true });
   const {
     isListening,
     transcript,
@@ -196,21 +199,28 @@ function ContextExercise({
     <div
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-start overflow-hidden px-2 pt-6 pb-2 sm:pt-10`}
     >
-      {!zenMode && (
-        <h3
-          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-        >
-          {t('selectCorrect') || 'Select the correct word'}
-        </h3>
-      )}
+      <TaskHeading
+        as="h3"
+        id={headingId}
+        zenMode={zenMode}
+        aria-describedby={detailId}
+        className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+      >
+        {t('selectCorrect') || 'Select the correct word'}
+      </TaskHeading>
 
-      <div className="mx-auto mb-3 min-h-0 max-w-[65ch] shrink px-2 text-center text-base leading-relaxed font-bold text-slate-700 sm:mb-4 sm:text-xl md:text-2xl">
-        <BionicText text={data.sentence_part1} enabled={bionicReading} />
+      <div
+        id={detailId}
+        className="mx-auto mb-3 min-h-0 max-w-[65ch] shrink px-2 text-center text-base leading-relaxed font-bold text-slate-700 sm:mb-4 sm:text-xl md:text-2xl"
+      >
+        <BionicText text={data.sentence_part1} enabled={bionicReading} />{' '}
         <span
+          role="img"
+          aria-label={t('gapLabel') || 'Gap'}
           className={`mx-1 border-b-4 px-3 sm:mx-2 sm:px-4 ${themeStyles.border} rounded-lg bg-slate-50 text-slate-600`}
         >
           ____
-        </span>
+        </span>{' '}
         <BionicText text={data.sentence_part2} enabled={bionicReading} />
       </div>
 
@@ -252,7 +262,10 @@ function ContextExercise({
         t={t}
       />
 
-      <div className="no-scrollbar grid max-h-full min-h-0 w-full max-w-sm shrink grid-cols-1 gap-2 overflow-y-auto px-2 pt-2 pb-2 sm:gap-3">
+      <div
+        {...groupProps}
+        className="no-scrollbar grid max-h-full min-h-0 w-full max-w-sm shrink grid-cols-1 gap-2 overflow-y-auto px-2 pt-2 pb-2 sm:gap-3"
+      >
         {shuffledOptions.map((opt, i) => (
           <button
             key={i}
