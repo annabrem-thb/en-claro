@@ -2,9 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
 
 function VisualCategorization({
   data,
@@ -21,6 +23,7 @@ function VisualCategorization({
   t,
   voiceAssistant = false,
 }) {
+  const { headingId, groupProps } = useTaskA11y();
   const [placements, setPlacements] = useState({});
   const [activeItem, setActiveItem] = useState(null);
   const [activeHighlight, setActiveHighlight] = useState(null);
@@ -211,19 +214,19 @@ function VisualCategorization({
     <div
       className={`flex h-full min-h-0 w-full flex-col items-center justify-start ${animClass} gap-2 overflow-hidden px-2 py-2 sm:gap-4`}
     >
-      {!zenMode && (
-        <h2
-          className={`mx-auto max-w-[65ch] shrink-0 px-4 text-center text-xs font-black tracking-[0.15em] uppercase sm:text-sm ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-          aria-live="polite"
-        >
-          <BionicText
-            text={
-              data.instruction || t('categorizeItems') || 'Categorize the items'
-            }
-            enabled={bionicReading}
-          />
-        </h2>
-      )}
+      <TaskHeading
+        as="h2"
+        id={headingId}
+        zenMode={zenMode}
+        className={`mx-auto max-w-[65ch] shrink-0 px-4 text-center text-xs font-black tracking-[0.15em] uppercase sm:text-sm ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+      >
+        <BionicText
+          text={
+            data.instruction || t('categorizeItems') || 'Categorize the items'
+          }
+          enabled={bionicReading}
+        />
+      </TaskHeading>
 
       <ExerciseControlsRow className="flex w-full shrink-0 justify-center">
         <TTSController
@@ -242,6 +245,7 @@ function VisualCategorization({
       <div
         className={`no-scrollbar flex max-h-[35dvh] min-h-15 w-full shrink flex-wrap justify-center gap-2 overflow-y-auto rounded-3xl border-2 p-2 transition-colors sm:min-h-20 sm:gap-3 sm:p-3 ${activeItem ? (isHighContrast ? 'border-white/50' : 'border-indigo-200 bg-indigo-50/30') : 'border-transparent'}`}
         aria-label={t('availableItemsAria') || 'Available items'}
+        aria-describedby={headingId}
       >
         {unplacedItems.map((item) => (
           <button
@@ -271,7 +275,10 @@ function VisualCategorization({
       </div>
 
       {}
-      <div className="no-scrollbar grid max-h-full min-h-0 w-full max-w-2xl shrink grid-cols-1 gap-2 overflow-y-auto p-1 sm:grid-cols-2 sm:gap-4">
+      <div
+        {...groupProps}
+        className="no-scrollbar grid max-h-full min-h-0 w-full max-w-2xl shrink grid-cols-1 gap-2 overflow-y-auto p-1 sm:grid-cols-2 sm:gap-4"
+      >
         {data.buckets.map((bucket) => {
           const bucketItems = data.items.filter(
             (item) => placements[item.id] === bucket.id,

@@ -120,7 +120,124 @@ for (const lang of ['de', 'en', 'pl']) {
       });
     }
 
-    test('Settings dialog has no WCAG 2.1 A/AA violations', async ({ page }) => {
+    // Exercise types are drawn at random per pillar, so a single scan per
+    // pillar (above) only ever sees one of them. Skipping through a run of
+    // tasks scans several different exercise types, and checks the screen
+    // reader contract on every one: focus lands on the task heading (not
+    // <body>) and the answer controls are grouped under it. German only —
+    // the markup is language-independent and this keeps CI time in check.
+    if (lang === 'de') {
+      const focusedHeadingTag = (page) =>
+        page
+          .evaluate(() => {
+            const el = document.activeElement;
+            return el &&
+              el.getAttribute('tabindex') === '-1' &&
+              el.closest('main')
+              ? el.tagName
+              : null;
+          })
+          // A page reload mid-evaluate (dev-server HMR/PWA update) just
+          // means "not focused yet" — poll again.
+          .catch(() => null);
+
+      // axe throws if the page navigates while it injects/runs; retry.
+      const runAxeStable = async (page) => {
+        for (let attempt = 0; ; attempt++) {
+          try {
+            return await runAxe(page);
+          } catch (e) {
+            if (attempt >= 2) throw e;
+            await page.waitForTimeout(500);
+          }
+        }
+      };
+
+      for (const route of ['literacy', 'visual', 'cognitive']) {
+        test(`${route}: every task has a focused heading and no WCAG 2.1 A/AA violations`, async ({
+          page,
+        }) => {
+          test.setTimeout(150000);
+          await skipIntro(page, lang);
+          await page.goto(`/#/${route}`);
+          await expect(page.locator('section')).toBeVisible();
+          const skipBtn = page.getByRole('button', {
+            name: /Überspringen|Skip|Pomiń/i,
+          });
+
+          for (let i = 0; i < 8; i++) {
+            await expect
+              .poll(() => focusedHeadingTag(page), { timeout: 10000 })
+              .toMatch(/^H[1-6]$/);
+            const results = await runAxeStable(page);
+            expect(results.violations, formatViolations(results)).toEqual([]);
+            await skipBtn.click();
+          }
+        });
+      }
+
+      test('answering a task moves focus to the next task heading', async ({
+        page,
+      }) => {
+        test.setTimeout(150000);
+        await skipIntro(page, lang);
+        await page.goto('/#/literacy');
+        await expect(page.locator('section')).toBeVisible();
+
+        const nextBtn = page.getByRole('button', {
+          name: /Weiter|Next|Dalej/i,
+        });
+        const skipBtn = page.getByRole('button', {
+          name: /Überspringen|Skip|Pomiń/i,
+        });
+        // Not every exercise is a pick-one task; skip until one has an
+        // options group, then try its options until one is right.
+        let answered = false;
+        let answeredHeadingId = '';
+        for (let i = 0; i < 15 && !answered; i++) {
+          await expect
+            .poll(() => focusedHeadingTag(page), { timeout: 10000 })
+            .toMatch(/^H[1-6]$/);
+          answeredHeadingId = await page.evaluate(
+            () => document.activeElement?.id ?? '',
+          );
+          const options = page.locator('main [role="group"] button');
+          const count = await options.count();
+          for (let o = 0; o < count && !answered; o++) {
+            await options
+              .nth(o)
+              .click({ timeout: 5000 })
+              .catch(() => {});
+            answered = await nextBtn
+              .waitFor({ state: 'visible', timeout: 1500 })
+              .then(() => true)
+              .catch(() => false);
+          }
+          if (!answered) await skipBtn.click();
+        }
+        expect(answered, 'no answerable pick-one task found').toBe(true);
+
+        // A correct answer advances on its own after a short delay (the
+        // "Next" button is only a shortcut and detaches when that fires), so
+        // wait for the *new* task's heading — a fresh mount has a fresh id.
+        await expect
+          .poll(
+            async () => {
+              const id = await page
+                .evaluate(() => document.activeElement?.id ?? '')
+                .catch(() => '');
+              const tag = await focusedHeadingTag(page);
+              return tag && id && id !== answeredHeadingId ? 'moved' : 'same';
+            },
+            { timeout: 15000 },
+          )
+          .toBe('moved');
+      });
+    }
+
+    test('Settings dialog has no WCAG 2.1 A/AA violations', async ({
+      page,
+    }) => {
       await skipIntro(page, lang);
       await page.goto('/#/settings');
       await expect(page.locator('[role="dialog"]')).toBeVisible();
@@ -227,13 +344,16 @@ for (const lang of ['de', 'en', 'pl']) {
         );
       }, lang);
       await page.goto('/#/literacy');
-      
+
       const nextButton = page.locator('text=/Weiter|Next|Dalej/i');
       if (await nextButton.isVisible().catch(() => false)) {
         await page.locator(`button[lang="${lang}"]`).click();
         await nextButton.click();
         // Since studyProgress bypasses intro steps conditionally, handle UI if present
-        await page.locator('text=/Rozpocznij|Start/i').click().catch(() => {});
+        await page
+          .locator('text=/Rozpocznij|Start/i')
+          .click()
+          .catch(() => {});
       }
       await expect(page.locator('#main-content')).toBeVisible();
 

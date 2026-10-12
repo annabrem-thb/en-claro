@@ -2,10 +2,12 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import { playPhoneme } from '../../utils/phonemeAudio';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
 
 function GraphemePhonemeMatchExercise({
   data,
@@ -24,6 +26,7 @@ function GraphemePhonemeMatchExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
+  const { headingId, groupProps } = useTaskA11y();
   // Which modality is shown and which is played alternates by id, not by an
   // authored field — so the same item pool exercises the match in both
   // directions (hear a sound → pick its spelling; see a spelling → pick its
@@ -148,13 +151,14 @@ function GraphemePhonemeMatchExercise({
         />
       </ExerciseControlsRow>
 
-      {!zenMode && (
-        <h3
-          className={`mx-auto mb-3 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.15em] uppercase sm:mb-6 sm:text-[11px] ${isHighContrast ? 'text-white/50' : 'text-slate-500'}`}
-        >
-          <BionicText text={headerText} enabled={bionicReading} />
-        </h3>
-      )}
+      <TaskHeading
+        as="h3"
+        id={headingId}
+        zenMode={zenMode}
+        className={`mx-auto mb-3 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.15em] uppercase sm:mb-6 sm:text-[11px] ${isHighContrast ? 'text-white/50' : 'text-slate-500'}`}
+      >
+        <BionicText text={headerText} enabled={bionicReading} />
+      </TaskHeading>
 
       {direction === 'graphemeToPhoneme' && (
         <p
@@ -164,7 +168,10 @@ function GraphemePhonemeMatchExercise({
         </p>
       )}
 
-      <div className="no-scrollbar flex max-h-full min-h-0 w-full max-w-sm shrink flex-wrap justify-center gap-2 overflow-y-auto px-2 pt-2 pb-2 sm:gap-3">
+      <div
+        {...groupProps}
+        className="no-scrollbar flex max-h-full min-h-0 w-full max-w-sm shrink flex-wrap justify-center gap-2 overflow-y-auto px-2 pt-2 pb-2 sm:gap-3"
+      >
         {options.map((option, i) =>
           direction === 'phonemeToGrapheme' ? (
             <button

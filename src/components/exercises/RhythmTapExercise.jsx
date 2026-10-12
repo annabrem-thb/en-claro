@@ -2,10 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import { getSharedAudioContext } from '../../utils/audioUnlock.js';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
 
 // A short percussive click — deliberately not a spoken/synthesized sound, so
 // it reads as a "beat" rather than a repeat of the TTS voice. Mirrors the
@@ -48,6 +50,7 @@ function RhythmTapExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
+  const { headingId } = useTaskA11y();
   const [phase, setPhase] = useState('listen'); // 'listen' | 'tap' | 'result'
   const [tapCount, setTapCount] = useState(0);
   const [lastResult, setLastResult] = useState(null); // 'correct' | 'incorrect' | null
@@ -165,20 +168,21 @@ function RhythmTapExercise({
     <div
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}
     >
-      {!zenMode && (
-        <h3
-          className={`mb-2 shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-        >
-          {phase === 'listen'
-            ? t('rhythmListening') || 'Listen carefully…'
-            : phase === 'tap'
-              ? t('rhythmInstruction') ||
-                'Listen to the word, then tap once for every syllable'
-              : lastResult === 'correct'
-                ? t('rhythmCorrect') || 'Perfect rhythm!'
-                : t('rhythmIncorrect') || 'Not quite — listen again'}
-        </h3>
-      )}
+      <TaskHeading
+        as="h3"
+        id={headingId}
+        zenMode={zenMode}
+        className={`mb-2 shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+      >
+        {phase === 'listen'
+          ? t('rhythmListening') || 'Listen carefully…'
+          : phase === 'tap'
+            ? t('rhythmInstruction') ||
+              'Listen to the word, then tap once for every syllable'
+            : lastResult === 'correct'
+              ? t('rhythmCorrect') || 'Perfect rhythm!'
+              : t('rhythmIncorrect') || 'Not quite — listen again'}
+      </TaskHeading>
 
       {phase === 'tap' && (
         <ExerciseControlsRow>
@@ -215,6 +219,7 @@ function RhythmTapExercise({
         <>
           <button
             onClick={handleTap}
+            aria-describedby={headingId}
             className={`${tapPadSize} mb-3 flex shrink-0 items-center justify-center rounded-full border-b-8 shadow-xl transition-transform active:scale-90 active:border-b-0 sm:mb-6 ${themeStyles.button} ${themeStyles.buttonText}`}
             aria-label={t('rhythmTapButton') || 'Tap here for each syllable'}
           >

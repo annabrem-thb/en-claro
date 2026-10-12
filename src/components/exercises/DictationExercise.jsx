@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
 
 function DictationExercise({
   data,
@@ -27,6 +29,7 @@ function DictationExercise({
   // here, not an optional accessibility read-aloud of already-visible text.
   voiceAssistant = true,
 }) {
+  const { headingId } = useTaskA11y();
   const [userInput, setUserInput] = useState('');
   const inputRef = useRef(null);
   const {
@@ -108,14 +111,13 @@ function DictationExercise({
     <div
       className={`flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 ${noFlash ? '' : 'animate-in fade-in zoom-in duration-500'}`}
     >
-      {!zenMode && (
-        <h3
-          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-          aria-live="polite"
-        >
-          <BionicText text={headerText} enabled={bionicReading} />
-        </h3>
-      )}
+      <TaskHeading
+        id={headingId}
+        zenMode={zenMode}
+        className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+      >
+        <BionicText text={headerText} enabled={bionicReading} />
+      </TaskHeading>
 
       <ExerciseControlsRow className="mb-4 shrink-0 sm:mb-6">
         <TTSController
@@ -147,6 +149,7 @@ function DictationExercise({
         }`}
         placeholder={t('typeHere') || '...'}
         aria-label={t('typeWhatYouHear') || 'Type what you heard'}
+        aria-describedby={headingId}
         autoComplete="off"
         spellCheck="false"
       />

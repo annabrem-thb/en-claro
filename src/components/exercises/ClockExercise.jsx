@@ -3,10 +3,12 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
-import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 const formatTimeForTTS = (text, lang) => {
@@ -42,6 +44,7 @@ function ClockExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
+  const { headingId, groupProps } = useTaskA11y();
   const {
     isListening,
     transcript,
@@ -233,13 +236,14 @@ function ClockExercise({
 
       {}
       <div className="mb-2 flex shrink-0 flex-col items-center sm:mb-4">
-        {!zenMode && (
-          <h3
-            className={`mb-2 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-          >
-            {t('clockInstruction') || 'Select the matching time'}
-          </h3>
-        )}
+        <TaskHeading
+          as="h3"
+          id={headingId}
+          zenMode={zenMode}
+          className={`mb-2 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        >
+          {t('clockInstruction') || 'Select the matching time'}
+        </TaskHeading>
         <div className={`mb-1 text-4xl ${bounceClass}`} aria-hidden="true">
           {data.isNight ? '🌙' : '☀️'}
         </div>
@@ -315,7 +319,10 @@ function ClockExercise({
       </div>
 
       {}
-      <div className="grid w-full max-w-md shrink-0 grid-cols-2 gap-2 px-2 sm:max-w-lg sm:gap-3">
+      <div
+        {...groupProps}
+        className="grid w-full max-w-md shrink-0 grid-cols-2 gap-2 px-2 sm:max-w-lg sm:gap-3"
+      >
         {shuffledOptions.map((opt, i) => (
           <button
             key={i}

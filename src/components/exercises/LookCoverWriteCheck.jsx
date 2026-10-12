@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import { useUserSettingsContext } from '../../hooks/useUserSettingsContext.js';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
 
 function LookCoverWriteCheck({
   targetWord,
@@ -20,6 +22,7 @@ function LookCoverWriteCheck({
   zenMode = false,
   noFlash = false,
 }) {
+  const { headingId } = useTaskA11y();
   const activeWord = targetWord || word || '';
   const [phase, setPhase] = useState('look');
   const [userInput, setUserInput] = useState('');
@@ -53,7 +56,15 @@ function LookCoverWriteCheck({
     const result = isCorrect ? t('feedback.correct') : t('feedback.incorrect');
     const spoken = `${result} ${t('targetWord')}: ${activeWord}. ${t('yourSpelling')}: ${userInput}.`;
     speak(spoken, extendedTime);
-  }, [speak, isCorrect, t, activeWord, userInput, extendedTime, clearAllTimeouts]);
+  }, [
+    speak,
+    isCorrect,
+    t,
+    activeWord,
+    userInput,
+    extendedTime,
+    clearAllTimeouts,
+  ]);
 
   useAutoReadAloud(voiceAssistant && phase === 'check', handleReadResult);
 
@@ -72,14 +83,14 @@ function LookCoverWriteCheck({
       <div
         className={`flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 ${noFlash ? '' : 'animate-in fade-in duration-500'}`}
       >
-        {!zenMode && (
-          <h2
-            className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-            aria-live="polite"
-          >
-            {t('lookAndListen') || 'Step 1: Study the word'}
-          </h2>
-        )}
+        <TaskHeading
+          as="h2"
+          id={headingId}
+          zenMode={zenMode}
+          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        >
+          {t('lookAndListen') || 'Step 1: Study the word'}
+        </TaskHeading>
 
         <ExerciseControlsRow className="mb-3 shrink-0 sm:mb-6">
           <TTSController
@@ -122,14 +133,15 @@ function LookCoverWriteCheck({
       <div
         className={`flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2 ${noFlash ? '' : 'animate-in slide-in-from-right-4 fade-in duration-500'}`}
       >
-        {!zenMode && (
-          <h2
-            className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-            aria-live="polite"
-          >
-            {t('typeFromMemory') || 'Step 2: Type from memory'}
-          </h2>
-        )}
+        <TaskHeading
+          as="h2"
+          id={headingId}
+          zenMode={zenMode}
+          focusOnMount={false}
+          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        >
+          {t('typeFromMemory') || 'Step 2: Type from memory'}
+        </TaskHeading>
 
         <input
           ref={inputRef}
@@ -143,6 +155,7 @@ function LookCoverWriteCheck({
           }`}
           placeholder={t('typeHere') || '...'}
           aria-label={t('typeFromMemory') || 'Type the hidden word'}
+          aria-describedby={headingId}
           autoComplete="off"
           spellCheck="false"
         />
@@ -182,14 +195,15 @@ function LookCoverWriteCheck({
           />
         </ExerciseControlsRow>
 
-        {!zenMode && (
-          <h2
-            className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-            aria-live="polite"
-          >
-            {t('compareSpelling') || 'Step 3: Comparison'}
-          </h2>
-        )}
+        <TaskHeading
+          as="h2"
+          id={headingId}
+          zenMode={zenMode}
+          focusOnMount={false}
+          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        >
+          {t('compareSpelling') || 'Step 3: Comparison'}
+        </TaskHeading>
 
         <div className="mb-4 flex min-h-0 w-full max-w-md shrink flex-col gap-3 overflow-y-auto sm:mb-6 sm:gap-4">
           {}

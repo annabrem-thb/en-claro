@@ -3,10 +3,12 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
-import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 import VoiceAnswerButton from '../common/VoiceAnswerButton';
 
 function PhonemeExercise({
@@ -26,6 +28,7 @@ function PhonemeExercise({
   isHighContrast = false,
   voiceAssistant = true,
 }) {
+  const { headingId, groupProps } = useTaskA11y();
   const targetWord = data.word || '';
   const hintText = data.hint?.[language] || data.hint?.en || '';
 
@@ -121,14 +124,15 @@ function PhonemeExercise({
     <div
       className={`${animClass} flex h-full min-h-0 w-full max-w-md flex-col items-center justify-center overflow-hidden px-2 py-2`}
     >
-      {!zenMode && (
-        <h3
-          className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-        >
-          {t('phonemeInstruction') ||
-            'Guess the missing letters from the definition'}
-        </h3>
-      )}
+      <TaskHeading
+        as="h3"
+        id={headingId}
+        zenMode={zenMode}
+        className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+      >
+        {t('phonemeInstruction') ||
+          'Guess the missing letters from the definition'}
+      </TaskHeading>
 
       <div
         className={`font-black ${wordSize} break-word mb-2 flex min-h-0 w-full shrink flex-wrap justify-center gap-1 px-2 text-center leading-tight tracking-widest sm:gap-2 ${isHighContrast ? 'text-white' : 'text-slate-800'}`}
@@ -204,7 +208,10 @@ function PhonemeExercise({
         t={t}
       />
 
-      <div className="flex w-full max-w-xs shrink-0 items-center gap-2">
+      <div
+        {...groupProps}
+        className="flex w-full max-w-xs shrink-0 items-center gap-2"
+      >
         <input
           type="text"
           value={userInput}

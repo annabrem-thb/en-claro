@@ -3,10 +3,12 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useExerciseVoice } from '../../hooks/useExerciseVoice';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
-import TranscriptDisplay from '../common/TranscriptDisplay';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
+import TranscriptDisplay from '../common/TranscriptDisplay';
 
 function MemorySpanExercise({
   data,
@@ -25,6 +27,7 @@ function MemorySpanExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
+  const { headingId, groupProps } = useTaskA11y();
   const [isMemorizing, setIsMemorizing] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const [isChecking, setIsChecking] = useState(false);
@@ -217,11 +220,13 @@ function MemorySpanExercise({
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}
     >
       <div className="w-full shrink-0 text-center">
-        <h3
+        <TaskHeading
+          id={headingId}
+          zenMode={false}
           className={`mx-auto mb-2 max-w-[65ch] px-4 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
         >
           {isMemorizing ? t('memorize') || 'Memorize!' : data.instruction}
-        </h3>
+        </TaskHeading>
 
         {}
         {isMemorizing ? (
@@ -269,6 +274,7 @@ function MemorySpanExercise({
       {}
       {!isMemorizing && (
         <div
+          {...groupProps}
           className={`flex min-h-0 w-full flex-1 flex-col items-center justify-center ${noFlash ? '' : 'animate-in fade-in duration-500'}`}
         >
           {}

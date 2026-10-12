@@ -2,10 +2,12 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { useAutoReadAloud } from '../../hooks/useAutoReadAloud';
 import { useSafeTimeouts } from '../../hooks/useSafeTimeouts';
+import { useTaskA11y } from '../../hooks/useTaskA11y';
 import { getSharedAudioContext } from '../../utils/audioUnlock.js';
 import BionicText from '../common/BionicText';
 import ExerciseControlsRow from '../common/ExerciseControlsRow';
 import TTSController from '../common/TTSController';
+import TaskHeading from '../common/TaskHeading';
 
 const playNote = (freq, durationMs = 450) => {
   try {
@@ -60,6 +62,7 @@ function MelodyMemoryExercise({
   voiceAssistant = false,
   isHighContrast = false,
 }) {
+  const { headingId, groupProps } = useTaskA11y();
   const [phase, setPhase] = useState('listen'); // 'listen' | 'tap' | 'result'
   const [attempt, setAttempt] = useState([]);
   const [lastResult, setLastResult] = useState(null); // 'correct' | 'incorrect' | null
@@ -188,20 +191,21 @@ function MelodyMemoryExercise({
     <div
       className={`${animClass} flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden px-2 py-2`}
     >
-      {!zenMode && (
-        <h3
-          className={`mb-2 shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-        >
-          {phase === 'listen'
-            ? t('rhythmListening') || 'Listen carefully…'
-            : phase === 'tap'
-              ? t('melodyMemoryInstruction') ||
-                'Listen to the melody, then play it back in the same order'
-              : lastResult === 'correct'
-                ? t('rhythmCorrect') || 'Perfect!'
-                : t('rhythmIncorrect') || 'Not quite — listen again'}
-        </h3>
-      )}
+      <TaskHeading
+        as="h3"
+        id={headingId}
+        zenMode={zenMode}
+        className={`mb-2 shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+      >
+        {phase === 'listen'
+          ? t('rhythmListening') || 'Listen carefully…'
+          : phase === 'tap'
+            ? t('melodyMemoryInstruction') ||
+              'Listen to the melody, then play it back in the same order'
+            : lastResult === 'correct'
+              ? t('rhythmCorrect') || 'Perfect!'
+              : t('rhythmIncorrect') || 'Not quite — listen again'}
+      </TaskHeading>
 
       {phase === 'tap' && (
         <ExerciseControlsRow>
@@ -240,6 +244,7 @@ function MelodyMemoryExercise({
 
       {(phase === 'listen' || phase === 'tap') && (
         <div
+          {...groupProps}
           className="mb-4 flex shrink-0 gap-3 sm:mb-6 sm:gap-4"
           aria-hidden={phase === 'listen'}
         >

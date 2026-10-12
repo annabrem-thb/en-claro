@@ -701,5 +701,9 @@
       "title": "Gut gewachsen",
       "desc": "Im Garten vorbeigeschaut."
     }
-  }
+  },
+  "gapLabel": "Lücke",
+  "energyLevelGreen": "Läuft gut",
+  "energyLevelYellow": "Wirst müde",
+  "energyLevelRed": "Zeit für eine Pause"
 }

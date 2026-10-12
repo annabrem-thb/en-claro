@@ -702,5 +702,9 @@
       "title": "Rośnie w siłę",
       "desc": "Zajrzano do Ogrodu."
     }
-  }
+  },
+  "gapLabel": "Luka",
+  "energyLevelGreen": "Idzie dobrze",
+  "energyLevelYellow": "Robisz się zmęczony",
+  "energyLevelRed": "Czas na przerwę"
 }
