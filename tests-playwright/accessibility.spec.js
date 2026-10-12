@@ -157,10 +157,17 @@ for (const lang of ['de', 'en', 'pl']) {
         test(`${route}: every task has a focused heading and no WCAG 2.1 A/AA violations`, async ({
           page,
         }) => {
-          test.setTimeout(150000);
-          await skipIntro(page, lang);
-          await page.goto(`/#/${route}`);
-          await expect(page.locator('section')).toBeVisible();
+          test.setTimeout(100000);
+          // Redo the whole setup if the page reloads mid-way (dev-server /
+          // PWA update on slow CI resets the app to the intro screen).
+          await expect(async () => {
+            await page.goto('/');
+            await skipIntro(page, lang);
+            await page.goto(`/#/${route}`);
+            await expect(page.locator('section')).toBeVisible({
+              timeout: 10000,
+            });
+          }).toPass({ timeout: 60000 });
           const skipBtn = page.getByRole('button', {
             name: /Überspringen|Skip|Pomiń/i,
           });
@@ -179,10 +186,13 @@ for (const lang of ['de', 'en', 'pl']) {
       test('answering a task moves focus to the next task heading', async ({
         page,
       }) => {
-        test.setTimeout(150000);
-        await skipIntro(page, lang);
-        await page.goto('/#/literacy');
-        await expect(page.locator('section')).toBeVisible();
+        test.setTimeout(100000);
+        await expect(async () => {
+          await page.goto('/');
+          await skipIntro(page, lang);
+          await page.goto('/#/literacy');
+          await expect(page.locator('section')).toBeVisible({ timeout: 10000 });
+        }).toPass({ timeout: 60000 });
 
         const nextBtn = page.getByRole('button', {
           name: /Weiter|Next|Dalej/i,
