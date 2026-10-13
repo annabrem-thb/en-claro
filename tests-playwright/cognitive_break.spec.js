@@ -95,7 +95,17 @@ for (const lang of ['de', 'en', 'pl']) {
         }
       }
       
-      await expect(breakPrompt).toBeVisible();
+      // Diagnostics for a CI-only failure: how many answers were sent and
+      // what the energy indicator (role=status) says — the break only opens
+      // once it reads "red" (4 errors within 3 minutes).
+      const energy = await page
+        .locator('[role="status"]')
+        .allInnerTexts()
+        .catch(() => []);
+      expect(
+        await breakPrompt.isVisible(),
+        `no break prompt after ${attempts} answers; status regions: ${JSON.stringify(energy)}`,
+      ).toBe(true);
       
       await page.getByRole('button', { name: /Odpoczywam|Rest|Pause|Ausruhen/i }).click();
     });

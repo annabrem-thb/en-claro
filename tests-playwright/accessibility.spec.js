@@ -141,6 +141,39 @@ for (const lang of ['de', 'en', 'pl']) {
           // means "not focused yet" — poll again.
           .catch(() => null);
 
+      // Waits for focus to land on a task heading; on failure reports what
+      // actually has focus and what the page shows, so a CI-only failure is
+      // diagnosable without reproducing it.
+      const expectHeadingFocused = async (page, label) => {
+        try {
+          await expect
+            .poll(() => focusedHeadingTag(page), { timeout: 10000 })
+            .toMatch(/^H[1-6]$/);
+        } catch (e) {
+          const state = await page
+            .evaluate(() => {
+              const el = document.activeElement;
+              const main = document.querySelector('main');
+              return {
+                active: el
+                  ? `${el.tagName}#${el.id} tabindex=${el.getAttribute('tabindex')}`
+                  : null,
+                headings: [
+                  ...document.querySelectorAll('main [tabindex="-1"]'),
+                ].map(
+                  (h) => `${h.tagName}:${h.textContent.trim().slice(0, 40)}`,
+                ),
+                hash: location.hash,
+                text: (main?.innerText || '').slice(0, 200),
+              };
+            })
+            .catch((err) => ({ evaluateFailed: String(err) }));
+          throw new Error(
+            `${label}: no focused task heading. ${JSON.stringify(state)}\n${e.message}`,
+          );
+        }
+      };
+
       // axe throws if the page navigates while it injects/runs; retry.
       const runAxeStable = async (page) => {
         for (let attempt = 0; ; attempt++) {
@@ -173,9 +206,7 @@ for (const lang of ['de', 'en', 'pl']) {
           });
 
           for (let i = 0; i < 8; i++) {
-            await expect
-              .poll(() => focusedHeadingTag(page), { timeout: 10000 })
-              .toMatch(/^H[1-6]$/);
+            await expectHeadingFocused(page, 'task heading');
             const results = await runAxeStable(page);
             expect(results.violations, formatViolations(results)).toEqual([]);
             await skipBtn.click();
@@ -205,9 +236,7 @@ for (const lang of ['de', 'en', 'pl']) {
         let answered = false;
         let answeredHeadingId = '';
         for (let i = 0; i < 15 && !answered; i++) {
-          await expect
-            .poll(() => focusedHeadingTag(page), { timeout: 10000 })
-            .toMatch(/^H[1-6]$/);
+          await expectHeadingFocused(page, 'task heading');
           answeredHeadingId = await page.evaluate(
             () => document.activeElement?.id ?? '',
           );
