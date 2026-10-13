@@ -69,7 +69,7 @@ export default function Tooltip({
             ref={refs.setFloating}
             style={floatingStyles}
             {...getFloatingProps()}
-            className={`animate-in fade-in pointer-events-none z-100 max-w-xs rounded-xl px-3 py-2 text-xs font-medium wrap-break-word hyphens-auto shadow-lg transition-opacity duration-200 ${
+            className={`animate-in fade-in pointer-events-none z-100 max-w-xs rounded-xl px-3 py-2 text-xs font-medium wrap-anywhere hyphens-auto shadow-lg transition-opacity duration-200 ${
               isHighContrast
                 ? 'border border-black bg-white text-black'
                 : 'bg-slate-800 text-white'

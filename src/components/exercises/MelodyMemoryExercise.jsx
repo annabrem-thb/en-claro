@@ -245,7 +245,7 @@ function MelodyMemoryExercise({
       {(phase === 'listen' || phase === 'tap') && (
         <div
           {...groupProps}
-          className="mb-4 flex shrink-0 gap-3 sm:mb-6 sm:gap-4"
+          className="mb-4 flex max-w-full shrink-0 flex-wrap justify-center gap-3 sm:mb-6 sm:gap-4"
           aria-hidden={phase === 'listen'}
         >
           {noteOrder.map((i) => {

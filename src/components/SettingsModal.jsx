@@ -759,7 +759,7 @@ export default function SettingsModal({ open, onClose, speak }) {
           role="tablist"
           aria-label={t('settingsTitle')}
           onKeyDown={handleTabKeyDown}
-          className={`flex shrink-0 flex-row space-x-1 overflow-x-auto border-b p-2 md:flex-col md:space-y-1 md:space-x-0 md:overflow-y-auto md:border-r md:border-b-0 ${settings.contrast ? 'border-white/20' : 'border-slate-200'}`}
+          className={`flex shrink-0 flex-row flex-wrap gap-1 border-b p-2 md:flex-col md:flex-nowrap md:overflow-y-auto md:border-r md:border-b-0 ${settings.contrast ? 'border-white/20' : 'border-slate-200'}`}
         >
           {TABS.map((tab) => (
             <button
@@ -770,7 +770,7 @@ export default function SettingsModal({ open, onClose, speak }) {
               aria-selected={activeTab === tab.id}
               aria-controls={`settings-panel-${tab.id}`}
               tabIndex={activeTab === tab.id ? 0 : -1}
-              className={`w-full rounded-lg px-4 py-2 text-left text-sm font-bold transition-colors ${
+              className={`flex-auto rounded-lg px-4 py-2 text-left text-sm font-bold transition-colors md:w-full md:flex-none ${
                 activeTab === tab.id
                   ? settings.contrast
                     ? 'bg-white/20 text-white'

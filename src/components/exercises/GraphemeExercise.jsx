@@ -229,7 +229,7 @@ function GraphemeExercise({
             aria-label={
               opt.label ? opt.label[language] || opt.label.en : undefined
             }
-            className={`relative min-w-32 flex-1 ${btnPadding} flex flex-col items-center justify-center gap-3 rounded-4xl border-b-8 shadow-lg transition-all active:translate-y-2 active:border-b-0 md:shadow-sm ${
+            className={`relative min-w-[min(8rem,100%)] flex-1 ${btnPadding} flex flex-col items-center justify-center gap-3 rounded-4xl border-b-8 shadow-lg transition-all active:translate-y-2 active:border-b-0 md:shadow-sm ${
               isListening
                 ? // Dims the tile in place rather than swapping its colors
                   // out — the previous 'text-white opacity-50 grayscale'

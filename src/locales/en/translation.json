@@ -427,6 +427,12 @@
     "Visual": "Vision\nand Space",
     "Cognitive": "Logic\nand Memory"
   },
+  "navShort": {
+    "Literacy": "Reading",
+    "Visual": "Vision",
+    "Cognitive": "Logic",
+    "settings": "Settings"
+  },
   "studyMode": {
     "adaptiveLocked": "Fixed off in study mode for both blocks.",
     "toggleLabel": "Study mode",
@@ -703,5 +709,5 @@
   "gapLabel": "Gap",
   "energyLevelGreen": "Going well",
   "energyLevelYellow": "Getting tired",
-  "energyLevelRed": "Time for a break"
+  "energyLevelRed": "Needs rest"
 }
