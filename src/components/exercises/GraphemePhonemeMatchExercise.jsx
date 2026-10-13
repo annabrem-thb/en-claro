@@ -177,7 +177,7 @@ function GraphemePhonemeMatchExercise({
             <button
               key={i}
               onClick={() => handleTextOptionTap(option)}
-              className={`relative min-w-32 flex-1 ${btnPadding} flex flex-col items-center justify-center gap-3 rounded-4xl border-b-8 shadow-lg transition-all active:translate-y-2 active:border-b-0 md:shadow-sm ${
+              className={`relative min-w-[min(8rem,100%)] flex-1 ${btnPadding} flex flex-col items-center justify-center gap-3 rounded-4xl border-b-8 shadow-lg transition-all active:translate-y-2 active:border-b-0 md:shadow-sm ${
                 activeHighlight === i
                   ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
                   : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-105`
@@ -197,7 +197,7 @@ function GraphemePhonemeMatchExercise({
             <button
               key={i}
               onClick={() => handleAudioOptionTap(i, option)}
-              className={`relative min-w-32 flex-1 ${btnPadding} flex flex-col items-center justify-center gap-2 rounded-4xl border-b-8 shadow-lg transition-all active:translate-y-2 active:border-b-0 md:shadow-sm ${
+              className={`relative min-w-[min(8rem,100%)] flex-1 ${btnPadding} flex flex-col items-center justify-center gap-2 rounded-4xl border-b-8 shadow-lg transition-all active:translate-y-2 active:border-b-0 md:shadow-sm ${
                 previewIndex === i
                   ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
                   : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-105`

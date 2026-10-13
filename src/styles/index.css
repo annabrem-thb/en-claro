@@ -117,8 +117,15 @@
     word-spacing: var(--word-spacing);
     line-height: var(--line-height);
 
-    /* Protect layout from breaking - forces long words to break into new lines */
-    overflow-wrap: break-word;
+    /* Long words wrap at hyphenation points first (<html lang> is set, so
+       hyphens:auto works per language); only a word that still can't fit
+       on a line by itself breaks anywhere. `anywhere` (unlike
+       `break-word`) also lowers min-content, so flex/grid items holding
+       such a word can shrink instead of overflowing their container —
+       that is what keeps text from being clipped at 320px with the
+       maximum text-size/spacing settings. */
+    overflow-wrap: anywhere;
+    hyphens: auto;
   }
 
   body {
@@ -287,4 +294,17 @@
   .animate-pip-pulse {
     animation: pip-pulse 900ms ease-out;
   }
+}
+
+/* Exercise cards are fixed-height (h-full) with overflow-hidden, which clips
+   whatever a larger text size or extra spacing pushes past the bottom. Let
+   the card scroll vertically instead (reflow only forbids *horizontal*
+   scrolling), and use `safe` centering so content taller than the card
+   starts at the top rather than overflowing both ends out of reach. */
+.exercise-scale > * {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.exercise-scale > [class*='justify-center'] {
+  justify-content: safe center;
 }

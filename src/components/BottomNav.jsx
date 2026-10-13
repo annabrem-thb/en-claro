@@ -35,7 +35,7 @@ function NavButton({
       // bar's per-button width is only whatever `flex-1` divides the
       // viewport into, which happily satisfies 56px on a typical phone but
       // isn't guaranteed to (narrow devices, 5 items when Garden is shown).
-      className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-2xl transition-all duration-300 active:scale-95 ${bigTargets ? 'min-h-14 p-3' : 'p-2'} ${disabled && !isActive ? 'cursor-not-allowed opacity-40' : ''} ${
+      className={`relative flex min-w-[min(4rem,100%)] flex-auto flex-col items-center justify-center rounded-2xl transition-all duration-300 active:scale-95 ${bigTargets ? 'min-h-14 p-3' : 'p-2'} ${disabled && !isActive ? 'cursor-not-allowed opacity-40' : ''} ${
         isActive
           ? isHighContrast
             ? 'bg-white/20 font-black text-white shadow-sm'
@@ -54,20 +54,13 @@ function NavButton({
         {icon}
       </div>
       {}
-      {/* Wraps onto a second line instead of a previous approach that
-          either truncated to one line or hid the label outright once the
-          user's UI text-size setting pushed it past a single line's width
-          — both left the button's meaning readable only from its icon.
-          `line-clamp-2` still caps runaway length (e.g. German compounds)
-          with an ellipsis rather than growing the bar unboundedly. */}
-      {
-        // Never bionic-split: the bold/regular half-word pattern is meant
-        // to anchor the eye while reading flowing sentences, but on a
-        // short, single/two-word nav tag it just reads as an arbitrary
-        // bold pattern — worse once `hideNavLabel`'s removal (above) made
-        // these regularly two lines of tracking-wide text.
-      }
-      <span className="line-clamp-2 max-w-full text-center text-[10px] leading-tight wrap-break-word whitespace-pre-line">
+      {/* Short labels (i18n `navShort`; the full name stays the accessible
+          name via aria-label) so each fits on one line at the largest text
+          size; if one still doesn't, it hyphenates at word boundaries —
+          never an ellipsis, never a clipped line. The row itself wraps
+          (see the <nav> below) instead of squeezing six buttons into
+          one line. */}
+      <span className="max-w-full text-center text-[10px] leading-tight wrap-anywhere hyphens-auto">
         {label}
       </span>
       {badge && (
@@ -142,18 +135,15 @@ function BottomNavComponent({
         </div>
       )}
       <nav
-        className={`z-40 flex items-center justify-around border-t px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] transition-colors ${isHighContrast ? 'border-white/20 bg-black' : 'border-slate-100 bg-white'}`}
+        className={`z-40 flex flex-wrap items-stretch justify-around gap-x-1 border-t px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] transition-colors ${isHighContrast ? 'border-white/20 bg-black' : 'border-slate-100 bg-white'}`}
         aria-label={t('navAria') || 'Main Navigation'}
       >
         {pillars.map((pillar, index) => {
           const label =
             t('pillars', { returnObjects: true })?.[pillar] || pillar;
-          // Forces the line break at a specific word boundary per language
-          // instead of leaving it to the browser — see SidebarNav.jsx's
-          // identical navLabel for why (German 2/1 words, Polish/English
-          // 1/rest).
+          // Short visual label; `label` (full name) stays the accessible name.
           const navLabel =
-            t('pillarsNav', { returnObjects: true })?.[pillar] || label;
+            t('navShort', { returnObjects: true })?.[pillar] || label;
           return (
             <NavButton
               key={pillar}
@@ -204,6 +194,7 @@ function BottomNavComponent({
             bigTargets={bigTargets}
             icon="📝"
             label={t('surveyAria') || 'Survey'}
+            ariaLabel={t('surveyAria') || 'Survey'}
             keyshortcut="Control+s"
           />
         )}
@@ -217,7 +208,11 @@ function BottomNavComponent({
           themeStyles={themeStyles}
           bigTargets={bigTargets}
           icon="⚙️"
-          label={t('settings') || 'Settings'}
+          label={
+            t('navShort', { returnObjects: true })?.settings ||
+            t('settings') ||
+            'Settings'
+          }
           ariaLabel={t('settingsAria') || 'Settings'}
           keyshortcut="Control+,"
         />

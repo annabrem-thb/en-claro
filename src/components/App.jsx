@@ -1100,7 +1100,7 @@ function AppContent() {
                     className={`absolute top-4 left-1/2 z-20 w-full max-w-[90%] -translate-x-1/2 sm:max-w-md ${noFlash ? '' : 'animate-in slide-in-from-top duration-300'}`}
                   >
                     <span
-                      className={`block rounded-2xl border px-4 py-3 text-center text-sm font-medium wrap-break-word hyphens-auto shadow-sm sm:px-6 ${isHighContrast ? 'border-white bg-black text-white' : 'border-slate-200 bg-slate-50 text-slate-600'}`}
+                      className={`block rounded-2xl border px-4 py-3 text-center text-sm font-medium wrap-anywhere hyphens-auto shadow-sm sm:px-6 ${isHighContrast ? 'border-white bg-black text-white' : 'border-slate-200 bg-slate-50 text-slate-600'}`}
                       role="status"
                       aria-live="polite"
                     >
@@ -1123,7 +1123,7 @@ function AppContent() {
                 <div className="animate-in zoom-in mt-3 flex shrink-0 flex-col items-center justify-center pb-1 duration-300 md:mt-4 md:pb-2">
                   <button
                     onClick={goNext}
-                    className={`${bigTargets ? 'px-14 py-5 text-lg md:py-6' : 'px-12 py-3.5 text-sm md:py-4'} rounded-full font-black tracking-widest uppercase shadow-xl transition-all active:scale-95 ${noFlash ? '' : 'animate-bounce'} wrap-break-word hyphens-auto ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} ${themeStyles.buttonText} opacity-90 hover:opacity-100`}`}
+                    className={`${bigTargets ? 'px-14 py-5 text-lg md:py-6' : 'px-12 py-3.5 text-sm md:py-4'} rounded-full font-black tracking-widest uppercase shadow-xl transition-all active:scale-95 ${noFlash ? '' : 'animate-bounce'} wrap-anywhere hyphens-auto ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} ${themeStyles.buttonText} opacity-90 hover:opacity-100`}`}
                   >
                     <BionicText
                       text={t('next') || 'Next'}
@@ -1165,10 +1165,10 @@ function AppContent() {
                 // entire block, hamburger included.
                 currentTask && (
                   <div className="mt-2 flex shrink-0 flex-col items-center justify-center pb-1 md:mt-3 md:pb-2">
-                    <div className="flex items-center gap-2">
+                    <div className="flex max-w-full flex-wrap items-center justify-center gap-2">
                       <button
                         onClick={handleSkip}
-                        className={`${bigTargets ? 'px-10 py-4 text-xs' : 'px-8 py-2 text-[10px]'} rounded-full border-2 bg-transparent font-black tracking-widest uppercase transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}
+                        className={`${bigTargets ? 'px-6 py-4 text-xs sm:px-10' : 'px-4 py-2 text-[10px] sm:px-8'} rounded-full border-2 bg-transparent font-black tracking-widest uppercase transition-colors ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}
                       >
                         <BionicText
                           text={t('skip') || 'Skip'}

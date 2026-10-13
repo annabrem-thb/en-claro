@@ -433,6 +433,12 @@
     "Visual": "Wzrok\ni Przestrzeń",
     "Cognitive": "Logika\ni Pamięć"
   },
+  "navShort": {
+    "Literacy": "Czytanie",
+    "Visual": "Wzrok",
+    "Cognitive": "Logika",
+    "settings": "Opcje"
+  },
   "studyMode": {
     "adaptiveLocked": "W trybie badania wyłączona na stałe w obu blokach.",
     "toggleLabel": "Tryb badania",
@@ -706,5 +712,5 @@
   "gapLabel": "Luka",
   "energyLevelGreen": "Idzie dobrze",
   "energyLevelYellow": "Robisz się zmęczony",
-  "energyLevelRed": "Czas na przerwę"
+  "energyLevelRed": "Potrzebny odpoczynek"
 }

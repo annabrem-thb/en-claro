@@ -153,7 +153,8 @@ const SidebarNav = memo(function SidebarNav({
           // word/rest — a plain flex-wrap left German breaking after word 1
           // and Polish/English's short first word looking oddly short next
           // to a long second line.
-          const navLabel = t('pillarsNav', { returnObjects: true })?.[p] || label;
+          const navLabel =
+            t('pillarsNav', { returnObjects: true })?.[p] || label;
           return (
             <Tooltip
               key={p}
@@ -169,13 +170,13 @@ const SidebarNav = memo(function SidebarNav({
                   onTabChange(p);
                 }}
                 disabled={isLockedOut}
-                className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isLockedOut ? 'cursor-not-allowed opacity-40' : ''} ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-700 hover:bg-slate-100/50 hover:text-slate-700 hover:shadow-sm'}`}
+                className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isLockedOut ? 'cursor-not-allowed opacity-40' : ''} ${isSelected ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} z-10 scale-[1.02] font-black shadow-md ring-1 ring-slate-900/5`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-700 hover:bg-slate-100/50 hover:text-slate-700 hover:shadow-sm'}`}
                 aria-current={isSelected ? 'page' : undefined}
                 aria-label={label}
                 aria-keyshortcuts={`Control+${index + 1}`}
               >
                 <span
-                  className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
+                  className="inline-flex min-w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
                   aria-hidden="true"
                 >
                   {PILLAR_ICONS[p]}
@@ -192,7 +193,7 @@ const SidebarNav = memo(function SidebarNav({
                     // choice for why a short, all-caps nav label doesn't
                     // benefit from the flowing-text bold/regular pattern.
                   }
-                  <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider whitespace-pre-line uppercase lg:text-xs">
+                  <span className="max-w-full text-[9px] font-bold tracking-wider wrap-anywhere whitespace-pre-line uppercase lg:text-xs">
                     {navLabel}
                   </span>
                 </AccessibleTTS>
@@ -234,13 +235,13 @@ const SidebarNav = memo(function SidebarNav({
                 speak(t('garden') || 'Garden', true);
                 onGardenClick();
               }}
-              className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${activeTab === 'Garden' ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} ring-slate-900/5 z-10 scale-[1.02] font-black shadow-md ring-1`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-700 hover:bg-slate-100/50 hover:text-slate-700 hover:shadow-sm'}`}
+              className={`group relative flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${activeTab === 'Garden' ? (isHighContrast ? 'z-10 scale-105 bg-white font-black text-black shadow-lg' : `bg-white ${themeStyles.accent} z-10 scale-[1.02] font-black shadow-md ring-1 ring-slate-900/5`) : isHighContrast ? 'text-white/70 hover:bg-white/10 hover:text-white' : 'text-slate-700 hover:bg-slate-100/50 hover:text-slate-700 hover:shadow-sm'}`}
               aria-current={activeTab === 'Garden' ? 'page' : undefined}
               aria-label={t('garden') || 'Garden'}
               aria-keyshortcuts="Control+4"
             >
               <span
-                className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
+                className="inline-flex min-w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
                 aria-hidden="true"
               >
                 {t('levelIcons', { returnObjects: true })?.[theme]?.[0] || '🌱'}
@@ -252,7 +253,7 @@ const SidebarNav = memo(function SidebarNav({
                 className="flex min-w-0 lg:flex"
                 interactive={false}
               >
-                <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
+                <span className="max-w-full text-[9px] font-bold tracking-wider wrap-anywhere uppercase lg:text-xs">
                   {t('garden') || 'Garden'}
                 </span>
               </AccessibleTTS>
@@ -305,7 +306,7 @@ const SidebarNav = memo(function SidebarNav({
               aria-label={t('installApp') || 'Install App'}
             >
               <span
-                className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
+                className="inline-flex min-w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
                 aria-hidden="true"
               >
                 📱
@@ -317,7 +318,7 @@ const SidebarNav = memo(function SidebarNav({
                 className={`flex min-w-0 lg:flex ${isHighContrast ? 'text-black' : 'text-white'}`}
                 interactive={false}
               >
-                <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
+                <span className="max-w-full text-[9px] font-bold tracking-wider wrap-anywhere uppercase lg:text-xs">
                   {t('installApp') || 'Install App'}
                 </span>
               </AccessibleTTS>
@@ -349,7 +350,7 @@ const SidebarNav = memo(function SidebarNav({
               aria-keyshortcuts="Control+s"
             >
               <span
-                className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
+                className="inline-flex min-w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
                 aria-hidden="true"
               >
                 📝
@@ -361,7 +362,7 @@ const SidebarNav = memo(function SidebarNav({
                 className="flex min-w-0 lg:flex"
                 interactive={false}
               >
-                <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
+                <span className="max-w-full text-[9px] font-bold tracking-wider wrap-anywhere uppercase lg:text-xs">
                   {t('surveyAria')}
                 </span>
               </AccessibleTTS>
@@ -385,7 +386,7 @@ const SidebarNav = memo(function SidebarNav({
             aria-keyshortcuts="Control+,"
           >
             <span
-              className="inline-flex w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
+              className="inline-flex min-w-6 shrink-0 items-center justify-center text-xl lg:text-xl"
               aria-hidden="true"
             >
               ⚙️
@@ -397,7 +398,7 @@ const SidebarNav = memo(function SidebarNav({
               className="flex min-w-0 lg:flex"
               interactive={false}
             >
-              <span className="line-clamp-2 max-w-full wrap-break-word text-[9px] font-bold tracking-wider uppercase lg:text-xs">
+              <span className="max-w-full text-[9px] font-bold tracking-wider wrap-anywhere uppercase lg:text-xs">
                 {t('settingsAria')}
               </span>
             </AccessibleTTS>

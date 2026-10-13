@@ -210,7 +210,7 @@ function PhonemeExercise({
 
       <div
         {...groupProps}
-        className="flex w-full max-w-xs shrink-0 items-center gap-2"
+        className="flex w-full max-w-xs shrink-0 flex-wrap items-center justify-center gap-2"
       >
         <input
           type="text"

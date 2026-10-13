@@ -197,13 +197,15 @@ function RhythmTapExercise({
         </ExerciseControlsRow>
       )}
 
-      <div className="mb-3 shrink-0 text-center sm:mb-6">
+      <div className="mb-3 max-w-full shrink-0 text-center sm:mb-6">
         {!zenMode && (
           <div className="mb-1 text-4xl sm:mb-2 sm:text-6xl" aria-hidden="true">
             {data.icon || '🥁'}
           </div>
         )}
-        <div className={`${wordSize} font-black ${themeStyles.accent}`}>
+        <div
+          className={`${wordSize} max-w-full font-black ${themeStyles.accent}`}
+        >
           <BionicText
             text={
               phase === 'result' && lastResult

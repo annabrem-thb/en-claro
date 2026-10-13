@@ -246,7 +246,7 @@ function MemorySpanExercise({
               {data.displayItems?.map((item, i) => (
                 <div
                   key={i}
-                  className={`${tileSize} flex items-center justify-center rounded-2xl border-4 text-center leading-tight font-bold wrap-break-word shadow-sm transition-all duration-300 sm:rounded-3xl md:shadow-none ${
+                  className={`${tileSize} flex items-center justify-center rounded-2xl border-4 text-center leading-tight font-bold wrap-anywhere shadow-sm transition-all duration-300 sm:rounded-3xl md:shadow-none ${
                     activeHighlight === `mem-${i}`
                       ? 'z-10 scale-110 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
                       : isHighContrast
@@ -332,7 +332,7 @@ function MemorySpanExercise({
                   key={index}
                   onClick={() => handleSelectItem(item)}
                   disabled={isSelected || isListening}
-                  className={`relative ${letterBtn} flex items-center justify-center border-2 text-center leading-tight font-bold wrap-break-word transition-all active:scale-90 ${
+                  className={`relative ${letterBtn} flex items-center justify-center border-2 text-center leading-tight font-bold wrap-anywhere transition-all active:scale-90 ${
                     isSelected || isListening
                       ? isHighContrast
                         ? 'cursor-default border-white/30 bg-black text-white/40'

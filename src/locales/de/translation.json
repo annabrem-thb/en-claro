@@ -432,6 +432,12 @@
     "Visual": "Sehen und\nRaum",
     "Cognitive": "Logik und\nGedächtnis"
   },
+  "navShort": {
+    "Literacy": "Lesen",
+    "Visual": "Sehen",
+    "Cognitive": "Logik",
+    "settings": "Optionen"
+  },
   "studyMode": {
     "adaptiveLocked": "Im Studienmodus für beide Blöcke fest ausgeschaltet.",
     "toggleLabel": "Studienmodus",
@@ -705,5 +711,5 @@
   "gapLabel": "Lücke",
   "energyLevelGreen": "Läuft gut",
   "energyLevelYellow": "Wirst müde",
-  "energyLevelRed": "Zeit für eine Pause"
+  "energyLevelRed": "Braucht Erholung"
 }

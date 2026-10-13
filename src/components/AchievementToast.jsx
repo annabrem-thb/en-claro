@@ -34,7 +34,7 @@ function AchievementToastComponent({ achievementId, t, isHighContrast, noFlash }
             {t(achievement.titleKey)}
           </h4>
           <p
-            className={`text-[10px] leading-tight font-medium wrap-break-word hyphens-auto sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-amber-50'}`}
+            className={`text-[10px] leading-tight font-medium wrap-anywhere hyphens-auto sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-amber-50'}`}
           >
             {t(achievement.descKey)}
           </p>

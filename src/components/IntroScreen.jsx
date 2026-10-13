@@ -41,7 +41,7 @@ const A11yBtn = ({
     <span aria-hidden="true" className="mb-0.5 text-lg sm:text-xl">
       {icon}
     </span>
-    <span className="w-full px-1 text-center wrap-break-word hyphens-auto">
+    <span className="w-full px-1 text-center wrap-anywhere hyphens-auto">
       <BionicText text={label} enabled={hasBionic} />
     </span>
   </button>
@@ -62,8 +62,11 @@ function IntroScreen({ onStart, speak }) {
   const { t } = useTranslation();
   const { settings, updateSetting } = useUserSettingsContext();
   const { isGamified, setIsGamified } = useGamification();
-  const { studyModeEnabled, setStudyModeEnabled, isActive: studyModeActive } =
-    useStudyMode();
+  const {
+    studyModeEnabled,
+    setStudyModeEnabled,
+    isActive: studyModeActive,
+  } = useStudyMode();
 
   const {
     language,
@@ -89,9 +92,17 @@ function IntroScreen({ onStart, speak }) {
   // reverts to the plain baseline on a second tap rather than trying to
   // remember whatever custom slider position was there before.
   const BIGGER_TEXT_PRESET = { fontSizeUi: 20, fontSizeExercise: 20 };
-  const MORE_SPACING_PRESET = { lineHeight: 2, letterSpacing: 0.15, wordSpacing: 0.35 };
+  const MORE_SPACING_PRESET = {
+    lineHeight: 2,
+    letterSpacing: 0.15,
+    wordSpacing: 0.35,
+  };
   const BASELINE_TEXT = { fontSizeUi: 16, fontSizeExercise: 16 };
-  const BASELINE_SPACING = { lineHeight: 1.5, letterSpacing: 0, wordSpacing: 0 };
+  const BASELINE_SPACING = {
+    lineHeight: 1.5,
+    letterSpacing: 0,
+    wordSpacing: 0,
+  };
 
   const applyPreset = (preset) => {
     Object.entries(preset).forEach(([key, value]) => updateSetting(key, value));
@@ -242,7 +253,7 @@ function IntroScreen({ onStart, speak }) {
           landmarks on this screen even though the rest of the app has them. */}
       <main
         id="main-content"
-        className={`relative z-10 flex max-h-[98dvh] min-h-0 w-full max-w-lg shrink flex-col items-stretch rounded-4xl text-center shadow-2xl transition-all ${
+        className={`relative z-10 flex max-h-full min-h-0 w-full max-w-lg shrink flex-col items-stretch rounded-4xl text-center shadow-2xl transition-all ${
           isHighContrast
             ? 'border-2 border-white bg-black'
             : 'border border-slate-200 bg-white/90 backdrop-blur-md'
@@ -296,7 +307,7 @@ function IntroScreen({ onStart, speak }) {
               </p>
 
               {}
-              <fieldset className="m-0 mb-2 grid w-full shrink-0 grid-cols-3 gap-1 border-none p-0 sm:gap-1.5">
+              <fieldset className="m-0 mb-2 flex w-full shrink-0 flex-wrap gap-1 border-none p-0 sm:gap-1.5">
                 {/* HTML's content model for <legend> explicitly permits a single
                   heading element (h1-h6) as its entire content, alongside
                   plain phrasing content — so this <h2> gives the group a real,
@@ -324,7 +335,7 @@ function IntroScreen({ onStart, speak }) {
                       updateSetting('language', code);
                       if (settings.voiceAssistant && speak) speak(label);
                     }}
-                    className={`flex flex-row items-center justify-center gap-1 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:gap-1.5 sm:text-sm ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2.5'} ${
+                    className={`flex min-w-0 flex-auto flex-row flex-wrap items-center justify-center gap-x-1 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:gap-1.5 sm:text-sm ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2.5'} ${
                       language === code
                         ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-md shadow-indigo-500/10'}`
                         : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300'}`
@@ -391,7 +402,10 @@ function IntroScreen({ onStart, speak }) {
                 <A11yBtn
                   active={hasVision}
                   onClick={() =>
-                    toggleAddon('Niedowidzenie', t('intro.vision', 'Bigger Text'))
+                    toggleAddon(
+                      'Niedowidzenie',
+                      t('intro.vision', 'Bigger Text'),
+                    )
                   }
                   icon="🔍"
                   label={t('intro.vision', 'Bigger Text')}
@@ -403,7 +417,10 @@ function IntroScreen({ onStart, speak }) {
                 <A11yBtn
                   active={hasBionic}
                   onClick={() =>
-                    toggleInclusive('bionicReading', t('intro.bionic', 'Bionic'))
+                    toggleInclusive(
+                      'bionicReading',
+                      t('intro.bionic', 'Bionic'),
+                    )
                   }
                   icon="👁️"
                   label={t('intro.bionic', 'Bionic')}
@@ -586,7 +603,7 @@ function IntroScreen({ onStart, speak }) {
                 </p>
               </div>
 
-              <fieldset className="m-0 mb-2 grid w-full shrink-0 grid-cols-2 gap-1 border-none p-0 sm:gap-1.5">
+              <fieldset className="m-0 mb-2 flex w-full shrink-0 flex-wrap gap-1 border-none p-0 sm:gap-1.5">
                 {/* HTML's content model for <legend> explicitly permits a single
                   heading element (h1-h6) as its entire content, alongside
                   plain phrasing content — so this <h2> gives the group a real,
@@ -609,7 +626,7 @@ function IntroScreen({ onStart, speak }) {
                 </legend>
                 {studyModeActive ? (
                   <p
-                    className={`col-span-2 rounded-xl border-2 py-2.5 text-center text-xs font-bold tracking-wider uppercase sm:text-sm ${isHighContrast ? 'border-white/30 text-white' : 'border-slate-200 bg-white text-slate-600'}`}
+                    className={`w-full rounded-xl border-2 py-2.5 text-center text-xs font-bold tracking-wider uppercase sm:text-sm ${isHighContrast ? 'border-white/30 text-white' : 'border-slate-200 bg-white text-slate-600'}`}
                   >
                     {isGamified
                       ? t('studyMode.currentVariantGamified')
@@ -623,7 +640,7 @@ function IntroScreen({ onStart, speak }) {
                         if (settings.voiceAssistant && speak)
                           speak(t('intro.modeClassic', 'Learning Only'));
                       }}
-                      className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
+                      className={`flex min-w-0 flex-auto flex-row flex-wrap items-center justify-center gap-x-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
                         !isGamified
                           ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-md'}`
                           : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300'}`
@@ -649,7 +666,7 @@ function IntroScreen({ onStart, speak }) {
                         if (settings.voiceAssistant && speak)
                           speak(t('intro.modeGamified', 'Gamified'));
                       }}
-                      className={`flex flex-row items-center justify-center gap-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
+                      className={`flex min-w-0 flex-auto flex-row flex-wrap items-center justify-center gap-x-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
                         isGamified
                           ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md'}`
                           : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-emerald-300'}`
@@ -736,24 +753,27 @@ function IntroScreen({ onStart, speak }) {
             </div>
           )}
 
-          <div className="flex items-stretch gap-2">
+          <div className="flex flex-wrap items-stretch gap-2">
             {step === 2 && (
               <button
                 onClick={goToStep1}
-                className={`shrink-0 rounded-xl border-2 px-4 font-black tracking-widest uppercase transition-all active:scale-95 sm:rounded-2xl ${
+                className={`flex-auto rounded-xl border-2 px-4 font-black tracking-widest uppercase transition-all active:scale-95 sm:rounded-2xl ${
                   bigTargets
                     ? 'py-3 text-sm sm:py-4 sm:text-lg'
                     : 'py-2.5 text-sm sm:py-3'
                 } ${isHighContrast ? 'border-white/50 text-white hover:border-white' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}
               >
-                <BionicText text={t('intro.back', 'Back')} enabled={hasBionic} />
+                <BionicText
+                  text={t('intro.back', 'Back')}
+                  enabled={hasBionic}
+                />
               </button>
             )}
 
             {step === 1 ? (
               <button
                 onClick={goToStep2}
-                className={`min-w-0 flex-1 rounded-xl font-black tracking-widest uppercase transition-all active:scale-95 sm:rounded-2xl ${
+                className={`min-w-0 flex-auto rounded-xl font-black tracking-widest uppercase transition-all active:scale-95 sm:rounded-2xl ${
                   bigTargets
                     ? 'py-3 text-sm sm:py-4 sm:text-lg'
                     : 'py-2.5 text-sm sm:py-3'
@@ -764,10 +784,11 @@ function IntroScreen({ onStart, speak }) {
             ) : (
               <button
                 onClick={() => {
-                  if (settings.voiceAssistant && speak) speak(t('start', 'Start'));
+                  if (settings.voiceAssistant && speak)
+                    speak(t('start', 'Start'));
                   onStart();
                 }}
-                className={`min-w-0 flex-1 rounded-xl font-black tracking-widest uppercase transition-all active:scale-95 sm:rounded-2xl ${
+                className={`min-w-0 flex-auto rounded-xl font-black tracking-widest uppercase transition-all active:scale-95 sm:rounded-2xl ${
                   bigTargets
                     ? 'py-3 text-sm sm:py-4 sm:text-lg'
                     : 'py-2.5 text-sm sm:py-3'

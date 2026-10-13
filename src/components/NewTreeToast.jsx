@@ -29,7 +29,7 @@ function NewTreeToastComponent({ show, noFlash, isHighContrast, t }) {
             {t('realWorldImpact.newTreeTitle') || 'New tree'}
           </h4>
           <p
-            className={`text-[10px] leading-tight font-medium wrap-break-word hyphens-auto sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-emerald-50'}`}
+            className={`text-[10px] leading-tight font-medium wrap-anywhere hyphens-auto sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-emerald-50'}`}
           >
             {t('realWorldImpact.newTreeMsg') ||
               'Your consistent learning helped plant another tree, virtually.'}

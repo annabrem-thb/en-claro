@@ -208,7 +208,7 @@ function ReadingComprehensionExercise({
               opt.isCorrect ? onSuccess() : onError();
             }}
             disabled={isListening}
-            className={`relative min-w-32 flex-1 ${btnPadding} flex flex-col items-center justify-center gap-2 rounded-4xl border-b-8 shadow-lg transition-all active:translate-y-2 active:border-b-0 md:shadow-sm ${
+            className={`relative min-w-[min(8rem,100%)] flex-1 ${btnPadding} flex flex-col items-center justify-center gap-2 rounded-4xl border-b-8 shadow-lg transition-all active:translate-y-2 active:border-b-0 md:shadow-sm ${
               isListening
                 ? // Keeps themeStyles.button's background instead of
                   // dropping it — the number badge below always uses
@@ -228,7 +228,7 @@ function ReadingComprehensionExercise({
             >
               {i + 1}
             </span>
-            <span className="w-full text-center text-base font-bold wrap-break-word sm:text-lg">
+            <span className="w-full text-center text-base font-bold wrap-anywhere sm:text-lg">
               <BionicText text={opt.text} enabled={bionicReading} />
             </span>
           </button>
