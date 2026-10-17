@@ -5,7 +5,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 2 : undefined,
   reporter: 'html',
   use: {
     baseURL: 'http://localhost:5173',
@@ -20,7 +20,11 @@ export default defineConfig({
     { name: 'Mobile (iPhone X)', use: { ...devices['iPhone X'] } },
   ],
   webServer: {
-    command: 'npm run dev',
+    // CI serves the production build (faster, no on-demand compilation);
+    // locally the dev server is kept for hot reload.
+    command: process.env.CI
+      ? 'npm run build && npx vite preview --port 5173 --strictPort'
+      : 'npm run dev',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,

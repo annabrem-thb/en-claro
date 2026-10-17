@@ -5,14 +5,15 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-  test:
-    timeout-minutes: 60
+  checks:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
     - uses: actions/setup-node@v5
       with:
         node-version: lts/*
+        cache: npm
     - name: Install dependencies
       run: npm ci
     - name: Install Netlify Function dependencies
@@ -34,13 +35,51 @@ jobs:
       run: npm run check:locales
     - name: Unit tests
       run: npm run test:run
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+
+  e2e:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - project: Desktop Chrome
+          browser: chromium
+          slug: chrome
+        - project: Desktop Firefox
+          browser: firefox
+          slug: firefox
+        - project: Tablet (iPad)
+          browser: webkit
+          slug: ipad
+        - project: Mobile (iPhone X)
+          browser: webkit
+          slug: iphone
+    steps:
+    - uses: actions/checkout@v5
+    - uses: actions/setup-node@v5
+      with:
+        node-version: lts/*
+        cache: npm
+    - name: Install dependencies
+      run: npm ci
+    - name: Cache Playwright browsers
+      id: pw-cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ matrix.browser }}-${{ hashFiles('package-lock.json') }}
+    - name: Install Playwright browser
+      if: steps.pw-cache.outputs.cache-hit != 'true'
+      run: npx playwright install --with-deps ${{ matrix.browser }}
+    - name: Install Playwright system dependencies
+      if: steps.pw-cache.outputs.cache-hit == 'true'
+      run: npx playwright install-deps ${{ matrix.browser }}
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npx playwright test --project="${{ matrix.project }}"
     - uses: actions/upload-artifact@v5
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report
+        name: playwright-report-${{ matrix.slug }}
         path: playwright-report/
         retention-days: 30
