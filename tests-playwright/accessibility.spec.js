@@ -87,6 +87,7 @@ for (const lang of ['de', 'en', 'pl']) {
         // status line — opt out first so "Study only" is an actual clickable
         // button in skipIntro() below.
         window.localStorage.setItem('studyModeEnabled', 'false');
+        window.localStorage.setItem('voiceFallbackBannerDismissed', 'true');
       }, lang);
       await page.goto('/');
     });
