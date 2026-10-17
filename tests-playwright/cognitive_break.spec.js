@@ -17,6 +17,8 @@ for (const lang of ['de', 'en', 'pl']) {
           JSON.stringify({ cognitiveBreaks: true }),
         );
         window.localStorage.setItem('studyModeEnabled', 'false');
+        // Prevent the voice fallback banner from appearing in CI by marking it dismissed
+        window.localStorage.setItem('voiceFallbackBannerDismissed', 'true');
       }, lang);
     });
 
@@ -76,7 +78,9 @@ for (const lang of ['de', 'en', 'pl']) {
         if (!isBuildThenSubmit && count >= 2) {
           // Mobile fix: dispatchEvent bypasses Playwright's strict viewport bounding box checks
           // which fail during React entrance animations on small screens.
-          await answerButtons.first().dispatchEvent('click').catch(() => {});
+-          await answerButtons.first().dispatchEvent('click').catch(() => {});
++          // Use Playwright's click({ force: true }) so React handlers are reliably invoked
++          await answerButtons.first().click({ force: true }).catch(() => {});
 
           await page.waitForTimeout(500);
             
