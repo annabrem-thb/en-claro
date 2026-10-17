@@ -10,6 +10,10 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
+    // The production build (served in CI) registers the PWA service worker,
+    // which handles fetches itself so page.route() never sees them — e.g. the
+    // intercepted survey POST. Tests don't exercise offline behaviour.
+    serviceWorkers: 'block',
   },
   // Definiujemy projekty dla różnych urządzeń. 
   // Playwright uruchomi testy dla każdego z nich osobno.
