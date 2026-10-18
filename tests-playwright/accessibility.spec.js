@@ -74,6 +74,16 @@ for (const lang of ['de', 'en', 'pl']) {
       // this app already wires up to skip its entrance animations entirely
       // (see a11y.css's `data-a11y-motion` rules) via the same
       // prefers-reduced-motion seed used for the "Calm screen" setting.
+      // CI-only diagnostics: keep browser-side errors so a failure can say
+      // why the app rendered nothing, not just that it did.
+      page.errorLog = [];
+      page.on('pageerror', (err) =>
+        page.errorLog.push(`pageerror: ${err.message}`),
+      );
+      page.on('console', (msg) => {
+        if (msg.type() === 'error')
+          page.errorLog.push(`console: ${msg.text().slice(0, 200)}`);
+      });
       await page.emulateMedia({ reducedMotion: 'reduce' });
       // addInitScript, not page.evaluate() after a goto: the app's own
       // useUserSettings effect writes its current in-memory settings back to
@@ -166,11 +176,12 @@ for (const lang of ['de', 'en', 'pl']) {
                 ),
                 hash: location.hash,
                 text: (main?.innerText || '').slice(0, 200),
+                body: document.body.innerHTML.slice(0, 300),
               };
             })
             .catch((err) => ({ evaluateFailed: String(err) }));
           throw new Error(
-            `${label}: no focused task heading. ${JSON.stringify(state)}\n${e.message}`,
+            `${label}: no focused task heading. ${JSON.stringify(state)} errors=${JSON.stringify(page.errorLog)}\n${e.message}`,
           );
         }
       };

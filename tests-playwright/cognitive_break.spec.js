@@ -3,6 +3,14 @@ import { expect, test } from '@playwright/test';
 for (const lang of ['de', 'en', 'pl']) {
   test.describe(`En-Claro - Cognitive Breaks [${lang.toUpperCase()}]`, () => {
     test.beforeEach(async ({ page }) => {
+      page.errorLog = [];
+      page.on('pageerror', (err) =>
+        page.errorLog.push(`pageerror: ${err.message}`),
+      );
+      page.on('console', (msg) => {
+        if (msg.type() === 'error')
+          page.errorLog.push(`console: ${msg.text().slice(0, 200)}`);
+      });
       // addInitScript, not page.evaluate() after a goto: the app's own
       // useUserSettings effect writes its current in-memory settings back to
       // localStorage on mount (to persist other fields as the user changes
@@ -103,9 +111,12 @@ for (const lang of ['de', 'en', 'pl']) {
         .locator('[role="status"]')
         .allInnerTexts()
         .catch(() => []);
+      const body = await page
+        .evaluate(() => document.body.innerText.slice(0, 300))
+        .catch(() => '');
       expect(
         await breakPrompt.isVisible(),
-        `no break prompt after ${attempts} answers; status regions: ${JSON.stringify(energy)}`,
+        `no break prompt after ${attempts} answers; status regions: ${JSON.stringify(energy)}; body: ${JSON.stringify(body)}; errors: ${JSON.stringify(page.errorLog)}`,
       ).toBe(true);
       
       await page.getByRole('button', { name: /Odpoczywam|Rest|Pause|Ausruhen/i }).click();

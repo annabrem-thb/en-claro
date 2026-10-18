@@ -10,6 +10,7 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
     // The production build (served in CI) registers the PWA service worker,
     // which handles fetches itself so page.route() never sees them — e.g. the
     // intercepted survey POST. Tests don't exercise offline behaviour.
