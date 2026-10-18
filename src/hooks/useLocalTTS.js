@@ -1,5 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+// Firefox throws InvalidStateError if stop() hits a source that was never
+// started — which happens whenever the AudioContext is still suspended and
+// start() is deferred (see playAudio). Nothing is playing then, so ignore it.
+function stopSource(source) {
+  try {
+    source?.stop();
+  } catch {
+    // never started
+  }
+}
+
 // Local, in-browser TTS (meSpeak/eSpeak formant synthesis, see ttsWorker.js)
 // for browsers that report zero installed system voices — mainly desktop
 // Firefox/Opera, which unlike Chrome have no bundled network voices of
@@ -96,7 +107,11 @@ export function useLocalTTS() {
         setIsSpeaking(true);
         setIsPaused(false);
         if (ctx.state === 'suspended') {
-          ctx.resume().then(() => source.start());
+          ctx.resume().then(() => {
+            // cancel()/speak() may have replaced or dropped this source
+            // while the context was resuming — don't start a stale one.
+            if (sourceNodeRef.current === source) source.start();
+          });
         } else {
           source.start();
         }
@@ -211,7 +226,7 @@ export function useLocalTTS() {
         return;
       }
       cancelledRef.current = false;
-      sourceNodeRef.current?.stop?.();
+      stopSource(sourceNodeRef.current);
       sourceNodeRef.current = null;
       setError(null);
       const requestId = ++requestIdRef.current;
@@ -224,7 +239,7 @@ export function useLocalTTS() {
   const cancel = useCallback(() => {
     cancelledRef.current = true;
     requestIdRef.current += 1;
-    sourceNodeRef.current?.stop?.();
+    stopSource(sourceNodeRef.current);
     sourceNodeRef.current = null;
     pendingRef.current = null;
     setIsSpeaking(false);
@@ -244,7 +259,7 @@ export function useLocalTTS() {
 
   useEffect(
     () => () => {
-      sourceNodeRef.current?.stop?.();
+      stopSource(sourceNodeRef.current);
       workerRef.current?.terminate();
       if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
         audioCtxRef.current.close();
