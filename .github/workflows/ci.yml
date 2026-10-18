@@ -8,6 +8,11 @@ jobs:
   checks:
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    env:
+      # onnxruntime-node (pulled in by @huggingface/transformers) downloads a
+      # native binary in its install script. The app only runs it in the
+      # browser, so skip the download instead of failing on network hiccups.
+      ONNXRUNTIME_NODE_INSTALL: skip
     steps:
     - uses: actions/checkout@v5
     - uses: actions/setup-node@v5
@@ -39,6 +44,11 @@ jobs:
   e2e:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      # onnxruntime-node (pulled in by @huggingface/transformers) downloads a
+      # native binary in its install script. The app only runs it in the
+      # browser, so skip the download instead of failing on network hiccups.
+      ONNXRUNTIME_NODE_INSTALL: skip
     strategy:
       fail-fast: false
       matrix:
