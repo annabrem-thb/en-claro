@@ -82,7 +82,7 @@ for (const lang of ['de', 'en', 'pl']) {
         'main button:has-text("Zakryj słowo"), main button:has-text("Cover word"), main button:has-text("Wort verdecken")',
       );
       const answerButtons = page.locator(
-        'main button:not(:has-text("🎤")):not(:has-text("🛑")):not(:has-text("🔊"))',
+        'main button:not(:has-text("🎤")):not(:has-text("🛑")):not(:has-text("🔊")):not(:has-text("⏸️")):not(:has-text("▶️"))',
       );
       const skipBtn = page.locator(
         'button:has-text("Pomiń"), button:has-text("Skip"), button:has-text("Überspringen")',
