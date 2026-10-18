@@ -3,6 +3,22 @@ import { expect, test } from '@playwright/test';
 for (const lang of ['de', 'en', 'pl']) {
   test.describe(`En-Claro - Cognitive Breaks [${lang.toUpperCase()}]`, () => {
     test.beforeEach(async ({ page }) => {
+      // Firefox throws InvalidStateError when stop() is called on a
+      // not-yet-started AudioBufferSourceNode. useLocalTTS.js defers start()
+      // until a suspended AudioContext resumes (headless CI: always), so
+      // answering mid-sentence calls stop() first and the exception aborts
+      // the click handler before the answer is counted. Swallow it here so
+      // this test exercises the break logic, not that audio race.
+      await page.addInitScript(() => {
+        const stop = AudioBufferSourceNode.prototype.stop;
+        AudioBufferSourceNode.prototype.stop = function patchedStop(...args) {
+          try {
+            return stop.apply(this, args);
+          } catch {
+            return undefined;
+          }
+        };
+      });
       page.errorLog = [];
       page.on('pageerror', (err) =>
         page.errorLog.push(`pageerror: ${err.message}`),
