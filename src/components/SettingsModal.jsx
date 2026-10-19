@@ -2,6 +2,7 @@ import { useCallback, useEffect, useId, useMemo, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
+import { DESIGN_TOKEN_SLIDERS } from '../data/designTokens.js';
 import { STUDY_EXERCISE_PILLARS } from '../data/exerciseTypes.js';
 import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useGamification } from '../hooks/useGamification.js';
@@ -303,15 +304,6 @@ const A11Y_SECTIONS = [
 // cap. `lrs` above still exists as a one-tap preset that jumps these same
 // settings fields, so moving a slider here is exactly equivalent to what
 // that toggle already does, just to any value in between too.
-const DESIGN_TOKEN_SLIDERS = [
-  { key: 'fontSizeExercise', min: 16, max: 32, step: 1, unit: 'px' },
-  { key: 'fontSizeUi', min: 16, max: 28, step: 1, unit: 'px' },
-  { key: 'lineHeight', min: 1.5, max: 2.2, step: 0.1, unit: '' },
-  { key: 'letterSpacing', min: 0, max: 0.24, step: 0.02, unit: 'em' },
-  { key: 'wordSpacing', min: 0, max: 0.32, step: 0.02, unit: 'em' },
-  { key: 'paragraphSpacing', min: 0, max: 3, step: 0.25, unit: 'em' },
-];
-
 const A11yTab = ({ speak }) => {
   const { t } = useTranslation();
   const { settings, updateSetting } = useUserSettingsContext();

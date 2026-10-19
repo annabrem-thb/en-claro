@@ -2,6 +2,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
+import {
+  BIGGER_TEXT_PRESET,
+  MORE_SPACING_PRESET,
+} from '../data/designTokens.js';
 import { useAutoReadAloud } from '../hooks/useAutoReadAloud.js';
 import { useGamification } from '../hooks/useGamification.js';
 import { useSafeTimeouts } from '../hooks/useSafeTimeouts.js';
@@ -91,12 +95,6 @@ function IntroScreen({ onStart, speak }) {
   // instead — same pattern as the `lrs` toggle in useUserSettings.js — and
   // reverts to the plain baseline on a second tap rather than trying to
   // remember whatever custom slider position was there before.
-  const BIGGER_TEXT_PRESET = { fontSizeUi: 20, fontSizeExercise: 20 };
-  const MORE_SPACING_PRESET = {
-    lineHeight: 2,
-    letterSpacing: 0.15,
-    wordSpacing: 0.35,
-  };
   const BASELINE_TEXT = { fontSizeUi: 16, fontSizeExercise: 16 };
   const BASELINE_SPACING = {
     lineHeight: 1.5,

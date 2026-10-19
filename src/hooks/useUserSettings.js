@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
+import { LRS_PRESET } from '../data/designTokens.js';
 import { getDefaultActiveExercises } from '../data/exerciseTypes.js';
 import { safeJSONParse } from '../utils/safeJSONParse.js';
 
@@ -133,11 +134,7 @@ export function useUserSettings() {
     if (settings.lrs === prevLrsRef.current) return;
     prevLrsRef.current = settings.lrs;
     const preset = settings.lrs
-      ? {
-          lineHeight: 1.75,
-          letterSpacing: 0.08,
-          wordSpacing: 0.2,
-        }
+      ? LRS_PRESET
       : {
           lineHeight: DEFAULT_SETTINGS.lineHeight,
           letterSpacing: DEFAULT_SETTINGS.letterSpacing,
