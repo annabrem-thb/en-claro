@@ -43,7 +43,9 @@ jobs:
 
   e2e:
     timeout-minutes: 60
-    runs-on: ubuntu-latest
+    # Pinned: Playwright's WebKit build targets Ubuntu 24.04 (needs libicu74),
+    # which newer ubuntu-latest images no longer ship.
+    runs-on: ubuntu-24.04
     env:
       # onnxruntime-node (pulled in by @huggingface/transformers) downloads a
       # native binary in its install script. The app only runs it in the
