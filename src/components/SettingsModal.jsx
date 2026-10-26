@@ -242,20 +242,20 @@ const GeneralTab = ({ speak }) => {
             <BionicText text={t('dailyGoal')} enabled={bionicReading} />
           </h3>
           <div className="grid grid-cols-2 gap-2">
-            {[5, 10, 15, 20].map((minutes) => (
+            {[5, 10, 15, 20].map((count) => (
               <button
-                key={minutes}
+                key={count}
                 onClick={() => {
-                  updateSetting('dailyGoal', minutes);
+                  updateSetting('dailyGoal', count);
                   if (settings.voiceAssistant && speak)
-                    speak(t(`goal${minutes}`));
+                    speak(t(`goal${count}`));
                 }}
-                aria-pressed={settings.dailyGoal === minutes}
-                className={`rounded-xl border-2 p-4 text-left ${settings.dailyGoal === minutes ? 'border-amber-500 bg-amber-50' : 'bg-white hover:border-slate-300'}`}
+                aria-pressed={settings.dailyGoal === count}
+                className={`rounded-xl border-2 p-4 text-left ${settings.dailyGoal === count ? 'border-amber-500 bg-amber-50' : 'bg-white hover:border-slate-300'}`}
               >
                 <p className="font-bold text-slate-800">
                   <BionicText
-                    text={t(`goal${minutes}`)}
+                    text={t(`goal${count}`)}
                     enabled={bionicReading}
                   />
                 </p>
