@@ -1084,7 +1084,7 @@ function AppContent() {
               {}
               <section
                 ref={cardRef}
-                className={`relative flex min-h-0 w-full flex-1 flex-col items-center rounded-4xl px-2 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-12 ${isHighContrast ? 'border border-white/30 bg-black shadow-lg shadow-white/10 md:shadow-sm' : `border bg-[#FCFBF9] ${themeStyles.border} shadow-xl shadow-slate-200/30 md:shadow-md`}`}
+                className={`exercise-card relative flex min-h-0 w-full flex-1 flex-col items-center rounded-4xl px-2 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-12 ${isHighContrast ? 'border border-white/30 bg-black shadow-lg shadow-white/10 md:shadow-sm' : `border bg-[#FCFBF9] ${themeStyles.border} shadow-xl shadow-slate-200/30 md:shadow-md`}`}
                 aria-label={t('exerciseAria')}
               >
                 {}

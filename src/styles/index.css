@@ -308,3 +308,14 @@
 .exercise-scale > [class*='justify-center'] {
   justify-content: safe center;
 }
+
+/* In a short viewport (phone in landscape) the exercise card is squeezed to
+   whatever height is left, which collapses the answer options into a tiny
+   nested scroller. Let the card keep its natural content height instead so
+   <main>, which already scrolls vertically, does the scrolling (WCAG 1.3.4:
+   the app must stay usable in both orientations). */
+@media (max-height: 500px) {
+  .exercise-card {
+    min-height: max-content;
+  }
+}
