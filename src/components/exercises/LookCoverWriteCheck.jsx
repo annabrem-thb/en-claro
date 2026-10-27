@@ -151,7 +151,7 @@ function LookCoverWriteCheck({
           className={`mb-4 min-h-0 w-full max-w-md shrink rounded-2xl p-4 text-center text-2xl font-bold transition-shadow focus:ring-4 focus:outline-none sm:mb-6 sm:rounded-3xl sm:p-6 sm:text-3xl ${
             isHighContrast
               ? 'border-4 border-white bg-black text-white placeholder:text-white/80 focus:ring-white/50'
-              : 'border-2 border-indigo-100 bg-white text-slate-800 shadow-inner placeholder:text-slate-600 focus:border-indigo-400 focus:ring-indigo-100'
+              : 'border-2 border-indigo-100 bg-white text-slate-800 shadow-inner placeholder:text-slate-600 focus:border-indigo-400 focus:ring-indigo-600'
           }`}
           placeholder={t('typeHere') || '...'}
           aria-label={t('typeFromMemory') || 'Type the hidden word'}

@@ -299,7 +299,7 @@ function VisualCategorization({
                   handleBucketClick(bucket.id);
                 }
               }}
-              className={`relative flex flex-col rounded-3xl p-4 sm:p-6 ${bucketMinHeight} border-4 text-left transition-all focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-400 ${
+              className={`relative flex flex-col rounded-3xl p-4 sm:p-6 ${bucketMinHeight} border-4 text-left transition-all focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-600 ${
                 activeHighlight === `bucket-${bucket.id}`
                   ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 ring-4 ring-yellow-400'
                   : activeItem
@@ -327,7 +327,7 @@ function VisualCategorization({
                     key={item.id}
                     type="button"
                     disabled={isShowingCorrection}
-                    className={`flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-bold shadow-sm transition-all focus:outline-none focus-visible:ring-4 focus-visible:ring-red-400 ${isShowingCorrection ? 'cursor-not-allowed opacity-70 grayscale' : isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'border border-slate-200 bg-white text-slate-700 hover:border-red-300 hover:bg-red-50'}`}
+                    className={`flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-bold shadow-sm transition-all focus:outline-none focus-visible:ring-4 focus-visible:ring-red-700 ${isShowingCorrection ? 'cursor-not-allowed opacity-70 grayscale' : isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'border border-slate-200 bg-white text-slate-700 hover:border-red-300 hover:bg-red-50'}`}
                     onClick={(e) => handleRemoveFromBucket(item.id, e)}
                     aria-label={`${t('delete') || 'Remove'}: ${item.word}`}
                   >

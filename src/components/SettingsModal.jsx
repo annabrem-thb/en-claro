@@ -61,7 +61,7 @@ const SettingToggle = ({
       aria-label={label}
       disabled={disabled}
       onClick={onChange}
-      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${checked ? 'bg-emerald-500' : isHighContrast ? 'bg-white/30' : 'bg-slate-200'} ${disabled ? 'cursor-not-allowed opacity-50' : ''}`}
+      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${checked ? 'bg-emerald-700' : isHighContrast ? 'border-2 border-white bg-white/60' : 'bg-slate-500'} ${disabled ? 'cursor-not-allowed opacity-50' : ''}`}
     >
       <span
         className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${checked ? 'translate-x-6' : 'translate-x-1'}`}
@@ -188,7 +188,7 @@ const GeneralTab = ({ speak }) => {
             aria-checked={studyModeEnabled}
             aria-label={t('studyMode.toggleLabel')}
             onClick={() => setStudyModeEnabled(!studyModeEnabled)}
-            className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${studyModeEnabled ? 'bg-indigo-500' : 'bg-slate-300'}`}
+            className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${studyModeEnabled ? 'bg-indigo-500' : 'bg-slate-500'}`}
           >
             <span
               aria-hidden="true"

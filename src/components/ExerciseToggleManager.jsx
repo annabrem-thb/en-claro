@@ -38,7 +38,7 @@ function ExerciseSwitchRow({
         aria-checked={checked}
         aria-label={label}
         onClick={onChange}
-        className={`flex shrink-0 items-center justify-center rounded-full transition-colors focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-300 ${
+        className={`flex shrink-0 items-center justify-center rounded-full transition-colors focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-600 ${
           bigTargets ? 'h-14 w-14' : 'h-9 w-9'
         }`}
       >
@@ -46,7 +46,7 @@ function ExerciseSwitchRow({
           aria-hidden="true"
           className={`relative inline-block shrink-0 rounded-full transition-colors ${
             bigTargets ? 'h-8 w-14' : 'h-6 w-11'
-          } ${checked ? 'bg-emerald-500' : isHighContrast ? 'bg-white/30' : 'bg-slate-200'}`}
+          } ${checked ? 'bg-emerald-700' : isHighContrast ? 'border-2 border-white bg-white/60' : 'bg-slate-500'}`}
         >
           <span
             className={`absolute top-1/2 inline-block -translate-y-1/2 transform rounded-full bg-white transition-transform ${

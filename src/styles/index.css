@@ -65,7 +65,7 @@
   --page-bg: #fdfbf7;
   --page-text: #333333;
   --accent-em: #4338ca;
-  --focus-ring: #818cf8;
+  --focus-ring: #4f46e5;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -225,7 +225,7 @@ function PhonemeExercise({
           className={`min-w-0 flex-1 rounded-2xl p-3 text-center text-base font-bold transition-shadow focus:ring-4 focus:outline-none disabled:opacity-50 sm:p-4 sm:text-lg ${
             isHighContrast
               ? 'border-4 border-white bg-black text-white placeholder:text-white/80 focus:ring-white/50'
-              : 'border-2 border-slate-200 bg-white text-slate-800 shadow-inner placeholder:text-slate-600 focus:border-indigo-400 focus:ring-indigo-100'
+              : 'border-2 border-slate-200 bg-white text-slate-800 shadow-inner placeholder:text-slate-600 focus:border-indigo-400 focus:ring-indigo-600'
           }`}
           placeholder={t('typeHere') || '...'}
           aria-label={t('typeHere') || 'Type here'}

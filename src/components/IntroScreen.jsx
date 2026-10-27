@@ -33,11 +33,11 @@ const A11yBtn = ({
   <button
     onClick={onClick}
     aria-pressed={active}
-    className={`relative ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2'} flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border-2 px-1 text-xs leading-tight font-bold transition-all active:scale-95 sm:text-sm ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-900 shadow-sm') : isHighContrast ? 'border-white/30 text-white/80 hover:border-white/50' : 'border-slate-100 text-slate-600 hover:border-slate-300'}`}
+    className={`relative ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2'} flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border-2 px-1 text-xs leading-tight font-bold transition-all active:scale-95 sm:text-sm ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-700 bg-amber-50 text-amber-900 shadow-sm') : isHighContrast ? 'border-white/30 text-white/80 hover:border-white/50' : 'border-slate-100 text-slate-600 hover:border-slate-300'}`}
   >
     {active && (
       <div
-        className={`absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-bl-lg ${isHighContrast ? 'bg-white text-black' : 'bg-amber-500 text-white'}`}
+        className={`absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-bl-lg ${isHighContrast ? 'bg-white text-black' : 'bg-amber-700 text-white'}`}
       >
         <span className="text-[8px] font-black">✓</span>
       </div>
@@ -586,7 +586,7 @@ function IntroScreen({ onStart, speak }) {
                     aria-checked={studyModeEnabled}
                     aria-label={t('studyMode.toggleLabel')}
                     onClick={() => setStudyModeEnabled(!studyModeEnabled)}
-                    className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${studyModeEnabled ? 'bg-indigo-500' : isHighContrast ? 'bg-white/30' : 'bg-slate-300'}`}
+                    className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${studyModeEnabled ? 'bg-indigo-500' : isHighContrast ? 'border-2 border-white bg-white/60' : 'bg-slate-500'}`}
                   >
                     <span
                       aria-hidden="true"

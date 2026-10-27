@@ -431,10 +431,10 @@ function VirtualGarden({
                       checkInDemand === n
                         ? isHighContrast
                           ? 'border-white bg-white text-black'
-                          : `border-amber-500 bg-amber-500 text-white`
+                          : `border-amber-800 bg-amber-800 text-white`
                         : isHighContrast
-                          ? 'border-white/30 text-white/60'
-                          : 'border-slate-200 text-slate-600'
+                          ? 'border-white/60 text-white/80'
+                          : 'border-slate-500 text-slate-600'
                     }`}
                   >
                     {n}
@@ -486,8 +486,8 @@ function VirtualGarden({
                           ? 'border-white bg-white text-black'
                           : `border-emerald-700 bg-emerald-700 text-white`
                         : isHighContrast
-                          ? 'border-white/30 text-white/60'
-                          : 'border-slate-200 text-slate-600'
+                          ? 'border-white/60 text-white/80'
+                          : 'border-slate-500 text-slate-600'
                     }`}
                   >
                     {n}

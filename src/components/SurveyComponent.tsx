@@ -995,8 +995,8 @@ export const SurveyComponent: React.FC<{
                 }
                 className={`mt-2 h-2 w-full cursor-pointer appearance-none rounded-lg focus:ring-4 focus:outline-none ${
                   isHighContrast
-                    ? `bg-white/20 focus:ring-white/30 ${nasaScores[scale.id] === null ? 'accent-white/40' : 'accent-white'}`
-                    : `bg-slate-200 focus:ring-indigo-100 ${nasaScores[scale.id] === null ? 'accent-slate-400' : 'accent-indigo-600'}`
+                    ? `border border-white bg-white/20 focus:ring-white ${nasaScores[scale.id] === null ? 'accent-white/40' : 'accent-white'}`
+                    : `border border-slate-500 bg-slate-400 focus:ring-indigo-600 ${nasaScores[scale.id] === null ? 'accent-slate-400' : 'accent-indigo-600'}`
                 }`}
               />
               <div
@@ -1076,7 +1076,7 @@ export const SurveyComponent: React.FC<{
                           handleSusChange(scale.id, val);
                           announce(`${t(scale.label)}, ${val}`);
                         }}
-                        className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus-visible:ring-indigo-100'}`}
+                        className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white' : 'border-slate-500 group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-600 focus-visible:ring-indigo-600'}`}
                         aria-label={t('feedback.rateAria', {
                           value: val,
                           max: 5,
@@ -1171,7 +1171,7 @@ export const SurveyComponent: React.FC<{
                           handleEngagementChange(scale.id, val);
                           announce(`${t(scale.label)}, ${val}`);
                         }}
-                        className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus-visible:ring-indigo-100'}`}
+                        className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white' : 'border-slate-500 group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-600 focus-visible:ring-indigo-600'}`}
                         aria-label={t('feedback.rateAria', {
                           value: val,
                           max: 5,
@@ -1267,7 +1267,7 @@ export const SurveyComponent: React.FC<{
                           `${t(scale.negLabel)} – ${t(scale.posLabel)}, ${val}`,
                         );
                       }}
-                      className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus-visible:ring-indigo-100'}`}
+                      className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white' : 'border-slate-500 group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-600 focus-visible:ring-indigo-600'}`}
                       aria-label={t('feedback.rateAria', {
                         value: val,
                         max: 7,
@@ -1336,7 +1336,7 @@ export const SurveyComponent: React.FC<{
                             handleGamificationChange(scale.id, val);
                             announce(`${t(scale.label)}, ${val}`);
                           }}
-                          className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white/30' : 'border-slate-300 group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-500 focus-visible:ring-indigo-100'}`}
+                          className={`h-6 w-6 appearance-none rounded-full border-2 transition-all focus:outline-none focus-visible:ring-4 md:h-7 md:w-7 ${isHighContrast ? 'border-white/50 checked:border-white checked:bg-white focus-visible:ring-white' : 'border-slate-500 group-hover:border-indigo-400 checked:border-transparent checked:bg-indigo-600 focus-visible:ring-indigo-600'}`}
                           aria-label={t('feedback.rateAria', {
                             value: val,
                             max: 5,
@@ -1402,7 +1402,7 @@ export const SurveyComponent: React.FC<{
                 placeholder={t(
                   'feedback.gamification.elementFeedbackPlaceholder',
                 )}
-                className={`w-full resize-none rounded-xl border p-3 text-sm focus:ring-4 focus:outline-none ${isHighContrast ? 'border-white/50 bg-black text-white placeholder:text-white/80 focus:ring-white/30' : 'border-slate-200 bg-white text-slate-700 placeholder:text-slate-600 focus:ring-indigo-100'}`}
+                className={`w-full resize-none rounded-xl border p-3 text-sm focus:ring-4 focus:outline-none ${isHighContrast ? 'border-white/50 bg-black text-white placeholder:text-white/80 focus:ring-white' : 'border-slate-200 bg-white text-slate-700 placeholder:text-slate-600 focus:ring-indigo-600'}`}
               />
             </div>
           </div>
@@ -1604,7 +1604,7 @@ export const SurveyComponent: React.FC<{
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full rounded-2xl py-5 font-black tracking-widest uppercase shadow-lg transition-all focus:ring-4 focus:outline-none active:scale-[0.98] disabled:opacity-50 disabled:grayscale ${isHighContrast ? 'bg-white text-black hover:bg-slate-200 focus:ring-white/30' : 'bg-indigo-600 text-white hover:bg-indigo-500 focus:ring-indigo-200'}`}
+          className={`w-full rounded-2xl py-5 font-black tracking-widest uppercase shadow-lg transition-all focus:ring-4 focus:outline-none active:scale-[0.98] disabled:opacity-50 disabled:grayscale ${isHighContrast ? 'bg-white text-black hover:bg-slate-200 focus:ring-white' : 'bg-indigo-600 text-white hover:bg-indigo-500 focus:ring-indigo-800'}`}
         >
           <BionicText
             text={
