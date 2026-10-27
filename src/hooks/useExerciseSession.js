@@ -381,7 +381,11 @@ export function useExerciseSession({
     // explicitly by the user now, not triggered inline by point count.
     const advanceDelay = inclusiveOptions.extendedTime ? 3000 : 1500;
     cancelPendingAdvance();
-    advanceTimerRef.current = setSafeTimeout(goNext, advanceDelay);
+    // WCAG 2.2.1 (Timing Adjustable): with auto-advance off, nothing is
+    // scheduled — the feedback stays up until the user presses "Next"/Enter.
+    if (inclusiveOptions.autoAdvance !== false) {
+      advanceTimerRef.current = setSafeTimeout(goNext, advanceDelay);
+    }
     saveLog('exercise_history', {
       date: new Date().toISOString(),
       type: activeTab,

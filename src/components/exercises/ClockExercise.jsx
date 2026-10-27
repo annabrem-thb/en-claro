@@ -176,7 +176,7 @@ function ClockExercise({
   useAutoReadAloud(voiceAssistant, readTimeAndOptions);
 
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
-  const bounceClass = noFlash ? '' : 'animate-bounce duration-[3s]';
+  const bounceClass = noFlash ? '' : 'animate-bounce bounce-limited';
   const btnPadding = bigTargets
     ? 'py-5 px-2 text-lg sm:text-xl'
     : 'py-4 px-2 text-base sm:text-lg';

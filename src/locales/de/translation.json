@@ -201,6 +201,10 @@
       "name": "Verlängerte Zeit",
       "desc": "Kein Zeitdruck, 3s statt 1,5s"
     },
+    "autoAdvance": {
+      "name": "Automatisch weiter",
+      "desc": "Nach einer richtigen Antwort geht es von selbst zur nächsten Aufgabe. Ausschalten, um selbst mit „Weiter“ fortzufahren."
+    },
     "voiceAssistant": {
       "name": "Sprachassistent",
       "desc": "Automatisches Vorlesen von Befehlen und Antworten"

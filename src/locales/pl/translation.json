@@ -200,6 +200,10 @@
       "name": "Wydłużony czas",
       "desc": "Brak presji czasowej, 3s zamiast 1.5s"
     },
+    "autoAdvance": {
+      "name": "Automatyczne przejście dalej",
+      "desc": "Po poprawnej odpowiedzi następne zadanie rozpoczyna się samo. Wyłącz, aby przejść dalej samodzielnie przyciskiem „Dalej”."
+    },
     "voiceAssistant": {
       "name": "Asystent Głosowy",
       "desc": "Automatyczne czytanie poleceń i odpowiedzi"

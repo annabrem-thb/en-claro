@@ -42,6 +42,9 @@ const DEFAULT_SETTINGS = {
   noFlash: false,
   audioRewards: false,
   extendedTime: false,
+  // WCAG 2.2.1: on by default (the original behavior, also in study mode);
+  // off means the next task only starts from the "Next" button or Enter.
+  autoAdvance: true,
   zenMode: false,
   bionicReading: false,
   muteNotifications: false,
@@ -110,7 +113,10 @@ export function useUserSettings() {
     });
     // Inline styles win over any selector in the stylesheet regardless of
     // specificity, so this is the one place these six tokens are ever set.
-    html.style.setProperty('--font-size-exercise', `${settings.fontSizeExercise}px`);
+    html.style.setProperty(
+      '--font-size-exercise',
+      `${settings.fontSizeExercise}px`,
+    );
     html.style.setProperty('--font-size-ui', `${settings.fontSizeUi}px`);
     html.style.setProperty('--line-height', settings.lineHeight);
     html.style.setProperty('--letter-spacing', `${settings.letterSpacing}em`);

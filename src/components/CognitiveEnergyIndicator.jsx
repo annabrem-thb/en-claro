@@ -93,7 +93,7 @@ export function CognitiveEnergyIndicator({
       >
         <div className="text-center">
           <div
-            className={`mb-4 text-5xl ${noFlash ? '' : 'animate-bounce'}`}
+            className={`mb-4 text-5xl ${noFlash ? '' : 'animate-bounce bounce-limited'}`}
             aria-hidden="true"
           >
             ☕

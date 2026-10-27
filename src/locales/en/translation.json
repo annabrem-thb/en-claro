@@ -201,6 +201,10 @@
       "name": "Extended time",
       "desc": "No time pressure, 3s instead of 1.5s"
     },
+    "autoAdvance": {
+      "name": "Auto-advance",
+      "desc": "After a correct answer, the next task starts on its own. Turn off to continue yourself with “Next”."
+    },
     "voiceAssistant": {
       "name": "Voice Assistant",
       "desc": "Automatic reading of commands and answers"

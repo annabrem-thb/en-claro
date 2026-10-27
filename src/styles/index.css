@@ -319,3 +319,11 @@
     min-height: max-content;
   }
 }
+
+/* Decorative bouncing icons only bounce a few times instead of forever, so
+   they do not become a permanent moving distraction next to the task. Needs
+   the extra class selector to beat Tailwind's `animation: bounce 1s infinite`
+   shorthand regardless of stylesheet order. */
+.animate-bounce.bounce-limited {
+  animation-iteration-count: 3;
+}

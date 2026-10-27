@@ -48,7 +48,7 @@ function NavButton({
       aria-label={ariaLabel}
     >
       <div
-        className={`mb-1 text-2xl ${isActive && !noFlash ? 'animate-bounce' : ''} ${isActive && activeGlow && isHighContrast ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]' : ''}`}
+        className={`mb-1 text-2xl ${isActive && !noFlash ? 'animate-bounce bounce-limited' : ''} ${isActive && activeGlow && isHighContrast ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]' : ''}`}
         aria-hidden="true"
       >
         {icon}

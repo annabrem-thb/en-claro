@@ -680,6 +680,18 @@ function AppContent() {
     onSwipeRight: () => handleSwipeTab('right'),
   });
 
+  // With auto-advance off (WCAG 2.2.1) the success screen has no timer, so
+  // move focus to the "Next" button: keyboard and screen-reader users land on
+  // the only control that continues, and the feedback stays until they act.
+  const nextButtonRef = useRef(null);
+  const successShown = feedback?.type === 'success';
+  const autoAdvanceOff = sessionOptions.autoAdvance === false;
+  useEffect(() => {
+    if (successShown && autoAdvanceOff) {
+      nextButtonRef.current?.focus({ preventScroll: true });
+    }
+  }, [successShown, autoAdvanceOff]);
+
   // ArrowRight/Enter double as both the post-success "Next" button and the
   // pre-answer "Skip" button, matching whichever one is actually on screen
   // (see the feedback?.type === 'success' branch below) — Skip must go
@@ -1122,6 +1134,7 @@ function AppContent() {
               {feedback?.type === 'success' ? (
                 <div className="animate-in zoom-in mt-3 flex shrink-0 flex-col items-center justify-center pb-1 duration-300 md:mt-4 md:pb-2">
                   <button
+                    ref={nextButtonRef}
                     onClick={goNext}
                     className={`${bigTargets ? 'px-14 py-5 text-lg md:py-6' : 'px-12 py-3.5 text-sm md:py-4'} rounded-full font-black tracking-widest uppercase shadow-xl transition-all active:scale-95 ${noFlash ? '' : 'animate-bounce'} wrap-anywhere hyphens-auto ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : `${themeStyles.button} ${themeStyles.buttonText} opacity-90 hover:opacity-100`}`}
                   >

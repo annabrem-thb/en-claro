@@ -179,7 +179,7 @@ function SyllableExercise({
   const wordChars = data.word.split('');
 
   const animClass = noFlash ? '' : 'animate-in fade-in zoom-in duration-500';
-  const bounceClass = noFlash ? '' : 'animate-bounce';
+  const bounceClass = noFlash ? '' : 'animate-bounce bounce-limited';
 
   const wordLen = data.word?.length || 0;
   const isLong = wordLen > 12;

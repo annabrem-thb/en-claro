@@ -290,7 +290,7 @@ const A11Y_SECTIONS = [
   {
     titleKey: 'a11ySectionMotor',
     icon: '🤲',
-    keys: ['motorik', 'motion'],
+    keys: ['motorik', 'motion', 'autoAdvance'],
   },
   {
     titleKey: 'a11ySectionVoice',
@@ -329,6 +329,7 @@ const A11yTab = ({ speak }) => {
       zenMode: t('inclusive.zenMode', { returnObjects: true }),
       motorik: t('a11y.motor', { returnObjects: true }),
       motion: t('a11y.motion', { returnObjects: true }),
+      autoAdvance: t('inclusive.autoAdvance', { returnObjects: true }),
       voiceAssistant: t('inclusive.voiceAssistant', { returnObjects: true }),
       cognitiveBreaks: t('inclusive.cognitiveBreaks', {
         returnObjects: true,
