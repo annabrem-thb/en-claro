@@ -119,7 +119,7 @@ const SettingSlider = ({
         onChange={(e) => onChange(Number(e.target.value))}
         aria-describedby={`${inputId}-desc`}
         aria-valuetext={`${value}${unit || ''}`}
-        className="w-full accent-emerald-500"
+        className="h-6 w-full accent-emerald-700"
       />
     </div>
   );

@@ -993,10 +993,10 @@ export const SurveyComponent: React.FC<{
                     ? t('feedback.notAnswered')
                     : `${nasaScores[scale.id]} / 100`
                 }
-                className={`mt-2 h-2 w-full cursor-pointer appearance-none rounded-lg focus:ring-4 focus:outline-none ${
-                  isHighContrast
-                    ? `border border-white bg-white/20 focus:ring-white ${nasaScores[scale.id] === null ? 'accent-white/40' : 'accent-white'}`
-                    : `border border-slate-500 bg-slate-400 focus:ring-indigo-600 ${nasaScores[scale.id] === null ? 'accent-slate-400' : 'accent-indigo-600'}`
+                data-unset={nasaScores[scale.id] === null}
+                data-contrast={isHighContrast}
+                className={`nasa-slider mt-2 h-6 w-full cursor-pointer rounded-lg focus:ring-4 focus:outline-none ${
+                  isHighContrast ? 'focus:ring-white' : 'focus:ring-indigo-600'
                 }`}
               />
               <div

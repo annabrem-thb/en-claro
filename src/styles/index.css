@@ -327,3 +327,92 @@
 .animate-bounce.bounce-limited {
   animation-iteration-count: 3;
 }
+
+/* NASA-RTLX sliders (SurveyComponent.tsx). The <input> itself is 24px tall
+   (WCAG 2.5.8 target size) and transparent; the visible 8px track and the
+   24px thumb are drawn here, since an <input type="range"> cannot be both a
+   tall hit area and a thin bar through its own background/border.
+   Contrast (1.4.11), measured on the #fcfbf9 card: track border slate-500
+   4.6:1; thumb outline slate-600 7.3:1 and ~3:1 on the slate-400 track, with
+   the indigo-600 fill 6.1:1 against the card.
+   [data-unset] = nothing chosen yet (value null): grey thumb. [data-contrast]
+   = high-contrast mode: white on black. */
+.nasa-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+.nasa-slider::-webkit-slider-runnable-track {
+  height: 8px;
+  border: 1px solid #64748b; /* slate-500 */
+  border-radius: 9999px;
+  background: #94a3b8; /* slate-400 */
+}
+.nasa-slider::-moz-range-track {
+  height: 8px;
+  box-sizing: border-box;
+  border: 1px solid #64748b;
+  border-radius: 9999px;
+  background: #94a3b8;
+}
+.nasa-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  /* (track height 8px - thumb 24px) / 2 centers the thumb on the track in
+     WebKit/Blink; Firefox centers it on its own. */
+  margin-top: -9px;
+  border: 2px solid #fff;
+  border-radius: 9999px;
+  background: #4f46e5; /* indigo-600 */
+  box-shadow: 0 0 0 1px #475569; /* slate-600 outline */
+}
+.nasa-slider::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #fff;
+  border-radius: 9999px;
+  background: #4f46e5;
+  box-shadow: 0 0 0 1px #475569;
+}
+.nasa-slider[data-unset='true']::-webkit-slider-thumb {
+  border: 3px solid #475569;
+  background: #cbd5e1; /* slate-300 */
+  box-shadow: none;
+}
+.nasa-slider[data-unset='true']::-moz-range-thumb {
+  border: 3px solid #475569;
+  background: #cbd5e1;
+  box-shadow: none;
+}
+.nasa-slider[data-contrast='true']::-webkit-slider-runnable-track {
+  border-color: #fff;
+  background: rgb(255 255 255 / 0.2);
+}
+.nasa-slider[data-contrast='true']::-moz-range-track {
+  border-color: #fff;
+  background: rgb(255 255 255 / 0.2);
+}
+.nasa-slider[data-contrast='true']::-webkit-slider-thumb {
+  border: 2px solid #000;
+  background: #fff;
+  box-shadow: 0 0 0 1px #fff;
+}
+.nasa-slider[data-contrast='true']::-moz-range-thumb {
+  border: 2px solid #000;
+  background: #fff;
+  box-shadow: 0 0 0 1px #fff;
+}
+.nasa-slider[data-contrast='true'][data-unset='true']::-webkit-slider-thumb {
+  border: 3px solid #fff;
+  background: #000;
+  box-shadow: none;
+}
+.nasa-slider[data-contrast='true'][data-unset='true']::-moz-range-thumb {
+  border: 3px solid #fff;
+  background: #000;
+  box-shadow: none;
+}
