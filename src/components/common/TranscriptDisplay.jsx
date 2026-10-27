@@ -1,7 +1,7 @@
 // Every exercise with speech-to-text input shows the same pair of prompts —
 // what the mic heard once there's a transcript, an idle hint before that —
 // each hand-rolled per exercise. Most of them hardcoded the transcript's own
-// <span> to text-slate-600 regardless of isHighContrast, which reads as
+// <span> to text-slate-700 regardless of isHighContrast, which reads as
 // near-invisible against that mode's black background; a few hardcoded the
 // whole block that way. Centralizing it here means every exercise gets the
 // isHighContrast branch for free instead of relying on each copy staying in
@@ -16,10 +16,10 @@ export default function TranscriptDisplay({
   if (transcript) {
     return (
       <p
-        className={`${className} font-black tracking-widest uppercase ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+        className={`${className} font-black tracking-widest uppercase ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
       >
         {t('heard')}:{' '}
-        <span className={isHighContrast ? 'text-white' : 'text-slate-600'}>
+        <span className={isHighContrast ? 'text-white' : 'text-slate-700'}>
           {transcript}
         </span>
       </p>
@@ -28,7 +28,7 @@ export default function TranscriptDisplay({
   if (!idleText) return null;
   return (
     <p
-      className={`${className} font-medium ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+      className={`${className} font-medium ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
     >
       {idleText}
     </p>

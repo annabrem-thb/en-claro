@@ -204,7 +204,7 @@ function ContextExercise({
         id={headingId}
         zenMode={zenMode}
         aria-describedby={detailId}
-        className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+        className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
       >
         {t('selectCorrect') || 'Select the correct word'}
       </TaskHeading>
@@ -217,7 +217,7 @@ function ContextExercise({
         <span
           role="img"
           aria-label={t('gapLabel') || 'Gap'}
-          className={`mx-1 border-b-4 px-3 sm:mx-2 sm:px-4 ${themeStyles.border} rounded-lg bg-slate-50 text-slate-600`}
+          className={`mx-1 border-b-4 px-3 sm:mx-2 sm:px-4 ${themeStyles.border} rounded-lg bg-slate-50 text-slate-700`}
         >
           ____
         </span>{' '}
@@ -288,7 +288,7 @@ function ContextExercise({
             }`}
           >
             <span
-              className={`absolute top-4 left-5 text-sm font-black ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+              className={`absolute top-4 left-5 text-sm font-black ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
               aria-hidden="true"
             >
               {i + 1}

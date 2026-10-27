@@ -55,7 +55,7 @@ export function CognitiveEnergyIndicator({
         aria-hidden="true"
       >
         <span
-          className={`font-black ${isActive ? `text-[9px] ${symbolColor}` : 'text-[7px] text-slate-600'}`}
+          className={`font-black ${isActive ? `text-[9px] ${symbolColor}` : 'text-[7px] text-slate-700'}`}
         >
           {symbol}
         </span>
@@ -108,7 +108,7 @@ export function CognitiveEnergyIndicator({
             />
           </h2>
           <p
-            className={`mb-6 text-xs leading-relaxed font-medium sm:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+            className={`mb-6 text-xs leading-relaxed font-medium sm:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
           >
             <BionicText
               text={
@@ -133,7 +133,7 @@ export function CognitiveEnergyIndicator({
           </button>
           <button
             onClick={onDismiss}
-            className={`w-full ${bigTargets ? 'py-5 text-sm' : 'py-3 text-xs'} rounded-full font-black tracking-widest uppercase transition-all ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-600 hover:bg-slate-50'}`}
+            className={`w-full ${bigTargets ? 'py-5 text-sm' : 'py-3 text-xs'} rounded-full font-black tracking-widest uppercase transition-all ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-700 hover:bg-slate-50'}`}
           >
             <BionicText
               text={t('continueBtn') || 'Keep going'}

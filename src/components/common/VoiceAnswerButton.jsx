@@ -75,7 +75,7 @@ export default function VoiceAnswerButton({
       <div className="flex flex-col items-center gap-1">
         <p
           role="status"
-          className="max-w-[28ch] text-center text-xs font-medium text-slate-600"
+          className="max-w-[28ch] text-center text-xs font-medium text-slate-700"
         >
           {unsupportedHint ||
             t('micUnsupported') ||
@@ -137,7 +137,7 @@ export default function VoiceAnswerButton({
         // difference apart from "still listening."
         <p
           role="status"
-          className="max-w-[28ch] text-center text-xs font-medium text-slate-600"
+          className="max-w-[28ch] text-center text-xs font-medium text-slate-700"
         >
           {t('micLocalTranscribing') ||
             'Thinking… this can take up to a minute on this device.'}
@@ -151,7 +151,7 @@ export default function VoiceAnswerButton({
             {t('micPermissionDenied') ||
               "Microphone access was denied. Check your browser's site settings to allow it."}
           </p>
-          <p className="max-w-[28ch] text-center text-xs font-medium text-slate-600">
+          <p className="max-w-[28ch] text-center text-xs font-medium text-slate-700">
             {resolvedFallbackHint}
           </p>
           {seeMoreInfoButton}
@@ -159,7 +159,7 @@ export default function VoiceAnswerButton({
       ) : error === 'no-speech' ? (
         <p
           role="status"
-          className="max-w-[28ch] text-center text-xs font-medium text-slate-600"
+          className="max-w-[28ch] text-center text-xs font-medium text-slate-700"
         >
           {t('micNoSpeech') || "Didn't catch that — try again."}
         </p>
@@ -172,7 +172,7 @@ export default function VoiceAnswerButton({
             {t('micLocalDownloadError') ||
               "The voice model couldn't be downloaded — check your connection and try again."}
           </p>
-          <p className="max-w-[28ch] text-center text-xs font-medium text-slate-600">
+          <p className="max-w-[28ch] text-center text-xs font-medium text-slate-700">
             {resolvedFallbackHint}
           </p>
         </div>
@@ -189,7 +189,7 @@ export default function VoiceAnswerButton({
             {t('micGenericError') ||
               'Something went wrong with the microphone — try again.'}
           </p>
-          <p className="max-w-[28ch] text-center text-xs font-medium text-slate-600">
+          <p className="max-w-[28ch] text-center text-xs font-medium text-slate-700">
             {resolvedFallbackHint}
           </p>
           {seeMoreInfoButton}

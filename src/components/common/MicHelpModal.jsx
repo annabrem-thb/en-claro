@@ -44,7 +44,7 @@ function MicHelpModalComponent({
       </h2>
 
       <h3
-        className={`mb-2 text-sm font-bold ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
+        className={`mb-2 text-sm font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
       >
         <BionicText
           text={t('micHelpGlobalTitle') || 'Global microphone switch'}
@@ -52,7 +52,7 @@ function MicHelpModalComponent({
         />
       </h3>
       <ol
-        className={`mb-5 list-decimal space-y-1 pl-5 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+        className={`mb-5 list-decimal space-y-1 pl-5 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
       >
         {steps('micHelpGlobalSteps').map((step, i) => (
           <li key={i}>
@@ -62,7 +62,7 @@ function MicHelpModalComponent({
       </ol>
 
       <h3
-        className={`mb-2 text-sm font-bold ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
+        className={`mb-2 text-sm font-bold ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
       >
         <BionicText
           text={t('micHelpAppTitle') || 'App-specific permissions'}
@@ -70,7 +70,7 @@ function MicHelpModalComponent({
         />
       </h3>
       <ol
-        className={`mb-5 list-decimal space-y-1 pl-5 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+        className={`mb-5 list-decimal space-y-1 pl-5 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
       >
         {steps('micHelpAppSteps').map((step, i) => (
           <li key={i}>
@@ -80,7 +80,7 @@ function MicHelpModalComponent({
       </ol>
 
       <p
-        className={`mb-6 text-xs leading-relaxed ${isHighContrast ? 'text-white/60' : 'text-slate-600'}`}
+        className={`mb-6 text-xs leading-relaxed ${isHighContrast ? 'text-white/60' : 'text-slate-700'}`}
       >
         <BionicText
           text={
@@ -93,7 +93,7 @@ function MicHelpModalComponent({
 
       <button
         onClick={onClose}
-        className={`w-full rounded-3xl py-3 text-sm font-bold transition-all active:scale-95 ${isHighContrast ? 'bg-white text-black' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+        className={`w-full rounded-3xl py-3 text-sm font-bold transition-all active:scale-95 ${isHighContrast ? 'bg-white text-black' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
       >
         <BionicText text={t('close') || 'Close'} enabled={bionicReading} />
       </button>

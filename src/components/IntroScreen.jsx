@@ -33,7 +33,7 @@ const A11yBtn = ({
   <button
     onClick={onClick}
     aria-pressed={active}
-    className={`relative ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2'} flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border-2 px-1 text-xs leading-tight font-bold transition-all active:scale-95 sm:text-sm ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-700 bg-amber-50 text-amber-900 shadow-sm') : isHighContrast ? 'border-white/30 text-white/80 hover:border-white/50' : 'border-slate-100 text-slate-600 hover:border-slate-300'}`}
+    className={`relative ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2'} flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border-2 px-1 text-xs leading-tight font-bold transition-all active:scale-95 sm:text-sm ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-700 bg-amber-50 text-amber-900 shadow-sm') : isHighContrast ? 'border-white/30 text-white/80 hover:border-white/50' : 'border-slate-100 text-slate-700 hover:border-slate-300'}`}
   >
     {active && (
       <div
@@ -287,7 +287,7 @@ function IntroScreen({ onStart, speak }) {
               </h1>
 
               <p
-                className={`mb-0.5 max-w-sm shrink-0 text-xs leading-snug font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+                className={`mb-0.5 max-w-sm shrink-0 text-xs leading-snug font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
               >
                 <BionicText
                   text={t(
@@ -299,7 +299,7 @@ function IntroScreen({ onStart, speak }) {
               </p>
 
               <p
-                className={`mb-2 shrink-0 text-[10px] font-bold tracking-widest uppercase ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+                className={`mb-2 shrink-0 text-[10px] font-bold tracking-widest uppercase ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
               >
                 {t('intro.stepIndicator', { current: 1, total: 2 })}
               </p>
@@ -318,7 +318,7 @@ function IntroScreen({ onStart, speak }) {
                   list for that role.) */}
                 <legend className="mb-1 w-full p-0 text-left sm:text-center">
                   <h2
-                    className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
+                    className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
                   >
                     <BionicText
                       text={t('intro.chooseLanguage', 'Language')}
@@ -336,7 +336,7 @@ function IntroScreen({ onStart, speak }) {
                     className={`flex min-w-0 flex-auto flex-row flex-wrap items-center justify-center gap-x-1 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:gap-1.5 sm:text-sm ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2.5'} ${
                       language === code
                         ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-md shadow-indigo-500/10'}`
-                        : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300'}`
+                        : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-indigo-300'}`
                     }`}
                     aria-pressed={language === code}
                     lang={code}
@@ -367,7 +367,7 @@ function IntroScreen({ onStart, speak }) {
                   list for that role.) */}
                 <legend className="mb-1 w-full p-0 text-left sm:text-center">
                   <h2
-                    className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
+                    className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
                   >
                     <BionicText
                       text={t('intro.a11y', 'Comfort Tools')}
@@ -545,7 +545,7 @@ function IntroScreen({ onStart, speak }) {
               </h1>
 
               <p
-                className={`mb-0.5 max-w-sm shrink-0 text-xs leading-snug font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+                className={`mb-0.5 max-w-sm shrink-0 text-xs leading-snug font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
               >
                 <BionicText
                   text={t(
@@ -557,7 +557,7 @@ function IntroScreen({ onStart, speak }) {
               </p>
 
               <p
-                className={`mb-2 shrink-0 text-[10px] font-bold tracking-widest uppercase ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+                className={`mb-2 shrink-0 text-[10px] font-bold tracking-widest uppercase ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
               >
                 {t('intro.stepIndicator', { current: 2, total: 2 })}
               </p>
@@ -595,7 +595,7 @@ function IntroScreen({ onStart, speak }) {
                   </button>
                 </div>
                 <p
-                  className={`text-[11px] leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+                  className={`text-[11px] leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
                 >
                   {t('studyMode.infoText')}
                 </p>
@@ -614,7 +614,7 @@ function IntroScreen({ onStart, speak }) {
                   list for that role.) */}
                 <legend className="mb-1 w-full p-0 text-left sm:text-center">
                   <h2
-                    className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
+                    className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
                   >
                     <BionicText
                       text={t('intro.appMode', 'Mode')}
@@ -624,7 +624,7 @@ function IntroScreen({ onStart, speak }) {
                 </legend>
                 {studyModeActive ? (
                   <p
-                    className={`w-full rounded-xl border-2 py-2.5 text-center text-xs font-bold tracking-wider uppercase sm:text-sm ${isHighContrast ? 'border-white/30 text-white' : 'border-slate-200 bg-white text-slate-600'}`}
+                    className={`w-full rounded-xl border-2 py-2.5 text-center text-xs font-bold tracking-wider uppercase sm:text-sm ${isHighContrast ? 'border-white/30 text-white' : 'border-slate-200 bg-white text-slate-700'}`}
                   >
                     {isGamified
                       ? t('studyMode.currentVariantGamified')
@@ -641,7 +641,7 @@ function IntroScreen({ onStart, speak }) {
                       className={`flex min-w-0 flex-auto flex-row flex-wrap items-center justify-center gap-x-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
                         !isGamified
                           ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-md'}`
-                          : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300'}`
+                          : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-indigo-300'}`
                       }`}
                       aria-pressed={!isGamified}
                     >
@@ -667,7 +667,7 @@ function IntroScreen({ onStart, speak }) {
                       className={`flex min-w-0 flex-auto flex-row flex-wrap items-center justify-center gap-x-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
                         isGamified
                           ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-emerald-500 bg-emerald-50 text-emerald-800 shadow-md'}`
-                          : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-emerald-300'}`
+                          : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-300'}`
                       }`}
                       aria-pressed={isGamified}
                     >
@@ -696,7 +696,7 @@ function IntroScreen({ onStart, speak }) {
               <fieldset className="m-0 mb-2 flex w-full shrink-0 flex-col items-center gap-2 border-none p-0 sm:mb-3">
                 <legend className="mb-1 w-full p-0 text-left sm:text-center">
                   <h2
-                    className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
+                    className={`text-sm font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
                   >
                     <BionicText
                       text={t('selectTheme', 'Theme')}
@@ -759,7 +759,7 @@ function IntroScreen({ onStart, speak }) {
                   bigTargets
                     ? 'py-3 text-sm sm:py-4 sm:text-lg'
                     : 'py-2.5 text-sm sm:py-3'
-                } ${isHighContrast ? 'border-white/50 text-white hover:border-white' : 'border-slate-200 text-slate-600 hover:border-slate-300'}`}
+                } ${isHighContrast ? 'border-white/50 text-white hover:border-white' : 'border-slate-200 text-slate-700 hover:border-slate-300'}`}
               >
                 <BionicText
                   text={t('intro.back', 'Back')}

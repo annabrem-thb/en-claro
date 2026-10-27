@@ -202,7 +202,7 @@ const GeneralTab = ({ speak }) => {
           <BionicText text={t('appMode')} enabled={bionicReading} />
         </h3>
         {studyModeActive ? (
-          <p className="rounded-xl border-2 border-slate-100 bg-slate-50 p-4 text-center text-sm font-bold text-slate-600">
+          <p className="rounded-xl border-2 border-slate-100 bg-slate-50 p-4 text-center text-sm font-bold text-slate-700">
             {isGamified
               ? t('studyMode.currentVariantGamified')
               : t('studyMode.currentVariantClassic')}
@@ -571,7 +571,7 @@ const ShopTab = ({ speak }) => {
                 <button
                   onClick={() => updateSetting('theme', key)}
                   disabled={isSelected}
-                  className={`rounded-full px-4 py-1 text-xs font-bold ${isSelected ? 'bg-slate-200 text-slate-500' : 'bg-emerald-700 text-white hover:bg-emerald-600'}`}
+                  className={`rounded-full px-4 py-1 text-xs font-bold ${isSelected ? 'bg-slate-200 text-slate-800' : 'bg-emerald-700 text-white hover:bg-emerald-600'}`}
                 >
                   <BionicText
                     text={t(isSelected ? 'equipped' : 'select')}
@@ -770,7 +770,7 @@ export default function SettingsModal({ open, onClose, speak }) {
                     : 'bg-white text-indigo-600'
                   : settings.contrast
                     ? 'text-white/70 hover:bg-white/10'
-                    : 'text-slate-600 hover:bg-slate-200'
+                    : 'text-slate-700 hover:bg-slate-200'
               }`}
             >
               <BionicText text={tab.label} enabled={bionicReading} />
@@ -801,19 +801,19 @@ export default function SettingsModal({ open, onClose, speak }) {
         className={`shrink-0 border-t p-3 text-center ${settings.contrast ? 'border-white/20' : 'border-slate-200'}`}
       >
         <p
-          className={`text-xs ${settings.contrast ? 'text-white/80' : 'text-slate-600'}`}
+          className={`text-xs ${settings.contrast ? 'text-white/80' : 'text-slate-700'}`}
         >
           <BionicText text={t('settingsFooter')} enabled={bionicReading} />
         </p>
         {studySet && (
           <p
-            className={`mt-1 text-xs ${settings.contrast ? 'text-white/80' : 'text-slate-600'}`}
+            className={`mt-1 text-xs ${settings.contrast ? 'text-white/80' : 'text-slate-700'}`}
           >
             {t('studySetIndicator', { set: studySet })}
           </p>
         )}
         <p
-          className={`mt-2 text-xs ${settings.contrast ? 'text-white/80' : 'text-slate-600'}`}
+          className={`mt-2 text-xs ${settings.contrast ? 'text-white/80' : 'text-slate-700'}`}
         >
           <BionicText text={t('aboutFooter')} enabled={bionicReading} />{' '}
           <a

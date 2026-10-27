@@ -80,7 +80,7 @@ export default function TTSController({
     <div className="flex flex-col items-center gap-2">
       <button
         onClick={handleToggle}
-        className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-600 shadow-sm transition-all hover:text-slate-600 active:scale-90 ${isPreparing && !noFlash ? 'animate-pulse' : ''}`}
+        className={`${controlBtnSize} flex items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-700 shadow-sm transition-all hover:text-slate-700 active:scale-90 ${isPreparing && !noFlash ? 'animate-pulse' : ''}`}
         aria-label={
           displayIsPaused
             ? t('resume')

@@ -267,7 +267,7 @@ function SequenceExercise({
         as="h3"
         id={headingId}
         zenMode={zenMode}
-        className={`mx-auto mb-2 max-w-[65ch] shrink-0 text-center text-[10px] font-black tracking-widest wrap-anywhere uppercase sm:mb-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+        className={`mx-auto mb-2 max-w-[65ch] shrink-0 text-center text-[10px] font-black tracking-widest wrap-anywhere uppercase sm:mb-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
       >
         <BionicText
           text={data.instruction || t('orderCorrectly')}
@@ -321,7 +321,7 @@ function SequenceExercise({
 
       <div className="no-scrollbar mb-2 flex max-h-[35dvh] min-h-15 w-full shrink flex-wrap content-start gap-2 overflow-y-auto rounded-2xl border-4 border-dashed border-slate-200 bg-slate-50 p-2.5 sm:mb-4 sm:min-h-25 sm:gap-3 sm:rounded-3xl sm:p-4">
         {selectedWords.length === 0 && (
-          <div className="flex h-full w-full items-center justify-center px-2 text-center text-xs font-black tracking-widest text-slate-600 uppercase sm:px-4 sm:text-sm">
+          <div className="flex h-full w-full items-center justify-center px-2 text-center text-xs font-black tracking-widest text-slate-700 uppercase sm:px-4 sm:text-sm">
             <BionicText
               text={t('tapToBuild') || 'Tap words to build'}
               enabled={bionicReading}
@@ -357,10 +357,10 @@ function SequenceExercise({
             disabled={isListening || isShowingCorrection}
             className={`relative ${btnPadding} rounded-2xl border-2 font-black shadow-sm transition-all active:scale-95 md:shadow-none ${
               isListening || isShowingCorrection
-                ? 'border-slate-200 bg-white text-slate-600 opacity-50 grayscale'
+                ? 'border-slate-200 bg-white text-slate-700 opacity-50 grayscale'
                 : activeHighlight === wordObj.id
                   ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
-                  : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                  : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'
             }`}
           >
             <span

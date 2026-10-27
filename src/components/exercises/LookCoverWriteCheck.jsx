@@ -87,7 +87,7 @@ function LookCoverWriteCheck({
           as="h2"
           id={headingId}
           zenMode={zenMode}
-          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
         >
           {t('lookAndListen') || 'Step 1: Study the word'}
         </TaskHeading>
@@ -138,7 +138,7 @@ function LookCoverWriteCheck({
           id={headingId}
           zenMode={zenMode}
           focusOnMount={false}
-          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
         >
           {t('typeFromMemory') || 'Step 2: Type from memory'}
         </TaskHeading>
@@ -151,7 +151,7 @@ function LookCoverWriteCheck({
           className={`mb-4 min-h-0 w-full max-w-md shrink rounded-2xl p-4 text-center text-2xl font-bold transition-shadow focus:ring-4 focus:outline-none sm:mb-6 sm:rounded-3xl sm:p-6 sm:text-3xl ${
             isHighContrast
               ? 'border-4 border-white bg-black text-white placeholder:text-white/80 focus:ring-white/50'
-              : 'border-2 border-indigo-100 bg-white text-slate-800 shadow-inner placeholder:text-slate-600 focus:border-indigo-400 focus:ring-indigo-600'
+              : 'border-2 border-indigo-100 bg-white text-slate-800 shadow-inner placeholder:text-slate-700 focus:border-indigo-400 focus:ring-indigo-600'
           }`}
           placeholder={t('typeHere') || '...'}
           aria-label={t('typeFromMemory') || 'Type the hidden word'}
@@ -165,7 +165,7 @@ function LookCoverWriteCheck({
           disabled={userInput.trim().length === 0}
           className={`mt-auto shrink-0 rounded-full px-8 py-4 text-xs font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:px-10 sm:py-5 sm:text-sm ${
             userInput.trim().length === 0
-              ? 'cursor-not-allowed bg-slate-200 text-slate-600'
+              ? 'cursor-not-allowed bg-slate-200 text-slate-700'
               : isHighContrast
                 ? 'bg-white text-black hover:bg-slate-200'
                 : 'bg-emerald-700 text-white shadow-xl hover:bg-emerald-600'
@@ -200,7 +200,7 @@ function LookCoverWriteCheck({
           id={headingId}
           zenMode={zenMode}
           focusOnMount={false}
-          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
         >
           {t('compareSpelling') || 'Step 3: Comparison'}
         </TaskHeading>
@@ -210,7 +210,7 @@ function LookCoverWriteCheck({
           <div
             className={`flex flex-col items-center gap-1.5 rounded-2xl border-2 p-4 sm:gap-2 sm:p-5 ${isHighContrast ? 'border-white/50 bg-black' : 'border-slate-200 bg-slate-50'}`}
           >
-            <span className="text-[10px] font-bold tracking-widest text-slate-600 uppercase sm:text-xs">
+            <span className="text-[10px] font-bold tracking-widest text-slate-700 uppercase sm:text-xs">
               {t('targetWord') || 'Correct Spelling'}
             </span>
             <span
@@ -234,7 +234,7 @@ function LookCoverWriteCheck({
                 the same meaning as the color for colorblind users and (since
                 high-contrast mode drops the tint entirely) for high-contrast
                 mode too — matching WCAG 1.4.1 (use of color). */}
-            <span className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest text-slate-600 uppercase sm:text-xs">
+            <span className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest text-slate-700 uppercase sm:text-xs">
               {t('yourSpelling') || 'Your Spelling'}
               <span aria-hidden="true">{isCorrect ? '✅' : '❌'}</span>
             </span>
@@ -281,7 +281,7 @@ function LookCoverWriteCheck({
                 : `w-full py-2 text-[10px] font-black tracking-widest uppercase transition-colors ${
                     isHighContrast
                       ? 'text-white/60 hover:text-white'
-                      : 'text-slate-600 hover:text-slate-800'
+                      : 'text-slate-700 hover:text-slate-800'
                   }`
             }
           >

@@ -147,7 +147,7 @@ export default function ExerciseToggleManager({
   return (
     <div className="space-y-6">
       <p
-        className={`px-1 text-xs ${isHighContrast ? 'text-white/60' : 'text-slate-600'}`}
+        className={`px-1 text-xs ${isHighContrast ? 'text-white/60' : 'text-slate-700'}`}
       >
         <BionicText
           text={t(

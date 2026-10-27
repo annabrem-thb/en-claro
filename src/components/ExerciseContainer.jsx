@@ -53,7 +53,7 @@ export default function ExerciseContainer({ currentTask, ...commonProps }) {
   if (!currentTask) {
     return (
       <div
-        className="p-6 text-center text-slate-600"
+        className="p-6 text-center text-slate-700"
         role="alert"
         aria-live="polite"
       >

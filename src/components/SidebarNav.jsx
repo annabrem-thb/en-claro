@@ -210,7 +210,7 @@ const SidebarNav = memo(function SidebarNav({
 
         {studyProgressLabel && (
           <p
-            className={`px-1 py-1 text-center text-[10px] font-bold tracking-wide uppercase lg:px-2 lg:text-left ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+            className={`px-1 py-1 text-center text-[10px] font-bold tracking-wide uppercase lg:px-2 lg:text-left ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
           >
             {studyProgressLabel}
           </p>

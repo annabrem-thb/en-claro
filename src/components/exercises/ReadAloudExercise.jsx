@@ -85,7 +85,7 @@ function ReadAloudExercise({
         as="h3"
         id={headingId}
         zenMode={zenMode}
-        className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+        className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
       >
         <BionicText
           text={t('readAloudTitle') || 'Read aloud'}

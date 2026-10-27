@@ -44,7 +44,7 @@ function LocalVoiceConsentModalComponent({
       {isLoading ? (
         <div className="w-full">
           <p
-            className={`mb-4 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+            className={`mb-4 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
           >
             <BionicText
               text={t('micLocalDownloading') || 'Downloading voice model…'}
@@ -67,7 +67,7 @@ function LocalVoiceConsentModalComponent({
       ) : (
         <>
           <p
-            className={`mb-6 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+            className={`mb-6 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
           >
             <BionicText
               text={
@@ -89,7 +89,7 @@ function LocalVoiceConsentModalComponent({
             </button>
             <button
               onClick={onDecline}
-              className={`w-full rounded-3xl py-3 text-sm font-bold transition-all active:scale-95 ${isHighContrast ? 'bg-transparent text-white/70' : 'bg-transparent text-slate-600 hover:bg-slate-50'}`}
+              className={`w-full rounded-3xl py-3 text-sm font-bold transition-all active:scale-95 ${isHighContrast ? 'bg-transparent text-white/70' : 'bg-transparent text-slate-700 hover:bg-slate-50'}`}
             >
               <BionicText
                 text={t('micLocalConsentDecline') || 'Not now'}

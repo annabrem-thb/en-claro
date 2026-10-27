@@ -43,7 +43,7 @@ export default function LanguageSwitcher() {
                   : 'text-slate-700'
                 : isHighContrast
                   ? 'text-white/70'
-                  : 'text-slate-600'
+                  : 'text-slate-700'
             }`}
           >
             <BionicText text={label} enabled={bionicReading} />

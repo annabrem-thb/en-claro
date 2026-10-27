@@ -223,7 +223,7 @@ function MemorySpanExercise({
         <TaskHeading
           id={headingId}
           zenMode={false}
-          className={`mx-auto mb-2 max-w-[65ch] px-4 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+          className={`mx-auto mb-2 max-w-[65ch] px-4 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
         >
           {isMemorizing ? t('memorize') || 'Memorize!' : data.instruction}
         </TaskHeading>
@@ -336,7 +336,7 @@ function MemorySpanExercise({
                     isSelected || isListening
                       ? isHighContrast
                         ? 'cursor-default border-white/30 bg-black text-white/40'
-                        : 'cursor-default border-slate-200 bg-slate-100 text-slate-600 opacity-30'
+                        : 'cursor-default border-slate-200 bg-slate-100 text-slate-700 opacity-30'
                       : activeHighlight === index
                         ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
                         : isHighContrast

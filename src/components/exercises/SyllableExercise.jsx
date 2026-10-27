@@ -229,7 +229,7 @@ function SyllableExercise({
         as="h3"
         id={headingId}
         zenMode={zenMode}
-        className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+        className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
       >
         {t('syllableInstruction') || 'Divide the word into syllables'}
       </TaskHeading>
@@ -365,7 +365,7 @@ function SyllableExercise({
                     overlapping the line below. */}
                 {!isResolved && (
                   <span
-                    className={`mt-1 shrink-0 text-[10px] leading-none font-black ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+                    className={`mt-1 shrink-0 text-[10px] leading-none font-black ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
                   >
                     {index + 1}
                   </span>
@@ -395,7 +395,7 @@ function SyllableExercise({
           disabled={isResolved || cuts.length === 0 || isListening}
           className={`w-full py-2 text-[10px] font-black tracking-widest uppercase transition-colors ${
             cuts.length > 0 && !isListening
-              ? 'text-slate-600 hover:text-red-800'
+              ? 'text-slate-700 hover:text-red-800'
               : 'text-transparent'
           }`}
         >

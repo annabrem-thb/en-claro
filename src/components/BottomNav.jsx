@@ -42,7 +42,7 @@ function NavButton({
             : `bg-slate-50 ${themeStyles.accent} font-black shadow-sm ring-1 ring-slate-900/5`
           : isHighContrast
             ? 'text-white/80 hover:text-white/80'
-            : 'text-slate-600 hover:bg-slate-50/50 hover:text-slate-600'
+            : 'text-slate-700 hover:bg-slate-50/50 hover:text-slate-700'
       }`}
       aria-current={isActive ? 'page' : undefined}
       aria-label={ariaLabel}
@@ -109,7 +109,7 @@ function BottomNavComponent({
     <div className="shrink-0 lg:hidden">
       {studyProgressLabel && (
         <p
-          className={`px-2 py-1 text-center text-[10px] font-bold tracking-wide uppercase ${isHighContrast ? 'bg-black text-white/70' : 'bg-white text-slate-600'}`}
+          className={`px-2 py-1 text-center text-[10px] font-bold tracking-wide uppercase ${isHighContrast ? 'bg-black text-white/70' : 'bg-white text-slate-700'}`}
         >
           {studyProgressLabel}
         </p>
@@ -120,7 +120,7 @@ function BottomNavComponent({
         >
           <span
             id="bottomnav-theme-label"
-            className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+            className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
           >
             {t('selectTheme') || 'Select theme'}
           </span>

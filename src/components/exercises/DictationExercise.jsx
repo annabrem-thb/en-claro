@@ -114,7 +114,7 @@ function DictationExercise({
       <TaskHeading
         id={headingId}
         zenMode={zenMode}
-        className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+        className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
       >
         <BionicText text={headerText} enabled={bionicReading} />
       </TaskHeading>
@@ -145,7 +145,7 @@ function DictationExercise({
         className={`mb-4 w-full max-w-md shrink rounded-2xl p-4 text-center text-lg font-bold transition-shadow focus:ring-4 focus:outline-none sm:mb-6 sm:rounded-3xl sm:p-5 sm:text-xl md:text-2xl ${
           isHighContrast
             ? 'border-4 border-white bg-black text-white placeholder:text-white/80 focus:ring-white/50'
-            : 'border-2 border-slate-200 bg-white text-slate-800 shadow-inner placeholder:text-slate-600 focus:border-indigo-400 focus:ring-indigo-600'
+            : 'border-2 border-slate-200 bg-white text-slate-800 shadow-inner placeholder:text-slate-700 focus:border-indigo-400 focus:ring-indigo-600'
         }`}
         placeholder={t('typeHere') || '...'}
         aria-label={t('typeWhatYouHear') || 'Type what you heard'}
@@ -159,7 +159,7 @@ function DictationExercise({
         disabled={userInput.trim().length === 0}
         className={`mt-auto w-full max-w-xs shrink-0 pt-2 ${bigTargets ? 'py-3 text-sm sm:py-5 sm:text-base' : 'py-2.5 text-xs sm:py-4 sm:text-sm'} rounded-full font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 ${
           userInput.trim().length === 0
-            ? 'cursor-not-allowed bg-slate-200 text-slate-600'
+            ? 'cursor-not-allowed bg-slate-200 text-slate-700'
             : isHighContrast
               ? 'bg-white text-black hover:bg-slate-200'
               : `${themeStyles.button} ${themeStyles.buttonText} shadow-xl hover:brightness-110 md:shadow-md`

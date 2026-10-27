@@ -185,7 +185,7 @@ function RhythmMemoryExercise({
         as="h3"
         id={headingId}
         zenMode={zenMode}
-        className={`mb-2 shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+        className={`mb-2 shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
       >
         {phase === 'listen'
           ? t('rhythmListening') || 'Listen carefully…'
@@ -263,7 +263,7 @@ function RhythmMemoryExercise({
               className={`flex-1 rounded-full py-2.5 text-xs font-black tracking-widest uppercase transition-colors sm:py-3 ${
                 tapTimestamps.length === 0
                   ? 'cursor-not-allowed text-slate-300'
-                  : 'text-slate-600 hover:text-red-800'
+                  : 'text-slate-700 hover:text-red-800'
               }`}
             >
               <BionicText

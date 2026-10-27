@@ -155,7 +155,7 @@ function GraphemePhonemeMatchExercise({
         as="h3"
         id={headingId}
         zenMode={zenMode}
-        className={`mx-auto mb-3 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.15em] uppercase sm:mb-6 sm:text-[11px] ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+        className={`mx-auto mb-3 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.15em] uppercase sm:mb-6 sm:text-[11px] ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
       >
         <BionicText text={headerText} enabled={bionicReading} />
       </TaskHeading>

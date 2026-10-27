@@ -195,7 +195,7 @@ function MelodyMemoryExercise({
         as="h3"
         id={headingId}
         zenMode={zenMode}
-        className={`mb-2 shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+        className={`mb-2 shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
       >
         {phase === 'listen'
           ? t('rhythmListening') || 'Listen carefully…'
@@ -292,7 +292,7 @@ function MelodyMemoryExercise({
             className={`shrink-0 rounded-full px-6 py-2 text-xs font-black tracking-widest uppercase transition-colors ${
               attempt.length === 0
                 ? 'cursor-not-allowed text-slate-300'
-                : 'text-slate-600 hover:text-red-800'
+                : 'text-slate-700 hover:text-red-800'
             }`}
           >
             <BionicText text={t('delete') || 'Undo'} enabled={bionicReading} />

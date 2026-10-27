@@ -128,7 +128,7 @@ function PhonemeExercise({
         as="h3"
         id={headingId}
         zenMode={zenMode}
-        className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+        className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-widest uppercase sm:mb-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
       >
         {t('phonemeInstruction') ||
           'Guess the missing letters from the definition'}
@@ -144,7 +144,7 @@ function PhonemeExercise({
               char === '_'
                 ? isHighContrast
                   ? 'text-white/80'
-                  : 'text-slate-600'
+                  : 'text-slate-700'
                 : ''
             }
           >
@@ -155,7 +155,7 @@ function PhonemeExercise({
 
       {hintText && (
         <div
-          className={`mx-auto mb-2 min-h-0 max-w-[65ch] shrink overflow-y-auto px-2 text-center text-[10px] leading-relaxed font-medium sm:mb-4 sm:px-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+          className={`mx-auto mb-2 min-h-0 max-w-[65ch] shrink overflow-y-auto px-2 text-center text-[10px] leading-relaxed font-medium sm:mb-4 sm:px-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
         >
           💡 <BionicText text={hintText} enabled={bionicReading} />
         </div>
@@ -194,7 +194,7 @@ function PhonemeExercise({
         <button
           type="button"
           onClick={readWholeWord}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full border-2 border-dashed transition-all active:scale-90 ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-300 text-slate-600 hover:bg-slate-50'}`}
+          className={`${controlBtnSize} flex items-center justify-center rounded-full border-2 border-dashed transition-all active:scale-90 ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-300 text-slate-700 hover:bg-slate-50'}`}
           aria-label={t('phonemeRevealHint')}
           title={t('phonemeRevealHint')}
         >
@@ -225,7 +225,7 @@ function PhonemeExercise({
           className={`min-w-0 flex-1 rounded-2xl p-3 text-center text-base font-bold transition-shadow focus:ring-4 focus:outline-none disabled:opacity-50 sm:p-4 sm:text-lg ${
             isHighContrast
               ? 'border-4 border-white bg-black text-white placeholder:text-white/80 focus:ring-white/50'
-              : 'border-2 border-slate-200 bg-white text-slate-800 shadow-inner placeholder:text-slate-600 focus:border-indigo-400 focus:ring-indigo-600'
+              : 'border-2 border-slate-200 bg-white text-slate-800 shadow-inner placeholder:text-slate-700 focus:border-indigo-400 focus:ring-indigo-600'
           }`}
           placeholder={t('typeHere') || '...'}
           // Named by the task heading (what to type), not the generic placeholder.
@@ -238,7 +238,7 @@ function PhonemeExercise({
           disabled={userInput.trim().length === 0}
           className={`shrink-0 rounded-full px-4 py-3 text-xs font-black tracking-widest uppercase transition-all active:scale-95 sm:px-6 sm:py-4 sm:text-sm ${
             userInput.trim().length === 0
-              ? 'cursor-not-allowed bg-slate-200 text-slate-600'
+              ? 'cursor-not-allowed bg-slate-200 text-slate-700'
               : isHighContrast
                 ? 'bg-white text-black hover:bg-slate-200'
                 : `${themeStyles.button} ${themeStyles.buttonText} shadow-md hover:brightness-110`

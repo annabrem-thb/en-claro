@@ -188,7 +188,7 @@ function ScrabbleExercise({
           as="h3"
           id={headingId}
           zenMode={zenMode}
-          className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+          className={`mb-2 shrink-0 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
         >
           <BionicText
             text={
@@ -246,7 +246,7 @@ function ScrabbleExercise({
               aria-label={t('letterPrefix', { number: i + 1 }) + ' ' + l}
               className={`relative ${letterBtn} font-black shadow-md transition-all active:scale-90 md:shadow-sm ${
                 isUsed
-                  ? 'cursor-default border-slate-200 bg-slate-100 text-slate-600 opacity-30'
+                  ? 'cursor-default border-slate-200 bg-slate-100 text-slate-700 opacity-30'
                   : activeHighlight === i
                     ? `z-10 scale-110 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400`
                     : 'border-transparent bg-slate-100 text-slate-700 hover:bg-white hover:shadow-lg md:hover:shadow-sm'
@@ -273,7 +273,7 @@ function ScrabbleExercise({
             clearAudioTimeouts();
             setUserScrabble([]);
           }}
-          className={`flex-1 ${bigTargets ? 'py-4' : 'py-3 sm:py-4'} rounded-2xl bg-slate-50 text-[9px] font-black tracking-[0.2em] text-slate-600 uppercase transition-colors hover:text-slate-600 sm:text-[10px]`}
+          className={`flex-1 ${bigTargets ? 'py-4' : 'py-3 sm:py-4'} rounded-2xl bg-slate-50 text-[9px] font-black tracking-[0.2em] text-slate-700 uppercase transition-colors hover:text-slate-700 sm:text-[10px]`}
         >
           <BionicText text={t('delete') || 'Delete'} enabled={bionicReading} />
         </button>

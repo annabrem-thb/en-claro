@@ -49,7 +49,7 @@ const Day = ({
         {isGoalMet && (icon || '✓')}
       </div>
       <span
-        className={`${bigTargets ? 'text-xs sm:text-sm' : 'text-[10px] sm:text-xs'} font-bold ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+        className={`${bigTargets ? 'text-xs sm:text-sm' : 'text-[10px] sm:text-xs'} font-bold ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
         aria-hidden="true"
       >
         {dayLabel}
@@ -87,7 +87,7 @@ export function WeeklyCalendar({
       className={`w-full ${bigTargets ? 'p-4 sm:p-6' : 'p-3 sm:p-4'} mt-4 rounded-2xl sm:mt-8 sm:rounded-3xl ${noFlash ? '' : 'animate-in fade-in delay-700 duration-500'} ${isHighContrast ? 'border border-white/20 bg-black' : `border ${themeStyles?.border || 'border-slate-100'} bg-[#FCFBF9] shadow-sm`}`}
     >
       <h3
-        className={`${bigTargets ? 'mb-3 text-xs sm:mb-6 sm:text-sm' : 'mb-2 text-[10px] sm:mb-4 sm:text-xs'} text-center font-black tracking-widest wrap-anywhere text-slate-600 uppercase`}
+        className={`${bigTargets ? 'mb-3 text-xs sm:mb-6 sm:text-sm' : 'mb-2 text-[10px] sm:mb-4 sm:text-xs'} text-center font-black tracking-widest wrap-anywhere text-slate-700 uppercase`}
       >
         {tr('dailyGoalProgress')}
       </h3>

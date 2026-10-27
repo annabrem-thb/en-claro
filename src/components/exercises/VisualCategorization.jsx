@@ -218,7 +218,7 @@ function VisualCategorization({
         as="h2"
         id={headingId}
         zenMode={zenMode}
-        className={`mx-auto max-w-[65ch] shrink-0 px-4 text-center text-xs font-black tracking-[0.15em] uppercase sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
+        className={`mx-auto max-w-[65ch] shrink-0 px-4 text-center text-xs font-black tracking-[0.15em] uppercase sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-700'}`}
       >
         <BionicText
           text={
@@ -268,7 +268,7 @@ function VisualCategorization({
           </button>
         ))}
         {unplacedItems.length === 0 && (
-          <span className="my-auto text-sm font-bold text-slate-600">
+          <span className="my-auto text-sm font-bold text-slate-700">
             {t('allItemsPlaced') || 'All items placed'}
           </span>
         )}
@@ -316,7 +316,7 @@ function VisualCategorization({
                   {bucket.icon}
                 </span>
                 <span
-                  className={`text-xs font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
+                  className={`text-xs font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-700'}`}
                 >
                   {bucket.label}
                 </span>

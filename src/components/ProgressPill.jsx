@@ -50,13 +50,13 @@ export function ProgressPill({
             {stageIcon}
           </span>
           <span
-            className={`text-[8px] font-black tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+            className={`text-[8px] font-black tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
           >
             {stageName}
           </span>
         </div>
         <span
-          className={`text-[9px] font-black ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
+          className={`text-[9px] font-black ${isHighContrast ? 'text-white/70' : 'text-slate-700'}`}
         >
           {points} / {max}
         </span>
