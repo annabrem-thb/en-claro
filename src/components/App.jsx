@@ -1194,7 +1194,11 @@ function AppContent() {
                             setNavRevealedDuringTask((prev) => !prev)
                           }
                           aria-expanded={navRevealedDuringTask}
-                          aria-label={t('openMenu') || 'Open menu'}
+                          aria-label={
+                            navRevealedDuringTask
+                              ? t('closeMenu') || 'Close menu'
+                              : t('openMenu') || 'Open menu'
+                          }
                           className={`flex items-center justify-center rounded-full border-2 bg-transparent transition-colors ${bigTargets ? 'h-14 w-14 text-base' : 'h-10 w-10 text-sm'} ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-200 text-slate-600 hover:bg-slate-100'}`}
                         >
                           ☰

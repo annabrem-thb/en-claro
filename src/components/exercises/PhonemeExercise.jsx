@@ -228,7 +228,8 @@ function PhonemeExercise({
               : 'border-2 border-slate-200 bg-white text-slate-800 shadow-inner placeholder:text-slate-600 focus:border-indigo-400 focus:ring-indigo-600'
           }`}
           placeholder={t('typeHere') || '...'}
-          aria-label={t('typeHere') || 'Type here'}
+          // Named by the task heading (what to type), not the generic placeholder.
+          aria-labelledby={headingId}
           autoComplete="off"
           spellCheck="false"
         />

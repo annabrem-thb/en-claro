@@ -47,7 +47,18 @@ async function runAxe(page, disableRules = []) {
     // enforced for every button *this app* renders.
     .exclude('[data-floating-ui-focus-guard]');
   if (disableRules.length) builder.disableRules(disableRules);
-  return builder.analyze();
+  // axe can collide with a page that is still settling (a previous scan
+  // still running, or a reload mid-scan, mostly on slow WebKit runs); both
+  // are transient, so retry instead of failing the audit.
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await builder.analyze();
+    } catch (e) {
+      const transient = /already running|context was destroyed|navigation/i;
+      if (attempt >= 2 || !transient.test(e.message)) throw e;
+      await page.waitForTimeout(500);
+    }
+  }
 }
 
 // color-contrast only, asserted explicitly: the full scans above include it
@@ -309,12 +320,7 @@ for (const lang of ['de', 'en', 'pl']) {
       for (const route of ['literacy', 'visual', 'cognitive']) {
         test(`${route}: every task has a focused heading and no WCAG 2.1 A/AA violations`, async ({
           page,
-          browserName,
         }) => {
-          test.fixme(
-            browserName === 'firefox' && route === 'cognitive',
-            'Bekanntes Problem: Fokus nach Aufgabenwechsel in Firefox, dokumentiert in der Masterarbeit, Abschnitt 6.2',
-          );
           test.setTimeout(100000);
           // Redo the whole setup if the page reloads mid-way (dev-server /
           // PWA update on slow CI resets the app to the intro screen).
