@@ -28,7 +28,7 @@ function PwaUpdateBannerComponent({
         />
       </h4>
       <p
-        className={`mb-4 text-xs leading-relaxed font-medium ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+        className={`mb-4 text-xs leading-relaxed font-medium ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
       >
         <BionicText
           text={

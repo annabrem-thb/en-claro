@@ -85,7 +85,7 @@ export default function ExerciseContainer({ currentTask, ...commonProps }) {
   }
 
   return (
-    <div className="p-6 text-red-400" role="alert" aria-live="assertive">
+    <div className="p-6 text-red-800" role="alert" aria-live="assertive">
       {t?.('formatNotRecognized') || 'Format not recognized'}
     </div>
   );

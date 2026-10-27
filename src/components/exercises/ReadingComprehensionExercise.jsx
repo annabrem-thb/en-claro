@@ -191,7 +191,7 @@ function ReadingComprehensionExercise({
         as="h3"
         id={headingId}
         zenMode={zenMode}
-        className={`mx-auto mb-2 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-snug font-black tracking-[0.15em] uppercase sm:mb-4 sm:text-[11px] sm:leading-relaxed ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}
+        className={`mx-auto mb-2 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-snug font-black tracking-[0.15em] uppercase sm:mb-4 sm:text-[11px] sm:leading-relaxed ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
       >
         <BionicText text={questionText} enabled={bionicReading} />
       </TaskHeading>

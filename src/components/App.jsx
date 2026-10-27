@@ -1338,7 +1338,7 @@ function AppContent() {
       >
         <h2
           id="study-complete-title"
-          className="mb-2 text-2xl font-black text-emerald-600"
+          className="mb-2 text-2xl font-black text-emerald-800"
         >
           <span aria-hidden="true">🎉</span> {t('studyMode.completeTitle')}
         </h2>

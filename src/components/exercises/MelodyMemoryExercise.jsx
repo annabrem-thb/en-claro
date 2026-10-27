@@ -292,7 +292,7 @@ function MelodyMemoryExercise({
             className={`shrink-0 rounded-full px-6 py-2 text-xs font-black tracking-widest uppercase transition-colors ${
               attempt.length === 0
                 ? 'cursor-not-allowed text-slate-300'
-                : 'text-slate-600 hover:text-red-400'
+                : 'text-slate-600 hover:text-red-800'
             }`}
           >
             <BionicText text={t('delete') || 'Undo'} enabled={bionicReading} />

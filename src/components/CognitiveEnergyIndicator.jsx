@@ -55,7 +55,7 @@ export function CognitiveEnergyIndicator({
         aria-hidden="true"
       >
         <span
-          className={`font-black ${isActive ? `text-[9px] ${symbolColor}` : 'text-[7px] text-slate-500'}`}
+          className={`font-black ${isActive ? `text-[9px] ${symbolColor}` : 'text-[7px] text-slate-600'}`}
         >
           {symbol}
         </span>
@@ -108,7 +108,7 @@ export function CognitiveEnergyIndicator({
             />
           </h2>
           <p
-            className={`mb-6 text-xs leading-relaxed font-medium sm:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+            className={`mb-6 text-xs leading-relaxed font-medium sm:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
           >
             <BionicText
               text={

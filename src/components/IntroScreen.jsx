@@ -33,7 +33,7 @@ const A11yBtn = ({
   <button
     onClick={onClick}
     aria-pressed={active}
-    className={`relative ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2'} flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border-2 px-1 text-xs leading-tight font-bold transition-all active:scale-95 sm:text-sm ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm') : isHighContrast ? 'border-white/30 text-white/80 hover:border-white/50' : 'border-slate-100 text-slate-500 hover:border-slate-300'}`}
+    className={`relative ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2'} flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border-2 px-1 text-xs leading-tight font-bold transition-all active:scale-95 sm:text-sm ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-900 shadow-sm') : isHighContrast ? 'border-white/30 text-white/80 hover:border-white/50' : 'border-slate-100 text-slate-600 hover:border-slate-300'}`}
   >
     {active && (
       <div
@@ -287,7 +287,7 @@ function IntroScreen({ onStart, speak }) {
               </h1>
 
               <p
-                className={`mb-0.5 max-w-sm shrink-0 text-xs leading-snug font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}
+                className={`mb-0.5 max-w-sm shrink-0 text-xs leading-snug font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
               >
                 <BionicText
                   text={t(
@@ -545,7 +545,7 @@ function IntroScreen({ onStart, speak }) {
               </h1>
 
               <p
-                className={`mb-0.5 max-w-sm shrink-0 text-xs leading-snug font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}
+                className={`mb-0.5 max-w-sm shrink-0 text-xs leading-snug font-bold sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
               >
                 <BionicText
                   text={t(
@@ -595,7 +595,7 @@ function IntroScreen({ onStart, speak }) {
                   </button>
                 </div>
                 <p
-                  className={`text-[11px] leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+                  className={`text-[11px] leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
                 >
                   {t('studyMode.infoText')}
                 </p>
@@ -666,7 +666,7 @@ function IntroScreen({ onStart, speak }) {
                       }}
                       className={`flex min-w-0 flex-auto flex-row flex-wrap items-center justify-center gap-x-1.5 rounded-xl border-2 text-xs font-bold transition-all active:scale-95 sm:text-sm ${bigTargets ? 'py-2.5' : 'py-1.5 sm:py-2'} ${
                         isGamified
-                          ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md'}`
+                          ? `${isHighContrast ? 'border-white bg-white/20 text-white' : 'border-emerald-500 bg-emerald-50 text-emerald-800 shadow-md'}`
                           : `${isHighContrast ? 'border-white/30 bg-transparent text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-emerald-300'}`
                       }`}
                       aria-pressed={isGamified}
@@ -759,7 +759,7 @@ function IntroScreen({ onStart, speak }) {
                   bigTargets
                     ? 'py-3 text-sm sm:py-4 sm:text-lg'
                     : 'py-2.5 text-sm sm:py-3'
-                } ${isHighContrast ? 'border-white/50 text-white hover:border-white' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}
+                } ${isHighContrast ? 'border-white/50 text-white hover:border-white' : 'border-slate-200 text-slate-600 hover:border-slate-300'}`}
               >
                 <BionicText
                   text={t('intro.back', 'Back')}

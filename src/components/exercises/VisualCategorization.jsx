@@ -316,7 +316,7 @@ function VisualCategorization({
                   {bucket.icon}
                 </span>
                 <span
-                  className={`text-xs font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-500'}`}
+                  className={`text-xs font-black tracking-widest uppercase ${isHighContrast ? 'text-white' : 'text-slate-600'}`}
                 >
                   {bucket.label}
                 </span>
@@ -359,7 +359,7 @@ function VisualCategorization({
                 key={i}
                 className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold shadow-sm ${isHighContrast ? 'bg-white text-black' : 'bg-white text-slate-700'}`}
               >
-                <span className="text-red-500 line-through">{ex.wrong}</span>
+                <span className="text-red-800 line-through">{ex.wrong}</span>
                 <span aria-hidden="true">→</span>
                 <span className="text-emerald-700">{ex.correct}</span>
               </span>

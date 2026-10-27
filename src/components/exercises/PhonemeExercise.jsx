@@ -155,7 +155,7 @@ function PhonemeExercise({
 
       {hintText && (
         <div
-          className={`mx-auto mb-2 min-h-0 max-w-[65ch] shrink overflow-y-auto px-2 text-center text-[10px] leading-relaxed font-medium sm:mb-4 sm:px-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+          className={`mx-auto mb-2 min-h-0 max-w-[65ch] shrink overflow-y-auto px-2 text-center text-[10px] leading-relaxed font-medium sm:mb-4 sm:px-4 sm:text-xs md:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
         >
           💡 <BionicText text={hintText} enabled={bionicReading} />
         </div>
@@ -194,7 +194,7 @@ function PhonemeExercise({
         <button
           type="button"
           onClick={readWholeWord}
-          className={`${controlBtnSize} flex items-center justify-center rounded-full border-2 border-dashed transition-all active:scale-90 ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-300 text-slate-500 hover:bg-slate-50'}`}
+          className={`${controlBtnSize} flex items-center justify-center rounded-full border-2 border-dashed transition-all active:scale-90 ${isHighContrast ? 'border-white/50 text-white/80 hover:bg-white/10' : 'border-slate-300 text-slate-600 hover:bg-slate-50'}`}
           aria-label={t('phonemeRevealHint')}
           title={t('phonemeRevealHint')}
         >

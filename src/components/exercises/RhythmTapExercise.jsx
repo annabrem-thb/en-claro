@@ -241,7 +241,7 @@ function RhythmTapExercise({
             ))}
           </div>
           <p
-            className={`mb-3 text-xs font-bold sm:mb-4 ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+            className={`mb-3 text-xs font-bold sm:mb-4 ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
           >
             {t('rhythmTapCount', { count: tapCount }) || `Taps: ${tapCount}`}
           </p>
@@ -253,7 +253,7 @@ function RhythmTapExercise({
               className={`flex-1 rounded-full py-2.5 text-xs font-black tracking-widest uppercase transition-colors sm:py-3 ${
                 tapCount === 0
                   ? 'cursor-not-allowed text-slate-300'
-                  : 'text-slate-600 hover:text-red-400'
+                  : 'text-slate-600 hover:text-red-800'
               }`}
             >
               <BionicText

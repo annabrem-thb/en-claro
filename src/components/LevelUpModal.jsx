@@ -45,12 +45,10 @@ function LevelUpModalComponent({
             />
           </h4>
           <p
-            className={`text-xs leading-relaxed ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}
+            className={`text-xs leading-relaxed ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
           >
             <BionicText
-              text={
-                t('levelUpDesc') || 'Another goal has been reached.'
-              }
+              text={t('levelUpDesc') || 'Another goal has been reached.'}
               enabled={bionicReading}
             />
           </p>

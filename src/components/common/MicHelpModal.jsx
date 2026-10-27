@@ -52,7 +52,7 @@ function MicHelpModalComponent({
         />
       </h3>
       <ol
-        className={`mb-5 list-decimal space-y-1 pl-5 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+        className={`mb-5 list-decimal space-y-1 pl-5 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
       >
         {steps('micHelpGlobalSteps').map((step, i) => (
           <li key={i}>
@@ -70,7 +70,7 @@ function MicHelpModalComponent({
         />
       </h3>
       <ol
-        className={`mb-5 list-decimal space-y-1 pl-5 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+        className={`mb-5 list-decimal space-y-1 pl-5 text-sm leading-relaxed ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
       >
         {steps('micHelpAppSteps').map((step, i) => (
           <li key={i}>

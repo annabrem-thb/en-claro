@@ -395,7 +395,7 @@ function SyllableExercise({
           disabled={isResolved || cuts.length === 0 || isListening}
           className={`w-full py-2 text-[10px] font-black tracking-widest uppercase transition-colors ${
             cuts.length > 0 && !isListening
-              ? 'text-slate-600 hover:text-red-400'
+              ? 'text-slate-600 hover:text-red-800'
               : 'text-transparent'
           }`}
         >

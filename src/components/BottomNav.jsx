@@ -109,7 +109,7 @@ function BottomNavComponent({
     <div className="shrink-0 lg:hidden">
       {studyProgressLabel && (
         <p
-          className={`px-2 py-1 text-center text-[10px] font-bold tracking-wide uppercase ${isHighContrast ? 'bg-black text-white/70' : 'bg-white text-slate-500'}`}
+          className={`px-2 py-1 text-center text-[10px] font-bold tracking-wide uppercase ${isHighContrast ? 'bg-black text-white/70' : 'bg-white text-slate-600'}`}
         >
           {studyProgressLabel}
         </p>
@@ -120,7 +120,7 @@ function BottomNavComponent({
         >
           <span
             id="bottomnav-theme-label"
-            className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+            className={`text-[10px] font-bold tracking-wider uppercase ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
           >
             {t('selectTheme') || 'Select theme'}
           </span>

@@ -312,7 +312,7 @@ function VirtualGarden({
       {isFullScreen && (
         <div className="animate-in fade-in mt-4 flex flex-col items-center gap-1 px-2 delay-500 duration-1000 sm:mt-8 sm:gap-2">
           <p
-            className={`max-w-xs px-2 text-center text-xs leading-relaxed font-medium wrap-anywhere sm:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+            className={`max-w-xs px-2 text-center text-xs leading-relaxed font-medium wrap-anywhere sm:text-sm ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
           >
             <BionicText text={t('gardenEmpty')} enabled={bionicReading} />
           </p>
@@ -380,7 +380,7 @@ function VirtualGarden({
           {justCopied && (
             <p
               role="status"
-              className={`mt-1 text-[10px] font-bold sm:text-xs ${isHighContrast ? 'text-white' : 'text-emerald-600'}`}
+              className={`mt-1 text-[10px] font-bold sm:text-xs ${isHighContrast ? 'text-white' : 'text-emerald-800'}`}
             >
               <BionicText text={t('shareCopied')} enabled={bionicReading} />
             </p>
@@ -434,7 +434,7 @@ function VirtualGarden({
                           : `border-amber-500 bg-amber-500 text-white`
                         : isHighContrast
                           ? 'border-white/30 text-white/60'
-                          : 'border-slate-200 text-slate-500'
+                          : 'border-slate-200 text-slate-600'
                     }`}
                   >
                     {n}
@@ -487,7 +487,7 @@ function VirtualGarden({
                           : `border-emerald-700 bg-emerald-700 text-white`
                         : isHighContrast
                           ? 'border-white/30 text-white/60'
-                          : 'border-slate-200 text-slate-500'
+                          : 'border-slate-200 text-slate-600'
                     }`}
                   >
                     {n}
@@ -566,7 +566,7 @@ function VirtualGarden({
                     className="flex flex-nowrap items-center justify-between gap-2 text-[10px] sm:text-sm"
                   >
                     <span
-                      className={`line-clamp-2 min-w-0 flex-1 font-bold wrap-anywhere ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+                      className={`line-clamp-2 min-w-0 flex-1 font-bold wrap-anywhere ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
                     >
                       <BionicText
                         text={

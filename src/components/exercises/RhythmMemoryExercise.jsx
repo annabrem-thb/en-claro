@@ -263,7 +263,7 @@ function RhythmMemoryExercise({
               className={`flex-1 rounded-full py-2.5 text-xs font-black tracking-widest uppercase transition-colors sm:py-3 ${
                 tapTimestamps.length === 0
                   ? 'cursor-not-allowed text-slate-300'
-                  : 'text-slate-600 hover:text-red-400'
+                  : 'text-slate-600 hover:text-red-800'
               }`}
             >
               <BionicText

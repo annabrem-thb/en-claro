@@ -844,7 +844,7 @@ export const SurveyComponent: React.FC<{
         className={`rounded-3xl border-2 p-8 text-center focus:outline-none ${isHighContrast ? 'border-white bg-black' : 'border-emerald-100 bg-emerald-50'}`}
       >
         <h2
-          className={`mb-2 text-2xl font-black ${isHighContrast ? 'text-white' : 'text-emerald-600'}`}
+          className={`mb-2 text-2xl font-black ${isHighContrast ? 'text-white' : 'text-emerald-800'}`}
         >
           🎉{' '}
           <BionicText
@@ -878,7 +878,7 @@ export const SurveyComponent: React.FC<{
           <BionicText text={t('feedback.title')} enabled={hasBionic} />
         </h1>
         <p
-          className={`mt-2 text-sm font-medium ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+          className={`mt-2 text-sm font-medium ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
         >
           <BionicText text={t('feedback.desc')} enabled={hasBionic} />
         </p>
@@ -942,13 +942,13 @@ export const SurveyComponent: React.FC<{
                     <BionicText text={t(scale.label)} enabled={hasBionic} />
                   </label>
                   <span
-                    className={`text-xs font-medium ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+                    className={`text-xs font-medium ${isHighContrast ? 'text-white/70' : 'text-slate-600'}`}
                   >
                     <BionicText text={t(scale.desc)} enabled={hasBionic} />
                   </span>
                 </div>
                 <span
-                  className={`text-xl font-black ${isHighContrast ? 'text-white' : 'text-indigo-500'}`}
+                  className={`text-xl font-black ${isHighContrast ? 'text-white' : 'text-indigo-700'}`}
                 >
                   {nasaScores[scale.id] ?? '–'}
                 </span>
