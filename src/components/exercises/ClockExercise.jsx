@@ -247,13 +247,18 @@ function ClockExercise({
         <div className={`mb-1 text-4xl ${bounceClass}`} aria-hidden="true">
           {data.isNight ? '🌙' : '☀️'}
         </div>
-        {!zenMode && (
-          <p
-            className={`max-w-[65ch] text-xs font-medium tracking-wide italic ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
-          >
-            <BionicText text={data.timeAnalog} enabled={bionicReading} />
-          </p>
-        )}
+        {/* The drawn clock face is aria-hidden, so this text is the only
+            non-visual source of the time (WCAG 1.1.1). In zen mode it stays
+            in the DOM as sr-only, like TaskHeading. */}
+        <p
+          className={
+            zenMode
+              ? 'sr-only'
+              : `max-w-[65ch] text-xs font-medium tracking-wide italic ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`
+          }
+        >
+          <BionicText text={data.timeAnalog} enabled={bionicReading} />
+        </p>
       </div>
 
       {}
@@ -264,6 +269,7 @@ function ClockExercise({
         }
       `}</style>
       <div
+        aria-hidden="true"
         className={`relative ${clockSize} mb-4 flex shrink-0 items-center justify-center rounded-full border-8 shadow-xl transition-colors duration-1000 sm:mb-6 md:shadow-md ${
           data.isNight
             ? 'border-slate-700 bg-slate-800 shadow-blue-900/20'
