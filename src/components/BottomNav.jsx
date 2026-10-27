@@ -41,7 +41,7 @@ function NavButton({
             ? 'bg-white/20 font-black text-white shadow-sm'
             : `bg-slate-50 ${themeStyles.accent} font-black shadow-sm ring-1 ring-slate-900/5`
           : isHighContrast
-            ? 'text-white/50 hover:text-white/80'
+            ? 'text-white/80 hover:text-white/80'
             : 'text-slate-600 hover:bg-slate-50/50 hover:text-slate-600'
       }`}
       aria-current={isActive ? 'page' : undefined}

@@ -50,7 +50,7 @@ function PwaUpdateBannerComponent({
         </button>
         <button
           onClick={onDismiss}
-          className={`flex-1 rounded-xl py-3 text-[10px] font-black tracking-widest uppercase transition-all sm:text-xs ${isHighContrast ? 'bg-white/10 hover:bg-white/20' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
+          className={`flex-1 rounded-xl py-3 text-[10px] font-black tracking-widest uppercase transition-all sm:text-xs ${isHighContrast ? 'bg-white/10 hover:bg-white/20' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
         >
           <BionicText text={t('pwaLater') || 'Later'} enabled={bionicReading} />
         </button>

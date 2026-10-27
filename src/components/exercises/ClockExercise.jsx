@@ -240,7 +240,7 @@ function ClockExercise({
           as="h3"
           id={headingId}
           zenMode={zenMode}
-          className={`mb-2 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+          className={`mb-2 text-center text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
         >
           {t('clockInstruction') || 'Select the matching time'}
         </TaskHeading>
@@ -254,7 +254,7 @@ function ClockExercise({
           className={
             zenMode
               ? 'sr-only'
-              : `max-w-[65ch] text-xs font-medium tracking-wide italic ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`
+              : `max-w-[65ch] text-xs font-medium tracking-wide italic ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`
           }
         >
           <BionicText text={data.timeAnalog} enabled={bionicReading} />
@@ -351,7 +351,7 @@ function ClockExercise({
             }`}
           >
             <span
-              className={`absolute top-2 left-3 text-xs font-black ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+              className={`absolute top-2 left-3 text-xs font-black ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
               aria-hidden="true"
             >
               {i + 1}

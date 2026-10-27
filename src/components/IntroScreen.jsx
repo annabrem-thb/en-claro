@@ -33,7 +33,7 @@ const A11yBtn = ({
   <button
     onClick={onClick}
     aria-pressed={active}
-    className={`relative ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2'} flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border-2 px-1 text-xs leading-tight font-bold transition-all active:scale-95 sm:text-sm ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm') : isHighContrast ? 'border-white/30 text-white/50 hover:border-white/50' : 'border-slate-100 text-slate-500 hover:border-slate-300'}`}
+    className={`relative ${bigTargets ? 'py-2.5 sm:py-3' : 'py-1.5 sm:py-2'} flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border-2 px-1 text-xs leading-tight font-bold transition-all active:scale-95 sm:text-sm ${active ? (isHighContrast ? 'border-white bg-white/20 text-white' : 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm') : isHighContrast ? 'border-white/30 text-white/80 hover:border-white/50' : 'border-slate-100 text-slate-500 hover:border-slate-300'}`}
   >
     {active && (
       <div
@@ -299,7 +299,7 @@ function IntroScreen({ onStart, speak }) {
               </p>
 
               <p
-                className={`mb-2 shrink-0 text-[10px] font-bold tracking-widest uppercase ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}
+                className={`mb-2 shrink-0 text-[10px] font-bold tracking-widest uppercase ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
               >
                 {t('intro.stepIndicator', { current: 1, total: 2 })}
               </p>
@@ -557,7 +557,7 @@ function IntroScreen({ onStart, speak }) {
               </p>
 
               <p
-                className={`mb-2 shrink-0 text-[10px] font-bold tracking-widest uppercase ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}
+                className={`mb-2 shrink-0 text-[10px] font-bold tracking-widest uppercase ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
               >
                 {t('intro.stepIndicator', { current: 2, total: 2 })}
               </p>

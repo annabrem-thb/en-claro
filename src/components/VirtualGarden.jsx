@@ -442,7 +442,7 @@ function VirtualGarden({
                 ))}
               </div>
               <div
-                className={`mt-1 flex justify-between text-[9px] font-bold uppercase sm:text-[10px] ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}
+                className={`mt-1 flex justify-between text-[9px] font-bold uppercase sm:text-[10px] ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
               >
                 <span>
                   <BionicText text={t('workloadLow')} enabled={bionicReading} />
@@ -495,7 +495,7 @@ function VirtualGarden({
                 ))}
               </div>
               <div
-                className={`mt-1 flex justify-between text-[9px] font-bold uppercase sm:text-[10px] ${isHighContrast ? 'text-white/50' : 'text-slate-400'}`}
+                className={`mt-1 flex justify-between text-[9px] font-bold uppercase sm:text-[10px] ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
               >
                 <span>
                   <BionicText
@@ -516,7 +516,7 @@ function VirtualGarden({
               <button
                 type="button"
                 onClick={skipWorkloadCheckIn}
-                className={`text-[10px] font-bold uppercase underline sm:text-xs ${isHighContrast ? 'text-white/60' : 'text-slate-400'}`}
+                className={`text-[10px] font-bold uppercase underline sm:text-xs ${isHighContrast ? 'text-white/60' : 'text-slate-600'}`}
               >
                 <BionicText text={t('skip')} enabled={bionicReading} />
               </button>
@@ -566,7 +566,7 @@ function VirtualGarden({
                     className="flex flex-nowrap items-center justify-between gap-2 text-[10px] sm:text-sm"
                   >
                     <span
-                      className={`min-w-0 flex-1 line-clamp-2 wrap-anywhere font-bold ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
+                      className={`line-clamp-2 min-w-0 flex-1 font-bold wrap-anywhere ${isHighContrast ? 'text-white/70' : 'text-slate-500'}`}
                     >
                       <BionicText
                         text={

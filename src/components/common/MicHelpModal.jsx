@@ -80,7 +80,7 @@ function MicHelpModalComponent({
       </ol>
 
       <p
-        className={`mb-6 text-xs leading-relaxed ${isHighContrast ? 'text-white/60' : 'text-slate-400'}`}
+        className={`mb-6 text-xs leading-relaxed ${isHighContrast ? 'text-white/60' : 'text-slate-600'}`}
       >
         <BionicText
           text={

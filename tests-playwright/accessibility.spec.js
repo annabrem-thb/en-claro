@@ -50,6 +50,78 @@ async function runAxe(page, disableRules = []) {
   return builder.analyze();
 }
 
+// color-contrast only, asserted explicitly: the full scans above include it
+// through the wcag2aa tag, but a screen that only ever failed on contrast
+// should say so by name. The app targets 7:1 (AAA, requirement NF1), but
+// axe's AA rule (4.5:1) is the CI gate; the 7:1 target is covered by the
+// Tailwind palette choices in the components.
+//
+// axe reports text over a CSS gradient as "incomplete" (it cannot sample the
+// background), which would silently skip most of the intro screen's text. The
+// gradients are decorative and sit on a flat background colour, so they are
+// flattened for this scan to make axe check the text against that colour.
+async function expectNoContrastViolations(page) {
+  // axe throws if the page navigates while it injects/runs (dev-server
+  // reload on a slow runner); retry the whole scan.
+  for (let attempt = 0; ; attempt++) {
+    try {
+      await page.addStyleTag({
+        content: '* { background-image: none !important; }',
+      });
+      const results = await new AxeBuilder({ page })
+        .withRules(['color-contrast'])
+        .exclude('[data-floating-ui-focus-guard]')
+        .analyze();
+      expect(results.violations, formatViolations(results)).toEqual([]);
+      return;
+    } catch (e) {
+      if (attempt >= 2 || !/context was destroyed|navigation/i.test(e.message))
+        throw e;
+      await page.waitForTimeout(500);
+    }
+  }
+}
+
+// Seeds one of today's exercise logs the same way saveLog() does (same DB,
+// same stores), so VirtualGarden opens its workload check-in dialog.
+async function seedTodayExerciseLog(page) {
+  await page.evaluate(
+    () =>
+      new Promise((resolve, reject) => {
+        const request = indexedDB.open('ContextMasterDB', 1);
+        request.onupgradeneeded = (event) => {
+          const db = event.target.result;
+          if (!db.objectStoreNames.contains('daily_progress')) {
+            db.createObjectStore('daily_progress', { keyPath: 'date' });
+          }
+          if (!db.objectStoreNames.contains('exercise_history')) {
+            const store = db.createObjectStore('exercise_history', {
+              keyPath: 'id',
+              autoIncrement: true,
+            });
+            store.createIndex('date', 'date', { unique: false });
+            store.createIndex('type', 'type', { unique: false });
+          }
+        };
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+          const db = request.result;
+          const tx = db.transaction('exercise_history', 'readwrite');
+          tx.objectStore('exercise_history').put({
+            date: new Date().toISOString(),
+            type: 'literacy',
+            correct: true,
+          });
+          tx.oncomplete = () => {
+            db.close();
+            resolve();
+          };
+          tx.onerror = () => reject(tx.error);
+        };
+      }),
+  );
+}
+
 function formatViolations(results) {
   return results.violations
     .map(
@@ -112,6 +184,42 @@ for (const lang of ['de', 'en', 'pl']) {
       await page.locator(`button[lang="${lang}"]`).click();
       const results = await runAxe(page);
       expect(results.violations, formatViolations(results)).toEqual([]);
+    });
+
+    test('Intro screen step 2 has no color-contrast violations', async ({
+      page,
+    }) => {
+      await page.goto('/');
+      await page.locator(`button[lang="${lang}"]`).click();
+      await expectNoContrastViolations(page);
+      await page.locator('text=/Weiter|Next|Dalej/i').click();
+      await expect(
+        page.locator('text=/Tylko nauka|Study only|Nur lernen/i'),
+      ).toBeVisible();
+      await expectNoContrastViolations(page);
+    });
+
+    // The garden's workload check-in question only opens once today has at
+    // least one logged exercise, so one is seeded straight into IndexedDB.
+    test('Garden with the visible workload question has no color-contrast violations', async ({
+      page,
+    }) => {
+      await page.goto('/');
+      await seedTodayExerciseLog(page);
+      await page.reload();
+      await page.locator(`button[lang="${lang}"]`).click();
+      await page.locator('text=/Weiter|Next|Dalej/i').click();
+      await page
+        .getByRole('button', { name: /Gra|Game|Gamified|Spiel/i })
+        .click();
+      await page.locator('text=/Rozpocznij|Start/i').click();
+      // Garden is only reachable in gamified mode; the shortcut works while
+      // the nav is unmounted during a task (see virtual_garden.spec.js).
+      await page.keyboard.press('Control+4');
+      await expect(page.locator('#garden-container')).toBeVisible();
+      await expect(page.locator('#workload-checkin-title')).toBeVisible();
+      await page.waitForLoadState('networkidle');
+      await expectNoContrastViolations(page);
     });
 
     // Each pillar draws from a different set of exercise components (Literacy:
@@ -419,5 +527,57 @@ for (const lang of ['de', 'en', 'pl']) {
       const results = await runAxe(page);
       expect(results.violations, formatViolations(results)).toEqual([]);
     });
+
+    // Both blocks of the guided study end in a questionnaire (block 1 is the
+    // gamified condition when variantOrder is gamifiedFirst). The submit
+    // endpoint is mocked so nothing is ever written to the real database.
+    for (const [block, variantOrder] of [
+      [1, 'gamifiedFirst'],
+      [2, 'gamifiedFirst'],
+    ]) {
+      test(`Study questionnaire, block ${block} (submit mocked) has no color-contrast violations`, async ({
+        page,
+      }) => {
+        await page.route('**/.netlify/functions/submit-survey', (route) =>
+          route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify({ message: 'mocked' }),
+          }),
+        );
+        await page.addInitScript(
+          ([injectedLang, order, blockNumber]) => {
+            window.localStorage.clear();
+            window.localStorage.setItem('i18nextLng', injectedLang);
+            window.localStorage.setItem('studyConsent_v2', 'true');
+            window.localStorage.setItem('variantOrder', order);
+            window.localStorage.setItem(
+              'studyProgress_v2',
+              JSON.stringify({
+                block: blockNumber,
+                pillarIndex: 0,
+                pillarCount: 0,
+                phase: 'survey',
+              }),
+            );
+          },
+          [lang, variantOrder, block],
+        );
+        await page.goto('/#/literacy');
+        const nextButton = page.locator('text=/Weiter|Next|Dalej/i');
+        if (await nextButton.isVisible().catch(() => false)) {
+          await page.locator(`button[lang="${lang}"]`).click();
+          await nextButton.click();
+          await page
+            .locator('text=/Rozpocznij|Start/i')
+            .click()
+            .catch(() => {});
+        }
+        await expect(page.locator('#main-content')).toBeVisible();
+        await page.keyboard.press('Control+s');
+        await expect(page.locator('#survey-title')).toBeVisible();
+        await expectNoContrastViolations(page);
+      });
+    }
   });
 }

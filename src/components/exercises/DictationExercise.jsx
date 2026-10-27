@@ -114,7 +114,7 @@ function DictationExercise({
       <TaskHeading
         id={headingId}
         zenMode={zenMode}
-        className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
       >
         <BionicText text={headerText} enabled={bionicReading} />
       </TaskHeading>
@@ -144,8 +144,8 @@ function DictationExercise({
         }
         className={`mb-4 w-full max-w-md shrink rounded-2xl p-4 text-center text-lg font-bold transition-shadow focus:ring-4 focus:outline-none sm:mb-6 sm:rounded-3xl sm:p-5 sm:text-xl md:text-2xl ${
           isHighContrast
-            ? 'border-4 border-white bg-black text-white focus:ring-white/50'
-            : 'border-2 border-slate-200 bg-white text-slate-800 shadow-inner focus:border-indigo-400 focus:ring-indigo-100'
+            ? 'border-4 border-white bg-black text-white placeholder:text-white/80 focus:ring-white/50'
+            : 'border-2 border-slate-200 bg-white text-slate-800 shadow-inner placeholder:text-slate-600 focus:border-indigo-400 focus:ring-indigo-100'
         }`}
         placeholder={t('typeHere') || '...'}
         aria-label={t('typeWhatYouHear') || 'Type what you heard'}

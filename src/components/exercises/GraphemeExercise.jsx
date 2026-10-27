@@ -209,7 +209,7 @@ function GraphemeExercise({
         as="h3"
         id={headingId}
         zenMode={zenMode}
-        className={`mx-auto mb-3 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.15em] uppercase sm:mb-6 sm:text-[11px] ${isHighContrast ? 'text-white/50' : 'text-slate-500'}`}
+        className={`mx-auto mb-3 min-h-0 max-w-[65ch] shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.15em] uppercase sm:mb-6 sm:text-[11px] ${isHighContrast ? 'text-white/80' : 'text-slate-500'}`}
       >
         <BionicText text={questionText} enabled={bionicReading} />
       </TaskHeading>
@@ -248,7 +248,7 @@ function GraphemeExercise({
             }`}
           >
             <span
-              // `text-white/50` used to sit unconditionally on this badge
+              // `text-white/80` used to sit unconditionally on this badge
               // regardless of button state — against the theme's own button
               // color (the default, non-highlighted state) that blended out
               // to 1.76–2.15:1 on every theme, nowhere near 4.5:1.

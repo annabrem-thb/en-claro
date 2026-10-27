@@ -87,7 +87,7 @@ function LookCoverWriteCheck({
           as="h2"
           id={headingId}
           zenMode={zenMode}
-          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
         >
           {t('lookAndListen') || 'Step 1: Study the word'}
         </TaskHeading>
@@ -138,7 +138,7 @@ function LookCoverWriteCheck({
           id={headingId}
           zenMode={zenMode}
           focusOnMount={false}
-          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
         >
           {t('typeFromMemory') || 'Step 2: Type from memory'}
         </TaskHeading>
@@ -150,8 +150,8 @@ function LookCoverWriteCheck({
           onChange={(e) => setUserInput(e.target.value)}
           className={`mb-4 min-h-0 w-full max-w-md shrink rounded-2xl p-4 text-center text-2xl font-bold transition-shadow focus:ring-4 focus:outline-none sm:mb-6 sm:rounded-3xl sm:p-6 sm:text-3xl ${
             isHighContrast
-              ? 'border-4 border-white bg-black text-white focus:ring-white/50'
-              : 'border-2 border-indigo-100 bg-white text-slate-800 shadow-inner focus:border-indigo-400 focus:ring-indigo-100'
+              ? 'border-4 border-white bg-black text-white placeholder:text-white/80 focus:ring-white/50'
+              : 'border-2 border-indigo-100 bg-white text-slate-800 shadow-inner placeholder:text-slate-600 focus:border-indigo-400 focus:ring-indigo-100'
           }`}
           placeholder={t('typeHere') || '...'}
           aria-label={t('typeFromMemory') || 'Type the hidden word'}
@@ -200,7 +200,7 @@ function LookCoverWriteCheck({
           id={headingId}
           zenMode={zenMode}
           focusOnMount={false}
-          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+          className={`mb-2 shrink-0 text-[10px] font-black tracking-[0.2em] uppercase sm:mb-4 sm:text-xs ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
         >
           {t('compareSpelling') || 'Step 3: Comparison'}
         </TaskHeading>

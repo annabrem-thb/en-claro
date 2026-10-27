@@ -16,7 +16,7 @@ export default function TranscriptDisplay({
   if (transcript) {
     return (
       <p
-        className={`${className} font-black tracking-widest uppercase ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        className={`${className} font-black tracking-widest uppercase ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
       >
         {t('heard')}:{' '}
         <span className={isHighContrast ? 'text-white' : 'text-slate-600'}>
@@ -28,7 +28,7 @@ export default function TranscriptDisplay({
   if (!idleText) return null;
   return (
     <p
-      className={`${className} font-medium ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+      className={`${className} font-medium ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
     >
       {idleText}
     </p>

@@ -1299,7 +1299,7 @@ function AppContent() {
               setSurveyOpenedManually(false);
             }}
             aria-label={t('close') || 'Close'}
-            className="absolute top-4 right-4 z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 font-bold text-slate-500 transition-colors hover:bg-slate-200"
+            className="absolute top-4 right-4 z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 font-bold text-slate-700 transition-colors hover:bg-slate-200"
           >
             ✕
           </button>

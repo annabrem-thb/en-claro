@@ -172,7 +172,7 @@ function RhythmTapExercise({
         as="h3"
         id={headingId}
         zenMode={zenMode}
-        className={`mb-2 shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        className={`mb-2 shrink-0 px-4 text-center text-[10px] leading-relaxed font-black tracking-[0.2em] uppercase sm:mb-4 ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
       >
         {phase === 'listen'
           ? t('rhythmListening') || 'Listen carefully…'

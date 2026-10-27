@@ -191,7 +191,7 @@ export default function ExerciseToggleManager({
                 </button>
                 <button
                   onClick={() => setAll(exerciseKeys, false)}
-                  className={`rounded-full px-3 py-1 text-xs font-bold transition-colors ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-500 hover:bg-slate-100'}`}
+                  className={`rounded-full px-3 py-1 text-xs font-bold transition-colors ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-slate-700 hover:bg-slate-100'}`}
                 >
                   <BionicText
                     text={t('exerciseManager.deselectAll', 'Deselect all')}

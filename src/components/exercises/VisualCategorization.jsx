@@ -218,7 +218,7 @@ function VisualCategorization({
         as="h2"
         id={headingId}
         zenMode={zenMode}
-        className={`mx-auto max-w-[65ch] shrink-0 px-4 text-center text-xs font-black tracking-[0.15em] uppercase sm:text-sm ${isHighContrast ? 'text-white/50' : 'text-slate-600'}`}
+        className={`mx-auto max-w-[65ch] shrink-0 px-4 text-center text-xs font-black tracking-[0.15em] uppercase sm:text-sm ${isHighContrast ? 'text-white/80' : 'text-slate-600'}`}
       >
         <BionicText
           text={

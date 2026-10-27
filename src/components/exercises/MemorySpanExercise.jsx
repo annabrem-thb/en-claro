@@ -363,7 +363,7 @@ function MemorySpanExercise({
           {!zenMode && (
             <button
               onClick={handleHint}
-              className={`flex items-center gap-2 ${hintPadding} rounded-full text-xs font-bold tracking-widest uppercase transition-all active:scale-95 ${isHighContrast ? 'bg-black text-white/70 hover:bg-white/10' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
+              className={`flex items-center gap-2 ${hintPadding} rounded-full text-xs font-bold tracking-widest uppercase transition-all active:scale-95 ${isHighContrast ? 'bg-black text-white/70 hover:bg-white/10' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
             >
               💡 {t('hint') || 'Hint'}
             </button>
