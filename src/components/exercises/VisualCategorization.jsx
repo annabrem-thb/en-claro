@@ -256,7 +256,7 @@ function VisualCategorization({
               activeItem?.id === item.id
                 ? isHighContrast
                   ? 'bg-white text-black ring-4 ring-white/50'
-                  : 'bg-indigo-500 text-white shadow-md ring-4 ring-indigo-200'
+                  : 'bg-indigo-600 text-white shadow-md ring-4 ring-indigo-200'
                 : activeHighlight === `item-${item.id}`
                   ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
                   : isHighContrast

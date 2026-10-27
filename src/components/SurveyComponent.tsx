@@ -1604,7 +1604,7 @@ export const SurveyComponent: React.FC<{
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full rounded-2xl py-5 font-black tracking-widest uppercase shadow-lg transition-all focus:ring-4 focus:outline-none active:scale-[0.98] disabled:opacity-50 disabled:grayscale ${isHighContrast ? 'bg-white text-black hover:bg-slate-200 focus:ring-white' : 'bg-indigo-600 text-white hover:bg-indigo-500 focus:ring-indigo-800'}`}
+          className={`w-full rounded-2xl py-5 font-black tracking-widest uppercase shadow-lg transition-all focus:ring-4 focus:outline-none active:scale-[0.98] disabled:opacity-50 disabled:grayscale ${isHighContrast ? 'bg-white text-black hover:bg-slate-200 focus:ring-white' : 'bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-800'}`}
         >
           <BionicText
             text={

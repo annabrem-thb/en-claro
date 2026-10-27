@@ -372,7 +372,7 @@ function VirtualGarden({
           <button
             type="button"
             onClick={handleShare}
-            className={`mt-3 flex shrink-0 items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-black tracking-widest uppercase transition-all active:scale-95 sm:mt-4 sm:px-6 sm:py-2.5 sm:text-sm ${isHighContrast ? 'border border-white bg-black text-white' : `${themeStyles?.button || 'bg-indigo-500'} ${themeStyles?.buttonText || 'text-white'} shadow-md hover:brightness-110`}`}
+            className={`mt-3 flex shrink-0 items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-black tracking-widest uppercase transition-all active:scale-95 sm:mt-4 sm:px-6 sm:py-2.5 sm:text-sm ${isHighContrast ? 'border border-white bg-black text-white' : `${themeStyles?.button || 'bg-indigo-600'} ${themeStyles?.buttonText || 'text-white'} shadow-md hover:brightness-110`}`}
           >
             <span aria-hidden="true">📤</span>
             <BionicText text={t('shareProgress')} enabled={bionicReading} />
@@ -526,7 +526,7 @@ function VirtualGarden({
                 onClick={() =>
                   submitWorkloadCheckIn(checkInDemand, checkInFocus)
                 }
-                className={`rounded-full px-4 py-1.5 text-[10px] font-black tracking-widest uppercase transition-all active:scale-95 disabled:opacity-40 sm:px-6 sm:py-2 sm:text-xs ${isHighContrast ? 'border border-white bg-black text-white' : `${themeStyles?.button || 'bg-indigo-500'} ${themeStyles?.buttonText || 'text-white'}`}`}
+                className={`rounded-full px-4 py-1.5 text-[10px] font-black tracking-widest uppercase transition-all active:scale-95 disabled:opacity-40 sm:px-6 sm:py-2 sm:text-xs ${isHighContrast ? 'border border-white bg-black text-white' : `${themeStyles?.button || 'bg-indigo-600'} ${themeStyles?.buttonText || 'text-white'}`}`}
               >
                 <BionicText
                   text={t('workloadSubmit')}

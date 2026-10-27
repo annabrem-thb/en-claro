@@ -7,6 +7,7 @@ import {
   flip,
   shift,
   useHover,
+  safePolygon,
   useFocus,
   useDismiss,
   useRole,
@@ -35,7 +36,10 @@ export default function Tooltip({
     ],
   });
 
-  const hover = useHover(context, { move: false });
+  // safePolygon keeps the tooltip open while the pointer travels from the
+  // trigger onto the tooltip itself (WCAG 1.4.13: hoverable), and the
+  // tooltip must therefore never be pointer-events-none.
+  const hover = useHover(context, { move: false, handleClose: safePolygon() });
   const focus = useFocus(context);
   const dismiss = useDismiss(context);
   const role = useRole(context, { role: 'tooltip' });
@@ -69,7 +73,7 @@ export default function Tooltip({
             ref={refs.setFloating}
             style={floatingStyles}
             {...getFloatingProps()}
-            className={`animate-in fade-in pointer-events-none z-100 max-w-xs rounded-xl px-3 py-2 text-xs font-medium wrap-anywhere hyphens-auto shadow-lg transition-opacity duration-200 ${
+            className={`animate-in fade-in z-100 max-w-xs rounded-xl px-3 py-2 text-xs font-medium wrap-anywhere hyphens-auto shadow-lg transition-opacity duration-200 ${
               isHighContrast
                 ? 'border border-black bg-white text-black'
                 : 'bg-slate-800 text-white'

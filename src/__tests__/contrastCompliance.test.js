@@ -165,3 +165,31 @@ describe('non-text and focus colors meet WCAG 1.4.11 (3:1)', () => {
     });
   }
 });
+
+// White text on the filled indigo/red controls (WCAG 1.4.3). The resting
+// shades must clear AA (4.5:1); hover shades are darker still and are held
+// to AAA (7:1) where the palette allows it.
+describe('white text on filled indigo/red backgrounds', () => {
+  const WHITE = '#ffffff';
+  // [where, background hex, minimum ratio]
+  const FILLS = [
+    [
+      'selected categorization item, rewrite buttons, nav CTA (indigo-600)',
+      '#4f46e5',
+      4.5,
+    ],
+    ['hover state of those buttons (indigo-700)', '#4338ca', 7],
+    [
+      'microphone recording / memory-span recording state (red-700)',
+      '#b91c1c',
+      4.5,
+    ],
+  ];
+
+  for (const [label, bg, min] of FILLS) {
+    it(`${label}: white on ${bg} is at least ${min}:1`, () => {
+      const { ratio } = checkContrast(WHITE, bg);
+      expect(ratio, `white on ${bg}`).toBeGreaterThanOrEqual(min);
+    });
+  }
+});
