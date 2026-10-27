@@ -107,6 +107,7 @@ function buildDbData(payload) {
 
     local_timestamp: payload.localTimestamp || null,
     participant_id: payload.participantId || null,
+    submission_id: payload.submissionId ?? null,
     user_language: translatedLang || null,
     theme: translatedTheme || null,
 
@@ -206,6 +207,14 @@ function isPlainString(value) {
 // payloads here with a 400 keeps garbage out of ab_study_submissions and
 // avoids routing bad input through to the Supabase call, where a failure
 // used to surface as a 500 with the raw error message below.
+// submissionId is generated once per questionnaire draft on the client and
+// re-sent unchanged on every retry (SurveyComponent.tsx), which is what lets
+// the insert below be idempotent. Optional so that a client build cached
+// from before this field existed can still submit (stored as NULL, which
+// the UNIQUE constraint allows any number of times).
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 function validatePayload(payload) {
   if (
     payload === null ||
@@ -213,6 +222,14 @@ function validatePayload(payload) {
     Array.isArray(payload)
   ) {
     return 'Payload must be a JSON object.';
+  }
+
+  if (
+    payload.submissionId !== undefined &&
+    (typeof payload.submissionId !== 'string' ||
+      !UUID_PATTERN.test(payload.submissionId))
+  ) {
+    return 'submissionId must be a UUID.';
   }
 
   const numericFields = [
@@ -427,11 +444,20 @@ exports.handler = async (event) => {
 
     const dbData = buildDbData(payload);
 
-    const { error } = await supabase
-      .from('ab_study_submissions')
-      .insert([dbData]);
+    const table = supabase.from('ab_study_submissions');
+    // A retry of an already-stored submission (the first response was lost)
+    // must answer 200 without creating a second row: ON CONFLICT DO NOTHING
+    // on the unique submission_id. 23505 is the same conflict surfacing as an
+    // error (e.g. a race between two concurrent retries), also treated as
+    // "already saved".
+    const { error } = dbData.submission_id
+      ? await table.upsert([dbData], {
+          onConflict: 'submission_id',
+          ignoreDuplicates: true,
+        })
+      : await table.insert([dbData]);
 
-    if (error) throw error;
+    if (error && error.code !== '23505') throw error;
 
     return {
       statusCode: 200,

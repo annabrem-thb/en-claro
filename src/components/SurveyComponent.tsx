@@ -61,6 +61,10 @@ type PersonalInfoAnswers = Omit<
 };
 
 type SurveyDraft = {
+  // Stable per draft: created once with the draft and re-sent unchanged on
+  // every retry, so the server can recognize (and not store twice) an answer
+  // set whose first response was lost.
+  submissionId?: string;
   nasaScores: Answers<NasaTlxPayload>;
   susScores: Answers<SusPayload>;
   engagementScores: Answers<EngagementPayload>;
@@ -81,6 +85,30 @@ const SLIDER_NAVIGATION_KEYS = new Set([
   'PageUp',
   'PageDown',
 ]);
+
+// RFC 4122 v4 id for submissionId. crypto.randomUUID needs a secure context;
+// the getRandomValues/Math.random fallbacks keep the format valid (the server
+// validates it as a UUID) on older browsers and in plain-http dev setups.
+function createSubmissionId(): string {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  const bytes = new Uint8Array(16);
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+    crypto.getRandomValues(bytes);
+  } else {
+    for (let i = 0; i < 16; i++) bytes[i] = Math.floor(Math.random() * 256);
+  }
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0'));
+  return `${hex.slice(0, 4).join('')}-${hex.slice(4, 6).join('')}-${hex.slice(6, 8).join('')}-${hex.slice(8, 10).join('')}-${hex.slice(10).join('')}`;
+}
+
+// Submission failure kinds (WCAG 3.3.1/3.3.3): each one gets its own message
+// with a concrete next step, instead of one generic text for everything.
+class ServerRejectedError extends Error {}
+class NetworkUnavailableError extends Error {}
 
 // Every localStorage access here is wrapped: private-browsing modes and a
 // full storage quota can make both getItem and setItem throw, and losing a
@@ -452,8 +480,15 @@ export const SurveyComponent: React.FC<{
   // closed by mistake) doesn't take an in-progress NASA-TLX/SUS/UEQ
   // response with it — restored above on next mount, cleared only once the
   // survey actually reaches the server (see handleSubmit's success path).
+  // Created together with the draft and stored in it, so it survives a
+  // reload; cleared with the draft after a confirmed submission.
+  const [submissionId] = useState(
+    () => readSurveyDraft(checkpointId)?.submissionId ?? createSubmissionId(),
+  );
+
   useEffect(() => {
     writeSurveyDraft(checkpointId, {
+      submissionId,
       nasaScores,
       susScores,
       engagementScores,
@@ -463,6 +498,7 @@ export const SurveyComponent: React.FC<{
     });
   }, [
     checkpointId,
+    submissionId,
     nasaScores,
     susScores,
     engagementScores,
@@ -738,6 +774,7 @@ export const SurveyComponent: React.FC<{
       // Every rating is non-null here: missingIds was empty above.
       const payload = {
         questionnaireVersion: 'v2',
+        submissionId,
         consentGiven,
         ...(nasaScores as NasaTlxPayload),
         ...(susScores as SusPayload),
@@ -766,11 +803,23 @@ export const SurveyComponent: React.FC<{
         dailyGoal,
       };
 
-      const response = await fetch('/.netlify/functions/submit-survey', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+      let response: Response;
+      try {
+        response = await fetch('/.netlify/functions/submit-survey', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      } catch (fetchError) {
+        // fetch only rejects with a TypeError when no response could be
+        // obtained at all (offline, DNS, blocked). Wrapping just this call
+        // keeps a TypeError from unrelated code above from being reported
+        // as a connection problem.
+        if (fetchError instanceof TypeError) {
+          throw new NetworkUnavailableError(fetchError.message);
+        }
+        throw fetchError;
+      }
 
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
@@ -782,9 +831,7 @@ export const SurveyComponent: React.FC<{
           '[survey submit] server error:',
           errData.details || errData.error || response.status,
         );
-        throw new Error(
-          t('feedback.errorServer', 'Wystąpił błąd komunikacji z serwerem.'),
-        );
+        throw new ServerRejectedError(String(response.status));
       }
 
       // Only here, on a confirmed 2xx response — not in `finally` below,
@@ -797,7 +844,19 @@ export const SurveyComponent: React.FC<{
       // `.message` (e.g. "Failed to fetch") is browser-generated English,
       // not a translated string — log it, but show the localized fallback.
       console.error('[survey submit]', err);
-      setError(t('feedback.errorGeneric', 'Wystąpił nieoczekiwany błąd.'));
+      // Three distinct cases, each with its own recovery hint. A thrown
+      // ServerRejectedError used to be swallowed here and replaced by the
+      // generic text.
+      if (err instanceof ServerRejectedError) {
+        setError(t('feedback.errorServer'));
+      } else if (
+        err instanceof NetworkUnavailableError ||
+        (typeof navigator !== 'undefined' && navigator.onLine === false)
+      ) {
+        setError(t('feedback.errorOffline'));
+      } else {
+        setError(t('feedback.errorGeneric'));
+      }
       setFailedAttempts((prev) => prev + 1);
     } finally {
       setIsSubmitting(false);

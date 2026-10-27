@@ -1,5 +1,5 @@
 import { createRequire } from 'module';
-import { describe, it, expect } from 'vitest';
+import { afterEach, beforeEach, describe, it, expect } from 'vitest';
 
 // This directory has its own package.json ("type": "commonjs") and its own
 // node_modules (the Netlify Functions bundling convention). Loading it via
@@ -628,5 +628,143 @@ describe('submit-survey handler', () => {
     const body = JSON.parse(response.body);
     expect(body).toEqual({ error: 'Internal Server Error' });
     expect(body.details).toBeUndefined();
+  });
+});
+
+describe('submit-survey submissionId (duplicate protection)', () => {
+  const SUBMISSION_ID = '3f2b8c1e-5d4a-4b7e-9c61-0a1b2c3d4e5f';
+
+  // The function loads @supabase/supabase-js with native require, so vi.mock
+  // cannot reach it. Seeding Node's module cache with a fake client, then
+  // loading a fresh copy of index.js, exercises the real handler against an
+  // in-memory table that enforces the UNIQUE(submission_id) rule.
+  function loadHandlerWithFakeDb({ failWith } = {}) {
+    const rows = [];
+    const calls = [];
+    const fakeClient = {
+      from: () => ({
+        insert: async (batch) => {
+          calls.push('insert');
+          if (failWith) return { error: failWith };
+          rows.push(...batch);
+          return { error: null };
+        },
+        upsert: async (batch, options) => {
+          calls.push(
+            `upsert:${options.onConflict}:${options.ignoreDuplicates}`,
+          );
+          if (failWith) return { error: failWith };
+          for (const row of batch) {
+            const duplicate = rows.some(
+              (r) => r.submission_id === row.submission_id,
+            );
+            if (!duplicate) rows.push(row);
+          }
+          return { error: null };
+        },
+      }),
+    };
+    const functionDir = require.resolve('./index.js');
+    const supabasePath = require.resolve('@supabase/supabase-js', {
+      paths: [functionDir],
+    });
+    const original = require.cache[supabasePath];
+    require.cache[supabasePath] = {
+      id: supabasePath,
+      filename: supabasePath,
+      loaded: true,
+      exports: { createClient: () => fakeClient },
+    };
+    delete require.cache[functionDir];
+    const fresh = require('./index.js');
+    // Restore so other suites keep the real module.
+    delete require.cache[functionDir];
+    if (original) require.cache[supabasePath] = original;
+    else delete require.cache[supabasePath];
+    return { handler: fresh.handler, rows, calls };
+  }
+
+  const originalUrl = process.env.SUPABASE_URL;
+  const originalKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  beforeEach(() => {
+    process.env.SUPABASE_URL = 'http://localhost:54321';
+    process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-role-test-key';
+  });
+  afterEach(() => {
+    process.env.SUPABASE_URL = originalUrl;
+    process.env.SUPABASE_SERVICE_ROLE_KEY = originalKey;
+  });
+
+  const post = (handler, overrides) =>
+    handler(
+      {
+        httpMethod: 'POST',
+        body: JSON.stringify(makeClientPayload(overrides)),
+      },
+      {},
+    );
+
+  it('answers a repeated submission of the same submissionId with 200 and stores only one row', async () => {
+    const { handler, rows, calls } = loadHandlerWithFakeDb();
+
+    const first = await post(handler, { submissionId: SUBMISSION_ID });
+    const retry = await post(handler, { submissionId: SUBMISSION_ID });
+
+    expect(first.statusCode).toBe(200);
+    expect(retry.statusCode).toBe(200);
+    expect(rows).toHaveLength(1);
+    expect(rows[0].submission_id).toBe(SUBMISSION_ID);
+    expect(calls).toEqual([
+      'upsert:submission_id:true',
+      'upsert:submission_id:true',
+    ]);
+  });
+
+  it('stores two different submissionIds as two rows', async () => {
+    const { handler, rows } = loadHandlerWithFakeDb();
+    await post(handler, { submissionId: SUBMISSION_ID });
+    await post(handler, {
+      submissionId: '9a8b7c6d-1e2f-4a3b-8c4d-5e6f7a8b9c0d',
+    });
+    expect(rows).toHaveLength(2);
+  });
+
+  it('treats a unique-violation error (23505) from a concurrent retry as already saved', async () => {
+    const { handler } = loadHandlerWithFakeDb({
+      failWith: { code: '23505' },
+    });
+    const response = await post(handler, { submissionId: SUBMISSION_ID });
+    expect(response.statusCode).toBe(200);
+  });
+
+  it('still reports other database errors as 500', async () => {
+    const { handler } = loadHandlerWithFakeDb({ failWith: { code: '42P01' } });
+    const response = await post(handler, { submissionId: SUBMISSION_ID });
+    expect(response.statusCode).toBe(500);
+  });
+
+  it('still accepts a payload without a submissionId (older cached client) via a plain insert', async () => {
+    const { handler, rows, calls } = loadHandlerWithFakeDb();
+    const response = await post(handler, {});
+    expect(response.statusCode).toBe(200);
+    expect(calls).toEqual(['insert']);
+    expect(rows[0].submission_id).toBeNull();
+  });
+
+  it('rejects a submissionId that is not a UUID with 400', async () => {
+    const { handler, rows } = loadHandlerWithFakeDb();
+    for (const bad of ['not-a-uuid', '', 12345, null]) {
+      const response = await post(handler, { submissionId: bad });
+      expect(response.statusCode).toBe(400);
+      expect(JSON.parse(response.body).error).toMatch(/submissionId/);
+    }
+    expect(rows).toHaveLength(0);
+  });
+
+  it('maps submissionId to the submission_id column', () => {
+    expect(
+      buildDbData(makeClientPayload({ submissionId: SUBMISSION_ID }))
+        .submission_id,
+    ).toBe(SUBMISSION_ID);
   });
 });

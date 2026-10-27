@@ -86,7 +86,10 @@ async function expectNoContrastViolations(page) {
       expect(results.violations, formatViolations(results)).toEqual([]);
       return;
     } catch (e) {
-      if (attempt >= 2 || !/context was destroyed|navigation/i.test(e.message))
+      if (
+        attempt >= 2 ||
+        !/already running|context was destroyed|navigation/i.test(e.message)
+      )
         throw e;
       await page.waitForTimeout(500);
     }

@@ -451,7 +451,7 @@
     "completeMessage": "Beide Übungsblöcke und Fragebögen sind abgeschlossen. Sie können die App ab jetzt frei weiter nutzen.",
     "progressLabel": "Block {{block}}/2 · {{pillar}} {{count}}/{{total}}",
     "gardenProgressLabel": "Block {{block}}/2 · Garten",
-    "gardenCheckpointText": "Schau dir in Ruhe deinen Garten an. Wenn du bereit bist, geh weiter zur Umfrage.",
+    "gardenCheckpointText": "Sehen Sie sich in Ruhe Ihren Garten an. Wenn Sie bereit sind, gehen Sie weiter zur Umfrage.",
     "continueToSurveyBtn": "Weiter zur Umfrage",
     "currentVariantClassic": "Aktueller Modus: Nur Lernen",
     "currentVariantGamified": "Aktueller Modus: Spiel (Belohnungen)"
@@ -597,7 +597,7 @@
   ],
   "micHelpChromeHint": "In Chrome kannst du auch auf das Schloss-/Info-Symbol neben der Adressleiste tippen → Berechtigungen → Mikrofon → Zulassen.",
   "micLocalConsentTitle": "Offline-Spracheingabe aktivieren?",
-  "micLocalConsentBody": "Dieser Browser unterstützt keine integrierte Spracheingabe, aber du kannst das Mikrofon trotzdem nutzen, indem du ein einmaliges Offline-Sprachmodell herunterlädst (~150MB). Es läuft vollständig auf diesem Gerät — nichts wird hochgeladen. WLAN wird empfohlen.",
+  "micLocalConsentBody": "Dieser Browser unterstützt keine integrierte Spracheingabe, aber Sie können das Mikrofon trotzdem nutzen, indem Sie ein einmaliges Offline-Sprachmodell herunterladen (~150MB). Es läuft vollständig auf diesem Gerät — nichts wird hochgeladen. WLAN wird empfohlen.",
   "micLocalConsentAccept": "Herunterladen (~150MB)",
   "micLocalConsentDecline": "Nicht jetzt",
   "micLocalDownloading": "Sprachmodell wird heruntergeladen…",

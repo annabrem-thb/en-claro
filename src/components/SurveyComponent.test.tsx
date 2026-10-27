@@ -199,3 +199,145 @@ describe('SurveyComponent: no pre-filled answers, required items', () => {
     ).toHaveLength(3);
   });
 });
+
+describe('SurveyComponent: submission errors (WCAG 3.3.1 / 3.3.3)', () => {
+  const fetchMock = vi.fn();
+
+  function fillAndSubmit() {
+    const view = render(<SurveyComponent />);
+    for (const id of NASA_IDS) {
+      fireEvent.change(slider(view.container, id), { target: { value: '10' } });
+    }
+    answerAllRatings(view.container, [
+      ...SUS_IDS,
+      ...ENGAGEMENT_IDS,
+      ...UEQ_IDS,
+    ]);
+    submit(view.container);
+    return view;
+  }
+
+  const alertText = (container: HTMLElement) =>
+    container.querySelector('[role="alert"]')?.textContent ?? '';
+
+  beforeEach(() => {
+    localStorage.clear();
+    mockIsGamified = false;
+    fetchMock.mockReset();
+    vi.stubGlobal('fetch', fetchMock);
+    Element.prototype.scrollIntoView = vi.fn();
+    // The failure paths log on purpose; keep the test output readable.
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+    Object.defineProperty(navigator, 'onLine', {
+      value: true,
+      configurable: true,
+    });
+  });
+
+  it('offline (fetch rejects with a TypeError): shows the offline message with a next step', async () => {
+    fetchMock.mockRejectedValue(new TypeError('Failed to fetch'));
+    const { container } = fillAndSubmit();
+
+    await vi.waitFor(() =>
+      expect(alertText(container)).toBe(i18n.t('feedback.errorOffline')),
+    );
+    expect(alertText(container)).not.toBe(i18n.t('feedback.errorServer'));
+  });
+
+  it('navigator.onLine === false: shows the offline message even for another exception', async () => {
+    Object.defineProperty(navigator, 'onLine', {
+      value: false,
+      configurable: true,
+    });
+    fetchMock.mockRejectedValue(new Error('boom'));
+    const { container } = fillAndSubmit();
+
+    await vi.waitFor(() =>
+      expect(alertText(container)).toBe(i18n.t('feedback.errorOffline')),
+    );
+  });
+
+  it('a non-2xx response (500): shows the server message, not the generic one', async () => {
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 500,
+      json: async () => ({ error: 'Internal Server Error' }),
+    });
+    const { container } = fillAndSubmit();
+
+    await vi.waitFor(() =>
+      expect(alertText(container)).toBe(i18n.t('feedback.errorServer')),
+    );
+  });
+
+  it('any other exception: shows the generic message with the reload hint', async () => {
+    fetchMock.mockRejectedValue(new Error('something else'));
+    const { container } = fillAndSubmit();
+
+    await vi.waitFor(() =>
+      expect(alertText(container)).toBe(i18n.t('feedback.errorGeneric')),
+    );
+  });
+
+  it('keeps the draft after any failure, so nothing the participant entered is lost', async () => {
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 500,
+      json: async () => ({}),
+    });
+    const { container } = fillAndSubmit();
+    await vi.waitFor(() => expect(alertText(container)).not.toBe(''));
+
+    const keys = Object.keys(localStorage).filter((k) =>
+      k.startsWith('en-claro:survey:v3:'),
+    );
+    expect(keys).toHaveLength(1);
+  });
+
+  it('re-sends the same submissionId on a retry, and a UUID-shaped one', async () => {
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 500,
+      json: async () => ({}),
+    });
+    const { container } = fillAndSubmit();
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+    await vi.waitFor(() => expect(alertText(container)).not.toBe(''));
+
+    submit(container);
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+
+    const [first, second] = fetchMock.mock.calls.map(
+      (call) => JSON.parse(call[1].body).submissionId,
+    );
+    expect(first).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+    );
+    expect(second).toBe(first);
+  });
+
+  it('keeps the submissionId when the survey is reopened from the saved draft', async () => {
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 500,
+      json: async () => ({}),
+    });
+    const first = fillAndSubmit();
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+    first.unmount();
+
+    const second = render(<SurveyComponent />);
+    // The restored draft already has every answer, so submitting again works.
+    submit(second.container);
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+    const ids = fetchMock.mock.calls.map(
+      (call) => JSON.parse(call[1].body).submissionId,
+    );
+    expect(ids[1]).toBe(ids[0]);
+  });
+});
