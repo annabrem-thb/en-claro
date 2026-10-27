@@ -1364,7 +1364,7 @@ function AppContent() {
         </p>
         <button
           onClick={() => setShowStudyComplete(false)}
-          className="w-full rounded-2xl bg-indigo-600 py-4 font-black tracking-widest text-white uppercase shadow-lg transition-all hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-600 focus:outline-none active:scale-[0.98]"
+          className="w-full rounded-2xl bg-indigo-700 py-4 font-black tracking-widest text-white uppercase shadow-lg transition-all hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-600 focus:outline-none active:scale-[0.98]"
         >
           {t('close') || 'OK'}
         </button>

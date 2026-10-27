@@ -27,7 +27,7 @@ const Day = ({
   const statusClasses = isGoalMet
     ? isHighContrast
       ? 'bg-white text-black'
-      : `${themeStyles?.button || 'bg-indigo-600'} ${themeStyles?.buttonText || 'text-white'} shadow-md`
+      : `${themeStyles?.button || 'bg-indigo-700'} ${themeStyles?.buttonText || 'text-white'} shadow-md`
     : isFuture
       ? isHighContrast
         ? 'bg-black border-2 border-dashed border-white/30'

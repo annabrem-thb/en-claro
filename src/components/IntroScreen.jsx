@@ -37,7 +37,7 @@ const A11yBtn = ({
   >
     {active && (
       <div
-        className={`absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-bl-lg ${isHighContrast ? 'bg-white text-black' : 'bg-amber-700 text-white'}`}
+        className={`absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-bl-lg ${isHighContrast ? 'bg-white text-black' : 'bg-amber-800 text-white'}`}
       >
         <span className="text-[8px] font-black">✓</span>
       </div>
@@ -775,7 +775,7 @@ function IntroScreen({ onStart, speak }) {
                   bigTargets
                     ? 'py-3 text-sm sm:py-4 sm:text-lg'
                     : 'py-2.5 text-sm sm:py-3'
-                } ${isHighContrast ? 'bg-emerald-400 text-black hover:bg-emerald-300' : 'bg-emerald-700 text-white shadow-xl shadow-emerald-900/60 hover:bg-emerald-600'}`}
+                } ${isHighContrast ? 'bg-emerald-400 text-black hover:bg-emerald-300' : 'bg-emerald-800 text-white shadow-xl shadow-emerald-900/60 hover:bg-emerald-900'}`}
               >
                 <BionicText text={t('next', 'Next')} enabled={hasBionic} />
               </button>
@@ -790,7 +790,7 @@ function IntroScreen({ onStart, speak }) {
                   bigTargets
                     ? 'py-3 text-sm sm:py-4 sm:text-lg'
                     : 'py-2.5 text-sm sm:py-3'
-                } ${isHighContrast ? 'bg-emerald-400 text-black hover:bg-emerald-300' : 'bg-emerald-700 text-white shadow-xl shadow-emerald-900/60 hover:bg-emerald-600'}`}
+                } ${isHighContrast ? 'bg-emerald-400 text-black hover:bg-emerald-300' : 'bg-emerald-800 text-white shadow-xl shadow-emerald-900/60 hover:bg-emerald-900'}`}
               >
                 <BionicText text={t('start', 'Start')} enabled={hasBionic} />
               </button>

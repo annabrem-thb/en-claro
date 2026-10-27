@@ -182,7 +182,7 @@ export default function ExerciseToggleManager({
               <div className="flex shrink-0 gap-1">
                 <button
                   onClick={() => setAll(exerciseKeys, true)}
-                  className={`rounded-full px-3 py-1 text-xs font-bold transition-colors ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-indigo-600 hover:bg-indigo-50'}`}
+                  className={`rounded-full px-3 py-1 text-xs font-bold transition-colors ${isHighContrast ? 'text-white/70 hover:bg-white/10' : 'text-indigo-700 hover:bg-indigo-50'}`}
                 >
                   <BionicText
                     text={t('exerciseManager.selectAll', 'Select all')}
@@ -224,7 +224,7 @@ export default function ExerciseToggleManager({
         <p
           role="status"
           aria-live="polite"
-          className={`rounded-xl border p-3 text-center text-xs font-medium ${isHighContrast ? 'border-white/40 bg-black text-white' : 'border-amber-200 bg-amber-50 text-amber-800'}`}
+          className={`rounded-xl border p-3 text-center text-xs font-medium ${isHighContrast ? 'border-white/40 bg-black text-white' : 'border-amber-200 bg-amber-50 text-amber-900'}`}
         >
           {warning}
         </p>

@@ -64,7 +64,7 @@ export default function VoiceAnswerButton({
     <button
       type="button"
       onClick={() => setShowHelp(true)}
-      className="text-xs font-semibold text-blue-600 underline underline-offset-2 hover:text-blue-800"
+      className="text-xs font-semibold text-blue-800 underline underline-offset-2 hover:text-blue-900"
     >
       {t('micHelpLinkText') || 'See more information'}
     </button>
@@ -116,7 +116,7 @@ export default function VoiceAnswerButton({
         disabled={disabled}
         className={`${size} flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:grayscale ${
           isListening
-            ? `bg-red-700 text-white ring-8 ring-red-100 ${noFlash ? '' : 'animate-pulse'}`
+            ? `bg-red-800 text-white ring-8 ring-red-100 ${noFlash ? '' : 'animate-pulse'}`
             : `${themeStyles.button} ${themeStyles.buttonText} hover:brightness-110`
         }`}
         aria-label={

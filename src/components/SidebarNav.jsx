@@ -302,7 +302,7 @@ const SidebarNav = memo(function SidebarNav({
                 speak(t('installApp') || 'Install App', true);
                 handleInstallClick();
               }}
-              className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-600 text-white shadow-md hover:bg-indigo-700'}`}
+              className={`group flex w-full flex-col items-center justify-center gap-1 lg:flex-row lg:justify-start lg:gap-3 ${bigTargets ? 'p-2 md:p-4 lg:p-5' : 'p-1.5 md:p-2 lg:p-3'} shrink-0 rounded-xl transition-all duration-300 lg:rounded-2xl ${isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-indigo-700 text-white shadow-md hover:bg-indigo-800'}`}
               aria-label={t('installApp') || 'Install App'}
             >
               <span

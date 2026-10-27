@@ -571,7 +571,7 @@ const ShopTab = ({ speak }) => {
                 <button
                   onClick={() => updateSetting('theme', key)}
                   disabled={isSelected}
-                  className={`rounded-full px-4 py-1 text-xs font-bold ${isSelected ? 'bg-slate-200 text-slate-800' : 'bg-emerald-700 text-white hover:bg-emerald-600'}`}
+                  className={`rounded-full px-4 py-1 text-xs font-bold ${isSelected ? 'bg-slate-200 text-slate-800' : 'bg-emerald-800 text-white hover:bg-emerald-900'}`}
                 >
                   <BionicText
                     text={t(isSelected ? 'equipped' : 'select')}
@@ -767,7 +767,7 @@ export default function SettingsModal({ open, onClose, speak }) {
                 activeTab === tab.id
                   ? settings.contrast
                     ? 'bg-white/20 text-white'
-                    : 'bg-white text-indigo-600'
+                    : 'bg-white text-indigo-700'
                   : settings.contrast
                     ? 'text-white/70 hover:bg-white/10'
                     : 'text-slate-700 hover:bg-slate-200'

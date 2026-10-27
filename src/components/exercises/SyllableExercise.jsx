@@ -320,9 +320,9 @@ function SyllableExercise({
         {wordChars.map((char, index) => (
           <React.Fragment key={index}>
             <span
-              className={`${charSize} inline-block font-black tracking-tighter transition-all duration-200 ${
+              className={`${charSize} inline-block px-0.5 font-black tracking-tighter transition-all duration-200 ${
                 activeHighlight === charToSyl[index]
-                  ? 'z-10 scale-110 text-yellow-500 drop-shadow-md'
+                  ? 'z-10 scale-110 rounded bg-yellow-200 text-slate-900 drop-shadow-md'
                   : themeStyles.accent
               }`}
             >

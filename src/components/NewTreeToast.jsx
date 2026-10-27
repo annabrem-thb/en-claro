@@ -16,7 +16,7 @@ function NewTreeToastComponent({ show, noFlash, isHighContrast, t }) {
       aria-atomic="true"
     >
       <div
-        className={`flex items-center gap-3 rounded-3xl border-2 p-4 shadow-2xl sm:gap-4 sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-top-8 fade-in duration-500'} ${isHighContrast ? 'border-white bg-black text-white' : 'border-emerald-400 bg-emerald-600 text-white'}`}
+        className={`flex items-center gap-3 rounded-3xl border-2 p-4 shadow-2xl sm:gap-4 sm:p-5 ${noFlash ? '' : 'animate-in slide-in-from-top-8 fade-in duration-500'} ${isHighContrast ? 'border-white bg-black text-white' : 'border-emerald-400 bg-emerald-800 text-white'}`}
       >
         <span
           className="text-4xl drop-shadow-md sm:text-5xl"

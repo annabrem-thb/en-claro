@@ -256,7 +256,7 @@ function VisualCategorization({
               activeItem?.id === item.id
                 ? isHighContrast
                   ? 'bg-white text-black ring-4 ring-white/50'
-                  : 'bg-indigo-600 text-white shadow-md ring-4 ring-indigo-200'
+                  : 'bg-indigo-700 text-white shadow-md ring-4 ring-indigo-200'
                 : activeHighlight === `item-${item.id}`
                   ? 'z-10 scale-105 border-yellow-400 bg-yellow-50 text-slate-900 shadow-xl ring-4 ring-yellow-400'
                   : isHighContrast
@@ -348,7 +348,7 @@ function VisualCategorization({
           className={`w-full max-w-2xl shrink-0 rounded-2xl border-2 border-dashed p-3 sm:p-4 ${isHighContrast ? 'border-white/40 bg-black' : 'border-amber-200 bg-amber-50'}`}
         >
           <h4
-            className={`mb-2 text-center text-[10px] font-black tracking-widest uppercase sm:text-xs ${isHighContrast ? 'text-white' : 'text-amber-800'}`}
+            className={`mb-2 text-center text-[10px] font-black tracking-widest uppercase sm:text-xs ${isHighContrast ? 'text-white' : 'text-amber-900'}`}
           >
             {t('incorrectSpellingsTitle') ||
               'Watch out for these common mistakes'}
@@ -361,7 +361,7 @@ function VisualCategorization({
               >
                 <span className="text-red-800 line-through">{ex.wrong}</span>
                 <span aria-hidden="true">→</span>
-                <span className="text-emerald-700">{ex.correct}</span>
+                <span className="text-emerald-800">{ex.correct}</span>
               </span>
             ))}
           </div>
@@ -372,7 +372,7 @@ function VisualCategorization({
       <button
         onClick={handleCheck}
         disabled={!isComplete || isShowingCorrection}
-        className={`mt-auto w-full max-w-sm shrink-0 rounded-full px-10 py-4 pt-2 text-sm font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:py-5 sm:pt-4 ${!isComplete || isShowingCorrection ? 'cursor-not-allowed border-2 border-transparent bg-slate-100 text-slate-300' : isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-emerald-700 text-white shadow-xl hover:bg-emerald-600'}`}
+        className={`mt-auto w-full max-w-sm shrink-0 rounded-full px-10 py-4 pt-2 text-sm font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:py-5 sm:pt-4 ${!isComplete || isShowingCorrection ? 'cursor-not-allowed border-2 border-transparent bg-slate-100 text-slate-300' : isHighContrast ? 'bg-white text-black hover:bg-slate-200' : 'bg-emerald-800 text-white shadow-xl hover:bg-emerald-900'}`}
       >
         {t('checkAnswers') || t('check') || 'Check Answers'}
       </button>

@@ -139,7 +139,7 @@ export default function StudyConsentScreen({ onConsent, speak }) {
           <button
             type="button"
             onClick={handleStart}
-            className={`w-full rounded-2xl py-4 text-sm font-black tracking-widest uppercase shadow-xl transition-all active:scale-[0.98] sm:py-5 sm:text-lg ${isHighContrast ? 'bg-emerald-400 text-black hover:bg-emerald-300' : 'bg-emerald-700 text-white shadow-emerald-900/60 hover:bg-emerald-600'}`}
+            className={`w-full rounded-2xl py-4 text-sm font-black tracking-widest uppercase shadow-xl transition-all active:scale-[0.98] sm:py-5 sm:text-lg ${isHighContrast ? 'bg-emerald-400 text-black hover:bg-emerald-300' : 'bg-emerald-800 text-white shadow-emerald-900/60 hover:bg-emerald-900'}`}
           >
             <BionicText text={t('studyConsent.startButton')} enabled={hasBionic} />
           </button>

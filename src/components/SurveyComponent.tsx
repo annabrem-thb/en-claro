@@ -565,7 +565,7 @@ export const SurveyComponent: React.FC<{
     isMissing(id) ? (
       <p
         id={`${id}-error`}
-        className={`text-sm font-bold ${isHighContrast ? 'text-white' : 'text-red-700'}`}
+        className={`text-sm font-bold ${isHighContrast ? 'text-white' : 'text-red-800'}`}
       >
         <span aria-hidden="true">⚠ </span>
         {t('feedback.validationItemRequired')}
@@ -1626,7 +1626,7 @@ export const SurveyComponent: React.FC<{
       {error && (
         <div
           role="alert"
-          className={`rounded-r-lg border-l-4 p-4 text-sm font-medium ${isHighContrast ? 'border-white bg-white/10 text-white' : 'border-red-500 bg-red-50 text-red-700'}`}
+          className={`rounded-r-lg border-l-4 p-4 text-sm font-medium ${isHighContrast ? 'border-white bg-white/10 text-white' : 'border-red-500 bg-red-50 text-red-800'}`}
         >
           {error}
         </div>
@@ -1639,7 +1639,7 @@ export const SurveyComponent: React.FC<{
           well recover, and this only exists for the case where it doesn't. */}
       {failedAttempts >= 2 && (
         <div
-          className={`rounded-r-lg border-l-4 p-4 text-sm ${isHighContrast ? 'border-white bg-white/10 text-white' : 'border-amber-400 bg-amber-50 text-amber-800'}`}
+          className={`rounded-r-lg border-l-4 p-4 text-sm ${isHighContrast ? 'border-white bg-white/10 text-white' : 'border-amber-400 bg-amber-50 text-amber-900'}`}
         >
           <p className="font-medium">
             <BionicText
@@ -1663,7 +1663,7 @@ export const SurveyComponent: React.FC<{
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full rounded-2xl py-5 font-black tracking-widest uppercase shadow-lg transition-all focus:ring-4 focus:outline-none active:scale-[0.98] disabled:opacity-50 disabled:grayscale ${isHighContrast ? 'bg-white text-black hover:bg-slate-200 focus:ring-white' : 'bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-800'}`}
+          className={`w-full rounded-2xl py-5 font-black tracking-widest uppercase shadow-lg transition-all focus:ring-4 focus:outline-none active:scale-[0.98] disabled:opacity-50 disabled:grayscale ${isHighContrast ? 'bg-white text-black hover:bg-slate-200 focus:ring-white' : 'bg-indigo-700 text-white hover:bg-indigo-800 focus:ring-indigo-800'}`}
         >
           <BionicText
             text={

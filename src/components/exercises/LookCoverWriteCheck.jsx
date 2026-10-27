@@ -118,7 +118,7 @@ function LookCoverWriteCheck({
           className={`mt-auto shrink-0 rounded-full px-8 py-4 text-xs font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:px-10 sm:py-5 sm:text-sm ${
             isHighContrast
               ? 'bg-white text-black hover:bg-slate-200'
-              : 'bg-indigo-600 text-white shadow-xl hover:bg-indigo-700'
+              : 'bg-indigo-700 text-white shadow-xl hover:bg-indigo-800'
           }`}
           aria-label={t('coverAndWrite') || 'Hide word and start typing'}
         >
@@ -168,7 +168,7 @@ function LookCoverWriteCheck({
               ? 'cursor-not-allowed bg-slate-200 text-slate-700'
               : isHighContrast
                 ? 'bg-white text-black hover:bg-slate-200'
-                : 'bg-emerald-700 text-white shadow-xl hover:bg-emerald-600'
+                : 'bg-emerald-800 text-white shadow-xl hover:bg-emerald-900'
           }`}
         >
           {t('checkSpelling') || 'Check My Answer'}
@@ -261,7 +261,7 @@ function LookCoverWriteCheck({
               className={`w-full rounded-2xl border-2 py-4 text-xs font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:py-5 sm:text-sm ${
                 isHighContrast
                   ? 'border-white bg-white text-black hover:bg-slate-200'
-                  : 'border-indigo-600 bg-indigo-600 text-white shadow-xl hover:bg-indigo-700'
+                  : 'border-indigo-600 bg-indigo-700 text-white shadow-xl hover:bg-indigo-800'
               }`}
             >
               {t('tryAgain') || 'Try again'}
@@ -276,7 +276,7 @@ function LookCoverWriteCheck({
                 ? `w-full rounded-2xl border-2 py-4 text-xs font-black tracking-widest uppercase transition-all focus:outline-none focus-visible:ring-4 active:scale-95 sm:py-5 sm:text-sm ${
                     isHighContrast
                       ? 'border-white bg-white text-black hover:bg-slate-200'
-                      : 'border-indigo-600 bg-indigo-600 text-white shadow-xl hover:bg-indigo-700'
+                      : 'border-indigo-600 bg-indigo-700 text-white shadow-xl hover:bg-indigo-800'
                   }`
                 : `w-full py-2 text-[10px] font-black tracking-widest uppercase transition-colors ${
                     isHighContrast
