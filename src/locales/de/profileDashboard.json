@@ -3,9 +3,9 @@
   "welcome": "Willkommen zurück, {{name}}!",
   "lastLogin": "Letzter Login:",
   "balance": "Aktueller Kontostand:",
-  "itemsCount_zero": "Du hast keine Gegenstände im Inventar.",
-  "itemsCount_one": "Du hast genau einen Gegenstand im Inventar.",
-  "itemsCount_other": "Du hast {{count}} Gegenstände im Inventar.",
+  "itemsCount_zero": "Sie haben keine Gegenstände im Inventar.",
+  "itemsCount_one": "Sie haben genau einen Gegenstand im Inventar.",
+  "itemsCount_other": "Sie haben {{count}} Gegenstände im Inventar.",
   "updateAvatar": "Avatar aktualisieren",
   "membershipLevel": "Mitgliedslevel: {{level}}"
 }
